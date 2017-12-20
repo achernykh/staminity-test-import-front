@@ -203,7 +203,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         this.types = activityTypes; // Список видов спорта
         this.structuredMode = this.activity.isStructured;
-        this.ftpMode = this.template ? FtpState.On : FtpState.Off;
+        this.ftpMode = this.activity.view.isTemplate ? FtpState.On : FtpState.Off;
 
         this.prepareDetails();
         this.prepareAuth();

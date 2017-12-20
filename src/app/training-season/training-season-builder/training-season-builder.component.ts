@@ -1,4 +1,5 @@
 import "./training-season-builder.component.scss";
+import moment from 'moment/src/moment.js';
 import { IComponentOptions, IComponentController, IScope, ILocationService } from "angular";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
@@ -19,6 +20,8 @@ import {
     ICalendarItemDialogResponse
 } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import { toDay } from "../../activity/activity.datamodel";
+import { CalendarItemCompetition } from "../../calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
 
 export enum TrainingSeasonViewState {
     List,
@@ -39,6 +42,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private data: TrainingSeasonData;
     private athletes: Array<IUserProfileShort>;
     private itemOptions: ICalendarItemDialogOptions;
+    private recalculate: number = 0;
 
     // inject
     static $inject = ['$scope', '$location', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
@@ -58,6 +62,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     $onInit () {
 
         this.itemOptions = {
+            dateStart: moment().format('YYYY-MM-DD'),
             currentUser: this.currentUser,
             owner: this.owner,
             popupMode: true,
@@ -73,7 +78,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     }
 
     private prepareState (): void {
-
+        let season: ISeasonPlan;
         // Устанавливаем владельца данных
         if (this.$stateParams.userId && this.athletes &&
             this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
@@ -81,52 +86,28 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         } else {
             this.setOwner(this.currentUser);
         }
-
         // Устанавливаем тренировочный сезон
         if (this.$stateParams.seasonId && this.seasons &&
             this.seasons.some(s => s.id === Number(this.$stateParams.seasonId))) {
-            this.season = new TrainingSeason(this.seasons.filter(s => s.id === Number(this.$stateParams.seasonId))[0]);
+            season = this.seasons.filter(s => s.id === Number(this.$stateParams.seasonId))[0];
         } else if (this.seasons && this.seasons.length > 0) {
-            this.season = new TrainingSeason(this.seasons[0]);
+            season = this.seasons[0];
         }
-
         // Устанвливаем экран
         if (this.$stateParams.seasonId && this.season) {
             this.isBuilderState = true;
         } else {
             this.isListState = true;
         }
-
-        /**if (!this.$stateParams.seasonId && this.$stateParams.userId && this.athletes &&
-            this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
-
-            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
-            this.isListState = true;
-
-        } else if (this.$stateParams.seasonId && this.$stateParams.userId && this.seasons &&
-            this.seasons.some(s => s.id === Number(this.$stateParams.seasonId))) {
-
-            this.season = new TrainingSeason(this.seasons.filter(s => s.id === Number(this.$stateParams.seasonId))[0]);
-            this.isBuilderState = true;
-
-        } else if (this.seasons && this.seasons.length > 0) {
-
-            this.isBuilderState = true;
-            this.season = new TrainingSeason(this.seasons[0]);
-
-        } else {
-            this.isListState = true;
-        }**/
-
-        if (this.season) {
-            this.prepareData();
+        if (season) {
+            this.setSeason(season);
+            //this.prepareData();
         }
-
     }
 
     open (env: Event): void {
         this.trainingSeasonDialog.open(env, FormMode.Post, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
-            .then((response: {mode: FormMode, season: TrainingSeason}) => {}, error => {})
+            .then(response => { debugger; }, error => {})
             .then(() => this.update());
     }
 
@@ -136,17 +117,28 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      */
     postCompetition (event: Event): void {
         this.calendarItemDialog.competition(event, Object.assign(this.itemOptions, {formMode: FormMode.Post}))
-            .then(() => {}, () => {});
+            .then(response => this.setCompetitionList([...this.competitions, response.item]), () => {});
     }
 
-    /**
-     * Диалог просмотра Соревнования
-     * @param event
-     * @param item
-     */
-    viewCompetition (event: Event, item: ICalendarItem): void {
-        this.calendarItemDialog.competition(event, this.itemOptions, item)
-            .then(() => {}, () => {});
+    spliceCompetitionData (id: number, item?: ICalendarItem): void {
+        item ?
+            this.competitions.splice(this.competitions.findIndex(i => i.calendarItemId === id), 1, item) :
+            this.competitions.splice(this.competitions.findIndex(i => i.calendarItemId === id), 1);
+    }
+
+    updateSeasons (season: ISeasonPlan): void {
+        this.seasons.push(season);
+    }
+
+    updateCompetition (formMode: FormMode, item: ICalendarItem) {
+        debugger;
+        if (formMode === FormMode.Delete) {
+            this.spliceCompetitionData(item.calendarItemId);
+        } else if (formMode === FormMode.Put) {
+            this.spliceCompetitionData(item.calendarItemId, item);
+        }
+        this.setCompetitionList(this.competitions);
+        this.recalculate ++;
     }
 
     openMenu ($mdMenu, ev) {
@@ -158,10 +150,10 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      * @param season
      */
     setSeason (season: ISeasonPlan): void {
+        this.isBuilderState = true;
         this.season = new TrainingSeason(season);
         this.$location.search('seasonId', this.season.id);
         this.prepareData();
-        this.state = TrainingSeasonViewState.Builder;
     }
 
     /**
@@ -194,19 +186,36 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      * @param list
      */
     setCompetitionList (list: Array<ICalendarItem>): void {
-        this.competitions = list;
+        if (this.isBuilderState && this.data) {
+            this.competitions = this.prepareCompetitions(list)
+                .map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}));
+            this.data.setCompetitions(this.competitions);
+            this.recalculate ++;
+        } else {
+            this.competitions = list.map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}));
+        }
+        this.update();
     }
 
     /**
      * Подготовка данных
      * 1. Получаем микроциклы и устанвливаем их
      * 2. Получаем перечень соревнований и устанавливаем их
+     * 3. Устанавливаем режим ввода Плана на сезон
      */
     private prepareData (): void {
         this.trainingSeasonService.getItems(this.season.id)
             .then(result => this.setSeasonData(result.arrayResult), error => {})
             .then(() => this.calendarService.search({userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
-            .then(result => this.data.setCompetitions(result.arrayResult), error => {});
+            .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult));
+            //.then(() => this.state = TrainingSeasonViewState.Builder);
+    }
+
+    private prepareCompetitions (items: Array<ICalendarItem>): Array<ICalendarItem> {
+        return items
+            .filter(i => moment(i.dateStart).isAfter(moment(this.season.dateStart)) &&
+                moment(i.dateEnd).isBefore(moment(this.season.dateEnd)))
+            .sort((a,b) => moment(a.dateStart).isAfter(moment(b.dateStart)));
     }
 
     /**
@@ -249,6 +258,7 @@ const TrainingSeasonBuilderComponent: IComponentOptions = {
     bindings: {
         currentUser: '<',
         owner: '<',
+        schemes: '<',
         onEvent: '&'
     },
     require: {

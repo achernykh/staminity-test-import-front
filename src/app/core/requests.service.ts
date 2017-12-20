@@ -20,7 +20,7 @@ export default class RequestsService {
         "I": (request: IGroupMembershipRequest) => [...this.requests, request].sort(requestsOrder),
         "U": (request: IGroupMembershipRequest) => this.requests.map((r) => isSameRequest(request)(r)? request : r).sort(requestsOrder)
     };
-    private resetRequests = () => {
+    public resetRequests = () => {
         this.getMembershipRequest(0, 100)
         .then((requests) => { 
             this.requests = requests.sort(requestsOrder); 
@@ -32,8 +32,7 @@ export default class RequestsService {
 
     constructor(
         private SocketService: SocketService,
-        private SessionService: SessionService
-    ) {
+        private SessionService: SessionService) {
         //this.resetRequests();
         this.SocketService.connections.subscribe(status => status && this.resetRequests());
 
@@ -53,6 +52,10 @@ export default class RequestsService {
             .filter((message) => message.type === 'groupMembershipRequest')
             .map((message) => message.value)
             .share();
+    }
+
+    clear (): void {
+        this.requests = [];
     }
 
     /**

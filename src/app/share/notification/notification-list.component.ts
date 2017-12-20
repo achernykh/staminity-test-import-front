@@ -112,19 +112,14 @@ class NotificationListCtrl implements IComponentController {
             this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
                 .then(response => {
                     let activity: ICalendarItem = response[0];
-                    Promise.resolve(() => {
-                        debugger;
-                        if (this.currentUser.userId === activity.userProfileOwner.userId) {
-                            return this.currentUser;
-                        } else {
-                            return this.UserService.getProfile(activity.userProfileOwner.userId)
-                                .then(profile => {debugger; return profile;});
-                        }
-                    }).then(owner => {
-                        debugger;
-                        this.calendarDialogService.activity(e, Object.assign(this.activityDialogOptions, {owner: owner}), activity)
-                            .then(() => {});
-                    });
+                    Promise.resolve(() => {})
+                        .then(() => this.currentUser.userId === activity.userProfileOwner.userId ?
+                                this.currentUser :
+                                this.UserService.getProfile(activity.userProfileOwner.userId))
+                        .then(owner => {
+                            this.calendarDialogService.activity(e, Object.assign(this.activityDialogOptions, {owner: owner}), activity)
+                                .then(() => {});
+                        });
                 });
 
 

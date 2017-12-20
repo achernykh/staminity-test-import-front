@@ -15,7 +15,7 @@ export const preparePeriodizationDurationChart = (template: IChart, data: Array<
         metrics: data.map(c => [
             moment(c._dateStart).format('MM-DD-YYYY'),
             moment(c._dateStart).isAfter(moment()) ? 'feature' : 'past',
-            c.durationValue || null,
+            c.durationValue || 0,
             c.hasOwnProperty('_data') && c._data.hasOwnProperty('fact') && c._data.fact || null
         ])
     })];
@@ -29,7 +29,7 @@ export const preparePeriodizationMesocyclesChart = (template: IChart, data: Arra
         },
         metrics: data.map(c => [
             moment(c._dateStart).format('MM-DD-YYYY'),
-            c.mesocycle && c.mesocycle.code || '',
+            c.mesocycle && c.mesocycle.code || 'Не указан',
             c.mesocycle && c.mesocycle.code ? 10 : 0
         ])
     })];

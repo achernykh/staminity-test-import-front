@@ -1,5 +1,5 @@
 import './training-season-data.component.scss';
-import { IComponentOptions, IComponentController, IFilterService, copy } from 'angular';
+import { IComponentOptions, IComponentController, IFilterService, copy, IScope } from 'angular';
 import { TrainingSeasonData } from "./training-season-data.datamodel";
 import { TrainingSeason } from "@app/training-season/training-season/training-season.datamodel";
 import { IMesocycle, IMicrocycle, IPeriodizationScheme } from "../../../../api/seasonPlanning/seasonPlanning.interface";
@@ -15,17 +15,20 @@ class TrainingSeasonDataCtrl implements IComponentController {
     data: TrainingSeasonData;
     currentUser: IUserProfile;
     owner: IUserProfile;
+    recalculate: number;
     onEvent: (response: Object) => Promise<void>;
 
     // private
+    cycles: TrainingSeasonData;
     private selected: Array<any> = [];
     private schemes: Array<IPeriodizationScheme>;
     private update: number = 0;
     private itemOptions: ICalendarItemDialogOptions;
 
-    static $inject = [ '$mdEditDialog', '$filter', 'TrainingSeasonService', 'PeriodizationService' ];
+    static $inject = ['$scope', '$mdEditDialog', '$filter', 'TrainingSeasonService', 'PeriodizationService' ];
 
     constructor (
+        private $scope: IScope,
         private $mdEditDialog: any,
         private $filter: IFilterService,
         private trainingSeason: TrainingSeasonService,
@@ -42,13 +45,19 @@ class TrainingSeasonDataCtrl implements IComponentController {
             trainingPlanMode: false,
             planId: null
         };
-
     }
 
     $onChanges (changes): void {
-        if (changes.hasOwnProperty('data') && !changes.data.isFirstChange() && this.data) {
+        if (changes.hasOwnProperty('data') && this.data) {
+            this.schemes = [];
+            this.schemes.push(this.data.season.periodizationScheme);
+            this.cycles = copy(this.data);
             this.update ++;
-            this.prepareScheme();
+            //this.prepareScheme();
+        }
+        if (changes.hasOwnProperty('recalculate') && this.recalculate) {
+            this.cycles = copy(this.data);
+            this.$scope.$applyAsync();
         }
     }
 
@@ -180,7 +189,8 @@ export const TrainingSeasonDataComponent: IComponentOptions = {
         data: '<',
         currentUser: '<',
         owner: '<',
-        onEvent: '&'
+        recalculate: '<',
+        onChangeCompetition: '&'
     },
     controller: TrainingSeasonDataCtrl,
     template: require('./training-season-data.component.html') as string

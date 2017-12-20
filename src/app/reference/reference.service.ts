@@ -21,7 +21,7 @@ export default class ReferenceService {
 		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
 	};
 
-	private resetCategories = () => {
+	public resetCategories = () => {
 		this.getActivityCategories(undefined, false, true)
 			.then((categories) => {
 				this.categories = categories;
@@ -37,7 +37,7 @@ export default class ReferenceService {
 		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
 	};
 
-	private resetTemplates = () => {
+	public resetTemplates = () => {
 		this.getActivityTemplates(undefined, undefined, false, false)
 			.then((templates) => {
 				this.templates = templates;
@@ -49,8 +49,7 @@ export default class ReferenceService {
 
 	constructor (
 		private SocketService: SocketService,
-		private SessionService: SessionService
-	) {
+		private SessionService: SessionService) {
 		//this.resetCategories();
 		this.SocketService.connections.subscribe(status => status && this.resetCategories());
 		this.SocketService.messages
@@ -74,6 +73,11 @@ export default class ReferenceService {
 					this.templatesChanges.next(this.templates);
 				}
 			});
+	}
+
+	clear (): void {
+		this.categories = [];
+		this.templates = [];
 	}
 
 	getActivityCategories (

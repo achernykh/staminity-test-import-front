@@ -54,25 +54,25 @@
             </thead>
             <tbody md-body>
             <tr md-row md-select="cycle"
-                ng-repeat="cycle in $ctrl.data.grid track by $index">
+                ng-repeat="cycle in $ctrl.cycles.grid track by cycle._index">
                 <!-- Период -->
                 <td md-cell class="period md-body-2">
                     <div>{{cycle.title}}</div>
                 </td>
                 <!-- Перечень соревнований периода -->
                 <td md-cell class="competition">
-
                     <st-competition-compact ng-if="cycle._competition"
                                             layout="column" flex="none"
                                             class="competition-compact"
                                             view="'table'"
                                             item="cycle._competition"
-                                            options="$ctrl.itemOptions">
+                                            options="$ctrl.itemOptions"
+                                            on-answer="$ctrl.onChangeCompetition({formMode: formMode, item: item})">
                     </st-competition-compact>
                 </td>
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">
-                    <div ng-if="$ctrl.schemes"
+                    <div ng-if="$ctrl.data.season.periodizationScheme"
                          class="block" ng-class="{selected: cycle.mesocycle.id}"
                          ng-style="{'background-color': $ctrl.getMesocycle(cycle.mesocycle.id).color}">
                         <md-select flex="auto"
@@ -81,7 +81,7 @@
                                    placeholder="Не указан">
                             <md-option ng-repeat="meso in $ctrl.getMesocycles() track by meso.id"
                                        value="{{meso.id}}">
-                                <span>{{meso.code}}</span>
+                                <span>{{meso | mesocycleCode:$ctrl.data.season.periodizationScheme}}</span>
                             </md-option>
                         </md-select>
                     </div>

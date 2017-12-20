@@ -27,6 +27,7 @@ export default class NotificationService {
         "I": (notification: Notification) => [...this.notifications, notification].sort(notificationsOrder),
         "U": (notification: Notification) => this.notifications.map((n) => n.id === notification.id && notification.revision > n.revision? notification : n).sort(notificationsOrder)
     };
+
     resetNotifications = () => {
         this.get(100, 0)
         .then((notifications) => { 
@@ -79,6 +80,10 @@ export default class NotificationService {
                 notification.isRead = true;
             }
         });
+    }
+
+    clear (): void {
+        this.notifications = [];
     }
 
     /**

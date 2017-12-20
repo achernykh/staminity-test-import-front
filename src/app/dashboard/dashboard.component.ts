@@ -167,7 +167,8 @@ export class DashboardCtrl implements IComponentController {
 
         this.calendar.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))
+                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId) &&
+                !message.value.parentId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;
