@@ -2,13 +2,15 @@
     <md-card-header flex="none">
         <span>{{$ctrl.scheme | schemeCode}}</span>
     </md-card-header>
-    <ng-quill-editor flex="none"
+    <ng-quill-editor ng-if="!$ctrl.scheme.isSystem"
+                     flex="none"
                      ng-model="$ctrl.scheme.description"
                      placeholder="{{'record.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConfig.toolbar"
-                     class="hide-toolbar md-caption md-dark"
+                     class="hide-toolbar md-body-1"
                      read-only="true">
     </ng-quill-editor>
+    <div ng-if="$ctrl.scheme.isSystem" class="md-body-1 md-padding">{{$ctrl.scheme | schemeDescription}}</div>
     <section ng-if="!$ctrl.scheme.mesocycles || $ctrl.scheme.mesocycles.length === 0"
              flex="auto" layout="column" layout-align="center-center">
         <span translate="methodology.periodization.emptySchemeList"></span>

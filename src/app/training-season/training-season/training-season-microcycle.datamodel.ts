@@ -18,6 +18,7 @@ export class Microcycle implements IMicrocycle {
     calcMeasures: ICalcMeasures;
     planMeasures: ICalcMeasures;
 
+    _index: number;
     _dateStart: Moment;
     _dateEnd: Moment;
     _competition: ICalendarItem;
@@ -26,10 +27,11 @@ export class Microcycle implements IMicrocycle {
         fact: number
     };
 
-    private keys: Array<string> = ['keys', '_dateStart', '_dateEnd', '_competition', '_data'];
+    private keys: Array<string> = ['_index', 'keys', '_dateStart', '_dateEnd', '_competition', '_data'];
 
     constructor (data?: IMicrocycle | any) {
         Object.assign(this, data);
+        this._index = Number(`${this.id}${this.revision}`);
         this.prepareDefaultData();
     }
 
@@ -39,6 +41,10 @@ export class Microcycle implements IMicrocycle {
         return moment(next).startOf('month').diff(moment(this._dateStart).startOf('month'), 'months') > 0 ?
             `${this._dateStart.format('DD.MM')}-${this._dateEnd.format('DD.MM')}` :
             `${this._dateStart.format('DD.MM')}-${this._dateEnd.format('DD.MM')}`;
+    }
+
+    update (): void {
+        this._index ++;
     }
 
     applyRevision (revision: IRevisionResponse): Microcycle {
@@ -61,8 +67,8 @@ export class Microcycle implements IMicrocycle {
 
     private prepareDefaultData (): void {
         if (!this._data) {
+            this._data = { plan: null, fact: null};
             if (this.calcMeasures && this.calcMeasures.hasOwnProperty(this.durationMeasure)) {
-                this._data = { plan: null, fact: null};
                 switch (this.durationMeasure) {
                     case 'distance': {
                         this._data.fact = this.calcMeasures[this.durationMeasure].value / 1000;
@@ -78,7 +84,7 @@ export class Microcycle implements IMicrocycle {
                 }
             }
             if (this.planMeasures && this.planMeasures.hasOwnProperty(this.durationMeasure)) {
-                this._data = { plan: null, fact: this._data.hasOwnProperty('fact') && this._data.fact};
+                //this._data = { plan: null, fact: this._data.hasOwnProperty('fact') && this._data.fact};
                 switch (this.durationMeasure) {
                     case 'distance': {
                         this._data.plan = this.planMeasures[this.durationMeasure].value / 1000;

@@ -16,6 +16,7 @@ class TrainingSeasonListCtrl implements IComponentController {
     data: Array<ISeasonPlan>;
     owner: IUserProfile;
     onSelect: (response: { season: ISeasonPlan }) => Promise<void>;
+    onPost: (response: {season: TrainingSeason}) => Promise<void>;
 
     // private
     private seasons: Array<ISeasonPlan>;
@@ -46,10 +47,8 @@ class TrainingSeasonListCtrl implements IComponentController {
 
     post (env: Event): void {
         this.trainingSeasonDialog.open(env, FormMode.Post, Object.assign({}, { userProfileOwner: profileShort(this.owner) }))
-            .then((response: {mode: FormMode, season: TrainingSeason}) =>
-                response.mode === FormMode.Post && this.postData(response.season), error => {})
-            .then(season => this.fillSeason(season))
-            .then(() => this.update());
+            .then(response => response.mode === FormMode.Post && this.fillSeason(response.season))
+            .then(() => this.messageService.toastInfo('trainingSeasonCreated'));
     }
 
     open (season: TrainingSeason): void {
@@ -93,7 +92,9 @@ class TrainingSeasonListCtrl implements IComponentController {
         let data: TrainingSeasonData = new TrainingSeasonData(season, []);
         return Promise.all(<Array<Promise<any>>>data.grid.map(c =>
             this.trainingSeasonService.postItem(season.id, c.prepare())))
-            .then(() => this.open(season));
+                .then(() => this.onPost({season: season}))
+                .then(() => this.open(season))
+                .then(() => this.update());
     }
 
     private postData (season: TrainingSeason): TrainingSeason {
@@ -115,6 +116,7 @@ export const TrainingSeasonListComponent:IComponentOptions = {
     bindings: {
         data: '<',
         owner: '<',
+        onPost: '&',
         onSelect: '&'
     },
     controller: TrainingSeasonListCtrl,

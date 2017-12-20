@@ -35,7 +35,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     private select: Array<number> = [];
     private scenario: any = getSegmentTemplates();
 
-    public ftpMode: number;
+    public ftpMode: FtpState;
 
     static $inject = [];
 
@@ -51,6 +51,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.ftpMode = this.item.ftpMode;
         this.valid();
         this.prepareIntervals();
         //this.addInterval();

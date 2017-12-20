@@ -105,17 +105,18 @@ export const isCompletedActivity = (item: ICalendarItem):boolean => {
  * @returns {ICalendarItem}
  */
 export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
-
     if(item.calendarItemType !== 'activity') {
         return item;
     }
-
     // Копируем все интрвелы с плановыми данными
     item.activityHeader.intervals = item.activityHeader.intervals
         .filter(i => i.type === 'pW' || i.type === 'P' || i.type === 'G');
 
     // В итоговом интервале есть рассчитанное относительно факта поле, его необходимо очистить
-    delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    if (item.activityHeader.intervals.some(i => i.type === 'pW') &&
+        item.activityHeader.intervals.filter(i => i.type === 'pW')[0].hasOwnProperty('calcMeasures')) {
+        delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    }
     return item;
 };
 

@@ -135,6 +135,7 @@ export class CalendarItem implements ICalendarItem {
 
 	constructor(item: ICalendarItem, options?: ICalendarItemDialogOptions) {
 		merge(this,item); // deep copy
+		this.index = Number(`${this.calendarItemId}${this.revision}`);
 		this.view = new CalendarItemView(options);
 		this.auth = new CalendarItemAuth(item.userProfileOwner, item.userProfileCreator, options);
 		this.athletes = options && new CalendarItemAthletes(options.owner, options.currentUser);

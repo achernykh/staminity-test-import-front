@@ -72,7 +72,7 @@ export class Activity extends CalendarItem {
     get isStructured (): boolean { return this.intervals.P && this.intervals.P.length > 0; }
 
     // Тренировка сегодя
-    get isToday (): boolean { return this._dateStart.getTime() === toDay(new Date()).getTime(); }
+    get isToday (): boolean { return toDay(this._dateStart).getTime() === toDay(new Date()).getTime(); }
 
     // Тренировка в будущем
     get isComing (): boolean { return (this.options && this.options.hasOwnProperty('trainingPlanMode') && this.options.trainingPlanMode) ||
@@ -90,18 +90,18 @@ export class Activity extends CalendarItem {
         return this.options.hasOwnProperty('templateMode') && this.options.templateMode ? 'template' : (
             !this.isToday ?
                 // приоритет статусов, если запись не сегодня
-            (this.isComing && 'coming')
-            || (!this.isSpecified && 'not-specified')
-            || (!this.isCompleted && 'dismiss')
-            || ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
-            || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn')
-            || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
+            (this.isComing && 'coming') ||
+            (!this.isSpecified && 'not-specified') ||
+            (!this.isCompleted && 'dismiss') ||
+            ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete') ||
+            ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn') ||
+            ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
                 //приоритет статусов, если запись сегодня
-            ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
-            || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
-            || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
-            || (!this.isSpecified && 'not-specified')
-            || (this.isComing && 'coming')
+            ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete') ||
+            ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn') ||
+            ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') ||
+            (!this.isSpecified && 'not-specified') ||
+            (this.isComing && 'coming')
         );
     }
 

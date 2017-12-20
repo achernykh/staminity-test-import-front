@@ -8,6 +8,9 @@ import {PostData, IRESTService} from '../core/rest.service';
 import {IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import GroupService from "../core/group.service";
 import {toDay} from "../activity/activity.datamodel";
+import ReferenceService from "../reference/reference.service";
+import NotificationService from "../share/notification/notification.service";
+import RequestsService from "../core/requests.service";
 
 
 
@@ -32,14 +35,17 @@ export interface IAuthService {
 
 export default class AuthService implements IAuthService {
 
-    static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService'];
+    static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService', 'ReferenceService',
+        'NotificationService', 'RequestsService'];
 
     constructor(
         private SessionService: SessionService,
         private RESTService:IRESTService,
         private SocketService: SocketService,
-        private GroupService:GroupService
-    ) {
+        private GroupService:GroupService,
+        private referenceService: ReferenceService,
+        private notificationService: NotificationService,
+        private requestService: RequestsService) {
 
     }
 
@@ -142,11 +148,18 @@ export default class AuthService implements IAuthService {
     signedIn(sessionData: any) {
         this.SessionService.set(sessionData);
         this.SocketService.open(sessionData['token']);
+        this.referenceService.resetCategories();
+        this.referenceService.resetTemplates();
+        this.notificationService.resetNotifications();
+        this.requestService.resetRequests();
     }
 
     signOut() {
         this.SessionService.set();
         this.SocketService.close();
+        /**this.referenceService.clear();
+        this.notificationService.clear();
+        this.requestService.clear();**/
     }
 
     /**

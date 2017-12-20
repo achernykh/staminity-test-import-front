@@ -10,6 +10,7 @@ import { IQuillConfig } from "../../share/quill/quill.config";
 import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
+import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
 
 export class CalendarItemCompetitionCtrl implements IComponentController {
 
@@ -149,8 +150,8 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     saveItems (): Promise<Array<IRevisionResponse>> {
-        debugger;
         return Promise.all(<any>this.competition.items.map(i => {
+                i.item = new Activity(i.item.build(), this.options);
                 if ( this.competition.view.isPost ) {
                     return this.calendarService.postItem(i.item.build());
                 }

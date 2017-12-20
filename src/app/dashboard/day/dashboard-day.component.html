@@ -35,7 +35,7 @@
         <dashboard-event flex="none" ng-switch-when="event"
                          layout="column" flex="auto"
                          event="item"
-                         athlete="$ctrl.athlete"
+                         athlete="$ctrl.owner"
                          selected="$ctrl.selected"
                          class="dashboard-activity"
                          dnd-draggable="item"
@@ -117,7 +117,7 @@
                     <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
                     Скопировать</md-button></md-menu-item>
                 <md-menu-item ng-if="$ctrl.dashboard.buffer.length > 0">
-                    <md-button ng-click="$ctrl.dashboard.onPaste($ctrl.day.date, $ctrl.athlete)">
+                    <md-button ng-click="$ctrl.dashboard.onPaste($ctrl.day.date, $ctrl.owner)">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
                         Вставить ({{$ctrl.dashboard.buffer.length}})</md-button>
                 </md-menu-item>

@@ -45,6 +45,7 @@ class TrainingSeasonFormCtrl implements IComponentController {
 
     save (): void {
         if (this.mode === FormMode.Post) {
+            this.season.periodizationScheme = this.schemeList.filter(s => s.id === Number(this.season.periodizationScheme.id))[0];
             this.trainingSeasonService
                 .post(this.season.prepare())
                 .then((response: IRevisionResponse) => this.onSave({
@@ -53,7 +54,6 @@ class TrainingSeasonFormCtrl implements IComponentController {
                     }),
                     (error) => this.message.toastInfo(error));
         }
-
         if (this.mode === FormMode.Put) {
             this.trainingSeasonService
                 .put(this.season.prepare())
