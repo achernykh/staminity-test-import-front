@@ -528,7 +528,7 @@ export const _translateMessage = {
             title: '',
             text: 'План на сезон удален'
         },
-        trainingSeasonPosted: {
+        trainingSeasonCreated: {
             title: '',
             text: 'Создан новый план на сезон'
         },
@@ -541,7 +541,7 @@ export const _translateMessage = {
             title: '',
             text: 'Соревнование создано'
         },
-        competitionEdited: {
+        competitionModified: {
             title: '',
             text: 'Соревнование изменено'
         },
