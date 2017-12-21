@@ -9,7 +9,7 @@ import DialogsService from '../../share/dialogs';
 import { getType } from "../../activity/activity.constants";
 import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
 import { ReferenceFilterParams, templatesFilters, Owner, isSystem, getOwner, isOwner } from "../reference.datamodel";
-import { filtersToPredicate } from "../../share/utility";
+import { filtersToPredicate } from "../../share/utility/filtering";
 import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";
 import { isManager } from "../../club/club.datamodel";
 import "./templates.component.scss";

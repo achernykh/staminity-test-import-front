@@ -8,7 +8,7 @@ import { activityTypes, getType } from "../../activity/activity.constants";
 import { isManager } from "../../club/club.datamodel";
 import IMessageService from "../../core/message.service";
 import { entries, filter, fold, groupBy, isUndefined, keys, last, orderBy, pick, pipe, prop } from "../../share/util";
-import { filtersToPredicate } from "../../share/utility";
+import { filtersToPredicate } from "../../share/utility/filtering";
 import { CategoryDialogCtrl } from "../category-dialog/category-dialog.controller";
 import { categoriesFilters, getOwner, isOwner, Owner, ReferenceFilterParams } from "../reference.datamodel";
 import ReferenceService from "../reference.service";

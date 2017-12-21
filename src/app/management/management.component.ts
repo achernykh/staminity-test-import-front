@@ -1,7 +1,7 @@
 import { IComponentController, IComponentOptions } from "angular";
 import { IBillingTariff, IGroupManagementProfile } from "../../../api";
 import GroupService from "../core/group.service";
-import { createSelector, filtersToPredicate } from "../share/utility";
+import { createSelector } from "../share/utility";
 import { inviteDialogConf } from "./invite/invite.dialog";
 import "./management.component.scss";
 import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";

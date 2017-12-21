@@ -2,7 +2,7 @@ import { IComponentOptions, IComponentController, IPromise } from 'angular';
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 
 import { ReferenceCtrl } from '../reference.component';
-import { path } from '../../share/utility';
+import { path } from '../../share/utility/path';
 import { getType, activityTypes } from "../../activity/activity.constants";
 import './template.component.scss';
 import { getIntervalsChartData } from "../../activity/activity.function";

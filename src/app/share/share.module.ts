@@ -16,7 +16,9 @@ import {_MEASURE_TRANSLATE} from './measure/measure.translate';
 import LoaderComponent from './loader/loader.component';
 import LoaderService from './loader/loader.service';
 import DialogsService from './dialogs/';
+import { translateDialogs } from './dialogs/dialogs.translate';
 import RequestsComponent from './requests/requests.component.js';
+import { translateRequestPanel } from './requests/request.translate';
 import {
     _activity_measurement_view,
     _measurement,
@@ -31,10 +33,10 @@ import {
 } from "./measure/measure.constants";
 import {MeasurementInput} from "./measure/measure.directive";
 import {duration} from "./measure/measure.filter";
-import {_MEASURE_TRANSLATE} from "./measure/measure.translate";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import {InitiatorType} from "../../../api/notification/notification.interface";
+import { translateNotification } from './notification/notification.translate';
 import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
@@ -52,6 +54,7 @@ import { htmlToPlainText } from "./text/plain-text.filter";
 import { quillConfig } from "./quill/quill.config";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
+import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -195,7 +198,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("image", image)
     .filter("userBackground", userBackground)
     .filter("username", userName)
-    .filter("username", userName)
+    .filter("userName", userName)
     .filter("isPremium", isPremium)
     .filter("clubName", clubName)
     .filter("ageGroup", () => ageGroup)

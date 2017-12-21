@@ -2,7 +2,7 @@ import { StateDeclaration, StateService, TransitionService } from "angular-ui-ro
 import {IAuthService} from "./auth/auth.service";
 import MessageService from "./core/message.service";
 import LoaderService from "./share/loader/loader.service";
-import { path } from "./share/utility";
+import { path } from "./share/utility/path";
 
 interface IStaminityState extends StateDeclaration {
     loginRequired: boolean;

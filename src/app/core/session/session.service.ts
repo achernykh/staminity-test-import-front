@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from "rxjs/Rx";
 import { merge } from "angular";
 import { IUserProfile } from '../../../../api';
 import { ISession, StorageService } from "../index";
-import { path } from '../../share/utility';
+import { path } from '../../share/utility/path';
 
 
 export const getUser = (session: ISession): IUserProfile => session.userProfile;

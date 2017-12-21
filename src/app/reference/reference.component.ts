@@ -9,7 +9,7 @@ import { IUserProfile } from "../../../api/user/user.interface";
 import { activityTypes, getType } from "../activity/activity.constants";
 import IMessageService from "../core/message.service";
 import { groupBy, orderBy, pick, pipe, prop } from "../share/util";
-import { filtersToPredicate } from "../share/utility";
+import { filtersToPredicate } from "../share/utility/filtering";
 import "./reference.component.scss";
 import { categoriesFilters, getOwner, Owner, ReferenceFilterParams } from "./reference.datamodel";
 import ReferenceService from "./reference.service";

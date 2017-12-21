@@ -5,7 +5,7 @@ import ReferenceService from "../reference/reference.service";
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
 import { activityTypes } from "../activity/activity.constants";
-import { filtersToPredicate } from "../share/utility";
+import { filtersToPredicate } from "../share/utility/filtering";
 import { pipe, prop, pick, orderBy, groupBy } from "../share/util";
 import { IUserProfile } from "../../../api/user";
 import { IGroupProfile } from "../../../api/group";

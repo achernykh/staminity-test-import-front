@@ -1,5 +1,5 @@
 import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfileShort, IUserProfileShort } from "../../../api";
-import { Filter, filtersToPredicate } from "../share/utility";
+import { Filter, filtersToPredicate } from "../share/utility/filtering";
 import { arrays } from "../share/utility";
 import { ClubRole, clubRoles, ClubTariff, clubTariffs } from "./management.constants";
 import { Member } from "./member.datamodel";

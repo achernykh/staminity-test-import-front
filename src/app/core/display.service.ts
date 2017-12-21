@@ -3,7 +3,7 @@ import moment from "moment/min/moment-with-locales.js";
 import { Observable, Subject } from "rxjs/Rx";
 
 import { IUserProfile } from "../../../api/user/user.interface";
-import { path } from "../share/utility";
+import { path } from "../share/utility/path";
 import { getUser, ISession, SessionService} from "./index";
 import UserService from "./user.service";
 

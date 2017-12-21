@@ -1,7 +1,7 @@
 import "./template-list.component.scss";
 import { IScope, IComponentOptions, IComponentController } from "angular";
 import { pipe, prop, pick, orderBy, groupBy, filter } from "../../share/util";
-import { filtersToPredicate } from "../../share/utility";
+import { filtersToPredicate } from "../../share/utility/filtering";
 import { IUserProfile, IUserProfilePublic } from "../../../../api/user/user.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IGroupProfile } from "../../../../api/group/group.interface";
