@@ -1,10 +1,37 @@
 {
+	"extends": ["tslint:recommended"],
     "rules": {
+        "member-access": [true, "no-public"],
+        "no-string-literal": false,
+        "no-namespace": false,
+        "max-classes-per-file": false,
+        "one-variable-per-declaration": false,
+        "interface-name": false,
+        "no-bitwise": false, 
+        "prefer-for-of": false,
+        "no-empty-interface": false,
+        "radix": false,
+        "no-bitwise": false,
+        "member-ordering": false,
+        "forin": false,
+        "no-empty": false,
+        "no-debugger": false,
+        "ban-types": false,
+        "variable-name": false,
+        "no-shadowed-variable": false,
+        "no-console": false,
+        "only-arrow-functions": false,
+        "jsdoc-format": false,
+        "comment-format": false,
+        "max-line-length": false,
+    	"object-literal-key-quotes": false,
+        "object-literal-sort-keys": false,
         "no-unused-expression": true,
         "no-duplicate-variable": true,
         "curly": true,
         "class-name": true,
         "semicolon": ["always"],
-        "triple-equals": true
+        "triple-equals": true,
+        "indent": [true, "spaces", 4]
     }
 }

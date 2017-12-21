@@ -1,8 +1,8 @@
-import {StateProvider, StateDeclaration} from "angular-ui-router";
-import {DisplayView, DefaultTemplate, supportLng} from "../core/display.constants";
+import {StateDeclaration, StateProvider} from "angular-ui-router";
+import {DefaultTemplate, DisplayView, supportLng} from "../core/display.constants";
 import {_translateTrainingPlans} from "./training-plans.translate";
 
-function configure($stateProvider:StateProvider, $translateProvider){
+function configure($stateProvider: StateProvider, $translateProvider) {
 
     /**$stateProvider
         .state('training-plans-search', <StateDeclaration>{
@@ -19,8 +19,8 @@ function configure($stateProvider:StateProvider, $translateProvider){
             }
         });**/
 
-    supportLng.map(lng => $translateProvider.translations(lng, { trainingPlans: _translateTrainingPlans[lng] }));
+    supportLng.map((lng) => $translateProvider.translations(lng, { trainingPlans: _translateTrainingPlans[lng] }));
 
 }
-configure.$inject = ['$stateProvider', '$translateProvider'];
+configure.$inject = ["$stateProvider", "$translateProvider"];
 export default configure;

@@ -1,19 +1,19 @@
-﻿import * as d3 from 'd3';
-import { IComponentController } from 'angular';
-import { FillType, IGradientPoint, IFilledShape, IPlanChartSettings } from './settings/settings.models';
-import { IInputPlanSegment } from './segmentsChart.input';
-import { PlanChartDatamodel, IPlanInterval, IntervalStatus } from './segmentsChart.datamodel';
-import LabelFormatters from './utils/labelFormatter';
-import './segmentsChart.component.scss';
+﻿import { IComponentController } from "angular";
+import * as d3 from "d3";
+import "./segmentsChart.component.scss";
+import { IntervalStatus, IPlanInterval, PlanChartDatamodel } from "./segmentsChart.datamodel";
+import { IInputPlanSegment } from "./segmentsChart.input";
+import { FillType, IFilledShape, IGradientPoint, IPlanChartSettings } from "./settings/settings.models";
+import LabelFormatters from "./utils/labelFormatter";
 
 const PlanChartMode = {
     distance: "distance",
     movingDuration: "movingDuration",
-    ensure: function (type) {
+    ensure(type) {
         return (type === PlanChartMode.distance) ?
             PlanChartMode.distance :
             PlanChartMode.movingDuration;
-    }
+    },
 };
 
 interface ISegmentChartScales {
@@ -26,15 +26,15 @@ type ChartMode = "plan" | "fact";
 
 class SegmentChartController implements IComponentController {
 
-    private activityHeader: Array<IInputPlanSegment>;
-    private select: Array<number>;
+    private activityHeader: IInputPlanSegment[];
+    private select: number[];
     private actualFtp;
     private planFtp;
     private view: string;
     private durationMeasure: string;
     private onSelect: Function;
 
-    private intervals: Array<IPlanInterval>;
+    private intervals: IPlanInterval[];
     private scales: ISegmentChartScales;
 
     private $placeholder: any;
@@ -49,7 +49,7 @@ class SegmentChartController implements IComponentController {
     private width: number;
     private onResize: Function;
 
-    static $inject = ['$element', '$location', '$window', 'segmentChartSettings','$mdMedia'];
+    static $inject = ["$element", "$location", "$window", "segmentChartSettings", "$mdMedia"];
 
     constructor(
         private $element: JQuery,
@@ -58,21 +58,21 @@ class SegmentChartController implements IComponentController {
         private chartSettings: IPlanChartSettings,
         private $mdMedia: any) {
 
-        if (this.view !== 'mobile') {
-            this.chartSettings.minAspectRation = (this.$mdMedia('gt-md') && 0.20)
-                || (this.$mdMedia('gt-lg') && 0.10)
+        if (this.view !== "mobile") {
+            this.chartSettings.minAspectRation = (this.$mdMedia("gt-md") && 0.20)
+                || (this.$mdMedia("gt-lg") && 0.10)
                 || this.chartSettings.minAspectRation;
         }
     }
 
     $onInit(): void {
-        this.absUrl = this.$location.absUrl().split('#')[0];
+        this.absUrl = this.$location.absUrl().split("#")[0];
         this.prepareData();
     }
 
     $postLink(): void {
-        let self = this;
-        this.$element.ready(function () {
+        const self = this;
+        this.$element.ready(function() {
             setTimeout(() => {
                 self.isReady = true;
                 self.preparePlaceholder();
@@ -81,15 +81,15 @@ class SegmentChartController implements IComponentController {
             }, 500);
         });
         if (this.chartSettings.autoResizable) {
-            this.onResize = function () { self.redraw(); };
-            angular.element(this.$window).on('resize', self.onResize);
+            this.onResize = function() { self.redraw(); };
+            angular.element(this.$window).on("resize", self.onResize);
         }
     }
 
     $onChanges(changes: any): void {
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);
         let isFirst = true;
-        for (let item in changes) {
+        for (const item in changes) {
             isFirst = isFirst && changes[item].isFirstChange();
         }
         if (isFirst) {
@@ -106,7 +106,7 @@ class SegmentChartController implements IComponentController {
 
     $onDestroy(): void {
         if (this.chartSettings.autoResizable && !!this.onResize) {
-            angular.element(this.$window).off('resize', this.onResize);
+            angular.element(this.$window).off("resize", this.onResize);
         }
     }
 
@@ -120,7 +120,7 @@ class SegmentChartController implements IComponentController {
     }
 
     private prepareData(): void {
-        let model = new PlanChartDatamodel(this.activityHeader);
+        const model = new PlanChartDatamodel(this.activityHeader);
         this.intervals = model.getIntervals();
         this.select = model.getSelect() || [];
         //this.actualFtp = this.actualFtp === "true";
@@ -130,13 +130,13 @@ class SegmentChartController implements IComponentController {
 
     private prepareScales(): void {
         //debugger;
-        let mode: ChartMode = this.actualFtp ? "fact" : "plan";
-        let totalDuration = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].movingDuration.duration; });
-        let totalDistance = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].distance.duration; });
+        const mode: ChartMode = this.actualFtp ? "fact" : "plan";
+        const totalDuration = d3.sum(this.intervals, function(d: IPlanInterval) { return d[mode].movingDuration.duration; });
+        const totalDistance = d3.sum(this.intervals, function(d: IPlanInterval) { return d[mode].distance.duration; });
         let maxFTP = 0;
         let minFTP = Infinity;
-        for (var i = 0; i < this.intervals.length; i++) {
-            let interval = this.intervals[i];
+        for (let i = 0; i < this.intervals.length; i++) {
+            const interval = this.intervals[i];
             if (this.actualFtp && interval.fact[this.durationMeasure].duration > 0) {
                 maxFTP = Math.max(maxFTP, interval.fact.intensityByFtp);
                 minFTP = Math.min(minFTP, interval.fact.intensityByFtp);
@@ -148,18 +148,17 @@ class SegmentChartController implements IComponentController {
         }
         maxFTP = maxFTP + this.chartSettings.rangeScaleOffset.max;
         minFTP = Math.max(0, minFTP - this.chartSettings.rangeScaleOffset.min);
-        this.scales =
-            {
+        this.scales = {
                 ftp: d3.scaleLinear().range([this.height, 0]).domain([minFTP, maxFTP]),
                 distance: d3.scaleLinear().range([0, this.width]).domain([0, totalDistance]),
-                movingDuration: d3.scaleLinear().range([0, this.width]).domain([0, totalDuration])
+                movingDuration: d3.scaleLinear().range([0, this.width]).domain([0, totalDuration]),
             };
     }
 
     private preparePlaceholder(): void {
         //let parent: Element = angular.element(document).find('activity-segment-chart')[0];
-        this.width = this.$element[0].clientWidth;//parent.clientWidth;
-        this.height = this.$element[0].clientHeight;//parent.clientHeight;
+        this.width = this.$element[0].clientWidth; //parent.clientWidth;
+        this.height = this.$element[0].clientHeight; //parent.clientHeight;
 
         //var bounds = this.$element[0].getBoundingClientRect();
         //this.width = Math.max(bounds.width, this.chartSettings.minWidth);
@@ -168,27 +167,27 @@ class SegmentChartController implements IComponentController {
         //if (aspectRatio < this.chartSettings.minAspectRation) {
         //    this.height = this.width * this.chartSettings.minAspectRation;
         //}
-        let container = d3.select(this.$element[0]);
+        const container = d3.select(this.$element[0]);
         // create root svg placeholder
         this.$placeholder = container
             .append("svg")
-            .attr('class', 'plan-chart')
+            .attr("class", "plan-chart")
             .attr("width", this.width)
             .attr("height", this.height);
         // update information about the chart area size
-        var gridSettings = this.chartSettings.grid;
+        const gridSettings = this.chartSettings.grid;
         this.width = this.width - gridSettings.ftp.offset;
         this.height = this.height - gridSettings[this.durationMeasure].offset;
         // append svg group for chart interactive area (main area withoud axis)
         this.$interactiveArea = this.$placeholder
             .append("g")
-            .attr('class', 'chart-interactive-area')
+            .attr("class", "chart-interactive-area")
             .attr("width", this.width)
             .attr("height", this.height)
             .attr("transform", "translate(" + gridSettings.ftp.offset + ",0)");
-        this.$placeholder.append('g').attr('class', 'segments-chart-grid');
+        this.$placeholder.append("g").attr("class", "segments-chart-grid");
         // store link to the tooltip template
-        this.$tooltip = container.select('.tooltip');
+        this.$tooltip = container.select(".tooltip");
     }
 
     private cleanupPlaceholder(): void {
@@ -211,19 +210,19 @@ class SegmentChartController implements IComponentController {
     }
 
     private drawDomainAxis(): void {
-        let labelFormatter = LabelFormatters[this.durationMeasure].formatter;
-        let rangeInfo = this.scales[this.durationMeasure];
-        let settings = this.chartSettings.grid[this.durationMeasure];
-        let ticks = this.calcTics(rangeInfo, settings);
-        let lastTick = ticks.length - 1;
-        let xAxis = d3.axisBottom(rangeInfo)
+        const labelFormatter = LabelFormatters[this.durationMeasure].formatter;
+        const rangeInfo = this.scales[this.durationMeasure];
+        const settings = this.chartSettings.grid[this.durationMeasure];
+        const ticks = this.calcTics(rangeInfo, settings);
+        const lastTick = ticks.length - 1;
+        const xAxis = d3.axisBottom(rangeInfo)
             .tickSizeOuter(0)
             .tickValues(ticks)
-            .tickFormat(function (d: number, i: number) {
-                if (i === lastTick) { return ''; }
-                return (i % settings.ticksPerLabel === settings.fistLabelAtTick) ? labelFormatter(d) : '';
+            .tickFormat(function(d: number, i: number) {
+                if (i === lastTick) { return ""; }
+                return (i % settings.ticksPerLabel === settings.fistLabelAtTick) ? labelFormatter(d) : "";
             });
-        this.$placeholder.select('.segments-chart-grid')
+        this.$placeholder.select(".segments-chart-grid")
             .append("g")
             .attr("class", "axis-x")
             .attr("transform", "translate(" + this.chartSettings.grid.ftp.offset + "," + this.height + ")")
@@ -231,24 +230,24 @@ class SegmentChartController implements IComponentController {
     }
 
     private drawRangeAxis(): void {
-        let rangeInfo = this.scales.ftp;
-        let settings = this.chartSettings.grid.ftp;
-        let ticks = this.calcTics(rangeInfo, settings);
-        let yAxis = d3.axisLeft(rangeInfo)
+        const rangeInfo = this.scales.ftp;
+        const settings = this.chartSettings.grid.ftp;
+        const ticks = this.calcTics(rangeInfo, settings);
+        const yAxis = d3.axisLeft(rangeInfo)
             .tickSizeOuter(0)
             .tickSize(-this.width)
             .tickValues(ticks)
-            .tickFormat(function (d: number, i: number) {
-                return (i % settings.ticksPerLabel === settings.fistLabelAtTick) ? LabelFormatters.ftp.formatter(d) : '';
+            .tickFormat(function(d: number, i: number) {
+                return (i % settings.ticksPerLabel === settings.fistLabelAtTick) ? LabelFormatters.ftp.formatter(d) : "";
             });
-        let axis = this.$placeholder
-            .select('.segments-chart-grid')
+        const axis = this.$placeholder
+            .select(".segments-chart-grid")
             .append("g")
             .attr("class", "axis-y-stroke")
             .attr("transform", "translate(" + this.chartSettings.grid.ftp.offset + ",0)")
             .call(yAxis);
-        axis.selectAll('text')
-            .style('fill', settings.color)
+        axis.selectAll("text")
+            .style("fill", settings.color)
             .attr("transform", "translate(" + -(this.chartSettings.grid.ftp.offset - 5) + ",0)")
             .style("text-anchor", "start");
         axis.select(".domain").remove();
@@ -258,44 +257,44 @@ class SegmentChartController implements IComponentController {
         if (!this.planFtp || this.intervals.length === 0) {
             return;
         }
-        let mode: ChartMode = this.actualFtp ? "fact" : "plan";
-        let domain = this.durationMeasure;
-        let xScale = this.scales[domain];
-        let yScale = this.scales.ftp;
+        const mode: ChartMode = this.actualFtp ? "fact" : "plan";
+        const domain = this.durationMeasure;
+        const xScale = this.scales[domain];
+        const yScale = this.scales.ftp;
         //
-        let keyFill = this.getFillColor(this.chartSettings.planArea.keySegment);
-        let defaultFill = this.getFillColor(this.chartSettings.planArea.area);
-        let chartHeight = this.height;
+        const keyFill = this.getFillColor(this.chartSettings.planArea.keySegment);
+        const defaultFill = this.getFillColor(this.chartSettings.planArea.area);
+        const chartHeight = this.height;
         //
         this.$interactiveArea.selectAll(".interval-plan")
             .data(this.intervals)
             .enter().append("rect")
-            .filter(function (d) { return d[mode][domain].duration > 0; })
+            .filter(function(d) { return d[mode][domain].duration > 0; })
             .attr("class", "interval plan ttp-interval")
-            .attr("data-interval-id", function (d) { return d.originId; })
-            .attr("x", function (d: IPlanInterval) { return xScale(d[mode][domain].start); })
-            .attr("y", function (d: IPlanInterval) { return yScale(d.plan.intensityByFtp); })
-            .attr("width", function (d) { return xScale(d[mode][domain].duration); })
-            .attr("height", function (d) { return chartHeight - yScale(d.plan.intensityByFtp); })
-            .attr("fill", function (d) { return d.isKey ? keyFill : defaultFill; })
-            .attr('pointer-events', 'all');
+            .attr("data-interval-id", function(d) { return d.originId; })
+            .attr("x", function(d: IPlanInterval) { return xScale(d[mode][domain].start); })
+            .attr("y", function(d: IPlanInterval) { return yScale(d.plan.intensityByFtp); })
+            .attr("width", function(d) { return xScale(d[mode][domain].duration); })
+            .attr("height", function(d) { return chartHeight - yScale(d.plan.intensityByFtp); })
+            .attr("fill", function(d) { return d.isKey ? keyFill : defaultFill; })
+            .attr("pointer-events", "all");
         //
-        let bottomFtp = yScale.domain()[0];
-        let edges = [{ start: 0, intensityByFtp: bottomFtp }];
-        for (var i = 0; i < this.intervals.length; i++) {
-            let seg = this.intervals[i];
+        const bottomFtp = yScale.domain()[0];
+        const edges = [{ start: 0, intensityByFtp: bottomFtp }];
+        for (let i = 0; i < this.intervals.length; i++) {
+            const seg = this.intervals[i];
             edges.push({
                 start: seg[mode][domain].start,
-                intensityByFtp: Math.max(bottomFtp, seg.plan.intensityByFtp)
+                intensityByFtp: Math.max(bottomFtp, seg.plan.intensityByFtp),
             });
         }
-        let lastSeg = this.intervals[this.intervals.length - 1];
+        const lastSeg = this.intervals[this.intervals.length - 1];
         edges.push({ start: xScale.domain()[1], intensityByFtp: Math.max(bottomFtp, lastSeg.plan.intensityByFtp) });
         edges.push({ start: xScale.domain()[1], intensityByFtp: bottomFtp });
 
-        let borderLine = d3.line()
-            .x(function (d: any) { return xScale(d.start); })
-            .y(function (d: any) { return yScale(d.intensityByFtp); })
+        const borderLine = d3.line()
+            .x(function(d: any) { return xScale(d.start); })
+            .y(function(d: any) { return yScale(d.intensityByFtp); })
             .curve(d3.curveStepAfter);
 
         this.$interactiveArea
@@ -306,104 +305,103 @@ class SegmentChartController implements IComponentController {
     }
 
     private setupHover(): void {
-        let hoversettings = this.chartSettings.hoverArea;
-        let hoverFillStyle = this.getFillColor(hoversettings.area);
-        let hoverStrokeStyle = this.getFillColor(hoversettings.border);
-        let hover = this.$interactiveArea.append("rect").attr("x", 0).attr("y", 0)
+        const hoversettings = this.chartSettings.hoverArea;
+        const hoverFillStyle = this.getFillColor(hoversettings.area);
+        const hoverStrokeStyle = this.getFillColor(hoversettings.border);
+        const hover = this.$interactiveArea.append("rect").attr("x", 0).attr("y", 0)
             .attr("width", 0).attr("height", this.height)
             .attr("fill", hoverFillStyle)
             .attr("stroke", hoverStrokeStyle)
-            .attr('pointer-events', 'none')
+            .attr("pointer-events", "none")
             .style("display", "none");
 
-        let settings = this.chartSettings.selectArea;
-        let fillStyle = this.getFillColor(settings.area);
-        let strokeStyle = this.getFillColor(settings.border);
-        let self = this;
+        const settings = this.chartSettings.selectArea;
+        const fillStyle = this.getFillColor(settings.area);
+        const strokeStyle = this.getFillColor(settings.border);
+        const self = this;
         this.$interactiveArea.selectAll(".interval")
-            .on("mouseover.hover", function () {
-                let current = d3.select(this);
+            .on("mouseover.hover", function() {
+                const current = d3.select(this);
                 hover
                     .attr("x", current.attr("x"))
                     .attr("width", current.attr("width"))
                     .style("display", "block");
             })
-            .on("mouseout.hover", function () {
+            .on("mouseout.hover", function() {
                 hover.style("display", "none");
             })
-            .on("click", function () {
-                let current = d3.select(this);
-                self.$interactiveArea.selectAll('.selected-segment').remove();
+            .on("click", function() {
+                const current = d3.select(this);
+                self.$interactiveArea.selectAll(".selected-segment").remove();
                 self.$interactiveArea.append("rect")
-                    .attr('class', 'selected-segment')
+                    .attr("class", "selected-segment")
                     .attr("x", current.attr("x")).attr("y", 0)
                     .attr("width", current.attr("width"))
                     .attr("height", self.height)
-                    .attr('pointer-events', 'none')
+                    .attr("pointer-events", "none")
                     .attr("fill", fillStyle)
                     .attr("stroke", strokeStyle);
-                let segmentId = current.attr('data-interval-id');
-                self.onSelect({segmentId: segmentId});
+                const segmentId = current.attr("data-interval-id");
+                self.onSelect({segmentId});
             });
     }
 
-    private setupTooltip(): void
-    {
-        let self = this;
+    private setupTooltip(): void {
+        const self = this;
 
-        this.$tooltip.select('.fact')
+        this.$tooltip.select(".fact")
             .style("display", (this.actualFtp ? "block" : "none"));
         this.$interactiveArea
             .append("line")
-            .attr("class", 'tooltip_line')
+            .attr("class", "tooltip_line")
             .attr("x1", 0).attr("y1", 0)
             .attr("x2", 0).attr("y2", this.height)
             .style("stroke", this.chartSettings.grid.color)
             .style("stroke-width", this.chartSettings.grid.width)
-            .attr('pointer-events', 'none')
+            .attr("pointer-events", "none")
             .style("display", "none");
         this.$interactiveArea.selectAll(".ttp-interval")
-            .on("mousemove.tooltip", function () {
-                let mouse = d3.mouse(this);
-                d3.selectAll('.tooltip_line')
+            .on("mousemove.tooltip", function() {
+                const mouse = d3.mouse(this);
+                d3.selectAll(".tooltip_line")
                     .attr("x1", mouse[0]).attr("y1", 0)
                     .attr("x2", mouse[0]).attr("y2", self.height)
                     .style("display", "block");
                 //update tooltip position
-                let ttpSize = self.$tooltip.node().getBoundingClientRect();
-                let xPos = (mouse[0] + ttpSize.width + 20 > self.width) ?
+                const ttpSize = self.$tooltip.node().getBoundingClientRect();
+                const xPos = (mouse[0] + ttpSize.width + 20 > self.width) ?
                     (d3.event.pageX - 10 - ttpSize.width) :
                     (d3.event.pageX + 10);
-                let yPos = d3.event.pageY - (mouse[1] - self.height / 2) - ttpSize.height / 2;
+                const yPos = d3.event.pageY - (mouse[1] - self.height / 2) - ttpSize.height / 2;
                 self.$tooltip.style("left", xPos + "px").style("top", yPos + "px");
                 // update tooltip info
-                let intervalId = d3.select(this).attr('data-interval-id');
-                let interval = self.intervals[intervalId];
-                self.$tooltip.select('.index').text(parseInt(intervalId) + 1);
-                self.$tooltip.selectAll('.duration').attr('class', 'duration ' + interval.durationMeasure);
-                self.$tooltip.selectAll('.intensivity').attr('class', 'intensivity ' + interval.intensityMeasure);
+                const intervalId = d3.select(this).attr("data-interval-id");
+                const interval = self.intervals[intervalId];
+                self.$tooltip.select(".index").text(parseInt(intervalId) + 1);
+                self.$tooltip.selectAll(".duration").attr("class", "duration " + interval.durationMeasure);
+                self.$tooltip.selectAll(".intensivity").attr("class", "intensivity " + interval.intensityMeasure);
                 // update plan info
-                let plan = self.$tooltip.select('.plan');
-                let domain = interval.durationMeasure;
-                plan.select('.duration').text(
+                const plan = self.$tooltip.select(".plan");
+                const domain = interval.durationMeasure;
+                plan.select(".duration").text(
                     interval.plan[domain].duration > 0 ?
-                    (LabelFormatters[domain].formatter(interval.plan[domain].duration) + LabelFormatters[domain].label): "-");
-                plan.select('.intensivity').text(interval.plan.intensityByFtp > 0 ?
+                    (LabelFormatters[domain].formatter(interval.plan[domain].duration) + LabelFormatters[domain].label) : "-");
+                plan.select(".intensivity").text(interval.plan.intensityByFtp > 0 ?
                     (interval.plan.intensityByFtp.toFixed(0) + " %") : "-");
                 // update fact info if presented
                 if (self.actualFtp) {
-                    let fact = self.$tooltip.select('.fact');
-                    fact.select('.duration').text(interval.fact[domain].duration > 0 ?
+                    const fact = self.$tooltip.select(".fact");
+                    fact.select(".duration").text(interval.fact[domain].duration > 0 ?
                         (LabelFormatters[domain].formatter(interval.fact[domain].duration) + LabelFormatters[domain].label) : "-");
-                    fact.select('.intensivity').text(interval.fact.intensityByFtp > 0 ?
+                    fact.select(".intensivity").text(interval.fact.intensityByFtp > 0 ?
                         (LabelFormatters.ftp.formatter(interval.fact.intensityByFtp) + LabelFormatters.ftp.label) : "-");
                 }
-            }).on("mouseover.tooltip", function () {
-                d3.selectAll('.tooltip_line').style("display", "block");
-                self.$tooltip.style('display', 'block');
-            }).on("mouseout.tooltip", function () {
-                d3.selectAll('.tooltip_line').style("display", "none");
-                self.$tooltip.style('display', 'none');
+            }).on("mouseover.tooltip", function() {
+                d3.selectAll(".tooltip_line").style("display", "block");
+                self.$tooltip.style("display", "block");
+            }).on("mouseout.tooltip", function() {
+                d3.selectAll(".tooltip_line").style("display", "none");
+                self.$tooltip.style("display", "none");
             });
     }
 
@@ -411,26 +409,26 @@ class SegmentChartController implements IComponentController {
         if (!this.actualFtp) {
             return;
         }
-        let domain = this.durationMeasure;
-        let xScale = this.scales[domain];
-        let yScale = this.scales.ftp;
-        let height = this.height;
-        let segments = [];
-        let missedSegments = [];
+        const domain = this.durationMeasure;
+        const xScale = this.scales[domain];
+        const yScale = this.scales.ftp;
+        const height = this.height;
+        const segments = [];
+        const missedSegments = [];
         let prevItem = null;
-        for (var i = 0; i < this.intervals.length; i++) {
-            let seg = this.intervals[i];
+        for (let i = 0; i < this.intervals.length; i++) {
+            const seg = this.intervals[i];
             if (seg.fact[domain].duration === 0) {
-                let prevFtp = !prevItem ? Infinity : prevItem.to;
-                let nextFtp = i + 1 < this.intervals.length ? this.intervals[i + 1].fact.intensityByFtp : Infinity;
+                const prevFtp = !prevItem ? Infinity : prevItem.to;
+                const nextFtp = i + 1 < this.intervals.length ? this.intervals[i + 1].fact.intensityByFtp : Infinity;
                 missedSegments.push({
                     pos: xScale(seg.fact[domain].start),
                     height: yScale(Math.min(prevFtp, nextFtp)),
-                    originId: seg.originId
+                    originId: seg.originId,
                 });
                 continue;
             }
-            let item = {
+            const item = {
                 start: seg.fact[domain].start,
                 end: seg.fact[domain].start + seg.fact[domain].duration,
                 from: seg.fact.intensityByFtp,
@@ -438,7 +436,7 @@ class SegmentChartController implements IComponentController {
                 status: IntervalStatus[seg.status],
             };
             if (prevItem !== null) {
-                let currStatus = prevItem.to > item.from ? prevItem.status : item.status;
+                const currStatus = prevItem.to > item.from ? prevItem.status : item.status;
                 segments.push({
                     start: prevItem.end,
                     end: prevItem.end,
@@ -452,51 +450,51 @@ class SegmentChartController implements IComponentController {
         }
 
         // main status line
-        this.$interactiveArea.selectAll('.segment-status')
+        this.$interactiveArea.selectAll(".segment-status")
             .data(segments)
             .enter().append("line")
-            .attr('class', function (d) { return 'segment-status ' + d.status; })
-            .attr('x1', function (d) { return xScale(d.start); })
-            .attr('x2', function (d) { return xScale(d.end); })
-            .attr('y1', function (d) { return yScale(d.from); })
-            .attr('y2', function (d) { return yScale(d.to); });
+            .attr("class", function(d) { return "segment-status " + d.status; })
+            .attr("x1", function(d) { return xScale(d.start); })
+            .attr("x2", function(d) { return xScale(d.end); })
+            .attr("y1", function(d) { return yScale(d.from); })
+            .attr("y2", function(d) { return yScale(d.to); });
 
         // transparent background for onHover events
         this.$interactiveArea.selectAll(".interval-fact")
             .data(this.intervals)
             .enter().append("rect")
-            .filter(function (d) { return d.fact[domain].duration > 0; })
+            .filter(function(d) { return d.fact[domain].duration > 0; })
             .attr("class", "interval fact ttp-interval")
-            .attr("data-interval-id", function (d) { return d.originId; })
-            .attr("x", function (d: IPlanInterval) { return xScale(d.fact[domain].start); })
-            .attr("y", function (d: IPlanInterval) { return yScale(d.fact.intensityByFtp); })
-            .attr("width", function (d) { return xScale(d.fact[domain].duration); })
-            .attr("height", function (d) { return height - yScale(d.fact.intensityByFtp); })
-            .attr("fill", 'rgba(255, 255, 255, 0)').attr('stroke', 'none')
-            .attr('pointer-events', 'all');
+            .attr("data-interval-id", function(d) { return d.originId; })
+            .attr("x", function(d: IPlanInterval) { return xScale(d.fact[domain].start); })
+            .attr("y", function(d: IPlanInterval) { return yScale(d.fact.intensityByFtp); })
+            .attr("width", function(d) { return xScale(d.fact[domain].duration); })
+            .attr("height", function(d) { return height - yScale(d.fact.intensityByFtp); })
+            .attr("fill", "rgba(255, 255, 255, 0)").attr("stroke", "none")
+            .attr("pointer-events", "all");
 
         // missed segments
-        let markers = this.$interactiveArea.selectAll('.missed-segment')
+        const markers = this.$interactiveArea.selectAll(".missed-segment")
             .data(missedSegments).enter()
-            .append('g').attr('class', 'missed-segment');
+            .append("g").attr("class", "missed-segment");
         markers
             .append("line")
-            .attr('x1', function (d) { return d.pos; })
-            .attr('x2', function (d) { return d.pos; })
-            .attr('y1', function (d) { return d.height; })
-            .attr('y2', function () { return height; });
-        markers.append('circle')
-            .attr('cx', function (d) { return d.pos; })
-            .attr('cy', function (d) { return (d.height + height) / 2; })
-            .attr('class', 'ttp-interval')
-            .attr('data-interval-id', function (d) { return d.originId;  })
-            .attr('pointer-events', 'all')
-            .attr('r', 7);
-        markers.append('text')
-            .attr('dx', function (d) { return d.pos; })
-            .attr('dy', function (d) { return (d.height + height + 6) / 2; })
-            .attr('pointer-events', 'none')
-            .text('\u274C');
+            .attr("x1", function(d) { return d.pos; })
+            .attr("x2", function(d) { return d.pos; })
+            .attr("y1", function(d) { return d.height; })
+            .attr("y2", function() { return height; });
+        markers.append("circle")
+            .attr("cx", function(d) { return d.pos; })
+            .attr("cy", function(d) { return (d.height + height) / 2; })
+            .attr("class", "ttp-interval")
+            .attr("data-interval-id", function(d) { return d.originId;  })
+            .attr("pointer-events", "all")
+            .attr("r", 7);
+        markers.append("text")
+            .attr("dx", function(d) { return d.pos; })
+            .attr("dy", function(d) { return (d.height + height + 6) / 2; })
+            .attr("pointer-events", "none")
+            .text("\u274C");
     }
 
     private drawSelects(): void {
@@ -504,39 +502,39 @@ class SegmentChartController implements IComponentController {
             return;
         }
         //
-        let mode: ChartMode = this.actualFtp ? "fact" : "plan";
-        let settings = this.chartSettings.selectArea;
-        let fillStyle = this.getFillColor(settings.area);
-        let strokeStyle = this.getFillColor(settings.border);
-        let domain = this.durationMeasure;
-        let xScale = this.scales[domain];
+        const mode: ChartMode = this.actualFtp ? "fact" : "plan";
+        const settings = this.chartSettings.selectArea;
+        const fillStyle = this.getFillColor(settings.area);
+        const strokeStyle = this.getFillColor(settings.border);
+        const domain = this.durationMeasure;
+        const xScale = this.scales[domain];
         //
         for (let i = 0; i < this.select.length; i++) {
-            let area = this.intervals[this.select[i]][mode][domain];
-            let start = xScale(area.start);
-            let width = xScale(area.duration);
+            const area = this.intervals[this.select[i]][mode][domain];
+            const start = xScale(area.start);
+            const width = xScale(area.duration);
             this.$interactiveArea.append("rect")
-                .attr('class', 'selected-segment')
+                .attr("class", "selected-segment")
                 .attr("x", start)
                 .attr("y", 0)
                 .attr("width", width)
                 .attr("height", this.height)
                 .attr("fill", fillStyle)
                 .attr("stroke", strokeStyle)
-                .attr('pointer-events', 'none');
+                .attr("pointer-events", "none");
         }
     }
 
     //todo shared utils
-    private calcTics(scale, settings): Array<number> {
+    private calcTics(scale, settings): number[] {
         let currStep = settings.tickMinStep;
-        let min = Math.min.apply(null, scale.domain());
-        let max = Math.max.apply(null, scale.domain());
-        let currDist = Math.abs(scale(min + currStep) - scale(min + currStep * 2));
+        const min = Math.min.apply(null, scale.domain());
+        const max = Math.max.apply(null, scale.domain());
+        const currDist = Math.abs(scale(min + currStep) - scale(min + currStep * 2));
         if (currDist < settings.tickMinDistance) {
             currStep = currStep * Math.ceil(settings.tickMinDistance / currDist);
         }
-        let tickVals = [];
+        const tickVals = [];
         let currentTick = (Math.floor(min / currStep) + 1) * currStep;
         while (currentTick < max) {
             tickVals.push(currentTick);
@@ -546,10 +544,10 @@ class SegmentChartController implements IComponentController {
     }
 
     //todo shared utils
-    public getFillColor(areaSettings: IFilledShape): string {
+    getFillColor(areaSettings: IFilledShape): string {
         switch (areaSettings.fillType) {
             case FillType.Gradient:
-                let gradientId = this.getGradient(areaSettings.gradient);
+                const gradientId = this.getGradient(areaSettings.gradient);
                 // absolute url should be used to avoid problems with angular routing and <base> tag
                 return "url(" + this.absUrl + "#" + gradientId + ")";
             case FillType.Solid:
@@ -561,20 +559,20 @@ class SegmentChartController implements IComponentController {
 
     //todo shared utils
     // create new svg gradien based on provided gradient points and max area height
-    private getGradient(gradientPoints: Array<IGradientPoint>, heightRation: number = 1): string {
-        let index = "lnrGradientSeg" + this.gradientId;
+    private getGradient(gradientPoints: IGradientPoint[], heightRation: number = 1): string {
+        const index = "lnrGradientSeg" + this.gradientId;
         this.gradientId = this.gradientId + 1;
         this.$placeholder.append("linearGradient")
             .attr("id", index)
             .attr("gradientUnits", "userSpaceOnUse")
-            .attr("x1", 0).attr("y1", (100 * (1 - heightRation) + '%'))
-            .attr("x2", 0).attr("y2", '100%')
+            .attr("x1", 0).attr("y1", (100 * (1 - heightRation) + "%"))
+            .attr("x2", 0).attr("y2", "100%")
             .selectAll("stop")
             .data(gradientPoints)
             .enter().append("stop")
-            .attr("offset", function (d) { return d.offset; })
-            .attr("stop-color", function (d) { return d.color; })
-            .attr("stop-opacity", function (d) { return d.opacity; }); // fix for Safari;
+            .attr("offset", function(d) { return d.offset; })
+            .attr("stop-color", function(d) { return d.color; })
+            .attr("stop-opacity", function(d) { return d.opacity; }); // fix for Safari;
         return index;
     };
 }

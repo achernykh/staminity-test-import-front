@@ -1,79 +1,79 @@
-import './activity-header-chat.component.scss';
-import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
-import CommentService from "../../core/comment.service";
-import {CommentType} from "../../../../api/social/comment.request";
-import {IObjectComment} from "../../../../api/social/comment.interface";
-import MessageService from "../../core/message.service";
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
+import moment from "moment/min/moment-with-locales.js";
 import {IActivitySocial} from "../../../../api/activity/activity.interface";
+import {IObjectComment} from "../../../../api/social/comment.interface";
+import {CommentType} from "../../../../api/social/comment.request";
 import {IUserProfile} from "../../../../api/user/user.interface";
+import CommentService from "../../core/comment.service";
+import MessageService from "../../core/message.service";
+import "./activity-header-chat.component.scss";
 
 class ActivityHeaderChatCtrl implements IComponentController {
 
-    public data: any;
-    public activityId: number;
-    public social: IActivitySocial;
-    public user: IUserProfile;
-    public currentUser: IUserProfile;
-    public coach: boolean;
+    data: any;
+    activityId: number;
+    social: IActivitySocial;
+    user: IUserProfile;
+    currentUser: IUserProfile;
+    coach: boolean;
 
-    private comments: Array<IObjectComment> = [];
+    private comments: IObjectComment[] = [];
     private text: string = null;
-    private readonly commentType: string = 'activity';
+    private readonly commentType: string = "activity";
     private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
-    public onUpdate: (response: Object) => IPromise<void>;
-    static $inject = ['CommentService', 'message','$scope'];
+    onUpdate: (response: Object) => IPromise<void>;
+    static $inject = ["CommentService", "message", "$scope"];
 
     constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
         this.comment.comment$
-            .filter(item => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
+            .filter((item) => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
                     item.value.userProfile.userId !== this.currentUser.userId)
             .subscribe((item) => this.comments.push(item.value));
     }
 
     $onInit() {
         this.comment.get(this.commentType, this.activityId, true, 50)
-            .then(result => this.comments = result, error => this.message.toastError(error))
+            .then((result) => this.comments = result, (error) => this.message.toastError(error))
             .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
     onPostComment(text) {
         this.inAction = true;
         this.comment.post(this.commentType, this.activityId, true, text)
-            .then(result=> {
+            .then((result) => {
                     this.text = null;
                     this.comments = result;
-                }, error => this.message.toastError(error)).then(()=>this.$scope.$evalAsync())
+                }, (error) => this.message.toastError(error)).then(() => this.$scope.$evalAsync())
             .then(() => this.inAction = false)
-            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));;
+            .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}})); ;
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
     isMe(id: number): boolean {
-        return (this.currentUser.hasOwnProperty('userId') && id === this.currentUser.userId) || false;
+        return (this.currentUser.hasOwnProperty("userId") && id === this.currentUser.userId) || false;
     }
 
-    localDate(date){
-        console.log('date: ',date,moment.utc(date).format('DD MMM HH:mm'),new Date().getTimezoneOffset());
-        return moment(date).add('minutes',-1*(new Date().getTimezoneOffset())).format('DD MMM HH:mm');
+    localDate(date) {
+        console.log("date: ", date, moment.utc(date).format("DD MMM HH:mm"), new Date().getTimezoneOffset());
+        return moment(date).add("minutes", -1 * (new Date().getTimezoneOffset())).format("DD MMM HH:mm");
     }
 }
 
-const ActivityHeaderChatComponent:IComponentOptions = {
+const ActivityHeaderChatComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        activityId: '<',
-        social: '<',
-        user: '<',
-        currentUser: '<',
-        coach: '<',
-        onUpdate: '&'
+        data: "<",
+        activityId: "<",
+        social: "<",
+        user: "<",
+        currentUser: "<",
+        coach: "<",
+        onUpdate: "&",
     },
     require: {
         //component: '^component'
     },
     controller: ActivityHeaderChatCtrl,
-    template: require('./activity-header-chat.component.html') as string
+    template: require("./activity-header-chat.component.html") as string,
 };
 
 export default ActivityHeaderChatComponent;

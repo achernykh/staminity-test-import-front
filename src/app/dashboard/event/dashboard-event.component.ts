@@ -1,20 +1,20 @@
-import './dashboard-event.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
+import {IUserProfile} from "../../../../api/user/user.interface";
 import MessageService from "../../core/message.service";
 import {DashboardCtrl} from "../dashboard.component";
-import {IUserProfile} from "../../../../api/user/user.interface";
+import "./dashboard-event.component.scss";
 
 class DashboardEventCtrl implements IComponentController {
 
-    public event:ICalendarItem;
-    public athlete:IUserProfile;
+    event: ICalendarItem;
+    athlete: IUserProfile;
 
     private dashboard: DashboardCtrl;
-    public onEvent:(response:Object) => IPromise<void>;
-    static $inject = ['$mdDialog', 'message'];
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["$mdDialog", "message"];
 
-    constructor(private $mdDialog:any, private message:MessageService) {
+    constructor(private $mdDialog: any, private message: MessageService) {
 
     }
 
@@ -22,12 +22,12 @@ class DashboardEventCtrl implements IComponentController {
 
     }
 
-    onOpen($event, mode:string) {
+    onOpen($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
-            controllerAs: '$ctrl',
+            controllerAs: "$ctrl",
             template: `<md-dialog id="events" aria-label="Events">
-                        <calendar-item-events 
+                        <calendar-item-events
                                 flex layout="column" class="calendar-item-events"
                                 data="$ctrl.data"
                                 mode="put"
@@ -39,29 +39,29 @@ class DashboardEventCtrl implements IComponentController {
             targetEvent: $event,
             locals: {
                 data: this.event,
-                user: this.athlete
+                user: this.athlete,
             },
             bindToController: true,
             clickOutsideToClose: true,
             escapeToClose: true,
-            fullscreen: true
+            fullscreen: true,
 
-        }).then(() => {}, ()=> {});
+        }).then(() => {}, () => {});
     }
 }
 
-const DashboardEventComponent:IComponentOptions = {
+const DashboardEventComponent: IComponentOptions = {
     bindings: {
-        event: '<',
-        athlete: '<',
-        selected: '<',
-        onEvent: '&'
+        event: "<",
+        athlete: "<",
+        selected: "<",
+        onEvent: "&",
     },
     require: {
-        dashboard: '^dashboard'
+        dashboard: "^dashboard",
     },
     controller: DashboardEventCtrl,
-    template: require('./dashboard-event.component.html') as string
+    template: require("./dashboard-event.component.html") as string,
 };
 
 export default DashboardEventComponent;
@@ -72,7 +72,7 @@ function DialogController($scope, $mdDialog) {
     };
 
     $scope.cancel = function() {
-        console.log('cancel');
+        console.log("cancel");
         $mdDialog.cancel();
     };
 
@@ -80,4 +80,4 @@ function DialogController($scope, $mdDialog) {
         $mdDialog.hide(answer);
     };
 }
-DialogController.$inject = ['$scope','$mdDialog'];
+DialogController.$inject = ["$scope", "$mdDialog"];

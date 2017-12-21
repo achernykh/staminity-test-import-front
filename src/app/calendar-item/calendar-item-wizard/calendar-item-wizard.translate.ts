@@ -1,10 +1,10 @@
 export const _translateWizard = {
     ru: {
         toolbar: {
-            title: 'Новая запись'
-        }
+            title: "Новая запись",
+        },
     },
     en: {
 
-    }
+    },
 };

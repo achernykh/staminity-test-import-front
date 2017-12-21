@@ -1,24 +1,24 @@
-import './assignment-summary-structured.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {
     CalendarItemActivityCtrl,
-    HeaderStructuredTab
+    HeaderStructuredTab,
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
+import "./assignment-summary-structured.component.scss";
 
 class AssignmentSummaryStructuredCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onChange: () => IPromise<void>;
+    onChange: () => IPromise<void>;
 
     private readonly structuredMeasure: any = {
         movingDuration: {
-            length: 'movingDurationLength',
-            approx: 'movingDurationApprox'
+            length: "movingDurationLength",
+            approx: "movingDurationApprox",
         },
         distance: {
-            length: 'distanceLength',
-            approx: 'distanceApprox'
-        }
+            length: "distanceLength",
+            approx: "distanceApprox",
+        },
     };
 
     static $inject = [];
@@ -32,16 +32,16 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
     }
 }
 
-const AssignmentSummaryStructuredComponent:IComponentOptions = {
+const AssignmentSummaryStructuredComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        onChange: '&'
+        data: "<",
+        onChange: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: AssignmentSummaryStructuredCtrl,
-    template: require('./assignment-summary-structured.component.html') as string
+    template: require("./assignment-summary-structured.component.html") as string,
 };
 
 export default AssignmentSummaryStructuredComponent;

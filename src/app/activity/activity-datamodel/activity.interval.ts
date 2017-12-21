@@ -2,7 +2,7 @@ import {IActivityInterval} from "../../../../api/activity/activity.interface";
 /**
  * Базовый класс для инетрвала, содержит общее параметры
  */
-export class ActivityInterval implements IActivityInterval{
+export class ActivityInterval implements IActivityInterval {
 
     startTimestamp: number;
     endTimestamp: number;

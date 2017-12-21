@@ -16,7 +16,7 @@ export interface ICalendarWeek {
 export interface ICalendarDay {
     key: string; // формат дня в формате YYYY.MM.DD
     selected: boolean; // индикатор выбора дня
-    date: string;// формат дня в формате GMT
+    date: string; // формат дня в формате GMT
     data: ICalendarDayData;
 }
 
@@ -26,5 +26,5 @@ export interface ICalendarDayData {
     month: string; // месяц в формате MMM
     day: string; // день в формате dd
     date: string; // день в формате YYYY.MM.DD
-    calendarItems: Array<ICalendarItem>; // записи календаря
+    calendarItems: ICalendarItem[]; // записи календаря
 }

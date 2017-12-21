@@ -19,7 +19,9 @@
     "prd": "gulp set-env-new --trg prd && webpack && gulp copy-assets && gulp copy-other && gulp set-sw --trg prd",
     "analyseBuild": "webpack --json > status.json",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cleanjs": "rimraf src/app/*.js, src/app/**/*.js, src/app/**/**/*.js"
+    "cleanjs": "rimraf src/app/*.js, src/app/**/*.js, src/app/**/**/*.js",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "lint-fix": "tslint --fix -c tslint.json 'src/**/*.ts'"
   },
   "keywords": [
     "staminity",
@@ -37,6 +39,7 @@
     "@types/jquery": "2.0.34",
     "@types/moment": "^2.13.0",
     "@types/oclazyload": "0.0.31",
+    "babel-core": "6.26.0",
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.22.0",
     "babelify": "^7.2.0",
@@ -97,8 +100,8 @@
     "sw-precache": "^5.1.1",
     "ts-loader": "1.3.3",
     "tsify": "*",
-    "tslint": "4.2.0",
-    "tslint-loader": "3.3.0",
+    "tslint": "5.8.0",
+    "tslint-loader": "3.5.3",
     "typescript": "2.1.4",
     "url-loader": "^0.5.7",
     "vinyl-ftp": "^0.6.0",

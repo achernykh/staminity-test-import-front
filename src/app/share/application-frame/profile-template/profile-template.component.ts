@@ -1,12 +1,12 @@
-import './profile-template.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import { IUserProfile } from "../../../../../api/user/user.interface";
+import "./profile-template.component.scss";
 
 class ApplicationProfileTemplateCtrl implements IComponentController {
 
-    public user: IUserProfile;
-    public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['$mdMedia'];
+    user: IUserProfile;
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["$mdMedia"];
 
     constructor(
         private $mdMedia: any,
@@ -19,16 +19,16 @@ class ApplicationProfileTemplateCtrl implements IComponentController {
     }
 }
 
-const ApplicationProfileTemplateComponent:IComponentOptions = {
+const ApplicationProfileTemplateComponent: IComponentOptions = {
     bindings: {
-        user: '<',
-        onEvent: '&'
+        user: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: ApplicationProfileTemplateCtrl,
-    template: require('./profile-template.component.html') as string
+    template: require("./profile-template.component.html") as string,
 };
 
 export default ApplicationProfileTemplateComponent;

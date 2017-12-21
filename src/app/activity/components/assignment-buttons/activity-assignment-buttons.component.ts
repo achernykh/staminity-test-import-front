@@ -5,7 +5,7 @@ import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-act
 class ActivityAssignmentButtonsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onEvent: (response: Object) => IPromise<void>;
+    onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
     constructor() {

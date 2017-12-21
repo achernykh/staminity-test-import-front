@@ -1,3 +1,3 @@
 export const htmlToPlainText = () => (html: string): string => {
-    return html ? String(html).replace(/<[^>]+>/gm, '') : '';
+    return html ? String(html).replace(/<[^>]+>/gm, "") : "";
 };

@@ -1,27 +1,30 @@
 <application-frame class="athletes">
 
-    <md-card ng-if="!$ctrl.isScreenSmall">
-        <div layout="row" layout-align="center center" style="padding: 16px 26px;">
-            <span flex class="md-title">Все ({{$ctrl.rows.length}})</span>
+    <md-card ng-if="!$ctrl.isMobileLayout()">
+        <div layout="row" layout-align="center center" class="athletes-actions">
+                <span flex>
+                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }} 
+                    ({{$ctrl.getRows().length}})
+                </span>
             <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
                 <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
             </md-input-container>
-            <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch" style="vertical-align: top;">
+            <md-button class="athletes-button md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch">
                 <md-icon class="material-icons">search</md-icon>
             </md-button>
-            <md-button class="md-icon-button" ng-click="$ctrl.invite($event)" style="vertical-align: top;">
+            <md-button class="athletes-button md-icon-button" ng-click="$ctrl.invite($event)">
                 <md-icon class="material-icons">group_add</md-icon>
             </md-button>
 
         </div>
-        <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
-            <span flex>{{ $ctrl.checked.length }} items selected</span>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()">
-                <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
+        <md-toolbar class="athletes-toolbar md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center">
+            <span flex>{{ 'athletes.selected' | translate:{count:$ctrl.checked.length} }}</span>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditTariffsAvailable()" ng-click="$ctrl.editTariffs()">
+                <md-tooltip md-direction="bottom">{{ 'athletes.buttons.tariffs' | translate }}</md-tooltip>
                 <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.removeAvailable" ng-click="$ctrl.remove()"> 
-                <md-tooltip md-direction="bottom">Удалить</md-tooltip>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isRemoveAvailable()" ng-click="$ctrl.remove()"> 
+                <md-tooltip md-direction="bottom">{{ 'athletes.buttons.remove' | translate }}</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>
         </md-toolbar>
@@ -29,18 +32,18 @@
             <table md-table md-row-select multiple ng-model="$ctrl.checked">
                 <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
-                        <th md-column md-order-by="sort.username"><span>Cпортсмен</span></th>
-                        <th md-column md-order-by="sort.club"><span>Клуб</span></th>
-                        <th md-column md-order-by="sort.tariff"><span>Тариф</span></th>
-                        <th md-column md-order-by="sort.city"><span>Город</span></th>
-                        <th md-column md-order-by="sort.ageGroup"><span>Возрастная группа</span></th>
+                        <th md-column md-order-by="username"><span translate>athletes.columns.username</span></th>
+                        <th md-column md-order-by="club"><span translate>athletes.columns.club</span></th>
+                        <th md-column md-order-by="tariff"><span translate>athletes.columns.tariff</span></th>
+                        <th md-column md-order-by="city"><span translate>athletes.columns.city</span></th>
+                        <th md-column md-order-by="ageGroup"><span translate>athletes.columns.ageGroup</span></th>
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.isVisible() | orderBy:$ctrl.orderBy)">
+                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.getRows()">
                         <td md-cell>
-                            <md-button style="text-transform: none; font-size: 13px; margin: 0;" ui-sref="user({uri: member.userProfile.public.uri})">
-                                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+                            <md-button class="athletes-username" ui-sref="user({uri: member.userProfile.public.uri})">
+                                <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
                                 {{ member.userProfile | username }}
                             </md-button>
                         </td>
@@ -53,9 +56,9 @@
                             <span ng-if="!member.clubs"> - <span>
                         </td>
                         <td md-cell>
-                            <span ng-repeat="tariff in member.userProfile.billing" style="white-space: nowrap;">
-                                {{tariff.tariffCode}} 
-                                <span ng-if="tariff.userProfilePayer.userId === $ctrl.user.userId" class="badge">byCoach </span>
+                            <span ng-repeat="tariff in member.userProfile.billing" class="athletes-row-tariffs">
+                                {{ 'athletes.tariffs.' + tariff.tariffCode | translate }}
+                                <span ng-if="$ctrl.isBillByUser(tariff)" class="badge" translate>athletes.byCoach</span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>
@@ -68,7 +71,7 @@
     </md-card>
     
 
-    <div ng-if="$ctrl.isScreenSmall">
+    <div ng-if="$ctrl.isMobileLayout()">
         <md-list>
             <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>
@@ -77,11 +80,14 @@
                 </md-input-container>
             </md-list-item>
             <md-list-item layout="row" layout-align="center center">
-                <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
-                <span flex>Все ({{$ctrl.rows.length}})</span>
+                <md-icon class="material-icons" class="athletes-tune-icon">tune</md-icon>
+                <span flex>
+                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }} 
+                    ({{$ctrl.getRows().length}})
+                </span>
             </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search)" layout="row" layout-align="center center">
-                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+            <md-list-item ng-repeat="member in $ctrl.getRows()" layout="row" layout-align="center center">
+                <userpic profile="member.userProfile" is-premium="$member.userProfile | isPremium"></userpic>
                 <span ui-sref="user({uri: member.userProfile.public.uri})" flex>{{ member.userProfile | username }}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>
