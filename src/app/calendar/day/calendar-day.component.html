@@ -52,7 +52,7 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.onCopy()"
+                        <md-button ng-click="$ctrl.onCopy({items: $ctrl.data.calendarItems})"
                                    aria-label="copy">
                             <md-icon class="material-icons" md-menu-align-target aria-label="copy">content_copy
                             </md-icon>
@@ -191,7 +191,7 @@
                                     view="$ctrl.viewLayout"
                                     item="::item"
                                     options="$ctrl.itemOptions"
-                                    on-save="$ctrl.onUpdate(formMode, item)"
+                                    on-answer="$ctrl.onUpdate(formMode, item)"
                                     dnd-draggable="item"
                                     dnd-disable-if="true"
                                     dnd-type="'itemType'"
@@ -215,7 +215,7 @@
                                  selected="$ctrl.selected"
                                  data="::item"
                                  options="$ctrl.itemOptions"
-                                 on-save="$ctrl.onUpdate(formMode, item)"
+                                 on-answer="$ctrl.onUpdate(formMode, item)"
                                  dnd-draggable="item"
                                  dnd-disable-if="::!$ctrl.isSpecified(item)"
                                  dnd-type="'itemType'"

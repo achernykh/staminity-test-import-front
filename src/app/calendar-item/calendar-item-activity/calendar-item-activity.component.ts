@@ -292,7 +292,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param e
      */
     open (e: Event): void {
-        this.calendarDialog.activity(e, this.options, this.activity)
+        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.View}), this.activity)
             .then(response => this.onAnswer(response));
     }
 
@@ -306,7 +306,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
 
-        /**
+    /**
      * Выбран шаблон тренировки
      * @param template
      */

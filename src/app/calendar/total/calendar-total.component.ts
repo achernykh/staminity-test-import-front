@@ -38,6 +38,8 @@ class CalendarTotalCtrl implements IComponentController {
     selected: boolean;
     dynamicDates: boolean;
     compactView: boolean;
+    onSelect: () => Promise<any>;
+
 
     private data: CalendarWeekData;
     private title: string;
@@ -70,6 +72,7 @@ class CalendarTotalCtrl implements IComponentController {
     onToggle() {
         this.selected = !this.selected;
         this.week.subItem.forEach(day => day.selected = !day.selected);
+        this.onSelect();
     }
 
     $onChanges(changes){
@@ -97,7 +100,13 @@ const CalendarTotalComponent: IComponentOptions =  {
         accent: '<',//,
         dynamicDates: '<',
         owner: '<',
-        compactView: '<'
+        compactView: '<',
+        copiedItemsLength: '<', // обьем буфера скопированных тренировок
+
+        onCopy: '&', // пользователь скопировал дни/недели (без параметров)
+        onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала
+        onDelete: '&', // удалить
+        onSelect: '&'
         //onToggle: '&'
     },
     require: {

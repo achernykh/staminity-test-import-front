@@ -181,7 +181,11 @@
                             week="week"
                             owner="$ctrl.owner"
                             compact-view="$ctrl.isCompactView"
-                            on-toggle="$ctrl.onToggleWeek(sid, value)">
+                            copied-items-length="$ctrl.copiedItems.length"
+                            on-select="$ctrl.selectItems()"
+                            on-copy="$ctrl.copyItems(items)"
+                            on-paste="$ctrl.pasteItems(date)"
+                            on-delete="$ctrl.deleteItems(items)">
                         <div class="md-body-1">Неделя {{$index}}</div>
                     </calendar-total>
 

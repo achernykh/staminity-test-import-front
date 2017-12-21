@@ -22,6 +22,11 @@ export const UserMenuSettings = [
         link: "http://support.staminity.com/"
     },
     {
+        icon: "home",
+        name: "userMenu.home",
+        link: "welcome"
+    },
+    {
         icon: "exit_to_app",
         name: "userMenu.exit",
         link: "signout"

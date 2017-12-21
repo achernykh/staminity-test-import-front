@@ -140,6 +140,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     delete (): void {
+        debugger;
         Promise.resolve(() => {})
             .then(() => this.competition.isCompleted && this.dialogs.confirm({text: 'dialogs.deleteActualCompetition'}))
             .then(() => this.calendarService.deleteItem('F', [this.competition.calendarItemId]))

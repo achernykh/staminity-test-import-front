@@ -27,7 +27,7 @@ class HeaderCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
 
     static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
-        "CommentService", "$mdDialog", "$state", "toaster", "DisplayService", "SocketService"];
+        "CommentService", "$mdDialog", '$mdMedia', "$state", "toaster", "DisplayService", "SocketService"];
 
     constructor(
         private $scope,
@@ -38,6 +38,7 @@ class HeaderCtrl implements IComponentController {
         private NotificationService: NotificationService,
         private comment: CommentService,
         private $mdDialog: any,
+        private $mdMedia: any,
         private $state: StateService,
         private toaster: any,
         private display: DisplayService,

@@ -15,10 +15,15 @@ md-dialog#calendar-item-competition {
 
 .calendar-item-competition {
 
-  min-width: 360px;
-  max-width: 360px;
-  min-height: 80vh;
-  max-height: 90vh;
+  width: 100vw;
+  height: 100vh;
+
+  @media (min-width: 960px) {
+    min-width: 360px;
+    max-width: 360px;
+    min-height: 80vh;
+    max-height: 90vh;
+  }
 
   transition: all 0.3s;
 

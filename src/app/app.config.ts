@@ -1,7 +1,9 @@
 import { ICompileProvider, ILocationProvider} from 'angular';
-import {StateProvider, StateDeclaration} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, Transition} from 'angular-ui-router';
 import moment from 'moment/min/moment-with-locales.js';
 import {translateForm,translateGeneral} from "./app.translate";
+import { IUserProfile } from "../../api/user/user.interface";
+import AuthService from "./auth/auth.service";
 
 function configure(
 	$compileProvider: ICompileProvider,
@@ -28,6 +30,28 @@ function configure(
 	$locationProvider.hashPrefix('!');
 
 	$urlRouterProvider.otherwise('/');
+
+	$stateProvider
+		.state("initialisation", <StateDeclaration>{
+			url: "/",
+			loginRequired: false,
+			authRequired: null,
+			redirectTo: (trans: Transition) => {
+				let currentUser: IUserProfile = trans.injector().get('SessionService').getUser();
+				let authService: AuthService = trans.injector().get('AuthService');
+
+				if (authService.isAuthenticated()) {
+					if (authService.isCoach()) {
+						return {state: 'dashboard'};
+					} else {
+						return {state: 'calendar'};
+					}
+				} else {
+					return {state: 'welcome'};
+				}
+			}
+		});
+
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'

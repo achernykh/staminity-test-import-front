@@ -15,12 +15,13 @@ class LandingPageCtrl implements IComponentController {
         club: ["lp-club-01.png"],
     };
 
-    static $inject = ["AuthService", "$state", "SessionService", "DisplayService"];
+    static $inject = ["AuthService", "$state", "SessionService", "DisplayService", '$mdMedia'];
 
     constructor(private AuthService: IAuthService,
                 private $state: StateService,
                 private SessionService: SessionService,
-                private display: DisplayService) {
+                private display: DisplayService,
+                private $mdMedia: any) {
 
     }
 
@@ -30,7 +31,7 @@ class LandingPageCtrl implements IComponentController {
 
     go() {
         if (this.AuthService.isAuthenticated()) {
-            this.$state.go("calendar", {uri: this.user.public.uri});
+            this.$state.go(this.$mdMedia('gt-sm') ? "initialisation" : "calendar");
         } else {
             this.$state.go("signup");
         }

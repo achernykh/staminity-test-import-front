@@ -21,6 +21,7 @@ export class ActivityHeader implements IActivityHeader {
     };
     public intervals: Array<IActivityIntervals> = [];
     public templateId: number;
+    competitionStagePosition: number; // номер позиции этапа в рамках соревнования
 
     // Вспомогательные поля фронт-енд
     public template: IActivityTemplate;
@@ -70,8 +71,7 @@ export class ActivityHeader implements IActivityHeader {
     }
 
     clear():IActivityHeader {
-        let params: Array<string> = ['template'];
-        params.map(p => delete this[p]);
+        ['template'].map(p => delete this[p]);
         return <IActivityHeader>this;
     }
 }

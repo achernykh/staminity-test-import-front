@@ -246,10 +246,27 @@ export class Calendar {
      * @returns {boolean}
      */
     include (id: number, revision: number): boolean {
-        console.warn('include', id, revision);
-        return this.weeks.some(w =>
-            w.subItem.some(d =>
-                d.data.calendarItems.some(i =>
+
+        let include: boolean = false;
+        let week: number = null;
+        let day: number = null;
+        let pos: number = null;
+
+        console.warn('include start', id, revision, this.weeks);
+
+        this.weeks.map((w,iw) => w.subItem.map((d, id) => d.data.calendarItems.map((i,ii) => {
+            //console.warn('map calendarItem', i.calendarItemId);
+            if (i.calendarItemId === id) {
+                include = true;
+                week = iw;
+                day = id;
+                pos = ii;
+            }
+        })));
+
+        console.warn('include', id, revision, include, week, day, pos);
+
+        return this.weeks.some(w => w.subItem.some(d => d.data.calendarItems.some(i =>
                     i.calendarItemId === id && (revision && i.revision === revision || true))));
     }
     /**

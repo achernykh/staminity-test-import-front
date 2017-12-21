@@ -11,6 +11,9 @@ import { FormMode } from "../../application.interface";
 import { toDay } from "../../activity/activity.datamodel";
 import { IActivityIntervalPW } from "../../../../api/activity/activity.interface";
 
+const sortAsc = (a: number, b: number): number => a < b ? -1: 1;
+const sortDsc = (a: number, b: number): number => a > b ? -1: 1;
+
 export interface CompetitionItems {
     item: Activity;
     dirty: boolean;
@@ -36,9 +39,19 @@ export class CalendarItemCompetition extends CalendarItem {
 
     prepare (): void {
         super.prepare();
+        // записи собраны на стороне бэка
         if (this.calendarItems && this.calendarItems.length) {
             this.items = [];
             this.calendarItems.map(i => this.items.push({ dirty: false, item: new Activity(i, this.options)}));
+        }
+        // записи собраны на стороне фронта
+        else if (this.items && this.items.length) {
+            this.items = this.items.map(i => ({ dirty: false, item: new Activity(i.item, this.options)}));
+        }
+
+        if (this.items && this.items.length) {
+            this.items.sort((a,b) =>
+                sortAsc(a.item.activityHeader.competitionStagePosition,b.item.activityHeader.competitionStagePosition));
         }
     }
 
@@ -58,7 +71,7 @@ export class CalendarItemCompetition extends CalendarItem {
     setItems(template: Array<ICompetitionStageConfig>, options: ICalendarItemDialogOptions = this.options) {
         this.items = [];
         if (!template || template.length === 0) { return; }
-        template.map(t => {
+        template.map((t,i) => {
            let activity: Activity = new Activity({
                calendarItemId: null,
                calendarItemType: 'activity',
@@ -79,6 +92,7 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
+            activity.header.competitionStagePosition = i;
             this.items.push({dirty: false, item: activity});
         });
     }

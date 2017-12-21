@@ -113,42 +113,8 @@
   &__fab {
     bottom: 8px;
     right: 8px;
-    position: absolute;
+    position: fixed;
   }
-}
-
-calendar {
-
-  md-datepicker.picker {
-
-    padding-right: 0px !important;
-    margin-right: 0px !important;
-    vertical-align: inherit !important;
-
-    md-icon {
-      fill: rgba(255,255,255,0.54);
-    }
-
-    div.md-datepicker-input-container {
-      margin-left: 0px !important;
-    }
-
-    div.md-datepicker-input-container input, div.md-datepicker-input-container button{
-      display: none;
-    }
-  }
-
-  md-fab-speed-dial {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    z-index: 65;
-  }
-
-  /*div.calendar-week calendar-day:nth-child(7) {
-    border-right: 1px solid #BDBDBD;
-  }*/
-
 }
 
 

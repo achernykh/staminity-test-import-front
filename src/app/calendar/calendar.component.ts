@@ -141,7 +141,12 @@ export class CalendarCtrl implements IComponentController{
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
+            // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа черех bind
+            // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
+            // обьекта
+            .delay(1000)
             .subscribe((message) => {
+                console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
                         this.onPostItem(<ICalendarItem>message.value);
@@ -396,9 +401,8 @@ export class CalendarCtrl implements IComponentController{
      * Создание записи календаря
      * @param item<ICalendarItem>
      */
-    onPostItem(item) {
-        if (this.calendar.include(item.calendarItemId, item.revision)) { return; };
-
+    onPostItem(item: ICalendarItem): void {
+        if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('async post: item already exist'); return; };
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
@@ -461,7 +465,7 @@ export class CalendarCtrl implements IComponentController{
         this.copiedItems = [];
         this.firstSrcDay = null;
         if(items){
-            this.copiedItems.push(...copy(items));
+            this.copiedItems.push(...copy(items.filter(i => i.calendarItemType === 'activity')));
             this.firstSrcDay = moment(items[0].dateStart).format('YYYY-MM-DD');
         }
         if(this.copiedItems && this.copiedItems.length > 0) {
@@ -581,11 +585,14 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
+        console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
         let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
         switch (mode) {
             case FormMode.Post: {
-                if (!this.calendar.include(item.calendarItemId, item.revision)) { console.warn('item not found'); return; }
+                if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
                 this.calendar.post(item);
+                //this.$scope.$applyAsync();
+                //this.$scope.$apply();
                 break;
             }
             case FormMode.Delete: {
