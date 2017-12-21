@@ -138,7 +138,6 @@ export class CalendarItemDialogService {
                                 data="$ctrl.item"
                                 options="$ctrl.options"
                                 calendar-range="$ctrl.calendarRange"
-                                mode="post"
                                 on-cancel="cancel()">
                         </calendar-item-record>
                    </md-dialog>`,
@@ -255,7 +254,6 @@ export class CalendarItemDialogService {
             revision: null,
             dateStart: options.dateStart,
             dateEnd: options.dateStart,
-            recordHeader: {},
             userProfileOwner: profileShort(options.owner),
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator

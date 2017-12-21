@@ -1,10 +1,10 @@
-<section class="training-season-data" ng-if="!$ctrl.data || !$ctrl.schemes" layout-fill layout="column" layout-align="center center">
+<section class="training-season-data" ng-if="!$ctrl.cycles || !$ctrl.schemes" layout-fill layout="column" layout-align="center center">
     <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
     <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.loading"></p>
 </section>
-<md-card class="training-season-data" ng-if="$ctrl.data.grid.length > 0">
+<md-card class="training-season-data" ng-if="$ctrl.cycles.grid.length > 0">
     <st-training-season-chart
-            data="$ctrl.data"
+            data="$ctrl.cycles"
             update="$ctrl.update"
             class="training-season-chart"
             layout="column">
@@ -14,7 +14,7 @@
     <md-toolbar class="md-table-toolbar md-default" ng-hide="$ctrl.selected.length">
         <div class="md-toolbar-tools">
             <span translate="trainingSeason.periodization"></span>
-            <span>&nbsp;:&nbsp;{{$ctrl.data.season.dateStart}} - {{$ctrl.data.season.dateEnd}}</span>
+            <span>&nbsp;:&nbsp;{{$ctrl.cycles.season.dateStart}} - {{$ctrl.cycles.season.dateEnd}}</span>
             <div flex></div>
             <md-button class="md-icon-button" ng-click="loadStuff()">
                 <md-icon>refresh</md-icon>
@@ -39,15 +39,15 @@
                 <th md-column class="week"><span translate="trainingSeason.week"></span></th>
                 <th md-column class="plan" md-numeric>
                     <span translate="trainingSeason.plan"></span>
-                    <span>({{'trainingSeason.durationUnit.' + $ctrl.data.season.durationMeasure | translate}})</span>
+                    <span>({{'trainingSeason.durationUnit.' + $ctrl.cycles.season.durationMeasure | translate}})</span>
                 </th>
                 <th md-column class="weekPlan" md-numeric>
-                    <span translate="trainingSeason.calendar.{{$ctrl.data.season.durationMeasure}}"></span>
-                    <span>({{'trainingSeason.durationUnit.' + $ctrl.data.season.durationMeasure | translate}})</span>
+                    <span translate="trainingSeason.calendar.{{$ctrl.cycles.season.durationMeasure}}"></span>
+                    <span>({{'trainingSeason.durationUnit.' + $ctrl.cycles.season.durationMeasure | translate}})</span>
                 </th>
                 <th md-column class="weekActual" md-numeric>
-                    <span translate="trainingSeason.actual.{{$ctrl.data.season.durationMeasure}}"></span>
-                    <span>({{'trainingSeason.durationUnit.' + $ctrl.data.season.durationMeasure | translate}})</span>
+                    <span translate="trainingSeason.actual.{{$ctrl.cycles.season.durationMeasure}}"></span>
+                    <span>({{'trainingSeason.durationUnit.' + $ctrl.cycles.season.durationMeasure | translate}})</span>
                 </th>
                 <th md-column class="complete" md-numeric><span translate="trainingSeason.complete"></span></th>
             </tr>
@@ -72,7 +72,7 @@
                 </td>
                 <!-- Мезоцикл -->
                 <td md-cell class="mesocycle">
-                    <div ng-if="$ctrl.data.season.periodizationScheme"
+                    <div ng-if="$ctrl.cycles.season.periodizationScheme"
                          class="block" ng-class="{selected: cycle.mesocycle.id}"
                          ng-style="{'background-color': $ctrl.getMesocycle(cycle.mesocycle.id).color}">
                         <md-select flex="auto"
@@ -81,7 +81,7 @@
                                    placeholder="Не указан">
                             <md-option ng-repeat="meso in $ctrl.getMesocycles() track by meso.id"
                                        value="{{meso.id}}">
-                                <span>{{meso | mesocycleCode:$ctrl.data.season.periodizationScheme}}</span>
+                                <span>{{meso | mesocycleCode:$ctrl.cycles.season.periodizationScheme}}</span>
                             </md-option>
                         </md-select>
                     </div>

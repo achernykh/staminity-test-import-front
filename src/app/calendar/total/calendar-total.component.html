@@ -44,7 +44,7 @@
 <section flex="none" class="periodization md-caption md-light md-active"
          ng-if="$ctrl.periodizationData"
          ng-style="{background: $ctrl.periodizationData ? $ctrl.periodizationData.color : 'none'}">
-    <div>{{$ctrl.periodizationData.code}}</div>
+    <div>{{$ctrl.periodizationData | mesocycleCode:$ctrl.periodizationData.scheme}}</div>
     <div></div>
     <div>
         <span>{{'trainingSeason.durationMeasure.' + $ctrl.periodizationData.durationMeasure | translate}}</span>

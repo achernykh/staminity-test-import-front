@@ -137,7 +137,7 @@ export class CalendarCtrl implements IComponentController{
             .filter(message =>
                 message.value.hasOwnProperty('userProfileOwner') &&
                 message.value.userProfileOwner.userId === this.owner.userId &&
-                !message.value.parentId)
+                (message.value.calendarItemType === 'activity' && !message.value.parentId))
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})

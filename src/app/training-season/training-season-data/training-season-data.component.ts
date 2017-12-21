@@ -65,20 +65,20 @@ class TrainingSeasonDataCtrl implements IComponentController {
         this.periodizationService.get()
             .then(result => this.schemes = result.arrayResult)
             // Если у пользователя нет Схемы периодизации, то добавляем ему для возможности редактирования
-            .then(() => !this.schemes.some(s => s.id === this.data.season.periodizationScheme.id) &&
-                this.schemes.push(this.data.season.periodizationScheme));
+            .then(() => !this.schemes.some(s => s.id === this.cycles.season.periodizationScheme.id) &&
+                this.schemes.push(this.cycles.season.periodizationScheme));
     }
 
     getMesocycles(): Array<IMesocycle> {
-        if (this.schemes && this.data.season) {
-            return this.schemes.filter(s => s.id === this.data.season.periodizationScheme.id)[0].mesocycles;
+        if (this.schemes && this.cycles.season) {
+            return this.schemes.filter(s => s.id === this.cycles.season.periodizationScheme.id)[0].mesocycles;
         }
     }
 
     getMesocycle (id: string | number): IMesocycle {
         if (this.schemes && id) {
             return this.schemes
-                .filter(s => s.id === this.data.season.periodizationScheme.id)[0]
+                .filter(s => s.id === this.cycles.season.periodizationScheme.id)[0]
                 .mesocycles.filter(m => m.id === Number(id))[0];
         }
     }
@@ -96,7 +96,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
                 .then(() => pos >= 0 && this.recalculateMesoWeekNumber())
                 .then(() => this.update ++);
         } else {
-            this.trainingSeason.postItem(this.data.season.id, cycle.prepare())
+            this.trainingSeason.postItem(this.cycles.season.id, cycle.prepare())
                 .then(result => cycle.applyRevision(result))
                 .then(() => pos >= 0 && this.recalculateMesoWeekNumber())
                 .then(() => this.update ++);
@@ -109,19 +109,19 @@ class TrainingSeasonDataCtrl implements IComponentController {
      * микроцикла
      */
     recalculateMesoWeekNumber (): void {
-        this.data.grid.forEach( (cycle, i) => {
+        this.cycles.grid.forEach( (cycle, i) => {
             let weekNumber: number = 1;
             let pos = copy(i);
 
             while (
                 pos >= 1 &&
-                this.data.grid[pos] &&
-                this.data.grid[pos].mesocycle &&
-                this.data.grid[pos].mesocycle.hasOwnProperty('id') &&
-                this.data.grid[pos].mesocycle.id &&
-                this.data.grid[pos - 1].mesocycle &&
-                this.data.grid[pos - 1].mesocycle.hasOwnProperty('id') &&
-                this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
+                this.cycles.grid[pos] &&
+                this.cycles.grid[pos].mesocycle &&
+                this.cycles.grid[pos].mesocycle.hasOwnProperty('id') &&
+                this.cycles.grid[pos].mesocycle.id &&
+                this.cycles.grid[pos - 1].mesocycle &&
+                this.cycles.grid[pos - 1].mesocycle.hasOwnProperty('id') &&
+                this.cycles.grid[pos].mesocycle.id === this.cycles.grid[pos-1].mesocycle.id) {
 
                 weekNumber ++;
                 pos --;
@@ -135,8 +135,8 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
     getWeekCount (pos: number): number {
         let count: number = 1;
-        while (pos !== 0 && this.data.grid[pos].mesocycle.id &&
-            this.data.grid[pos].mesocycle.id === this.data.grid[pos-1].mesocycle.id) {
+        while (pos !== 0 && this.cycles.grid[pos].mesocycle.id &&
+            this.cycles.grid[pos].mesocycle.id === this.cycles.grid[pos-1].mesocycle.id) {
             count ++;
             pos --;
         }

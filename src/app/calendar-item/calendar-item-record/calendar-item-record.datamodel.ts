@@ -3,18 +3,19 @@ import { ICalendarItem, IRecordHeader, IRecordHeaderEditParams } from "../../../
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { CalendarItemRecordConfig } from "./calendar-item-record.config";
 import moment from "moment/src/moment.js";
+import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
 
 export class CalendarItemRecord extends CalendarItem {
 
     recordHeader: IRecordHeader;
     isRepeated: boolean = false;
 
-    constructor (private param: ICalendarItem, user?: IUserProfile) {
-        super(param);
+    constructor (private param: ICalendarItem, options?: ICalendarItemDialogOptions) {
+        super(param, options);
         this.prepareDefaultType();
     }
 
-    build (mode: string = 'post'): ICalendarItem {
+    build (): ICalendarItem {
         //super.package();
         let item: ICalendarItem = this;
         let format: string = 'YYYY-MM-DD';
@@ -41,7 +42,7 @@ export class CalendarItemRecord extends CalendarItem {
                 item.recordHeader.repeat.endOnDate = null;
             }
 
-            if (mode === 'put') {
+            if (this.view.isPost) {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
                     // 2) меняется дата начала в повторе
                     regenPastEvents: this.param.recordHeader.dateStart !== item.recordHeader.dateStart,
@@ -55,7 +56,7 @@ export class CalendarItemRecord extends CalendarItem {
     }
 
     private prepareDefaultType () {
-        if ( !this.recordHeader ) {
+        if ( this.view.isPost ) {
             this.recordHeader = {
                 type: CalendarItemRecordConfig.defaultType,
                 dateStart: this.dateStart,

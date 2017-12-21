@@ -8,7 +8,7 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.item.onDelete()"
+                    <md-button ng-click="$ctrl.item.activity.view.isTemplate ? $ctrl.item.deleteTemplate() : $ctrl.item.onDelete()"
                                ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.activity.auth.isCreator)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         <span translate="measurement.toolbar.delete"></span>

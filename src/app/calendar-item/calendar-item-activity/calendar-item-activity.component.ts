@@ -604,6 +604,21 @@ export class CalendarItemActivityCtrl implements IComponentController{
         });
     }
 
+    /**
+     * Запрос удаление шаблона тренировки
+     */
+    deleteTemplate (): void {
+        debugger;
+        if (!this.activity.view.isTemplate || !this.options.templateOptions.templateId) { return; }
+        this.ReferenceService.deleteActivityTemplate(this.options.templateOptions.templateId)
+            .then(() => this.message.toastInfo('templateDeleted'))
+            .then(() => this.onAnswer({formMode: FormMode.Delete, item: this.activity.build()}),
+                (error) => {
+                    this.message.toastError(error);
+                    this.onCancel();
+                });
+    }
+
     onSaveTrainingPlanActivity(): void {
         this.inAction = true;
 
@@ -636,11 +651,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if (!this.activity.view.isTemplate) {
             this.onCancel();
         }
-
-        debugger;
-
         this.activity.build();
-
         //let name = this.code;
         //let description = this.activity.intervals.PW.trainersPrescription;
         //let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
