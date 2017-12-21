@@ -137,7 +137,7 @@ export class CalendarCtrl implements IComponentController{
             .filter(message =>
                 message.value.hasOwnProperty('userProfileOwner') &&
                 message.value.userProfileOwner.userId === this.owner.userId &&
-                (message.value.calendarItemType === 'activity' && !message.value.parentId))
+                (message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
@@ -413,7 +413,7 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     onDeleteItem(item): void {
-        if (!this.calendar.include(item.calendarItemId, item.revision)) { return; }
+        if (!this.calendar.include(item.calendarItemId, item.revision)) { console.warn('item not found'); return; }
 
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();

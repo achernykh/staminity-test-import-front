@@ -246,6 +246,7 @@ export class Calendar {
      * @returns {boolean}
      */
     include (id: number, revision: number): boolean {
+        console.warn('include', id, revision);
         return this.weeks.some(w =>
             w.subItem.some(d =>
                 d.data.calendarItems.some(i =>
