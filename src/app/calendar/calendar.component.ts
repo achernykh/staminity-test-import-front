@@ -581,10 +581,10 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
-        let FormMode = { Post: 1, Put: 2, View: 3, Delete: 4 }; // TODO не работает enum
-
+        let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
         switch (mode) {
             case FormMode.Post: {
+                if (!this.calendar.include(item.calendarItemId, item.revision)) { console.warn('item not found'); return; }
                 this.calendar.post(item);
                 break;
             }
@@ -596,7 +596,6 @@ export class CalendarCtrl implements IComponentController{
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {
-        debugger;
         let item: ICalendarItem = {
             revision: null,
             calendarItemId: null,

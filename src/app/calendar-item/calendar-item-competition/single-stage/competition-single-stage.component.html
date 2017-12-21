@@ -17,23 +17,23 @@
                      ng-class="{color: !stage.item.isCompleted || !stage.item.isSpecified}">
                     <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-light md-18"></md-icon>
                 </div>
-                <span>{{$ctrl.oppositeValue(stage.item) | measureCalc:stage.item.header.sportBasic:$ctrl.oppositeMeasure(stage.item)}}</span>
-                <span>{{$ctrl.oppositeMeasure(stage.item) | measureUnit:stage.item.header.sportBasic | translate}}</span>
+                <span>{{$ctrl.oppositeValue(stage.item, $index) | measureCalc:stage.item.header.sportBasic:$ctrl.oppositeMeasure(stage.item, $index)}}</span>
+                <span>{{$ctrl.oppositeMeasure(stage.item, $index) | measureUnit:stage.item.header.sportBasic | translate}}</span>
             </td>
             <!-- План по велчине второстипенной величине этапа -->
             <td md-cell>
                 <md-input-container md-no-float>
                     <input measure-input
                            name="{{$index}}_plan"
-                           placeholder="{{$ctrl.durationMeasure(stage.item) | measureUnit:stage.item.header.sportBasic | translate}}"
-                           ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item)].durationValue"
+                           placeholder="{{$ctrl.durationMeasure(stage.item, $index) | measureUnit:stage.item.header.sportBasic | translate}}"
+                           ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item, $index)].durationValue"
                            change="$ctrl.change"
-                           measure="$ctrl.durationMeasure(stage.item)"
+                           measure="$ctrl.durationMeasure(stage.item, $index)"
                            ng-attr-sport={{stage.item.header.sportBasic}}
                            interval="false"
                            ftp-mode="false"
                            ftp="null"
-                           ng-change="$ctrl.changeValue(stage)"
+                           ng-change="$ctrl.changeValue(stage, $index)"
                            ng-disabled="stage.item.hasActualData || stage.item.view.isView">
                 </md-input-container>
             </td>
@@ -42,13 +42,13 @@
                 <md-input-container>
                     <input measure-input
                            name="{{$index}}_actual"
-                           ng-model="stage.item.intervals.W.calcMeasures[$ctrl.durationMeasure(stage.item)].value"
-                           measure="$ctrl.durationMeasure(stage.item)"
+                           ng-model="stage.item.intervals.W.calcMeasures[$ctrl.durationMeasure(stage.item, $index)].value"
+                           measure="$ctrl.durationMeasure(stage.item, $index)"
                            ng-attr-sport={{stage.item.header.sportBasic}}
                            interval="false"
                            ftp-mode="false"
                            ftp="null"
-                           ng-change="$ctrl.changeValue(stage)"
+                           ng-change="$ctrl.changeValue(stage, $index)"
                            ng-disabled="stage.item.hasActualData || stage.item.view.isView">
                 </md-input-container>
             </td>

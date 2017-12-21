@@ -4,10 +4,13 @@ import { Activity } from "../../../activity/activity-datamodel/activity.datamode
 import { CompetitionItems } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
 import { CalendarItemDialogService } from "../../calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../../calendar-item-dialog.interface";
+import { ICompetitionConfig } from "../calendar-item-competition.config";
 
 class CompetitionSingleStageCtrl implements IComponentController {
 
     // bind
+    type: string;
+    distanceType: string;
     items: Array<CompetitionItems>;
     options: ICalendarItemDialogOptions;
     onChange: () => Promise<any>;
@@ -24,10 +27,10 @@ class CompetitionSingleStageCtrl implements IComponentController {
         }
     };
 
-    static $inject = ['CalendarItemDialogService'];
+    static $inject = ['CompetitionConfig', 'CalendarItemDialogService'];
 
-    constructor(
-        private calendarItemDialog: CalendarItemDialogService) {
+    constructor(private config: ICompetitionConfig,
+                private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
@@ -40,33 +43,39 @@ class CompetitionSingleStageCtrl implements IComponentController {
             .then(() => {}, () => {});
     }
 
-    changeValue (stage: CompetitionItems): void {
+    changeValue (stage: CompetitionItems, index: number): void {
         // обсчитываем данные по плану, заполяем значение durationValue
-        stage.item.intervals.PW.durationValue = stage.item.intervals.PW[this.durationMeasure(stage.item)].durationValue;
+        stage.item.intervals.PW.durationValue = stage.item.intervals.PW[this.durationMeasure(stage.item, index)].durationValue;
         // процент выполнения
-        if (stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item)].value) {
+        if (stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item, index)].value) {
             stage.item.intervals.PW.calcMeasures.completePercent.value =
-                stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item)].value / stage.item.intervals.PW.durationValue;
+                stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item, index)].value / stage.item.intervals.PW.durationValue;
         }
         stage.dirty = true;
         this.onChange();
     }
 
-    durationMeasure (item: Activity): string {
-        return item.intervals.PW.durationMeasure;
+    durationMeasure (item: Activity, index: number = 0): string {
+        return this.config.distanceTypes
+            .filter(t => t.type === this.type && t.code === this.distanceType)[0]
+            .stages[index].durationMeasure;
     }
 
-    oppositeMeasure (item: Activity, t: 'value' | 'unit' = 'unit'): string {
-        return this.opposite[t][item.intervals.PW.durationMeasure];
+    oppositeMeasure (item: Activity, index: number,  t: 'value' | 'unit' = 'unit'): string {
+        //console.warn('oppositeMeasure', index, t, this.durationMeasure(item, index));
+        return this.opposite[t][this.durationMeasure(item, index)];
     }
 
-    oppositeValue (item: Activity): number {
-        return item.intervals.PW[this.oppositeMeasure(item, 'value')];
+    oppositeValue (item: Activity, index: number): number {
+        //console.warn('oppositeValue', index, this.durationMeasure(item, index));
+        return item.intervals.PW[this.oppositeMeasure(item, index, 'value')];
     }
 }
 
 export const CompetitionSingleStageComponent:IComponentOptions = {
     bindings: {
+        type: '<',
+        distanceType: '<',
         items: '<',
         options: '<',
         onChange: '&'

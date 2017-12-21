@@ -166,6 +166,8 @@
                 </div>
             </div>
             <st-competition-single-stage
+                    type="$ctrl.competition.competitionHeader.type"
+                    distance-type="$ctrl.competition.competitionHeader.distanceType"
                     items="$ctrl.competition.items"
                     options="$ctrl.options"
                     on-change="$ctrl.setDirty()">

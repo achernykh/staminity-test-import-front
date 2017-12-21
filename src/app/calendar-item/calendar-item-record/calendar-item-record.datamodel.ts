@@ -16,7 +16,7 @@ export class CalendarItemRecord extends CalendarItem {
     }
 
     build (): ICalendarItem {
-        //super.package();
+        super.package();
         let item: ICalendarItem = this;
         let format: string = 'YYYY-MM-DD';
 
@@ -51,7 +51,8 @@ export class CalendarItemRecord extends CalendarItem {
             }
         }
 
-        ['param', 'isRepeated', 'user'].map(k => delete item[k]);
+        ['param', 'isRepeated', 'user', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
+            .map(k => item.hasOwnProperty(k) && delete item[k]);
         return item;
     }
 

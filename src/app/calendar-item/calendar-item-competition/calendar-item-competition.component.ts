@@ -115,10 +115,9 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                     })
                 .then(() => this.competition.setParentId())
                 .then(() => this.saveItems())
-                .then(
-                    response => {
+                .then(() => {
                         this.message.toastInfo('competitionCreated');
-                        this.onAnswer({ formMode: FormMode.Post, item: this.competition.build() });
+                        this.onAnswer({ formMode: FormMode.Post, item: this.competition });
                     },
                     error => {debugger;}
                 );
@@ -133,8 +132,9 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                     })
                 .then(() => this.saveItems())
                 .then(() => {
+                    debugger;
                     this.message.toastInfo('competitionModified');
-                    this.onAnswer({ formMode: FormMode.Put, item: this.competition.build() });
+                    this.onAnswer({ formMode: FormMode.Put, item: this.competition });
                 });
         }
     }

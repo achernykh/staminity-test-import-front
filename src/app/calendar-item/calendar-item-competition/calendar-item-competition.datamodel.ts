@@ -9,6 +9,7 @@ import { ActivityInterval } from "../../activity/activity-datamodel/activity.int
 import { ActivityIntervalPW } from "../../activity/activity-datamodel/activity.interval-pw";
 import { FormMode } from "../../application.interface";
 import { toDay } from "../../activity/activity.datamodel";
+import { IActivityIntervalPW } from "../../../../api/activity/activity.interface";
 
 export interface CompetitionItems {
     item: Activity;
@@ -85,8 +86,20 @@ export class CalendarItemCompetition extends CalendarItem {
     build (): ICalendarItem {
         super.package();
         let item: ICalendarItem = Object.assign({}, this);
-        item.calendarItems = this.items.map(i => new Activity(i.item, this.options));
-        [ 'item', 'items', 'options', 'statusLimit' ].map(k => delete item[ k ]);
+        this.items.map(i => {
+            let pW: IActivityIntervalPW = i.item.intervals.PW;
+            if (pW && pW.distanceLength && pW.durationValue === 0) {
+                pW.durationValue = pW.distanceLength;
+                pW.durationMeasure = 'distance';
+            }
+            if (pW && pW.movingDurationLength && pW.durationValue === 0) {
+                pW.durationValue = pW.movingDurationLength;
+                pW.durationMeasure = 'movingDuration';
+            }
+        });
+        //item.calendarItems = this.items.map(i => new Activity(i.item, this.options));
+        ['item', 'items', 'calendarItems', 'options', 'statusLimit', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
+            .map(k => item.hasOwnProperty(k) && delete item[k]);
         return item;
     }
 
