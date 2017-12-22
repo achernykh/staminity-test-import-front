@@ -202,7 +202,11 @@ export class CalendarCtrl implements IComponentController{
             popupMode: true,
             formMode: mode,
             trainingPlanMode: false,
-            planId: null
+            planId: null,
+            calendarRange: {
+                dateStart: moment().add(--this.calendar.range[0], 'w').startOf('week').format(this.dateFormat),
+                dateEnd: moment().add(++this.calendar.range[1], 'w').endOf('week').format(this.dateFormat)
+            }
         };
     }
 

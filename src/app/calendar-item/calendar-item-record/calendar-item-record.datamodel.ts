@@ -23,7 +23,7 @@ export class CalendarItemRecord extends CalendarItem {
         item.dateStart = moment(this.recordHeader.dateStart).format(format);
         item.dateEnd = this.dateStart;
 
-        if (!this.isRepeated) {
+        if (!this.isRepeated) { // Без повторений
             item.recordHeader.repeat = null;
             // 1) смена повторяющееся на не повторяющееся
             if (this.param.hasOwnProperty('recordHeader') &&
@@ -33,7 +33,7 @@ export class CalendarItemRecord extends CalendarItem {
                     regenFutureEvents: true // изменить все будущие события
                 })  ;
             }
-        } else {
+        } else { // С повторениями
             item.recordHeader.dateStart = item.dateStart;
             if (item.recordHeader.repeat.endType === 'D') {
                 item.recordHeader.repeat.endOnDate = moment(this.recordHeader.repeat.endOnDate).format(format);
@@ -58,7 +58,7 @@ export class CalendarItemRecord extends CalendarItem {
     private prepareDefaultType () {
         if ( this.view.isPost ) {
             this.recordHeader = {
-                type: CalendarItemRecordConfig.defaultType,
+                type: this.recordHeader.hasOwnProperty('type') && this.recordHeader.type || CalendarItemRecordConfig.defaultType,
                 dateStart: this.dateStart,
                 repeat: CalendarItemRecordConfig.defaultRepeat,
                 description: null

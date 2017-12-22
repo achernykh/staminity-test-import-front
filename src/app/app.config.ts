@@ -37,11 +37,11 @@ function configure(
 			loginRequired: false,
 			authRequired: null,
 			redirectTo: (trans: Transition) => {
-				let currentUser: IUserProfile = trans.injector().get('SessionService').getUser();
+				let $mdMedia: any = trans.injector().get('$mdMedia');
 				let authService: AuthService = trans.injector().get('AuthService');
 
 				if (authService.isAuthenticated()) {
-					if (authService.isCoach()) {
+					if (authService.isCoach() && $mdMedia('gt-sm')) {
 						return {state: 'dashboard'};
 					} else {
 						return {state: 'calendar'};

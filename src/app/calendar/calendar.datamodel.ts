@@ -16,7 +16,7 @@ export class Calendar {
     // todo need comment
     private date: Date;
     private readonly dateFormat: string = 'YYYY-MM-DD';
-    private range: Array<number> = [0, 1];
+    range: Array<number> = [0, 1];
     private currentWeek: ICalendarWeek;
 
     constructor(
@@ -234,7 +234,7 @@ export class Calendar {
             return;
         }
         let child: ICalendarItem;
-        if (parentId) {
+        if (parentId && item.calendarItemType === 'activity') {
             child = copy(item);
             item = this.searchItem(parentId);
             if (!item) { console.error('post: parent not found'); return;}
@@ -244,7 +244,7 @@ export class Calendar {
 
         if (w !== -1 && d >= 0 && this.weeks[w]) {
             //Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
-            if (!parentId) {
+            if (!(parentId && item.calendarItemType === 'activity')) {
                 console.info('post: item success');
                 this.weeks[w].subItem[d].data.calendarItems.push(item);
             } else {
@@ -291,7 +291,7 @@ export class Calendar {
      */
     delete (item: ICalendarItem, parentId?: number): void {
         let child: ICalendarItem;
-        if (parentId) {
+        if (parentId && item.calendarItemType === 'activity') {
             child = copy(item);
             item = this.searchItem(parentId);
             if (!item) { console.error('delete: parent not found'); return;}
@@ -302,7 +302,7 @@ export class Calendar {
         let p = w !== -1 ? this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
         if (w !== -1 && d >= 0 && p >= 0) {
-            if (!parentId) {
+            if (!(parentId && item.calendarItemType === 'activity')) {
                 console.info('delete: item success');
                 this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
             } else {
