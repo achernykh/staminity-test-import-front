@@ -30,10 +30,13 @@ class CalendarDayCtrl {
     trainingPlanMode: boolean;
     planId: number;
     compactView: boolean;
+    calendarRangeStart: number;
+    calendarRangeEnd: number;
     onUpdate: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     // private
     private itemOptions: ICalendarItemDialogOptions;
+    private readonly dateFormat: string = "YYYY-MM-DD";
 
     static $inject = [ '$mdDialog', '$mdMedia', 'CalendarItemDialogService', 'message', 'ActivityService', 'CalendarService', '$scope', 'dialogs' ];
 
@@ -206,7 +209,11 @@ class CalendarDayCtrl {
             popupMode: true,
             formMode: mode,
             trainingPlanMode: this.trainingPlanMode,
-            planId: this.planId
+            planId: this.planId,
+            calendarRange: {
+                dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
+                dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
+            }
         };
     }
 
@@ -226,6 +233,8 @@ const CalendarDayComponent: IComponentOptions = {
         copiedItemsLength: '<', // обьем буфера скопированных тренировок
         compactView: '<',
         update: '<',
+        calendarRangeStart: '<',
+        calendarRangeEnd: '<',
 
         onCopy: '&', // пользователь скопировал дни/недели (без параметров)
         onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала

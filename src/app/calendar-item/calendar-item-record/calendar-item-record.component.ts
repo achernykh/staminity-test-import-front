@@ -8,7 +8,7 @@ import { CalendarService } from "../../calendar/calendar.service";
 import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
 import MessageService from "../../core/message.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
-import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
+import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "../calendar-item-dialog.interface";
 
 class CalendarItemRecordCtrl implements IComponentController {
 
@@ -16,7 +16,7 @@ class CalendarItemRecordCtrl implements IComponentController {
     data: ICalendarItem;
     options: ICalendarItemDialogOptions;
     owner: IUserProfile;
-    calendarRange: Array<string>;
+    onAnswer: (response: ICalendarItemDialogResponse) => Promise<void>;
     onCancel: () => IPromise<void>;
 
     // public
@@ -66,8 +66,8 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     onSave () {
 
-        [this.record.recordHeader.editParams.asyncEventsDateFrom,
-            this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
+        this.record.recordHeader.editParams.asyncEventsDateFrom = this.options.calendarRange.dateStart;
+        this.record.recordHeader.editParams.asyncEventsDateTo = this.options.calendarRange.dateEnd;
 
         if ( this.record.view.isPost ) {
             this.calendarService.postItem(this.record.build())
@@ -132,7 +132,7 @@ export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
         data: '=', // CalendarItem
         options: '<',
-        calendarRange: '=', // Загруженный календарь [начало, окончание]
+        onAnswer: '&',
         onCancel: '&', // отмена открытия
     },
     require: {
