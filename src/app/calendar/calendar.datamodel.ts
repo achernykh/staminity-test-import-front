@@ -1,7 +1,7 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { Moment } from 'moment';
 import { times } from '../share/util.js';
-import { IScope, IAnchorScrollService } from 'angular';
+import { IScope, IAnchorScrollService, copy } from 'angular';
 import { ICalendarWeek, ICalendarDay } from "./calendar.interface";
 import { CalendarService } from "./calendar.service";
 import { IUserProfile } from "../../../api/user/user.interface";
@@ -226,16 +226,40 @@ export class Calendar {
     /**
      * Создание записи календаря
      * @param item<ICalendarItem>
+     * @param parentId
      */
-    post (item: ICalendarItem): void {
+    post (item: ICalendarItem, parentId?: number): void {
+        if (this.include(item.calendarItemId, item.revision)) {
+            console.warn('post: item already exist');
+            return;
+        }
+        let child: ICalendarItem;
+        if (parentId) {
+            child = copy(item);
+            item = this.searchItem(parentId);
+            if (!item) { console.error('post: parent not found'); return;}
+        }
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
-        if (w && d >= 0) {
-            Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
-            this.weeks[w].subItem[d].data.calendarItems.push(item);
+        if (w !== -1 && d >= 0 && this.weeks[w]) {
+            //Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
+            if (!parentId) {
+                console.info('post: item success');
+                this.weeks[w].subItem[d].data.calendarItems.push(item);
+            } else {
+                let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+                if (p !== -1 && this.weeks[w].subItem[d].data.calendarItems[p].calendarItems) {
+                    console.info('post: child item success');
+                    this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.push(child);
+                } else {
+                    console.error('post: child position not found');
+                }
+            }
             this.weeks[w].changes++;
             this.$scope.$applyAsync();
+        } else {
+            console.warn('post: position error');
         }
     }
 
@@ -246,43 +270,81 @@ export class Calendar {
      * @returns {boolean}
      */
     include (id: number, revision: number): boolean {
+        return this.weeks
+                .some(w => w.subItem
+                    .some(d => d.data.calendarItems
+                        .some(i =>i.calendarItemId === id && (revision && i.revision === revision || true)))) ||
+            this.weeks
+                .some(w => w.subItem
+                    .some(d => d.data.calendarItems
+                        .some(i => i.calendarItems && i.calendarItems
+                            .some(c => c.calendarItemId === id && (revision && c.revision === revision || true)))));
+    }
+    /**
+     * Удаление записи календаря
+     * @param item
+     * @param parentId
+     */
+    delete (item: ICalendarItem, parentId?: number): void {
+        let child: ICalendarItem;
+        if (parentId) {
+            child = copy(item);
+            item = this.searchItem(parentId);
+            if (!item) { console.error('delete: parent not found'); return;}
+        }
+
+        let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
+        let d = moment(item.dateStart).weekday();
+        let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+
+        if (w && d >= 0 && p !== -1) {
+            if (!parentId) {
+                console.info('delete: item success');
+                this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
+            } else {
+                let pos: number = this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.findIndex(c => c.calendarItemId === child.calendarItemId);
+                if (pos !== -1) {
+                    console.info('delete: child item success');
+                    this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.splice(pos,1);
+                }
+            }
+            this.weeks.filter(d => d.sid === w)[0].changes++;
+            this.$scope.$applyAsync();
+        } else {
+            console.error('delete: item not found');
+        }
+    }
+
+    /**
+     * Поиск итема по id
+     * @param id
+     * @returns {ICalendarItem}
+     */
+    searchItem (id: number): ICalendarItem {
 
         let include: boolean = false;
         let week: number = null;
         let day: number = null;
         let pos: number = null;
+        let child: number = null;
 
-        console.warn('include start', id, revision, this.weeks);
-
-        this.weeks.map((w,iw) => w.subItem.map((d, id) => d.data.calendarItems.map((i,ii) => {
-            //console.warn('map calendarItem', i.calendarItemId);
+        this.weeks.map((w,wi) => w.subItem.map((d, di) => d.data.calendarItems.map((i,ii) => {
             if (i.calendarItemId === id) {
                 include = true;
-                week = iw;
-                day = id;
+                week = wi;
+                day = di;
                 pos = ii;
             }
+            if (i.hasOwnProperty('calendarItems') && i.calendarItems && i.calendarItems.some(c => c.calendarItemId === id)) {
+                include = true;
+                week = wi;
+                day = di;
+                pos = ii;
+                child = i.calendarItems.findIndex(c => c.calendarItemId === id);
+            }
         })));
-
-        console.warn('include', id, revision, include, week, day, pos);
-
-        return this.weeks.some(w => w.subItem.some(d => d.data.calendarItems.some(i =>
-                    i.calendarItemId === id && (revision && i.revision === revision || true))));
-    }
-    /**
-     * Удаление записи календаря
-     * @param item
-     */
-    delete (item): void {
-        let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
-        let d = moment(item.dateStart).weekday();
-        let p = this.weeks.filter(d => d.sid === w)[0].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
-
-        if (w && d >= 0 && p !== -1) {
-            this.weeks.filter(d => d.sid === w)[0].subItem[d].data.calendarItems.splice(p,1);
-            this.weeks.filter(d => d.sid === w)[0].changes++;
-            this.$scope.$applyAsync();
-        }
+        return  (include && child && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
+                (include && !child && this.weeks[week].subItem[day].data.calendarItems[pos]) || null;
     }
 
     /**

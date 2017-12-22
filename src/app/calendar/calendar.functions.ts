@@ -34,6 +34,5 @@ export const getItemById = (calendar: Array<ICalendarWeek>, id: number):ICalenda
             break;
         }
     }
-    //let data: any = calendar.find(week => !!week.subItem.find(day => !!day.data.calendarItems.find(item => item.calendarItemId === id)));
     return findData && calendar[w].subItem[d].data.calendarItems[i] || null;
 };

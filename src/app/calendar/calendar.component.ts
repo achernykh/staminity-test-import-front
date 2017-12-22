@@ -136,31 +136,31 @@ export class CalendarCtrl implements IComponentController{
         this.calendarService.item$
             .filter(message =>
                 message.value.hasOwnProperty('userProfileOwner') &&
-                message.value.userProfileOwner.userId === this.owner.userId &&
-                (message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
+                message.value.userProfileOwner.userId === this.owner.userId)// &&
+                //(message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
             // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа черех bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
-            .delay(1000)
+            .delay(0)
             .subscribe((message) => {
                 console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
-                        this.onPostItem(<ICalendarItem>message.value);
+                        this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
                         break;
                     }
                     case 'D': {
-                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.calendar.delete(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
                         break;
                     }
                     case 'U': {
-                        this.onDeleteItem(getItemById(this.calendar.weeks, message.value.calendarItemId));
-                        this.onPostItem(<ICalendarItem>message.value);
+                        this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                        this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
                         break;
                     }
@@ -177,197 +177,6 @@ export class CalendarCtrl implements IComponentController{
     get panelAuthCheck (): boolean {
         return this.auth.isCoach() || this.auth.isActivityPlan();
     }
-
-    /**
-    takeWeek (date) {
-        date = moment(date).startOf('week');
-        let week = this.calendar.find(w => w.date.isSame(date, 'week'));
-        let calendarFirst = this.calendar[0] && moment(this.calendar[0].date);
-        let calendarLast = this.calendar[0] && moment(this.calendar[this.calendar.length - 1].date);
-
-        if (week) {
-            return Promise.resolve(week);
-        } else if (calendarFirst && calendarFirst.add(- 1, 'w').isSame(date, 'date')) {
-            return this.up() [0];
-        } else if (calendarLast && calendarLast.add(1, 'w').isSame(date, 'date')) {
-            return this.down() [0];
-        } else {
-            return this.reset(date) [0];
-        }
-    }
-
-    reset (date: Date) {
-        this.date = date;
-        this.range = [0, 1];
-        this.calendar = [];
-        this.currentWeek = <ICalendarWeek> {};
-        return this.up();
-    }
-    
-    setCurrentWeek (week) {
-        if (this.currentWeek !== week) {
-            this.currentWeek = week;
-            //this.$location.hash(week.anchor).replace();
-        }
-    }
-    
-    toPrevWeek () {
-        this.toDate(moment(this.currentWeek.date).add(-1, 'week'));
-    }
-    
-    toNextWeek () {
-        this.toDate(moment(this.currentWeek.date).add(1, 'week'));
-    }
-    
-    toCurrentWeek () {
-        this.toDate(moment().startOf('week'));
-    }
-    
-    toDate (date) {        
-        let week = this.takeWeek(date);
-        this.scrollToWeek(week);
-        
-        (week.loading || Promise.resolve(week))
-        .then(week => setTimeout(() => {
-            this.scrollToWeek(week);
-         }, 1));
-    }
-
-    scrollToWeek (week) {
-        this.setCurrentWeek(week);
-        let anchor = 'hotfix' + week.anchor;
-        this.$anchorScroll('hotfix' + week.anchor);
-    } **/
-
-    /**
-     * DayItem view model
-     * @param date
-     * @param calendarItems
-     */ /**
-    dayItem (date, calendarItems):ICalendarDay {
-        //debugger;
-        //console.log('dayItem',date.utc(),date.utc().add(moment().utcOffset(),'minutes').format());
-        return {
-            key: date.format(this.dateFormat),
-            selected: false,
-            date: date.format(this.dateFormat),
-            data: {
-                title: date.format('DD'),
-                month: date.format('MMM'),
-                day: date.format('dd'),
-                date: date.format(),//date.utc().add(moment().utcOffset(),'minutes').format(),
-                calendarItems: calendarItems
-            }
-        };
-    }**/
-    
-    /**
-     * WeekItem view model
-     * @param index 
-     * @param date - дата начала недели
-     * @param days : DayItem[]
-     */ /**
-    weekItem (index, date, days, loading):ICalendarWeek {
-        return {
-            sid: index,
-            date: date,
-            anchor: date.format('YYYY-MM-DD'),
-            changes: 0,
-            toolbarDate: date.format('YYYY MMMM'),
-            selected: false,
-            subItem: days,
-            week: date.format('GGGG-WW'),
-            loading: loading,
-            height: 180
-        };
-    } **/
-    
-    /**
-     * Предоставляет объекты WeekItem
-     * @param date - любой Datetime недели
-     * @param index - позиция в списке
-     */ /**
-    getWeek (date, index) {
-        let start = moment(date).startOf('week');
-        let end = moment(start).add(6, 'd');
-        
-        let days = (items) => times(7).map((i) => {
-            let date = moment(start).add(i, 'd');
-            let calendarItems = items
-                .filter(item => moment(item.dateStart, this.dateFormat).weekday() === i)
-                .map(item => {
-                    //if(item.calendarItemType === 'activity') {
-                        item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                    //}
-                    return item;
-                });
-            
-            return this.dayItem(date, calendarItems);
-        });
-        
-        let loading = this.CalendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.user.userId)
-        .then(items => { 
-            week.subItem = days(items); 
-            week.changes++;
-            return week;
-        });
-        
-        let week = this.weekItem(index, start, days([]), loading);
-        
-        return week;
-    } **/
-    
-    /**
-     * Подгрузка n записей вверх
-     * @param n
-     */ /**
-    up (n = 1) {
-        let i0 = this.range[0];
-        this.range[0] -= n;
-        
-        let items = times(n)
-            .map((i) => i0 - i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
-
-        items
-            .map(week => {
-                this.calendar.unshift(week);
-                week.loading
-                .then(() => { 
-                    week.loading = null;
-                    this.$scope.$apply();
-                })
-                .catch((exc) => { console.log('Calendar loading fail', exc); });
-            });
-            
-        return items;
-    }**/
-    
-    /**
-     * Подгрузка n записей вниз
-     * @param n
-     */ /**
-    down (n = 1) {
-        let i0 = this.range[1];
-        this.range[1] += n;
-        
-        let items = times(n)
-            .map((i) => i0 + i)
-            .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
-
-        items
-            .forEach(week => {
-                this.calendar.push(week);
-                week.loading
-                .then(() => { 
-                    week.loading = null;
-                    this.$scope.$apply();
-                })
-                .catch((exc) => { console.log('Calendar loading fail', exc); });
-            });
-            
-        return items;
-    }**/
 
     /**
      * Вызов диалога создания записи календаря
@@ -549,11 +358,13 @@ export class CalendarCtrl implements IComponentController{
         let isSelection: boolean = !!items;
         if (!isSelection) { items = [...copy(this.selectedItems)];}
 
-        this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
-            .then(() => this.calendarService.deleteItem('F', items.map(item => item.calendarItemId)))
-            .then(response => items.map(item => this.calendar.delete(item)), error => this.errorHandler(error))
-            .then(() => this.message.toastInfo('itemsDeleted'))
-            .then(() => isSelection && this.calendar.deselect() || this.clearBuffer());
+        this.dialogs.confirm({ text: 'dialogs.deleteSelectedItems' })
+            .then(() => this.calendarService.deleteItem('F', items.map(item => item.calendarItemId)), () => { throw null;})
+            .then(() => {
+                this.message.toastInfo('itemsDeleted');
+                items.map(item => this.calendar.delete(item));
+                isSelection ? this.calendar.deselect() : this.clearBuffer();
+            }, error => error && this.errorHandler(error));
     }
 
     /**
@@ -625,6 +436,7 @@ export class CalendarCtrl implements IComponentController{
         this.selectedItems = [];
         this.copiedItems = [];
         this.firstSrcDay = null;
+        this.calendar.deselect();
     }
 
     /**

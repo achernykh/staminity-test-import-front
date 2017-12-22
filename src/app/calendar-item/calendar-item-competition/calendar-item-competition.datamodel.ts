@@ -106,9 +106,15 @@ export class CalendarItemCompetition extends CalendarItem {
                 pW.durationValue = pW.distanceLength;
                 pW.durationMeasure = 'distance';
             }
+            if (pW && pW.distanceLength && pW.durationValue !== pW.distanceLength) {
+                pW.durationMeasure = 'movingDuration';
+            }
             if (pW && pW.movingDurationLength && pW.durationValue === 0) {
                 pW.durationValue = pW.movingDurationLength;
                 pW.durationMeasure = 'movingDuration';
+            }
+            if (pW && pW.movingDurationLength && pW.durationValue !== pW.movingDurationLength) {
+                pW.durationMeasure = 'distance';
             }
         });
         //item.calendarItems = this.items.map(i => new Activity(i.item, this.options));

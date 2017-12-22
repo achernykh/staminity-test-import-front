@@ -13,7 +13,7 @@
             <!-- Этап соревнования: иконка со статусом + основная величина этапа -->
             <td md-cell class="stage" layout="row" layout-align="start center">
                 <div flex="none" class="calendar-item-activity-icon layout-row layout-align-start-center
-                     bg-circle-32 color-{{$ctrl.competition.competitionHeader.type}} {{stage.item.status}}"
+                     bg-circle-32 color-{{stage.item.header.sportBasic}} {{stage.item.status}}"
                      ng-class="{color: !stage.item.isCompleted || !stage.item.isSpecified}">
                     <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-light md-18"></md-icon>
                 </div>
