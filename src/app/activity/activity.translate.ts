@@ -74,7 +74,84 @@ export const translateActivity = {
       settings: {
           close: 'Закрыть'
       }
-  }
+  },
+    en: {
+        title: 'Activity',
+        action: {
+            open: 'Open',
+            edit: 'Edit',
+            delete: 'Delete',
+            copy: 'Copy',
+            select: 'Select',
+            close: 'Close'
+        },
+        save: 'Save',
+        toTemplate: 'Save as template',
+        edit: 'Edit',
+        reset: 'Cancel',
+        delete: 'Delete',
+        plan: 'Planned',
+        actual: 'Completed',
+        measureUnitFull: 'Unit',
+        measureUnitShort: 'Unit',
+        completeShort: 'Comp',
+        percentFTP: '%FTP',
+        ftpMode: {
+            on: 'ON',
+            off: 'OFF'
+        },
+        trainersPrescription: 'Coach prescription',
+        descriptionPlaceholder: '...',
+        assignment: {
+            title: 'Workout plan',
+            needSport: 'Choose activity type and category',
+            categoryLabel: 'Choose activity category',
+            structured: 'Structured'
+        },
+        segments: {
+            total: 'Total:',
+            group: 'Group',
+            key: 'Key',
+            add: {
+                first: '',
+                default: '',
+                interval: 'Intervals',
+                complexinterval: 'Warm up + Intervals + Cool down',
+                complex: 'Warm up + Workout + Cool down',
+                warmUp: 'Warm up',
+                coolDown: 'Cool down',
+                active: 'Workout',
+                recovery: 'Recovery',
+                rampUp: 'Ramp up',
+                rampDown: 'Ramp down'
+            }
+        },
+        template: {
+            title: 'Choose template',
+            enable: 'Templates available',
+            empty: 'Templates not available',
+            favorite: 'Favorite',
+            namePlaceholder: 'Name required'
+        },
+        split: {
+            segment: 'Segment',
+            segmentGroup: 'Segment group x{{count}}',
+            interval: 'Interval'
+
+        },
+        error: {
+            required: 'Required',
+            needDuration: 'Need duration or distance',
+            singleDuration: 'Please leave duration or distance',
+            singleIntensity: 'Only one intensity measure could be set',
+            needPermissionForFeature: 'Premium tariff required to create future activities'
+        },
+        loading: 'Loading',
+        settings: {
+            close: 'Close'
+        }
+    }
+
 
 };
 
@@ -100,10 +177,31 @@ export const translateSport = {
         bikeToRun: 'Транизитка: вел-бег',
         swimToRun: 'Транзитка: плавание-бег',
         fuctionalTest: 'Функциональный тест',
-
         triathlon: 'Триатлон'
     },
-    en: {}
+    en: {
+        default: 'Default',
+        run: 'Running',
+        streetRun: 'Street running',
+        indoorRun: 'Indoor running',
+        trailRun: 'Trail running',
+        treadmillRun: 'Treadmill running',
+        swim: 'Swimming',
+        openWaterSwim: 'Openwater swimming',
+        poolSwim: 'Pool swimming',
+        bike: 'Bike',
+        trackBike: 'Track bike',
+        indoorBike: 'Indoor bike',
+        strength: 'Strength',
+        ski: 'Ski',
+        other: 'Other',
+        transition: 'Transition',
+        swimToBike: 'Transition: Swim to bike',
+        bikeToRun: 'Transition: Bike to run',
+        swimToRun: 'Transition: Swim to run',
+        fuctionalTest: 'Functional test',
+        triathlon: 'Triathlon'
+    }
 };
 
 export const translateCategories = {

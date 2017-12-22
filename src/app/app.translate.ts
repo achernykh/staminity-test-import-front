@@ -22,6 +22,8 @@ export const translateGeneral = {
         day: "Day",
         month: "Month",
         quarter: "Quarter",
+        duration: "Время",
+        distance: "Расстояние",
         updateToast: {
             message: "Staminity update is available. Please refresh the browser page",
             action: "REFRESH",
