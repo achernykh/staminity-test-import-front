@@ -45,7 +45,7 @@
     </md-list>
 </md-card>
 
-<div class="periodization-scheme-list__post">
+<div class="periodization-scheme-list__post" ng-if="!$ctrl.scheme.isSystem">
     <md-button id="periodization-scheme-list__fab"
                ng-click="$ctrl.post($event)"
                class="md-fab md-accent md-hue-2 animated bounce zoomIn">

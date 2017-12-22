@@ -85,11 +85,11 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
      * Если этапы уже были сохранены, то удаляем соответствующие тренировки
      */
     clearItems (): void {
-        if ( !this.competition.view.isPost && this.competition.calendarItemId ) {
+        if ( !this.competition.view.isPost && this.competition.calendarItemId && this.competition.items) {
             this.calendarService
                 .deleteItem('F', this.competition.items.filter(i => i.item.calendarItemId).map(i => i.item.calendarItemId))
-                .then(response => {debugger;})
-                .then(() => this.competition.items = []);
+                .then(response => {});
+                //.then(() => this.competition.items = []);
         } else {
             this.competition.items = [];
         }
@@ -114,10 +114,14 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                         throw new Error(error);
                     })
                 .then(() => this.competition.setParentId())
+                .then(() => this.onAnswer({
+                    formMode: FormMode.Post,
+                    item: Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())})
+                }))
                 .then(() => this.saveItems())
                 .then(() => {
                         this.message.toastInfo('competitionCreated');
-                        this.onAnswer({ formMode: FormMode.Post, item: this.competition });
+                        this.onCancel();
                     },
                     error => {}
                 );
@@ -130,16 +134,18 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                         this.message.toastError(error);
                         throw new Error(error);
                     })
+                .then(() => Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
+                .then(competition => this.onAnswer({ formMode: FormMode.Put, item: competition }))
                 .then(() => this.saveItems())
                 .then(() => {
                     this.message.toastInfo('competitionModified');
-                    this.onAnswer({ formMode: FormMode.Put, item: this.competition });
+                    this.onCancel();
+                    //this.onAnswer({ formMode: FormMode.Put, item: this.competition });
                 });
         }
     }
 
     delete (): void {
-        debugger;
         Promise.resolve(() => {})
             .then(() => this.competition.isCompleted && this.dialogs.confirm({text: 'dialogs.deleteActualCompetition'}))
             .then(() => this.calendarService.deleteItem('F', [this.competition.calendarItemId]))
@@ -150,6 +156,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     saveItems (): Promise<Array<IRevisionResponse>> {
+        debugger;
         return Promise.all(<any>this.competition.items.map(i => {
                 i.item = new Activity(i.item.build(), this.options);
                 if ( this.competition.view.isPost ) {

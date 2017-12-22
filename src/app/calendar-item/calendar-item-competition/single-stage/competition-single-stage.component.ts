@@ -50,6 +50,8 @@ class CompetitionSingleStageCtrl implements IComponentController {
         if (stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item, index)].value) {
             stage.item.intervals.PW.calcMeasures.completePercent.value =
                 stage.item.intervals.W.calcMeasures[this.durationMeasure(stage.item, index)].value / stage.item.intervals.PW.durationValue;
+        } else if (stage.item.intervals.PW.calcMeasures.completePercent.value) {
+            stage.item.intervals.PW.calcMeasures.completePercent.value = null;
         }
         stage.dirty = true;
         this.onChange();

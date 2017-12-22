@@ -141,10 +141,10 @@ export class CalendarCtrl implements IComponentController{
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
-            // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа черех bind
+            // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
-            .delay(0)
+            .delay(500)
             .subscribe((message) => {
                 console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
@@ -396,6 +396,7 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
+        debugger;
         console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
         let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
         switch (mode) {
@@ -404,6 +405,11 @@ export class CalendarCtrl implements IComponentController{
                 this.calendar.post(item);
                 //this.$scope.$applyAsync();
                 //this.$scope.$apply();
+                break;
+            }
+            case FormMode.Put: {
+                this.calendar.delete(item);
+                this.calendar.post(item);
                 break;
             }
             case FormMode.Delete: {

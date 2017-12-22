@@ -20,9 +20,14 @@ export class TrainingSeasonData {
     setCompetitions (items: Array<ICalendarItem>): void {
         this.competitions = items;
         this.grid.map(m => m._competition = null);
-        this.competitions.map(item => this.grid.filter(m =>
-            moment(item.dateStart).isAfter(m._dateStart) &&
-            moment(item.dateStart).isBefore(m._dateEnd))[0]._competition = item);
+
+        this.competitions.map(item => this.grid.filter(m => {
+            if (moment(item.dateStart).isAfter(m._dateStart) &&
+                moment(item.dateStart).isBefore(m._dateEnd)) {
+                m._competition = item;
+            }
+        }));
+
         this.grid.map(m => m.update());
     }
 

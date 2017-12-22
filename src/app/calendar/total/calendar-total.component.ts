@@ -76,7 +76,6 @@ class CalendarTotalCtrl implements IComponentController {
     }
 
     $onChanges(changes){
-
         if(changes.update){
             this.data = new CalendarWeekData(this.week);
             this.items = [];

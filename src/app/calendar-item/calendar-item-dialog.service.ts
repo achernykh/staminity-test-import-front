@@ -163,7 +163,8 @@ export class CalendarItemDialogService {
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
-                        <st-calendar-item-competition 
+                        <st-calendar-item-competition
+                                class="calendar-item-competition" layout="column"
                                 item="$ctrl.item"
                                 options="$ctrl.options"
                                 on-cancel="cancel()"

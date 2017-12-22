@@ -1,3 +1,4 @@
+import moment from 'moment/src/moment.js';
 import { CalendarItem } from "../calendar-item.datamodel";
 import { ICompetitionHeader, ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
@@ -51,7 +52,7 @@ export class CalendarItemCompetition extends CalendarItem {
 
         if (this.items && this.items.length) {
             this.items.sort((a,b) =>
-                sortAsc(a.item.activityHeader.competitionStagePosition,b.item.activityHeader.competitionStagePosition));
+                sortAsc(a.item._dateStart.getSeconds(),b.item._dateStart.getSeconds()));
         }
     }
 
@@ -76,8 +77,8 @@ export class CalendarItemCompetition extends CalendarItem {
                calendarItemId: null,
                calendarItemType: 'activity',
                revision: null,
-               dateStart: options.dateStart,
-               dateEnd: options.dateStart,
+               dateStart: options.dateStart || moment(this._dateStart).format('YYYY-MM-DD'),
+               dateEnd: options.dateStart || moment(this._dateEnd).format('YYYY-MM-DD'),
                activityHeader: {
                    activityType: getType(t.activityTypeId),
                    activityCategory: options.activityCategory || null,
@@ -92,8 +93,9 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-            activity.header.competitionStagePosition = i;
-            this.items.push({dirty: false, item: activity});
+            //activity.header.competitionStagePosition = i;
+            activity._dateStart.setSeconds(activity._dateStart.getSeconds() + i * 10);
+            this.items.push({dirty: true, item: activity});
         });
     }
 

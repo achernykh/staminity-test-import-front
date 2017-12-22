@@ -41,8 +41,7 @@ export class CalendarItemRecord extends CalendarItem {
             } else {
                 item.recordHeader.repeat.endOnDate = null;
             }
-
-            if (this.view.isPost) {
+            if (this.view.isPut) {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
                     // 2) меняется дата начала в повторе
                     regenPastEvents: this.param.recordHeader.dateStart !== item.recordHeader.dateStart,

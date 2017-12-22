@@ -225,6 +225,7 @@ const CalendarDayComponent: IComponentOptions = {
         planId: '<',
         copiedItemsLength: '<', // обьем буфера скопированных тренировок
         compactView: '<',
+        update: '<',
 
         onCopy: '&', // пользователь скопировал дни/недели (без параметров)
         onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала

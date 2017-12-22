@@ -251,7 +251,11 @@ export class Calendar {
                 let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
                 if (p !== -1 && this.weeks[w].subItem[d].data.calendarItems[p].calendarItems) {
                     console.info('post: child item success');
-                    this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.push(child);
+                    let parent: ICalendarItem = this.weeks[w].subItem[d].data.calendarItems[p];
+                    parent['index'] ++;
+                    parent.calendarItems.push(child);
+                    this.weeks[w].subItem[d].data.calendarItems.splice(p, 1, parent);
+                    //this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.push(child);
                 } else {
                     console.error('post: child position not found');
                 }
@@ -273,12 +277,12 @@ export class Calendar {
         return this.weeks
                 .some(w => w.subItem
                     .some(d => d.data.calendarItems
-                        .some(i =>i.calendarItemId === id && (revision && i.revision === revision || true)))) ||
+                        .some(i =>i.calendarItemId === id && ((revision && i.revision === revision || !revision))))) ||
             this.weeks
                 .some(w => w.subItem
                     .some(d => d.data.calendarItems
                         .some(i => i.calendarItems && i.calendarItems
-                            .some(c => c.calendarItemId === id && (revision && c.revision === revision || true)))));
+                            .some(c => c.calendarItemId === id && ((revision && c.revision === revision) || !revision)))));
     }
     /**
      * Удаление записи календаря
@@ -295,9 +299,9 @@ export class Calendar {
 
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
-        let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+        let p = w !== -1 ? this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
-        if (w && d >= 0 && p !== -1) {
+        if (w !== -1 && d >= 0 && p >= 0) {
             if (!parentId) {
                 console.info('delete: item success');
                 this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
@@ -305,10 +309,11 @@ export class Calendar {
                 let pos: number = this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.findIndex(c => c.calendarItemId === child.calendarItemId);
                 if (pos !== -1) {
                     console.info('delete: child item success');
+                    this.weeks[w].subItem[d].data.calendarItems[p]['index'] ++;
                     this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.splice(pos,1);
                 }
             }
-            this.weeks.filter(d => d.sid === w)[0].changes++;
+            this.weeks[w].changes++;
             this.$scope.$applyAsync();
         } else {
             console.error('delete: item not found');
