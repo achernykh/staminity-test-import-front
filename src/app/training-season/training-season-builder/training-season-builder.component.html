@@ -73,7 +73,7 @@
             <md-subheader flex="none">
                 <span translate="trainingSeason.competitions"></span>
             </md-subheader>
-            <section flex="auto" class="competition-list" layout="column">
+            <md-content flex="auto" class="competition-list" layout="column">
                 <div flex="none" class="date md-caption md-dark"
                      ng-repeat-start="item in $ctrl.competitions track by item.index">
                     <span>{{item.dateStart | date}}</span>
@@ -85,7 +85,7 @@
                                         on-answer="$ctrl.updateCompetition(formMode, item)"
                                         options="$ctrl.itemOptions">
                 </st-competition-compact>
-            </section>
+            </md-content>
             <md-dialog-buttons flex="none" layout="row">
                 <div flex></div>
                 <md-button ng-click="$ctrl.postCompetition($event)">
