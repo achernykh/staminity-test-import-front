@@ -21,7 +21,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         code: "distanceByAthletesByPeriods",
         context: [],
         description: "distanceByAthletesByPeriods.description",
-        globalParams: false,
+        globalParams: true,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -197,7 +197,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
         code: "durationByAthletesByPeriods",
         context: [],
         description: "durationByAthletesByPeriods.description",
-        globalParams: false,
+        globalParams: true,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -838,7 +838,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 param: "measureName",
             }],
         description: "activityMeasuresSelected.description",
-        globalParams: false,
+        globalParams: true,
         localParams: {
             "users": {
                 "type": "checkbox",

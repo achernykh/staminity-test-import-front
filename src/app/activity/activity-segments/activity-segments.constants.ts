@@ -153,7 +153,7 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
             type: "P",
             durationMeasure: "movingDuration",
             intensityMeasure: "heartRate",
-            distance: new DurationMeasure(60 * 10), //sec
+            movingDuration: new DurationMeasure(60 * 10), //sec
             heartRate: new IntensityMeasure(0.75, 0.75),
         }],
     },
