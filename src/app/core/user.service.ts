@@ -65,17 +65,17 @@ export default class UserService {
      * @param connections
      */
     setConnections(connections: IUserConnections) {
+        console.info('user service: set connections');
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
             .then((result:Array<IGetTrainigZonesResponse>) => {
+                console.info('user service: get training zones complete', result);
                 connections.allAthletes.groupMembers =
                     connections.allAthletes.groupMembers.map(athlete =>
                         Object.assign(athlete,
                             {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
                 return connections;
-            }, (error) => {
-                throw `error in getTrainingZones => ${error}`;
-            })
+            }, (error) => { throw `error in getTrainingZones => ${error}`;})
             .then(connections => this.SessionService.updateUser({connections}));
         } else {
             this.SessionService.updateUser({connections});

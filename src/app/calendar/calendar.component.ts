@@ -18,12 +18,13 @@ import { FormMode } from "../application.interface";
 import { CalendarItemDialogService } from "../calendar-item/calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialog.interface";
 import AuthService from "@app/auth/auth.service";
+import { updateIntensity } from "../activity/activity.function";
 
 export class CalendarCtrl implements IComponentController{
 
     // bind
     currentUser: IUserProfile;
-    owner: IUserProfile | IUserProfileShort;
+    owner: IUserProfile;
 
     // private
     isCompactView: boolean = false;
@@ -438,7 +439,7 @@ export class CalendarCtrl implements IComponentController{
             userProfileCreator: profileShort(this.currentUser),
             userProfileOwner: profileShort(this.owner)
         };
-        this.post(item);
+        this.post(updateIntensity(item, this.owner.trainingZones));
     }
 
     clearBuffer() {

@@ -73,15 +73,29 @@ class CalendarDayCtrl {
     $onInit () {
         let diff = moment().diff(moment(this.data.date), 'days', true);
         this.today = diff >= 0 && diff < 1;
-        this.itemOptions = {
-            currentUser: this.currentUser,
-            owner: this.owner,
-            popupMode: true,
-            formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
-            trainingPlanMode: this.trainingPlanMode,
-            planId: this.planId
-        };
     }
+
+    /**
+     * Обновление параметров итема
+     * @param changes
+     */
+    $onChanges (changes): void {
+        if ((changes.hasOwnProperty('owner') && this.owner) ||
+            (changes.hasOwnProperty('currentUser') && this.currentUser) ||
+            (changes.hasOwnProperty('owner') && this.owner) ||
+            (changes.hasOwnProperty('planId') && this.planId)) {
+
+            this.itemOptions = {
+                currentUser: this.currentUser,
+                owner: this.owner,
+                popupMode: true,
+                formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
+                trainingPlanMode: this.trainingPlanMode,
+                planId: this.planId
+            };
+        }
+    }
+
 
     onSelect () {
         this.selected = !this.selected;

@@ -127,7 +127,6 @@ export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
  * @returns {ICalendarItem}
  */
 export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): ICalendarItem => {
-    // TODO for interval P
     debugger;
     let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
     let intervalP: Array<IActivityIntervalP> = <Array<IActivityIntervalP>>item.activityHeader.intervals.filter(i => i.type === 'P');
