@@ -12,6 +12,7 @@ import {
 import { times } from '../share/util.js';
 import {Activity} from "../activity/activity-datamodel/activity.datamodel";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
+import { FormMode } from "@app/application.interface";
 
 
 const getItemById = (cache: Array<IDashboardWeek>, id: number):ICalendarItem => {
@@ -197,6 +198,43 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
+    /**
+     * Обновление данных календаря по синхронным ответам от бэка
+     * Вызов приходит из calendar-day
+     * @param mode
+     * @param item
+     */
+    update (mode: FormMode, item: ICalendarItem): void {
+        debugger;
+        console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
+        switch (mode) {
+            case FormMode.Post: {
+                //if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
+                //this.calendar.post(item);
+                this.onPostItem(item);
+                this.$scope.$apply();
+                //this.$scope.$applyAsync();
+                //this.$scope.$apply();
+                break;
+            }
+            case FormMode.Put: {
+                //this.calendar.delete(item);
+                //this.calendar.post(item);
+                this.onDeleteItem(getItemById(this.cache, item.calendarItemId));
+                this.onPostItem(item);
+                this.$scope.$apply();
+                break;
+            }
+            case FormMode.Delete: {
+                //this.calendar.delete(item);
+                this.onDeleteItem(item);
+                this.$scope.$apply();
+                break;
+            }
+        }
+    }
+
     next() {
         this.currentWeek++;
         this.currentDate = moment(this.currentDate).startOf('week').add(1,'w');
@@ -267,11 +305,13 @@ export class DashboardCtrl implements IComponentController {
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
-        let c:number = this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+        let c:number = w !== -1 ? this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
 
-        this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
-        this.cache[w].calendar[c].changes++;
+        if (w > 0 && c > 0 && d) {
+            this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
+            this.cache[w].calendar[c].changes++;
+        }
     }
 
     /**
@@ -282,12 +322,17 @@ export class DashboardCtrl implements IComponentController {
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
-        let c:number = this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+        let c:number = w !== -1 ? this.cache[w].calendar
+                .findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
-        let p:number = this.cache[w].calendar[c].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+        let p:number = w !== -1 ?
+            this.cache[w].calendar[c].subItem[d].data.calendarItems
+                .findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
-        this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
-        this.cache[w].calendar[c].changes++;
+        if (w > 0 && c > 0 && d) {
+            this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
+            this.cache[w].calendar[c].changes++;
+        }
     }
 
     onCopy(items: Array<ICalendarItem>){
