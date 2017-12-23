@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Rx";
 import {IRESTService, PostFile} from "../core/rest.service";
 import {IHttpPromise, copy} from 'angular';
 import { IRevisionResponse } from "@api/core";
+import * as _connection from "../core/env.js";
 
 export class CalendarService {
     item$: Observable<any>;
@@ -85,6 +86,6 @@ export class CalendarService {
      */
     postImage(image: any):Promise<string> {
         return this.RESTService.postFile(new PostFile(`/calendarItem/recordImage/1`, image))
-            .then((response: any) => response.fileName);
+            .then((response: any) => `${response.fileName}`);
     }
 }
