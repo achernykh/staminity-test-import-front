@@ -36,8 +36,45 @@ export const translateAthletes = {
         bottomSheet: {
             tariffs: "Тарифы",
             remove: "Удалить",
-        },
+        }
     },
     en: {
-    },
+        fullTitle: "Athletes management",
+        shortTitle: "Athletes",
+        filters: {
+            all: "All",
+            search: "Search: '{{search}}'",
+        },
+        columns: {
+            username: "Athlete",
+            club: "Club",
+            tariff: "Tariff",
+            city: "City",
+            ageGroup: "Age group",
+        },
+        buttons: {
+            tariffs: "Tariffs",
+            remove: "Remove",
+        },
+        selected: "Choose {{count}} athlete(s)",
+        tariffs: {
+            Coach: "Coach",
+        },
+        byCoach: "Coach",
+        editTariffs: {
+            confirm: {
+                title: "Change tariffs",
+                text: {
+                    addOne: "Do you want to add {{tariffCode}} tariff to selected athletes? Tariff rate will be added to your bill on daily basis.",
+                    removeOne: "You want to switch off {{tariffCode}} tariff from your athletes?",
+                },
+                confirm: "Confirm",
+                cancel: "Cancel",
+            },
+        },
+        bottomSheet: {
+            tariffs: "Tariffs",
+            remove: "Remove",
+        }
+    }
 };

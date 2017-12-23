@@ -23,6 +23,26 @@ export const _measurement = {
 
     },
     en: {
+        toolbar: {
+            title: 'Measurement',
+            delete: 'Deleta',
+            close: 'Close',
+            settings: 'Settings',
+            save: 'Save'
+        },
+        action: {
+            save: "Save"
+        },
+        generalMeasures: 'General measures',
+        sleepData: 'Sleep',
+        feeling: 'Overall feeling',
+        sentiment: {
+            sentiment_very_satisfied: 'Very good',
+            sentiment_satisfied: 'Good',
+            sentiment_neutral: 'Normal',
+            sentiment_dissatisfied: 'Bad',
+            sentiment_very_dissatisfied: 'Very bad'
+        }
 
     }
 };

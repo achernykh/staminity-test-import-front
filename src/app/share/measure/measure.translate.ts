@@ -8,7 +8,7 @@ export const _MEASURE_TRANSLATE = {
         kmph: "км/ч",
         minpkm: "/км",
         minp100m: "/100м",
-        bpm: "чсс",
+        bpm: "уд/мин",
         min: "мин",
         watt: "вт",
         percent: "%",
@@ -21,8 +21,8 @@ export const _MEASURE_TRANSLATE = {
         mh: "м/ч", // добавил - "метров в час". Это для VAM.
 
         // Показатели
-        adjustedPower: "МощнКорр",
-        adjustedSpeed: "ТемпКорр",
+        adjustedPower: "Мощность корр",
+        adjustedSpeed: "Темп корр",
         altitude: "Высота",
         cadence: "Каденс",
         calories: "Калории",
@@ -35,13 +35,13 @@ export const _MEASURE_TRANSLATE = {
         elevationLoss: "Сброс высоты",
         grade: "Градиент",
         heartRate: "Пульс",
-        intensityLevel: "УровеньИнт",
+        intensityLevel: "IL",
         movingDuration: "Время в движ",
         power: "Мощность",
         powerDecoupling: "Мощн:ЧСС",
         speed: "Темп",
         speedDecoupling: "Темп:ЧСС",
-        trainingLoad: "БаллНагрузки",
+        trainingLoad: "TL",
         vam: "ВертикСкорость",
         vamPowerKg: "ОтноситМощность",
         variabilityIndex: "Индекс изменений",
@@ -61,18 +61,11 @@ export const _MEASURE_TRANSLATE = {
         pulse: "Пульс покоя",
         sleepQuality: "Качество сна",
         sleepHours: "Часов сна",
-        overallFeeling: "Общее состояние",
+        overallFeeling: "Общее состояние"
 
     },
     en: {
-        /*calendar: 'Calendar',
-        feeds: 'Activity feed',
-        reports: 'Analytics and reports',
-        plan: 'Training plans',
-        season: 'Season plans',
-        groups: 'Groups',
-        athletes: 'Athletes',
-        admin: 'Admin panel' */
+
         // Единицы измерения
         km: "km",
         meter: "m",

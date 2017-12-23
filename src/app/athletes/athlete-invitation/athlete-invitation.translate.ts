@@ -4,5 +4,7 @@ export const translateAthleteInvitation = {
         go: "Пригласить",
     },
     en: {
+        header: "Invite athletes",
+        go: "Invite",
     },
 };

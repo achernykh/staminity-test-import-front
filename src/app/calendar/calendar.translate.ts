@@ -9,7 +9,8 @@ export const _translate = {
             copy: 'Скопировать',
             paste: 'Вставить',
             delete: 'Удалить',
-            post: 'Создать'
+            post: 'Создать',
+            detail: 'Подробно'
         },
         templates: "Шаблоны"
     },
@@ -23,7 +24,8 @@ export const _translate = {
             copy: 'Copy',
             paste: 'Paste',
             delete: 'Delete',
-            post: 'Create'
+            post: 'Create',
+            detail: 'Details'
         },
         templates: "Templates"
     }
