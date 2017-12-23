@@ -172,10 +172,6 @@ export const _translateMessage = {
 			title: 'Ошибка!',
 			text: 'Ошибка отправки email-сообщения'
 		},
-		forbidden_ProcessIncomplete_ResetPassword: {
-			title: 'Ошибка!',
-			text: 'По вашей учетной записи запущена процедура восстановления пароля. Вход с использование старого логина и пароля не возможен.'
-		},
 		resetPasswordSuccess: {
 			title: '',
 			text: 'На ваш адрес e-mail отправлена ссылка для восстановления пароля'
@@ -548,6 +544,19 @@ export const _translateMessage = {
         competitionDeleted: {
             title: '',
             text: 'Соревнование удалено'
+        },
+        // ----- Records
+        recordCreated: {
+            title: '',
+            text: 'Создано новое событие'
+        },
+        recordUpdated: {
+            title: '',
+            text: 'Событие изменено'
+        },
+        recordDeleted: {
+            title: '',
+            text: 'Событие удалено'
         }
 
     },
@@ -1041,6 +1050,73 @@ export const _translateMessage = {
 		searchResult: {
 			title: 'Information',
 			text: 'Found {{count}} items'
-		}
-	}
+		},
+        // ----- Периодизация
+
+        periodizationMesocycleEdited: {
+            title: '',
+            text: 'Mesocycle edited'
+        },
+        periodizationMesocyclePosted: {
+            title: '',
+            text: 'Mesocycle added'
+        },
+        mesocycleDeleted: {
+            title: '',
+            text: 'Mesocycle deleted'
+        },
+        periodizationSchemePosted: {
+            title: '',
+            text: 'New periodisation scheme created'
+        },
+        periodizationSchemeEdited: {
+            title: '',
+            text: 'Periodisation scheme edited'
+        },
+        periodizationSchemeDeleted: {
+            title: '',
+            text: 'Periodisation scheme deleted'
+        },
+
+        // ----- Планы на сезон
+        trainingSeasonDeleted: {
+            title: '',
+            text: 'Season plan deleted'
+        },
+        trainingSeasonCreated: {
+            title: '',
+            text: 'Season plan created'
+        },
+        trainingSeasonEdited: {
+            title: '',
+            text: 'Season plan edited'
+        },
+        // ----- Планы на сезон
+        competitionCreated: {
+            title: '',
+            text: 'Competition created'
+        },
+        competitionModified: {
+            title: '',
+            text: 'Competition edited'
+        },
+        competitionDeleted: {
+            title: '',
+            text: 'Competition deleted'
+        },
+        // ----- Records
+        recordCreated: {
+            title: '',
+            text: 'Event created'
+        },
+        recordUpdated: {
+            title: '',
+            text: 'Event updated'
+        },
+        recordDeleted: {
+            title: '',
+            text: 'Event deleted'
+        }
+
+    }
 };

@@ -6,15 +6,26 @@ export const translateDashboard = {
         compact: "Компактный режим",
         details: "Подробный режим",
         calendar: "Календарь",
-        settings: "Настройки",
+        settings: "Настройки зон и ПАНО"
     },
-    en: {},
+    en: {
+        fullTitle: "Coach dashboard",
+        shortTitle: "Dashboard",
+        today: "Today",
+        compact: "Compact",
+        details: "Details",
+        calendar: "Calendar",
+        settings: "Training zones settings"
+    }
 };
 
 export const translateDashboardClub = {
     ru: {
         fullTitle: "Атлеты клуба",
-        shortTitle: "Атлеты",
+        shortTitle: "Атлеты"
     },
-    en: {},
+    en: {
+        fullTitle: "Club dashboard",
+        shortTitle: "Dashboard"
+    }
 };

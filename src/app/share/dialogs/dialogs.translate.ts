@@ -54,10 +54,64 @@ export let translateDialogs = {
         // окно загрузки профиля
         upload: "Загрузить",
         choose: "Выбрать...",
-        uploadFile: "Загрузка файлов",
+        uploadFile: "Загрузка файлов"
 
     },
     en: {
+        yes: "Yes",
+        no: "No",
+        ok: "Accept",
+        cancel: "Decline",
+        performActionA: "Accept request",
+        performActionD: "Decline request",
+        performActionC: "Cancel request",
+        confirm: "Are you sure?",
 
+        coaches: "Coaches",
+        athletes: "Athletes",
+        friends: "Friends",
+        following: "You follow",
+        followers: "Followers",
+        members: "Members",
+        users: "Users",
+        feeObjects: "Fee base",
+
+        bySelf: "By yourself",
+        byClub: "By club",
+        byCoach: "By coach",
+        tariffs: "Tariffs",
+        Premium: "Premium",
+        Coach: "Coach",
+        Club: "Club",
+        ClubAthletes: "Club athlete",
+        ClubCoach: "Club coach",
+        ClubCoaches: "Club coach",
+        ClubManagement: "Club administrator",
+        turnOffAthletes: "Drop off athletes?",
+
+        startCoach: "Send request to coach?",
+        rejectRequest: "Cancel request?",
+        leaveCoach: "Leave coach?",
+        startFriends: "Send friend request?",
+        startFollow: "Start follow?",
+        startClub: "Send request to club?",
+        leaveClub: "Leave club?",
+        excludeClub: "Drop off from club?",
+
+        // Операции с тренировками
+        deleteSelectedItems: "Delete selected activities? Action cannot be undone",
+        deleteActualActivity: "Delete selected completed activities? Action can not be undone",
+        deletePlanActivity: "Delete selected planned activities? Action can not be undone",
+        moveActualActivity: "Transfer completed activity is not possible. Do you want to create new planned activity?",
+        updateIntensity: "Athlete's FTP may be different. Recalculate planned intensity (HR, Speed/pace, Power) from athlete's FTP?",
+
+        // Операции с соревнованиями
+        deleteActualCompetition: 'Delete competition? Every connected completed activity will be deleted. This action cannot be undone',
+
+
+        // окно загрузки профиля
+        upload: "Upload",
+        choose: "Choose...",
+        uploadFile: "Upload file"
     },
 };

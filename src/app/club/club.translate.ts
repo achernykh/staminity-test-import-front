@@ -4,5 +4,7 @@ export const _translate = {
         shortTitle: "Профиль",
     },
     en: {
+        fullTitle: "Club profile",
+        shortTitle: "Profile",
     },
 };

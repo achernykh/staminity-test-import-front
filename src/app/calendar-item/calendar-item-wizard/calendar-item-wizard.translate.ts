@@ -5,6 +5,8 @@ export const _translateWizard = {
         },
     },
     en: {
-
+        toolbar: {
+            title: "New item",
+        },
     },
 };
