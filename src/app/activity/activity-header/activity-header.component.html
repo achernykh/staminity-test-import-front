@@ -1,6 +1,6 @@
 <md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
     <div class="md-toolbar-tools" ng-cloak>
-        <md-menu flex-order="{{$ctrl.item.popup ? 1 : 6}}"
+        <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 6}}"
                  md-position-mode="target-right target" md-offset="0 60">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
                        aria-label="User">
@@ -8,8 +8,8 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.item.onDelete()"
-                               ng-disabled="!($ctrl.item.mode !== 'post' && $ctrl.item.isCreator)">
+                    <md-button ng-click="$ctrl.item.activity.view.isTemplate ? $ctrl.item.deleteTemplate() : $ctrl.item.onDelete()"
+                               ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.activity.auth.isCreator)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         <span translate="measurement.toolbar.delete"></span>
                     </md-button>
@@ -20,13 +20,13 @@
                         <span translate="measurement.toolbar.settings"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="::$ctrl.item.currentUser.connections.hasOwnProperty('allAthletes')">
+                <md-menu-item ng-if="::($ctrl.item.currentUser.connections.hasOwnProperty('allAthletes') && $ctrl.item.activity.view.isPost)">
                     <md-button ng-click="$ctrl.item.showSelectAthletes = true">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
                         <span translate="Добавить спортсмена"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item>
+                <md-menu-item ng-if="false">
                     <md-button ng-click="$ctrl.item.calculateActivityRange(false)">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
                         <span translate="Тест: обновить рассчет"></span>
@@ -34,15 +34,19 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <h2 flex-order="2" translate="{{::$ctrl.item.template ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
+        <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
         <span flex flex-order="3"></span>
-        <userpic flex-order="4" class="border-light" profile="$ctrl.item.firstAthlete(0)" is-premium="$ctrl.item.user.isPremium" unlink="true"></userpic>
+        <userpic flex-order="4" class="border-light"
+                 profile="$ctrl.item.activity.athletes.first()"
+                 is-premium="$ctrl.item.activity.athletes.first().isPremium"
+                 unlink="true"></userpic>
+        <div class="multi-athletes" ng-if="$ctrl.item.activity.athletes.multi()"></div>
         <md-button flex-order="5" class="md-icon-button" hide-gt-sm
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
-        <md-button flex-order="{{$ctrl.item.popup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
+        <md-button flex-order="{{$ctrl.item.activity.view.isPopup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
@@ -64,39 +68,40 @@
                     <activity-header-overview></activity-header-overview>
             </md-tab-body>
         </md-tab>
-        <md-tab id="segments" flex="auto" layout="column" ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.structured">
+        <md-tab id="segments" flex="auto" layout="column" ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.isStructured">
             <md-tab-label><md-icon class="material-icons">format_list_numbered</md-icon></md-tab-label>
             <md-tab-body layout-column layout-fill>
                 <activity-segments flex="auto" layout="column" layout-fill
-                                   has-import="$ctrl.item.activity.hasImport()"
+                                   has-import="$ctrl.item.activity.hasIntervalDetails"
                                    change="$ctrl.item.resetStructuredAssignment">
                 </activity-segments>
             </md-tab-body>
         </md-tab>
-        <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.isPro"
-                ng-if="$ctrl.item.activity.actualDataIsImported">
+        <md-tab id="details" layout-fill layout-wrap ng-disabled="!$ctrl.item.activity.auth.isPro"
+                ng-if="$ctrl.item.activity.hasActualData">
             <md-tab-label><md-icon class="material-icons">assessment</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-details flex="auto" layout="column" layout-fill
                                          selection-index="$ctrl.item.selectionIndex"
                                          change="$ctrl.item.detailsSelectChangeCount + $ctrl.item.splitsSelectChangeCount"
                                          has-details="!$ctrl.item.activity.details.isEmpty"
-                                         has-import="$ctrl.item.activity.hasImport()"
+                                         has-import="$ctrl.item.activity.hasIntervalDetails"
                                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">
                 </activity-header-details>
             </md-tab-body>
         </md-tab>
         <md-tab id="splits" flex layout="column"
-                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.actualDataIsImported">
+                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.hasActualData">
             <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-splits flex="auto" layout="column" layout-fill
-                                        splits="$ctrl.item.activity.intervalL"
-                                        sport="$ctrl.item.activity.sportBasic">
+                                        splits="$ctrl.item.activity.intervals.L"
+                                        sport="$ctrl.item.activity.header.sportBasic">
                 </activity-header-splits>
             </md-tab-body>
         </md-tab>
-        <md-tab id="chat" flex layout="column" ng-if="$ctrl.item.mode !== 'post' && !$ctrl.item.template"
+        <md-tab id="chat" flex layout="column"
+                ng-if="!($ctrl.item.activity.view.isPost || $ctrl.item.activity.view.isTemplate || $ctrl.item.activity.view.isTrainingPlan)"
                 md-on-select="$ctrl.openChat()" md-on-deselect="$ctrl.closeChat()">
             <md-tab-label>
                 <md-icon class="material-icons">chat</md-icon>
@@ -104,21 +109,21 @@
             </md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-chat flex="auto" layout="column" layout-fill
-                                      activity-id="$ctrl.item.activity.id"
+                                      activity-id="$ctrl.item.activity.header.id"
                                       social="$ctrl.item.activity.header.social"
                                       user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
-                                      coach="$ctrl.item.isMyCoach"
+                                      coach="$ctrl.item.activity.auth.isMyCoach"
                                       on-update="$ctrl.updateComments(response)">
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>
-        <md-tab id="zones" flex layout="column" ng-if="!$ctrl.item.template">
+        <md-tab id="zones" flex layout="column" ng-if="!$ctrl.item.activity.view.isTemplate">
             <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
                                        zones="$ctrl.item.user.trainingZones"
-                                       sport="$ctrl.item.activity.sportBasic"
-                                       has-details="$ctrl.item.activity.hasImport()">
+                                       sport="$ctrl.item.activity.header.sportBasic"
+                                       has-details="$ctrl.item.activity.hasIntervalDetails">
                 </activity-header-zones>
             </md-tab-body>
         </md-tab>

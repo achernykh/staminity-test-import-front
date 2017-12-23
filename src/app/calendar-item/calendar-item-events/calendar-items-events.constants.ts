@@ -1,1 +1,1 @@
-export const _eventsType  = ['restDay','sickness'];
+export const _eventsType  = ["restDay", "sickness"];

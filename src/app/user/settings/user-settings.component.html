@@ -1,0 +1,100 @@
+<st-application-frame class="st-application-frame user-settings"
+                      ng-class="{'left-bar-show': true}"
+                      template="application"
+                      navigation-bar="false"
+                      left-bar="true">
+
+    <st-application-frame-title>
+        <span class="md-title" translate="user.settings.fullTitle"></span>
+        <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
+        <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0" hide show-gt-sm>
+            <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.setOwner(athlete)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <span>{{$ctrl.currentUser | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm layout="row">
+        </section>
+        <section class="mobile" hide show-xs show-sm>
+        </section>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-mobile-menu>
+    </st-application-frame-mobile-menu>
+
+    <st-application-frame-left-bar>
+        <st-user-settings-menu class="user-settings__left-bar">
+        </st-user-settings-menu>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content>
+        <section class="user-settings__content">
+            <article class="first-level-section"
+                     id="{{section}}"
+                     ng-if="!$ctrl.secondaryLevelState"
+                     ng-repeat-start="section in ['public', 'private', 'privacy', 'sync', 'zones', 'payments', 'account', 'display', 'notification']">
+                <h2 class="title md-body-2 md-dark">Настройки {{section}}</h2>
+                <md-card>
+                    <md-list>
+                        <md-list-item>
+                            <p class="md-body-1">Первая настройка</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <p class="md-body-1">Первая настройка</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <p class="md-body-1">Первая настройка</p>
+                            <md-icon class="material-icon md-secondary"
+                                     ng-click="$ctrl.secondaryLevelState = section">keyboard_arrow_right
+                            </md-icon>
+                        </md-list-item>
+                    </md-list>
+                </md-card>
+            </article>
+            <article ng-repeat-end class="second-level-section" ng-if="$ctrl.secondaryLevelState === section">
+                <md-card class="content">
+                    <md-card-header>
+                        <md-card-avatar>
+                            <md-icon class="material-icon md-secondary"
+                                     ng-click="$ctrl.secondaryLevelState = null">arrow_back
+                            </md-icon>
+                        </md-card-avatar>
+                        <md-card-header-text>
+                            <span class="md-title">Настройки</span>
+                            <span class="md-subhead">Скрытая часть описания настроек из секции {{section}}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-list>
+                        <md-list-item>
+                            <p class="md-body-1">Первая настройка</p>
+                        </md-list-item>
+                        <md-list-item>
+                            <p class="md-body-1">Первая настройка</p>
+                        </md-list-item>
+                    </md-list>
+                </md-card>
+            </article>
+        </section>
+    </st-application-frame-content>
+
+</st-application-frame>

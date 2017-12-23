@@ -11,10 +11,10 @@
 <md-list class="bg-grey-100" style="padding: 16px; overflow: auto; height: 100%">
     <md-list-item>
         <p translate="activity.athleteSelector.recalculate"></p>
-        <md-switch class="md-primary" ng-model="$ctrl.recalculateMode"></md-switch>
+        <md-switch class="md-primary" ng-model="$ctrl.mode"></md-switch>
     </md-list-item>
     <md-divider></md-divider>
-    <md-list-item ng-repeat="athlete in $ctrl.athletes track by $index">
+    <md-list-item ng-repeat="athlete in $ctrl.list track by $index">
         <userpic profile="athlete.profile" unlink="true"></userpic>
         <p>{{athlete.profile | username}}</p>
         <md-checkbox class="md-secondary md-primary" ng-model="athlete.active">

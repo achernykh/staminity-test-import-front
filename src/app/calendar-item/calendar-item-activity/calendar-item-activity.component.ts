@@ -7,20 +7,23 @@ import UserService from "../../core/user.service";
 import ActivityService from "../../activity/activity.service";
 import {IMessageService} from "../../core/message.service";
 import {
+    IGroupProfileShort,
+    IUserProfileShort, IUserProfile,
+    IActivityCategory, IActivityTemplate,
     IActivityHeader, IActivityDetails, IActivityIntervalPW,
     IActivityMeasure, ICalcMeasures, IActivityType, IActivityIntervalW
-} from "../../../../api/activity/activity.interface";
-import { IActivityCategory, IActivityTemplate } from '../../../../api/reference/reference.interface';
-import SessionService from "../../core/session.service";
-import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {IGroupProfileShort} from '../../../../api/group/group.interface';
+} from "../../../../api";
+import {SessionService} from "../../core";
 import {nameFromInterval} from "../../reference/reference.datamodel";
-import {Activity} from "../../activity/activity.datamodel";
+import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
 import {activityTypes, getType} from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
-import {templateDialog, TemplateDialogMode} from "../../reference/template-dialog/template.dialog";
+import {
+    templateDialog, TemplateDialogMode,
+    templateToActivity
+} from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 import {FtpState} from "../../activity/components/assignment/assignment.component";
 import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
@@ -31,6 +34,10 @@ import {ICalendarItem} from "../../../../api/calendar/calendar.interface";
 import {ActivityIntervalPW} from "../../activity/activity-datamodel/activity.interval-pw";
 import {ActivityIntervalL} from "../../activity/activity-datamodel/activity.interval-l";
 import {ActivityIntervalP} from "../../activity/activity-datamodel/activity.interval-p";
+import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
+import { TrainingPlansService } from "@app/training-plans/training-plans.service";
+import { FormMode } from "../../application.interface";
+import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -66,6 +73,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
     data: any;
+    options: ICalendarItemDialogOptions;
     activityType: IActivityType;
     activityCategory: IActivityCategory;
     details: IActivityDetails;
@@ -76,7 +84,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     popup: boolean;
     template: boolean = false; // режим создания, изменения шаблона
     club: IGroupProfileShort;
-    onAnswer: (response: Object) => IPromise<void>;
+    view: string; // для компоенета calendar-compact, отвечает за верстку элемента: calendar, dashboard...
+    onAnswer: (response: ICalendarItemDialogOptions | any) => Promise<void>;
     onCancel: () => IPromise<void>;
 
     public assignmentForm: INgModelController; // форма ввода задания структурированного / не структурированного
@@ -119,19 +128,21 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
 
     public currentUser: IUserProfile = null;
-    public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
-    public isCreator: boolean;
-    public isPro: boolean;
-    public isMyCoach: boolean;
+    //public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    //public isCreator: boolean;
+    //public isPro: boolean;
+    //public isMyCoach: boolean;
 
     public isLoadingDetails: boolean = false;
 
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
+    private segmentChart: Array<any> = [];
+    private bottomPanelData: any = null;
 
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
-        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService'];
+        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
 
     constructor(
         private $scope: IScope,
@@ -145,7 +156,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private $mdMedia: any,
         private $mdDialog: any,
         private dialogs: any,
-        private ReferenceService: ReferenceService) {
+        private ReferenceService: ReferenceService,
+        private trainingPlansService: TrainingPlansService,
+        private calendarDialog: CalendarItemDialogService) {
 
     }
 
@@ -156,9 +169,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        this.currentUser = this.SessionService.getUser();
+        //this.currentUser = this.SessionService.getUser();
 
-        if (this.mode === 'post' && !this.template) {
+        if ( this.options ) {
+            ///this.mode = this.options.formMode;
+            this.popup = this.options.popupMode;
+            this.currentUser = this.options.currentUser;
+            this.user = this.options.owner;
+        }
+
+        /**if (this.mode === 'post' && !this.template) {
             this.data = {
                 isTemplate: this.template,
                 calendarItemType: 'activity',
@@ -172,13 +192,18 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 userProfileCreator: profileShort(this.currentUser),
                 groupProfile: this.club
             };
+        }**/
+
+        this.activity = new Activity(this.data, this.options);
+        this.segmentChart = this.activity.formChart();
+
+        if (this.activity.bottomPanel === 'data') {
+            this.bottomPanelData = this.activity.summaryAvg;
         }
 
-        this.activity = new Activity(this.data);
-
         this.types = activityTypes; // Список видов спорта
-        this.structuredMode = this.activity.structured;
-        this.ftpMode = this.template ? FtpState.On : FtpState.Off;
+        this.structuredMode = this.activity.isStructured;
+        this.ftpMode = this.activity.view.isTemplate ? FtpState.On : FtpState.Off;
 
         this.prepareDetails();
         this.prepareAuth();
@@ -189,14 +214,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareDetails(){
-        if (!this.template) {
+        if (!this.activity.view.isTemplate && !this.view) {
             //Получаем детали по тренировке загруженной из внешнего источника
-            if (this.mode !== 'post' && this.activity.intervalW.actualDataIsImported) {
-                let intervalsType: Array<string> = this.activity.structured ? ['L','P','G'] : ['L'];
+            if (!this.activity.view.isPost && this.activity.hasActualData) {
+                let intervalsType: Array<string> = this.activity.isStructured ? ['L','P','G'] : ['L'];
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId, intervalsType)
                     .then(response => this.activity.intervals.add(response, 'update'),
                         error => this.message.toastError('errorCompleteIntervals'))
-                    .then(() => this.activity.updateIntervals())
+                    //.then(() => this.activity.updateIntervals())
                     .then(() => this.changeStructuredAssignment++)
                     .then(() => this.prepareTabPosition());
 
@@ -210,8 +235,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareTabPosition(){
-        this.selectedTab = (this.tab === 'chat' && this.activity.intervalW.actualDataIsImported && 2) ||
-            (this.tab === 'chat' && !this.activity.intervalW.actualDataIsImported && 1) || 0;
+        this.selectedTab = (this.tab === 'chat' && this.activity.hasActualData && 2) ||
+            (this.tab === 'chat' && !this.activity.hasActualData && 1) || 0;
     }
 
     changeTab(tab: string):void {
@@ -263,6 +288,25 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     /**
+     * Диалог открытия тренировки
+     * @param e
+     */
+    open (e: Event): void {
+        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.View}), this.activity)
+            .then(response => this.onAnswer(response));
+    }
+
+    /**
+     * Диалог изменения тренировки
+     * @param e
+     */
+    edit (e: Event): void {
+        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.Put}), this.activity)
+            .then(response => this.onAnswer(response));
+    }
+
+
+    /**
      * Выбран шаблон тренировки
      * @param template
      */
@@ -270,18 +314,18 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.showSelectTemplate = false;
         this.activity.header.template = template;
         this.activity.intervals = new ActivityIntervals(template.content);
-        this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic);
-        this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.sportBasic));
-        this.activity.updateIntervals();
-        this.structuredMode = this.activity.structured;
+        this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.header.sportBasic);
+        this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.header.sportBasic));
+        //this.activity.updateIntervals();
+        this.structuredMode = this.activity.isStructured;
         this.templateChangeCount ++;
     }
 
     prepareAuth(){
-        this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
-        this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
-        this.isPro = this.AuthService.isActivityPro();
-        this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
+        //this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
+        //this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
+        //this.isPro = this.AuthService.isActivityPro();
+        //this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
     }
 
     updateFilterParams(): void {
@@ -342,10 +386,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param response
      * @param mode
      */
-    selectAthletes(response, mode: boolean){
+    onSelectAthletes(list, mode: boolean){
         this.showSelectAthletes = false;
         this.recalculateMode = mode;
-        this.forAthletes = response;
+        this.forAthletes = list;
     }
 
     /**
@@ -367,14 +411,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     calculateActivityRange(nonContiguousMode: boolean):void {
         this.ActivityService.calculateRange(
-            this.activity.id, null, null,
+            this.activity.header.id, null, null,
             [   this.activity.intervals.PW.prepareForCalculateRange(),
                 ...this.activity.intervals.P.map(i=> i.prepareForCalculateRange()),
                 ...this.activity.intervals.G.map(i => i.prepareForCalculateRange())], nonContiguousMode)
             //.then(response => {debugger;}, error => {debugger;})
             .then(response => this.activity.intervals.add(response.intervals, 'update'),
                 error => this.message.toastError('errorCompleteIntervals'))
-            .then(() => this.activity.updateIntervals())
+            //.then(() => this.activity.updateIntervals())
             .then(() => this.changeStructuredAssignment++);
     }
 
@@ -406,12 +450,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }
             });
 
-            this.ActivityService.calculateRange(this.activity.id, null, null, intervals)
+            this.ActivityService.calculateRange(this.activity.header.id, null, null, intervals)
                 .then(response => {
                     this.multiSelection = true;
                     this.multiSelectionInterval = response.intervals.filter(i => i.type === 'W')[0];
-                    //this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
-                    //this.selectIntervalIndex(initiator,{ L: null, P: null, U: [(this.activity.intervalU && this.activity.intervalU.length-1) || 0]});
                 }, error => {
                     this.message.toastInfo(error);
                 });
@@ -446,7 +488,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         this.setDetailsTab(initiator, true);
-        this.ActivityService.calculateRange(this.activity.id, range.startTimestamp, range.endTimestamp, [{
+        this.ActivityService.calculateRange(this.activity.header.id, range.startTimestamp, range.endTimestamp, [{
                 type: 'U',
                 startTimestamp: range.startTimestamp,
                 endTimestamp: range.endTimestamp
@@ -454,11 +496,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
             .then(response => {
                 //this.activity.completeInterval(response.intervals.filter(i => i.type === 'U')[0]);
                 this.activity.intervals.add(response.intervals.filter(i => i.type === 'U'));
-                this.activity.updateIntervals();
+                //this.activity.updateIntervals();
                 this.selectIntervalIndex(initiator,{
                     L: null,
                     P: null,
-                    U: [(this.activity.intervalU && this.activity.intervalU.length - 1) || 0]});
+                    U: [(this.activity.intervals.U && this.activity.intervals.U.length - 1) || 0]});
             }, error => {
                 this.message.toastInfo(error);
                 this.setDetailsTab(initiator, false);
@@ -474,10 +516,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
-        if(this.activity.structured && this.selectedTab !== HeaderStructuredTab.Details && this.isPro) {
+        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.activity.auth.isPro) {
             this.selectedTab = HeaderStructuredTab.Details;
         }
-        if(!this.activity.structured && this.selectedTab !== HeaderTab.Details && this.isPro) {
+        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.activity.auth.isPro) {
             this.selectedTab = HeaderTab.Details;
         }
 
@@ -495,24 +537,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(mode === 'post') {
             this.onCancel();
         } else {
-            if(this.activity.structured && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
+            if(this.activity.isStructured && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
                 this.onCancel();
-                //let hasRecalculated: boolean = this.activity.intervals.PW.hasRecalculate;
-                //this.activity.intervals.P.map(i => i.reset());
-                //this.activity.intervals.PW.reset();
-                /**if(hasRecalculated) {
-                    this.calculateActivityRange(false);
-                } else {
-                    this.activity.updateIntervals();
-                    this.resetStructuredAssignment ++;
-                }**/
-
-                //this.activity.updateIntervals();
-                //this.resetStructuredAssignment ++;
-
             } else {
                 let tempDetails: ActivityDetails = this.activity.details || null;
-                let tempIntervalDetails: Array<ActivityIntervalL> = this.activity.intervalL || null;
+                let tempIntervalDetails: Array<ActivityIntervalL> = this.activity.intervals.L || null;
                 this.activity.prepare();
 
                 if(tempDetails) {
@@ -523,9 +552,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     this.activity.intervals.add(tempIntervalDetails);
                 }
 
-                this.activity.updateIntervals();
-
-                this.structuredMode = this.activity.structured;
+                this.structuredMode = this.activity.isStructured;
             }
         }
     }
@@ -534,13 +561,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
     // могут вызваны из любого другого представления
     onSave() {
         this.inAction = true;
-        if (this.mode === 'post') {
+        if (this.activity.view.isPost) {
             let athletes: Array<{profile: IUserProfile, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter(athlete => athlete.active));
             athletes.forEach(athlete => {
                 let activity = copy(this.activity);
                 if(this.recalculateMode) {
-                    activity.intervals.PW.completeAbsoluteValue(athlete.profile.trainingZones, this.activity.sportBasic);
+                    activity.intervals.PW.completeAbsoluteValue(athlete.profile.trainingZones, this.activity.header.sportBasic);
                     //TODO intervalP
                 }
                 //console.log('post', athlete.profile, athlete.active)
@@ -553,7 +580,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then(() => this.inAction = false);
             });
         }
-        if (this.mode === 'put') {
+        if (this.activity.view.isPut) {
             this.CalendarService.putItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
@@ -565,7 +592,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onDelete() {
-        this.dialogs.confirm({ text: this.activity.hasImportedData ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
+        this.dialogs.confirm({ text: this.activity.hasIntervalDetails ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
         .then((response)=> {
             this.onAnswer({response: {type:'delete',item:this.activity.build()}});
@@ -577,38 +604,68 @@ export class CalendarItemActivityCtrl implements IComponentController{
         });
     }
 
-    onSaveTemplate() {
-        if (!this.template) {
-            this.onCancel();
+    /**
+     * Запрос удаление шаблона тренировки
+     */
+    deleteTemplate (): void {
+        debugger;
+        if (!this.activity.view.isTemplate || !this.options.templateOptions.templateId) { return; }
+        this.ReferenceService.deleteActivityTemplate(this.options.templateOptions.templateId)
+            .then(() => this.message.toastInfo('templateDeleted'))
+            .then(() => this.onAnswer({formMode: FormMode.Delete, item: this.activity.build()}),
+                (error) => {
+                    this.message.toastError(error);
+                    this.onCancel();
+                });
+    }
+
+    onSaveTrainingPlanActivity(): void {
+        this.inAction = true;
+
+        if (this.activity.view.isPost) {
+            this.trainingPlansService.postItem(this.options.planId, this.activity.build(), true)
+                .then((response)=> {
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityCreated');
+                    this.onAnswer({formMode: FormMode.Post, item: this.activity.build()});
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
         }
 
+        if (this.activity.view.isPut) {
+            this.trainingPlansService.putItem(this.options.planId, this.activity.build(), true)
+                .then((response)=> {
+                    this.activity.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('activityUpdated');
+                    this.onAnswer({formMode: FormMode.Put, item: this.activity.build()});
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
+        }
+    }
+
+    onDeleteTrainingPlanActivity (): void {
+
+    }
+
+    onSaveTemplate() {
+        if (!this.activity.view.isTemplate) {
+            this.onCancel();
+        }
         this.activity.build();
+        //let name = this.code;
+        //let description = this.activity.intervals.PW.trainersPrescription;
+        //let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
+        //let groupId = groupProfile && groupProfile.groupId;
+        //let { activityCategory, intervals } = header;
 
-        let name = this.name;
-        let description = this.activity.intervalPW.trainersPrescription;
-        let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
-        let groupId = groupProfile && groupProfile.groupId;
-        let { activityCategory, intervals } = header;
-        /**[
-            //this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
-            this.activity.intervalPW.toTemplate(),
-            ...this.activity.intervalP.map(i => i.toTemplate()),
-            //...this.activity.intervalP.map(i => i).map(interval => ({...interval, calcMeasures: undefined})),
-            ...this.activity.intervalG.map(i => i).map(interval => ({...interval, totalMeasures: undefined}))];
-        /**let content = [
-            ...intervals.filter(i => i.type === 'pW'),
-            ...intervals.filter(i => i.type === 'P')
-        ]
-        .map((interval) => ({ ...interval, calcMeasures: undefined,  }));**/
-
-        if (this.mode === 'post') {
+        if (this.activity.view.isPost) {
             this.ReferenceService.postActivityTemplate(
                 null,
-                activityCategory.id,
-                groupId,
-                name,
-                description,
-                favourite,
+                this.activity.header.category.id,
+                this.options.templateOptions.groupProfile && this.options.templateOptions.groupProfile.groupId,
+                this.code,
+                this.activity.intervals.PW.trainersPrescription,
+                this.options.templateOptions.favourite,
                 this.activity.intervals.buildTemplate())
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
@@ -617,16 +674,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error));
         }
 
-        if (this.mode === 'put' || this.mode === 'view') {
+        if (this.activity.view.isPut) {
             this.ReferenceService.putActivityTemplate(
-                templateId,
-                activityCategory.id,
-                groupId,
+                this.options.templateOptions.templateId,
+                this.activity.header.category.id,
+                this.options.templateOptions.groupProfile && this.options.templateOptions.groupProfile.groupId,
                 null,
-                name,
-                description,
-                favourite,
-                visible,
+                this.code,
+                this.activity.intervals.PW.trainersPrescription,
+                this.options.templateOptions.favourite,
+                this.options.templateOptions.visible,
                 this.activity.intervals.buildTemplate())
                 .then(response => {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
@@ -641,32 +698,32 @@ export class CalendarItemActivityCtrl implements IComponentController{
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
-        this.activity.intervalPW.update(plan);
-        this.activity.intervalW.update({calcMeasures: actual});
-        this.activity.updateIntervals();
+        this.activity.intervals.PW.update(plan);
+        this.activity.intervals.W.update({calcMeasures: actual});
+        //this.activity.updateIntervals();
     }
 
-    get name () {
-        if (this.template) {
-            let { code, intervalPW, activityHeader } = this.activity;
-            let sport = activityHeader.activityType.typeBasic;
-            return code || nameFromInterval(this.$translate) (intervalPW, sport);
+    get code () {
+        if (this.activity.view.isTemplate) {
+            let sport = this.activity.header.sportBasic;
+            return this.options.templateOptions.code ||
+                nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
         } else {
-            return this.activity.code;
+            return this.options.templateOptions.code;
         }
     }
 
-    set name (value) {
-        if (value !== this.name) {
-            this.activity.code = value;
+    set code (value) {
+        if (value !== this.code) {
+            this.options.templateOptions.code = value;
         }
     }
 
-    toTemplate () {
-        let { code, intervalPW, activityHeader } = this.activity;
+    toTemplate (e: Event) {
+        let { code, activityHeader } = this.activity;
         let sport = activityHeader.activityType.typeBasic;
-        let activityCode = code || nameFromInterval(this.$translate) (intervalPW, sport);
-        let description = intervalPW.trainersPrescription;
+        let activityCode = code || nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
+        let description = this.activity.intervals.PW.trainersPrescription;
         let { activityCategory, activityType, intervals } = activityHeader;
 
         let template = <any> {
@@ -675,13 +732,25 @@ export class CalendarItemActivityCtrl implements IComponentController{
             favourite: false,
             visible: true,
             activityCategory: activityCategory,
-            userProfileCreator: this.user,
+            userProfileCreator: this.options.currentUser,
             content: [this.activity.intervals.PW, ...this.activity.intervals.P, ...this.activity.intervals.G]
-            //content: [this.activity.structured ? this.activity.intervalPW.clear() : this.activity.intervalPW.toTemplate(),
-            //    ...this.activity.intervalP.map(i => i.toTemplate()), ...this.activity.intervalG]
         };
+
+        let templateDialogOptions: ICalendarItemDialogOptions = Object.assign({}, this.options, {
+            formMode: FormMode.Post,
+            templateMode: true,
+            templateOptions: {
+                templateId: null,
+                code: null,
+                visible: true,
+                favourite: false,
+                groupProfile: null
+            }
+        });
         
-        return this.$mdDialog.show(templateDialog('post', template, this.user));
+        //return this.$mdDialog.show(templateDialog('post', template, this.options.owner));
+        this.calendarDialog.activity(e, templateDialogOptions, templateToActivity(template))
+            .then(() => { debugger; });
     }
 }
 
@@ -692,10 +761,10 @@ const CalendarItemActivityComponent: IComponentOptions = {
         activityCategory: '<',
         club: '<',
         data: '<', // в режиме просмотр/изменение передает данные по тренировке из календаря
+        options: '<',
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
-        popup: '=', //true - режим popup dialog, false - отдельное окно
         template: '=',
         onCancel: '&',
         onAnswer: '&'

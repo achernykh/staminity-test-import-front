@@ -1,7 +1,9 @@
 import { ICompileProvider, ILocationProvider} from 'angular';
-import {StateProvider, StateDeclaration} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, Transition} from 'angular-ui-router';
 import moment from 'moment/min/moment-with-locales.js';
 import {translateForm,translateGeneral} from "./app.translate";
+import { IUserProfile } from "../../api/user/user.interface";
+import AuthService from "./auth/auth.service";
 
 function configure(
 	$compileProvider: ICompileProvider,
@@ -14,6 +16,7 @@ function configure(
 	$qProvider: any,
 	$mdGestureProvider: any
 ) {
+	console.log('app: config start');
 	$mdGestureProvider.skipClickHijack(); //https://github.com/angular/angular.js/issues/6251
 	$qProvider.errorOnUnhandledRejections(false); // https://github.com/angular-ui/ui-router/issues/2889
 	$anchorScrollProvider.disableAutoScrolling();
@@ -27,15 +30,55 @@ function configure(
 	$locationProvider.hashPrefix('!');
 
 	$urlRouterProvider.otherwise('/');
+
+	$stateProvider
+		.state("initialisation", <StateDeclaration>{
+			url: "/",
+			loginRequired: false,
+			authRequired: null,
+			redirectTo: (trans: Transition) => {
+				let $mdMedia: any = trans.injector().get('$mdMedia');
+				let authService: AuthService = trans.injector().get('AuthService');
+
+				if (authService.isAuthenticated()) {
+					if (authService.isCoach() && $mdMedia('gt-sm')) {
+						return {state: 'dashboard'};
+					} else {
+						return {state: 'calendar'};
+					}
+				} else {
+					return {state: 'welcome'};
+				}
+			}
+		});
+
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('default')
 		.primaryPalette('blue-grey', {
-			'default': '500',
+			'default': '700',
+				'hue-1': '50',
+				'hue-2': '600',
+				'hue-3': '900'
+		})
+		//.primaryPalette('blue')
+		.accentPalette('deep-orange')
+		//.accentPalette('amber')
+		.warnPalette('red');
+
+	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
+	$mdThemingProvider.theme('grey')
+        .primaryPalette('grey')
+        .accentPalette('deep-orange')
+        .warnPalette('red');
+
+	/**$mdThemingProvider.theme('default')
+		.primaryPalette('blue-grey', {
+			'default': '700',
 			'hue-1': '50',
 			'hue-2': '600',
-			'hue-3': '800'
+			'hue-3': '900'
 		})
 		.accentPalette('deep-orange', {
 			'default': 'A700',
@@ -45,7 +88,8 @@ function configure(
 		})
 		.warnPalette('red', {
 			'default': 'A700'
-		});
+		});**/
+
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('coming')
 		.primaryPalette('grey', {

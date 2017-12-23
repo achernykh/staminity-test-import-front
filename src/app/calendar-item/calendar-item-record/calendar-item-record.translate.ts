@@ -1,15 +1,15 @@
 export const _translateRecord = {
     ru: {
         toolbar: {
-            title: 'Запись',
+            title: 'Событие',
             delete: 'Удалить',
-            deleteFuture: 'Удалить будущие записи',
-            deleteAll: 'Удалить всю серию записей',
+            deleteFuture: 'Удалить будущие события',
+            deleteAll: 'Удалить всю серию событий',
             close: 'Закрыть',
             settings: 'Настроить отображение',
             save: 'Сохранить'
         },
-        type: 'Тип записи',
+        type: 'Тип события',
         restDay: 'День отдыха',
         sickness: 'Болезнь',
         vitamins: 'Витамины',
@@ -58,12 +58,12 @@ export const _translateRecord = {
             label: 'Количество повторов'
         },
         description: 'Описание',
-        descriptionPlaceholder: '...',
+        descriptionPlaceholder: '...'
 
     },
     en: {
         toolbar: {
-            title: 'Record',
+            title: 'Event',
             delete: 'Delete',
             deleteFuture: 'Delete future repeats',
             deleteAll: 'Delete all',
@@ -71,7 +71,7 @@ export const _translateRecord = {
             settings: 'Settings',
             save: 'Save'
         },
-        type: 'Record type',
+        type: 'Event type',
         restDay: 'Rest day',
         sickness: 'Sickness',
         vitamins: 'Supplements',
@@ -82,7 +82,7 @@ export const _translateRecord = {
         travel: 'Travel',
         note: 'Note',
         video: 'Video',
-        isRepeated: 'Повторяющееся событие',
+        isRepeated: 'Repeated event',
 
         period: {
             label: 'Frequency',
@@ -119,6 +119,7 @@ export const _translateRecord = {
         endOnCount: {
             label: 'Number of repeats'
         },
-        description: 'Description'
+        description: 'Description',
+        descriptionPlaceholder: '...'
     }
 };

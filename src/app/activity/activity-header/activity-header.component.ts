@@ -1,7 +1,7 @@
 import './activity-header.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {Activity} from "../activity.datamodel";
+import {Activity} from "../activity-datamodel/activity.datamodel";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
 

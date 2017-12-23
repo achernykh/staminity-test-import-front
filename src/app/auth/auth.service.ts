@@ -1,21 +1,22 @@
-import {PostData, IRESTService} from '../core/rest.service';
 import {
-    SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest,
-    ResetPasswordRequest
-} from '../../../api/auth/auth.request';
-import {ISessionService} from "../core/session.service";
-import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType, copy} from 'angular';
-import {ISocketService} from "../core/socket.service";
-import {IUserProfile} from "../../../api/user/user.interface";
+    IUserProfile,
+    SetPasswordRequest, UserCredentials, InviteUserRequest,
+    ResetPasswordRequest, PutUserInviteRequest
+} from '../../../api/';
+import {SessionService, SocketService} from "../core";
+import {PostData, IRESTService} from '../core/rest.service';
+import {IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import GroupService from "../core/group.service";
-import {GetRequest} from "../../../api/calendar/calendar.request";
-import {Observable} from "rxjs/Rx";
 import {toDay} from "../activity/activity.datamodel";
+import ReferenceService from "../reference/reference.service";
+import NotificationService from "../share/notification/notification.service";
+import RequestsService from "../core/requests.service";
+
 
 
 export interface IAuthService {
     isAuthenticated():boolean;
-    isAuthorized(roles:Array<string>):boolean;
+    isAuthorized(roles:Array<string>, strict?: boolean):boolean;
     isCoach(role?: string):boolean;
     isMyAthlete(user: IUserProfile):Promise<any>;
     isMyClub(uri: string):Promise<any>;
@@ -34,14 +35,17 @@ export interface IAuthService {
 
 export default class AuthService implements IAuthService {
 
-    static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService'];
+    static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService', 'ReferenceService',
+        'NotificationService', 'RequestsService'];
 
     constructor(
-        private SessionService:ISessionService,
+        private SessionService: SessionService,
         private RESTService:IRESTService,
-        private SocketService:ISocketService,
-        private GroupService:GroupService
-    ) {
+        private SocketService: SocketService,
+        private GroupService:GroupService,
+        private referenceService: ReferenceService,
+        private notificationService: NotificationService,
+        private requestService: RequestsService) {
 
     }
 
@@ -59,11 +63,14 @@ export default class AuthService implements IAuthService {
     /**
      * Проверка полномочий пользователя
      * @param authorizedRoles
+     * @param strict
      * @returns {boolean}
      */
-    isAuthorized(authorizedRoles: Array<any> = []) : boolean {
+    isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions();
-        return authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
+        return  strict ?
+            authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
+            authorizedRoles.some(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
     }
 
     isCoach(role: string = 'Calendar_Athletes') : boolean {
@@ -141,11 +148,18 @@ export default class AuthService implements IAuthService {
     signedIn(sessionData: any) {
         this.SessionService.set(sessionData);
         this.SocketService.open(sessionData['token']);
+        this.referenceService.resetCategories();
+        this.referenceService.resetTemplates();
+        this.notificationService.resetNotifications();
+        this.requestService.resetRequests();
     }
 
     signOut() {
         this.SessionService.set();
-        this.SocketService.close({reason: 'signOut'});
+        this.SocketService.close();
+        /**this.referenceService.clear();
+        this.notificationService.clear();
+        this.requestService.clear();**/
     }
 
     /**
@@ -183,11 +197,11 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     inviteUsers(group: number, users: Array<Object>) : Promise<any> {
-        return this.SocketService.send(new InviteRequest(group,users));
+        return this.SocketService.send(new InviteUserRequest(group,users));
     }
 
     putInvite(credentials: UserCredentials) : Promise<any> {
-        return this.RESTService.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
+        return this.RESTService.postData(new PostData('/api/wsgate', new PutUserInviteRequest(credentials)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 }

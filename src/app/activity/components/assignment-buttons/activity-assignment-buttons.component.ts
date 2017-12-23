@@ -5,7 +5,7 @@ import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-act
 class ActivityAssignmentButtonsCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public onEvent: (response: Object) => IPromise<void>;
+    onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
     constructor() {
@@ -17,7 +17,7 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
     }
 
     onSave(){
-        this.item.template ? this.item.onSaveTemplate() : this.item.onSave();
+        this.item.options.templateMode ? this.item.onSaveTemplate() : this.item.onSave();
     }
 }
 

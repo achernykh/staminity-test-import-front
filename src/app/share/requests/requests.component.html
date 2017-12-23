@@ -1,6 +1,6 @@
 <application-frame class="requests">
     
-    <md-toolbar layout="row" layout-align="center center" class="md-hue-3">
+    <md-toolbar layout="row" layout-align="center center" class="md-primary">
         <div style="margin: 0 20px; position: relative">
             <md-icon class="material-icons">group</md-icon>
             <span class="badge superscript" ng-if="$ctrl.requests.inbox.new.length">{{$ctrl.requests.inbox.new.length}}</span>
@@ -11,7 +11,7 @@
         </md-button>
     </md-toolbar>
 
-    <md-tabs md-stretch-tabs="always" md-dynamic-height="true" class="md-primary md-hue-3 md-body-1">
+    <md-tabs md-stretch-tabs="always" md-dynamic-height="true" class="md-primary md-body-1">
         <md-tab label="{{'request.inbox' | translate}}">
             <md-tab-body>
                 <div layout-padding="10">

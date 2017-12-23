@@ -1,5 +1,4 @@
 import {module, bootstrap} from 'angular';
-import * as hmReedmore from "../../bower_components/angular-read-more";
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
 import 'drag-drop-webkit-mobile/ios-drag-drop.js';
@@ -15,7 +14,7 @@ import Landing from './landingpage/landingpage.module';
 import SettingsUser from './settings-user/settings-user.module';
 import Calendar from './calendar/calendar.module';
 import CalendarItemMeasurement from './calendar-item/calendar-item.module';
-import Activity from './activity/activity.module';
+import { ActivityModule } from './activity';
 import Profile from './profile-user/profile-user.module';
 import SettingsClub from './settings-club/settings-club.module';
 import Management from "./management/managment.module";
@@ -24,7 +23,11 @@ import Club from "./club/club.module";
 import Dashboard from './dashboard/dashboard.module';
 import Search from "./search/search.module";
 import Reference from "./reference/reference.module";
+import { TrainingPlans } from "./training-plans/training-plans.module";
 import Analytics from "./analytics/analytics.module";
+import { Methodology } from './methodology/methodology.module';
+import { TrainingSeason } from './training-season';
+import { User } from './user';
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -37,7 +40,7 @@ const root = module('staminity.application', [
 	'md.data.table',
 	'nemLogging',
 	'ui-leaflet',
-	hmReedmore,
+	'hm.readmore',
 	'tmh.dynamicLocale',
 	'toaster',
 	//'ngTouch',
@@ -53,7 +56,7 @@ const root = module('staminity.application', [
 	SettingsUser,
 	Calendar,
 	CalendarItemMeasurement,
-	Activity,
+	ActivityModule,
 	Profile,
 	SettingsClub,
 	Management,
@@ -62,7 +65,11 @@ const root = module('staminity.application', [
 	Dashboard,
 	Search,
 	Reference,
-	Analytics
+	Analytics,
+	TrainingPlans,
+	Methodology,
+	TrainingSeason,
+	User,
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

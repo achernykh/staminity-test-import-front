@@ -1,12 +1,13 @@
 import { Observable, Subject } from "rxjs/Rx";
 
-import { ISocketService } from '../core/socket.service';
-import { ISessionService } from '../core/session.service';
+import { SocketService, SessionService } from '../core';
+import {  } from '../core/session.service';
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { 
-	GetActivityCategory, PostActivityCategory, PutActivityCategory, DeleteActivityCategory,
-	GetActivityTemplate, PostActivityTemplate, PutActivityTemplate, DeleteActivityTemplate
-} from "../../../api/reference/reference.request";
+	GetActivityCategoryRequest, PostActivityCategoryRequest, PutActivityCategoryRequest,
+	DeleteActivityCategoryRequest, GetActivityTemplateRequest, PostActivityTemplateRequest,
+	PutActivityTemplateRequest, DeleteActivityTemplateRequest
+} from "../../../api";
 
 
 export default class ReferenceService {
@@ -20,7 +21,7 @@ export default class ReferenceService {
 		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
 	};
 
-	private resetCategories = () => {
+	public resetCategories = () => {
 		this.getActivityCategories(undefined, false, true)
 			.then((categories) => {
 				this.categories = categories;
@@ -36,7 +37,7 @@ export default class ReferenceService {
 		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
 	};
 
-	private resetTemplates = () => {
+	public resetTemplates = () => {
 		this.getActivityTemplates(undefined, undefined, false, false)
 			.then((templates) => {
 				this.templates = templates;
@@ -47,9 +48,8 @@ export default class ReferenceService {
 	static $inject = ['SocketService', 'SessionService'];
 
 	constructor (
-		private SocketService: ISocketService, 
-		private SessionService: ISessionService
-	) {
+		private SocketService: SocketService,
+		private SessionService: SessionService) {
 		//this.resetCategories();
 		this.SocketService.connections.subscribe(status => status && this.resetCategories());
 		this.SocketService.messages
@@ -75,12 +75,17 @@ export default class ReferenceService {
 			});
 	}
 
+	clear (): void {
+		this.categories = [];
+		this.templates = [];
+	}
+
 	getActivityCategories (
 		activityTypeId: number, 
 		onlyMine: boolean, 
 		showInvisible: boolean
 	) : Promise<[IActivityCategory]> {
-		return this.SocketService.send(new GetActivityCategory(
+		return this.SocketService.send(new GetActivityCategoryRequest(
 			activityTypeId, onlyMine, showInvisible
 		));
 	}
@@ -91,7 +96,7 @@ export default class ReferenceService {
 		description: string, 
 		groupId: number
 	) : Promise<any> {
-		return this.SocketService.send(new PostActivityCategory(
+		return this.SocketService.send(new PostActivityCategoryRequest(
 			activityTypeId, code, description, groupId
 		));
 	}
@@ -104,13 +109,13 @@ export default class ReferenceService {
 		sortOrder: number, 
 		visible: boolean
 	) : Promise<any> {
-		return this.SocketService.send(new PutActivityCategory(
+		return this.SocketService.send(new PutActivityCategoryRequest(
 			activityCategoryId, code, description, groupId, sortOrder, visible
 		));
 	}
 
 	deleteActivityCategory (activityCategoryId: number) : Promise<any> {
-		return this.SocketService.send(new DeleteActivityCategory(activityCategoryId));
+		return this.SocketService.send(new DeleteActivityCategoryRequest(activityCategoryId));
 	}
 
 	getActivityTemplates (
@@ -119,7 +124,7 @@ export default class ReferenceService {
 		onlyVisible: boolean,
 		onlyFavourites: boolean
 	) : Promise<[IActivityTemplate]> {
-		return this.SocketService.send(new GetActivityTemplate(
+		return this.SocketService.send(new GetActivityTemplateRequest(
 			activityCategoryId, activityTypeId, onlyVisible, onlyFavourites
 		))
 		.then((response) => response.arrayResult);
@@ -134,7 +139,7 @@ export default class ReferenceService {
 		favourite: boolean, 
 		content: any 
 	) : Promise<any> { 
-		return this.SocketService.send(new PostActivityTemplate( 
+		return this.SocketService.send(new PostActivityTemplateRequest(
 			id, activityCategoryId, groupId, code, description, favourite, content 
 		)); 
 	}
@@ -150,12 +155,12 @@ export default class ReferenceService {
 		visible: boolean,
 		content: any
 	) : Promise<any> {
-		return this.SocketService.send(new PutActivityTemplate(
+		return this.SocketService.send(new PutActivityTemplateRequest(
 			id, activityCategoryId, groupId, sortOrder, code, description, favourite, visible, content
 		));
 	}
 
 	deleteActivityTemplate (id: number) : Promise<any> {
-		return this.SocketService.send(new DeleteActivityTemplate(id));
+		return this.SocketService.send(new DeleteActivityTemplateRequest(id));
 	}
 }

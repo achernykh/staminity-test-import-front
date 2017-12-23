@@ -1,0 +1,51 @@
+<section class="training-season-list" ng-if="$ctrl.seasons.length === 0" layout-fill layout="column" layout-align="center center">
+    <span flex="none" class="md-body-1 md-dark" translate="trainingSeason.emptyList"></span>
+</section>
+
+
+<md-card class="training-season-list" ng-if="$ctrl.seasons.length > 0">
+    <md-toolbar class="md-default" ng-hide="$ctrl.selected.length">
+        <div class="md-toolbar-tools">
+            <span translate="trainingSeason.list.title"></span>
+            <div flex></div>
+        </div>
+    </md-toolbar>
+
+    <md-list class="md-dense">
+        <md-list-item class="md-3-line"
+                      ng-repeat="season in $ctrl.seasons track by season.id"
+                      ng-click="$ctrl.open(season)">
+            <md-icon md-svg-src="/assets/icon/season.svg"></md-icon>
+            <div class="md-list-item-text" layout="column">
+                <h3>{{ season.code }}</h3>
+                <h4>{{ season.dateStart }} - {{ season.dateEnd }}</h4>
+                <p>{{ season.description | htmlToPlainText }}</p>
+            </div>
+            <md-menu class="md-secondary">
+                <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                    <md-icon class="material-icons">more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete(season)">
+                            <span translate="trainingSeason.action.deleteSeason"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.edit($event, season)">
+                            <span translate="trainingSeason.action.editSeason"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </md-list-item>
+    </md-list>
+</md-card>
+
+<div class="training-season-list__post">
+    <md-button id="training-season-list__fab"
+               ng-click="$ctrl.post($event)"
+               class="md-fab md-accent md-hue-2 animated bounce zoomIn">
+        <md-icon class="material-icons">add</md-icon>
+    </md-button>
+</div>

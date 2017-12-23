@@ -2,17 +2,31 @@ export const _translate = {
     ru: {
         fullTitle: 'Календарь',
         shortTitle: 'Календарь',
-        today: 'Сегодня',
-        selectDate: 'Перейти на дату',
-        compact: 'Показать детали',
-        details: 'Скрыть детали'
+        details: 'Скрыть детали',
+        action: {
+            today: 'Сегодня',
+            selectDate: 'Перейти на дату',
+            copy: 'Скопировать',
+            paste: 'Вставить',
+            delete: 'Удалить',
+            post: 'Создать',
+            detail: 'Подробно'
+        },
+        templates: "Шаблоны"
     },
     en: {
         fullTitle: 'Calendar',
         shortTitle: 'Calendar',
-        today: 'Today',
-        selectDate: 'Select Date',
-        compact: 'Show Details',
-        details: 'Hide Details'
+        details: 'Details',
+        action: {
+            today: 'Today',
+            selectDate: 'Go to date',
+            copy: 'Copy',
+            paste: 'Paste',
+            delete: 'Delete',
+            post: 'Create',
+            detail: 'Details'
+        },
+        templates: "Templates"
     }
 };

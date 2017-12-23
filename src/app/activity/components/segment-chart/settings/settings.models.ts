@@ -1,7 +1,7 @@
 ﻿export enum FillType {
     None,
     Solid,
-    Gradient
+    Gradient,
 }
 
 export interface IGradientPoint {
@@ -17,7 +17,7 @@ export interface IGridSettings {
 
 export interface IFilledShape {
     fillType: FillType;
-    gradient?: Array<IGradientPoint>;
+    gradient?: IGradientPoint[];
     solidColor?: string;
 }
 
@@ -54,8 +54,7 @@ export interface IScaleOffset {
     max: number;
 }
 
-export interface IPlanChartSettings
-{
+export interface IPlanChartSettings {
     minWidth: number;
     minAspectRation: number;
     autoResizable: boolean;

@@ -1,0 +1,90 @@
+<md-toolbar class="md-default">
+    <div class="md-toolbar-tools">
+        <h2 translate="methodology.periodization.mesocycle.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content flex="auto" layout="column">
+    <form flex="auto" layout="column" name="$ctrl.mesocycleForm">
+        <md-list flex="auto" class="md-dense">
+            <!-- Название плана -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="methodology.periodization.mesocycle.code.label"></label>
+                    <md-icon flex="none" class="material-icons md-dark"
+                             md-svg-src="/assets/icon/methodology.svg"></md-icon>
+                    <input flex="auto"
+                           name="code" required
+                           type="text"
+                           placeholder="{{methodology.periodization.mesocycle.code.placeholder}}"
+                           ng-model="$ctrl.mesocycle.code">
+                    <div ng-messages="$ctrl.mesocycleForm.code.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']"
+                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Цвет периода -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <label translate="methodology.periodization.mesocycle.color.label"></label>
+                    <md-icon flex="none" class="color-avatar"
+                             ng-style="{'background-color': $ctrl.mesocycle.color}"></md-icon>
+                    <md-select flex required
+                               name="color" class="icon"
+                               ng-model="$ctrl.mesocycle.color"
+                               md-selected-text="'methodology.periodization.mesocycle.color.' + $ctrl.getSelectedText() | translate"
+                               placeholder="{{methodology.periodization.mesocycle.color.placeholder}}"
+                               ng-change="$ctrl.changeParam()">
+                        <md-option
+                            ng-repeat="color in $ctrl.config.colors track by $index"
+                            value="{{color.value}}">
+                            <div layout="row" layout-align="start center">
+                                <div flex="none" class="st-avatar" ng-style="{'background-color': color.value}"></div>
+                                <div flex="auto" translate="methodology.periodization.mesocycle.color.{{color.code}}"></div>
+                            </div>
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="$ctrl.mesocycleForm.color.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Описание плана на сезон -->
+            <md-subheader>
+                <span translate="methodology.periodization.mesocycle.description">Описание</span>
+            </md-subheader>
+            <ng-quill-editor ng-if="true" flex="auto"
+                             ng-model="$ctrl.mesocycle.description"
+                             placeholder="{{'methodology.periodization.mesocycle.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                             read-only="$ctrl.isViewMode">
+            </ng-quill-editor>
+        </md-list>
+    </form>
+</md-dialog-content>
+<md-dialog-actions flex="none" layout="row" class="bg-grey-050">
+    <span flex></span>
+    <md-button ng-if="$ctrl.isViewMode"
+               ng-click="$ctrl.setChangeMode()">
+        <span translate="methodology.periodization.mesocycle.edit"></span>
+    </md-button>
+    <md-button ng-if="!$ctrl.isViewMode"
+               ng-class="{'md-warn': !$ctrl.mesocycleForm.$valid}"
+               ng-disabled="!$ctrl.mesocycleForm.$dirty"
+               ng-click="($ctrl.mesocycleForm.$valid) ? $ctrl.save() : null">
+        <span translate="methodology.periodization.mesocycle.save"></span>
+    </md-button>
+</md-dialog-actions>

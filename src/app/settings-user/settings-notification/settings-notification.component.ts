@@ -1,12 +1,12 @@
-import './settings-notification.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import { IUserNotifications } from "../../../../api/user/user.interface";
-import { INotificationGroup, groupStructure } from './settings-notification.config';
+import "./settings-notification.component.scss";
+import { groupStructure, INotificationGroup } from "./settings-notification.config";
 
 class SettingsNotificationCtrl implements IComponentController {
 
-    public notifications: IUserNotifications;
-    public onChange: () => IPromise<void>;
+    notifications: IUserNotifications;
+    onChange: () => IPromise<void>;
 
     private list: IUserNotifications;
     private listGroup: INotificationGroup = {};
@@ -24,23 +24,23 @@ class SettingsNotificationCtrl implements IComponentController {
 
     private prepareNotificationGroup(): void {
 
-        if(!this.list) { return; }
+        if (!this.list) { return; }
 
-        Object.keys(this.list).map(settings => {
-                Object.keys(groupStructure).map(group => {
-                    Object.keys(groupStructure[group]).map(subGroup => {
+        Object.keys(this.list).map((settings) => {
+                Object.keys(groupStructure).map((group) => {
+                    Object.keys(groupStructure[group]).map((subGroup) => {
                         if (groupStructure[group][subGroup].indexOf(settings) !== -1) {
                             if (!this.listGroup.hasOwnProperty(group)) {
                                 this.listGroup[group] = {};
                             }
-                            if(!this.listGroup[group].hasOwnProperty(subGroup)) {
+                            if (!this.listGroup[group].hasOwnProperty(subGroup)) {
                                 this.listGroup[group][subGroup] = {};
                             }
                             this.listGroup[group][subGroup][settings] = this.list[settings];
                         }
                     });
                 });
-            }
+            },
         );
     }
 
@@ -53,16 +53,16 @@ class SettingsNotificationCtrl implements IComponentController {
 
 }
 
-const SettingsNotificationComponent:IComponentOptions = {
+const SettingsNotificationComponent: IComponentOptions = {
     bindings: {
-        notifications: '<',
-        onChange: '&'
+        notifications: "<",
+        onChange: "&",
     },
     require: {
         //component: '^component'
     },
     controller: SettingsNotificationCtrl,
-    template: require('./settings-notification.component.html') as string
+    template: require("./settings-notification.component.html") as string,
 };
 
 export default SettingsNotificationComponent;

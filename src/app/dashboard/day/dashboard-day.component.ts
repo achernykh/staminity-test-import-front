@@ -11,27 +11,42 @@ import {
 } from "../../activity/activity.function";
 import {CalendarService} from "../../calendar/calendar.service";
 import {profileShort} from "../../core/user.function";
-
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import { FormMode } from '../../application.interface';
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 
 class DashboardDayCtrl implements IComponentController {
 
-    public day: IDashboardDay;
-    public athlete: IUserProfile;
-    public selected: boolean;
-    public onEvent: (response: Object) => IPromise<void>;
-    private dashboard: DashboardCtrl;
+    // bind
+    day: IDashboardDay;
+    currentUser: IUserProfile;
+    owner: IUserProfile;
+    selected: boolean;
+    onUpdate: (response: ICalendarItemDialogOptions) => Promise<any>;
 
-    static $inject = ['$mdDialog','message','dialogs','CalendarService'];
+    //private
+    private dashboard: DashboardCtrl;
+    private itemOptions: ICalendarItemDialogOptions;
+
+    static $inject = ['$mdDialog','message','dialogs','CalendarService', 'CalendarItemDialogService'];
 
     constructor(private $mdDialog: any,
                 private message: any,
                 private dialogs: any,
-                private CalendarService: CalendarService) {
+                private CalendarService: CalendarService,
+                private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
     $onInit() {
-
+        this.itemOptions = {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: FormMode.Put,
+            trainingPlanMode: false,
+            planId: null
+        };
     }
 
     onDrop(srcItem: ICalendarItem,
@@ -45,7 +60,7 @@ class DashboardDayCtrl implements IComponentController {
         let item:ICalendarItem = copy(srcItem);
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
         item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
-        if (srcAthlete.userId !== this.athlete.userId) {
+        if (srcAthlete.userId !== this.owner.userId) {
             item.userProfileOwner = profileShort(srcAthlete);
             //operation = 'copy';
             this.dialogs.confirm({ text: 'dialogs.updateIntensity' })
@@ -111,7 +126,7 @@ class DashboardDayCtrl implements IComponentController {
             targetEvent: $event,
             locals: {
                 date: new Date(date), // дата дня в формате ГГГГ-ММ-ДД
-                user: this.athlete,
+                user: this.owner,
                 event: $event
             },
             //resolve: {
@@ -124,14 +139,46 @@ class DashboardDayCtrl implements IComponentController {
             fullscreen: true
         }).then(() => {}, ()=> {});
     }
+
+    /**
+     * Визард создания записи календаря
+     * @param e
+     * @param data
+     */
+    wizard (e: Event, data: IDashboardDay): void {
+        this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
+            .then(response => this.onUpdate(response),  error => { debugger; });
+    }
+
+    /**
+     * Набор опций для запуска диалога CalendarItem*
+     * @param mode
+     * @param date
+     * @returns {ICalendarItemDialogOptions}
+     */
+    private getOptions (mode: FormMode, date?: string): ICalendarItemDialogOptions {
+        return {
+            dateStart: date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: mode,
+            trainingPlanMode: false,
+            planId: null
+        };
+    }
+
 }
 
 const DashboardDayComponent:IComponentOptions = {
     bindings: {
         day: '<',
-        athlete: '<',
+        currentUser: '<',
+        owner: '<',
+
         selected: '<',
-        onSelect: '&'
+        onSelect: '&',
+        onUpdate: '&', // Изменение / Создание / Удаление записи
     },
     require: {
         dashboard: '^dashboard'

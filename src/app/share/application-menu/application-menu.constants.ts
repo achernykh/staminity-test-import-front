@@ -22,6 +22,11 @@ export const UserMenuSettings = [
         link: "http://support.staminity.com/"
     },
     {
+        icon: "home",
+        name: "userMenu.home",
+        link: "welcome"
+    },
+    {
         icon: "exit_to_app",
         name: "userMenu.exit",
         link: "signout"
@@ -40,12 +45,12 @@ export const AppMenuSettings = [
         name: 'appMenu.search',
         link: 'search'
     },
-    {
+    /**{
         icon: 'import_contacts',
         name: 'appMenu.reference',
         link: 'reference'
 
-    },
+    },**/
     {
         icon: "forum",
         name: "appMenu.feeds",
@@ -63,15 +68,22 @@ export const AppMenuSettings = [
     {
         icon: "show_chart",
         name: "appMenu.plan",
-        link: "plan",
+        link: "training-plans-search",
         state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
-        icon: "show_chart",
+        icon: "methodology",
+        name: "appMenu.methodology",
+        link: "methodology",
+        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
+    },
+    {
+        icon: "season",
         name: "appMenu.season",
-        link: "season",
-        state: 'soon'
+        link: "training-season-builder",
+        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
+        //state: 'soon'
         //role: [_UserRoles.user]
     },
     {

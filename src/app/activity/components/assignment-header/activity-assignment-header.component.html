@@ -1,12 +1,12 @@
-<md-list class="md-dense slim-input bg-grey-200 activity-assignment-header" ng-if="$ctrl.item.mode !== 'view' || $ctrl.item.template">
+<md-list class="md-dense slim-input bg-grey-200" ng-if="!$ctrl.item.activity.view.isView || $ctrl.item.options.templateMode">
     <md-list-item>
         <md-input-container class="md-block no-message" md-no-float layout="row">
-            <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.sportUrl}}"></md-icon>
+            <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"></md-icon>
             <md-select flex name="sport" class="icon" required
-                       ng-model="$ctrl.item.activity.sport"
+                       ng-model="$ctrl.item.activity.header.sport"
                        ng-model-options="{ getterSetter: true }"
                        ng-change="$ctrl.changeParam()"
-                       ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'">
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
                            value="{{type.id}}">
                     {{'sport.'+type.code | translate}}
@@ -22,7 +22,7 @@
             </div>
         </md-input-container>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.template">
+    <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.options.templateMode">
         <md-input-container class="md-block no-message" md-no-float layout="row">
             <md-icon class="material-icons md-dark" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
             <md-select
@@ -32,7 +32,7 @@
                     md-no-asterisk="false"
                     placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
                     ng-change="$ctrl.changeParam()"
-                    ng-disabled="(!$ctrl.item.isCreator && !$ctrl.item.isMyCoach) || $ctrl.item.mode === 'view'"
+                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
                     name="category"
                     class="icon">
                 <md-optgroup
@@ -40,7 +40,7 @@
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
                         label="{{ 'reference.categories.' + owner | translate }}">
                     <md-option
-                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.sport, visible: true}:true track by category.id"
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.header.sport, visible: true}:true track by category.id"
                             ng-value="category">
                         {{ category | categoryCode }}
                     </md-option>
@@ -54,13 +54,13 @@
         </md-input-container>
     </md-list-item>
     <md-list-item ng-click="$ctrl.onTemplateOpen()"
-                  ng-if="!$ctrl.item.template && $ctrl.item.activity.header.activityCategory"
-                  ng-disabled="!$ctrl.item.templateByFilter">
+                  ng-if="!$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory"
+                  ng-disabled="!$ctrl.item.options.templateModeByFilter">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
         <p translate>{{$ctrl.templateSelectorText}}</p>
         <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.item.activity.sport">
+    <md-list-item ng-if="$ctrl.item.activity.header.sport">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
         <p translate="activity.assignment.structured"></p>
         <md-switch class="md-secondary md-primary"
@@ -68,13 +68,13 @@
                    ng-change="$ctrl.changeStructuredMode()"
                    md-invert>
     </md-list-item>
-    <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.template">
+    <md-list-item layout="row" layout-align="start center" ng-if="!$ctrl.item.options.templateMode">
         <md-input-container flex="50" class="no-message" md-no-float>
             <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
             <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
                            ng-change="$ctrl.changeParam()"
                            name="dateStart" md-hide-icons="calendar"
-                           ng-disabled="!$ctrl.item.isCreator && !$ctrl.item.isMyCoach"
+                           ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach"
                            style="margin-left: 42px"></md-datepicker>
             <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
                 <div ng-message="needPermissionForFeature"
@@ -85,11 +85,11 @@
         <div flex="5">
         </div>
     </md-list-item>
-    <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
+    <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.options.templateMode">
         <md-input-container flex="auto" class="md-block no-message" md-no-float>
             <md-icon flex="none" class="material-icons md-dark" style="left: 0px">import_contacts</md-icon>
             <input type="text" name="name" maxlength="150" required
-                   ng-model="$ctrl.item.name"
+                   ng-model="$ctrl.item.code"
                    autocomplete="off"
                    placeholder="{{::'activity.template.namePlaceholder' | translate}}">
             <div ng-messages="$ctrl.form.name.$error" role="alert">
@@ -100,10 +100,10 @@
         </md-input-container>
         </md-input-container>
     </md-list-item>
-    <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.template">
+    <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.item.options.templateMode">
         <md-icon flex="none" class="material-icons md-dark" style="margin-right: 20px">star</md-icon>
         <p class="md-caption" flex="none" translate="activity.template.favorite"></p>
-        <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.activity.favourite" md-invert>
+        <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.options.templateOptions.favourite" md-invert>
         </md-switch>
     </md-list-item>
 </md-list>

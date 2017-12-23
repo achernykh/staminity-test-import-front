@@ -9,10 +9,13 @@ import DialogsService from '../../share/dialogs';
 import { getType } from "../../activity/activity.constants";
 import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
 import { ReferenceFilterParams, templatesFilters, Owner, isSystem, getOwner, isOwner } from "../reference.datamodel";
-import { filtersToPredicate } from "../../share/utility";
+import { filtersToPredicate } from "../../share/utility/filtering";
 import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";
 import { isManager } from "../../club/club.datamodel";
 import "./templates.component.scss";
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
+import { FormMode } from "../../application.interface";
 
 
 class TemplatesCtrl implements IComponentController {
@@ -24,8 +27,10 @@ class TemplatesCtrl implements IComponentController {
 	public filterParams: ReferenceFilterParams;
 	
 	private templatesByOwner: { [owner in Owner]: Array<IActivityTemplate> };
+	private dialogOptions: ICalendarItemDialogOptions;
 
-	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService'];
+	static $inject = ['$scope', '$mdDialog', '$mdMedia', 'message', 'dialogs', 'ReferenceService',
+		'CalendarItemDialogService'];
 
 	constructor (
 		private $scope, 
@@ -33,9 +38,29 @@ class TemplatesCtrl implements IComponentController {
 		private $mdMedia, 
 		private message: IMessageService,
 		private dialogs: DialogsService,
-		private ReferenceService: ReferenceService
+		private ReferenceService: ReferenceService,
+		private calendarDialog: CalendarItemDialogService
 	) {
 
+	}
+
+	$onInit (): void {
+		this.dialogOptions = {
+			currentUser: this.user,
+			owner: this.user,
+			popupMode: true,
+			formMode: FormMode.Post,
+			trainingPlanMode: false,
+			planId: null,
+			templateMode: true,
+			templateOptions: {
+				templateId: null,
+				code: null,
+				visible: true,
+				favourite: false,
+				groupProfile: this.club
+			}
+		};
 	}
 
 	$onChanges (changes) {
@@ -81,6 +106,10 @@ class TemplatesCtrl implements IComponentController {
 		return this.$mdDialog.show(templateDialog('post', template, this.user, { targetEvent }));
 	}
 
+	post (e: Event): void {
+		this.calendarDialog.activity(e, this.dialogOptions).then(response => {});
+	}
+
 	copyTemplate (template: IActivityTemplate) {
 		let { id, activityCategory, code, description, groupProfile, favourite, content } = template;
 		let groupId = groupProfile && groupProfile.groupId;
@@ -115,7 +144,7 @@ class TemplatesCtrl implements IComponentController {
 
 const TemplatesComponent: IComponentOptions = {
 	require: {
-		reference: '^'
+		//reference: '^'
 	},
 	bindings: {
 		user: '<',

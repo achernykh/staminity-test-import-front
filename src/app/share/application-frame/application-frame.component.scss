@@ -1,0 +1,230 @@
+@import '../../../sass/color';
+
+$app-sidenav-desktop-width: 320px;
+$app-sidenav-desktop-width-collapsed: 52px;
+$app-toolbar-height: 64px;
+$app-toolbar-height-mobile: 56px;
+$app-nav-bar-height: 48px;
+$app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
+
+.st-application-frame {
+  /**
+  Шаблон с Навигационной панелью
+   */
+  &[nav-bar=true] {
+    
+    .st-application-frame__primary-toolbar {
+      height: $app-max-bar-height;
+    }
+    
+    .st-application-frame__left-bar, .st-application-frame__right-bar {
+      top: $app-max-bar-height;
+      height: calc(100vh - 64px - 48px);
+    }
+
+    .st-application-frame__navbar {
+      display: inherit;
+    }
+
+    .st-application-frame__content {
+      top: $app-max-bar-height;
+      min-height: calc(100vh - 64px - 48px);
+    }
+    
+  }
+
+  /**
+  Шаблон типа Профиль
+   */
+  &[template=profile] {
+
+    .st-application-frame__primary-toolbar {
+      box-shadow: none;
+      height: 30vh;
+
+      @media (max-width: 959px) {
+        height: 20vh;
+      }
+
+    }
+
+    .st-application-frame__content {
+      top: 30vh;
+      min-height: calc(100vh - 30vh);
+
+      @media (max-width: 959px) {
+        top: 20vh;
+        min-height: calc(100vh - 20vh);
+      }
+
+    }
+
+    &[nav-bar=true] {
+      .st-application-frame__navbar {
+        top: calc(20vh - 48px);
+        display: inherit;
+
+        .md-nav-bar {
+          margin-left: 0px;
+        }
+
+      }
+    }
+
+  }
+
+  // Заголовок Представления
+  &__primary-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    .md-button.app-menu {
+      margin-right: 32px;
+      margin-left: -8px;
+      @media (max-width: 959px) {
+        margin-right: 16px;
+      }
+    }
+    .icon-bar {
+      margin-left: 64px;
+      margin-right: 16px;
+      border-radius: 5px;
+      .md-button.md-icon-button {
+        width: auto;
+      }
+      span {
+        margin-left: 8px;
+      }
+      @media (max-width: 959px) {
+        margin: 0;
+        background: none !important;
+      }
+    }
+    span.button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 200ms;
+      &:focus {
+        outline: none;
+      }
+      &:hover {
+        background: rgba(0,0,0,0.1);
+      }
+    }
+  }
+
+  // Навигационная панель
+  &__navbar {
+    display: none;
+    position: fixed;
+    top: $app-toolbar-height;
+    width: 100%;
+    z-index: 4;
+
+    .md-nav-bar {
+      margin-left: 54px;
+    }
+
+    .md-button._md-nav-button.md-unselected {
+      color: rgba(255,255,255,0.54);
+    }
+
+  }
+
+  // Вторая строка заголовка
+  &__secondary-toolbar {
+    position: fixed;
+    top: $app-toolbar-height;
+    z-index: 2;
+  }
+
+  // Кнопка мобильного меню в тулбаре
+  &__mobile-menu {
+    display: none;
+    .md-button {
+      margin: 0;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      min-height: 24px;
+    }
+    @media (max-width: 959px) {
+      display: flex;
+    }
+  }
+
+  // Левая панель / Правая панель
+  &__left-bar, &__right-bar {
+    background: $grey-200;
+    top: $app-toolbar-height;
+    width: $app-sidenav-desktop-width;
+    position: fixed;
+    z-index: 2;
+    height: calc(100vh - 64px);
+
+    .md-subheader {
+      background: $grey-200 !important;
+    }
+
+  }
+
+  // Левая панель
+  &__left-bar {
+    left: 0;
+  }
+
+  // Правая панель
+  &__right-bar {
+    right: 0;
+    display: none;
+  }
+
+  // Область Представления
+  &__wrapper {
+    width: 100vw;
+    min-height: 100vh;
+  }
+
+  // Название Представления
+  &__title {
+    margin-left: 24px;
+  }
+
+  &__second-row {
+    margin-left: 50px;
+  }
+
+  // Наполнение основной части Представления
+  &__content {
+    width: auto;
+    background-color: $grey-300;
+    top: $app-toolbar-height;
+    min-height: calc(100vh - 64px);
+    @media (max-width: 959px) {
+      top: $app-toolbar-height-mobile;
+      min-height: calc(100vh - 56px);
+    }
+    &.left-bar {
+      margin-left: $app-sidenav-desktop-width;
+      &.collapsed {
+        margin-left: $app-sidenav-desktop-width-collapsed;
+      }
+      &.hidden {
+        margin-left: 0;
+      }
+    }
+    @media (min-width: 1440px) {
+      //max-width: 1440px;
+      //margin: auto !important;
+    }
+
+  }
+
+  //
+  &__sidenav {
+    min-width: $app-sidenav-desktop-width !important;
+    max-width: $app-sidenav-desktop-width;
+  }
+
+}

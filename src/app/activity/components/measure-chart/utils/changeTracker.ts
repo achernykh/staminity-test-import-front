@@ -1,37 +1,37 @@
-﻿
+
 export class ChangeTracker {
 
     private userSelection;
 
-    public isFirstChange(changes): boolean {
+    isFirstChange(changes): boolean {
         let isFirstChange = true;
-        for (let item in changes) {
+        for (const item in changes) {
             isFirstChange = isFirstChange && changes[item].isFirstChange();
         }
         return isFirstChange;
     };
 
-    public isZoomOnlyChange(changes): boolean {
-        let zoomChanges = ['autoZoom','zoomInClick','zoomOutClick'];
-        return Object.keys(changes).every(c => zoomChanges.indexOf(c) !== -1);
+    isZoomOnlyChange(changes): boolean {
+        const zoomChanges = ["autoZoom", "zoomInClick", "zoomOutClick"];
+        return Object.keys(changes).every((c) => zoomChanges.indexOf(c) !== -1);
     };
 
-    public isSelectsOnlyChange(changes): boolean {
+    isSelectsOnlyChange(changes): boolean {
         return !!(changes.select) && ((Object.keys(changes).length === 1) || (Object.keys(changes).length === 0));
     };
 
-    public areSelectsUpdated(changes): boolean {
+    areSelectsUpdated(changes): boolean {
         if (!changes.select) {
             return false;
         }
-        let prev = changes.select.previousValue || [];
-        let curr = changes.select.currentValue || [];
+        const prev = changes.select.previousValue || [];
+        const curr = changes.select.currentValue || [];
         // check if it's a user selection
         if (this.isUserSelection(curr)) {
             return false;
         }
         if (curr.length === 0 && !this.userSelection) {
-            return true;//false;
+            return true; //false;
         }
         if (prev.length !== curr.length) {
             return true;
@@ -46,18 +46,18 @@ export class ChangeTracker {
         return false;
     };
 
-    public isUserSelection(select) : boolean {
+    isUserSelection(select): boolean {
         if (select && select.length === 1) {
             return this.isEqualIntervals(select[0], this.userSelection);
         }
         return false;
     }
 
-    public storeUserSelection(intervals): void {
+    storeUserSelection(intervals): void {
         this.userSelection = (!intervals || !intervals.length) ? null : intervals[0];
     };
 
-    public resetUserSelection():void {
+    resetUserSelection(): void {
         this.userSelection = null;
     }
 

@@ -7,7 +7,7 @@
     </div>
     <div flex="none">
         <a ng-if="!$ctrl.AuthService.isAuthenticated()" ui-sref="signin" class="button" translate>landing.nav.signIn</a>
-        <a ng-if="$ctrl.AuthService.isAuthenticated()" ui-sref="calendar({uri: '{{$ctrl.user.public.uri}}'})" class="button" translate>landing.nav.signIn</a>
+        <a ng-if="$ctrl.AuthService.isAuthenticated()" ui-sref="{{$ctrl.$mdMedia('gt-sm') ? 'initialisation' : 'calendar'}}" class="button" translate>landing.nav.signIn</a>
     </div>
     <div flex="none" ng-show="$ctrl.AuthService.isAuthenticated()">
         <a ui-sref="signout" class="button" translate>landing.nav.signOut</a>

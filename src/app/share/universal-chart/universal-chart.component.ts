@@ -1,5 +1,5 @@
 import './universal-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IWindowService} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IWindowService, copy} from 'angular';
 import {UChartFactory} from './lib/UChart/UChartFactory.js';
 
 class UniversalChartCtrl implements IComponentController {
@@ -55,7 +55,7 @@ class UniversalChartCtrl implements IComponentController {
 
     redraw():void {
         this.container = this.$element[0];
-        this.chart = UChartFactory.getInstance(this.data).renderTo(this.container);
+        this.chart = UChartFactory.getInstance(copy(this.data)).renderTo(this.container);
     }
 }
 

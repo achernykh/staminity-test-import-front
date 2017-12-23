@@ -1,7 +1,7 @@
 import './calendar-item-events.component.scss';
 import {IPromise} from 'angular';
-import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {ISessionService} from "../../core/session.service";
+import {IUserProfileShort, IUserProfile} from "../../../../api";
+import {SessionService} from "../../core";
 import {CalendarItem} from "../calendar-item.datamodel";
 import {CalendarService} from "../../calendar/calendar.service";
 import {IMessageService} from "../../core/message.service";
@@ -26,16 +26,16 @@ class CalendarItemEventsCtrl {
     private forAthletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
 
     public currentUser: IUserProfile = null;
-    public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
-    public isCreator: boolean;
-    public isPro: boolean;
-    public isMyCoach: boolean;
+    //public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
+    //public isCreator: boolean;
+    //public isPro: boolean;
+    //public isMyCoach: boolean;
 
     static $inject = ['CalendarService','SessionService', 'message'];
 
     constructor(
         private CalendarService: CalendarService,
-        private SessionService: ISessionService,
+        private SessionService: SessionService,
         private message: IMessageService) {
     }
 
@@ -57,8 +57,8 @@ class CalendarItemEventsCtrl {
         this.item = new CalendarItem(this.data);
         this.item.prepare();
         //this.item.eventHeader.eventType = 'restDay';
-        this.isCreator = this.item.userProfileCreator.userId === this.user.userId;
-        this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
+        //this.isCreator = this.item.userProfileCreator.userId === this.user.userId;
+        //this.isMyCoach = this.item.userProfileCreator.userId !== this.user.userId;
 
         // Перечень атлетов тренера доступных для планирования
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){

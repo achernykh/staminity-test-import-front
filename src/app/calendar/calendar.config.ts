@@ -5,29 +5,36 @@ import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
-import SessionService from "../core/session.service";
+import {SessionService} from "../core";
 
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
 
     $stateProvider
-        .state('calendar-my', <StateDeclaration>{
+        /*.state('calendar-my', <StateDeclaration>{
             url: "/calendar",
             loginRequired: true,
             authRequired: ['user'],
             resolve: {
                 view: () => {return new DisplayView('calendar');},
-                user: ['SessionService', 'message',
-                    (SessionService:SessionService, message:MessageService, $stateParams) => SessionService.getUser()]
+                currentUser: ['SessionService', (session: SessionService) => session.getUser()],
+                owner: ['SessionService', (session: SessionService) => session.getUser()],
             },
-            views: DefaultTemplate('calendar')
-        })
+            views: {
+                "application": {
+                    component: "stCalendar"
+                }
+            }
+        })*/
         .state('calendar', <StateDeclaration>{
-            url: "/calendar/:uri",
+            url: "/calendar?userId",
             loginRequired: true,
             authRequired: ['user'],
+            reloadOnSearch: false,
             resolve: {
                 view: () => {return new DisplayView('calendar');},
+                currentUser: ['SessionService', (session: SessionService) => session.getUser()],
+                owner: ['SessionService', (session: SessionService) => session.getUser()],
                 user: ['UserService', 'message', '$stateParams',
                     function (UserService:UserService, message:MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
@@ -58,24 +65,8 @@ function configure($stateProvider:StateProvider,
                 }]
             },
             views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: 'view.background'
-                    }
-                },
-                "header": {
-                    component: 'staminityHeader',
-                    bindings: {
-                        view: 'view.header',
-                        athlete: 'athlete'
-                    }
-                },
                 "application": {
-                    component: "calendar",
-                    bindings: {
-                        view: 'view.application'
-                    }
+                    component: "stCalendar"
                 }
             }
         });

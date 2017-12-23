@@ -2,14 +2,15 @@ import './dashboard.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController, IPromise,IScope, copy} from 'angular';
 import {CalendarService} from "../calendar/calendar.service";
-import {ISessionService} from "../core/session.service";
+import {SessionService, StorageService} from "../core";
 import {IMessageService} from "../core/message.service";
-import {IUserProfile, IUserProfileShort, ITrainingZonesType} from "../../../api/user/user.interface";
-import {IGroupManagementProfile, IUserManagementProfile} from "../../../api/group/group.interface";
+import {
+    ICalendarItem,
+    IGroupManagementProfile, IUserManagementProfile,
+    IUserProfile, IUserProfileShort, ITrainingZonesType
+} from "../../../api";
 import { times } from '../share/util.js';
-import {ICalendarItem} from "../../../api/calendar/calendar.interface";
-import {Activity} from "../activity/activity.datamodel";
-import {IStorageService} from "../core/storage.service";
+import {Activity} from "../activity/activity-datamodel/activity.datamodel";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
 
 
@@ -51,7 +52,7 @@ export interface IDashboardDay {
     data: {
         calendarItems: Array<ICalendarItem>;
     };
-    date: Date;
+    date: string;
     selected: boolean;
 }
 
@@ -80,9 +81,9 @@ export class DashboardCtrl implements IComponentController {
         private $scope: IScope,
         private $mdDialog: any,
         private calendar: CalendarService,
-        private session: ISessionService,
+        private session: SessionService,
         private message: IMessageService,
-        private storage: IStorageService,
+        private storage: StorageService,
         private dialogs: any) {
 
     }
@@ -166,7 +167,8 @@ export class DashboardCtrl implements IComponentController {
 
         this.calendar.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))
+                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId) &&
+                !message.value.parentId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;

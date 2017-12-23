@@ -21,6 +21,7 @@ module.exports = {
             'angular-material/angular-material.scss',
             'angular-translate',
             'moment',
+            'moment/min/moment-with-locales.js',
             'moment-timezone/builds/moment-timezone-with-data',
             'angular-scroll',
             'satellizer',
@@ -38,12 +39,12 @@ module.exports = {
             'angularjs-toaster',
             'angularjs-toaster/toaster.css',
             'animate.css/animate.css',
-            //'angular-read-more'
             'animate.css',
             'angular-carousel',
             'angular-carousel/dist/angular-carousel.css',
             'angular-touch', // not supported when use angular-material, but need for angular-carousel
             'angular-drag-and-drop-lists',
+            'angular-read-more',
             'angularjs-scroll-glue',
             'drag-drop-webkit-mobile',
             'angular-ui-router',
@@ -70,7 +71,8 @@ module.exports = {
             {
                 test: /\.ts$/,
                 enforce: "pre",
-                loader: "tslint-loader"
+                loader: "tslint-loader",
+                exclude: [/node_modules/,/bower_components/]
             },
             {
                 test: /\.ts$/,

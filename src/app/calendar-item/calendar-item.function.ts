@@ -13,7 +13,7 @@ export const getCalendarItem = (type: string,
         dateStart: date,
         dateEnd: date,
         userProfileOwner: profileShort(owner),
-        userProfileCreator: profileShort(creator)
+        userProfileCreator: profileShort(creator),
     }, params);
 
 };

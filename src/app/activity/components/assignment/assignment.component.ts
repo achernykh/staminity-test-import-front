@@ -2,7 +2,7 @@ import {IComponentOptions, IComponentController, IQService, IFilterService, IPro
 import './assignment.component.scss';
 import {IActivityMeasure, ICalcMeasures, IActivityIntervalPW} from "../../../../../api/activity/activity.interface";
 import {isDuration, isPace, measurementUnit, measurementUnitDisplay, validators} from "../../../share/measure/measure.constants";
-import {Activity} from "../../activity.datamodel";
+import {Activity} from "../../activity-datamodel/activity.datamodel";
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
 import {
     CalendarItemActivityCtrl,
@@ -42,11 +42,7 @@ class ActivityAssignmentCtrl implements IComponentController {
     checkForm (form?: INgModelController) {
 
         this.item.assignmentForm.$setValidity('needDuration',
-            this.item.activity.movingDuration > 0 || this.item.activity.distance > 0);/*
-            this.item.activity.structured ||
-            (!this.item.activity.structured &&
-            (plan.durationValue > 0) || //|| plan.movingDuration > 0) ||
-            (actual.distance.value > 0 || actual.movingDuration.value > 0)));*/
+            this.item.activity.movingDuration > 0 || this.item.activity.distance > 0);
     }
 
     /**

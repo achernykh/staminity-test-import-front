@@ -1,32 +1,32 @@
-import './analytics-management-panel.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import {AnalyticsCtrl} from "../analytics.component";
+import {IComponentController, IComponentOptions, IPromise} from "angular";
+import { StorageService} from "../../core";
 import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-filter.model";
-import {IStorageService} from "../../core/storage.service";
+import {AnalyticsCtrl} from "../analytics.component";
+import "./analytics-management-panel.component.scss";
 
 class AnalyticsManagementPanelCtrl implements IComponentController {
 
-    public data: any;
+    data: any;
     private filter: AnalyticsChartFilter;
     private analytics: AnalyticsCtrl;
 
-    private panel: 'filters' | 'settings' | 'hide' = 'filters';
-    public onChangeFilter: () => IPromise<void>;
-    public onChangeCharts: () => IPromise<void>;
-    public onChangePanelSize: () => IPromise<void>;
+    private panel: "filters" | "settings" | "hide" = "filters";
+    onChangeFilter: () => IPromise<void>;
+    onChangeCharts: () => IPromise<void>;
+    onChangePanelSize: () => IPromise<void>;
 
-    static $inject = ['$filter','storage'];
+    static $inject = ["$filter", "storage"];
 
-    constructor(private $filter: any, private storage: IStorageService) {
+    constructor(private $filter: any, private storage: StorageService) {
 
     }
 
     $onInit() {
-        this.panel = this.storage.get(`${this.analytics.user.userId}#panelStatus`) || 'filters';
+        this.panel = this.storage.get(`${this.analytics.user.userId}#panelStatus`) || "filters";
     }
 
     panelChange(value) {
-        if ((this.panel !== 'hide' && value === 'hide') || (this.panel === 'hide' && value !== 'hide')) {
+        if ((this.panel !== "hide" && value === "hide") || (this.panel === "hide" && value !== "hide")) {
             this.onChangePanelSize();
         }
         this.panel = value;
@@ -35,20 +35,20 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
 }
 
-const AnalyticsManagementPanelComponent:IComponentOptions = {
+const AnalyticsManagementPanelComponent: IComponentOptions = {
     bindings: {
-        user: '<',
-        charts: '<',
-        filter: '<',
-        onChangeFilter: '&',
-        onChangeCharts: '&',
-        onChangePanelSize: '&'
+        user: "<",
+        charts: "<",
+        filter: "<",
+        onChangeFilter: "&",
+        onChangeCharts: "&",
+        onChangePanelSize: "&",
     },
     require: {
-        analytics: '^analytics'
+        analytics: "^analytics",
     },
     controller: AnalyticsManagementPanelCtrl,
-    template: require('./analytics-management-panel.component.html') as string
+    template: require("./analytics-management-panel.component.html") as string,
 };
 
 export default AnalyticsManagementPanelComponent;

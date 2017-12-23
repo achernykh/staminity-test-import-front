@@ -1,0 +1,76 @@
+@import "../../../sass/color";
+@import "../../../sass/animation";
+
+// animated.css
+#training-plans-list__fab {
+  @include animate(0.3s, 1s, 1);
+}
+
+#training-plans-list__table {
+  @include animate(0.5s, 0s, 1);
+}
+
+.training-plans-list {
+
+  padding: 16px;
+
+  &__create {
+    position: fixed;
+    bottom: 8px;
+    right: 8px;
+
+  }
+
+  .type-icon {
+
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 16px;
+
+    .public {
+
+    }
+
+  }
+
+  .name {
+    margin-bottom: 0;
+  }
+
+  .author {
+    margin-top: 0;
+  }
+
+  .keywords {
+    font-weight: 400 !important;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .keyword {
+    padding: 2px 8px;
+    background: $grey-300;
+    border-radius: 10px;
+    margin: 2px 4px 2px 0px;
+
+    &.distance-type {
+
+    }
+
+  }
+
+  tbody tr {
+    cursor: pointer;
+    &:hover {
+      background-color: $grey-100;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
+  th.md-column:first-child {
+    width: 36px !important;
+  }
+
+}

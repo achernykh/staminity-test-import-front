@@ -1,0 +1,248 @@
+<div class="activity-compact" ng-switch="$ctrl.view">
+    <!-- Элемент списка -->
+    <section ng-switch-when="list" class="activity-compact__list"
+             ng-click="$ctrl.open($event)">
+        <header layout="row" layout-align="start center"
+                class="calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
+                ng-class="{selected: $ctrl.selected}">
+            <div flex="none" layout="row" layout-align="center center"
+                 class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
+                 ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
+                <md-icon class="material-icons md-light md-18" aria-label="icon"
+                         md-svg-src="{{::$ctrl.activity.header.sportUrl}}"></md-icon>
+            </div>
+            <div flex="auto" layout="column">
+                <section flex layout="row" layout-align="start center"
+                         ng-class="::{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
+                         class="md-caption md-active center">
+                    <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
+                         ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}"></div>
+                </section>
+                <section flex layout="row" layout-align="start center"
+                         ng-class="::{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
+                         class="md-title-small md-active center tight-10">
+                    <span flex="none" ng-if="::$ctrl.activity.movingDuration">
+                    {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}&nbsp;&nbsp;
+                    </span>
+                    <div flex="none" ng-if="::$ctrl.activity.distance">
+                        {{::$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
+                        {{::'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
+                    </div>
+                </section>
+            </div>
+            <md-menu flex="none">
+                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px"
+                           ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons md-18">more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.edit($event)">
+                            <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                            <span translate="activity.action.edit"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
+                            <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                            <span translate="activity.action.copy"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete()"
+                                   ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="activity.action.delete"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </header>
+        
+    </section>
+    <!-- Элемент дня календаря -->
+    <section ng-switch-when="calendar" class="activity-compact__calendar"
+             ng-click="$ctrl.open($event)">
+        <!-- Заголовок. Окрашиваем в цвет статуса -->
+        <header class="calendar-item-activity-header {{::$ctrl.activity.status}}"
+                ng-class="{selected: $ctrl.selected}">
+            <!-- Первая строка: Процент, Иконка и Конекстное меню -->
+            <section layout="row" layout-align="space-between center">
+                <div flex="25" class="percent md-caption tight-07">
+                    <span>{{$ctrl.activity.percent / 100 | percent}}</span>
+                </div>
+
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
+                     ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
+                    <md-icon class="material-icons md-light" aria-label="icon"
+                             md-svg-src="{{::$ctrl.activity.header.sportUrl}}">
+                    </md-icon>
+                </div>
+
+                <md-menu flex="25">
+                    <md-button class="md-icon-button" aria-label="More Event" style="margin-right: 0px"
+                               ng-click="$mdOpenMenu($event)">
+                        <md-icon class="material-icons md-18">more_vert</md-icon>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.edit($event)">
+                                <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                                <span translate="activity.action.edit"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
+                                <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                                <span translate="activity.action.copy"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.delete()"
+                                       ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
+                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                <span translate="activity.action.delete"></span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+
+            </section>
+            <!-- Вторая строка: Категория тренировки -->
+            <section flex layout="row" layout-align="center center"
+                     ng-class="::{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
+                     class="md-caption center">
+                <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
+                     ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}">
+                </div>
+            </section>
+            <!-- Третья строка: Время и Расстояние -->
+            <section flex layout="row" layout-align="center center"
+                     ng-class="::{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
+                     class="md-title-small center tight-10">
+                <span flex="none" ng-if="::$ctrl.activity.movingDurationApprox">~</span>
+                <span flex="none" ng-if="::$ctrl.activity.movingDuration">
+                    {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}
+                </span>
+                <span>&nbsp;&nbsp;</span>
+                <span flex="none" ng-if="::$ctrl.activity.distanceApprox">~</span>
+                <div flex="none" ng-if="::$ctrl.activity.distance">
+                    {{::$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
+                    {{::'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
+                </div>
+            </section>
+            <calendar-activity-chart flex="none" hide show-gt-sm
+                                     ng-if="::$ctrl.segmentChart"
+                                     data="::$ctrl.segmentChart"
+                                     status="::$ctrl.activity.status">
+            </calendar-activity-chart>
+        </header>
+        <!--Нижняя часть: данные, установка тренера или -->
+        <footer ng-switch="$ctrl.activity.bottomPanel" ng-if="$ctrl.activity.hasBottomData">
+            <section ng-switch-when="plan">
+                <div ng-if="::($ctrl.activity.intensityMeasure && !$ctrl.activity.isStructured)"
+                     class="md-caption md-dark" style="margin-top: 2px">
+                    <span>{{::$ctrl.activity.intervals.PW | measureCalcInterval:$ctrl.activity.header.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                    <span>&nbsp;</span>
+                    <span class="md-inactive">{{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
+                </div>
+                <div flex ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                     style="height: 4px"></div>
+                <div class="prescription md-caption md-dark"
+                      ng-if="::(!!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                      ng-bind="::$ctrl.activity.intervals.PW.trainersPrescription | htmlToPlainText">
+                </div>
+            </section>
+            <section ng-switch-when="data" class="md-caption md-dark" layout="row" layout-align="start start"
+                     ng-if="::($ctrl.bottomPanelData.length > 0)">
+                <div layout="column" flex="auto">
+                    <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind" >
+                        <span>
+                            {{::obj.value | measureCalc:$ctrl.activity.header.sportBasic:obj.measure}}
+                        </span>
+                        <span flex="none" class="md-cation md-dark md-inactive">
+                            &nbsp;{{::obj.measure | measureUnit:$ctrl.activity.header.sportBasic | translate}}&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div flex="none" ng-if="::$ctrl.activity.header.social.coachComments">
+                    <md-icon class="material-icons md-dark md-inactive md-18">chat_bubble_outline</md-icon>
+                    <span class="md-caption md-dark">{{::$ctrl.activity.header.social.coachComments}}</span>
+                </div>
+            </section>
+        </footer>
+
+    </section>
+    <!-- Элемент для дэшборда -->
+    <section ng-switch-when="dashboard" class="activity-compact__dashboard"
+             ng-click="$ctrl.open($event)">
+        <!-- Заголовок. Окрашиваем в цвет статуса -->
+        <header class="calendar-item-activity-header {{::$ctrl.activity.status}} dashboard-view" layout="row"
+                ng-class="{selected: $ctrl.selected, 'md-dark': !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}">
+            <section flex="none" class="first-column" layout="column">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
+                     ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
+                    <md-icon class="material-icons md-light"
+                             md-svg-src="{{::$ctrl.activity.header.sportUrl}}">
+                    </md-icon>
+                </div>
+            </section>
+            <section flex="auto" class="second-column" layout="column" layout-align="start start">
+                <div flex="none" class="md-caption category" ng-if="::$ctrl.activity.header.category">
+                    {{$ctrl.activity.header.category | categoryCode}}
+                </div>
+                <div flex="none" class="md-body-2 tight-02 line-14 font-medium duration "
+                     ng-if="::(!!$ctrl.activity.movingDuration || $ctrl.activity.distance)">
+                    <span flex="none" ng-if="::$ctrl.activity.movingDuration">
+                        {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}
+                    </span>
+                    <span flex="none" ng-if="::$ctrl.activity.distance">
+                        &nbsp{{::$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
+                        {{'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
+                    </span>
+                </div>
+                <calendar-activity-chart flex="none" style="width: 100%"
+                                         ng-if="::$ctrl.segmentChart"
+                                         hide show-gt-sm data="::$ctrl.segmentChart" status="::$ctrl.activity.status">
+                </calendar-activity-chart>
+            </section>
+        </header>
+        <!--Нижняя часть: данные, установка тренера или -->
+        <!--Нижняя часть: данные, установка тренера или -->
+        <footer ng-switch="$ctrl.activity.bottomPanel" ng-if="$ctrl.activity.hasBottomData">
+            <section ng-switch-when="plan">
+                <div ng-if="::($ctrl.activity.intensityMeasure && !$ctrl.activity.isStructured)"
+                     class="md-caption md-dark" style="margin-top: 2px">
+                    <span>{{::$ctrl.activity.intervals.PW | measureCalcInterval:$ctrl.activity.header.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                    <span>&nbsp;</span>
+                    <span class="md-inactive">{{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
+                </div>
+                <div flex ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                     style="height: 4px"></div>
+                <div class="prescription md-caption md-dark"
+                     ng-if="::(!!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                     ng-bind="::$ctrl.activity.intervals.PW.trainersPrescription | htmlToPlainText">
+                </div>
+            </section>
+            <section ng-switch-when="data" class="md-caption md-dark" layout="row" layout-align="start start"
+                     ng-if="::($ctrl.bottomPanelData.length > 0)">
+                <div layout="column" flex="auto">
+                    <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind" >
+                        <span>
+                            {{::obj.value | measureCalc:$ctrl.activity.header.sportBasic:obj.measure}}
+                        </span>
+                        <span flex="none" class="md-cation md-dark md-inactive">
+                            &nbsp;{{::obj.measure | measureUnit:$ctrl.activity.header.sportBasic | translate}}&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div flex="none" ng-if="::$ctrl.activity.header.social.coachComments">
+                    <md-icon class="material-icons md-dark md-inactive md-18">chat_bubble_outline</md-icon>
+                    <span class="md-caption md-dark">{{::$ctrl.activity.header.social.coachComments}}</span>
+                </div>
+            </section>
+        </footer>
+    </section>
+</div>

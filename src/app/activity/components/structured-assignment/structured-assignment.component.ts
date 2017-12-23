@@ -58,7 +58,7 @@ class StructuredAssignmentCtrl implements IComponentController {
     onChangeValue(interval: ActivityIntervalP) {
         this.intervals.setValue(interval.type, interval.pos, interval.assignment());
         this.intervals.PW.calculate(this.intervals.P);
-        if(this.item.activity.completed){
+        if(this.item.activity.isCompleted){
             this.item.calculateActivityRange(false);
         }
         this.onChange({reason: SegmentChangeReason.changeValue});

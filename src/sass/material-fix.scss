@@ -1,0 +1,34 @@
+// https://github.com/angular/material/issues/1967
+.md-dialog-container {
+    position: fixed;
+    top: 0 !important;
+    overflow: hidden;
+}
+
+.md-dialog-is-showing {
+    width: 100%;
+    //position: fixed;
+    top: 0 !important;
+    overflow: hidden;
+}
+
+//
+.md-button.md-default-theme.md-accent {
+    color: white;
+}
+
+//
+md-toolbar.md-default {
+  background-color: white !important;
+  color: black !important;
+}
+
+//
+.md-subheader {
+  background: $grey-050;
+}
+
+//
+md-sidenav.st-fixed {
+  position: fixed;
+}

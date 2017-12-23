@@ -1,4 +1,4 @@
-<div class="categories__content" layout="column">
+<md-card class="categories__content" layout="column">
 	<section ng-if="$ctrl.categoriesByOwner.user.length" class="categories__section">
 		<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.user' | translate }}</div>
 		<md-list
@@ -60,7 +60,8 @@
 	</section>
 
 	<section ng-if="$ctrl.categoriesByOwner.system.length" class="categories__section">
-		<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.system' | translate }}</div>
+		<!--<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.system' | translate }}</div>-->
+		<md-subheader class="md-primary"><span translate="reference.categories.system"></span></md-subheader>
 		<md-list
 			dnd-list
 			dnd-allowed-types="['system-category']"
@@ -78,7 +79,7 @@
 			/>
 		</md-list>
 	</section>
-</div>
+</md-card>
 
 <div class="categories__create">
 	<md-button ng-click="$ctrl.createCategory()" class="md-fab md-accent md-hue-2">

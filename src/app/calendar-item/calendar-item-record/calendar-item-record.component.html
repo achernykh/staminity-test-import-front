@@ -1,6 +1,6 @@
 <div flex class="calendar-item-record md-whiteframe-8dp" layout="column"
      ng-class="{'full-screen': $ctrl.fullScreenMode}">
-    <md-toolbar flex="none" class="md-hue-3">
+    <md-toolbar flex="none" class="md-primary">
         <div class="md-toolbar-tools">
             <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -9,19 +9,19 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode == 'post'">
+                        <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="activity.toolbar.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onDelete({rmPastItems: false, rmFutureItems: true})" ng-disabled="$ctrl.mode == 'post'">
+                        <md-button ng-click="$ctrl.onDelete({rmPastItems: false, rmFutureItems: true})" ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteFuture"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="$ctrl.record.isRepeated">
-                        <md-button ng-click="$ctrl.onDelete({rmPastItems: true, rmFutureItems: true})" ng-disabled="$ctrl.mode == 'post'">
+                        <md-button ng-click="$ctrl.onDelete({rmPastItems: true, rmFutureItems: true})" ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteAll"></span>
                         </md-button>
@@ -43,7 +43,7 @@
             <h2 translate="record.toolbar.title"></h2>
             <span flex></span>
             <md-button class="md-icon-button"
-                       ng-if="!$ctrl.isViewMode"
+                       ng-if="!$ctrl.record.view.isView"
                        ng-click="$ctrl.fullScreenMode = !$ctrl.fullScreenMode">
                 <md-icon class="material-icons">{{$ctrl.fullScreenMode ? 'fullscreen_exit':'fullscreen'}}</md-icon>
             </md-button>
@@ -61,10 +61,10 @@
 
     <md-content flex="auto" layout="column">
         <!-- Режим просмотра -->
-        <md-list ng-if="$ctrl.isViewMode">
+        <md-list ng-if="$ctrl.record.view.isView">
             <md-list-item>
                 <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
-                <p flex class="md-caption" ng-if="$ctrl.isViewMode">{{::'record.' + $ctrl.record.recordHeader.type | translate}}</p>
+                <p flex class="md-caption" ng-if="$ctrl.record.view.isView">{{::'record.' + $ctrl.record.recordHeader.type | translate}}</p>
             </md-list-item>
             <md-list-item>
                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
@@ -72,7 +72,7 @@
             </md-list-item>
         </md-list>
         <!-- Режим редактирования -->
-        <form flex="none" ng-if="!$ctrl.isViewMode" layout="column" name="$ctrl.recordForm">
+        <form flex="none" ng-if="!$ctrl.record.view.isView" layout="column" name="$ctrl.recordForm">
             <md-list flex="none" class="md-dense slim-input bg-grey-050">
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
@@ -90,7 +90,7 @@
                         <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
                                        ng-change="$ctrl.changeParam()"
                                        name="dateStart" md-hide-icons="calendar"
-                                       ng-disabled="($ctrl.item.isCreator || $ctrl.item.isMyCoach)">
+                                       ng-disabled="($ctrl.item.activity.auth.isCreator || $ctrl.item.activity.auth.isMyCoach)">
 
                         </md-datepicker>
                         <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
@@ -100,7 +100,7 @@
                         </div>
                     </md-input-container>
                 </md-list-item>
-                <md-list-item ng-if="!$ctrl.isViewMode">
+                <md-list-item ng-if="!$ctrl.record.view.isView">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">repeat</md-icon>
                     <p translate="record.isRepeated"></p>
                     <md-switch class="md-secondary md-primary"
@@ -209,8 +209,8 @@
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.changeForm()"
                              on-editor-created="$ctrl.onEditorCreated(editor)"
-                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                             read-only="$ctrl.isViewMode">
+                             ng-class="{'hide-toolbar': $ctrl.record.view.isView}"
+                             read-only="$ctrl.record.view.isView">
             </ng-quill-editor>
             <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
                              ng-model="$ctrl.record.recordHeader.description"
@@ -218,28 +218,28 @@
                              modules="$ctrl.quillConf.toolbar"
                              on-content-changed="$ctrl.changeForm()"
                              on-editor-created="$ctrl.onEditorCreated(editor)"
-                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                             read-only="$ctrl.isViewMode">
+                             ng-class="{'hide-toolbar': $ctrl.record.view.isView}"
+                             read-only="$ctrl.record.view.isView">
             </ng-quill-editor>
         </div>
     </md-content>
 
     <md-dialog-actions flex="none" layout="row" style="background: white">
         <span flex></span>
-        <md-button ng-if="$ctrl.isViewMode" type="submit"
-                   ng-click="$ctrl.mode = 'put'">
+        <md-button ng-if="$ctrl.record.view.isView" type="submit"
+                   ng-click="$ctrl.record.view.isPut = true">
             <span translate="activity.edit"></span>
         </md-button>
-        <md-button ng-if="!$ctrl.isViewMode" type="submit"
+        <md-button ng-if="!$ctrl.record.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
-                   ng-disabled="$ctrl.mode === 'put' && !$ctrl.recordForm.$dirty"
+                   ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
                    ng-click="($ctrl.recordForm.$valid) ? $ctrl.onSave() : null">
             <span translate="activity.save"></span>
         </md-button>
     </md-dialog-actions>
 </div>
 
-<calendar-item-athlete-selector ng-if="$ctrl.mode === 'post' && $ctrl.showSelectAthletes" ng-cloak
+<calendar-item-athlete-selector ng-if="$ctrl.record.view.isPost && $ctrl.showSelectAthletes" ng-cloak
                                 coach="$ctrl.currentUser"
                                 athletes="$ctrl.forAthletes"
                                 on-select="$ctrl.selectAthletes(result)">

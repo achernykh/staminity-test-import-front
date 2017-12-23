@@ -1,69 +1,74 @@
 <application-frame class="management">
 
-    <md-card ng-if="!$ctrl.isScreenSmall">
-        <div layout="row" layout-align="center center" style="padding: 16px 26px;">
-            <span flex class="md-title">{{ $ctrl.filter.label }} ({{ $ctrl.rows.length }})</span>
+    <md-card ng-if="!$ctrl.isMobileLayout()">
+        <div layout="row" layout-align="center center" class="management-filters">
+            <span flex class="md-title">
+                {{ $ctrl.filterParams | clubMembersFilters:$ctrl.membersList }} ({{ $ctrl.getRows().length }})
+            </span>
             <md-menu>
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons">filter_list</md-icon> 
                 </md-button>
                 <md-menu-content>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.none}">
-                        <md-button ng-click="$ctrl.clearFilter()"> Все </md-button>
+                    <md-menu-item ng-class="{'filter-item-active': $ctrl.isFilterEmpty()}">
+                        <md-button ng-click="$ctrl.clearFilter()">
+                            {{'users.filters.all' | translate}}
+                        </md-button>
                     </md-menu-item>
-                    <md-menu-item style="color: #455a64; padding-left: 15px; line-height: 48px;">
-                        Роль
+                    <md-menu-item class="management-filters-subtitile">
+                        {{'users.role' | translate}}
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubCoaches'}">
-                        <md-button ng-click="$ctrl.filterRole('ClubCoaches')"> Тренеры </md-button>
+                    <md-menu-item ng-repeat="role in $ctrl.clubRoles" ng-class="{'management-filter-active': $ctrl.isFilterRole(role)}">
+                        <md-button ng-click="$ctrl.setFilterRole(role)">
+                            {{ 'users.clubRoles.' + role | translate }}
+                        </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubAthletes'}">
-                        <md-button ng-click="$ctrl.filterRole('ClubAthletes')"> Спортсмены </md-button>
+                    <md-menu-item class="management-filters-subtitile">
+                        {{'users.filters.coach' | translate}}
                     </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubManagement'}">
-                        <md-button ng-click="$ctrl.filterRole('ClubManagement')"> Управление </md-button>
+                    <md-menu-item ng-class="{'management-filter-active': $ctrl.isFilterNoCoach()}">
+                        <md-button ng-click="$ctrl.setFilterNoCoach()">{{ 'users.filters.noCoach' | translate }}</md-button>
                     </md-menu-item>
-                    <md-menu-item style="color: #455a64; padding-left: 15px; line-height: 48px;">
-                        Тренер
-                    </md-menu-item>
-                    <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.noCoach}">
-                        <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
-                    </md-menu-item>
-                    <md-menu-item ng-repeat="coach in $ctrl.coaches"  ng-class="{'filter-item-active': $ctrl.filter.coach === coach}">
-                        <md-button ng-click="$ctrl.filterCoach(coach)">{{ coach.userProfile | username }}</md-button>
+                    <md-menu-item ng-repeat="coach in $ctrl.getCoaches()" ng-class="{'management-filter-active': $ctrl.isFilterCoach(coach)}">
+                        <md-button ng-click="$ctrl.setFilterCoach(coach)">{{ coach.userProfile | username }}</md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-            <md-button class="md-icon-button" ng-click="$ctrl.invite($event)" style="vertical-align: top;">
+            <md-button class="md-icon-button" ng-click="$ctrl.invite($event)" class="management-invite-button">
                 <md-icon class="material-icons">group_add</md-icon>
             </md-button>
-            <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
-                <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
+            <md-input-container style="width: {{showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
+                <input 
+                    ng-model="$ctrl.search" 
+                    ng-if="showSearch" 
+                    auto-focus 
+                    ng-blur="!$ctrl.isFilterSearch(search) && (showSearch = false)"
+                /> 
             </md-input-container>
-            <md-button class="md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch"> 
+            <md-button class="md-icon-button" ng-click="showSearch = !showSearch"> 
                 <md-icon class="material-icons">search</md-icon> 
             </md-button>
         </div>
-        <md-toolbar class="md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center" style="background-color: #cfd8dc; color: #607d8b; padding: 16px 26px;">
-            <span flex>{{ $ctrl.checked.length }} items selected</span>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.coachesAvailable" ng-click="$ctrl.editCoaches()"> 
-                <md-tooltip md-direction="bottom">Тренеры</md-tooltip>
+        <md-toolbar class="management-toolbar md-table-toolbar md-default md-subhead" ng-if="$ctrl.getChecked().length" layout="row" layout-align="center center">
+            <span flex>{{ 'users.selected' | translate:{count:$ctrl.checked.length} }}</span>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditCoachesAvailable()" ng-click="$ctrl.editCoaches()"> 
+                <md-tooltip md-direction="bottom">{{ 'users.toolbar.coaches' | translate }}</md-tooltip>
                 <md-icon class="material-icons">supervisor_account</md-icon> 
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.athletesAvailable" ng-click="$ctrl.editAthletes()"> 
-                <md-tooltip md-direction="bottom">Атлеты</md-tooltip>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditAthletesAvailable()" ng-click="$ctrl.editAthletes()"> 
+                <md-tooltip md-direction="bottom">{{ 'users.toolbar.athletes' | translate }}</md-tooltip>
                 <md-icon class="material-icons">person_add</md-icon> 
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.tariffsAvailable" ng-click="$ctrl.editTariffs()"> 
-                <md-tooltip md-direction="bottom">Тарифы</md-tooltip>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditTariffsAvailable()" ng-click="$ctrl.editTariffs()"> 
+                <md-tooltip md-direction="bottom">{{ 'users.toolbar.tariffs' | translate }}</md-tooltip>
                 <md-icon class="material-icons">account_balance_wallet</md-icon>
             </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.rolesAvailable" ng-click="$ctrl.editRoles()"> 
-                <md-tooltip md-direction="bottom">Роли</md-tooltip>
+            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditRolesAvailable()" ng-click="$ctrl.editRoles()"> 
+                <md-tooltip md-direction="bottom">{{ 'users.toolbar.roles' | translate }}</md-tooltip>
                 <md-icon class="material-icons">select_all</md-icon> 
             </md-button>
             <md-button class="md-primary md-icon-button" ng-click="$ctrl.remove()"> 
-                <md-tooltip md-direction="bottom">Отключить</md-tooltip>
+                <md-tooltip md-direction="bottom">{{ 'users.toolbar.remove' | translate }}</md-tooltip>
                 <md-icon class="material-icons">delete</md-icon> 
             </md-button>
         </md-toolbar>
@@ -71,49 +76,48 @@
             <table md-table md-row-select multiple ng-model="$ctrl.checked">
                 <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
-                        <th md-column md-order-by="sort.username"><span>Член клуба</span></th>
-                        <th md-column md-order-by="sort.roles"><span>Роль</span></th>
-                        <th md-column md-order-by="sort.coaches"><span>Тренер</span></th>
-                        <th md-column md-order-by="sort.tariff"><span>Тариф</span></th>
-                        <th md-column md-order-by="sort.athletes"><span>Спортсмены</span></th>
-                        <th md-column md-order-by="sort.city"><span>Город</span></th>
-                        <th md-column md-order-by="sort.ageGroup"><span>Возрастная группа</span></th>
+                        <th md-column md-order-by="username"><span>{{ 'users.cols.username' | translate }}</span></th>
+                        <th md-column md-order-by="roles"><span>{{ 'users.cols.roles' | translate }}</span></th>
+                        <th md-column md-order-by="coaches"><span>{{ 'users.cols.coaches' | translate }}</span></th>
+                        <th md-column md-order-by="tariff"><span>{{ 'users.cols.tariff' | translate }}</span></th>
+                        <th md-column md-order-by="athletes"><span>{{ 'users.cols.athletes' | translate }}</span></th>
+                        <th md-column md-order-by="city"><span>{{ 'users.cols.city' | translate }}</span></th>
+                        <th md-column md-order-by="ageGroup"><span>{{ 'users.cols.ageGroup' | translate }}</span></th>
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.filter.pred | orderBy:$ctrl.orderBy)">
+                    <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.getRows()">
                         <td md-cell>
-                            <md-button style="text-transform: none; font-size: 13px; margin: 0;" ui-sref="user({uri: member.userProfile.public.uri})">
-                                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+                            <md-button class="management-username" ui-sref="user({uri: member.userProfile.public.uri})">
+                                <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
                                 {{ member.userProfile | username }}
                             </md-button>
                         </td>
-                        <td md-cell>{{ $ctrl.roleMembership(member.roleMembership) }}</td>
+                        <td md-cell>{{ member.roleMembership | clubRoleMembership }}</td>
                         <td md-cell>
-                            <span ng-if="member.coaches && member.coaches.length">
-                                {{ $ctrl.member(member.coaches[0]).userProfile | username }}
+                            <span ng-if="member.coaches.length">
+                                {{ member.getCoaches()[0].userProfile | username }}
                                 <span ng-if="member.coaches.length > 1">, +{{ member.coaches.length - 1 }}</span>
                             </span>
                             <span ng-if="!member.coaches || !member.coaches.length">-</span>
                         </td>
                         <td md-cell>
-                            <span ng-repeat="tariff in member.userProfile.billing" style="white-space: nowrap;">
+                            <span ng-repeat="tariff in member.userProfile.billing" class="management-row-tariffs">
                                 {{ 'users.' + tariff.tariffCode | translate}}
-                                <span ng-if="tariff.clubProfile.groupId === $ctrl.club.groupId" class="badge">{{'users.byClub' | translate}}</span>
+                                <span ng-if="$ctrl.isBillByClub(tariff)" class="badge">{{'users.byClub' | translate}}</span>
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>
-                        <td md-cell>{{ $ctrl.athletes(member).length || '-' }}</td>
+                        <td md-cell>{{ member.getAthletes().length || '-' }}</td>
                         <td md-cell>{{ member.userProfile.city }}</td>
                         <td md-cell>{{ member.userProfile | ageGroup }}</td>
                     </tr>
                 </tbody>
             </table>
         </md-table-container>
-    </md-card>
+    </md-card>    
     
-    
-    <div ng-if="$ctrl.isScreenSmall">
+    <div ng-if="$ctrl.isMobileLayout()">
         <md-list>
             <md-list-item layout="row" layout-align="center center">
                 <md-icon class="material-icons">search</md-icon>
@@ -122,43 +126,39 @@
                 </md-input-container>
             </md-list-item>
             <md-list-item layout="row" layout-align="center center">
-                <md-icon class="material-icons" style="margin-left:0">tune</md-icon>
+                <md-icon class="material-icons management-tune-icon">tune</md-icon>
                 <md-menu flex>
                     <md-button ng-click="$mdOpenMenu($event)">
-                        {{ $ctrl.filter.label }} ({{ $ctrl.rows.length }})
+                        {{ $ctrl.filterParams | clubMembersFilters:$ctrl.membersList }} ({{ $ctrl.getRows().length }})
                     </md-button>
                     <md-menu-content>
-                        <md-menu-content>
-                            <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.none}">
-                                <md-button ng-click="$ctrl.clearFilter()"> Все </md-button>
-                            </md-menu-item>
-                            <md-menu-item style="color: #455a64; padding-left: 15px; line-height: 48px;">
-                                Роль
-                            </md-menu-item>
-                            <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubCoaches'}">
-                                <md-button ng-click="$ctrl.filterRole('ClubCoaches')"> Тренеры </md-button>
-                            </md-menu-item>
-                            <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubAthletes'}">
-                                <md-button ng-click="$ctrl.filterRole('ClubAthletes')"> Спортсмены </md-button>
-                            </md-menu-item>
-                            <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.role === 'ClubManagement'}">
-                                <md-button ng-click="$ctrl.filterRole('ClubManagement')"> Управление </md-button>
-                            </md-menu-item>
-                            <md-menu-item style="color: #455a64; padding-left: 15px; line-height: 48px;">
-                                Тренер
-                            </md-menu-item>
-                            <md-menu-item ng-class="{'filter-item-active': $ctrl.filter.noCoach}">
-                                <md-button ng-click="$ctrl.filterNoCoach()"> Без тренера </md-button>
-                            </md-menu-item>
-                            <md-menu-item ng-repeat="coach in $ctrl.coaches"  ng-class="{'filter-item-active': $ctrl.filter.coach === coach}">
-                                <md-button ng-click="$ctrl.filterCoach(coach)">{{ coach.userProfile | username }}</md-button>
-                            </md-menu-item>
-                        </md-menu-content>
+                        <md-menu-item ng-class="{'filter-item-active': $ctrl.isFilterEmpty()}">
+                            <md-button ng-click="$ctrl.clearFilter()">
+                                {{'users.filters.all' | translate}}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item class="management-filters-subtitile">
+                            {{'users.role' | translate}}
+                        </md-menu-item>
+                        <md-menu-item ng-repeat="role in $ctrl.clubRoles" ng-class="{'management-filter-active': $ctrl.isFilterRole(role)}">
+                            <md-button ng-click="$ctrl.setFilterRole(role)">
+                                {{ 'users.clubRoles.' + role | translate }}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item class="management-filters-subtitile">
+                            {{'users.filters.coach' | translate}}
+                        </md-menu-item>
+                        <md-menu-item ng-class="{'management-filter-active': $ctrl.isFilterNoCoach()}">
+                            <md-button ng-click="$ctrl.setFilterNoCoach()">{{ 'users.filters.noCoach' | translate }}</md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-repeat="coach in $ctrl.getCoaches()" ng-class="{'management-filter-active': $ctrl.isFilterCoach(coach)}">
+                            <md-button ng-click="$ctrl.setFilterCoach(coach)">{{ coach.userProfile | username }}</md-button>
+                        </md-menu-item>
                     </md-menu-content>
                 </md-menu>
             </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.rows = ($ctrl.management.members | filter:$ctrl.search | filter:$ctrl.filter.pred)" ng-click="$ctrl.showActions(member)" layout="row" layout-align="center center">
-                <userpic profile="member.userProfile" is-premium="$ctrl.isPremium(member)"></userpic>
+            <md-list-item ng-repeat="member in $ctrl.getRows()" layout="row" layout-align="center center">
+                <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
                 <span flex ui-sref="user({uri: member.userProfile.public.uri})">{{ member.userProfile | username }}</span>
                 <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
             </md-list-item>

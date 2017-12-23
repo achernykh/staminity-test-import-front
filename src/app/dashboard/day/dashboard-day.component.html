@@ -1,25 +1,41 @@
 <section class="items" flex="auto" layout="column"
          dnd-list="items"
          dnd-allowed-types="['itemType']"
-         dnd-drop="callback({date: $ctrl.day.date, operation: dropEffect, index: index, athlete: $ctrl.athlete})">
+         dnd-drop="callback({date: $ctrl.day.date, operation: dropEffect, index: index, athlete: $ctrl.owner})">
     <div flex="none" layout-wrap ng-switch on="item.calendarItemType" style="margin-bottom: 2px"
          ng-repeat="item in $ctrl.day.data.calendarItems | orderBy:'dateStart' track by item.index">
-        <dashboard-activity flex="none" ng-switch-when="activity"
-                            layout="column" flex="auto"
-                            item="item"
-                            athlete="$ctrl.athlete"
-                            selected="$ctrl.selected"
-                            class="dashboard-activity"
-                            dnd-draggable="item"
-                            dnd-disable-if="::!$ctrl.isSpecified(item)"
-                            dnd-type="'itemType'"
-                            dnd-effect-allowed="copyMove"
-                            dnd-callback="$ctrl.onDrop(item, operation, $index, date, index, athlete)">
-        </dashboard-activity>
+        <st-competition-compact flex="none" layout="column" flex="auto"
+                                ng-switch-when="competition"
+                                view="'dashboard'"
+                                item="::item"
+                                options="$ctrl.itemOptions"
+                                on-save="$ctrl.onUpdate(formMode, item)"
+                                dnd-draggable="item"
+                                dnd-disable-if="true"
+                                dnd-type="'itemType'"
+                                dnd-effect-allowed="copyMove"
+                                dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
+                                dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
+
+        </st-competition-compact>
+        <st-activity-compact flex="none" layout="column" flex="auto"
+                             ng-switch-when="activity"
+                             selected="$ctrl.selected"
+                             view="'dashboard'"
+                             data="item"
+                             options="$ctrl.itemOptions"
+                             on-save="$ctrl.onUpdate(formMode, item)"
+                             class="dashboard-activity"
+                             dnd-draggable="item"
+                             dnd-disable-if="::!$ctrl.isSpecified(item)"
+                             dnd-type="'itemType'"
+                             dnd-effect-allowed="copyMove"
+                             dnd-callback="$ctrl.onDrop(item, operation, $index, date, index, athlete)">
+        </st-activity-compact>
         <dashboard-event flex="none" ng-switch-when="event"
                          layout="column" flex="auto"
                          event="item"
-                         athlete="$ctrl.athlete"
+                         athlete="$ctrl.owner"
                          selected="$ctrl.selected"
                          class="dashboard-activity"
                          dnd-draggable="item"
@@ -57,7 +73,7 @@
     </md-fab-speed-dial>-->
     <!--<div flex="none" style="width: 36px"></div>-->
     <md-button  flex="none" hide show-gt-sm  class="md-icon-button" aria-label="More"
-                ng-click="$ctrl.postItem($event,$ctrl.day.date)">
+                ng-click="$ctrl.wizard($event, $ctrl.day)">
         <md-icon class="material-icon" aria-label="New">add_circle_outline</md-icon>
     </md-button>
     <!--
@@ -101,7 +117,7 @@
                     <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
                     Скопировать</md-button></md-menu-item>
                 <md-menu-item ng-if="$ctrl.dashboard.buffer.length > 0">
-                    <md-button ng-click="$ctrl.dashboard.onPaste($ctrl.day.date, $ctrl.athlete)">
+                    <md-button ng-click="$ctrl.dashboard.onPaste($ctrl.day.date, $ctrl.owner)">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
                         Вставить ({{$ctrl.dashboard.buffer.length}})</md-button>
                 </md-menu-item>

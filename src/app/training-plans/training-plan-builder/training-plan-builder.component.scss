@@ -1,0 +1,91 @@
+@import "../../../sass/color";
+
+.training-plan-builder {
+
+  &__calendar-days-header {
+    min-height: 32px;
+    display: block;
+    line-height: 32px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .day {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 12.4%;
+      vertical-align:top;
+      text-transform: capitalize;
+      padding: 0 6px 0 6px;
+
+      @media (min-width: 959px) and (max-width: 1279px){
+        width: 13.9%;
+      }
+    }
+
+    .total {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      display:inline-block;
+      width: 12.8%;
+      display: inline-block;
+      vertical-align:top;
+      padding: 0 6px 0 6px;
+    }
+
+  }
+
+  &__calendar-grid {
+    position: relative;
+    height: calc(100vh - 96px);
+    scroll-behavior: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    // xs & sm size
+    @media (min-width: 0px) and (max-width: 959px) {
+      //height: 100%;
+    }
+
+    .calendar-week {
+      position: relative; //todo проверит производительность
+      display: flex;
+      min-height: 170px;
+      border-bottom: 1px solid $grey-400;
+
+      @media(max-width: 959px){
+        padding: 0;
+        border-bottom: none;
+      }
+
+      transition: none !important;
+      // all 1s ease-in-out 0s;
+
+    }
+
+    .calendar__week--loading {
+      opacity: 0.5;
+    }
+
+    .calendar-week.calendar__week--highlight {
+      transition: none;
+      background: rgba(255, 0, 0, 0.05);
+      border: solid 1px rgb(255, 100, 100);
+    }
+
+    .calendar__week.ng-enter, .calendar__week.ng-move {
+      // transition: all 0.5s linear;
+      opacity: 0;
+    }
+
+    .calendar__week.ng-enter.ng-enter-active,
+    .calendar__week.ng-move.ng-move-active {
+      opacity: 1;
+    }
+
+
+  }
+
+
+}

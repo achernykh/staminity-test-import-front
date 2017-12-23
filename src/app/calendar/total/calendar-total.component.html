@@ -1,20 +1,19 @@
 <!-- weektotal header: start -->
 
 <section class="toolbar" flex-gt-sm="none" flex="none" layout="row" layout-align="space-between center"
+         ng-style="{background: $ctrl.periodizationData ? $ctrl.periodizationData.color : 'none',
+                    color: $ctrl.periodizationData ? 'white' : 'auto'}"
+
          ng-mouseover="$ctrl.showMenu = true" ng-mouseleave="$ctrl.showMenu = false">
 
-    <div flex="none" class="md-body-1" style="min-width: 24px">
-        Неделя {{$ctrl.title}}
+    <div flex="none" class="md-caption font-medium" style="min-width: 24px">
+        Неделя {{$ctrl.dynamicDates ? $ctrl.week.sid + 1 : $ctrl.title}}
     </div>
     <div flex="auto" layout="row" layout-align="end center">
 
-        <!--<div flex="none" ng-if="$ctrl.data.hasSummary()"
-             class="md-body-1 summary-status {{$ctrl.data.summaryStatus()}}">
-            {{$ctrl.data.summaryPercent() |number:0}}%</div> -->
-
         <md-menu flex="none" md-position-mode="target-right target">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
-                <md-icon class="material-icons md-18">more_vert</md-icon>
+                <md-icon class="material-icons md-18" ng-class="{'md-light': $ctrl.periodizationData}">more_vert</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item>
@@ -24,25 +23,35 @@
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.calendar.onDelete($ctrl.items)">
+                    <md-button ng-click="$ctrl.onDelete({items: $ctrl.items})">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         Удалить</md-button></md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.calendar.onCopy($ctrl.items)">
+                    <md-button ng-click="$ctrl.onCopy({items: $ctrl.items})">
                         <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
                         Скопировать</md-button></md-menu-item>
-                <md-menu-item>
-                    <md-button ng-click="$ctrl.calendar.onPaste($ctrl.week.subItem[0].date)">
+                <md-menu-item ng-if="$ctrl.copiedItemsLength > 0">
+                    <md-button ng-click="$ctrl.onPaste({date: $ctrl.week.subItem[0].date})">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
-                        Вставить<span ng-if="$ctrl.calendar.buffer.length > 0">&nbsp;({{$ctrl.calendar.buffer.length}})</span>
+                        Вставить<span ng-if="$ctrl.copiedItemsLength > 0">&nbsp;({{$ctrl.copiedItemsLength}})</span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-
     </div>
+</section>
 
-
+<section flex="none" class="periodization md-caption md-light md-active"
+         ng-if="$ctrl.periodizationData"
+         ng-style="{background: $ctrl.periodizationData ? $ctrl.periodizationData.color : 'none'}">
+    <div>{{$ctrl.periodizationData | mesocycleCode:$ctrl.periodizationData.scheme}}</div>
+    <div></div>
+    <div>
+        <span>{{'trainingSeason.durationMeasure.' + $ctrl.periodizationData.durationMeasure | translate}}</span>
+        <span>:&nbsp;</span>
+        <span>{{$ctrl.periodizationData.durationValue}}</span>
+        <span>{{'trainingSeason.durationUnit.' + $ctrl.periodizationData.durationMeasure | translate}}</span>
+    </div>
 </section>
 
 <section flex="none" class="summary">
@@ -74,7 +83,7 @@
         </section>
     </div>
 
-    <div ng-repeat="sport in $ctrl.data.primarySport track by $index">
+    <div ng-repeat="sport in $ctrl.data.primarySport track by $index" ng-if="!$ctrl.compactView">
         <div ng-if="$ctrl.data.hasTotalBySport(sport)">
             <md-divider></md-divider>
             <section layout="row" class="sport-sum">

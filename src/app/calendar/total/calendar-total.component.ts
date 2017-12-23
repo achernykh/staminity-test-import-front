@@ -5,8 +5,15 @@ import {
     calculateCalendarTotals, calculateCalendarSummary,
     ICalendarWeekSummary, ICalendarWeekTotal
 } from './calendar-total.function';
-import {ICalendarWeek} from "../calendar.component";
+import {ICalendarWeek} from "../calendar.interface";
 import {CalendarWeekData} from "./calendar-week-total.datamodel";
+import { TrainingSeasonDialogSerivce } from "../../training-season/training-season-dialog.service";
+import { TrainingSeasonService } from "../../training-season/training-season.service";
+import { IUserProfile } from "../../../../api/user/user.interface";
+import {
+    IWeekPeriodizationDataResponse,
+    IWeekPeriodizationData
+} from "../../../../api/seasonPlanning/seasonPlanning.interface";
 
 const searchMeasure = (point, interval) => {
     if (point === 'plan') {
@@ -25,8 +32,14 @@ const searchMeasure = (point, interval) => {
 
 class CalendarTotalCtrl implements IComponentController {
 
-    public week: ICalendarWeek;
-    public selected: boolean;
+    // bind
+    owner: IUserProfile;
+    week: ICalendarWeek;
+    selected: boolean;
+    dynamicDates: boolean;
+    compactView: boolean;
+    onSelect: () => Promise<any>;
+
 
     private data: CalendarWeekData;
     private title: string;
@@ -36,26 +49,33 @@ class CalendarTotalCtrl implements IComponentController {
     //private totalTemplate: ICalendarTotals;
     private summary: ICalendarWeekSummary;
 
+    // private
+    private periodizationData: IWeekPeriodizationData;
+
     private shoMenu: boolean = false;
 
     private readonly primarySport: [string] = ['run', 'bike', 'swim'];
 
-    static $inject = ['$mdDialog'];
+    static $inject = ['$mdDialog', 'TrainingSeasonService'];
 
-    constructor(private $mdDialog: any){
+    constructor(
+        private $mdDialog: any,
+        private trainingSeasonService: TrainingSeasonService){
     }
 
-    $onInit(){
+    $onInit(): void {
         this.title = moment(this.week.week,'YYYY-WW').week();
+        this.trainingSeasonService.getUserWeekData(this.owner.userId, moment(this.week.week,'YYYY-WW').format('YYYY.WW'))
+            .then(result => this.periodizationData = result.arrayResult[0]);
     }
 
     onToggle() {
         this.selected = !this.selected;
         this.week.subItem.forEach(day => day.selected = !day.selected);
+        this.onSelect();
     }
 
     $onChanges(changes){
-
         if(changes.update){
             this.data = new CalendarWeekData(this.week);
             this.items = [];
@@ -76,11 +96,20 @@ const CalendarTotalComponent: IComponentOptions =  {
         week: '<',
         update: '<',
         selected: '<',
-        accent: '<'//,
+        accent: '<',//,
+        dynamicDates: '<',
+        owner: '<',
+        compactView: '<',
+        copiedItemsLength: '<', // обьем буфера скопированных тренировок
+
+        onCopy: '&', // пользователь скопировал дни/недели (без параметров)
+        onPaste: '&', // пользователь выбрал даты у нажал вставить, параметр - дата начала
+        onDelete: '&', // удалить
+        onSelect: '&'
         //onToggle: '&'
     },
     require: {
-        calendar: '^calendar'
+        //calendar: '^calendar'
     },
     controller: CalendarTotalCtrl,
     template: require('./calendar-total.component.html') as string

@@ -1,0 +1,93 @@
+<nav class="training-plans-filter md-whiteframe-2dp bg-grey-100" flex="none"
+     ng-class="{'panel': $ctrl.panel !== 'hide'}" ng-switch="$ctrl.panel">
+
+    <section ng-switch-when="hide" layout="column" class="training-plans-filter__hide">
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'plans'">
+            <md-icon class="md-secondary md-dark material-icons">filter_list</md-icon>
+        </md-button>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'plans'">
+            <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
+        </md-button>
+    </section>
+
+    <section ng-switch-when="plans" layout="column" class="training-plans-filter__plans">
+        <md-content flex="auto">
+            <md-list class="md-dense" flex>
+                <md-subheader><span translate="trainingPlans.filter"></span></md-subheader>
+                <!-- Платный план -->
+                <md-list-item>
+                    <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
+                    <p translate="trainingPlans.isPublic.label"></p>
+                    <md-switch class="md-primary"
+                               name="isPublic"
+                               ng-change="$ctrl.change()"
+                               ng-model="$ctrl.filter.isPublic"></md-switch>
+                </md-list-item>
+                <!-- Название плана -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" layout="row">
+                        <label translate="trainingPlans.name.label"></label>
+                        <md-icon flex="none" class="material-icons md-dark">timeline</md-icon>
+                        <input flex="auto"
+                               name="name"
+                               type="text"
+                               placeholder="{{trainingPlans.name.placeholder}}"
+                               ng-change="$ctrl.change()"
+                               ng-model="$ctrl.filter.name">
+                    </md-input-container>
+                </md-list-item>
+                <!-- Вид -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                        <label translate="trainingPlans.type.label"></label>
+                        <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/{{$ctrl.filter.type}}.svg">
+                        </md-icon>
+                        <md-select flex name="type" class="icon"
+                                   placeholder="{{trainingPlans.name.placeholder}}"
+                                   ng-model="$ctrl.filter.type"
+                                   ng-change="$ctrl.change()">
+                            <md-option ng-repeat="type in $ctrl.config.types track by $index"
+                                       value="{{type}}">
+                                {{'plan.types.' + type | translate}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-list-item>
+                <!-- Тип дистанции -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                        <label translate="trainingPlans.distanceType.label"></label>
+                        <md-icon flex="none" class="md-dark"
+                                 md-svg-src="/assets/icon/competition.svg"></md-icon>
+                        <md-select flex name="distanceType" class="icon" required="{{$ctrl.filter.isPublic}}"
+                                   ng-model="$ctrl.filter.distanceType"
+                                   placeholder="{{trainingPlans.distanceType.placeholder}}"
+                                   ng-change="$ctrl.change()">
+                            <md-option
+                                    ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.filter.type] track by $index"
+                                    value="{{type}}">
+                                {{'plan.distanceType.' + type | translate}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-list-item>
+                <!-- Характеристики плана -->
+                <md-list-item class="tags-wrapper">
+                    <md-icon flex="none" class="md-dark dense" md-svg-src="/assets/icon/tags.svg"></md-icon>
+                    <div layout="column">
+                        <p class="md-caption md-dark label" translate="trainingPlans.tags.label"></p>
+                        <div class="tags" layout="row" layout-wrap>
+                            <md-checkbox flex="100"
+                                         ng-repeat="tag in $ctrl.config.tags track by $index"
+                                         class="md-primary" name="tag-{{tag}}"
+                                         ng-checked="$ctrl.exists(tag, $ctrl.filter.tags)"
+                                         ng-click="$ctrl.toggle(tag, $ctrl.filter.tags)">
+                                <span translate="trainingPlans.tags.{{tag}}"></span>
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </section>
+</nav>

@@ -4,24 +4,22 @@
         <md-list>
 
             <md-list-item layout="row" layout-align="center center">
-                <div class="md-title" translate>dialogs.tariffs
-                </div>
+                <div class="md-title" translate>dialogs.tariffs</div>
             </md-list-item>
 
             <md-list-item layout="row" layout-align="center center">
                 <div class="md-caption font-medium">
-                    {{ byWho | translate}}
+                    {{ message | translate}}
                 </div>
             </md-list-item>
 
             <md-list-item ng-repeat="tariff in tariffs" layout="row" layout-align="center center">
                 <span flex>{{ 'dialogs.' + tariff | translate }}</span>
-                <md-switch ng-checked="selectedTariffs.includes(tariff)" ng-click="toggle(tariff)" ng-disabled="tariffsBySelf.includes(tariff)"></md-switch>
+                <md-switch ng-model="isChecked(tariff)" ng-model-options="{getterSetter: true}" ng-disabled="tariffsBySelf.includes(tariff)"></md-switch>
             </md-list-item>
 
             <md-list-item ng-if="tariffsBySelf.length" layout="row" layout-align="center center">
-                <div class="md-caption font-medium" translate>dialogs.bySelf
-                </div>
+                <div class="md-caption font-medium" translate>dialogs.bySelf</div>
             </md-list-item>
 
             <md-list-item ng-repeat="tariff in tariffsBySelf" layout="row" layout-align="center center">

@@ -30,6 +30,12 @@ $gt-sm: 960px;
   @include border-radius(9px);
 }
 
+.bg-circle-20 {
+  min-width: 20px;
+  height: 20px;
+  @include border-radius(10px);
+}
+
 .bg-circle-56 {
   min-width: 56px;
   height: 56px;
@@ -200,7 +206,7 @@ div.avatar{
 }
 
 body {
-  background-color: $primary-hue-3;
+  background-color: $grey-300;
   min-width: 320px;
   //min-height: 480px;
   height: auto;
@@ -252,4 +258,135 @@ md-pagination-wrapper {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+
+
+// Статусная схема
+
+.competition-icon {
+  background-color: $grey-500;
+  &.color {
+    background-color: $competition-color !important;
+  }
+}
+
+
+
+// Заголовок тренировки
+// Сейчас используется дл плитки в календаре, дэшборде
+.calendar-item-activity-header, .calendar-item-competition-header {
+  color: white;
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+  &.complete {
+    background: $bg-teal-gradient-800-500 !important;
+    &.list-view, &.dashboard-view {
+      background: $teal-500 !important;
+    }
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $teal-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-teal-gradient-900-800;
+    }
+    .calendar-item-activity-icon {
+      background-color: $teal-800 !important;
+    }
+  }
+  &.complete-warn {
+    background: $bg-orange-gradient-800-500 !important;
+    &.list-view, &.dashboard-view {
+      background: $orange-500 !important;
+    }
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $orange-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-orange-gradient-900-800;
+    }
+    .calendar-item-activity-icon {
+      background-color: $orange-800 !important;
+    }
+  }
+  &.complete-error, &.dismiss {
+    background: $bg-red-gradient-800-500 !important;
+    &.list-view, &.dashboard-view {
+      background: $red-500 !important;
+    }
+    &.table-view {
+      background: none !important;
+    }
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $red-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-red-gradient-900-800;
+    }
+    .calendar-item-activity-icon {
+      background-color: $red-800 !important;
+    }
+  }
+  &.not-specified {
+    background: $bg-blue-grey-gradient-600-400 !important;
+    &.list-view, &.dashboard-view {
+      background: $blue-grey-500 !important;
+    }
+    @media (min-width: 0px) and (max-width: 959px) {
+      background: $blue-grey-500 !important;
+    }
+    &:hover, &.selected {
+      background: $bg-blue-grey-gradient-800-500 !important;
+    }
+    .calendar-item-activity-icon {
+      background-color: $blue-grey-700 !important;
+    }
+  }
+}
+
+.calendar-item-activity-icon, .calendar-item-competition-icon {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+
+  &.color-run {
+    background-color: $activity-color-run !important;
+  }
+  &.color-bike {
+    background-color: $activity-color-bike !important;
+  }
+  &.color-swim {
+    background-color: $activity-color-swim !important;
+  }
+  &.color-triathlon {
+    background-color: $activity-color-triathlon !important;
+  }
+  &.color-ski {
+    background-color: $activity-color-ski !important;
+  }
+  &.color-strength {
+    background-color: $activity-color-strength !important;
+  }
+  &.color-other {
+    background-color: $activity-color-other !important;
+  }
+  &.complete {
+    background-color: $teal-800 !important;
+  }
+}
+
+.calendar-item-record-icon {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+}
+
+.calendar-item-measurement {
+  background-color: $grey-500;
+  transition: background-color 0.3s 0.1s;
+}
+
+// стиль для аваторок во всплывающих панелях
+.st-avatar {
+  width: 36px;
+  height: 36px;
+  margin-right: 20px;
+  border-radius: 18px;
 }

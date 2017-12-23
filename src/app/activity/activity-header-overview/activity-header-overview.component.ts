@@ -1,6 +1,6 @@
 import './activity-header-overview.component.scss';
 import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
-import {Activity} from "../activity.datamodel";
+import {Activity} from "../activity-datamodel/activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {ActivityIntervalPW} from "../activity-datamodel/activity.interval-pw";
 import {ActivityIntervalW} from "../activity-datamodel/activity.interval-w";

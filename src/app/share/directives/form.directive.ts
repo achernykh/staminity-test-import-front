@@ -2,7 +2,7 @@ export const compareTo = () => {
     return {
         require: "ngModel",
         scope: {
-            otherModelValue: "=compareTo"
+            otherModelValue: "=compareTo",
         },
         link: (scope, element, attributes, ngModel) => {
 
@@ -13,6 +13,6 @@ export const compareTo = () => {
             scope.$watch("otherModelValue", () => {
                 ngModel.$validate();
             });
-        }
+        },
     };
 };

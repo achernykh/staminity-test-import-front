@@ -452,6 +452,8 @@ export class ActivityIntervals {
         //this.G.filter(g => g.fPos >= start).forEach(g => this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
     }
 
+
+    // TODO move to activity.functions
     /**
      * @description Сборка массива координат для мини-граифка
      * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
