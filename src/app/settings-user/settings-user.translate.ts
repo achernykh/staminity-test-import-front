@@ -431,6 +431,13 @@ export const _translate = {
         personalInfo: {
             header: 'Personal info',
             hint: '',
+            coachProfileIncomplete: 'Your coach profile is incomplete and not available for search. Please check you set the following info:' +
+            '<li>Upload profile photo</li>' +
+            '<li>Country and City</li>' +
+            '<li>About you</li>' +
+            '<li>Conditions</li>' +
+            '<li>Contacts for new athletes</li>' +
+            '<li>Privacy settings - Personal info = "All"</li>',
             main: {
                 header: 'About you',
                 firstName: 'First name',
@@ -470,6 +477,11 @@ export const _translate = {
                     header: 'Sports:',
                     code: []
                 }
+            },
+            calendar: {
+                title: 'External calendar integration (iCal)',
+                hint: 'Your Staminity activity calendar personal link for Microsoft Outlook, Google Calendar, Apple iCal and other 3rd party calendar applications.',
+                empty: 'Your personal link is not available'
             }
         },
         privacy: {

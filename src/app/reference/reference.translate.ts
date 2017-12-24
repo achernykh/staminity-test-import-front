@@ -38,9 +38,48 @@ export const ru = {
 
             },
         },
-    },
+    }
 };
 
 export const en = {
+    reference: {
+        fullTitle: "Activity templates and categories",
+        shortTitle: "Templates and categories",
+        club: {
+            fullTitle: "Club templates and categories",
+            shortTitle: "Club templates and categories",
+        },
+        sport: "Activity type",
+        edit: "Edit",
+        templates: {
+            singular: "Template",
+            plural: "Templates",
+            title: "Templates",
+            name: "Name",
+            user: "My templates",
+            coach: "Coach templates",
+            club: "Club templates",
+            system: "System templates",
+            description: "Description",
+            favourite: "Favorite",
+            category: "Choose category",
+            trainerPrescription: "Coach prescription",
+            task: "Task",
+            confirmDelete: "Delete template?",
+        },
+        categories: {
+            singular: "Category",
+            plural: "Categories",
+            title: "Activity categories",
+            user: "My categories",
+            coach: "Coach categories",
+            club: "Club categories",
+            system: "System categories",
+            name: "Name",
+            description: "Description",
+            codes: {
 
+            },
+        },
+    }
 };
