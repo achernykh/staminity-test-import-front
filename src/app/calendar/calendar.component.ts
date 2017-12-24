@@ -19,6 +19,7 @@ import { CalendarItemDialogService } from "../calendar-item/calendar-item-dialog
 import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialog.interface";
 import AuthService from "@app/auth/auth.service";
 import { updateIntensity } from "../activity/activity.function";
+import { getUser } from "../core/session/session.service";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -31,7 +32,8 @@ export class CalendarCtrl implements IComponentController{
 
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
-        'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService', 'AuthService'];
+        'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService', 'AuthService',
+        'SessionService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
     private selectedItems: Array<ICalendarItem> = []; // буфер выделенных записей
@@ -46,6 +48,7 @@ export class CalendarCtrl implements IComponentController{
     private currentWeek: ICalendarWeek;
     private lockScroll: boolean;
     private athletes: Array<IUserProfileShort>;
+    private destroy: Subject<any> = new Subject();
 
     constructor(
         private $scope: IScope,
@@ -60,7 +63,8 @@ export class CalendarCtrl implements IComponentController{
         private session: SessionService,
         private dialogs: any,
         private display: DisplayService,
-        private auth: AuthService
+        private auth: AuthService,
+        private sessionService: SessionService
     ) {
 
     }
@@ -134,6 +138,14 @@ export class CalendarCtrl implements IComponentController{
         this.setData();
         this.copyPasteKeyboardListener();
 
+        this.sessionService.getObservable()
+            .takeUntil(this.destroy)
+            .map(getUser)
+            .subscribe(profile => {
+                this.currentUser = angular.copy(profile);
+                this.prepareAthletesList();
+            });
+
         this.calendarService.item$
             .filter(message =>
                 message.value.hasOwnProperty('userProfileOwner') &&
@@ -169,6 +181,11 @@ export class CalendarCtrl implements IComponentController{
             });
 
         this.weekdayNames = moment.weekdays(true);
+    }
+
+    $onDestroy() {
+        this.destroy.next();
+        this.destroy.complete();
     }
 
     get isLargeScreen (): boolean {

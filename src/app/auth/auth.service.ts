@@ -11,6 +11,7 @@ import {toDay} from "../activity/activity.datamodel";
 import ReferenceService from "../reference/reference.service";
 import NotificationService from "../share/notification/notification.service";
 import RequestsService from "../core/requests.service";
+import UserService from "../core/user.service";
 
 
 
@@ -36,7 +37,7 @@ export interface IAuthService {
 export default class AuthService implements IAuthService {
 
     static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService', 'ReferenceService',
-        'NotificationService', 'RequestsService'];
+        'NotificationService', 'RequestsService', 'UserService'];
 
     constructor(
         private SessionService: SessionService,
@@ -45,7 +46,8 @@ export default class AuthService implements IAuthService {
         private GroupService:GroupService,
         private referenceService: ReferenceService,
         private notificationService: NotificationService,
-        private requestService: RequestsService) {
+        private requestService: RequestsService,
+        private userService: UserService) {
 
     }
 
@@ -152,6 +154,7 @@ export default class AuthService implements IAuthService {
         this.referenceService.resetTemplates();
         this.notificationService.resetNotifications();
         this.requestService.resetRequests();
+        this.userService.resetConnections();
     }
 
     signOut() {
