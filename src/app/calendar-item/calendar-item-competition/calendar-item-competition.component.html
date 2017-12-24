@@ -190,7 +190,8 @@
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.setDirty()"
                              ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
-                             read-only="$ctrl.competition.view.isView">
+                             read-only="$ctrl.competition.view.isView"
+                             st-quill-post-image>
             </ng-quill-editor>
             <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
@@ -198,7 +199,8 @@
                              modules="$ctrl.quillConf.toolbar"
                              on-content-changed="$ctrl.setDirty()"
                              ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
-                             read-only="$ctrl.competition.view.isView">
+                             read-only="$ctrl.competition.view.isView"
+                             st-quill-post-image>
             </ng-quill-editor>
         </md-list>
     </md-content>

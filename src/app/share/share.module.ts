@@ -52,6 +52,7 @@ import ApplicationProfileTemplateComponent from "./application-frame/profile-tem
 import { shareStates } from "./share.states";
 import { htmlToPlainText } from "./text/plain-text.filter";
 import { quillConfig } from "./quill/quill.config";
+import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
@@ -317,6 +318,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
+    .directive('stQuillPostImage', stQuillPostImage) 
     .filter('truncate', truncate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
     .constant('quillConfig', quillConfig)

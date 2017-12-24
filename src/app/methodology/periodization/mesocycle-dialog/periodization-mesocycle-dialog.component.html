@@ -70,7 +70,8 @@
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.changeForm()"
                              ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                             read-only="$ctrl.isViewMode">
+                             read-only="$ctrl.isViewMode"
+                             st-quill-post-image>
             </ng-quill-editor>
         </md-list>
     </form>

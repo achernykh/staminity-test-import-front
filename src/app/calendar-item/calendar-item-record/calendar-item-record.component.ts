@@ -71,55 +71,28 @@ class CalendarItemRecordCtrl implements IComponentController {
 
         if ( this.record.view.isPost ) {
             this.calendarService.postItem(this.record.build())
-                .then(response => {
-                    this.record.compile(response);// сохраняем id, revision в обьекте
-                    this.message.toastInfo('recordCreated');
-                    this.close();
-                }, error => this.message.toastError(error));
+            .then(response => {
+                this.record.compile(response);// сохраняем id, revision в обьекте
+                this.message.toastInfo('recordCreated');
+                this.close();
+            }, error => this.message.toastError(error));
         }
         if ( this.record.view.isPut ) {
             this.calendarService.putItem(this.record.build())
-                .then((response)=> {
-                    this.record.compile(response); // сохраняем id, revision в обьекте
-                    this.message.toastInfo('recordUpdated');
-                    this.close();
-                }, error => this.message.toastError(error));
+            .then((response)=> {
+                this.record.compile(response); // сохраняем id, revision в обьекте
+                this.message.toastInfo('recordUpdated');
+                this.close();
+            }, error => this.message.toastError(error));
         }
     }
 
     onDelete(rmParams: Object) {
         this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
-            .then(() => {
-                this.message.toastInfo('recordDeleted');
-                this.close();
-            }, error => this.message.toastError(error));
-    }
-
-    onEditorCreated (editor) {
-        editor.getModule('toolbar').addHandler('image', () => {
-            new Promise((resolve, reject) => {
-                const input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.click();
-
-                input.onchange = () => {
-                    const file = input.files[0];
-
-                    if (/^image\//.test(file.type)) {
-                        resolve(file);
-                    } else {
-                        reject();
-                    }
-                };
-            })
-            .then((picture) => this.calendarService.postImage(picture))
-            .then((url) => {
-                const range = editor.getSelection();
-                editor.insertEmbed(range.index, 'image', url);
-            }, (error) => {
-                this.message.toastError(error);
-            });
-        });
+        .then(() => {
+            this.message.toastInfo('recordDeleted');
+            this.close();
+        }, error => this.message.toastError(error));
     }
 
     private close (): void {
