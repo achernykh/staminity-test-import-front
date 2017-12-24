@@ -33,7 +33,11 @@
     display: block !important;
     width: auto !important;
     height: auto !important;
-    padding: 0 !important;
+    padding: 0 16px !important;
+    margin-bottom: 8px;
+    &:focus {
+      outline: none !important;
+    }
   }
 
 }

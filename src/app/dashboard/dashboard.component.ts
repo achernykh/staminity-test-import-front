@@ -170,12 +170,16 @@ export class DashboardCtrl implements IComponentController {
 
         this.calendar.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId) &&
-                !message.value.parentId)
+                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))// &&
+                //!message.value.parentId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;
             })
+            // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
+            // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
+            // обьекта
+            .delay(500)
             .subscribe((message) => {
                 switch (message.action) {
                     case 'I': {
