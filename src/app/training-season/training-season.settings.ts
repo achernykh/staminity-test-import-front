@@ -108,10 +108,10 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
     chartMesocyclesTemplate: {
         options: {
             tooltip: {
-                combined: true
+                combined: false
             },
             currentPositionLine: {
-                enabled: true,
+                enabled: false,
                 radius: 4,
                 color: "rgba(0,0,0,0.5)"
             }
