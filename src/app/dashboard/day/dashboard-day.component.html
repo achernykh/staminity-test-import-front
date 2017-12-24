@@ -4,6 +4,20 @@
          dnd-drop="callback({date: $ctrl.day.date, operation: dropEffect, index: index, athlete: $ctrl.owner})">
     <div flex="none" layout-wrap ng-switch on="item.calendarItemType" style="margin-bottom: 2px"
          ng-repeat="item in $ctrl.day.data.calendarItems | orderBy:'dateStart' track by item.index">
+        <st-record-compact flex="none" layout="column" flex="auto"
+                           ng-switch-when="record"
+                           view="'dashboard'"
+                           item="::item"
+                           options="$ctrl.itemOptions"
+                           on-answer="$ctrl.onUpdate({formMode: formMode, item: item})"
+                           dnd-draggable="item"
+                           dnd-disable-if="true"
+                           dnd-type="'itemType'"
+                           dnd-effect-allowed="copyMove"
+                           dnd-dragstart="$ctrl._$log.info('Started to drag an item', event)"
+                           dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
+
+        </st-record-compact>
         <st-competition-compact flex="none" layout="column" flex="auto"
                                 ng-switch-when="competition"
                                 view="'dashboard'"

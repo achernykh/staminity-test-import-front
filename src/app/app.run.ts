@@ -18,6 +18,7 @@ function run(
     AuthService: IAuthService,
     message: MessageService,
     DisplayService: any, // not used, just force DisplayService being initialized
+    UserService: any, // not used, just force UserService being initialized
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
@@ -72,6 +73,7 @@ function run(
     });
 }
 
-run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message", "DisplayService"];
+run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message",
+    "DisplayService", "UserService"];
 
 export default run;

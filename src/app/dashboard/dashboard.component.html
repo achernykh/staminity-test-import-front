@@ -61,6 +61,8 @@
                                    current-user="$ctrl.coach"
                                    owner="calendar.profile"
                                    selected="day.selected"
+                                   calendar-range-start="$ctrl.range[0]"
+                                   calendar-range-end="$ctrl.range[1]"
                                    on-update="$ctrl.update(formMode, item)"
                                    on-select="day.selected = !day.selected">
                     </dashboard-day>

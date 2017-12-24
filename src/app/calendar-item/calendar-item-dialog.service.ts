@@ -135,7 +135,7 @@ export class CalendarItemDialogService {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-record" aria-label="Record">
                         <calendar-item-record 
-                                data="$ctrl.item"
+                                item="$ctrl.item"
                                 options="$ctrl.options"
                                 calendar-range="$ctrl.calendarRange"
                                 on-cancel="cancel()">
