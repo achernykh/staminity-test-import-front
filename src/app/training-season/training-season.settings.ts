@@ -131,7 +131,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             label: "Мезоцикл",
             unit: "",
             xAxis: true,
-            tooltipType: "label",
+            tooltipType: "none",
             tooltipLabel: "Мезоцикл",
             legend: false,
             currentPositionLine: true,

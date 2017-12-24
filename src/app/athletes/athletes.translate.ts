@@ -20,6 +20,8 @@ export const translateAthletes = {
         selected: "Выбрано {{count}} спортсменов",
         tariffs: {
             Coach: "Тренер",
+            Premium: "Премиум",
+            Club: "Клуб"
         },
         byCoach: "Т",
         editTariffs: {
@@ -59,6 +61,8 @@ export const translateAthletes = {
         selected: "Choose {{count}} athlete(s)",
         tariffs: {
             Coach: "Coach",
+            Premium: "Premium",
+            Club: "Club"
         },
         byCoach: "Coach",
         editTariffs: {
