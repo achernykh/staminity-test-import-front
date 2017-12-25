@@ -47,7 +47,6 @@ class DashboardDayCtrl implements IComponentController {
             popupMode: true,
             formMode: FormMode.Put,
             trainingPlanMode: false,
-            planId: null,
             calendarRange: {
                 dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
                 dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
@@ -72,7 +71,6 @@ class DashboardDayCtrl implements IComponentController {
                 popupMode: true,
                 formMode: FormMode.Put,
                 trainingPlanMode: false,
-                planId: null,
                 calendarRange: {
                         dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
                     dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
@@ -197,7 +195,6 @@ class DashboardDayCtrl implements IComponentController {
             popupMode: true,
             formMode: mode,
             trainingPlanMode: false,
-            planId: null,
             calendarRange: {
                 dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
                 dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)

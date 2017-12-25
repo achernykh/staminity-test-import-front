@@ -4,8 +4,10 @@
         <tr md-row>
             <th md-column class="stage"><span translate="competition.stage"></span></th>
             <th md-column class="plan" md-numeric><span translate="activity.plan"></span></th>
-            <th md-column class="actual" md-numeric><span translate="activity.actual"></span></th>
-            <th md-column class="percent" md-numeric><span translate="activity.completeShort"></span></th>
+            <th md-column class="actual" ng-if="!$ctrl.options.trainingPlanMode"
+                md-numeric><span translate="activity.actual"></span></th>
+            <th md-column class="percent" ng-if="!$ctrl.options.trainingPlanMode"
+                md-numeric><span translate="activity.completeShort"></span></th>
         </tr>
         </thead>
         <tbody md-body>
@@ -38,7 +40,7 @@
                 </md-input-container>
             </td>
             <!-- Факт по величине второстипенной величине этапа -->
-            <td md-cell>
+            <td md-cell ng-if="!$ctrl.options.trainingPlanMode">
                 <md-input-container>
                     <input measure-input
                            name="{{$index}}_actual"
@@ -53,11 +55,11 @@
                 </md-input-container>
             </td>
             <!-- Процент выполнения -->
-            <td md-cell ng-if="!stage.item.hasActualData">
+            <td md-cell ng-if="!stage.item.hasActualData && !$ctrl.options.trainingPlanMode">
                 <span>{{stage.item.intervals.PW.calcMeasures.completePercent.value | percent}}</span>
             </td>
             <!-- Кнопка перехода к тренировке -->
-            <td md-cell ng-if="stage.item.hasActualData">
+            <td md-cell ng-if="stage.item.hasActualData && !$ctrl.options.trainingPlanMode">
                 <md-button class="md-icon-button" ng-click="$ctrl.open($event, stage.item)">
                     <md-icon class="material-icons md-dark">keyboard_arrow_right</md-icon>
                 </md-button>

@@ -203,7 +203,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         this.types = activityTypes; // Список видов спорта
         this.structuredMode = this.activity.isStructured;
-        this.ftpMode = this.activity.view.isTemplate ? FtpState.On : FtpState.Off;
+        this.ftpMode = (this.activity.view.isTemplate || this.activity.view.isTrainingPlan) ? FtpState.On : FtpState.Off;
 
         this.prepareDetails();
         this.prepareAuth();
@@ -292,7 +292,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param e
      */
     open (e: Event): void {
-        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.View}), this.activity)
+        this.calendarDialog.activity(e, Object.assign({}, this.options,
+            {formMode: this.options.trainingPlanMode ? FormMode.Put : FormMode.View}), this.activity)
             .then(response => this.onAnswer(response));
     }
 
@@ -301,7 +302,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param e
      */
     edit (e: Event): void {
-        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.Put}), this.activity)
+        this.calendarDialog.activity(e, Object.assign({}, this.options, {formMode: FormMode.Put}), this.activity)
             .then(response => this.onAnswer(response));
     }
 
@@ -623,7 +624,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.inAction = true;
 
         if (this.activity.view.isPost) {
-            this.trainingPlansService.postItem(this.options.planId, this.activity.build(), true)
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityCreated');
@@ -633,7 +634,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
 
         if (this.activity.view.isPut) {
-            this.trainingPlansService.putItem(this.options.planId, this.activity.build(), true)
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');

@@ -11,6 +11,7 @@ import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
+import { TrainingPlansService } from "../../training-plans/training-plans.service";
 
 export class CalendarItemCompetitionCtrl implements IComponentController {
 
@@ -25,10 +26,12 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     private competition: CalendarItemCompetition;
 
     // inject
-    static $inject = ['CompetitionConfig', 'CalendarService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
+    static $inject = ['CompetitionConfig', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService',
+        'message', 'quillConfig', 'dialogs'];
 
     constructor (private config: ICompetitionConfig,
                  private calendarService: CalendarService,
+                 private trainingPlansService: TrainingPlansService,
                  private calendarDialog: CalendarItemDialogService,
                  private message: MessageService,
                  private quillConf: IQuillConfig,
@@ -45,12 +48,13 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
      * @param e
      */
     open (e: Event): void {
-        this.calendarDialog.competition(e, Object.assign(this.options, {formMode: FormMode.View}), this.competition)
+        this.calendarDialog.competition(e, Object.assign({}, this.options,
+            {formMode: this.options.trainingPlanMode ? FormMode.Put : FormMode.View}), this.competition)
             .then(response => this.onAnswer(response));
     }
 
     edit (e: Event): void {
-        this.calendarDialog.competition(e, Object.assign(this.options, {formMode: FormMode.Put}), this.competition)
+        this.calendarDialog.competition(e, Object.assign({} , this.options, {formMode: FormMode.Put}), this.competition)
             .then(response => this.onAnswer(response));
     }
 
@@ -122,11 +126,9 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => {
                         this.message.toastInfo('competitionCreated');
                         this.onCancel();
-                    },
-                    error => {}
+                    }, error => {}
                 );
         }
-
         if ( this.competition.view.isPut ) {
             this.calendarService.putItem(this.competition.build())
                 .then(response => this.competition.compile(response),
@@ -140,7 +142,43 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => {
                     this.message.toastInfo('competitionModified');
                     this.onCancel();
-                    //this.onAnswer({ formMode: FormMode.Put, item: this.competition });
+                });
+        }
+    }
+
+    saveTrainingPlanCompetition () {
+        if ( this.competition.view.isPost ) {
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.competition.build())
+                .then(response => this.competition.compile(response),
+                    error => {
+                        this.message.toastError(error);
+                        throw new Error(error);
+                    })
+                .then(() => this.competition.setParentId())
+                .then(() => this.onAnswer({
+                    formMode: FormMode.Post,
+                    item: Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())})
+                }))
+                .then(() => this.saveTrainingPlanItems())
+                .then(() => {
+                        this.message.toastInfo('competitionCreated');
+                        this.onCancel();
+                    }, error => {}
+                );
+        }
+        if ( this.competition.view.isPut ) {
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.competition.build())
+                .then(response => this.competition.compile(response),
+                    error => {
+                        this.message.toastError(error);
+                        throw new Error(error);
+                    })
+                .then(() => Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
+                .then(competition => this.onAnswer({ formMode: FormMode.Put, item: competition }))
+                .then(() => this.saveTrainingPlanItems())
+                .then(() => {
+                    this.message.toastInfo('competitionModified');
+                    this.onCancel();
                 });
         }
     }
@@ -156,7 +194,6 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     saveItems (): Promise<Array<IRevisionResponse>> {
-        debugger;
         return Promise.all(<any>this.competition.items.map(i => {
                 i.item = new Activity(i.item.build(), this.options);
                 if ( this.competition.view.isPost ) {
@@ -164,6 +201,19 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 }
                 if ( this.competition.view.isPut && i.dirty) {
                     return this.calendarService.putItem(i.item.build());
+                }
+            })
+        );
+    }
+
+    saveTrainingPlanItems (): Promise<Array<IRevisionResponse>> {
+        return Promise.all(<any>this.competition.items.map(i => {
+                i.item = new Activity(i.item.build(), this.options);
+                if ( this.competition.view.isPost ) {
+                    return this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, i.item.build());
+                }
+                if ( this.competition.view.isPut && i.dirty) {
+                    return this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, i.item.build());
                 }
             })
         );

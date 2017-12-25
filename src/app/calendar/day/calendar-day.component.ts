@@ -29,6 +29,7 @@ class CalendarDayCtrl {
     dynamicDates: boolean;
     trainingPlanMode: boolean;
     planId: number;
+    weekSid: number;
     compactView: boolean;
     calendarRangeStart: number;
     calendarRangeEnd: number;
@@ -91,7 +92,11 @@ class CalendarDayCtrl {
                 popupMode: true,
                 formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
                 trainingPlanMode: this.trainingPlanMode,
-                planId: this.planId
+                trainingPlanOptions: {
+                    planId: this.planId,
+                    dayNumber: this.data.pos,
+                    weekNumber: this.weekSid
+                }
             };
         }
     }
@@ -123,7 +128,7 @@ class CalendarDayCtrl {
      */
     wizard (e: Event, data: ICalendarDayData): void {
         this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
-            .then(response => this.onUpdate(response),  error => { debugger; });
+            .then(response => this.onUpdate(response),  error => { });
     }
 
     /**
@@ -223,7 +228,11 @@ class CalendarDayCtrl {
             popupMode: true,
             formMode: mode,
             trainingPlanMode: this.trainingPlanMode,
-            planId: this.planId,
+            trainingPlanOptions: {
+                planId: this.planId,
+                dayNumber: this.data.pos,
+                weekNumber: this.weekSid
+            },
             calendarRange: {
                 dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
                 dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
@@ -244,6 +253,7 @@ const CalendarDayComponent: IComponentOptions = {
         currentUser: '<',
         trainingPlanMode: '<',
         planId: '<',
+        weekSid: '<',
         copiedItemsLength: '<', // обьем буфера скопированных тренировок
         compactView: '<',
         update: '<',

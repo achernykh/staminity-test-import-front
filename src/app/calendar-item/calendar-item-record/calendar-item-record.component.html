@@ -223,8 +223,9 @@
             </ng-quill-editor>
         </div>
     </md-content>
-
-    <md-dialog-actions flex="none" layout="row" style="background: white">
+    <!-- Календарь -->
+    <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
                    ng-click="$ctrl.record.view.isPut = true">
@@ -235,6 +236,17 @@
                    ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
                    ng-click="($ctrl.recordForm.$valid) ? $ctrl.onSave() : null">
             <span translate="activity.save"></span>
+        </md-button>
+    </md-dialog-actions>
+    <!-- Тренировочный план -->
+    <md-dialog-actions ng-if="$ctrl.record.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
+        <span flex></span>
+        <md-button ng-if="!$ctrl.record.view.isView"
+                   type="submit"
+                   ng-disabled="!$ctrl.recordForm.$dirty || !$ctrl.recordForm.$valid"
+                   translate="activity.save"
+                   ng-click="$ctrl.onSaveTrainingPlanRecord()">
         </md-button>
     </md-dialog-actions>
 </div>

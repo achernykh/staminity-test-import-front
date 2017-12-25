@@ -105,7 +105,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
         this.prepareValues();
-        this.ftpMode = this.item.options.templateMode ? FtpState.On : FtpState.Off;
+        this.ftpMode = (this.item.options.templateMode || this.item.activity.view.isTrainingPlan) ? FtpState.On : FtpState.Off;
         this.validateForm();
 
     }

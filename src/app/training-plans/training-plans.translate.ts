@@ -1,7 +1,13 @@
 export const _translateTrainingPlans = {
     ru: {
-        fullTitle: 'Поиск тренировочных планов',
-        shortTitle: 'Поиск планов',
+        builder: {
+            fullTitle: 'Тренировочный план',
+            shortTitle: 'План',
+        },
+        search: {
+            fullTitle: 'Поиск тренировочных планов',
+            shortTitle: 'Поиск планов',
+        },
         filter: 'Фильтр',
         filterResult: 'Найдено планов {{total}}',
 

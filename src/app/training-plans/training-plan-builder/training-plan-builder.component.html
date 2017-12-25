@@ -1,99 +1,220 @@
-<st-application-frame
-        class="st-application-frame"
-        has-nav-bar="false"
-
-        left-bar-hide-type="'hidden'"
-        left-bar-show="$ctrl.leftBarShow"
-        right-bar-show="$ctrl.rightBarShow">
+<st-application-frame class="st-application-frame calendar"
+                      ng-class="{'left-bar-show': $ctrl.isLargeScreen && $ctrl.panelAuthCheck}"
+                      template="application"
+                      navigation-bar="false"
+                      left-bar="$ctrl.isLargeScreen && $ctrl.panelAuthCheck">
 
     <st-application-frame-title>
-        <span>Тренировочный план</span>
-        <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
-        <span>{{$ctrl.plan.name}}</span>
-        <md-menu>
-            <md-button class="md-icon-button">
+        <span class="md-title" translate="trainingPlans.builder.fullTitle"></span>
+        <!--<span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>-->
+        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <!--<md-truncate class="button" flex hide show-gt-sm>{{$ctrl.plan.name}}</md-truncate>-->
+        <span class="button" hide show-gt-sm>{{$ctrl.plan.name}}</span>
+        <!--<md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
-
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.setOwner(athlete)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <span>{{$ctrl.currentUser | userName}}</span>
+                    </md-button>
+                </md-menu-item>
             </md-menu-content>
-        </md-menu>
+        </md-menu>-->
     </st-application-frame-title>
 
     <st-application-frame-toolbar layout="row">
-        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
-            <md-icon class="material-icons" aria-label="Back">settings</md-icon>
-            <span>settings</span>
-        </md-button>
-        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
-            <md-icon class="material-icons" aria-label="Back">group_add</md-icon>
-            <span>appoint</span>
-        </md-button>
+        <section class="desktop" hide show-gt-sm layout="row">
+            <md-button  ng-click="$ctrl.calendar.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">navigate_before</md-icon>
+            </md-button>
+            <md-button ng-click="$ctrl.calendar.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">navigate_next</md-icon>
+            </md-button>
+            <md-button flex="none" ng-click="$ctrl.calendar.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+                <md-tooltip ng-bind="'calendar.action.today' | translate"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Back" ng-bind="'today'"></md-icon>
+            </md-button>
+            <md-datepicker ng-model="$ctrl.myDate" style="display: inline-block; width: 0; height: 0"
+                           ng-change="$ctrl.calendar.toDate($ctrl.myDate)"
+                           class="picker"
+                           md-is-open="ctrl.isOpenDatePicker">
+            </md-datepicker>
+            <md-button flex="none" ng-click="ctrl.isOpenDatePicker = true" class="md-icon-button" aria-label="Settings">
+                <md-tooltip ng-bind="'calendar.action.selectDate' | translate"></md-tooltip>
+                <md-icon class="material-icons" aria-label="Back">date_range</md-icon>
+            </md-button>
+            <section flex="none" layout="row" layout-align="start center"
+                     class="calendar-operations" hide show-gt-md>
+                <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+                <md-button flex="none" ng-click="$ctrl.copyItems()" class="md-icon-button" aria-label="Copy"
+                           ng-disabled="$ctrl.selectedItems.length === 0">
+                    <md-tooltip ng-bind-template="{{'calendar.action.copy' | translate}} {{'M-C' | keyboardShortcut}}"></md-tooltip>
+                    <md-icon class="material-icons" aria-label="Copy">content_copy</md-icon>
+                    <span class="badge superscript" md-colors="{background: 'accent-hue-2'}"
+                          ng-if="$ctrl.copiedItems.length > 0">{{$ctrl.copiedItems.length}}</span>
+                </md-button>
+                <md-button flex="none" ng-click="$ctrl.pasteItems($ctrl.calendar.firstDaySelected)"
+                           class="md-icon-button" aria-label="Paste"
+                           ng-disabled="$ctrl.copiedItems.length === 0 ||
+                       ($ctrl.copiedItems.length > 0 && $ctrl.calendar.selectedDaysCount !== 1)">
+                    <md-tooltip ng-bind-template="{{'calendar.action.paste' | translate}} {{'M-V' | keyboardShortcut}}"></md-tooltip>
+                    <md-icon class="material-icons" aria-label="Paste">content_paste</md-icon>
+                </md-button>
+                <md-button flex="none" ng-click="$ctrl.deleteItems()" class="md-icon-button" aria-label="Delete"
+                           ng-disabled="$ctrl.selectedItems.length === 0">
+                    <md-tooltip ng-bind="'calendar.action.delete' | translate"></md-tooltip>
+                    <md-icon class="material-icons" aria-label="Delete">delete</md-icon>
+                </md-button>
+                <md-button ng-click="$ctrl.isCompactView = !$ctrl.isCompactView" class="md-icon-button" aria-label="Settings">
+                    <md-tooltip >{{$ctrl.isCompactView ? 'calendar.action.compact' : 'calendar.action.detail' | translate}}</md-tooltip>
+                    <md-icon class="material-icons" aria-label="View Size">{{$ctrl.isCompactView ? 'view_compact' : 'view_comfy'}}</md-icon>
+                </md-button>
+            </section>
+            </span>
+        </section>
+        <section class="mobile" hide show-xs show-sm>
+            <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+                <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                    <md-icon class="material-icons">person_add</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                        <md-button ng-click="$ctrl.setOwner(athlete)"
+                                   ng-disable="athlete.userId === $ctrl.owner.userId">
+                            <userpic profile="athlete"></userpic>
+                            <span>{{athlete | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                                   ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                            <userpic profile="$ctrl.currentUser"></userpic>
+                            <span>{{$ctrl.currentUser | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </section>
     </st-application-frame-toolbar>
 
+    <st-application-frame-left-bar>
+        <md-content class="calendar__left-bar">
+            <md-subheader>
+                <span translate="calendar.templates"></span>
+            </md-subheader>
+            <st-template-list
+                    current-user="$ctrl.currentUser"
+                    on-drop="$ctrl.onDropTemplate(template,date)"></st-template-list>
+        </md-content>
+    </st-application-frame-left-bar>
+
     <st-application-frame-content>
+        <section class="calendar__content md-whiteframe-4dp">
+            <!-- weekdays panel: start -->
+            <md-toolbar md-theme="grey" class="calendar__days-header md-default" hide show-gt-sm>
+                <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption md-dark font-medium">{{::day}}</div>
+                <div hide show-gt-md class="total md-caption md-dark font-medium">Итоги</div>
+            </md-toolbar>
+            <!-- grid: start -->
+            <section class="calendar__grid"
+                     scroll-container
+                     on-scroll-hit-top=""
+                     on-scroll-hit-bottom="$ctrl.calendar.down(1)"
+                     scroll-keep-position="{{'#hotfix' + $ctrl.calendar.currentWeek.anchor}}">
+                <!-- grid-week: start -->
+                <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
+                     id="hotfix{{::week.anchor}}"
+                     ng-mouseover="$ctrl.calendar.setCurrentWeek(week)"
+                     class="calendar-week"
+                     ng-class="{'calendar__week--current': week.sid == $ctrl.calendar.currentWeek.sid, 'calendar__week--loading': week.loading}">
+                    <calendar-day
+                            ng-repeat="day in week.subItem track by day.key"
+                            ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
+                            ng-init="accent=false"
+                            ng-class="{select: day.selected}"
+                            selected="day.selected"
+                            accent="accentDay"
+                            data="day.data"
+                            owner="$ctrl.owner"
+                            current-user="$ctrl.currentUser"
+                            copied-items-length="$ctrl.copiedItems.length"
+                            compact-view="$ctrl.isCompactView"
+                            calendar-range-start="$ctrl.calendar.range[0]"
+                            calendar-range-end="$ctrl.calendar.range[1]"
+                            training-plan-mode="true"
+                            plan-id="$ctrl.plan.id"
+                            dynamic-dates="$ctrl.dynamicDates"
+                            week-sid="week.sid"
+                            on-copy="$ctrl.copyItems()"
+                            on-paste="$ctrl.pasteItems(date)"
+                            on-delete="$ctrl.deleteItems(items)"
+                            on-post-plan=""
+                            on-update="$ctrl.update(formMode, item)"
+                            on-select="day.selected = !day.selected; $ctrl.selectItems()">
+                    </calendar-day>
 
-        <md-toolbar class="training-plan-builder__calendar-days-header bg-grey-300 md-whiteframe-1dp md-caption md-dark"
-                    hide show-gt-sm>
-            <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day">{{::day}}</div>
-            <div hide show-gt-md class="total md-caption">Итоги</div>
-        </md-toolbar>
+                    <calendar-total
+                            hide show-gt-md
+                            layout="column"
+                            class="calendar-total  md-caption summary"
+                            ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
+                            ng-init="accent=false"
+                            ng-class="{select: day.selected}"
+                            selected="week.selected"
+                            accent="accentTotal"
+                            update="week.changes"
+                            week="week"
+                            owner="$ctrl.owner"
+                            training-plan-mode="true"
+                            plan-id="$ctrl.plan.id"
+                            dynamic-dates="$ctrl.dynamicDates"
+                            compact-view="$ctrl.isCompactView"
+                            copied-items-length="$ctrl.copiedItems.length"
+                            on-select="$ctrl.selectItems()"
+                            on-copy="$ctrl.copyItems(items)"
+                            on-paste="$ctrl.pasteItems(date)"
+                            on-delete="$ctrl.deleteItems(items)">
+                        <div class="md-body-1">Неделя {{$index}}</div>
+                    </calendar-total>
 
-        <!-- grid: start -->
-        <section class="training-plan-builder__calendar-grid bg-grey-200"
-                 scroll-container
-                 on-scroll-hit-bottom="$ctrl.calendar.down(1)"
-                 scroll-keep-position="{{'#hotfix' + $ctrl.currentWeek.anchor}}">
-            <!-- grid-week: start -->
-            <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
-                 id="hotfix{{::week.anchor}}"
-                 ng-mouseover="$ctrl.setCurrentWeek(week)"
-                 class="calendar-week calendar__week"
-                 ng-class="{'calendar__week--current': week.sid == $ctrl.currentWeek.sid, 'calendar__week--loading': week.loading}">
+                </div>
+                <!-- grid-week: end -->
 
+                <div class="scroll__bottom-pad" style="height:100%"></div>
 
-                <calendar-day
-                        ng-repeat="day in week.subItem track by day.key"
-                        ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
-                        ng-init="accent=false"
-                        ng-class="{select: day.selected}"
-                        selected="day.selected"
-                        accent="accentDay"
-                        data="day.data"
-                        owner="$ctrl.currentUser"
-                        current-user="$ctrl.currentUser"
-                        dynamic-day="true"
-                        training-plan-mode="true"
-                        plan-id="$ctrl.plan.id"
-                        on-save="$ctrl.saveItem(formMode, item)"
-                        on-select="day.selected = !day.selected">
-                </calendar-day>
-
-                <calendar-total
-                        hide show-gt-md
-                        layout="column"
-                        class="calendar-total md-caption summary"
-                        ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
-                        ng-init="accent=false"
-                        ng-class="{select: day.selected}"
-                        selected="week.selected"
-                        accent="accentTotal"
-                        update="week.changes"
-                        week="week"
-                        user="$ctrl.currentUser"
-                        dynamic-dates="$ctrl.dynamicDates"
-                        on-toggle="$ctrl.onToggleWeek(sid, value)">
-                    <div class="md-body-1">Неделя {{$index}}</div>
-                </calendar-total>
-
-            </div>
-            <!-- grid-week: end -->
-
-            <div class="scroll__bottom-pad" style="height:100%"></div>
+            </section>
+            <!-- grid-weekdays: end -->
 
         </section>
-        <!-- grid-weekdays: end -->
-
+        <md-fab-speed-dial  ng-init="isOpen = false" md-open="isOpen" md-direction="left" hide-gt-sm
+                            class="calendar__fab md-scale">
+            <md-fab-trigger>
+                <md-button aria-label="menu" class="md-fab md-accent md-hue-2">
+                    <md-icon class="material-icons">add</md-icon>
+                </md-button>
+            </md-fab-trigger>
+            <md-fab-actions>
+                <md-button ng-repeat="type in ['activity', 'measurement', 'record', 'competition'] track by $index"
+                           aria-label="Events" class="md-fab md-raised md-mini"
+                           ng-click="$ctrl.itemDialog($event, type)">
+                    <md-icon class="material-icons md-inactive" aria-label="{{type}}"
+                             md-svg-src="/assets/icon/{{::type}}.svg"></md-icon>
+                </md-button>
+            </md-fab-actions>
+        </md-fab-speed-dial>
     </st-application-frame-content>
 
 </st-application-frame>

@@ -93,15 +93,13 @@ export class Calendar {
      * @param date
      * @param calendarItems
      */
-    dayItem (date, calendarItems):ICalendarDay {
-        //debugger;
-        //console.log('dayItem',date.utc(),date.utc().add(moment().utcOffset(),'minutes').format());
+    dayItem (date: Moment, calendarItems: Array<ICalendarItem>):ICalendarDay {
         return {
             key: date.format(this.dateFormat),
             selected: false,
             date: date.format(this.dateFormat),
             data: {
-                pos: ++this.pos,
+                pos: ++this.pos > 7 ? Math.ceil(this.pos / 2) : this.pos,
                 title: date.format('DD'),
                 month: date.format('MMM'),
                 day: date.format('dd'),
@@ -290,6 +288,7 @@ export class Calendar {
      * @param parentId
      */
     delete (item: ICalendarItem, parentId?: number): void {
+        console.info('delete: check weekday', moment().weekday(0));
         let child: ICalendarItem;
         if (parentId && item.calendarItemType === 'activity') {
             child = copy(item);
@@ -385,7 +384,7 @@ export class Calendar {
      * @returns {number}
      */
     private getWeekSeed( w: string ): number {
-        return this.weeks.some(d => d.week === w) && this.weeks.findIndex(d => d.week === w) || null;
+        return this.weeks.some(d => d.week === w) ? this.weeks.findIndex(d => d.week === w) : -1;
     }
 
 

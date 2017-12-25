@@ -27,9 +27,12 @@ export interface ICalendarItemDialogOptions {
         favourite: boolean;
         groupProfile: IGroupProfileShort;
     }; //
-
     trainingPlanMode?: boolean; // true - если режим ввода Долгосрочного плана
-    planId?: number; // ссылка на долгосрочный план, если идет планирование в рамках него
+    trainingPlanOptions?: {
+        planId?: number; // ссылка на долгосрочный план, если идет планирование в рамках него
+        dayNumber?: number;
+        weekNumber?: number;
+    },
     isPro?: boolean; // Полномочия пользователя не режим Про
     athleteList?: Array<{profile: IUserProfile, active: boolean}>; // Перечень атлетов доступных для планирования
     calendarRange?: {dateStart: string, dateEnd: string}; // Содержит область видимости календаря, описывается с даты с по дату по

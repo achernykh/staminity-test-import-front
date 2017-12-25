@@ -25,6 +25,12 @@
                 <span class="keyword" ng-repeat="word in plan.keywords" ng-bind="word"></span>
             </p>
         </div>
+        <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
+            <md-icon class="material-icons">landscape</md-icon>
+        </md-button>
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)">
+            <md-icon class="material-icons">date_range</md-icon>
+        </md-button>
 
         <md-menu class="md-secondary">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">

@@ -11,6 +11,7 @@ import { IQuillConfig } from "@app/share/quill/quill.config";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "../calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
+import { TrainingPlansService } from "../../training-plans/training-plans.service";
 
 export class CalendarItemRecordCtrl implements IComponentController {
 
@@ -29,13 +30,14 @@ export class CalendarItemRecordCtrl implements IComponentController {
     private recordForm: INgModelController;
 
     static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'CalendarItemDialogService',
-        'message', 'quillConfig'];
+        'TrainingPlansService', 'message', 'quillConfig'];
 
     constructor (
         private config: ICalendarItemRecordConfig,
         private session: SessionService,
         private calendarService: CalendarService,
         private calendarDialog: CalendarItemDialogService,
+        private trainingPlansService: TrainingPlansService,
         private message: MessageService,
         private quillConf: IQuillConfig
     ) {
@@ -111,6 +113,30 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 this.message.toastInfo('recordDeleted');
                 this.close();
             }, error => this.message.toastError(error));
+    }
+
+    onSaveTrainingPlanRecord(): void {
+        //this.inAction = true;
+
+        if (this.record.view.isPost) {
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+                .then((response)=> {
+                    this.record.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('recordCreated');
+                    this.onAnswer({formMode: FormMode.Post, item: this.record.build()});
+                }, error => this.message.toastError(error));
+                //.then(() => this.inAction = false);
+        }
+
+        if (this.record.view.isPut) {
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+                .then((response)=> {
+                    this.record.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('recordUpdated');
+                    this.onAnswer({formMode: FormMode.Put, item: this.record.build()});
+                }, error => this.message.toastError(error));
+                //.then(() => this.inAction = false);
+        }
     }
 
     onEditorCreated (editor) {

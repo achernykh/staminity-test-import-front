@@ -205,7 +205,8 @@
 
     <!-- Кнопки -->
 
-    <md-dialog-actions flex="none" layout="row" style="background: white">
+    <md-dialog-actions ng-if="!$ctrl.competition.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.competition.view.isView" type="submit"
                    ng-click="$ctrl.competition.view.isPut = true">
@@ -216,6 +217,17 @@
                    ng-disabled="$ctrl.competition.view.isPut && !$ctrl.form.$dirty"
                    ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
             <span translate="activity.save"></span>
+        </md-button>
+    </md-dialog-actions>
+    <!-- Тренировочный план -->
+    <md-dialog-actions ng-if="$ctrl.competition.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
+        <span flex></span>
+        <md-button ng-if="!$ctrl.competition.view.isView"
+                   type="submit"
+                   ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
+                   translate="activity.save"
+                   ng-click="$ctrl.saveTrainingPlanCompetition()">
         </md-button>
     </md-dialog-actions>
 
