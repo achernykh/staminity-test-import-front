@@ -32,6 +32,7 @@ export interface ICalendarItemDialogOptions {
         planId?: number; // ссылка на долгосрочный план, если идет планирование в рамках него
         dayNumber?: number;
         weekNumber?: number;
+        dynamicDates?: boolean;
     },
     isPro?: boolean; // Полномочия пользователя не режим Про
     athleteList?: Array<{profile: IUserProfile, active: boolean}>; // Перечень атлетов доступных для планирования

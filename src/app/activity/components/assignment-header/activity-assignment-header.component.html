@@ -69,7 +69,7 @@
                    md-invert>
     </md-list-item>
     <md-list-item layout="row" layout-align="start center"
-                  ng-if="!($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
+                  ng-if="!($ctrl.item.options.templateMode || ($ctrl.item.activity.view.isTrainingPlan && $ctrl.item.options.trainingPlanOptions.dynamicDates))">
         <md-input-container flex="50" class="no-message" md-no-float>
             <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
             <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
@@ -86,7 +86,7 @@
         <div flex="5">
         </div>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.item.activity.view.isTrainingPlan">
+    <md-list-item ng-if="$ctrl.item.activity.view.isTrainingPlan && $ctrl.item.options.trainingPlanOptions.dynamicDates">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">today</md-icon>
         <p class="md-caption"
            translate="activity.dynamicDate"

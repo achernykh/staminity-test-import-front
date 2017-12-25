@@ -95,7 +95,8 @@ class CalendarDayCtrl {
                 trainingPlanOptions: {
                     planId: this.planId,
                     dayNumber: this.data.pos,
-                    weekNumber: this.weekSid
+                    weekNumber: this.weekSid,
+                    dynamicDates: this.dynamicDates
                 }
             };
         }
@@ -231,7 +232,8 @@ class CalendarDayCtrl {
             trainingPlanOptions: {
                 planId: this.planId,
                 dayNumber: this.data.pos,
-                weekNumber: this.weekSid
+                weekNumber: this.weekSid,
+                dynamicDates: this.dynamicDates
             },
             calendarRange: {
                 dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
