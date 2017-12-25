@@ -10,7 +10,7 @@ export class CalendarItemRecord extends CalendarItem {
     recordHeader: IRecordHeader;
     isRepeated: boolean = false;
 
-    constructor (private param: ICalendarItem, options?: ICalendarItemDialogOptions) {
+    constructor (private param: ICalendarItem, private options?: ICalendarItemDialogOptions) {
         super(param, options);
         this.prepareDefaultType();
     }
@@ -64,6 +64,9 @@ export class CalendarItemRecord extends CalendarItem {
                 description: null
             };
             this.recordHeader.repeat.endOnDate = moment(this.dateStart).add('days', 2);
+            if (this.options.trainingPlanMode && this.options.trainingPlanOptions.dynamicDates) {
+                this.recordHeader.repeat.endType = 'C';
+            }
         } else {
             this.isRepeated = !!this.recordHeader.repeat;
         }

@@ -29,6 +29,7 @@ class CalendarDayCtrl {
     dynamicDates: boolean;
     trainingPlanMode: boolean;
     planId: number;
+    daySid: number;
     weekSid: number;
     compactView: boolean;
     calendarRangeStart: number;
@@ -94,7 +95,7 @@ class CalendarDayCtrl {
                 trainingPlanMode: this.trainingPlanMode,
                 trainingPlanOptions: {
                     planId: this.planId,
-                    dayNumber: this.data.pos,
+                    dayNumber: this.weekSid * 7 + this.daySid,
                     weekNumber: this.weekSid,
                     dynamicDates: this.dynamicDates
                 }
@@ -231,7 +232,7 @@ class CalendarDayCtrl {
             trainingPlanMode: this.trainingPlanMode,
             trainingPlanOptions: {
                 planId: this.planId,
-                dayNumber: this.data.pos,
+                dayNumber: this.weekSid * 7 + this.daySid,
                 weekNumber: this.weekSid,
                 dynamicDates: this.dynamicDates
             },
@@ -255,6 +256,7 @@ const CalendarDayComponent: IComponentOptions = {
         currentUser: '<',
         trainingPlanMode: '<',
         planId: '<',
+        daySid: '<',
         weekSid: '<',
         copiedItemsLength: '<', // обьем буфера скопированных тренировок
         compactView: '<',

@@ -84,7 +84,8 @@
                         </md-select>
                     </md-input-container>
                 </md-list-item>
-                <md-list-item layout="row" layout-align="start center">
+                <md-list-item layout="row" layout-align="start center"
+                              ng-if="!($ctrl.options.templateMode || ($ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates))">
                     <md-input-container flex="auto" class="no-message" md-no-float>
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                         <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
@@ -99,6 +100,12 @@
                             </div>
                         </div>
                     </md-input-container>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates">
+                    <md-icon class="material-icons md-dark" style="margin-right: 20px">today</md-icon>
+                    <p class="md-caption"
+                       translate="activity.dynamicDate"
+                       translate-values="{week: $ctrl.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.options.trainingPlanOptions.dayNumber + 1}"></p>
                 </md-list-item>
                 <md-list-item ng-if="!$ctrl.record.view.isView">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">repeat</md-icon>
@@ -163,6 +170,7 @@
                         <label translate="record.endType.label"></label>
                         <md-icon flex="none" class="md-dark" md-svg-src=""></md-icon>
                         <md-select flex name="endType" class="icon"
+                                   ng-disabled="$ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates"
                                    ng-model="$ctrl.record.recordHeader.repeat.endType"
                                    ng-change="">
                             <md-option ng-repeat="type in $ctrl.config.endTypes"

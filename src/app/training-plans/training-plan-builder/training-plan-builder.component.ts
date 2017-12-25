@@ -1,6 +1,6 @@
 import './training-plan-builder.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise,IScope,IAnchorScrollService, copy} from 'angular';
+import {IComponentOptions, IComponentController,IScope,IAnchorScrollService, copy, ILocationService} from 'angular';
 import { Subject } from 'rxjs/Subject';
 import { Calendar } from "../../calendar/calendar.datamodel";
 import { CalendarService } from "../../calendar/calendar.service";
@@ -16,15 +16,19 @@ import { IActivityTemplate } from "../../../../api/reference/reference.interface
 import { profileShort } from "../../core/user.function";
 import { TrainingPlansService } from "../training-plans.service";
 import { Moment } from 'moment';
+import { ITrainingPlanSearchRequest, ITrainingPlan } from "../../../../api/trainingPlans/training-plans.interface";
+import { TrainingPlansList } from "../training-plans-list/training-plans-list.datamodel";
+import { TrainingPlanDialogService } from "../training-plan-dialog.service";
 
 class TrainingPlanBuilderCtrl implements IComponentController {
 
-    plan: TrainingPlan;
-    onEvent: (response: Object) => IPromise<void>;
     currentUser: IUserProfile;
+    onEvent: (response: Object) => Promise<void>;
 
     // private
+    private currentPlan: TrainingPlan;
     private owner: IUserProfile;
+    private trainingPlans: TrainingPlansList;
     private dynamicDates: boolean;
     private futureDate: Moment = moment('3000.01.01');
     private weekdayNames: Array<number> = [];
@@ -34,14 +38,17 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     private calendar: Calendar;
     private isCompactView: boolean = false;
     private destroy: Subject<any> = new Subject();
-    static $inject = ['$scope', '$mdMedia', '$anchorScroll', 'TrainingPlansService', 'CalendarService', 'SessionService', 'AuthService',
-        'message','dialogs'];
+    static $inject = ['$scope', '$mdMedia', '$stateParams', '$location', '$anchorScroll', 'TrainingPlansService',
+        'TrainingPlanDialogService', 'CalendarService', 'SessionService', 'AuthService', 'message','dialogs'];
 
     constructor(
         private $scope: IScope,
         private $mdMedia: any,
+        private $stateParams: any,
+        private $location: ILocationService,
         private $anchorScroll: IAnchorScrollService,
         private trainingPlansService: TrainingPlansService,
+        private trainingPlanDialogService: TrainingPlanDialogService,
         private calendarService: CalendarService,
         private session: SessionService,
         private auth: AuthService,
@@ -55,14 +62,40 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.weekdayNames = moment.weekdays(true);
         this.currentUser = this.session.getUser();
         this.owner = this.currentUser;
-        this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser, this.plan.calendarItems);
-        this.dynamicDates = !this.plan.isFixedCalendarDates;
-        this.calendar.toDate(this.dynamicDates ? new Date('3000.01.01') : this.plan.startDate);
+        if (this.$stateParams.planId) {
+            this.setTrainingPlan(this.$stateParams.planId);
+        }
+        this.prepareTrainingPlansSelector();
     }
 
     $onDestroy() {
         this.destroy.next();
         this.destroy.complete();
+    }
+
+    view (e: Event, plan: TrainingPlan) {
+        this.trainingPlanDialogService.open(e, FormMode.View, plan)
+            .then(() => {}, () => {});
+    }
+
+    private setTrainingPlan (planId: number): void {
+        this.currentPlan = null;
+        this.trainingPlansService.get(planId)
+            .then(response => this.currentPlan = new TrainingPlan(response))
+            .then(() => this.setData());
+    }
+
+    private setData (): void {
+        this.calendar = new Calendar(this.$scope, this.$anchorScroll, null, this.currentUser, this.currentPlan.calendarItems);
+        this.dynamicDates = !this.currentPlan.isFixedCalendarDates;
+        this.calendar.toDate(this.dynamicDates ? new Date('3000.01.01') : this.currentPlan.startDate);
+        this.$location.search('planId', this.currentPlan.id);
+    }
+
+    private prepareTrainingPlansSelector(): void {
+        let request: ITrainingPlanSearchRequest = { ownerId: this.owner.userId };
+        this.trainingPlansService.search(request)
+            .then(result => this.trainingPlans = new TrainingPlansList(result.items));
     }
 
     /**
@@ -91,7 +124,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     post (item: ICalendarItem): void {
-        this.trainingPlansService.postItem(this.plan.id, item, true)
+        this.trainingPlansService.postItem(this.currentPlan.id, item, true)
             .then(response => response && Object.assign(item, {
                 index: Number(`${response.value.id}${response.value.revision}`),
                 calendarItemId: response.value.id,
@@ -183,7 +216,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         if (shift && this.copiedItems && this.copiedItems.length > 0) {
             task = this.copiedItems
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
-                .map(item => this.trainingPlansService.postItem(this.plan.id, prepareItem(item, shift), true));
+                .map(item => this.trainingPlansService.postItem(this.currentPlan.id, prepareItem(item, shift), true));
 
             Promise.all(task)
                 .then(response => {
@@ -254,11 +287,8 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
 const TrainingPlanBuilderComponent:IComponentOptions = {
     bindings: {
-        plan: '<',
+        currentUser: '<',
         onEvent: '&'
-    },
-    require: {
-        //component: '^component'
     },
     controller: TrainingPlanBuilderCtrl,
     template: require('./training-plan-builder.component.html') as string

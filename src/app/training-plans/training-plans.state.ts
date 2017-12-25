@@ -28,12 +28,12 @@ const trainingPlanBuilder: any = {
 
 const trainingPlanBuilderId: any = {
     name: 'training-plan-builder-id',
-    url: '/training-plan-builder/:planId',
+    url: '/training-plan-builder/?planId',
     loginRequired: false,
     authRequired: [],
+    reloadOnSearch: false,
     resolve: {
-        plan: ['$stateParams', 'TrainingPlansService', ($stateParams, trainingPlansService: TrainingPlansService) =>
-            trainingPlansService.get($stateParams.planId)]
+        currentUser: ['SessionService', (session: SessionService) => session.getUser()]
     },
     views: {
         "application": {
@@ -44,7 +44,7 @@ const trainingPlanBuilderId: any = {
 
 const trainingPlanId: any = {
     name: 'training-plan-id',
-    url: '/training-plan/:planId',
+    url: '/training-plan/planId',
     loginRequired: false,
     authRequired: [],
     resolve: {

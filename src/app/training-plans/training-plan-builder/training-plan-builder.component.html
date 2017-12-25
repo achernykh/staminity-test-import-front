@@ -1,4 +1,4 @@
-<st-application-frame class="st-application-frame calendar"
+<st-application-frame class="st-application-frame calendar training-plan-builder"
                       ng-class="{'left-bar-show': $ctrl.isLargeScreen && $ctrl.panelAuthCheck}"
                       template="application"
                       navigation-bar="false"
@@ -8,35 +8,27 @@
         <span class="md-title" translate="trainingPlans.builder.fullTitle"></span>
         <!--<span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>-->
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <!--<md-truncate class="button" flex hide show-gt-sm>{{$ctrl.plan.name}}</md-truncate>-->
-        <span class="button" hide show-gt-sm>{{$ctrl.plan.name}}</span>
-        <!--<md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
+        <!--<md-truncate class="button" flex hide show-gt-sm>{{$ctrl.currentPlan.name}}</md-truncate>-->
+        <span class="button" hide show-gt-sm ng-click="$ctrl.view($ctrl.currentPlan)">{{$ctrl.currentPlan.name}}</span>
+        <md-menu ng-if="$ctrl.trainingPlans.list.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
-                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
-                    <md-button ng-click="$ctrl.setOwner(athlete)"
-                               ng-disable="athlete.userId === $ctrl.owner.userId">
-                        <userpic profile="athlete"></userpic>
-                        <span>{{athlete | userName}}</span>
-                    </md-button>
-                </md-menu-item>
-                <md-divider></md-divider>
-                <md-menu-item>
-                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
-                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
-                        <userpic profile="$ctrl.currentUser"></userpic>
-                        <span>{{$ctrl.currentUser | userName}}</span>
+                <md-menu-item ng-repeat="plan in $ctrl.trainingPlans.list track by plan.id">
+                    <md-button ng-click="$ctrl.setTrainingPlan(plan.id)"
+                               ng-disable="plan.id === $ctrl.currentPlan.id">
+                        <md-icon class="material-icons">{{plan.isPublic ? 'monetization_on' : ''}}</md-icon>
+                        <span>{{plan.name}}</span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
-        </md-menu>-->
+        </md-menu>
     </st-application-frame-title>
 
     <st-application-frame-toolbar layout="row">
         <section class="desktop" hide show-gt-sm layout="row">
-            <md-button  ng-click="$ctrl.calendar.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+            <!--<md-button  ng-click="$ctrl.calendar.toPrevWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Back">navigate_before</md-icon>
             </md-button>
             <md-button ng-click="$ctrl.calendar.toNextWeek()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
@@ -54,10 +46,10 @@
             <md-button flex="none" ng-click="ctrl.isOpenDatePicker = true" class="md-icon-button" aria-label="Settings">
                 <md-tooltip ng-bind="'calendar.action.selectDate' | translate"></md-tooltip>
                 <md-icon class="material-icons" aria-label="Back">date_range</md-icon>
-            </md-button>
+            </md-button> -->
             <section flex="none" layout="row" layout-align="start center"
                      class="calendar-operations" hide show-gt-md>
-                <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+                <!--<span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>-->
                 <md-button flex="none" ng-click="$ctrl.copyItems()" class="md-icon-button" aria-label="Copy"
                            ng-disabled="$ctrl.selectedItems.length === 0">
                     <md-tooltip ng-bind-template="{{'calendar.action.copy' | translate}} {{'M-C' | keyboardShortcut}}"></md-tooltip>
@@ -122,7 +114,13 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content>
-        <section class="calendar__content md-whiteframe-4dp">
+
+        <section class="calendar__content loading" ng-if="!$ctrl.currentPlan" layout-fill layout="column" layout-align="center center">
+            <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+            <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
+        </section>
+
+        <section class="calendar__content md-whiteframe-4dp" ng-if="$ctrl.currentPlan">
             <!-- weekdays panel: start -->
             <md-toolbar md-theme="grey" class="calendar__days-header md-default" hide show-gt-sm>
                 <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption md-dark font-medium">{{::day}}</div>
@@ -155,8 +153,9 @@
                             calendar-range-start="$ctrl.calendar.range[0]"
                             calendar-range-end="$ctrl.calendar.range[1]"
                             training-plan-mode="true"
-                            plan-id="$ctrl.plan.id"
+                            plan-id="$ctrl.currentPlan.id"
                             dynamic-dates="$ctrl.dynamicDates"
+                            day-sid="$index"
                             week-sid="week.sid"
                             on-copy="$ctrl.copyItems()"
                             on-paste="$ctrl.pasteItems(date)"
@@ -179,7 +178,7 @@
                             week="week"
                             owner="$ctrl.owner"
                             training-plan-mode="true"
-                            plan-id="$ctrl.plan.id"
+                            plan-id="$ctrl.currentPlan.id"
                             dynamic-dates="$ctrl.dynamicDates"
                             compact-view="$ctrl.isCompactView"
                             copied-items-length="$ctrl.copiedItems.length"

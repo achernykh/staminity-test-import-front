@@ -10,22 +10,24 @@ import { ICalendarItem } from "@api/calendar";
 export class Calendar {
 
     weeks: Array<ICalendarWeek> = []; //todo rename to weeks
-    pos: number = 0;
+    pos: number;
+    range: Array<number>;
 
     // private
     // todo need comment
     private date: Date;
     private readonly dateFormat: string = 'YYYY-MM-DD';
-    range: Array<number> = [0, 1];
     private currentWeek: ICalendarWeek;
 
     constructor(
         private $scope: IScope,
         private $anchorScroll: IAnchorScrollService,
-        private calendarService: CalendarService,
+        private itemService: CalendarService,
         private owner: IUserProfile,
         private cache?: Array<ICalendarItem>) {
 
+        this.pos = 0;
+        this.range = [0,1];
     }
 
     toDate (date) {
@@ -74,8 +76,8 @@ export class Calendar {
     takeWeek (date) {
         date = moment(date).startOf('week');
         let week = this.weeks.find(w => w.date.isSame(date, 'week'));
-        let calendarFirst = this.weeks[0] && moment(this.weeks[0].date);
-        let calendarLast = this.weeks[0] && moment(this.weeks[this.weeks.length - 1].date);
+        let calendarFirst: Moment = this.weeks[0] && moment(this.weeks[0].date);
+        let calendarLast: Moment = this.weeks[0] && moment(this.weeks[this.weeks.length - 1].date);
 
         if (week) {
             return Promise.resolve(week);
@@ -99,7 +101,7 @@ export class Calendar {
             selected: false,
             date: date.format(this.dateFormat),
             data: {
-                pos: ++this.pos > 7 ? Math.ceil(this.pos / 2) : this.pos,
+                //pos: ++this.pos, //> 7 ? Math.ceil(this.pos / 2) : this.pos,
                 title: date.format('DD'),
                 month: date.format('MMM'),
                 day: date.format('dd'),
@@ -152,7 +154,6 @@ export class Calendar {
                     })
                     .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
-
         return items;
     }
 
@@ -209,7 +210,7 @@ export class Calendar {
                     return week;
                 }) :
 
-            this.calendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
+            this.itemService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
                 .then(items => {
                     week.subItem = days(items);
                     week.changes++;
