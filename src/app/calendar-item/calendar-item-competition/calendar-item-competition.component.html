@@ -103,13 +103,11 @@
                                  md-svg-src="/assets/icon/competition.svg"></md-icon>
                         <md-select flex class="icon"
                                    required name="distanceType"
-                                   ng-model="$ctrl.competition.competitionHeader.distanceType"
+                                   ng-model="$ctrl.distanceType"
                                    placeholder="{{competition.distanceType.placeholder}}"
-                                   ng-change="$ctrl.setDistanceType()"
                                    ng-disabled="$ctrl.competition.view.isView || $ctrl.competition.isCompleted">
                             <md-option ng-repeat="type in $ctrl.config.distanceTypes |
-                                    filter:{type: $ctrl.competition.competitionHeader.type}
-                                    track by $index" ng-value="type.code">
+                                    filter:{type: $ctrl.competition.competitionHeader.type}" ng-value="type">
                                 {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                             </md-option>
                         </md-select>

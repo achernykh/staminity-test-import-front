@@ -70,14 +70,16 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         this.check();
     }
 
-    setDistanceType (): void {
+    get distanceType () : any {
+        let { competitionHeader } = this.competition;
+        return competitionHeader && this.config.distanceTypes.find((t) => t.type === competitionHeader.type && t.code === competitionHeader.distanceType);
+    }
+
+    set distanceType (distanceType: any) {
         this.clearItems();
-        this.competition.setItems(this.config.distanceTypes.filter(t =>
-            t.type === this.competition.competitionHeader.type &&
-            t.code === this.competition.competitionHeader.distanceType)[0].stages);
+        this.competition.competitionHeader.distanceType = distanceType.code;
+        this.competition.setItems(distanceType.stages);
         this.check();
-                //[this.competition.competitionHeader.type]
-                //[this.competition.competitionHeader.distanceType]);
     }
 
     /**
