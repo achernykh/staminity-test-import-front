@@ -6,10 +6,8 @@ import { ScaleType, IScaleInfo, IActivityScales } from "./utils/chart.scale";
 import LabelFormatters from "./utils/labelFormatter";
 import { ChangeTracker } from "./utils/changeTracker";
 import './chart.component.scss';
-import {select} from "d3-selection";
 import {isPace, measureUnit} from "../../../share/measure/measure.constants";
 import {Dispatch} from "d3-dispatch";
-import scale = L.control.scale;
 
 class ActivityChartController implements IComponentController {
 
