@@ -7,6 +7,7 @@ import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import { TrainingPlanConfig } from "../training-plan/training-plan.config";
 import { IQuillConfig } from "../../share/quill/quill.config";
+import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
@@ -20,12 +21,13 @@ class TrainingPlanFormCtrl implements IComponentController {
     private planForm: INgModelController;
 
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig'];
+    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
 
     constructor (private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
                  private message: MessageService,
-                 private quillConf: IQuillConfig) {
+                 private quillConf: IQuillConfig,
+                 private competitionConfig: ICompetitionConfig) {
 
     }
 

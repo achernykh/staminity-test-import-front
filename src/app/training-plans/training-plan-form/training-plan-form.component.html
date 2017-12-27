@@ -56,9 +56,9 @@
                                            placeholder="{{trainingPlans.name.placeholder}}"
                                            ng-model="$ctrl.plan.type"
                                            ng-change="$ctrl.changeParam()">
-                                    <md-option ng-repeat="type in $ctrl.config.types track by $index"
+                                    <md-option ng-repeat="type in $ctrl.competitionConfig.types track by $index"
                                                value="{{type}}">
-                                        {{'plan.types.' + type | translate}}
+                                        {{'competition.types.' + type | translate}}
                                     </md-option>
                                 </md-select>
                                 <div ng-messages="$ctrl.planForm.type.$error" role="alert">
@@ -78,10 +78,10 @@
                                            ng-model="$ctrl.plan.distanceType"
                                            placeholder="{{trainingPlans.distanceType.placeholder}}"
                                            ng-change="$ctrl.changeParam()">
-                                    <md-option
-                                            ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.plan.type] track by $index"
-                                            value="{{type}}">
-                                        {{'plan.distanceType.' + type | translate}}
+                                    <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
+                                        filter:{type: $ctrl.plan.type}
+                                        track by $index" ng-value="type.code">
+                                        {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                                     </md-option>
                                 </md-select>
                                 <div ng-messages="$ctrl.planForm.distanceType.$error" role="alert">

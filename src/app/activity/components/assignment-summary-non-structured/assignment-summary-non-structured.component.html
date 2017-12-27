@@ -118,19 +118,23 @@
     <div ng-message="singleDuration">{{'activity.error.singleDuration' | translate}}</div>
     <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
     <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
-</div><!--
-<md-subheader ng-if="$ctrl.item.activity.sport">
-    <span translate="activity.trainersPrescription"></span>
-</md-subheader>
-<div flex="auto" class="assignment-summary-non-structured__description" ng-if="$ctrl.item.activity.sport">
+</div>
+<md-list class="md-dense" ng-if="$ctrl.item.activity.header.sport">
+    <md-subheader>
+        <span translate="activity.trainersPrescription"></span>
+    </md-subheader>
     <ng-quill-editor ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
+                     on-content-changed="$ctrl.changeParam()"
                      placeholder="{{'activity.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConf.toolbar"
                      ng-class="{'hide-toolbar': $ctrl.item.mode === 'view'}"
                      read-only="$ctrl.item.mode === 'view'"
                      st-quill-post-image>
     </ng-quill-editor>
-</div>-->
+</md-list>
+<!--<div flex="auto" class="assignment-summary-non-structured__description" ng-if="$ctrl.item.activity.sport">
+
+</div><!--
 <md-list class="assignment-summary-non-structured md-dense slim-input bg-grey-100 ">
     <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.header.sport">
         <md-input-container flex class="md-block no-message">
@@ -143,4 +147,4 @@
                       rows="1"></textarea>
         </md-input-container>
     </md-list-item>
-</md-list>
+</md-list>-->

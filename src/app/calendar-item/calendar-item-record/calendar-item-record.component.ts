@@ -146,7 +146,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 //.then(() => this.inAction = false);
         }
     }
-
+/*
     onEditorCreated (editor) {
         editor.getModule('toolbar').addHandler('image', () => {
             new Promise((resolve, reject) => {
@@ -173,7 +173,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
             });
         });
     }
-
+*/
     private close (): void {
         this.onCancel();
     }

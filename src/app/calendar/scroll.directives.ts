@@ -33,9 +33,9 @@ const loop = (f: Function) => {
 const isChrome = () : boolean => !!window['chrome'];
 
 interface IScrollState {
-    scrollTop: number, 
-    scrollHeight: number, 
-    offsetHeight: number
+    scrollTop: number;
+    scrollHeight: number;
+    offsetHeight: number;
 };
 
 /* 
@@ -52,7 +52,7 @@ class ScrollController {
     getScrollState = () : IScrollState => { 
         const { scrollTop, scrollHeight, offsetHeight } = this.element;
         return { scrollTop, scrollHeight, offsetHeight };
-    };
+    }
 }
 
 /* 
@@ -112,7 +112,7 @@ export const onScrollHitBottom = () : IDirective => ({
         .filter(({ scrollTop, scrollHeight, offsetHeight }) => bottomPad.offsetTop - scrollTop <= offsetHeight)
         .subscribe(() => { 
             scope.$applyAsync(attrs['onScrollHitBottom']);
-        })
+        });
     }
 });
 
