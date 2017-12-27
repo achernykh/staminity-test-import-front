@@ -55,7 +55,7 @@
     </md-list-item>
     <md-list-item ng-click="$ctrl.onTemplateOpen()"
                   ng-if="!$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory"
-                  ng-disabled="!$ctrl.item.options.templateModeByFilter">
+                  ng-disabled="!$ctrl.item.templateByFilter">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
         <p translate>{{$ctrl.templateSelectorText}}</p>
         <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>

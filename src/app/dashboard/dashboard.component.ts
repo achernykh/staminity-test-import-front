@@ -12,6 +12,7 @@ import {
 import { times } from '../share/util.js';
 import {Activity} from "../activity/activity-datamodel/activity.datamodel";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
+import { FormMode } from "@app/application.interface";
 
 
 const getItemById = (cache: Array<IDashboardWeek>, id: number):ICalendarItem => {
@@ -74,6 +75,7 @@ export class DashboardCtrl implements IComponentController {
     private orderAthletes: Array<number> = [];
     private buffer: Array<ICalendarItem> = [];
     private firstSrcDay: string;
+    private range: Array<number> = [0,0];
 
     static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message','storage','dialogs'];
 
@@ -145,6 +147,7 @@ export class DashboardCtrl implements IComponentController {
     $onInit() {
         this.cache = [];
         this.currentWeek = 0;
+        this.range = [this.currentWeek, this.currentWeek];
         this.currentDate = moment().startOf('week');
         this.getData(this.currentDate);
 
@@ -167,12 +170,16 @@ export class DashboardCtrl implements IComponentController {
 
         this.calendar.item$
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
-                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId) &&
-                !message.value.parentId)
+                this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))// &&
+                //!message.value.parentId)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;
             })
+            // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
+            // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
+            // обьекта
+            .delay(500)
             .subscribe((message) => {
                 switch (message.action) {
                     case 'I': {
@@ -197,14 +204,56 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
+    /**
+     * Обновление данных календаря по синхронным ответам от бэка
+     * Вызов приходит из calendar-day
+     * @param mode
+     * @param item
+     */
+    update (mode: FormMode, item: ICalendarItem): void {
+        debugger;
+        console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
+        switch (mode) {
+            case FormMode.Post: {
+                //if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
+                //this.calendar.post(item);
+                if (this.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
+                this.onPostItem(item);
+                //this.$scope.$apply();
+                //this.$scope.$applyAsync();
+                //this.$scope.$apply();
+                break;
+            }
+            case FormMode.Put: {
+                //this.calendar.delete(item);
+                //this.calendar.post(item);
+                this.onDeleteItem(getItemById(this.cache, item.calendarItemId));
+                this.onPostItem(item);
+                //this.$scope.$apply();
+                //this.$scope.$applyAsync();
+                break;
+            }
+            case FormMode.Delete: {
+                //this.calendar.delete(item);
+                this.onDeleteItem(item);
+                //this.$scope.$apply();
+                //this.$scope.$applyAsync();
+                break;
+            }
+        }
+    }
+
     next() {
         this.currentWeek++;
+        this.range[1] = Math.max(this.currentWeek, this.range[1]);
         this.currentDate = moment(this.currentDate).startOf('week').add(1,'w');
         this.getData(this.currentDate);
     }
 
     prev() {
         this.currentWeek--;
+        this.range[0] = Math.min(this.currentWeek, this.range[0]);
         this.currentDate = moment(this.currentDate).startOf('week').add(-1,'w');
         this.getData(this.currentDate);
     }
@@ -259,35 +308,59 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
+    include (id: number, revision: number): boolean {
+
+        return this.cache.some(s => s.calendar
+            .some(c => c.subItem
+                .some(d => d.data.calendarItems
+                    .some(i =>i.calendarItemId === id && ((revision && i.revision === revision || !revision)))))) ||
+
+            this.cache.some(s => s.calendar
+                .some(c => c.subItem
+                    .some(d => d.data.calendarItems
+                        .some(i => i.calendarItems && i.calendarItems
+                            .some(c => c.calendarItemId === id && ((revision && c.revision === revision || !revision)))))));
+
+    }
+
     /**
      * Создание записи календаря
      * @param item
      */
-    onPostItem(item: ICalendarItem) {
+    onPostItem(item: ICalendarItem, parentId?: number): void {
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
-        let c:number = this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+        let c:number = w !== -1 ? this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
 
-        this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
-        this.cache[w].calendar[c].changes++;
+        if (w >= 0 && c >= 0 && d) {
+            this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
+            this.cache[w].calendar[c].changes++;
+            this.$scope.$applyAsync();
+        }
     }
 
     /**
      * Удаление записи календаря
      * @param item
      */
-    onDeleteItem(item: ICalendarItem){
+    onDeleteItem(item: ICalendarItem, parentId?: number): void {
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
-        let c:number = this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId);
+        let c:number = w !== -1 ? this.cache[w].calendar
+                .findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
-        let p:number = this.cache[w].calendar[c].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+        let p:number = w !== -1 ?
+            this.cache[w].calendar[c].subItem[d].data.calendarItems
+                .findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
-        this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
-        this.cache[w].calendar[c].changes++;
+        if (w >= 0 && c >= 0 && d) {
+            this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
+            this.cache[w].calendar[c].changes++;
+            this.$scope.$applyAsync();
+        }
     }
 
     onCopy(items: Array<ICalendarItem>){

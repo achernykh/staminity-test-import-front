@@ -23,6 +23,8 @@ export default class UserService {
         'controlledClub': (message) => this.updateClubs(new ProtocolGroupUpdate(message))
     };
 
+    resetConnections = () => this.getConnections().then(connections => connections && this.setConnections(connections));
+
     static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
     constructor(
@@ -32,30 +34,33 @@ export default class UserService {
         private ReferenceService: ReferenceService
     ) {
         this.SessionService.getObservable()
-        .map(getCurrentUserId)
-        .distinctUntilChanged()
-        .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
-        .subscribe((userId) => {
-            this.getProfile(userId)
-            .then((userProfile) => {
-                this.SessionService.updateUser(userProfile);
+            .map(getCurrentUserId)
+            .distinctUntilChanged()
+            .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
+            .subscribe((userId) => {
+                this.getProfile(userId)
+                .then((userProfile) => {
+                    this.SessionService.updateUser(userProfile);
+                });
             });
-        });
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
         this.SocketService.messages
-        .filter(({ type }) => this.messageHandlers[type])
-        .subscribe((message) => {
-            let messageHandler = this.messageHandlers[message.type];
-            if (messageHandler) {
-                messageHandler(message);
-            }
-        });
+            .filter(({ type }) => this.messageHandlers[type])
+            .subscribe((message) => {
+                let messageHandler = this.messageHandlers[message.type];
+                if (messageHandler) {
+                    messageHandler(message);
+                }
+            });
 
-        this.SocketService.connections
-        .filter((status) => status)
-        .flatMap(() => Observable.fromPromise(this.getConnections()))
-        .subscribe((connections) => this.setConnections(connections));
+
+        this.SocketService.connections.subscribe(status => status && this.resetConnections());
+
+        /**this.SocketService.connections
+            .filter((status) => status)
+            .flatMap(() => Observable.fromPromise(this.getConnections()))
+            .subscribe((connections) => this.setConnections(connections));**/
     }
 
     /**
@@ -65,17 +70,17 @@ export default class UserService {
      * @param connections
      */
     setConnections(connections: IUserConnections) {
+        console.info('user service: set connections');
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
             .then((result:Array<IGetTrainigZonesResponse>) => {
+                console.info('user service: get training zones complete', result);
                 connections.allAthletes.groupMembers =
                     connections.allAthletes.groupMembers.map(athlete =>
                         Object.assign(athlete,
                             {trainingZones: result.filter(r => r.userId === athlete.userId)[0].trainingZones}));
                 return connections;
-            }, (error) => {
-                throw `error in getTrainingZones => ${error}`;
-            })
+            }, (error) => { throw `error in getTrainingZones => ${error}`;})
             .then(connections => this.SessionService.updateUser({connections}));
         } else {
             this.SessionService.updateUser({connections});
@@ -87,7 +92,7 @@ export default class UserService {
      * @returns {Promise<any>}
      */
     getConnections() : Promise<any> {
-        return this.SocketService.send(new GetUserConnectionsRequest()).then(result => result);
+        return this.SocketService.send(new GetUserConnectionsRequest());
     }
 
     /**

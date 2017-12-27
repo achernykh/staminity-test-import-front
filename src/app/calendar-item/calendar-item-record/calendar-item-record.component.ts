@@ -9,11 +9,13 @@ import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
 import MessageService from "../../core/message.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "../calendar-item-dialog.interface";
+import { CalendarItemDialogService } from "../calendar-item-dialog.service";
+import { FormMode } from "../../application.interface";
 
-class CalendarItemRecordCtrl implements IComponentController {
+export class CalendarItemRecordCtrl implements IComponentController {
 
     // bind
-    data: ICalendarItem;
+    item: ICalendarItem;
     options: ICalendarItemDialogOptions;
     owner: IUserProfile;
     onAnswer: (response: ICalendarItemDialogResponse) => Promise<void>;
@@ -26,12 +28,14 @@ class CalendarItemRecordCtrl implements IComponentController {
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
+    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'CalendarItemDialogService',
+        'message', 'quillConfig'];
 
     constructor (
         private config: ICalendarItemRecordConfig,
         private session: SessionService,
         private calendarService: CalendarService,
+        private calendarDialog: CalendarItemDialogService,
         private message: MessageService,
         private quillConf: IQuillConfig
     ) {
@@ -39,7 +43,21 @@ class CalendarItemRecordCtrl implements IComponentController {
     }
 
     $onInit () {
-        this.record = new CalendarItemRecord(this.data, this.options);
+        this.record = new CalendarItemRecord(this.item, this.options);
+    }
+
+    /**
+     * Диалог просмотра Записи
+     * @param e
+     */
+    open (e: Event): void {
+        this.calendarDialog.record(e, Object.assign(this.options, {formMode: FormMode.View}), this.record)
+            .then(response => this.onAnswer(response));
+    }
+
+    edit (e: Event): void {
+        this.calendarDialog.record(e, Object.assign(this.options, {formMode: FormMode.Put}), this.record)
+            .then(response => this.onAnswer(response));
     }
 
     toggle (item, list) {
@@ -103,7 +121,7 @@ class CalendarItemRecordCtrl implements IComponentController {
 
 export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
-        data: '=', // CalendarItem
+        item: '=', // CalendarItem
         options: '<',
         onAnswer: '&',
         onCancel: '&', // отмена открытия

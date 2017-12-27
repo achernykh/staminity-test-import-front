@@ -22,11 +22,13 @@ class DashboardDayCtrl implements IComponentController {
     currentUser: IUserProfile;
     owner: IUserProfile;
     selected: boolean;
+    calendarRangeStart: number;
+    calendarRangeEnd: number;
     onUpdate: (response: ICalendarItemDialogOptions) => Promise<any>;
 
     //private
-    private dashboard: DashboardCtrl;
     private itemOptions: ICalendarItemDialogOptions;
+    private readonly dateFormat: string = "YYYY-MM-DD";
 
     static $inject = ['$mdDialog','message','dialogs','CalendarService', 'CalendarItemDialogService'];
 
@@ -45,9 +47,40 @@ class DashboardDayCtrl implements IComponentController {
             popupMode: true,
             formMode: FormMode.Put,
             trainingPlanMode: false,
-            planId: null
+            planId: null,
+            calendarRange: {
+                dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
+                dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
+            }
         };
     }
+
+    /**
+     * Обновление параметров итема
+     * @param changes
+     */
+    $onChanges (changes): void {
+        if ((changes.hasOwnProperty('owner') && this.owner) ||
+            (changes.hasOwnProperty('currentUser') && this.currentUser) ||
+            (changes.hasOwnProperty('owner') && this.owner) ||
+            (changes.hasOwnProperty('calendarRangeStart') && this.calendarRangeStart) ||
+            (changes.hasOwnProperty('calendarRangeEnd') && this.calendarRangeEnd)) {
+
+            this.itemOptions = {
+                currentUser: this.currentUser,
+                owner: this.owner,
+                popupMode: true,
+                formMode: FormMode.Put,
+                trainingPlanMode: false,
+                planId: null,
+                calendarRange: {
+                        dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
+                    dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
+                }
+            };
+        }
+    }
+
 
     onDrop(srcItem: ICalendarItem,
            operation: string,
@@ -164,7 +197,11 @@ class DashboardDayCtrl implements IComponentController {
             popupMode: true,
             formMode: mode,
             trainingPlanMode: false,
-            planId: null
+            planId: null,
+            calendarRange: {
+                dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
+                dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
+            }
         };
     }
 
@@ -175,6 +212,8 @@ const DashboardDayComponent:IComponentOptions = {
         day: '<',
         currentUser: '<',
         owner: '<',
+        calendarRangeStart: '<',
+        calendarRangeEnd: '<',
 
         selected: '<',
         onSelect: '&',

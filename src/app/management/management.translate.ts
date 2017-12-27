@@ -83,8 +83,92 @@ export const translateManagement = {
             tariffs: "Тарифы",
             roles: "Роли",
             remove: "Удалить",
-        },
+        }
     },
     en: {
+        fullTitle: "Club management",
+        shortTitle: "Club",
+        byClub: "Cl",
+        Premium: "Premium",
+        Coach: "Coach",
+        Club: "Club",
+        role: "Role",
+        roles: "Roles",
+        selected: "You've selected {{count}} club members",
+        clubRoles: {
+            ClubCoaches: "Coaches",
+            ClubAthletes: "Athletes",
+            ClubManagement: "Admins",
+        },
+        toolbar: {
+            athletes: "Athletes",
+            coaches: "Coaches",
+            tariffs: "Tariffs",
+            roles: "Roles",
+            remove: "Remove",
+        },
+        filters: {
+            all: "All",
+            search: "Search",
+            coach: "Coach",
+            noCoach: "Without coach",
+            role: "Role",
+        },
+        cols: {
+            username: "Club member",
+            roles: "Role",
+            coaches: "Coach",
+            tariff: "Tariff",
+            athletes: "Athletes",
+            city: "City",
+            ageGroup: "Age group",
+        },
+        editTariffs: {
+            confirm: {
+                title: "Change tariffs",
+                text: {
+                    addOne: "Add tariff {{tariffCodes}} by club? The cost will be accrued daily and include in club bill from today.",
+                    removeOne: "Remove tariff {{tariffCodes}} previously added by club? Club will stop paying for this tariff from tomorrow",
+                    addMany: "Add tariffs {{tariffCodes}} by club? The cost will be accrued daily and include in club bill from today.",
+                    removeMany: "Remove tariffs  {{tariffCodes}}, previously added by club? Club will stop paying for these tariffs from tomorrow",
+                    addAndRemove: "Add and remove tariffs paid by club? Add tariffs: {{addTariffCodes}}, remove tariffs: {{removeTariffCodes}}",
+                },
+                confirm: "Confirm",
+                cancel: "Cancel",
+            },
+        },
+        editRoles: {
+            confirm: {
+                title: "Change roles",
+                text: {
+                    addOne: {
+                        ClubAthletes: 'Add role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Athlete</a>"? ' +
+                        'Club bill daily accruals amount could be increased according to <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >Club tariff</a> conditions',
+                        ClubCoaches: 'Add role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club coach</a>"? ' +
+                        'Coach tariff required. If selected club members do not have their own Coach tariff, the tariff will be added by club from today',
+                        ClubManagement: 'Add role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club admin</a>"?',
+                    },
+                    addMany: "Add roles {{roles}} to selected club members? " +
+                    'Club bill daily accruals amount could be increased according to <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >Club tariff</a> conditions',
+                    removeOne: {
+                        ClubAthletes: 'Remove role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Athlete</a>"? The link with club coaches will be lost' +
+                        "Club bill daily accruals amount will be recalculated from tomorrow. ",
+                        ClubCoaches: 'Remove role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club coach</a>"? Coach tariff, added by club, will also be removed.',
+                        ClubManagement: 'Remove role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club admin</a>"?',
+                    },
+                    removeMany: 'Remove roles {{roles}} to selected club members? Club bill daily accruals amount will be recalculated from tomorrow.',
+                    addAndRemove: 'Change club<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >roles</a>? Add roles: {{addRoles}}, remove roles: {{removeRoles}}.',
+                },
+                confirm: "Confirm",
+                cancel: "Cancel",
+            },
+        },
+        bottomSheet: {
+            athletes: "Athletes",
+            coaches: "Coaches",
+            tariffs: "Tariffs",
+            roles: "Roles",
+            remove: "Remove"
+        }
     },
 };

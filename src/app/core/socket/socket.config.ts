@@ -27,7 +27,8 @@ export const ConnectionSettings: IConnectionSettings = {
         putCalendarItem: 15.0 * 1000,
         getActivityCategory: 10.0 * 1000,
         postCalendarItem: 15.0 * 1000,
-        getGroupManagementProfile: 10.0 * 1000
+        getGroupManagementProfile: 10.0 * 1000,
+        getIChartMetrics: 30.0 * 1000
     },
     internetResource: '/favicon.ico',
     delayOnInternetConnectionCheck: 5 * 1000, // 5 sec задержка на опрос состояния интернета

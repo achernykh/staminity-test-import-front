@@ -1,0 +1,28 @@
+<div class="record-compact" ng-switch="$ctrl.view">
+    <!-- Элемент дня дэшборда -->
+    <section ng-switch-when="dashboard" class="record-compact__dashboard" ng-click="$ctrl.open($event)">
+        <!-- Заголовок. Окрашиваем в цвет статуса -->
+        <header class="calendar-item-record-header dashboard-view md-dark"
+                layout="row"
+                ng-class="{selected: $ctrl.selected}">
+            <section flex="none" class="first-column" layout="column">
+                <div flex="none" layout="row" layout-align="center center"
+                     class="calendar-item-record-icon bg-circle-32">
+                    <md-icon class="material-icons md-light md-18"
+                             md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg">
+                    </md-icon>
+                </div>
+            </section>
+            <section flex="auto" class="second-column" layout="column" layout-align="center start">
+                <div flex="none" class="md-caption type">
+                    {{'record.' + $ctrl.record.recordHeader.type | translate}}
+                </div>
+            </section>
+        </header>
+        <!--Нижняя часть: данные, установка тренера или -->
+        <footer ng-if="$ctrl.record.recordHeader.description">
+            <span class="description md-caption md-dark"
+                  ng-bind="$ctrl.record.recordHeader.description | htmlToPlainText"></span>
+        </footer>
+    </section>
+</div>

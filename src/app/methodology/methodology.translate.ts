@@ -107,5 +107,103 @@ export const translateMethodology = {
         }
     },
     en: {
+        title: 'Methodology',
+        fullTitle: 'Training process methodology',
+        shortTitle: 'Methodology',
+
+        trainingPlans: {
+            title: 'Training plans'
+        },
+        categories: {
+            title: 'Activity categories'
+        },
+        templates: {
+            title: 'Activity templates'
+        },
+        // периодизация
+        periodization: {
+            title: 'Periodisation schemes',
+            edit: "Edit",
+            delete: "Delete",
+            emptySchemeList: "Add mesocycles in this scheme",
+            postScheme: "Create new scheme",
+            systemSchemes: "Default schemes",
+            userSchemes: "My schemes",
+            mesocycle: {
+                title: "Mesocycle",
+                code: {
+                    label: "Mesocycle name",
+                    placeholder: 'Set mesocycle name',
+                },
+                color: {
+                    placeholder: 'Set mesocycle color',
+                    label: "Color",
+                    red: "Red",
+                    pink: "Pink",
+                    purple: "Purple",
+                    "deep-purple": "Deep-purple",
+                    indigo: "Indigo",
+                    blue: "Blue",
+                    cyan: "Cyan",
+                    teal: "Teal",
+                    green: "Green",
+                    "deep-orange": "Deep-orange",
+                    brown: "Brown",
+                    grey: "Grey"
+
+                },
+                description: "Description",
+                descriptionPlaceholder: "Mesocycle goals, activity volume and intensity, etc...",
+                save: "Save",
+                delete: "Delete mesocycle",
+                edit: "Edit mesocycle"
+            },
+            //создание схемы периодизации
+            scheme: {
+                title: "Periodisation scheme",
+                code: {
+                    label: "Scheme name"
+                },
+                description: "Scheme description",
+                descriptionPlaceholder: "Describe your scheme...",
+                save: "Save",
+                delete: "Delete",
+                edit: "Change"
+
+            },
+            schemes: {
+                title: 'Periodisation schemes',
+                joeFrielPeriodization: {
+                    code: 'Joe Friel scheme',
+                    description: "Periodisation scheme from Joe Friel's 'Triathlete's training bible'",
+                    mesocycles: {
+                        transition: {
+                            code: "Transition",
+                            description: "Recover both physically and mentally"
+                        },
+                        preparation: {
+                            code: "Preparation",
+                            description: "Prepare to train"
+                        },
+                        base: {
+                            code: "Base",
+                            description: "Establish basic abilities"
+                        },
+                        build: {
+                            code: "Build",
+                            description: "Build race-specific fitness"
+                        },
+                        peak: {
+                            code: "Peak",
+                            description: "Increase rest and race specificity"
+                        },
+                        race: {
+                            code: "Race",
+                            description: "Rest and prepare to race"
+                        }
+                    }
+                },
+            }
+        }
     }
 };

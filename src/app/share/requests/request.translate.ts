@@ -114,27 +114,6 @@ export let translateRequestPanel = {
                 cancel: "Нет",
             },
         },
-        "JoinFollowers": {
-            action: "Подписаться",
-            A: {
-                title: "Принять запрос",
-                text: "Принять запрос на подписку?",
-                confirm: "Принять",
-                cancel: "Отмена",
-            },
-            D: {
-                title: "Отклонить запрос",
-                text: "Отклонить запрос на подписку?",
-                confirm: "Отклонить",
-                cancel: "Отмена",
-            },
-            C: {
-                title: "Отменить запрос",
-                text: "Отменить запрос на подписку?",
-                confirm: "Да",
-                cancel: "Нет",
-            },
-        },
         "leaveClubCoach": {
             action: "Выйти из клуба",
             A: {
@@ -155,9 +134,143 @@ export let translateRequestPanel = {
                 confirm: "Да",
                 cancel: "Нет",
             },
-        },
+        }
     },
     en: {
-
-    },
+        title: "Requests",
+        inbox: "Incoming",
+        outbox: "Outcoming",
+        waiteApprove: "Need approval",
+        noRequest: "No requests",
+        accept: "Accept",
+        reject: "Decline",
+        history: "History",
+        more: "More",
+        "JoinClubByUser": {
+            action: "Join club",
+            A: {
+                title: "Accept request",
+                text: "Accept join club request?",
+                confirm: "Accept",
+                cancel: "Cancel"
+            },
+            D: {
+                title: "Decline request",
+                text: "Decline join club request?",
+                confirm: "Decline",
+                cancel: "Cancel"
+            },
+            C: {
+                title: "Cancel request",
+                text: "Cancel join club request?",
+                confirm: "Yes",
+                cancel: "No"
+            },
+        },
+        "JoinClubByClub": {
+            action: "Join club",
+            A: {
+                title: "Accept invitation",
+                text: "Accept club invitation to join club?",
+                confirm: "Accept",
+                cancel: "Cancel",
+            },
+            D: {
+                title: "Decline invitation",
+                text: "Decline club invitation to join club?",
+                confirm: "Decline",
+                cancel: "Cancel",
+            },
+            C: {
+                title: "Cancel invitation",
+                text: "Cancel join club invitation?",
+                confirm: "Yes",
+                cancel: "No",
+            },
+        },
+        "StartCoachingByAthlete": {
+            action: "Connect with coach",
+            A: {
+                title: "Accept request",
+                text: 'Accept start coaching request from athlete? Your daily accruals in your bill is based on connected athletes amount</a>.',
+                confirm: "Accept",
+                cancel: "Cancel",
+            },
+            D: {
+                title: "Decline request",
+                text: "Decline request from new athlete?",
+                confirm: "Decline",
+                cancel: "Cancel",
+            },
+            C: {
+                title: "Cancel request",
+                text: "Cancel start coaching request?",
+                confirm: "Yes",
+                cancel: "No",
+            },
+        },
+        "StartCoachingByCoach": {
+            action: "Connect with coach",
+            A: {
+                title: "Accept coach invitation",
+                text: "Accept invitation from coach? The coach will be able to edit your workout calendar and create a new planned activities for you",
+                confirm: "Accept",
+                cancel: "Cancel",
+            },
+            D: {
+                title: "Decline coach invitation",
+                text: "Decline invitation from coach? The coach will not be able to view your calendar and create new plan for you.",
+                confirm: "Decline",
+                cancel: "Cancel",
+            },
+            C: {
+                title: "Cancel invitation",
+                text: "Cancel your invitation to athlete?",
+                confirm: "Yes",
+                cancel: "No",
+            },
+        },
+        "JoinFriends": {
+            action: "Accept request",
+            A: {
+                title: "Accept request",
+                text: "Accept friend requests?",
+                confirm: "Accept",
+                cancel: "Cancel",
+            },
+            D: {
+                title: "Decline request",
+                text: "Decline friend request?",
+                confirm: "Decline",
+                cancel: "Cancel",
+            },
+            C: {
+                title: "Cancel request",
+                text: "Cancel friend request?",
+                confirm: "Yes",
+                cancel: "No",
+            },
+        },
+        "leaveClubCoach": {
+            action: "Leave club",
+            A: {
+                title: "Accept request",
+                text: "Accept leave club request from club coach? Disconnect club athletes from coach before acceptance",
+                confirm: "Accept",
+                cancel: "Cancel",
+            },
+            D: {
+                title: "Decline request",
+                text: "Decline leave club request from club coach?",
+                confirm: "Decline",
+                cancel: "Cancel",
+            },
+            C: {
+                title: "Cancel request",
+                text: "Cancel your leave club request?",
+                confirm: "Yes",
+                cancel: "No",
+            }
+        }
+    }
 };

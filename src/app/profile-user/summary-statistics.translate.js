@@ -17,5 +17,20 @@ export const summaryStatisticsTranslate = {
         }
     },
     en: {
+        title: 'Personal statistics',
+        ranges: {
+            month: 'Year',
+            day: 'Month'
+        },
+        chartValues: {
+            time: 'duration',
+            distance: 'distance',
+            count: '# activities'
+        },
+        tableValues: {
+            distance: 'Distance (km)',
+            time: 'Duration (h)',
+            count: 'Amount'
+        }
     }
 };

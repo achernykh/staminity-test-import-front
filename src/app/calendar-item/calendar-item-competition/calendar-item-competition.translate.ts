@@ -90,6 +90,93 @@ export const translateCompetition = {
 
     },
     en: {
+        title: 'Competition',
+        toolbar: {
+            title: "Competition",
+        },
+        about: 'Overview',
+        name: {
+            label: "Name"
+        },
+        type: {
+            label: "Activity type"
+        },
+        action: {
+            post: "Create competition",
+            edit: "Edit competition",
+            copy: "Copy competition",
+            delete: "Delete competition"
+        },
+        types: {
+            triathlon: "Triathlon",
+            run: "Running",
+            bike: "Cycling",
+            swim: "Swimming"
+        },
+        distanceType: {
+            label: "Competition type",
+            run: {
+                'marathon': "Marathon",
+                'halfMarathon': "Half marathon",
+                '1h': "Run 1 hour",
+                '24h': "Run 24 hours",
+                '10km': "10 km",
+                '5km': "5 km",
+                'custom': "Other",
+            },
+            triathlon: {
+                'fullDistance': "Full distance",
+                'halfDistance': "1/2 full distance",
+                '1/4': "1/4 full distance",
+                'olympic': "Olympic distance",
+                'sprint': "Sprint",
+                '1/8': "1/8 full distance",
+                'indoor': "Indoor",
+            },
+            swim: {
+                '10km': "10 000 m",
+                '5km': "5 000 m",
+                '3km': "3 000 m",
+                '1mile': "1 mile (1852 m)",
+                '1km': "1000 m",
+                '800m': "800 m",
+                '400m': "400 m",
+                '200m': "200 m",
+                '100m': "100 m",
+                '50m': "50 m",
+                'custom': "Other",
+                '60min': "60 min",
+                '30min': "30 min"
+            },
+            bike: {
+                custom: 'Other'
+            }
+
+        },
+        priority: {
+            label: 'Priority'
+        },
+        needDistanceType: "Competition type required",
+        needDuration: 'Duration required',
+        priorities: {
+            label: "Priority",
+            A: "А",
+            B: "B",
+            C: "C"
+        },
+        startDate: {
+            label: "Date"
+        },
+
+        // виды спорта
+        run: "Run",
+        triathlon: "Triathlon",
+        swim: "Swimming",
+        bike: "Cycling",
+        target: "Planned and actual data",
+        stage: "Stage",
+        trainersPrescription: "Coach prescription",
+        trainersPrescriptionPlaceholder: "How to prepare, race strategy, etc..."
 
     }
 };

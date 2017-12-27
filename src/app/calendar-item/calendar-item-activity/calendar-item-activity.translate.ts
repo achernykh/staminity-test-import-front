@@ -35,10 +35,45 @@ export const _translateActivity = {
             sentiment_neutral: "Нормальное",
             sentiment_dissatisfied: "Плохое",
             sentiment_very_dissatisfied: "Ужасное",
-        },
+        }
 
     },
     en: {
+        toolbar: {
+            title: "Activity",
+            delete: "Delete",
+            close: "Close",
+            settings: "Settings",
+            save: "Save",
+            template: "Template",
+        },
+        athleteSelector: {
+            title: "Select athlete",
+            recalculate: "Recalculate from FTP",
+        },
+        details: {
+            map: {
+                title: "Map",
+            },
+            table: {
+                laps: "Laps",
+                segments: "Segments",
+            },
+            chart: {
+                measures: "Measures chart",
+                segments: "Segments chart",
 
-    },
+            },
+        },
+        generalMeasures: "Measurement",
+        sleepData: "Sleep",
+        feeling: "Overall feeling",
+        sentiment: {
+            sentiment_very_satisfied: "Very good",
+            sentiment_satisfied: "Good",
+            sentiment_neutral: "Normal",
+            sentiment_dissatisfied: "Bad",
+            sentiment_very_dissatisfied: "Very bad",
+        }
+    }
 };
