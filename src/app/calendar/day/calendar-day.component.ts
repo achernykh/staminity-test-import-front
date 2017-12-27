@@ -35,6 +35,7 @@ class CalendarDayCtrl {
     calendarRangeStart: number;
     calendarRangeEnd: number;
     onUpdate: (response: ICalendarItemDialogResponse) => Promise<any>;
+    onDrop: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     // private
     private itemOptions: ICalendarItemDialogOptions;
@@ -160,16 +161,18 @@ class CalendarDayCtrl {
                         .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
                         .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
                 } else {
-                    this.CalendarService.putItem(item)
+                    this.onDrop({formMode: FormMode.Put, item: item});
+                    /**this.CalendarService.putItem(item)
                         .then(() => this.message.toastInfo('activityMoved'))
-                        .catch(error => this.message.toastError(error));
+                        .catch(error => this.message.toastError(error));**/
                 }
                 break;
             }
             case 'copy': {
-                this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
+                this.onDrop({formMode: FormMode.Post, item: item});
+                /**this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
                     .then(() => this.message.toastInfo('activityCopied'))
-                    .catch(error => this.message.toastError(error));
+                    .catch(error => this.message.toastError(error));**/
                 break;
             }
         }
@@ -269,6 +272,7 @@ const CalendarDayComponent: IComponentOptions = {
         onPostPlan: '&', // создание тренировочного плана на основе выдленных элементов
         onDelete: '&', // удалить
         onUpdate: '&', // Изменение / Создание / Удаление записи
+        onDrop: '&', // Завершение операции drag & drop
         onSelect: '&'
     },
     controller: CalendarDayCtrl,

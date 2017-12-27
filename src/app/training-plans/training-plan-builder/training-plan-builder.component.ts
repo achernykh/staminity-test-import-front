@@ -104,7 +104,6 @@ class TrainingPlanBuilderCtrl implements IComponentController {
      * @param item
      */
     update (formMode: FormMode, item: ICalendarItem): void {
-        debugger;
         switch (formMode) {
             case FormMode.Post: {
                 if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
@@ -133,6 +132,21 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                     activityId: response.value.activityId
                 })}))
             .then((item: ICalendarItem) => this.calendar.post(item));
+    }
+
+    put (item: ICalendarItem): void {
+        this.trainingPlansService.putItem(this.currentPlan.id, item, true)
+            .then(response => response && Object.assign(item, {
+                index: Number(`${response.value.id}${response.value.revision}`),
+                calendarItemId: response.value.id,
+                revision: response.value.revision,
+                activityHeader: Object.assign(item.activityHeader, {
+                    activityId: response.value.activityId
+                })}))
+            .then((item: ICalendarItem) => {
+                this.calendar.delete(this.calendar.searchItem(item.calendarItemId));
+                this.calendar.post(item);
+            });
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {
@@ -186,6 +200,21 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.selectedItems.push(...copy(d.data.calendarItems.filter(i => i.calendarItemType === 'activity')))));
     }
 
+    dropItems (mode: FormMode, item: ICalendarItem): void {
+        debugger;
+        switch (mode) {
+            case FormMode.Post: {
+                this.post(item);
+                break;
+            }
+            case FormMode.Put: {
+                this.put(item);
+                break;
+            }
+        }
+        this.update(mode, item);
+    }
+
     /**
      * Копирование записей календаря
      * @param items
@@ -209,6 +238,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
      * @param firstTrgDay
      */
     pasteItems (firstTrgDay: string){
+        debugger;
         if (!firstTrgDay) { return; }
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
