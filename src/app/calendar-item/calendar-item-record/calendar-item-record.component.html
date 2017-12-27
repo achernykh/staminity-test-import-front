@@ -9,19 +9,28 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.record.view.isPost">
+                        <md-button ng-click="$ctrl.record.view.isTrainingPlan ?
+                        $ctrl.onDelete() :
+                        $ctrl.deleteTrainingPlanRecord()"
+                                   ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="activity.toolbar.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onDelete({rmPastItems: false, rmFutureItems: true})" ng-disabled="$ctrl.record.view.isPost">
+                        <md-button ng-click="$ctrl.record.view.isTrainingPlan ?
+                        $ctrl.onDelete({rmPastItems: false, rmFutureItems: true}) :
+                        $ctrl.deleteTrainingPlanRecord({rmPastItems: false, rmFutureItems: true})"
+                                   ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteFuture"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="$ctrl.record.isRepeated">
-                        <md-button ng-click="$ctrl.onDelete({rmPastItems: true, rmFutureItems: true})" ng-disabled="$ctrl.record.view.isPost">
+                        <md-button ng-click="$ctrl.record.view.isTrainingPlan ?
+                        $ctrl.onDelete({rmPastItems: true, rmFutureItems: true}) :
+                        $ctrl.deleteTrainingPlanRecord({rmPastItems: true, rmFutureItems: true})"
+                                   ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteAll"></span>
                         </md-button>
@@ -256,7 +265,7 @@
                    type="submit"
                    ng-disabled="!$ctrl.recordForm.$dirty || !$ctrl.recordForm.$valid"
                    translate="activity.save"
-                   ng-click="$ctrl.onSaveTrainingPlanRecord()">
+                   ng-click="$ctrl.saveTrainingPlanRecord()">
         </md-button>
     </md-dialog-actions>
 </div>

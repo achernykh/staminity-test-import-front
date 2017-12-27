@@ -219,6 +219,14 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         );
     }
 
+    deleteTrainingPlanItems (): void {
+        this.trainingPlansService.deleteItem(this.options.trainingPlanOptions.planId, this.competition.build())
+            .then(() => {
+                this.message.toastInfo('competitionDeleted');
+                this.onAnswer({ formMode: FormMode.Delete, item: this.competition.build() });
+            }, error => error && this.message.toastError(error));
+    }
+
     private close (): void {
         this.onCancel();
     }

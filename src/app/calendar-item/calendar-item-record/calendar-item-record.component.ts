@@ -111,11 +111,19 @@ export class CalendarItemRecordCtrl implements IComponentController {
         this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
             .then(() => {
                 this.message.toastInfo('recordDeleted');
-                this.close();
+                this.onAnswer({formMode: FormMode.Delete, item: this.record.build()});
             }, error => this.message.toastError(error));
     }
 
-    onSaveTrainingPlanRecord(): void {
+    deleteTrainingPlanRecord(rmParams: Object) {
+        this.trainingPlansService.deleteItem(this.options.trainingPlanOptions.planId, this.record.build())
+            .then(() => {
+                this.message.toastInfo('recordDeleted');
+                this.onAnswer({formMode: FormMode.Delete, item: this.record.build()});
+            }, error => this.message.toastError(error));
+    }
+
+    saveTrainingPlanRecord(): void {
         //this.inAction = true;
 
         if (this.record.view.isPost) {

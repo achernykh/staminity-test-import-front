@@ -9,7 +9,9 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.delete()" ng-disabled="$ctrl.competition.view.isPost">
+                        <md-button ng-click="$ctrl.competition.view.isTrainingPlan ?
+                       $ctrl.deleteTrainingPlanItems() : $ctrl.delete()"
+                                   ng-disabled="$ctrl.competition.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="activity.toolbar.delete"></span>
                         </md-button>
