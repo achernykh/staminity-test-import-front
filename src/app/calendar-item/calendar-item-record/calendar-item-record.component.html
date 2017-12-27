@@ -211,24 +211,26 @@
         </form>
         <md-subheader><span translate="record.description"></span></md-subheader>
         <div flex="auto" class="description">
-            <ng-quill-editor ng-if="$ctrl.fullScreenMode"
-                             ng-model="$ctrl.record.recordHeader.description"
-                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                             modules="$ctrl.quillConf.toolbarFull"
-                             on-content-changed="$ctrl.changeForm()"
-                             on-editor-created="$ctrl.onEditorCreated(editor)"
-                             ng-class="{'hide-toolbar': $ctrl.record.view.isView}"
-                             read-only="$ctrl.record.view.isView">
-            </ng-quill-editor>
-            <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
-                             ng-model="$ctrl.record.recordHeader.description"
-                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                             modules="$ctrl.quillConf.toolbar"
-                             on-content-changed="$ctrl.changeForm()"
-                             on-editor-created="$ctrl.onEditorCreated(editor)"
-                             ng-class="{'hide-toolbar': $ctrl.record.view.isView}"
-                             read-only="$ctrl.record.view.isView">
-            </ng-quill-editor>
+            <ng-quill-editor 
+                ng-if="$ctrl.fullScreenMode"
+                ng-model="$ctrl.record.recordHeader.description"
+                placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                modules="$ctrl.quillConf.toolbarFull"
+                on-content-changed="$ctrl.changeForm()"
+                ng-class="{'hide-toolbar': $ctrl.record.view.isView}"
+                read-only="$ctrl.record.view.isView"
+                st-quill-post-image
+            ></ng-quill-editor>
+            <ng-quill-editor 
+                ng-if="!$ctrl.fullScreenMode"
+                ng-model="$ctrl.record.recordHeader.description"
+                placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                modules="$ctrl.quillConf.toolbar"
+                on-content-changed="$ctrl.changeForm()"
+                ng-class="{'hide-toolbar': $ctrl.record.view.isView}"
+                read-only="$ctrl.record.view.isView"
+                st-quill-post-image
+            ></ng-quill-editor>
         </div>
     </md-content>
     <!-- Календарь -->

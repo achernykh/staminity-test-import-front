@@ -13,6 +13,7 @@ import StatisticsService from "./statistics.service";
 import SystemMessageComponent from "./sysmessage.component.js";
 import SystemMessageService from "./sysmessage.service.js";
 import UserService from "./user.service";
+import { ImagesService } from "./images.service";
 
 const Core = module("staminity.core", ["staminity.share", "ui.router", "pascalprecht.translate"])
     .constant("ConnectionSettingsConfig", ConnectionSettings)
@@ -30,6 +31,7 @@ const Core = module("staminity.core", ["staminity.share", "ui.router", "pascalpr
     .service("BillingService", BillingService)
     .service("storage", StorageService)
     .service("statistics", StatisticsService)
+    .service("ImagesService", ImagesService)
     .component("systemMessage", SystemMessageComponent)
     .config(messagesConf)
     .config(displayConf)
