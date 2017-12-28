@@ -37,6 +37,7 @@
                 <th md-column class="competition"><span translate="trainingSeason.competition"></span></th>
                 <th md-column class="mesocycle"><span translate="trainingSeason.mesocycle"></span></th>
                 <th md-column class="week"><span translate="trainingSeason.week"></span></th>
+                <th md-column class="description"><span translate="trainingSeason.description"></span></th>
                 <th md-column class="plan" md-numeric>
                     <span translate="trainingSeason.plan"></span>
                     <span>({{'trainingSeason.durationUnit.' + $ctrl.cycles.season.durationMeasure | translate}})</span>
@@ -50,6 +51,7 @@
                     <span>({{'trainingSeason.durationUnit.' + $ctrl.cycles.season.durationMeasure | translate}})</span>
                 </th>
                 <th md-column class="complete" md-numeric><span translate="trainingSeason.complete"></span></th>
+                <th md-column class="actions"><span translate="trainingSeason.actions"></span></th>
             </tr>
             </thead>
             <tbody md-body>
@@ -90,6 +92,12 @@
                 <td md-cell class="week">
                     <span ng-if="cycle.mesocycle.id">Week {{cycle.mesoWeekNumber}}</span>
                 </td>
+                <!-- Заметка к неделе -->
+                <td md-cell class="description"
+                    ng-click="$ctrl.editNote($event, cycle)"
+                    ng-class="{'md-placeholder': !cycle.description}">
+                    {{cycle.description || 'trainingSeason.descriptionPlaceholder' | translate}}
+                </td>
                 <!-- Обьем -->
                 <td md-cell
                     ng-click="$ctrl.editDurationValue($event, cycle)"
@@ -102,6 +110,12 @@
                 <td md-cell>{{cycle._data.fact | number:1}}</td>
                 <!-- Выполнение () -->
                 <td md-cell class="complete">{{cycle.durationValue ? (cycle._data.fact / cycle.durationValue | percent) : ''}}</td>
+                <!-- Заметка к неделе -->
+                <td md-cell class="actions">
+                    <md-button class="md-icon-button">
+                        <md-icon class="material-icons">more_vert</md-icon>
+                    </md-button>
+                </td>
             </tr>
             </tbody>
         </table>

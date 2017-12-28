@@ -56,6 +56,7 @@ import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
+import { measurePrintIntesivity } from "./measure//measure-print-intensivity.filter";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -205,6 +206,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("ageGroup", () => ageGroup)
     .filter("requestType", () => (request) => requestType(request) + ".action")
     .filter("measureCalc", () => measureValue)
+    .filter('stMeasurePrintIntensivity', measurePrintIntesivity)
     .filter("measureCalcInterval", ["$filter", ($filter) => {
         return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart: boolean = false, units: string = "metric") => {
             if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
@@ -232,9 +234,9 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
         };
     }])
     .filter("percent", ["$filter", ($filter) => {
-        return (value, decimal = 0) => {
+        return (value, decimal = 0, percent: boolean = true) => {
             if (value) {
-                return $filter('number')(value*100,decimal)+'%';
+                return $filter('number')(value*100,decimal) + percent ? '%': '';
             }
         };
     }])

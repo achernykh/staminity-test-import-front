@@ -143,7 +143,7 @@
             <section ng-switch-when="plan">
                 <div ng-if="::($ctrl.activity.intensityMeasure && !$ctrl.activity.isStructured)"
                      class="md-caption md-dark" style="margin-top: 2px">
-                    <span>{{::$ctrl.activity.intervals.PW | measureCalcInterval:$ctrl.activity.header.sportBasic:$ctrl.activity.intensityMeasure}}</span>
+                    <span>{{::$ctrl.activity.intervals.PW | stMeasurePrintIntensivity:$ctrl.activity.header.sportBasic:$ctrl.activity.intensityMeasure:true}}</span>
                     <span>&nbsp;</span>
                     <span class="md-inactive">{{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
                 </div>

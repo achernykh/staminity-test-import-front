@@ -142,6 +142,31 @@ class TrainingSeasonDataCtrl implements IComponentController {
         return count;
     }
 
+    editNote (event: Event, cycle: any): void {
+
+        let _this = this;
+        event.stopPropagation(); // in case autoselect is enabled
+
+        let editDialog = {
+            modelValue: cycle.durationValue,
+            placeholder: this.$filter('translate')(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
+            save: function (input) {
+                cycle.durationValue = Number(input.$modelValue);
+                _this.change(cycle);
+            },
+            targetEvent: event,
+            validators: { 'type': 'number' }
+        };
+        let promise: Promise<any> = this.$mdEditDialog.large(editDialog);
+        //promise = this.$mdEditDialog.large(editDialog);
+        promise.then(function (ctrl) {
+            let input = ctrl.getInput();
+            input.$viewChangeListeners.push(function () {
+                input.$setValidity('test', input.$modelValue !== 'test');
+            });
+        });
+    }
+
     editDurationValue (event: Event, cycle: any): void {
 
         let _this = this;
@@ -151,29 +176,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
             modelValue: cycle.durationValue,
             placeholder: this.$filter('translate')(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
             save: function (input) {
-                if (input.$modelValue === 'Donald Trump') {
-                    input.$invalid = true;
-                    //return Promise.reject();
-                    throw new Error('');
-                }
-                if (input.$modelValue === 'Bernie Sanders') {
-                    return cycle.durationValue = 'FEEL THE BERN!';
-                }
                 cycle.durationValue = Number(input.$modelValue);
                 _this.change(cycle);
             },
             targetEvent: event,
-            title: 'Add a comment',
-            validators: {
-                'type': 'number'//,
-                //'md-maxlength': 30
-            }
+            validators: { 'type': 'number' }
         };
-
-        let promise: Promise<any>;
+        let promise: Promise<any> = this.$mdEditDialog.small(editDialog);
         //promise = this.$mdEditDialog.large(editDialog);
-        promise = this.$mdEditDialog.small(editDialog);
-
         promise.then(function (ctrl) {
             let input = ctrl.getInput();
             input.$viewChangeListeners.push(function () {
