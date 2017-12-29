@@ -11,6 +11,7 @@ import { FormMode } from "../../application.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
+import ReferenceService from "../../reference/reference.service";
 
 export class CalendarItemCompetitionCtrl implements IComponentController {
 
@@ -25,9 +26,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     private competition: CalendarItemCompetition;
 
     // inject
-    static $inject = ['CompetitionConfig', 'CalendarService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
+    static $inject = ['CompetitionConfig', 'ReferenceService', 'CalendarService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
 
     constructor (private config: ICompetitionConfig,
+                 private referenceService: ReferenceService,
                  private calendarService: CalendarService,
                  private calendarDialog: CalendarItemDialogService,
                  private message: MessageService,
@@ -78,7 +80,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     set distanceType (distanceType: any) {
         this.clearItems();
         this.competition.competitionHeader.distanceType = distanceType.code;
-        this.competition.setItems(distanceType.stages);
+        this.competition.setItems(distanceType.stages, this.referenceService.categories);
         this.check();
     }
 

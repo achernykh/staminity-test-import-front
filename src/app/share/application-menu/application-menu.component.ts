@@ -19,10 +19,11 @@ class ApplicationMenuCtrl implements IComponentController {
     private env: Object = env;
     private destroy = new Subject();
 
-    static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "$state"];
+    static $inject = ["$scope", '$mdMedia', "$mdSidenav", "AuthService", "SessionService", "$state"];
 
     constructor(
         private $scope: IScope,
+        private $mdMedia: any,
         private $mdSidenav: any,
         private AuthService: IAuthService,
         private session: SessionService,

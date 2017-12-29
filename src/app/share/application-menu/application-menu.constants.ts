@@ -38,12 +38,14 @@ export const AppMenuSettings = [
         icon: "today",
         name: "appMenu.calendar",
         link: "calendar",
+        hideMobile: false
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: 'search',
         name: 'appMenu.search',
-        link: 'search'
+        link: 'search',
+        hideMobile: false
     },
     /**{
         icon: 'import_contacts',
@@ -55,13 +57,15 @@ export const AppMenuSettings = [
         icon: "forum",
         name: "appMenu.feeds",
         link: "feeds",
-        state: 'soon'
+        state: 'soon',
+        hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "insert_chart",
         name: "appMenu.reports",
-        link: "analytics"
+        link: "analytics",
+        hideMobile: true
         //state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
@@ -69,19 +73,22 @@ export const AppMenuSettings = [
         icon: "show_chart",
         name: "appMenu.plan",
         link: "training-plans-search",
-        state: 'soon'
+        state: 'soon',
+        hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "methodology",
         name: "appMenu.methodology",
         link: "methodology",
+        hideMobile: true,
         role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
     },
     {
         icon: "season",
         name: "appMenu.season",
         link: "training-season-builder",
+        hideMobile: true,
         role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
         //state: 'soon'
         //role: [_UserRoles.user]
@@ -90,6 +97,7 @@ export const AppMenuSettings = [
         icon: "group",
         name: "appMenu.groups",
         link: "groups",
+        hideMobile: true,
         state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     }

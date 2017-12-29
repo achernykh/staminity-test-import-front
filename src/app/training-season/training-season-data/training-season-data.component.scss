@@ -16,6 +16,26 @@
     right: 8px;
   }
 
+  &__chart {
+    position: fixed;
+    width: calc(100%);
+    z-index: 2;
+    background-color: $grey-300;
+    
+    @media (min-width: 1440px) {
+      width: calc(100% - 320px);
+    }
+    
+  }
+
+  &__grid {
+    position: relative;
+    top: calc(15vh + 36px);
+    width: calc(100% - 16px);
+    z-index: 1;
+    padding-bottom: 300px;
+  }
+
   .mesocycle-icon {
     height: 16px;
     width: 16px;
