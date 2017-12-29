@@ -1,0 +1,136 @@
+<md-list class="md-dense section">
+    <form name="$ctrl.publicForm">
+        <md-list-item layout="row" layout-wrap>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="settings.personalInfo.main.firstName"></label>
+                <input type="text" name="firstName"
+                       ng-model="$ctrl.owner.public.firstName"
+                       required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
+                    <div ng-message-exp="['required']"
+                         translate="form.required">
+                    </div>
+                    <div ng-message-exp="['minlength', 'maxlength']"
+                         translate="form.rangeStr" translate-values="{min:2, max:100}">
+                    </div>
+                </div>
+            </md-input-container>
+            <div flex="10" show hide-xs></div>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="settings.personalInfo.main.lastName"></label>
+                <input type="text" name="lastName"
+                       ng-model="$ctrl.owner.public.lastName"
+                       autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.publicForm.lastName.$error" role="alert">
+                    <div ng-message-exp="['required']"
+                         translate="form.required">
+                    </div>
+                    <div ng-message-exp="['minlength', 'maxlength']"
+                         translate="form.rangeStr" translate-values="{min:2, max:100}">
+                    </div>
+                </div>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item layout="row" layout-wrap layout-align="start center">
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="settings.personalInfo.main.uri"></label>
+                <input type="text" name="uri"
+                       ng-model="$ctrl.owner.public.uri"
+                       required autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.publicForm.uri.$error" role="alert">
+                    <div ng-message-exp="['required']"
+                         translate="form.required">
+                    </div>
+                    <div ng-message-exp="['minlength', 'maxlength']"
+                         translate="form.rangeStr" translate-values="{min:2, max:100}">
+                    </div>
+                </div>
+            </md-input-container>
+            <div flex="10"></div>
+        </md-list-item>
+    </form>
+    <form name="$ctrl.personalFirstForm">
+        <md-list-item layout="row" layout-wrap>
+            <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
+                             md-input-name="country"
+                             md-input-minlength="2"
+                             md-input-maxlength="18"
+                             md-no-cache="$ctrl.noCache"
+                             md-selected-item="$ctrl.owner.personal.country"
+                             md-search-text="$ctrl.countrySearchText"
+                             md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
+                             md-item-text="$ctrl._country_list['ru'][id]"
+                             md-floating-label="{{'settings.personalInfo.main.country'|translate}}">
+                <md-item-template>
+                    <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
+                </md-item-template>
+
+                <div ng-messages="$ctrl.personalFirstForm.country.$error" role="alert"
+                     ng-if="$ctrl.personalFirstForm.country.$touched">
+                </div>
+            </md-autocomplete>
+            <div flex="10"></div>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="settings.personalInfo.main.city"></label>
+                <input type="text" name="city" ng-model="$ctrl.owner.personal.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
+                <div ng-messages="$ctrl.personalFirstForm.city.$error" role="alert">
+                    <div ng-message-exp="['minlength', 'maxlength']"
+                         translate="form.rangeStr" translate-values="{min:1, max:100}">
+                    </div>
+                </div>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item layout="row" layout-wrap layout-align="start center">
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label>День рождения в формате {{::$ctrl.getDateFormat()}}</label>
+                <md-datepicker ng-model="$ctrl.owner.personal.birthday"
+                               md-hide-icons="calendar"
+                               name="birthday"></md-datepicker>
+                <div ng-messages="$ctrl.personalFirstForm.birthday.$error">
+                    <div ng-message="valid" translate="form.invalidDate"></div>
+                </div>
+            </md-input-container>
+            <div flex="10"></div>
+            <div flex="45" flex-xs="100" layout="row" layout-align="space-between center" style="margin-top: 8px;">
+                <div flex="none" class="md-caption" translate="settings.personalInfo.sex"></div>
+                <div flex="auto" style="margin-left: 20px">
+                    <md-radio-group name="sex" class="md-primary"
+                                    ng-model="$ctrl.owner.personal.sex"
+                                    layout="row" layout-align="end center">
+                        <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
+                        <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
+                    </md-radio-group>
+                </div>
+            </div>
+
+        </md-list-item>
+        <md-list-item flex layout="row">
+            <md-input-container flex class="md-block no-message">
+                <label translate="settings.personalInfo.about"></label>
+                <textarea ng-model="$ctrl.owner.personal.about" name="about" rows="2"></textarea>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item flex layout="row" ng-if="$ctrl.owner.public.isCoach">
+            <md-input-container flex class="md-block no-message">
+                <label translate="user.price"></label>
+                <textarea ng-model="$ctrl.owner.personal.price" name="price" rows="2" placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item flex layout="row" ng-if="$ctrl.owner.public.isCoach">
+            <md-input-container flex class="md-block no-message">
+                <label translate="user.contact"></label>
+                <textarea ng-model="$ctrl.owner.personal.contact" name="contact" rows="2" placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item flex layout="row" ng-if="$ctrl.owner.public.isCoach">
+            <md-input-container flex class="md-block no-message">
+                <label translate="user.athletes"></label>
+                <textarea ng-model="$ctrl.owner.personal.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.owner.public.isCoach">
+            <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.owner.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>
+            <md-switch class="md-secondary" ng-model="$ctrl.owner.personal.isFree"></md-switch>
+        </md-list-item>
+    </form>
+</md-list>

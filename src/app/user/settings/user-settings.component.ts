@@ -17,11 +17,13 @@ class UserSettingsCtrl implements IComponentController {
     // inject
     static $inject = ['$stateParams', '$location', '$mdMedia', 'message', 'AuthService'];
 
-    constructor(private $stateParams: any,
-                private $location: ILocationService,
-                private $mdMedia: any,
-                private message: MessageService,
-                private auth: AuthService) {
+    constructor (
+        private $stateParams: any,
+        private $location: ILocationService,
+        private $mdMedia: any,
+        private message: MessageService,
+        private auth: AuthService
+    ) {
 
     }
 

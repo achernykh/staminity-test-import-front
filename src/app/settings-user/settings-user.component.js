@@ -131,39 +131,6 @@ class SettingsUserCtrl {
 
     }
 
-    getTimezoneTitle () {
-        let timezone = this.user.display.timezone;
-        return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
-    }
-
-    getDateFormat () {
-        return moment().format('L');
-    }
-
-    changeLocale (locale) {
-        this.user.display.language = locale;
-        this.displayForm.$dirty = true;
-    }
-
-    changeTimezone (name) {
-        this.user.display.timezone = name;
-        this.displayForm.$dirty = true;
-    }
-
-    changeUnit (units) {
-        this.user.display.units = units;
-        this.displayForm.$dirty = true;
-    }
-
-    getFirstDayOfWeek () {
-        return this.user.display.firstDayOfWeek || 0;
-    }
-
-    setFirstDayOfWeek (number) {
-        this.user.display.firstDayOfWeek = number;
-        this.displayForm.$dirty = true;
-    }
-
     countrySearch (query) {
         let countries = this._country_list[this.display.getLocale()];
         let regexp = new RegExp(query, 'i');
@@ -251,199 +218,8 @@ class SettingsUserCtrl {
 
     }
 
-    weekdays (day) {
-        return moment.weekdays(day);
-    }
-
-    syncEnabled (adaptor) {
-        return adaptor.state === "Enabled";
-    }
-
     changeProviderSettings (ev, adaptor){
 
-    }
-
-    showProviderSettings (ev, adaptor, toggle) {
-
-        //1. Отключить синхронизацию через тумблер switch == off
-        if(!toggle && adaptor.status.switch) {
-
-            var confirm = this.$mdDialog.confirm()
-                .title('Вы хотите отключить синхронизацию?')
-                .textContent('После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
-                .ariaLabel('Lucky day')
-                .targetEvent(ev)
-                .ok('Продолжить')
-                .cancel('Отменить');
-
-            this.$mdDialog.show(confirm)
-                .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
-                    moment(adaptor.startDate).format('YYYY-MM-DD'), toggle ? "Enabled" : "Disabled")
-                    .then(response => {
-                        this.updateAdaptor(adaptor, response);
-                        console.info(response);
-                        this.toggle[adaptor.provider] = toggle;
-                    }, error => {
-                        console.error(error);
-                        this.toggle[adaptor.provider] = !toggle;
-                    }), (error) => {
-                        this.toggle[adaptor.provider] = !toggle;
-                        //adaptor.status.switch = true;
-                    });
-
-        } else if(toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
-            // Подключение стравы
-            this.$auth.link(adaptor.provider,{
-                internalData: {
-                    userId: this.user.userId,
-                    startDate: moment().subtract(3,'months'),
-                    postAsExternalProvider: true,
-                    provider: adaptor.provider
-                }
-            }).then(response => {
-                // You have successfully linked an account.
-                this.updateAdaptor(adaptor, response.data.data);
-                console.log('response', response);
-                this.toggle[adaptor.provider] = toggle;
-            }, error => {
-                    if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
-                        this.message.toastInfo('userCancelOAuth');
-                    } else {
-                        this.message.toastInfo(error.data.errorMessage || error.errorMessage || error);
-                    }
-                    this.toggle[adaptor.provider] = !toggle;
-                }).catch(response => {
-                    // Handle errors here.
-                    console.error('response', response);
-                    this.message.toastInfo(response);
-                    this.toggle[adaptor.provider] = !toggle;
-            });
-        } //3. Подключить user/pass синхронизацию или 4. Изменить настройки синхронизации
-        else if(toggle) {
-            this.$mdDialog.show({
-                controller: DialogController,
-                controllerAs: '$ctrl',
-                template: require('./dialogs/provider.html'),
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                locals: {
-                    adaptor: adaptor
-                },
-                bindToController: true,
-                clickOutsideToClose: true,
-                escapeToClose: true,
-                fullscreen: false // Only for -xs, -sm breakpoints.
-            }).then((form) => {
-                if (adaptor.status.code === 'offSyncNeverEnabled') {// подключение
-                    this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
-                        .then(response => {
-                        this.updateAdaptor(adaptor, response);
-                        console.info(response);
-                        this.toggle[adaptor.provider] = toggle;
-                    },
-                        error => {
-                            this.message.toastError(error);
-                            return !toggle;
-                        });
-                } else { // операция изменения данных подключения
-                    this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
-                        form.startDate, toggle ? "Enabled" : "Disabled")
-                        .then(response => {
-                            this.updateAdaptor(adaptor, response);
-                            this.toggle[adaptor.provider] = toggle;
-                        }, error => {
-                            this.message.toastError(error);
-                            this.toggle[adaptor.provider] = !toggle;
-                        });
-                }
-            });/*, () => {
-                    // Если диалог открывается по вызову ng-change
-                    if (typeof ev === 'undefined') {
-                        adaptor.status.switch = false
-                    }
-                    this.status = 'You cancelled the dialog.';
-                });
-            }*/
-        } else if (toggle && !adaptor.status.switch && typeof ev === 'undefined') {
-
-        }
-
-        return;
-
-
-        if (adaptor.status.switch) { // Идет подключение или настройка подключенного провайдера
-            if(adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { // Если идет подключение по OAuth
-
-            } else {  // Идет подключение или изменение синхронизации
-                this.$mdDialog.show({
-                    controller: DialogController,
-                    controllerAs: '$ctrl',
-                    template: require('./dialogs/provider.html'),
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    locals: {
-                        adaptor: adaptor
-                    },
-                    bindToController: true,
-                    clickOutsideToClose: true,
-                    escapeToClose: true,
-                    fullscreen: false // Only for -xs, -sm breakpoints.
-                }).then((form) => {
-                    if (adaptor.status.switch) {// операция изменения данных подключения
-                        this.SyncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
-                            .then(response => {
-                                this.updateAdaptor(adaptor, response);
-                                console.info(response);
-                            },
-                            error => {
-                                this.message.toastError(error);
-                                adaptor.status.switch = false;
-                            });
-                    } else { // подключение
-                        this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
-                            form.startDate, adaptor.status.switch ? "Enabled" : "Disabled")
-                            .then(response => {
-                                this.updateAdaptor(adaptor, response);
-                            }, error => this.message.toastError(error));
-                    }
-                }, () => {
-                    // Если диалог открывается по вызову ng-change
-                    if (typeof ev === 'undefined') {
-                        adaptor.status.switch = false
-                    }
-                    this.status = 'You cancelled the dialog.';
-                });
-            }
-        } else { // Выполняется отлкючение синхронизации
-            var confirm = this.$mdDialog.confirm()
-                .title('Вы хотите отключить синхронизацию?')
-                .textContent('После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
-                .ariaLabel('Lucky day')
-                .targetEvent(ev)
-                .ok('Продолжить')
-                .cancel('Отменить');
-
-            this.$mdDialog.show(confirm)
-                .then(() => this.SyncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password,
-                    moment(adaptor.startDate).format('YYYY-MM-DD'), adaptor.status.switch ? "Enabled" : "Disabled")
-                    .then(response => {
-                        this.updateAdaptor(adaptor, response);
-                        console.info(response);
-                    }, error => {
-                        console.error(error);
-                    }), (error) => {
-                        //adaptor.status.switch = true;
-                    });
-        }
-    }
-
-    updateAdaptor (adaptor, response) {
-        let idx = this.adaptors.findIndex(a => a.provider === adaptor.provider);
-        this.adaptors[idx].state = response.state;
-        this.adaptors[idx].lastSync = response.lastSync;
-        this.adaptors[idx].status = syncStatus(response.lastSync, response.state);
-        //this.$scope.$apply();
-        this.message.toastInfo('settingsSaveComplete');
     }
 
     showPasswordChange (ev) {
@@ -464,64 +240,12 @@ class SettingsUserCtrl {
         });
     }
 
-    tariffStatus (tariff) {
-        return this.BillingService.tariffStatus(tariff);
-    }
-
-    tariffIsEnabled (tariff) {
-        return (isOn) => {
-            if (typeof isOn === 'undefined') {
-                return tariff.isOn;
-            }
-
-            return tariff.isOn? this.disableTariff(tariff) : this.enableTariff(tariff);
-        }
-    }
-
-    selectTariff (tariff) {
-        if (!tariff.isBlocked) {
-            tariff.isOn? this.viewTariff(tariff) : this.enableTariff(tariff);
-        }
-    }
-
-    enableTariff (tariff) {
-        return this.dialogs.enableTariff(tariff, this.user)
-            .then(this.reload.bind(this), (error) => { error && this.reload(); });
-    }
-
-    disableTariff (tariff) {
-        return (tariff.isAvailable && tariff.isBlocked?
-            this.BillingService.disableTariff(tariff.tariffId, this.user.userId)
-            .then((info) => {
-                message.systemSuccess(info.title);
-                $mdDialog.hide();
-            }, (error) => {
-                message.systemWarning(error);
-            }) : this.dialogs.disableTariff(tariff, this.user)
-        )
-        .then(this.reload.bind(this), (error) => { error && this.reload(); });
-    }
-
-    viewTariff (tariff) {
-        return this.dialogs.tariffDetails(tariff, this.user)
-            .then(this.reload.bind(this), (error) => { error && this.reload(); });
-    }
-
-    invoiceStatus (bill) {
-        return this.BillingService.billStatus(bill);
-    }
-
     hasPaidBill () {
         return this.user.billing.bills.find((bill) => bill.receiptDate);
     }
 
     billsList () {
         return this.dialogs.billsList(this.user)
-            .then(this.reload.bind(this), (error) => { error && this.reload(); });
-    }
-
-    viewBill (bill) {
-        return this.dialogs.billDetails(bill, this.user)
             .then(this.reload.bind(this), (error) => { error && this.reload(); });
     }
 
@@ -543,22 +267,6 @@ class SettingsUserCtrl {
         .catch(this.errorHandler());
     }
 
-    uploadAvatar () {
-        this.dialogs.uploadPicture()
-        .then(picture => this.UserService.postProfileAvatar(picture))
-        .then((response) => this.setUser(response))
-        .then(this.successHandler('updateAvatar'))
-        .catch(this.errorHandler());
-    }
-
-    uploadBackground () {
-        this.dialogs.uploadPicture()
-        .then((picture) => this.UserService.postProfileBackground(picture))
-        .then((response) => this.setUser(response))
-        .then(this.successHandler('updateBackgroundImage'))
-        .catch(this.errorHandler());
-    }
-
 	toggleActivity (activity) {
         this.personalSecondForm.$setDirty();
 		if (this.isActivityChecked(activity)) {
@@ -572,12 +280,6 @@ class SettingsUserCtrl {
 	isActivityChecked (activity) {
 		return this.user.personal.activity.includes(activity)
 	}
-
-	get iCalLink() {
-	    return this.user.display.language && this.user.private.iCal[this.user.display.language] &&
-            `https://app.staminity.com/ical/${this.user.private.iCal[this.user.display.language]}` ||
-            'settings.personalInfo.calendar.empty';
-    }
 };
 
 SettingsUserCtrl.$inject = [

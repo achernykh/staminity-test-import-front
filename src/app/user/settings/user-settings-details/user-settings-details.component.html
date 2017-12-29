@@ -1,0 +1,38 @@
+<st-application-frame class="st-application-frame user-settings" template="application" navigation-bar="false">
+    <st-application-frame-title>
+        <span class="md-title" translate="user.settings.fullTitle"></span>
+        <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
+        <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0" hide show-gt-sm>
+            <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.setOwner(athlete)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <span>{{$ctrl.currentUser | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+    <st-application-frame-content layout="row" layout-align="center start">
+        <md-card class="user-settings-details__card">
+            <md-card-title>
+                <md-icon class="material-icon md-secondary" ui-sref="user-settings">keyboard_arrow_left</md-icon>
+                <h2 ui-view="settingsSectionTitle" class="md-title"></h2>
+            <md-card-title>
+            <div ui-view="settingsSectionContent"></div>
+        </md-card>        
+    </st-application-frame-content>
+</st-application-frame>

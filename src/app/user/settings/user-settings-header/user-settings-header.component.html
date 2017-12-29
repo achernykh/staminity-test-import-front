@@ -1,0 +1,8 @@
+<div class="user-background" style="background-image: url({{$ctrl.owner.public.background | userBackground}})">
+    <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false" profile="$ctrl.owner" is-premium="$ctrl.owner.isPremium" unlink="true">
+        <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+    </userpic>
+    <div flex=none hide show-gt-xs>
+        <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<md-list class="md-dense section">
+    <md-subheader>{{ 'settings.billing.tariffsHeader' | translate }}</md-subheader>
+    <md-list-item 
+        class="md-2-line" 
+        ng-repeat-start="tariff in $ctrl.owner.billing.tariffs"
+        ng-click="$ctrl.selectTariff(tariff)"
+    >
+        <md-icon class="material-icons">person</md-icon>
+        <div class="md-list-item-text" ng-switch="property.enabled">
+            <h3>{{ 'settings.billing.tariffs.' + tariff.tariffCode | translate }}</h3>
+            <p>{{ 'settings.billing.tariffStatuses.' + $ctrl.tariffStatus(tariff) | translate:{
+                until: (tariff.expireDate | date:shortDate),
+                club: (tariff.clubProfile | clubName),
+                coach: (tariff.userProfilePayer | userName)
+            } }}</p>
+            <p ng-if="!['enabledByClub', 'enabledByCoach', 'notEnabled'].includes($ctrl.tariffStatus(tariff))">
+                {{ 'settings.billing.autoRenewalShort' | translate }}: {{ 'settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
+            </p>
+        </div>
+        <md-switch
+            ng-model="$ctrl.tariffIsEnabled(tariff)"
+            ng-model-options="{getterSetter: true}"
+            ng-disabled="!tariff.isAvailable"
+            ng-class="{ 'tariffs__swich-blocked': tariff.isBlocked, 'md-primary': tariff.isAvailable && !tariff.isBlocked, 'md-accent': tariff.isAvailable && tariff.isBlocked }"
+        >
+        </md-switch>
+    </md-list-item>
+    <md-divider ng-repeat-end ng-if="!$last"/>
+</md-list>
