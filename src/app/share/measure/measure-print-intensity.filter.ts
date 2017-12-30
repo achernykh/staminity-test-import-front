@@ -1,10 +1,13 @@
 import { ActivityIntervalPW } from "@app/activity/activity-datamodel/activity.interval-pw";
 import { Measure } from "./measure.constants";
+
 /**
- *
- * @param: sport
- * @param measure
- * @param ftpMode
+ * Функция вывода интенсивности тренировки
+ * Работает в режимах показа относительных и абсолютных значениях, а также выводит информацию как по
+ * единчному значению, так и по интервалу значений
+ * @param sport - вид спорта, необходим для получения формата вывода показателя
+ * @param measureCode - название показателя (мощность, пульс...)
+ * @param ftpMode - true - относительные значения, false - абсолютные значения
  */
 export const measurePrintIntensity = [ "$filter", ($filter) =>
     (interval: ActivityIntervalPW,

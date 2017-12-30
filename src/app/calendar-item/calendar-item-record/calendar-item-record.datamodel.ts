@@ -66,6 +66,7 @@ export class CalendarItemRecord extends CalendarItem {
             this.recordHeader.repeat.endOnDate = moment(this.dateStart).add('days', 2);
             if (this.options.trainingPlanMode && this.options.trainingPlanOptions.dynamicDates) {
                 this.recordHeader.repeat.endType = 'C';
+                this.recordHeader.repeat.endOnCount = 3;
             }
         } else {
             this.isRepeated = !!this.recordHeader.repeat;
