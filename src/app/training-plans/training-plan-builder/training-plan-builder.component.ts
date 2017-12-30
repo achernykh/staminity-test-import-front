@@ -82,8 +82,8 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     private subscribeAsyncMessages(): void {
         this.trainingPlansService.message
             .filter(message =>
-                message.value.hasOwnProperty('userProfileOwner') &&
-                message.value.userProfileOwner.userId === this.owner.userId)// &&
+                message.value.hasOwnProperty('trainingPlaId') &&
+                message.value.trainingPlaId === this.currentPlan.id)// &&
             //(message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
