@@ -116,7 +116,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     }
 
     deleteTrainingPlanRecord(rmParams: Object) {
-        this.trainingPlansService.deleteItem(this.options.trainingPlanOptions.planId, this.record.build())
+        this.trainingPlansService.deleteItem(this.options.trainingPlanOptions.planId, this.record.build(), false, rmParams)
             .then(() => {
                 this.message.toastInfo('recordDeleted');
                 this.onAnswer({formMode: FormMode.Delete, item: this.record.build()});
@@ -134,9 +134,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
                     this.onAnswer({formMode: FormMode.Post, item: this.record.build()});
                 }, error => this.message.toastError(error));
                 //.then(() => this.inAction = false);
-        }
-
-        if (this.record.view.isPut) {
+        } else if (this.record.view.isPut) {
             this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
                 .then((response)=> {
                     this.record.compile(response);// сохраняем id, revision в обьекте

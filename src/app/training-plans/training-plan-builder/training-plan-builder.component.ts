@@ -66,6 +66,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
             this.setTrainingPlan(this.$stateParams.planId);
         }
         this.prepareTrainingPlansSelector();
+        this.subscribeAsyncMessages();
     }
 
     $onDestroy() {
@@ -76,6 +77,42 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     view (e: Event, plan: TrainingPlan) {
         this.trainingPlanDialogService.open(e, FormMode.View, plan)
             .then(() => {}, () => {});
+    }
+
+    private subscribeAsyncMessages(): void {
+        this.trainingPlansService.message
+            .filter(message =>
+                message.value.hasOwnProperty('userProfileOwner') &&
+                message.value.userProfileOwner.userId === this.owner.userId)// &&
+            //(message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
+            .map(message => {
+                message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
+                return message;})
+            // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
+            // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
+            // обьекта
+            .delay(500)
+            .subscribe((message) => {
+                console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                switch (message.action) {
+                    case 'I': {
+                        this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
+                        this.$scope.$applyAsync();
+                        break;
+                    }
+                    case 'D': {
+                        this.calendar.delete(<ICalendarItem>message.value, message.value.parentId);
+                        this.$scope.$applyAsync();
+                        break;
+                    }
+                    case 'U': {
+                        this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                        this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
+                        this.$scope.$applyAsync();
+                        break;
+                    }
+                }
+            });
     }
 
     private setTrainingPlan (planId: number): void {

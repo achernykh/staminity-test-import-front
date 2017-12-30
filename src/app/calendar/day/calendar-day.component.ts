@@ -131,7 +131,7 @@ class CalendarDayCtrl {
      */
     wizard (e: Event, data: ICalendarDayData): void {
         this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
-            .then(response => this.onUpdate(response),  error => { });
+            .then(response => { debugger; this.onUpdate(response); },  error => { });
     }
 
     /**

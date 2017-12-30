@@ -5,6 +5,7 @@ import {
 } from "../../../api/trainingPlans";
 import { IWSResponse, IRevisionResponse } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
+import { Observable } from "rxjs";
 
 /**
  * Сервис для работы с данными Долгосрочного плана
@@ -16,10 +17,12 @@ import { ICalendarItem } from "@api/calendar";
  */
 export class TrainingPlansService {
 
+    message: Observable<any>;
+
     static $inject = [ 'SocketService' ];
 
     constructor (private socket: SocketService) {
-
+        this.message = this.socket.messages.filter(message => message.type === 'trainingPlanItem').share();
     }
 
     /**
@@ -96,7 +99,7 @@ export class TrainingPlansService {
      * @param isSample
      * @returns {Promise<any>}
      */
-    deleteItem (planId: number, item: ICalendarItem, isSample: boolean = false): Promise<IWSResponse> {
-        return this.socket.send(new ModifyTrainingPlanItem('D', planId, item, isSample));
+    deleteItem (planId: number, item: ICalendarItem, isSample: boolean = false, rmParams?: any): Promise<IWSResponse> {
+        return this.socket.send(new ModifyTrainingPlanItem('D', planId, item, isSample, rmParams));
     }
 }

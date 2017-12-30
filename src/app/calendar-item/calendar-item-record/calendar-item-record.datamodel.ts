@@ -50,7 +50,7 @@ export class CalendarItemRecord extends CalendarItem {
             }
         }
 
-        ['param', 'isRepeated', 'user', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
+        ['index', 'options', 'param', 'isRepeated', 'user', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
             .map(k => item.hasOwnProperty(k) && delete item[k]);
         return item;
     }

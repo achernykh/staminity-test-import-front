@@ -9,7 +9,7 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.record.view.isTrainingPlan ?
+                        <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
                         $ctrl.onDelete() :
                         $ctrl.deleteTrainingPlanRecord()"
                                    ng-disabled="$ctrl.record.view.isPost">
@@ -18,7 +18,7 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.record.view.isTrainingPlan ?
+                        <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
                         $ctrl.onDelete({rmPastItems: false, rmFutureItems: true}) :
                         $ctrl.deleteTrainingPlanRecord({rmPastItems: false, rmFutureItems: true})"
                                    ng-disabled="$ctrl.record.view.isPost">
@@ -27,7 +27,7 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="$ctrl.record.isRepeated">
-                        <md-button ng-click="$ctrl.record.view.isTrainingPlan ?
+                        <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
                         $ctrl.onDelete({rmPastItems: true, rmFutureItems: true}) :
                         $ctrl.deleteTrainingPlanRecord({rmPastItems: true, rmFutureItems: true})"
                                    ng-disabled="$ctrl.record.view.isPost">

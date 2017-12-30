@@ -32,6 +32,7 @@ export class TrainingPlan implements ITrainingPlan {
     currency: string;
     isFixedCalendarDates: boolean; // тренировки жестко привязаны к датам
     propagateMods: boolean; // правки плана распространяются всем приобретателям
+    subCount?: number; // кол-во подписок на realtime досылку изменений
     regularWeek?: string; // типовая неделя
     isStructured?: boolean; // имеются структурированные тренировки default = false
     weekCount: number; // кол-во тренировочных недель
