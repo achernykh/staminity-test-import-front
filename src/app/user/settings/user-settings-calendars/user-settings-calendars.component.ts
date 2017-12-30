@@ -22,7 +22,7 @@ class UserSettingsCalendarsCtrl {
     }
 
     getICalLink () : string {
-        return this.owner.display.language && this.owner.private.iCal[this.owner.display.language] &&
+        return this.owner && this.owner.display.language && this.owner.private.iCal[this.owner.display.language] &&
             `https://app.staminity.com/ical/${this.owner.private.iCal[this.owner.display.language]}` ||
             'settings.personalInfo.calendar.empty';
     }

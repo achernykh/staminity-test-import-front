@@ -5,7 +5,7 @@ import MessageService from "../../core/message.service";
 import AuthService from "../../auth/auth.service";
 
 class UserSettingsCtrl implements IComponentController {
-
+four = 4;
     // inject
     static $inject = ['$stateParams', '$location', '$mdMedia', 'message', 'SessionService'];
 
@@ -36,7 +36,7 @@ class UserSettingsCtrl implements IComponentController {
 
 export const UserSettingsComponent: IComponentOptions = {
     bindings: {
-        currentUser: '<',
+        
     },
     controller: UserSettingsCtrl,
     controllerAs: '$userSettingsCtrl',

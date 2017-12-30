@@ -15,7 +15,7 @@
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="athlete in $userSettingsCtrl.athletes track by athlete.userId">
-                    <md-button ng-click="$userSettingsCtrl.setOwner(athlete)" ng-disable="athlete.userId === $userSettingsCtrl.owner.userId">
+                    <md-button ui-sref="user-settings({userId: athlete.userId})" ng-disable="athlete.userId === $userSettingsCtrl.owner.userId">
                         <userpic profile="athlete"></userpic>
                         <span>{{athlete | userName}}</span>
                     </md-button>

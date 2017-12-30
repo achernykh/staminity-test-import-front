@@ -17,7 +17,6 @@ class UserSettingsMainCtrl {
         private $mdDialog: any,
     ) {
         window['UserSettingsMainCtrl'] = this;
-        console.log('owner', this.owner);
     }
 }
 
@@ -27,6 +26,5 @@ export const UserSettingsMainComponent: IComponentOptions = {
         currentUser: '<',
     },
     controller: UserSettingsMainCtrl,
-    controllerAs: '$userSettingsMainCtrl',
     template: require('./user-settings-main.component.html') as string
 } as any;

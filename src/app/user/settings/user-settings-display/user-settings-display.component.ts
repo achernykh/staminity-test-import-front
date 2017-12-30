@@ -12,10 +12,10 @@ class UserSettingsDisplayCtrl {
 
     units = ["metric", "imperial"];
 
-    static $inject = ['BillingService', 'dialogs', 'message', '$mdDialog'];
+    static $inject = ['DisplayService', 'dialogs', 'message', '$mdDialog'];
 
     constructor (
-        private billingService: any,
+        private displayService: any,
         private dialogs: any,
         private message: any,
         private $mdDialog: any,
@@ -24,8 +24,10 @@ class UserSettingsDisplayCtrl {
     }   
 
     getTimezoneTitle () {
-        let timezone = this.owner.display.timezone;
-        return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
+        if (this.owner) {
+            let timezone = this.owner.display.timezone;
+            return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
+        }
     }
 
     getDateFormat () {
@@ -45,7 +47,7 @@ class UserSettingsDisplayCtrl {
     }
 
     getFirstDayOfWeek () {
-        return this.owner.display.firstDayOfWeek || 0;
+        return this.owner && this.owner.display.firstDayOfWeek || 0;
     }
 
     setFirstDayOfWeek (number) {
