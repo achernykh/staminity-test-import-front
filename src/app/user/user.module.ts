@@ -11,7 +11,7 @@ import { UserSettingsBillsComponent } from "./settings/user-settings-bills/user-
 import { UserSettingsDisplayComponent } from "./settings/user-settings-display/user-settings-display.component";
 import { UserSettingsSyncComponent } from "./settings/user-settings-sync/user-settings-sync.component";
 import { UserSettingsCalendarsComponent } from "./settings/user-settings-calendars/user-settings-calendars.component";
-import { UserSettingsDetailsComponent } from "./settings/user-settings-details/user-settings-details.component";
+import { UserSettingsMainComponent} from "./settings/user-settings-main/user-settings-main.component";
 import { UserSettingsProfileComponent } from "./settings/user-settings-profile/user-settings-profile.component";
 import { UserSettingsPrivacyComponent } from "./settings/user-settings-privacy/user-settings-privacy.component";
 import { UserSettingsFitComponent } from "./settings/user-settings-fit/user-settings-fit.component";
@@ -27,13 +27,16 @@ export const User = module('staminity.user', [])
     .component('stUserSettingsDisplay', UserSettingsDisplayComponent)
     .component('stUserSettingsSync', UserSettingsSyncComponent)
     .component('stUserSettingsCalendars', UserSettingsCalendarsComponent)
-    .component('stUserSettingsDetails', UserSettingsDetailsComponent)
+    .component('stUserSettingsMain', UserSettingsMainComponent)
     .component('stUserSettingsProfile', UserSettingsProfileComponent)
     .component('stUserSettingsPrivacy', UserSettingsPrivacyComponent)
     .component('stUserSettingsFit', UserSettingsFitComponent)
     .component('stUserSettingsZones', UserSettingsZonesComponent)
     .component('stUserSettingsNotifications', UserSettingsNotificationsComponent)
-    .config(['$stateProvider', ($stateProvider: StateProvider) => userState.map(s => $stateProvider.state(s))])
-    .config(['$translateProvider', ($translate) =>
-        supportLng.map(lng => $translate.translations(lng, {user: translateUser[lng]}))])
+    .config(['$stateProvider', ($stateProvider: StateProvider) => {
+        userState.map(s => $stateProvider.state(s));
+    }])
+    .config(['$translateProvider', ($translate) => {
+        supportLng.map(lng => $translate.translations(lng, {user: translateUser[lng]}));
+    }])
     .name;
