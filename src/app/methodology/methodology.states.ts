@@ -1,7 +1,8 @@
 import { StateDeclaration } from "angular-ui-router";
 import { SessionService } from "../core/session/session.service";
+import GroupService from "../core/group.service";
 
-const methodology: any = {
+const methodologyUser: any = {
     name: 'methodology',
     url: '/methodology?state&scheme',
     loginRequired: false,
@@ -17,4 +18,22 @@ const methodology: any = {
     }
 };
 
-export const methodologyState: Array<StateDeclaration> = [methodology];
+const methodologyClub: any = {
+    name: 'methodology-club',
+    url: '/methodology/club/:uri?state&scheme',
+    loginRequired: false,
+    authRequired: [],
+    reloadOnSearch: false,
+    resolve: {
+        clubUri: ["$stateParams", ($stateParams) => $stateParams.uri],
+        club: ["GroupService", "clubUri", (groupService: GroupService, clubUri: string) => groupService.getProfile(clubUri, "club", true)],
+        currentUser: ['SessionService', (sessionService: SessionService) => sessionService.getUser()],
+    },
+    views: {
+        "application": {
+            component: 'stMethodology'
+        }
+    }
+};
+
+export const methodologyState: Array<StateDeclaration> = [methodologyUser, methodologyClub];

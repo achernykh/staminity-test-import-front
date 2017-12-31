@@ -169,31 +169,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        //this.currentUser = this.SessionService.getUser();
-
         if ( this.options ) {
             ///this.mode = this.options.formMode;
             this.popup = this.options.popupMode;
             this.currentUser = this.options.currentUser;
             this.user = this.options.owner;
         }
-
-        /**if (this.mode === 'post' && !this.template) {
-            this.data = {
-                isTemplate: this.template,
-                calendarItemType: 'activity',
-                activityHeader: {
-                    activityType: this.activityType || {id: null, code: null, typeBasic: null},
-                    activityCategory: this.activityCategory || null
-                },
-                dateStart: this.date,
-                dateEnd: this.date,
-                userProfileOwner: profileShort(this.user),
-                userProfileCreator: profileShort(this.currentUser),
-                groupProfile: this.club
-            };
-        }**/
-
         this.activity = new Activity(this.data, this.options);
         this.segmentChart = this.activity.formChart();
 
@@ -631,9 +612,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     this.onAnswer({formMode: FormMode.Post, item: this.activity.build()});
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
-        }
-
-        if (this.activity.view.isPut) {
+        } else if (this.activity.view.isPut) {
             this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
@@ -671,12 +650,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.onCancel();
         }
         this.activity.build();
-        //let name = this.code;
-        //let description = this.activity.intervals.PW.trainersPrescription;
-        //let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
-        //let groupId = groupProfile && groupProfile.groupId;
-        //let { activityCategory, intervals } = header;
-
         if (this.activity.view.isPost) {
             this.ReferenceService.postActivityTemplate(
                 null,

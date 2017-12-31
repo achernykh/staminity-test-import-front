@@ -81,10 +81,8 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
     private subscribeAsyncMessages(): void {
         this.trainingPlansService.message
-            .filter(message =>
-                message.value.hasOwnProperty('trainingPlaId') &&
-                message.value.trainingPlaId === this.currentPlan.id)// &&
-            //(message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
+            .filter(message => message.value.hasOwnProperty('trainingPlanId') &&
+                    message.value.trainingPlanId === this.currentPlan.id)
             .map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;})
@@ -93,22 +91,19 @@ class TrainingPlanBuilderCtrl implements IComponentController {
             // обьекта
             .delay(500)
             .subscribe((message) => {
-                console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
-                        this.$scope.$applyAsync();
                         break;
                     }
                     case 'D': {
-                        this.calendar.delete(<ICalendarItem>message.value, message.value.parentId);
-                        this.$scope.$applyAsync();
+                        this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
                         break;
                     }
                     case 'U': {
                         this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
-                        this.$scope.$applyAsync();
                         break;
                     }
                 }
@@ -141,6 +136,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
      * @param item
      */
     update (formMode: FormMode, item: ICalendarItem): void {
+        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision);
         switch (formMode) {
             case FormMode.Post: {
                 if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
@@ -238,7 +234,6 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     dropItems (mode: FormMode, item: ICalendarItem): void {
-        debugger;
         switch (mode) {
             case FormMode.Post: {
                 this.post(item);

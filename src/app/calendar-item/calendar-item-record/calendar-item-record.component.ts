@@ -20,7 +20,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     options: ICalendarItemDialogOptions;
     owner: IUserProfile;
     onAnswer: (response: ICalendarItemDialogResponse) => Promise<void>;
-    onCancel: () => IPromise<void>;
+    onCancel: () => Promise<void>;
 
     // public
     record: CalendarItemRecord;

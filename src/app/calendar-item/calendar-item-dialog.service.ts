@@ -138,7 +138,8 @@ export class CalendarItemDialogService {
                                 item="$ctrl.item"
                                 options="$ctrl.options"
                                 calendar-range="$ctrl.calendarRange"
-                                on-cancel="cancel()">
+                                on-cancel="cancel()"
+                                on-answer="answer(formMode, item)">
                         </calendar-item-record>
                    </md-dialog>`,
             targetEvent: env,

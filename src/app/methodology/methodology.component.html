@@ -11,6 +11,7 @@
 
     <st-application-frame-title>
         <span class="md-title" translate="methodology.title"></span>
+        <span class="md-title" ng-if="$ctrl.club">{{::$ctrl.club.public.name}}</span>
     </st-application-frame-title>
 
     <st-application-frame-navbar layout="row">

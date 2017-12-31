@@ -17,7 +17,7 @@ export class CalendarItemRecord extends CalendarItem {
 
     build (): ICalendarItem {
         super.package();
-        let item: ICalendarItem = this;
+        let item: ICalendarItem = Object.assign({}, this);
         let format: string = 'YYYY-MM-DD';
 
         item.dateStart = moment(this.recordHeader.dateStart).format(format);
