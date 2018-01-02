@@ -16,7 +16,7 @@ class UserSettingsTariffsCtrl {
         private message: any,
         private $mdDialog: any,
     ) {
-
+        window['UserSettingsTariffsCtrl'] = this;
     }
 
     tariffStatus (tariff) {

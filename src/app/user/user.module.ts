@@ -4,7 +4,7 @@ import { StateProvider } from "angular-ui-router";
 import { UserSettingsComponent } from "./settings/user-settings.component";
 import { userState } from "./user.states";
 import { translateUser } from "./user.translate";
-import { UserSettingsMenuComponent } from "./settings-menu/user-settings-menu.component";
+import { UserSettingsMenuComponent } from "./settings/user-settings-menu/user-settings-menu.component";
 import { UserSettingsHeaderComponent } from "./settings/user-settings-header/user-settings-header.component";
 import { UserSettingsTariffsComponent } from "./settings/user-settings-tariffs/user-settings-tariffs.component";
 import { UserSettingsBillsComponent } from "./settings/user-settings-bills/user-settings-bills.component";

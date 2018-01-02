@@ -4,8 +4,40 @@ import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.inter
 import MessageService from "../../core/message.service";
 import AuthService from "../../auth/auth.service";
 
+const menuItems = [{
+    icon: "person",
+    label: "settings.personalInfo.header",
+    hash: "user-settings-profile",
+}, {
+    icon: "security",
+    label: "settings.privacy.header",
+    hash: "user-settings-privacy",
+}, {
+    icon: "dvr",
+    label: "settings.display.header",
+    hash: "user-settings-display",
+}, {
+    icon: "vpn_key",
+    label: "settings.account.header",
+    hash: "user-settings-account",
+}, {
+    icon: "sync",
+    label: "settings.sync.header",
+    hash: "user-settings-sync",
+}, {
+    icon: "straighten",
+    label: "settings.zones.header",
+    hash: "user-settings-zones",
+}, {
+    icon: "notifications",
+    label: "settings.notification.header",
+    hash: "user-settings-notifications",
+}];
+
 class UserSettingsCtrl implements IComponentController {
-four = 4;
+
+    menuItems = menuItems;
+
     // inject
     static $inject = ['$stateParams', '$location', '$mdMedia', 'message', 'SessionService'];
 

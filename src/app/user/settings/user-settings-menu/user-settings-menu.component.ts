@@ -1,29 +1,32 @@
 import './user-settings-menu.component.scss';
 import {IComponentOptions, IComponentController, ILocationService} from 'angular';
 
+export interface ISettingsMenuItem {
+    hash: string,
+    label: string,
+    icon: string
+};
+
 class UserSettingsMenuCtrl implements IComponentController {
     
     // bind
-    data: any;
-    onEvent: (response: Object) => Promise<void>;
-     
-    // private
+    items: Array<ISettingsMenuItem>;
    
     // inject
     static $inject = ['$location'];
 
-    constructor(private $location: ILocationService) {
+    constructor (private $location: ILocationService) {
 
     }
 
-    $onInit(): void {
+    go (item: ISettingsMenuItem) {
+        this.$location.hash(item.hash);
     }
 }
 
 export const UserSettingsMenuComponent:IComponentOptions = {
     bindings: {
-        data: '<',
-        onEvent: '&'
+        items: '<',
     },
     controller: UserSettingsMenuCtrl,
     template: require('./user-settings-menu.component.html') as string

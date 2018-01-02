@@ -1,16 +1,11 @@
-<h2 class="md-title" translate="settings.notification.header"></h2>
 <form name="$ctrl.notificationsForm">
     <md-list class="md-dense section">
-        <div ng-repeat-start="notification in $ctrl.owner.notifications"
-             class="md-no-stiky md-subheader">
-            <span class="md-subheader-inner" translate>{{::notification.group}}</span>
-        </div>
-        <md-list-item ng-repeat="event in notification.events">
-            <span translate="{{::event.name}}"></span>
+        <md-list-item ng-repeat-start="(key, values) in $ctrl.owner.notifications">
+            <span translate="{{::key}}"></span>
             <div flex="100" layout="row" layout-align="end center">
-                <md-checkbox class="md-primary" ng-model="event.email" aria-label="email">Email</md-checkbox>
-                <md-checkbox class="md-primary" ng-model="event.phone" aria-label="phone">Phone</md-checkbox>
-                <md-checkbox class="md-primary" ng-model="event.web" aria-label="web">Site</md-checkbox>
+                <md-checkbox class="md-primary" ng-model="values[0]" aria-label="email">Email</md-checkbox>
+                <md-checkbox class="md-primary" ng-model="values[1]" aria-label="phone">Phone</md-checkbox>
+                <md-checkbox class="md-primary" ng-model="values[2]" aria-label="web">Site</md-checkbox>
             </div>
         </md-list-item>
         <md-divider ng-repeat-end ng-if="!$last"></md-divider>

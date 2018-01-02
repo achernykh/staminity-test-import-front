@@ -1,0 +1,6 @@
+<md-list class="md-dense">
+    <md-list-item ng-repeat="item in $ctrl.items" ng-click="$ctrl.go(item)">
+    	<md-icon class="material-icons">{{::item.icon}}</md-icon>
+        <p class="md-caption" translate>{{::item.label}}</p>
+    </md-list-item>
+</md-list>

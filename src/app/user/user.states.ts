@@ -44,7 +44,7 @@ const userSettingsFit: any = {
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
-    component: 'stUserSettingsFit',
+    template: require('./settings/user-settings-fit/user-settings-fit.template.html') as string
 };
 
 const userSettingsPrivacy: any = {
@@ -53,7 +53,7 @@ const userSettingsPrivacy: any = {
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
-    component: 'stUserSettingsPrivacy',
+    template: require('./settings/user-settings-privacy/user-settings-privacy.template.html') as string
 };
 
 const userSettingsZones: any = {
@@ -62,7 +62,7 @@ const userSettingsZones: any = {
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
-    component: 'stUserSettingsZones',
+    template: require('./settings/user-settings-zones/user-settings-zones.template.html') as string
 };
 
 const userSettingsNotifications: any = {
@@ -71,7 +71,7 @@ const userSettingsNotifications: any = {
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
-    component: 'stUserSettingsNotifications',
+    template: require('./settings/user-settings-notifications/user-settings-notifications.template.html') as string
 };
 
 export const userState: Array<StateDeclaration> = [

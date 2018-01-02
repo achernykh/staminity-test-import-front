@@ -15,7 +15,7 @@ class UserSettingsNotificationsCtrl {
         private dialogs: any,
         private message: any,
     ) {
-
+        window['UserSettingsNotificationsCtrl'] = this;
     }
 
 }

@@ -1,22 +1,19 @@
-<section class="user-settings__content">
-    <article>
-        <h2 class="title md-body-2 md-dark">Профиль</h2>
-        <md-card>
-            <md-list>
-                <md-list-item>
-                    <st-user-settings-header owner="$ctrl.owner"></st-user-settings-header>
-                </md-list-item>
-                <md-list-item ui-sref="user-settings-details.profile({userId: $ctrl.owner.userId})">
-                    <p class="md-body-1">Россия, Москва, почта: test@mail.ru</p>
-                    <md-icon class="material-icon md-secondary">keyboard_arrow_right
-                    </md-icon>
-                </md-list-item>
-            </md-list>
+<section class="user-settings__card">
+    <article id="user-settings-profile">
+        <h2 class="md-body-2 md-dark">Профиль</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-header owner="$ctrl.owner"></st-user-settings-header>
+            <md-divider></md-divider>
+            <md-list-item ui-sref="user-settings.profile({userId: $ctrl.owner.userId})">
+                <p class="md-body-1">Россия, Москва, почта: test@mail.ru</p>
+                <md-icon class="material-icon md-secondary">keyboard_arrow_right
+                </md-icon>
+            </md-list-item>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Учетная запись</h2>
-        <md-card>
+    <article id="user-settings-account">
+        <h2 class="md-body-2 md-dark">Учетная запись</h2>
+        <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ng-click="$ctrl.showPasswordChange($event)">
                     <p>Ваша учетная запись {{$ctrl.owner.personal.extEmail}} #{{$ctrl.owner.userId}}</p>
@@ -25,69 +22,69 @@
             </md-list>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Настройки приватности</h2>
-        <md-card>
+    <article id="user-settings-privacy">
+        <h2 class="md-body-2 md-dark">Настройки приватности</h2>
+        <md-card class="user-settings-main__card">
             <md-list>
-                <md-list-item ui-sref="user-settings-details.privacy({userId: $ctrl.owner.userId})">
+                <md-list-item ui-sref="user-settings.privacy({userId: $ctrl.owner.userId})">
                     <p class="md-body-1">Настройки приватности</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
             </md-list>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Спортивная форма</h2>
-        <md-card>
+    <article id="user-settings-fit">
+        <h2 class="md-body-2 md-dark">Спортивная форма</h2>
+        <md-card class="user-settings-main__card">
             <md-list>
-                <md-list-item ui-sref="user-settings-details.fit({userId: $ctrl.owner.userId})">
+                <md-list-item ui-sref="user-settings.fit({userId: $ctrl.owner.userId})">
                     <p class="md-body-1">Спортивная форма</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
             </md-list>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Зоны</h2>
-        <md-card>
+    <article id="user-settings-zones">
+        <h2 class="md-body-2 md-dark">Зоны</h2>
+        <md-card class="user-settings-main__card">
             <md-list>
-                <md-list-item ui-sref="user-settings-details.zones({userId: $ctrl.owner.userId})">
+                <md-list-item ui-sref="user-settings.zones({userId: $ctrl.owner.userId})">
                     <p class="md-body-1">Настройки тренировочных зон и ПАНО</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
             </md-list>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Тарифы и счета</h2>
-        <md-card>
-            <st-user-settings-tariifs owner="$ctrl.owner"></st-user-settings-tariifs>
+    <article id="user-settings-billing">
+        <h2 class="md-body-2 md-dark">Тарифы и счета</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-tariffs owner="$ctrl.owner"></st-user-settings-tariffs>
             <st-user-settings-bills owner="$ctrl.owner"></st-user-settings-bills>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Настройки отображения</h2>
-        <md-card>
+    <article id="user-settings-display">
+        <h2 class="md-body-2 md-dark">Настройки отображения</h2>
+        <md-card class="user-settings-main__card">
             <st-user-settings-display owner="$ctrl.owner" currentUser="$ctrl.currentUser"></st-user-settings-display>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Синхронизация</h2>
-        <md-card>
+    <article id="user-settings-sync">
+        <h2 class="md-body-2 md-dark">Синхронизация</h2>
+        <md-card class="user-settings-main__card">
             <st-user-settings-sync owner="$ctrl.owner"></st-user-settings-sync>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Внешние календари</h2>
-        <md-card>
+    <article id="user-settings-calendars">
+        <h2 class="md-body-2 md-dark">Внешние календари</h2>
+        <md-card class="user-settings-main__card">
             <st-user-settings-calendars owner="$ctrl.owner"></st-user-settings-calendars>
         </md-card>
     </article>
-    <article>
-        <h2 class="title md-body-2 md-dark">Уведомления</h2>
-        <md-card>
+    <article id="user-settings-notifications">
+        <h2 class="md-body-2 md-dark">Уведомления</h2>
+        <md-card class="user-settings-main__card">
             <md-list>
-                <md-list-item ui-sref="user-settings-details.notifications({userId: $ctrl.owner.userId})">
+                <md-list-item ui-sref="user-settings.notifications({userId: $ctrl.owner.userId})">
                     <p class="md-body-1">Настройки уведомлений</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>

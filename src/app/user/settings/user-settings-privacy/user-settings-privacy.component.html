@@ -1,7 +1,6 @@
-<h2 class="md-title" translate="settings.privacy.header"></h2>
 <form name="$ctrl.privacyForm">
     <md-list class="md-dense section">
-        <div ng-repeat-start="group in $ctrl.user.privacy" class="md-no-stiky md-subheader">
+        <div ng-repeat-start="group in $ctrl.owner.privacy" class="md-no-stiky md-subheader">
             <div class="md-subheader-inner">
                 <div class="" translate="{{'settings.privacy.groups.'+group.key | translate }}"></div>
                 <div class="hint secondary dark" translate="{{'settings.privacy.groups.'+ group.key + 'Hint' | translate }}"></div>

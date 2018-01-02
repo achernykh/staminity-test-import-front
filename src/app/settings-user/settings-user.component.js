@@ -155,28 +155,6 @@ class SettingsUserCtrl {
         return this._$http(request).then((result) => result.predictions, (error) => []);
     }
 
-    isDirty () {
-        return this.publicForm && this.publicForm.$dirty ||
-            this.personalFirstForm && this.personalFirstForm.$dirty ||
-            this.personalSecondForm && this.personalSecondForm.$dirty ||
-            this.privateFirstForm && this.privateFirstForm.$dirty ||
-            this.privateSecondForm && this.privateSecondForm.$dirty ||
-            this.displayForm && this.displayForm.$dirty ||
-            this.notificationDirty ||
-            this.privacyForm && this.privacyForm.$dirty
-    }
-
-    isValid () {
-        return this.publicForm && this.publicForm.$valid ||
-            this.personalFirstForm && this.personalFirstForm.$valid ||
-            this.personalSecondForm && this.personalSecondForm.$valid ||
-            this.privateFirstForm && this.privateSecondForm.$valid ||
-            this.privateFirstForm && this.privateSecondForm.$valid ||
-            this.displayForm && this.displayForm.$valid ||
-            this.notificationsForm && this.notificationsForm.$valid ||
-            this.privacyForm && this.privacyForm.$valid
-    }
-
     update (form) {
         if(this.user.public.isCoach) {
             this.checkProfileComplete();
