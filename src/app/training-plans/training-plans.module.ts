@@ -13,6 +13,9 @@ import { trainingPlanConfig } from "./training-plan/training-plan.config";
 import TrainingPlanComponent from "./training-plan/training-plan.component";
 import { supportLng } from "../core/display.constants";
 import { _translateTrainingPlans } from "./training-plans.translate";
+import { TrainingPlanAssignmentComponent } from "./training-plan-assignment/training-plan-assignment.component";
+import { TrainingPlanAssignmentFormComponent } from "./training-plan-assignment/form/training-plan-assignment-form.component";
+import { TrainingPlanAssignmentListComponent } from "./training-plan-assignment/list/training-plan-assignment-list.component";
 
 export const TrainingPlans = module('staminity.training-plans', [])
     .service('TrainingPlansService', TrainingPlansService)
@@ -23,6 +26,9 @@ export const TrainingPlans = module('staminity.training-plans', [])
     .component('trainingPlansList', TrainingPlansListComponent)
     .component('stTrainingPlanBuilder', TrainingPlanBuilderComponent)
     .component('stTrainingPlan', TrainingPlanComponent)
+    .component('stTrainingPlanAssignment', TrainingPlanAssignmentComponent)
+    .component('stTrainingPlanAssignmentForm', TrainingPlanAssignmentFormComponent)
+    .component('stTrainingPlanAssignmentList', TrainingPlanAssignmentListComponent)
     .constant('trainingPlanConfig', trainingPlanConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => trainingPlansState.map(s => $stateProvider.state(s))])
     .config(['$translateProvider', ($translate) =>

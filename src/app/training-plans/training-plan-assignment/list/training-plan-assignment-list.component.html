@@ -1,0 +1,14 @@
+<md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+        <h2 translate="trainingPlans.assignment.list.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-dialog-content flex="auto" layout="column">
+    <md-button ng-click="$ctrl.onForm()"></md-button>
+</md-dialog-content>

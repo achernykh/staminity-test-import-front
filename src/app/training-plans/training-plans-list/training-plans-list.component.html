@@ -28,6 +28,10 @@
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">landscape</md-icon>
         </md-button>
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
+            <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
+            <span translate="trainingPlans.actions.assignment"></span>
+        </md-button>
         <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)">
             <md-icon class="material-icons">date_range</md-icon>
         </md-button>
