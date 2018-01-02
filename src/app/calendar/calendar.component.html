@@ -167,6 +167,7 @@
                             on-delete="$ctrl.deleteItems(items)"
                             on-post-plan=""
                             on-update="$ctrl.update(formMode, item)"
+                            on-drop="$ctrl.dropItems(formMode, item)"
                             on-select="day.selected = !day.selected; $ctrl.selectItems()">
                     </calendar-day>
 

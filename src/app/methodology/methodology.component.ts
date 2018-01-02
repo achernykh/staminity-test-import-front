@@ -52,8 +52,7 @@ class MethodologyCtrl implements IComponentController {
 
     $onInit (): void {
         this.filterParams.club = this.club;
-        this.setState(this.$stateParams.hasOwnProperty('state') &&
-            this.$stateParams.state ? this.$stateParams.state : this.currentState);
+        this.prepareStates();
         this.getCategories();
         this.getTemplates();
         this.getSchemes();
@@ -68,6 +67,16 @@ class MethodologyCtrl implements IComponentController {
     $onDestroy (): void {
         this.destroy.next();
         this.destroy.complete();
+    }
+
+    private prepareStates(): void {
+        if (this.club) {
+            this.navBarStates = ['categories', 'templates'];
+            this.currentState = 'categories';
+        } else {
+            this.setState(this.$stateParams.hasOwnProperty('state') &&
+                this.$stateParams.state ? this.$stateParams.state : this.currentState);
+        }
     }
 
     private getSchemes (): void {

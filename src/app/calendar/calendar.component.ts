@@ -410,6 +410,21 @@ export class CalendarCtrl implements IComponentController{
             .then((item: ICalendarItem) => this.calendar.post(item));
     }
 
+    put (item: ICalendarItem): void {
+        this.calendarService.putItem(item)
+            .then(response => response && Object.assign(item, {
+                index: Number(`${response.value.id}${response.value.revision}`),
+                calendarItemId: response.value.id,
+                revision: response.value.revision,
+                activityHeader: Object.assign(item.activityHeader, {
+                    activityId: response.value.activityId
+                })}))
+            .then((item: ICalendarItem) => {
+                this.calendar.delete(this.calendar.searchItem(item.calendarItemId));
+                this.calendar.post(item);
+            });
+    }
+
     /**
      * Обновление данных календаря по синхронным ответам от бэка
      * Вызов приходит из calendar-day
@@ -438,6 +453,20 @@ export class CalendarCtrl implements IComponentController{
                 break;
             }
         }
+    }
+
+    dropItems (mode: FormMode, item: ICalendarItem): void {
+        switch (mode) {
+            case FormMode.Post: {
+                this.post(item);
+                break;
+            }
+            case FormMode.Put: {
+                this.put(item);
+                break;
+            }
+        }
+        this.update(mode, item);
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {

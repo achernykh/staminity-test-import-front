@@ -413,7 +413,7 @@ export class DashboardCtrl implements IComponentController {
 
         Promise.all(task)
             .then(()=> this.message.toastInfo('itemsPasted'), (error)=> this.message.toastError(error))
-            .then(()=> this.clearBuffer());;
+            .then(()=> this.clearBuffer());
 
     }
 
