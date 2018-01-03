@@ -38,12 +38,14 @@ export class SocketService {
      * @returns {Promise<boolean>}
      */
     init (): Promise<boolean> {
+        console.info(`socket service: init start`);
         if ( this.socketStarted ) {
             return Promise.resolve(true);
         }
         this.open();
         return new Promise<boolean>((resolve, reject) => {
             setTimeout(() => {
+                console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
                 if ( this.socketStarted ) {
                     // Свзяь с сервером есть
                     //this.connections.next(true);
@@ -143,6 +145,7 @@ export class SocketService {
      * @returns {any}
      */
     public send (request: IWSRequest): Promise<any> {
+        console.info(`socket service: send request ${request.requestType}`);
         /**
          * Можно будет раскоментировать после перехода на Angular 4
          */
