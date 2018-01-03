@@ -42,8 +42,8 @@
                 md-selected-item="$ctrl.datamodel.country"
                 md-search-text="$ctrl.countrySearchText"
                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
-                md-item-text="$ctrl._country_list['ru'][id]"
-                md-floating-label="{{'settings.personalInfo.main.country'|translate}}"
+                md-item-text="$ctrl.countriesList['ru'][id]"
+                md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate} }"
             >
                 <md-item-template>
                     <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
@@ -72,28 +72,44 @@
             </md-input-container>
             <div flex="10"></div>
             <div flex="45" flex-xs="100" layout="row" layout-align="space-between center" style="margin-top: 8px;">
-                <div flex="none" class="md-caption" translate="settings.personalInfo.sex"></div>
+                <div flex="none" class="md-caption" translate="user.settings.personalInfo.sex"></div>
                 <div flex="auto" style="margin-left: 20px">
                     <md-radio-group name="sex" class="md-primary" ng-model="$ctrl.datamodel.sex" layout="row" layout-align="end center">
-                        <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
-                        <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
+                        <md-radio-button value="M"><span translate="user.settings.personalInfo.M"></span></md-radio-button>
+                        <md-radio-button value="F"><span translate="user.settings.personalInfo.W"></span></md-radio-button>
                     </md-radio-group>
                 </div>
             </div>
         </md-list-item>
         <md-list-item flex layout="row">
             <md-input-container flex class="md-block no-message">
-                <label translate="settings.personalInfo.about"></label>
+                <label translate="user.settings.personalInfo.about"></label>
                 <textarea ng-model="$ctrl.datamodel.about" name="about" rows="2"></textarea>
             </md-input-container>
         </md-list-item>
+        <md-list-item layout="row" layout-wrap>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.personalInfo.contacts.extEmail"></label>
+                <input type="text" name="email" ng-model="$ctrl.datamodel.email" required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.form.email.$error" role="alert">
+                    <div ng-message-exp="['required']" translate="form.required"></div>
+                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
+                </div>
+            </md-input-container>
+            <div flex="10" show hide-xs></div>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.personalInfo.contacts.phone"></label>
+                <input type="text" name="phone" ng-model="$ctrl.datamodel.phone" autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.form.lastName.$error" role="alert">
+                    <div ng-message-exp="['required']" translate="form.required"></div>
+                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
+                </div>
+            </md-input-container>
+        </md-list-item>
+        <div flex layout="row" layout-align="end center">
+            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+                {{ 'form.save' | translate }}
+            </md-button>
+        </div>
     </form>
 </md-list>
-
-<md-fab-speed-dial md-theme="default">
-    <md-fab-trigger>
-        <md-button class="md-fab md-accent" ng-disabled="!$ctrl.form.isDirty" ng-class="{'md-warn': !$ctrl.form.isValid}" ng-click="$ctrl.submit()">
-            <md-icon class="material-icons">save</md-icon>
-        </md-button>
-    </md-fab-trigger>
-</md-fab-speed-dial>

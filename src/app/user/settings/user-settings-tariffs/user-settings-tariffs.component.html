@@ -14,7 +14,7 @@
                 coach: (tariff.userProfilePayer | userName)
             } }}</p>
             <p ng-if="!['enabledByClub', 'enabledByCoach', 'notEnabled'].includes($ctrl.tariffStatus(tariff))">
-                {{ 'user.settings.billing.autoRenewalShort' | translate }}: {{ 'settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
+                {{ 'user.settings.billing.autoRenewalShort' | translate }}: {{ 'user.settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
             </p>
         </div>
         <md-switch
