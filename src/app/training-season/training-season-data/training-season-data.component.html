@@ -40,7 +40,7 @@
                     <th md-column class="period"><span translate="trainingSeason.period"></span></th>
                     <th md-column class="competition"><span translate="trainingSeason.competition"></span></th>
                     <th md-column class="mesocycle"><span translate="trainingSeason.mesocycle"></span></th>
-                    <th md-column class="week"><span translate="trainingSeason.week"></span></th>
+                    <th md-column class="week" ng-if="false"><span translate="trainingSeason.week"></span></th>
                     <th md-column class="plan" md-numeric>
                         <span translate="trainingSeason.plan"></span>
                         <span>({{'trainingSeason.durationUnit.' + $ctrl.cycles.season.durationMeasure | translate}})</span>
@@ -101,7 +101,7 @@
                         </div>
                     </td>
                     <!-- Номер недели -->
-                    <td md-cell class="week">
+                    <td md-cell class="week" ng-if="false">
                         <span ng-if="cycle.mesocycle.id">Week {{cycle.mesoWeekNumber}}</span>
                     </td>
                     <!-- Обьем -->

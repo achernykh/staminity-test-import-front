@@ -5,7 +5,7 @@ import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
-import {SessionService} from "../core";
+import { SessionService, SocketService } from "../core";
 
 function configure($stateProvider:StateProvider,
                    $translateProvider:any) {
@@ -27,11 +27,13 @@ function configure($stateProvider:StateProvider,
             }
         })*/
         .state('calendar', <StateDeclaration>{
+            //parent: 'socket',
             url: "/calendar?userId",
             loginRequired: true,
             authRequired: ['user'],
             reloadOnSearch: false,
             resolve: {
+                init: ['SocketService', (socket: SocketService) => socket.init()],
                 view: () => {return new DisplayView('calendar');},
                 currentUser: ['SessionService', (session: SessionService) => session.getUser()],
                 owner: ['SessionService', (session: SessionService) => session.getUser()],

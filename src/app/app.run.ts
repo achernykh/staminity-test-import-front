@@ -58,10 +58,10 @@ function run(
 
         if (!!routeTo.authRequired && !AuthService.isAuthorized(routeTo.authRequired)) {
             //message.systemWarning('forbiddenAction');
-            //return true; // TODO после настройки state в предсталвениях поменять на false
+            return true; // TODO после настройки state в предсталвениях поменять на false
         }
         LoaderService.show();
-        return  routeTo.authRequired ? socket.init() : true;
+        //return routeTo.authRequired ? socket.init() : true;
     });
 
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {

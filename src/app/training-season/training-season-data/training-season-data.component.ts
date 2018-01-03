@@ -91,7 +91,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
             console.info('change update cycle:', cycle.weekNumber, cycle);
             this.trainingSeason.putItem(cycle.prepare())
                 .then(result => cycle.applyRevision(result))
-                .then(() => pos >= 0 && this.recalculateMesoWeekNumber())
+                //.then(() => pos >= 0 && this.recalculateMesoWeekNumber())
                 .then(() => cycle.update())
                 .then(() => this.update++)
                 .then(() => this.$scope.$applyAsync());
