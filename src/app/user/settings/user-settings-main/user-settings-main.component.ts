@@ -18,6 +18,10 @@ class UserSettingsMainCtrl {
     ) {
         window['UserSettingsMainCtrl'] = this;
     }
+
+    isOwnSettings () : boolean {
+        return this.owner.userId === this.currentUser.userId;
+    }
 }
 
 export const UserSettingsMainComponent: IComponentOptions = {

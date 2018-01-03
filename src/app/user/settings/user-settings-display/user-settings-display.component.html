@@ -1,6 +1,6 @@
 <md-list class="md-dense">
     <md-list-item class="mobile-select">
-        <span translate="settings.display.language"></span>
+        <span translate="user.settings.display.language"></span>
         <span class="md-secondary">{{ $ctrl.displayService.locales[$ctrl.owner.display.language] }}</span>
         <md-menu class="md-secondary">
             <md-button class="md-icon-button">
@@ -17,7 +17,7 @@
     </md-list-item>
 
     <md-list-item class="mobile-select">
-        <span translate="settings.display.timezone"></span>
+        <span translate="user.settings.display.timezone"></span>
         <span class="md-secondary">{{$ctrl.getTimezoneTitle()}}</span>
         <md-menu class="md-secondary">
             <md-button class="md-icon-button">
@@ -32,7 +32,7 @@
     </md-list-item>
 
     <md-list-item class="mobile-select">
-        <span translate="settings.display.units"></span>
+        <span translate="user.settings.display.units"></span>
         <span class="md-secondary" ng-if="$ctrl.owner.display.units"
              translate="settings.display.{{$ctrl.owner.display.units}}.short"></span>
         <md-menu class="md-secondary">
@@ -49,7 +49,7 @@
     </md-list-item>
 
     <md-list-item class="mobile-select">
-        <span translate="settings.display.firstDayOfWeek"></span>
+        <span translate="user.settings.display.firstDayOfWeek"></span>
         <span class="md-secondary" style="text-transform: capitalize">
             {{$ctrl.weekdays($ctrl.getFirstDayOfWeek())}}
         </span>

@@ -244,20 +244,6 @@ class SettingsUserCtrl {
         })
         .catch(this.errorHandler());
     }
-
-	toggleActivity (activity) {
-        this.personalSecondForm.$setDirty();
-		if (this.isActivityChecked(activity)) {
-			let index = this.user.personal.activity.indexOf(activity);
-			this.user.personal.activity.splice(index, 1);
-		} else {
-			this.user.personal.activity.push(activity);
-		}
-	}
-
-	isActivityChecked (activity) {
-		return this.user.personal.activity.includes(activity)
-	}
 };
 
 SettingsUserCtrl.$inject = [

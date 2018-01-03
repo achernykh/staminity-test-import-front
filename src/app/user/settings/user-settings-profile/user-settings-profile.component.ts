@@ -26,14 +26,6 @@ class UserSettingsProfileCtrl {
 
     }
 
-    isDirty () : boolean {
-        return true;//this.form.isDirty;
-    }
-
-    isValid () : boolean {
-        return this.form.isValid;
-    }
-
     submit () {
         this.userService.putProfile(this.datamodel.toUserProfile())
         .then((result) => {

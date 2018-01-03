@@ -1,4 +1,3 @@
-import './settings-zones.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {IActivityType} from "../../../../api/activity/activity.interface";
 import {getSportBasic} from "../../activity/activity.constants";

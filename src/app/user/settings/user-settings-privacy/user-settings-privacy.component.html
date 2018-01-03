@@ -2,13 +2,13 @@
     <md-list class="md-dense section">
         <div ng-repeat-start="group in $ctrl.owner.privacy" class="md-no-stiky md-subheader">
             <div class="md-subheader-inner">
-                <div class="" translate="{{'settings.privacy.groups.'+group.key | translate }}"></div>
-                <div class="hint secondary dark" translate="{{'settings.privacy.groups.'+ group.key + 'Hint' | translate }}"></div>
+                <div class="" translate="{{'user.settings.privacy.groups.'+group.key | translate }}"></div>
+                <div class="hint secondary dark" translate="{{'user.settings.privacy.groups.'+ group.key + 'Hint' | translate }}"></div>
             </div>
         </div>
         <md-list-item ng-repeat-end>
             <md-select flex class="" ng-model="group.setup" arial-label="Privacy Level">
-                <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL" translate="{{::'settings.privacy.level.id'+level.id | translate}}"></md-option>
+                <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl._PRIVACY_LEVEL" translate="{{::'user.settings.privacy.level.id'+level.id | translate}}"></md-option>
             </md-select>
         </md-list-item>
     </md-list>

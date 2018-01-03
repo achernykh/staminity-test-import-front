@@ -2,7 +2,7 @@
     <form name="$ctrl.form">
         <md-list-item layout="row" layout-wrap>
             <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="settings.personalInfo.main.firstName"></label>
+                <label translate="user.settings.personalInfo.main.firstName"></label>
                 <input type="text" name="firstName" ng-model="$ctrl.datamodel.firstName" required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
                 <div ng-messages="$ctrl.form.firstName.$error" role="alert">
                     <div ng-message-exp="['required']" translate="form.required"></div>
@@ -11,7 +11,7 @@
             </md-input-container>
             <div flex="10" show hide-xs></div>
             <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="settings.personalInfo.main.lastName"></label>
+                <label translate="user.settings.personalInfo.main.lastName"></label>
                 <input type="text" name="lastName" ng-model="$ctrl.datamodel.lastName" autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
                 <div ng-messages="$ctrl.form.lastName.$error" role="alert">
                     <div ng-message-exp="['required']" translate="form.required"></div>
@@ -21,7 +21,7 @@
         </md-list-item>
         <md-list-item layout="row" layout-wrap layout-align="start center">
             <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="settings.personalInfo.main.uri"></label>
+                <label translate="user.settings.personalInfo.main.uri"></label>
                 <input type="text" name="uri" ng-model="$ctrl.datamodel.uri" required autocomplete="off" ng-disabled="false" minlength="2" maxlength="100">
                 <div ng-messages="$ctrl.form.uri.$error" role="alert">
                     <div ng-message-exp="['required']" translate="form.required">
@@ -54,7 +54,7 @@
             </md-autocomplete>
             <div flex="10"></div>
             <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="settings.personalInfo.main.city"></label>
+                <label translate="user.settings.personalInfo.main.city"></label>
                 <input type="text" name="city" ng-model="$ctrl.datamodel.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
                 <div ng-messages="$ctrl.form.city.$error" role="alert">
                     <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:1, max:100}">
@@ -92,7 +92,7 @@
 
 <md-fab-speed-dial md-theme="default">
     <md-fab-trigger>
-        <md-button class="md-fab md-accent" ng-disabled="!$ctrl.isDirty()" ng-class="{'md-warn': !$ctrl.isValid()}" ng-click="$ctrl.submit()">
+        <md-button class="md-fab md-accent" ng-disabled="!$ctrl.form.isDirty" ng-class="{'md-warn': !$ctrl.form.isValid}" ng-click="$ctrl.submit()">
             <md-icon class="material-icons">save</md-icon>
         </md-button>
     </md-fab-trigger>

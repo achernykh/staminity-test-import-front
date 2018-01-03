@@ -1,5 +1,5 @@
 <section class="user-settings__card">
-    <article id="user-settings-profile">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-profile">
         <h2 class="md-body-2 md-dark">Профиль</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-header owner="$ctrl.owner"></st-user-settings-header>
@@ -11,7 +11,7 @@
             </md-list-item>
         </md-card>
     </article>
-    <article id="user-settings-account">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-account">
         <h2 class="md-body-2 md-dark">Учетная запись</h2>
         <md-card class="user-settings-main__card">
             <md-list>
@@ -22,7 +22,7 @@
             </md-list>
         </md-card>
     </article>
-    <article id="user-settings-privacy">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-privacy">
         <h2 class="md-body-2 md-dark">Настройки приватности</h2>
         <md-card class="user-settings-main__card">
             <md-list>
@@ -33,7 +33,7 @@
             </md-list>
         </md-card>
     </article>
-    <article id="user-settings-fit">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-fit">
         <h2 class="md-body-2 md-dark">Спортивная форма</h2>
         <md-card class="user-settings-main__card">
             <md-list>
@@ -55,32 +55,32 @@
             </md-list>
         </md-card>
     </article>
-    <article id="user-settings-billing">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-billing">
         <h2 class="md-body-2 md-dark">Тарифы и счета</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-tariffs owner="$ctrl.owner"></st-user-settings-tariffs>
             <st-user-settings-bills owner="$ctrl.owner"></st-user-settings-bills>
         </md-card>
     </article>
-    <article id="user-settings-display">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-display">
         <h2 class="md-body-2 md-dark">Настройки отображения</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-display owner="$ctrl.owner" currentUser="$ctrl.currentUser"></st-user-settings-display>
         </md-card>
     </article>
-    <article id="user-settings-sync">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-sync">
         <h2 class="md-body-2 md-dark">Синхронизация</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-sync owner="$ctrl.owner"></st-user-settings-sync>
         </md-card>
     </article>
-    <article id="user-settings-calendars">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-calendars">
         <h2 class="md-body-2 md-dark">Внешние календари</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-calendars owner="$ctrl.owner"></st-user-settings-calendars>
         </md-card>
     </article>
-    <article id="user-settings-notifications">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-notifications">
         <h2 class="md-body-2 md-dark">Уведомления</h2>
         <md-card class="user-settings-main__card">
             <md-list>

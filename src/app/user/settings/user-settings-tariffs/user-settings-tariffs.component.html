@@ -1,5 +1,5 @@
 <md-list class="md-dense section">
-    <md-subheader>{{ 'settings.billing.tariffsHeader' | translate }}</md-subheader>
+    <md-subheader>{{ 'user.settings.billing.tariffsHeader' | translate }}</md-subheader>
     <md-list-item 
         class="md-2-line" 
         ng-repeat-start="tariff in $ctrl.owner.billing.tariffs"
@@ -7,14 +7,14 @@
     >
         <md-icon class="material-icons">person</md-icon>
         <div class="md-list-item-text" ng-switch="property.enabled">
-            <h3>{{ 'settings.billing.tariffs.' + tariff.tariffCode | translate }}</h3>
-            <p>{{ 'settings.billing.tariffStatuses.' + $ctrl.tariffStatus(tariff) | translate:{
+            <h3>{{ 'user.settings.billing.tariffs.' + tariff.tariffCode | translate }}</h3>
+            <p>{{ 'user.settings.billing.tariffStatuses.' + $ctrl.tariffStatus(tariff) | translate:{
                 until: (tariff.expireDate | date:shortDate),
                 club: (tariff.clubProfile | clubName),
                 coach: (tariff.userProfilePayer | userName)
             } }}</p>
             <p ng-if="!['enabledByClub', 'enabledByCoach', 'notEnabled'].includes($ctrl.tariffStatus(tariff))">
-                {{ 'settings.billing.autoRenewalShort' | translate }}: {{ 'settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
+                {{ 'user.settings.billing.autoRenewalShort' | translate }}: {{ 'settings.billing.' + (tariff.autoRenewal? 'isOn' : 'isOff') | translate }}
             </p>
         </div>
         <md-switch

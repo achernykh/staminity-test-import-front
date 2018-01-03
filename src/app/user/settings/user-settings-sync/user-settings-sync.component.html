@@ -6,9 +6,9 @@
             <img ng-src="/assets/icon/{{adaptor.provider}}_{{adaptor.status.switch ? 'on':'off'}}.png"
                  class="md-avatar" style="border-radius: 50%"/>
             <div class="md-list-item-text">
-                <h3> {{ 'settings.sync.'+adaptor.provider | translate}} </h3>
-                <h4>{{ 'settings.sync.status.'+adaptor.status.code+'.title' | translate}}</h4>
-                <p>{{ 'settings.sync.status.'+adaptor.status.code+'.text' | translate:adaptor}}</p>
+                <h3> {{ 'user.settings.sync.'+adaptor.provider | translate}} </h3>
+                <h4>{{ 'user.settings.sync.status.'+adaptor.status.code+'.title' | translate}}</h4>
+                <p>{{ 'user.settings.sync.status.'+adaptor.status.code+'.text' | translate:adaptor}}</p>
             </div>
             <md-switch class="md-secondary md-primary" ng-init="$ctrl.toggle[adaptor.provider] = adaptor.status.switch"
                        ng-model="$ctrl.toggle[adaptor.provider]"

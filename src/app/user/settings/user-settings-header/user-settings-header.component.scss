@@ -1,0 +1,28 @@
+.user-settings-header {
+	&__background {
+		position: relative;
+		height: 150px;
+	}
+
+	&__avatar {
+		position: absolute;
+		top: 16px;
+		left: 16px;
+	}
+
+	&__edit-avatar {
+
+	}
+
+	&__edit-background {
+		position: absolute;
+		bottom: 16px;
+		right: 16px;
+	}
+
+	&__username {
+		position: absolute;
+		bottom: 16px;
+		left: 16px;
+	}
+}

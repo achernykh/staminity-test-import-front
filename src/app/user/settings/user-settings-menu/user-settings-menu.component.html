@@ -1,6 +1,30 @@
 <md-list class="md-dense">
-    <md-list-item ng-repeat="item in $ctrl.items" ng-click="$ctrl.go(item)">
-    	<md-icon class="material-icons">{{::item.icon}}</md-icon>
-        <p class="md-caption" translate>{{::item.label}}</p>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-profile')">
+    	<md-icon class="material-icons">person</md-icon>
+        <p class="md-caption" translate>user.settings.personalInfo.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-privacy')">
+    	<md-icon class="material-icons">security</md-icon>
+        <p class="md-caption" translate>user.settings.privacy.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-display')">
+    	<md-icon class="material-icons">dvr</md-icon>
+        <p class="md-caption" translate>user.settings.display.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-account')">
+    	<md-icon class="material-icons">vpn_key</md-icon>
+        <p class="md-caption" translate>user.settings.account.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-sync')">
+    	<md-icon class="material-icons">sync</md-icon>
+        <p class="md-caption" translate>user.settings.sync.header</p>
+    </md-list-item>
+    <md-list-item ng-click="$ctrl.go('user-settings-zones')">
+    	<md-icon class="material-icons">straighten</md-icon>
+        <p class="md-caption" translate>user.settings.zones.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-notifications')">
+    	<md-icon class="material-icons">notifications</md-icon>
+        <p class="md-caption" translate>user.settings.notification.header</p>
     </md-list-item>
 </md-list>

@@ -1,4 +1,4 @@
-<h2 class="md-title" translate="settings.zones.header"></h2>
+<h2 class="md-title" translate="user.settings.zones.header"></h2>
 <form name="$ctrl.zonesForm">
     <md-list class="md-dense section">
         <md-subheader ng-repeat-start="(intensivityFactor,zone) in $ctrl.owner.trainingZones track by $index">
@@ -7,7 +7,7 @@
         <md-list-item ng-repeat-start="(sportName,sport) in zone track by $index" ng-click="navigateTo('data usage', $event)">
             <md-icon md-svg-src="/assets/icon/{{sportName}}.svg"></md-icon>
             <p><span translate="{{'sport.'+ sportName}}"></span><span> ({{intensivityFactor | measureUnit:'run' | translate}})</span></p>
-            <md-button class="md-secondary" ng-click="doSecondaryAction($event)" translate="settings.zones.editSport"></md-button>
+            <md-button class="md-secondary" ng-click="doSecondaryAction($event)" translate="user.settings.zones.editSport"></md-button>
         </md-list-item>
         <div style="border-radius: 5px; padding: 0px 16px">
             <div ng-repeat="zone in sport.zones track by $index"
