@@ -289,12 +289,15 @@ export class Calendar {
      * @param parentId
      */
     delete (item: ICalendarItem, parentId?: number): void {
-        console.info('delete: check weekday', moment().weekday(0));
         let child: ICalendarItem;
         if (parentId && item.calendarItemType === 'activity') {
             child = copy(item);
             item = this.searchItem(parentId);
-            if (!item) { console.error('delete: parent not found'); return;}
+            if (!item) { console.error('calendar datamodel: delete parent not found'); return;}
+        }
+        if (!item || !item.hasOwnProperty('dateStart')) {
+            console.error(`calendar datamodel: error in item ${item}`);
+            return;
         }
 
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
@@ -302,13 +305,13 @@ export class Calendar {
         let p = w !== -1 ? this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
         if (w !== -1 && d >= 0 && p >= 0) {
-            if (!(parentId && item.calendarItemType === 'activity')) {
-                console.info('delete: item success');
+            if (!parentId) {
+                console.info('calendar datamodel: delete item success');
                 this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
             } else {
                 let pos: number = this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.findIndex(c => c.calendarItemId === child.calendarItemId);
                 if (pos !== -1) {
-                    console.info('delete: child item success');
+                    console.info('calendar datamodel: delete child item success');
                     this.weeks[w].subItem[d].data.calendarItems[p]['index'] ++;
                     this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.splice(pos,1);
                 }
@@ -316,7 +319,7 @@ export class Calendar {
             this.weeks[w].changes++;
             this.$scope.$applyAsync();
         } else {
-            console.error('delete: item not found');
+            console.error('calendar datamodel: delete item not found');
         }
     }
 

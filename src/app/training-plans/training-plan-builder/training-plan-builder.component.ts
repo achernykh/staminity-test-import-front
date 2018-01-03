@@ -91,7 +91,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
             // обьекта
             .delay(500)
             .subscribe((message) => {
-                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                console.info('training plan builder: async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);

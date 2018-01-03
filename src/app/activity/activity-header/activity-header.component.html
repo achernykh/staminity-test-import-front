@@ -117,7 +117,8 @@
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>
-        <md-tab id="zones" flex layout="column" ng-if="!$ctrl.item.activity.view.isTemplate">
+        <md-tab id="zones" flex layout="column"
+                ng-if="::!($ctrl.item.activity.view.isTemplate || $ctrl.item.activity.view.isTrainingPlan)">
             <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
