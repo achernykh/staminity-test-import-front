@@ -1,0 +1,99 @@
+<st-application-frame
+        class="st-application-frame"
+        has-nav-bar="false"
+
+        left-bar-hide-type="'hidden'"
+        left-bar-show="$ctrl.leftBarShow"
+        right-bar-show="$ctrl.rightBarShow">
+
+    <st-application-frame-title>
+        <span>Тренировочный план</span>
+        <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
+        <span>{{$ctrl.plan.name}}</span>
+        <md-menu>
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons" aria-label="Back">settings</md-icon>
+            <span>settings</span>
+        </md-button>
+        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
+            <md-icon class="material-icons" aria-label="Back">group_add</md-icon>
+            <span>appoint</span>
+        </md-button>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-content>
+
+        <md-toolbar class="training-plan-builder__calendar-days-header bg-grey-300 md-whiteframe-1dp md-caption md-dark"
+                    hide show-gt-sm>
+            <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day">{{::day}}</div>
+            <div hide show-gt-md class="total md-caption">Итоги</div>
+        </md-toolbar>
+
+        <!-- grid: start -->
+        <section class="training-plan-builder__calendar-grid bg-grey-200"
+                 scroll-container
+                 on-scroll-hit-bottom="$ctrl.calendar.down(1)"
+                 scroll-keep-position="{{'#hotfix' + $ctrl.currentWeek.anchor}}">
+            <!-- grid-week: start -->
+            <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
+                 id="hotfix{{::week.anchor}}"
+                 ng-mouseover="$ctrl.setCurrentWeek(week)"
+                 class="calendar-week calendar__week"
+                 ng-class="{'calendar__week--current': week.sid == $ctrl.currentWeek.sid, 'calendar__week--loading': week.loading}">
+
+
+                <calendar-day
+                        ng-repeat="day in week.subItem track by day.key"
+                        ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
+                        ng-init="accent=false"
+                        ng-class="{select: day.selected}"
+                        selected="day.selected"
+                        accent="accentDay"
+                        data="day.data"
+                        owner="$ctrl.currentUser"
+                        current-user="$ctrl.currentUser"
+                        dynamic-day="true"
+                        training-plan-mode="true"
+                        plan-id="$ctrl.plan.id"
+                        on-save="$ctrl.saveItem(formMode, item)"
+                        on-select="day.selected = !day.selected">
+                </calendar-day>
+
+                <calendar-total
+                        hide show-gt-md
+                        layout="column"
+                        class="calendar-total md-caption summary"
+                        ng-mouseover="accentTotal=true" ng-mouseleave="accentTotal=false"
+                        ng-init="accent=false"
+                        ng-class="{select: day.selected}"
+                        selected="week.selected"
+                        accent="accentTotal"
+                        update="week.changes"
+                        week="week"
+                        user="$ctrl.currentUser"
+                        dynamic-dates="$ctrl.dynamicDates"
+                        on-toggle="$ctrl.onToggleWeek(sid, value)">
+                    <div class="md-body-1">Неделя {{$index}}</div>
+                </calendar-total>
+
+            </div>
+            <!-- grid-week: end -->
+
+            <div class="scroll__bottom-pad" style="height:100%"></div>
+
+        </section>
+        <!-- grid-weekdays: end -->
+
+    </st-application-frame-content>
+
+</st-application-frame>

@@ -98,11 +98,11 @@ md-dialog#upload {
 
     &__input-promo {
         width: 165px;
-    };
+    }
 
     &__active-promo {
         margin-right: 20px;
-    };
+    }
 }
 
 
@@ -126,12 +126,16 @@ md-dialog#upload {
     &__input-promo {
         width: 165px;
         margin-bottom: 30px;
-    };
+    }
 
     &__active-promo {
         max-width: 250px;
         margin-right: 20px;
-    };
+    }
+
+    &__term-label {
+        font-size: 13px;
+    }
 }
 
 

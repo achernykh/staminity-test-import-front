@@ -7,7 +7,7 @@ class CalendarItemAthleteSelectorCtrl implements IComponentController {
     public coach: any; //IUserProfile
     private athletes: Array<{profile: IUserProfile, active: boolean}> = [];
     private recalculateMode: boolean;
-    public onSelect: (response: {result: Array<{profile: IUserProfile, active: boolean}>, recalculate: boolean}) => IPromise<void>;
+    public onSelect: (response: {list: Array<{profile: IUserProfile, active: boolean}>, mode: boolean}) => IPromise<void>;
     static $inject = [];
 
     constructor() {
@@ -18,15 +18,15 @@ class CalendarItemAthleteSelectorCtrl implements IComponentController {
     }
 
     onBack() {
-        this.onSelect({result: this.athletes, recalculate: this.recalculateMode});
+        this.onSelect({list: this.athletes, mode: this.recalculateMode});
     }
 }
 
 const CalendarItemAthleteSelectorComponent:IComponentOptions = {
     bindings: {
         coach: '<',
-        athletes: '<',
-        recalculateMode: '<',
+        list: '<',
+        mode: '<',
         onSelect: '&'
     },
     require: {

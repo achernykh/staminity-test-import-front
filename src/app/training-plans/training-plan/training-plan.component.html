@@ -1,0 +1,59 @@
+<st-application-frame
+        class="st-application-frame"
+        template="profile"
+        nav-bar="true"
+        nav-bar-state="$ctrl.currentState"
+        left-bar-hide-type="'hidden'"
+        left-bar-show="$ctrl.leftBarShow"
+        right-bar-show="$ctrl.rightBarShow" ng-switch="$ctrl.currentState">
+
+    <st-application-frame-profile>
+        <section class="st-profile-template__header" layout="column" layout-align="center center">
+            <userpic class="border-light"
+                     ng-class="{'size-60': $ctrl.$mdMedia('(max-width: 959px)'), 'size-114': $ctrl.$mdMedia('(min-width: 960px)')}"
+                     profile="$ctrl.user"></userpic>
+            <p class="title"
+               ng-class="{'md-display-1': $ctrl.$mdMedia('(max-width: 959px)'), 'md-display-3': $ctrl.$mdMedia('(min-width: 960px)')}">Alexander Chernykh</p>
+            <p class="description"
+               ng-class="{'md-caption': $ctrl.$mdMedia('(max-width: 959px)'), 'md-body-2': $ctrl.$mdMedia('(min-width: 960px)')}">Some text some text some text some text some text some text some text some text some text some text some text some text</p>
+        </section>
+
+        <md-nav-bar class="st-application-frame__navbar"
+                    md-no-ink-bar="false"
+                    md-selected-nav-item="'First'"
+                    nav-bar-aria-label="navigation links">
+            <md-nav-item  ng-repeat="state in ['First', 'Second', 'Third'] track by $index"
+                          md-nav-click="$ctrl.currentState = state" name="{{::state}}">
+                <span translate="methodology.{{::state}}"></span>
+            </md-nav-item>
+        </md-nav-bar>
+
+    </st-application-frame-profile>
+
+    <st-application-frame-content>
+        <section class="st-profile-template__content">
+            <md-subheader>О себе</md-subheader>
+            <p class="md-body-1 md-dark">Профессиональный спортсмен
+                Персональный тренер
+                Участник трех Олимпийских Игр (Пекин-Лондон-Рио),лучшее место в истории России на Олимпийских Играх по триатлону 7 место. Чемпион Мира в Команде,многократный призер Мировых и Европейских первенств.</p>
+            <md-subheader>Условия занятий</md-subheader>
+            <p class="md-body-1 md-dark">Дистанционные тренировки все включено 20 тыс рублей в месяц,эконом вариант 10 тыс в месяц,плюс скидка если вы берете пакет все включено на 6 мес и год.
+                Индивидуальные тренировки 3 тыс
+                Групповые тренировки 1.5 тыс</p>
+            <md-subheader>Контакты</md-subheader>
+            <p class="md-body-1 md-dark">+79261351918
+                zhylik87@mail.ru
+                instagram    alexanderbryukhankov</p>
+            <md-subheader>Ученики</md-subheader>
+            <p class="md-body-1 md-dark">В триатлоне подготовил несколько человек к первому IRONMAN (2-е сделали это из 10 час), многие прошли 70.3 (3-е сделали из 5 час), на олимпийской и спринт дистанции занимали призовые места. Кроме того, в отдельных дисциплинах:
+
+                Плавательные старты: подготовил к квалификации на Чемпионат Мира Oceanman на 10 км.
+
+                Беговые старты: 2 спортсмена финишировали Берлинский марафон (один из 3 часов), на постоянной основе провожу подготовку учеников к дистанции - 21 км (лучший результат - 1.18) и 10 км.
+
+                Лыжи: дистанции 10-70 км.</p>
+            <md-divider></md-divider>
+        </section>
+    </st-application-frame-content>
+
+</st-application-frame>

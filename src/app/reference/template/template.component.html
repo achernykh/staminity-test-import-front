@@ -1,7 +1,6 @@
-<div 
+<!--<div
 	ng-if="!$ctrl.isMobileLayout"
-	layout="column" class="template-card md-whiteframe-1dp" 
->
+	layout="column" class="template-card">
 	<div flex="none" layout="column" class="template-card__header">
 		<div flex="none" layout="row" layout-align="space-between center">
 			<div style="width: 40px; padding: 8px;">
@@ -51,10 +50,10 @@
 	<div flex="none" class="template-card__footer line-12">
 		{{ $ctrl.description | truncate }}
 	</div>
-</div>
+</div> -->
 
 
-<md-list-item 
+<!--<md-list-item
 	ng-if="$ctrl.isMobileLayout"
 	class="template-row" 
 	layout="row" layout-align="start start"
@@ -67,5 +66,87 @@
 		<div class="template-row__description">{{ $ctrl.description | truncate }}</div>
 	</div>
 	<md-icon ng-if="$ctrl.template.favourite" class="material-icon template-row__favorite-icon">star</md-icon>
-</md-list-item>
+</md-list-item>-->
+
+<div class="template" ng-switch="$ctrl.view">
+    <!-- Вид: компактная плитка-лист
+         Используется в панели шаблонов, при выборе шаблона в тренировке.
+         Вид спорта и категория не выводятся -->
+    <section class="template__compact-list" ng-switch-when="compact-list" ng-click="$ctrl.open($event)">
+        <header class="template-header"
+                layout="row" layout-align="center center">
+            <div class="calendar-item-activity-icon color-{{$ctrl.activityType.code}} bg-circle-20"
+                 ng-if="false"
+                 layout-align="center center">
+                <md-icon class="material-icons md-light md-18"
+                         md-svg-src="/assets/icon/{{ $ctrl.activityType.code }}.svg"></md-icon>
+            </div>
+            <div flex="auto" layout="column">
+                <section flex layout="row" layout-align="start center"
+                         class="md-caption md-dark md-active center" ng-if="false">
+                    <div flex="none" class="line-14">{{$ctrl.template.activityCategory | categoryCode}}</div>
+                </section>
+                <section flex layout="row" layout-align="start center"
+                         class="md-body-2 md-dark center tight-10">
+                    <span class="name" flex="none">{{ $ctrl.name }}</span>
+                </section>
+            </div>
+            <div flex="none" class="favourite-icon" md-colors="{background: 'accent-hue-2'}"
+                 layout="row" layout-align="center center"
+                 ng-if="$ctrl.template.favourite">
+                <md-icon class="material-icons md-light md-18" ng-bind="'star'"></md-icon>
+            </div>
+        </header>
+        <section ng-switch="$ctrl.isStructured" class="description">
+        <span class="md-caption md-dark md-inactive"
+              ng-switch-when="false">{{ $ctrl.description }}</span>
+            <calendar-activity-chart ng-switch-when="true"
+                                     ng-if="::$ctrl.segmentChart"
+                                     data="::$ctrl.segmentChart"
+                                     status="'template'">
+            </calendar-activity-chart>
+        </section>
+    </section>
+    <!-- Вид: карточка
+         Используется в сетке шаблонов. Вид спорта и категория выводятся -->
+    <section class="template__card" ng-switch-when="card" ng-click="$ctrl.open($event)">
+        <header class="template-header"
+                layout="row" layout-align="center center">
+            <div class="calendar-item-activity-icon color-{{$ctrl.activityType.code}} bg-circle-32"
+                 layout="row" layout-align="center center">
+                <md-icon class="material-icons md-light md-24"
+                         md-svg-src="/assets/icon/{{ $ctrl.activityType.code }}.svg"></md-icon>
+                <div class="favourite-icon" md-colors="{background: 'accent-hue-2'}"
+                     layout="row" layout-align="center center"
+                     ng-if="$ctrl.template.favourite">
+                    <md-icon class="material-icons md-light md-18" ng-bind="'star'"></md-icon>
+                </div>
+            </div>
+            <div flex="auto" layout="column">
+                <section flex="none" class="name md-body-2"
+                         ng-bind="$ctrl.name"></section>
+                <section flex class="category md-body-1 line-14"
+                         ng-bind="$ctrl.template.activityCategory | categoryCode">
+                </section>
+            </div>
+            <div flex="none">
+                <md-button class="menu md-icon-button" aria-label="More Event">
+                    <md-icon class="material-icons md-24">more_vert</md-icon>
+                </md-button>
+            </div>
+        </header>
+        <section ng-switch="$ctrl.isStructured" class="description">
+            <!--<span flex class="category md-body-1 line-14"
+                     ng-bind="$ctrl.template.activityCategory | categoryCode">
+            </span>-->
+            <span class="md-caption md-dark"
+                  ng-switch-when="false" ng-bind="$ctrl.description"></span>
+                <calendar-activity-chart ng-switch-when="true"
+                                         ng-if="::$ctrl.segmentChart"
+                                         data="::$ctrl.segmentChart"
+                                         status="'template'">
+                </calendar-activity-chart>
+        </section>
+    </section>
+</div>
 

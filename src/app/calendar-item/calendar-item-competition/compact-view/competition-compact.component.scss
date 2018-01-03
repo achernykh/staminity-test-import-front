@@ -1,0 +1,122 @@
+@import "../../../../sass/color";
+
+.competition-compact {
+
+  position: relative;
+  cursor: pointer;
+  //min-height: 50px;
+
+  &:focus {
+    outline: none;
+  }
+
+  .priority {
+    background-color: $grey-500;
+    color: white;
+    border-radius: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+  }
+
+  .prescription {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-height: 12px;
+    max-height: 48px;
+  }
+
+  header {
+    padding: 10px 12px 12px 12px;
+    background: $grey-300;
+  }
+
+  footer {
+    background: $grey-200;
+    padding: 8px 12px 8px 12px;
+  }
+
+  &__list, &__table {
+    border-radius: 0px;
+    margin: 0px 4px 8px 4px;
+    min-width: 200px;
+    padding-bottom: 0px;
+
+    .calendar-item-activity-icon {
+      margin-right: 16px;
+    }
+    .name {
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      line-height: 16px;
+      max-height: 16px;
+    }
+
+  }
+
+  &__table {
+    margin: 0;
+    min-height: auto;
+    header {
+      padding: 4px;
+      background: none;
+    }
+    .name {
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      line-height: 16px;
+      max-height: 16px;
+    }
+  }
+
+  &__calendar {
+    background-color: $grey-300;
+    margin: 6px 0 0 0;
+    //border-radius: 3px;
+
+    @media (max-width: 1279px) and (min-width: 960px) {
+      box-shadow: none !important;
+      border-radius: 0;
+    }
+
+  }
+
+  &__dashboard {
+    &:focus {
+      outline: none !important;
+    }
+    footer {
+      display: none;
+    }
+    .first-column {
+      margin-right: 8px;
+    }
+
+    .second-column {
+      width: calc(100% - 32px);
+    }
+
+    .name, .duration {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .duration {
+      text-transform: lowercase;
+    }
+  }
+
+}

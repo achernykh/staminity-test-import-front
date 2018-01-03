@@ -1,21 +1,33 @@
 import './calendar-activity.component.scss';
 import moment from 'moment/src/moment.js';
-import {Activity} from '../../activity/activity.datamodel';
+import {Activity} from '../../activity/activity-datamodel/activity.datamodel';
 import {IMessageService} from "../../core/message.service";
 import ActivityService from "../../activity/activity.service";
 import {CalendarService} from "../calendar.service";
 import { IComponentOptions, IComponentController, IFormController,IPromise, IScope, merge} from 'angular';
-import {CalendarCtrl, ICalendarDayData} from "../calendar.component";
+import {CalendarCtrl} from "../calendar.component";
+import { IUserProfile } from '@api/user';
+import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
+import {
+    ICalendarItemDialogOptions,
+    ICalendarItemDialogResponse
+} from "../../calendar-item/calendar-item-dialog.interface";
+import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import { FormMode } from "../../application.interface";
 
 class CalendarActivityCtrl {
 
-    calendar: CalendarCtrl;
+    owner: IUserProfile;
+    currentUser: IUserProfile;
     item: any;
     selected: boolean;
     accent: boolean;
 
     data: Activity;
-    isCreator: boolean = false;
+    trainingPlanMode: boolean;
+    onSave: (response: ICalendarItemDialogResponse) => Promise<any>;
+
+    //isCreator: boolean = false;
     structured: boolean;
     segmentList: Array<any> = [];
     segmentListSize: number = null;
@@ -23,7 +35,8 @@ class CalendarActivityCtrl {
     collapse: {show:boolean} = {show: true};
     bottomPanelData: any = null;
 
-    static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs'];
+    static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs',
+        'CalendarItemDialogService'];
 
     constructor(
         private $scope: IScope,
@@ -31,14 +44,19 @@ class CalendarActivityCtrl {
         private ActivityService: ActivityService,
         private message: IMessageService,
         private CalendarService: CalendarService,
-        private dialogs: any){
+        private dialogs: any,
+        private calendarItemDialog: CalendarItemDialogService){
 
     }
 
     $onInit() {
-        this.data = new Activity(this.item);
+        this.data = new Activity(this.item, {
+            currentUser: this.currentUser,
+            owner: this.owner,
+            trainingPlanMode: this.trainingPlanMode
+        });
         //this.data.prepare();
-        this.isCreator = this.data.userProfileCreator.userId === this.calendar.currentUser.userId;
+        //this.isCreator = this.data.userProfileCreator.userId === this.currentUser.userId;
         //console.log('calendar-activity=',this.data.revision, this.item.revision, this.data, this.item);
         if (this.data.bottomPanel === 'data') {
             this.bottomPanelData = this.data.summaryAvg;
@@ -65,7 +83,7 @@ class CalendarActivityCtrl {
         //this.planned = moment().diff(moment(this.item.dateStart, 'YYYY-MM-DD'), 'd') < 1;
 
 
-        if (this.data.structured) {
+        if (this.data.isStructured) {
             let comulativeDuration = 0;
             for (let interval of this.data.activityHeader.intervals) {
                 // Собираем лист сегментов
@@ -262,6 +280,21 @@ class CalendarActivityCtrl {
         return icon;
     }
 
+    open (e: Event, item: ICalendarItem): void {
+        let options: ICalendarItemDialogOptions = {
+            //dateStart: data.date,
+            currentUser: this.currentUser,
+            owner: this.owner,
+            popupMode: true,
+            formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
+            trainingPlanMode: this.trainingPlanMode,
+            //planId: this.planId
+        };
+
+        this.calendarItemDialog.activity(e, options, item)
+            .then((response) => this.onSave(response), () => {});
+    }
+
     onOpen($event, mode) {
         this.$mdDialog.show({
             controller: DialogController,
@@ -282,7 +315,7 @@ class CalendarActivityCtrl {
             locals: {
                 data: this.data,
                 mode: mode,
-                user: this.calendar.user
+                user: this.owner
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -343,12 +376,16 @@ DialogController.$inject = ['$scope','$mdDialog'];
 const CalendarActivityComponent: IComponentOptions = {
     bindings: {
         item: '<',
+        owner: '<', //owner
+        currentUser: '<',
         selected: '<',
         accent: '<',
+        trainingPlanMode: '<',
+        onSave: '&',
         onSelect: '&'
     },
     require: {
-        calendar: '^calendar'
+        //calendar: '^calendar'
     },
     controller: CalendarActivityCtrl,
     template: require('./calendar-activity.component.html') as string

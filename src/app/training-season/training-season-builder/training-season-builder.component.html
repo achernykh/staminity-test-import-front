@@ -1,0 +1,117 @@
+<st-application-frame
+        class="st-application-frame training-season-builder"
+        template="application"
+        navigation-bar="false"
+        left-bar="$ctrl.isListState || $ctrl.isLargeScreen"
+
+        has-nav-bar=""
+        left-bar-hide-type=""
+        left-bar-show=""
+        right-bar-show="">
+
+    <st-application-frame-title>
+        <span class="md-title" translate="trainingSeason.fullTitle"></span>
+        <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
+        <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'compact'}}</span>
+        <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.setOwner(athlete)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete" unlink="true"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.currentUser" unlink="true"></userpic>
+                        <span>{{$ctrl.currentUser | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <md-icon class="material-icons" aria-label="Back" ng-if="$ctrl.isBuilderState">keyboard_arrow_right</md-icon>
+        <span ng-if="$ctrl.isBuilderState">{{$ctrl.season.code}}</span>
+        <md-menu ng-if="$ctrl.seasons.length > 0 && $ctrl.isBuilderState">
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="season in $ctrl.seasons track by season.id">
+                    <md-button ng-click="$ctrl.setSeason(season)"
+                               ng-disabled="season.id === $ctrl.season.id">
+                        <span>{{season.code}}&nbsp;({{season.dateStart}}-{{season.dateEnd}})</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+
+    <!-- Toolbar -->
+    <st-application-frame-toolbar layout="row"><!--
+        <md-button layout="row" ng-click="$ctrl.open($event)" class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons" aria-label="New">add_circle_outline</md-icon>
+            <span translate="trainingSeason.create">settings</span>
+        </md-button>
+        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons" aria-label="Edit">edit</md-icon>
+            <span translate="trainingSeason.edit">settings</span>
+        </md-button>
+        <md-button layout="row" ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings">
+            <md-icon class="material-icons" md-svg-src="/assets/icon/competition.svg" aria-label="Back"></md-icon>
+            <span translate="trainingSeason.addCompetition"></span>
+        </md-button>-->
+    </st-application-frame-toolbar>
+
+    <st-application-frame-left-bar>
+        <md-content class="training-season-builder__left-bar" layout="column" layout-fill="true">
+            <md-subheader flex="none">
+                <span translate="trainingSeason.competitions"></span>
+            </md-subheader>
+            <md-content flex="auto" class="competition-list" layout="column">
+                <div flex="none" class="date md-caption md-dark"
+                     ng-repeat-start="item in $ctrl.competitions track by item.index">
+                    <span>{{item.dateStart | date}}</span>
+                </div>
+                <st-competition-compact ng-repeat-end layout="column" flex="none"
+                                        class="competition-compact"
+                                        view="'list'"
+                                        item="item"
+                                        on-answer="$ctrl.updateCompetition(formMode, item)"
+                                        options="$ctrl.itemOptions">
+                </st-competition-compact>
+            </md-content>
+            <md-dialog-buttons flex="none" layout="row">
+                <div flex></div>
+                <md-button ng-click="$ctrl.postCompetition($event)">
+                    <span translate="competition.action.post"></span>
+                </md-button>
+            </md-dialog-buttons>
+        </md-content>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content>
+        <!-- Перечень Планов на сезон по пользователю -->
+        <st-training-season-list id="st-training-season-list" class="state"
+                                 ng-if="$ctrl.isListState"
+                                 data="$ctrl.seasons"
+                                 owner="$ctrl.owner"
+                                 on-post="$ctrl.updateSeasons(season)"
+                                 on-select="$ctrl.setSeason(season)"></st-training-season-list>
+        <!-- План на сезон -->
+        <st-training-season-data id="st-training-season-data"
+                                 class="state"
+                                 ng-if="$ctrl.isBuilderState"
+                                 data="$ctrl.data"
+                                 current-user="$ctrl.currentUser"
+                                 owner="$ctrl.owner"
+                                 recalculate="$ctrl.recalculate"
+                                 on-change-competition="$ctrl.updateCompetition(formMode, item)"></st-training-season-data>
+    </st-application-frame-content>
+
+</st-application-frame>

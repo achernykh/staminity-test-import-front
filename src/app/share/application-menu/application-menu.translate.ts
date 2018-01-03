@@ -9,6 +9,7 @@ export const _application_menu = {
         season: 'Планы на сезон',
         groups: 'Группы',
         athletes: 'Спортсмены',
+        methodology: 'Методология',
         admin: 'Панель администрирования'
     },
     en: {
@@ -21,6 +22,7 @@ export const _application_menu = {
         season: 'Season plans',
         groups: 'Groups',
         athletes: 'Athletes',
+        methodology: 'Methodology',
         admin: 'Admin panel'
     }
 };

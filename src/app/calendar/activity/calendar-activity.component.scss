@@ -4,18 +4,19 @@
 
 calendar-activity {
 
-  @extend .bg-grey-300;
-  @extend .md-whiteframe-1dp;
+  background-color: $grey-300;
+  //@extend .bg-grey-300;
+  //@extend .md-whiteframe-1dp;
 
   // xs & sm size
   @media (min-width: 0px) and (max-width: 959px) {
-    @include border-radius(3px);
-    box-shadow: none !important;
+   // @include border-radius(3px);
+    //box-shadow: none !important;
     margin-bottom: 8px;
   }
 
   .activity-header {
-    @include border-radius-custom(3px, 3px, 0px, 0px);
+    //@include border-radius-custom(3px, 3px, 0px, 0px);
     padding: 10px 12px 12px 12px;
 
     &:focus {
@@ -168,8 +169,8 @@ calendar-activity {
 
   .activity-footer {
     @include border-radius-custom(0px, 0px, 3px, 3px);
-    padding: 10px 12px 12px 12px;
-    border-top: solid 1px rgba($grey-500, 0.5);
+    padding: 8px 12px 8px 12px;
+    //border-top: solid 1px rgba($grey-500, 0.5);
     @extend .bg-grey-200;
 
     .bt-more {

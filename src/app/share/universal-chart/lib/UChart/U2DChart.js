@@ -118,7 +118,6 @@ class U2DChart extends USvgChart {
             .map(v => v.getConfig().getOptions())
             .filter(function(d) {
                 if (excludeInvisible) {
-                    return true;
                     return d['scaleVisible'] !== false;
                 } else {
                     return true;

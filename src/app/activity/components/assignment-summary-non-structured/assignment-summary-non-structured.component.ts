@@ -95,17 +95,17 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.$scope.measureOrder.hasOwnProperty(measure.$key) && this.$scope.measureOrder[measure.$key] || 300;
 
         this.$scope.search = (measure) =>
-        this.$scope.measure[this.item.activity.sportBasic || 'default'].indexOf(measure.$key) !== -1;
+        this.$scope.measure[this.item.activity.header.sportBasic || 'default'].indexOf(measure.$key) !== -1;
     }
 
     $onInit() {
         // расчет процента по позициям планогово задания в тренировке
         this.prepareData();
-        this.$scope.measure[this.item.activity.sportBasic || 'default'].forEach(key => {
+        this.$scope.measure[this.item.activity.header.sportBasic || 'default'].forEach(key => {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
         this.prepareValues();
-        this.ftpMode = this.item.template ? FtpState.On : FtpState.Off;
+        this.ftpMode = this.item.options.templateMode ? FtpState.On : FtpState.Off;
         this.validateForm();
 
     }
@@ -132,7 +132,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     showRow(measure: string) {
 
-        if (this.item.mode !== 'view') {
+        if (!this.item.activity.view.isView) {
             return true;
         }
 
@@ -144,8 +144,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     prepareData(): void {
-        this.plan = this.item.activity.intervalPW;
-        this.actual = this.item.activity.intervalW.calcMeasures;
+        this.plan = this.item.activity.intervals.PW;
+        this.actual = this.item.activity.intervals.W.calcMeasures;
         this.$scope.$evalAsync();
     }
 
@@ -174,7 +174,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     getFTP(measure: string, sport: string = this.sport):number {
-        let zones = this.item.user.trainingZones;
+        let zones = this.item.options.owner.trainingZones;
         return (this.isInterval(measure) && 0) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
@@ -263,12 +263,6 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     validateForm() {
 
-        /**if (this.form.hasOwnProperty('plan_distance')) {
-            this.form.$setValidity('needDuration', this.item.activity.structured || (!this.item.activity.structured &&
-                (this.form.hasOwnProperty('plan_distance') || this.form.hasOwnProperty('plan_movingDuration') ||
-                this.form.hasOwnProperty('actual_distance') || this.form.hasOwnProperty('actual_movingDuration'))));
-        }**/
-
         if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
@@ -305,7 +299,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.form['dateStart'].$setValidity('needPermissionForFeature',
                 !isFutureDay(this.form['dateStart'].$modelValue) ||
                 this.AuthService.isActivityPlan() ||
-                (!this.item.isOwner && this.AuthService.isActivityPlanAthletes()));
+                (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
 
                 //!this.item.isOwner || this.AuthService.isActivityPlan() ||
                 //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));

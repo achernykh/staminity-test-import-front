@@ -1,0 +1,29 @@
+.training-season-chart {
+  position: relative;
+  height: 15vh;
+  margin: 16px;
+
+  .chart-duration {
+    .series-axis {
+      display: none;
+    }
+  }
+
+  .chart-mesocycles {
+    position: absolute;
+    width: 100%;
+    bottom: -10px;
+    height: 40px;
+    min-height: 40px;
+
+    .domain, .tick line {
+      stroke: rgba(0,0,0, 0.34);
+    }
+
+    .tick text {
+      fill: rgba(0,0,0, 0.34);
+    }
+
+  }
+
+}

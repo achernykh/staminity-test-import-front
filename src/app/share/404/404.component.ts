@@ -1,10 +1,10 @@
-import './404.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
+import "./404.component.scss";
 
 class PageNotFoundCtrl implements IComponentController {
 
-    public data: any;
-    public onEvent: (response: Object) => IPromise<void>;
+    data: any;
+    onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
     constructor() {
@@ -16,16 +16,16 @@ class PageNotFoundCtrl implements IComponentController {
     }
 }
 
-const PageNotFoundComponent:IComponentOptions = {
+const PageNotFoundComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        onEvent: '&'
+        data: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: PageNotFoundCtrl,
-    template: require('./404.component.html') as string
+    template: require("./404.component.html") as string,
 };
 
 export default PageNotFoundComponent;

@@ -46,7 +46,7 @@ function shouldHandle (request) {
 function cachedFetch (request) {
 	return caches.match(request)
 		.then(hasResult)
-		.then(dump('sw cached', request), dumpError('sw not cached', request))
+		//.then(dump('sw cached', request), dumpError('sw not cached', request))
 		.catch(() => {
 			let response = fetch(request);
 			let cache = caches.open(cacheKey);

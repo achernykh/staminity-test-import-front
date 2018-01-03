@@ -3,42 +3,61 @@ import { IComponentOptions, IComponentController, IPromise, INgModelController }
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { CalendarItemRecord } from "./calendar-item-record.datamodel";
-import SessionService from "../../core/session.service";
+import { SessionService } from "../../core";
 import { CalendarService } from "../../calendar/calendar.service";
 import { ICalendarItemRecordConfig } from "./calendar-item-record.config";
 import MessageService from "../../core/message.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
+import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "../calendar-item-dialog.interface";
+import { CalendarItemDialogService } from "../calendar-item-dialog.service";
+import { FormMode } from "../../application.interface";
 
-class CalendarItemRecordCtrl implements IComponentController {
+export class CalendarItemRecordCtrl implements IComponentController {
 
     // bind
-    data: ICalendarItem;
-    mode: 'put' | 'view' | 'post';
+    item: ICalendarItem;
+    options: ICalendarItemDialogOptions;
     owner: IUserProfile;
-    calendarRange: Array<string>;
+    onAnswer: (response: ICalendarItemDialogResponse) => Promise<void>;
     onCancel: () => IPromise<void>;
 
     // public
     record: CalendarItemRecord;
-    user: IUserProfile;
 
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'message', 'quillConfig'];
+    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'CalendarItemDialogService',
+        'message', 'quillConfig'];
 
-    constructor (private config: ICalendarItemRecordConfig,
-                 private session: SessionService,
-                 private calendarService: CalendarService,
-                 private message: MessageService,
-                 private quillConf: IQuillConfig) {
+    constructor (
+        private config: ICalendarItemRecordConfig,
+        private session: SessionService,
+        private calendarService: CalendarService,
+        private calendarDialog: CalendarItemDialogService,
+        private message: MessageService,
+        private quillConf: IQuillConfig
+    ) {
 
     }
 
     $onInit () {
-        this.user = this.session.getUser();
-        this.record = new CalendarItemRecord(this.data, this.user);
+        this.record = new CalendarItemRecord(this.item, this.options);
+    }
+
+    /**
+     * Диалог просмотра Записи
+     * @param e
+     */
+    open (e: Event): void {
+        this.calendarDialog.record(e, Object.assign(this.options, {formMode: FormMode.View}), this.record)
+            .then(response => this.onAnswer(response));
+    }
+
+    edit (e: Event): void {
+        this.calendarDialog.record(e, Object.assign(this.options, {formMode: FormMode.Put}), this.record)
+            .then(response => this.onAnswer(response));
     }
 
     toggle (item, list) {
@@ -65,20 +84,19 @@ class CalendarItemRecordCtrl implements IComponentController {
 
     onSave () {
 
+        this.record.recordHeader.editParams.asyncEventsDateFrom = this.options.calendarRange.dateStart;
+        this.record.recordHeader.editParams.asyncEventsDateTo = this.options.calendarRange.dateEnd;
 
-        [this.record.recordHeader.editParams.asyncEventsDateFrom,
-            this.record.recordHeader.editParams.asyncEventsDateTo] = this.calendarRange;
-
-        if ( this.mode === 'post' ) {
-            this.calendarService.postItem(this.record.build(this.mode))
+        if ( this.record.view.isPost ) {
+            this.calendarService.postItem(this.record.build())
                 .then(response => {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
                     this.close();
                 }, error => this.message.toastError(error));
         }
-        if ( this.mode === 'put' ) {
-            this.calendarService.putItem(this.record.build(this.mode))
+        if ( this.record.view.isPut ) {
+            this.calendarService.putItem(this.record.build())
                 .then((response)=> {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
@@ -95,8 +113,31 @@ class CalendarItemRecordCtrl implements IComponentController {
             }, error => this.message.toastError(error));
     }
 
-    private get isViewMode (): boolean {
-        return this.mode === 'view';
+    onEditorCreated (editor) {
+        editor.getModule('toolbar').addHandler('image', () => {
+            new Promise((resolve, reject) => {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.click();
+
+                input.onchange = () => {
+                    const file = input.files[0];
+
+                    if (/^image\//.test(file.type)) {
+                        resolve(file);
+                    } else {
+                        reject();
+                    }
+                };
+            })
+            .then((picture) => this.calendarService.postImage(picture))
+            .then((url) => {
+                const range = editor.getSelection();
+                editor.insertEmbed(range.index, 'image', url);
+            }, (error) => {
+                this.message.toastError(error);
+            });
+        });
     }
 
     private close (): void {
@@ -107,10 +148,9 @@ class CalendarItemRecordCtrl implements IComponentController {
 
 export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
-        data: '=', // CalendarItem
-        mode: '@', // Режим открытия: 'put' изменить | 'view' просмотр | 'post' создание
-        user: '<', // UserProfile для userProfileOwner,
-        calendarRange: '=', // Загруженный календарь [начало, окончание]
+        item: '=', // CalendarItem
+        options: '<',
+        onAnswer: '&',
         onCancel: '&', // отмена открытия
     },
     require: {

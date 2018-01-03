@@ -1,6 +1,6 @@
 ﻿export enum ScaleType {
     X,
-    Y
+    Y,
 }
 
 export interface IScaleInfo {

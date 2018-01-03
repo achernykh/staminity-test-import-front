@@ -1,14 +1,14 @@
-import {IAnalyticsChart, AnalyticsChartLayout} from "./analytics-chart/analytics-chart.model";
 import {PeriodOptions} from "./analytics-chart-filter/analytics-chart-filter.model";
+import {AnalyticsChartLayout, IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
 
-const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63",'#3F51B5','#00BCD4','#8BC34A','#FFC107','#795548','#9C27B0','#2196F3','#009688','#CDDC39','#FF9800','#9E9E9E'];
+const paletteAll500 = ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63", "#3F51B5", "#00BCD4", "#8BC34A", "#FFC107", "#795548", "#9C27B0", "#2196F3", "#009688", "#CDDC39", "#FF9800", "#9E9E9E"];
 const paletteSports = ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"];
-const paletteBpm = ['#F8BBD0','#F48FB1','#F06292','#EC407A','#E91E63','#D81B60','#C2185B','#AD1457','#880E4F'];
-const palettePace = ['#BBDEFB','#90CAF9','#65B5F6','#42A5F5','#2196F3','#1E88E5','#1976D2','#1566C0','#0D47A1'];
-const palettePower = ['#D1C4E9','#B39DDB','#9575CD','#7E57C2','#673AB7','#5E35B1','#512DA8','#4527A0','#311B92'];
+const paletteBpm = ["#F8BBD0", "#F48FB1", "#F06292", "#EC407A", "#E91E63", "#D81B60", "#C2185B", "#AD1457", "#880E4F"];
+const palettePace = ["#BBDEFB", "#90CAF9", "#65B5F6", "#42A5F5", "#2196F3", "#1E88E5", "#1976D2", "#1566C0", "#0D47A1"];
+const palettePower = ["#D1C4E9", "#B39DDB", "#9575CD", "#7E57C2", "#673AB7", "#5E35B1", "#512DA8", "#4527A0", "#311B92"];
 
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
-export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
+export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
     /**
      1-coach.Объемы по расстоянию по ученикам
      */
@@ -17,11 +17,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: ["CoachDashboard"],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'distanceByAthletesByPeriods',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "distanceByAthletesByPeriods",
         context: [],
-        description: 'distanceByAthletesByPeriods.description',
-        globalParams: false,
+        description: "distanceByAthletesByPeriods.description",
+        globalParams: true,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -29,21 +29,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "users",
                 "text": "users",
                 "model": "first5", //первые 5 спортсменов
-                options: []
+                options: [],
             },
             "activityTypes": {
                 "type": "checkbox",
                 "area": "params",
                 "name": "activityTypes",
                 "text": "activityTypes",
-                "model": null //все
+                "model": null, //все
             },
             activityCategories: {
-                type: 'checkbox',
-                area: 'params',
-                name: 'activityTypes',
-                text: 'activityTypes',
-                model: null
+                type: "checkbox",
+                area: "params",
+                name: "activityTypes",
+                text: "activityTypes",
+                model: null,
 
             },
             "periods": {
@@ -56,71 +56,71 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "thisYear",
                     "thisMonth",
                     "thisWeek",
-                    "customPeriod"
-                ]
-            }
+                    "customPeriod",
+                ],
+            },
         },
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'month',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "month",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'cumulative',
-                text: 'cumulative',
+                type: "radio",
+                area: "measures",
+                name: "cumulative",
+                text: "cumulative",
                 model: false,
-                options: [false,true],
+                options: [false, true],
                 change: {
-                    'false': {
-                        cumulative: false
+                    "false": {
+                        cumulative: false,
                     },
-                    'true': {
-                        cumulative: true
-                    }
-                }
-            }
+                    "true": {
+                        cumulative: true,
+                    },
+                },
+            },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": false,
                 },
                 "currentPositionLine": {
-                    "enabled": false
+                    "enabled": false,
                 },
-                "palette": paletteAll500
+                "palette": paletteAll500,
             },
             series : [{
                 "label" : "Период",
@@ -137,7 +137,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType" : "value",
                 "seriesDateTrunc" : "month",
-                "groupByIntervalLength" : 1
+                "groupByIntervalLength" : 1,
             },
                 {
                     "label" : "Атлет",
@@ -180,10 +180,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "value",
-                "aggMethod" : "sum"
-            }]
+                "aggMethod" : "sum",
+            }],
 
-        }]
+        }],
     },
     /**
      2-coach.Объемы по времени по ученикам
@@ -193,11 +193,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: ["CoachDashboard"],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'durationByAthletesByPeriods',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "durationByAthletesByPeriods",
         context: [],
-        description: 'durationByAthletesByPeriods.description',
-        globalParams: false,
+        description: "durationByAthletesByPeriods.description",
+        globalParams: true,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -205,21 +205,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "users",
                 "text": "users",
                 "model": "first5", //первые 5 спортсменов
-                options: []
+                options: [],
             },
             "activityTypes": {
                 "type": "checkbox",
                 "area": "params",
                 "name": "activityTypes",
                 "text": "activityTypes",
-                "model": null //все
+                "model": null, //все
             },
             activityCategories: {
-                type: 'checkbox',
-                area: 'params',
-                name: 'activityTypes',
-                text: 'activityTypes',
-                model: null
+                type: "checkbox",
+                area: "params",
+                name: "activityTypes",
+                text: "activityTypes",
+                model: null,
 
             },
             "periods": {
@@ -232,71 +232,71 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "thisYear",
                     "thisMonth",
                     "thisWeek",
-                    "customPeriod"
-                ]
-            }
+                    "customPeriod",
+                ],
+            },
         },
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'month',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "month",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'cumulative',
-                text: 'cumulative',
+                type: "radio",
+                area: "measures",
+                name: "cumulative",
+                text: "cumulative",
                 model: false,
-                options: [false,true],
+                options: [false, true],
                 change: {
-                    'false': {
-                        cumulative: false
+                    "false": {
+                        cumulative: false,
                     },
-                    'true': {
-                        cumulative: true
-                    }
-                }
-            }
+                    "true": {
+                        cumulative: true,
+                    },
+                },
+            },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": false,
                 },
                 "currentPositionLine": {
-                    "enabled": false
+                    "enabled": false,
                 },
-                "palette": paletteAll500
+                "palette": paletteAll500,
             },
             series : [{
                 "label" : "Период",
@@ -313,7 +313,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType" : "value",
                 "seriesDateTrunc" : "month",
-                "groupByIntervalLength" : 1
+                "groupByIntervalLength" : 1,
             },
                 {
                     "label" : "Атлет",
@@ -356,10 +356,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "value",
-                "aggMethod" : "sum"
-            }]
+                "aggMethod" : "sum",
+            }],
 
-        }]
+        }],
     },
     /**
      * 3. Фактическое время тренировок
@@ -374,91 +374,91 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'actualMovingDuration',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "actualMovingDuration",
         context: [{
             ind: 0,
             idx: 1,
-            area: 'measures',
-            param: 'cumulative'
-        },{
+            area: "measures",
+            param: "cumulative",
+        }, {
             ind: 0,
             idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
+            area: "series",
+            param: "seriesDateTrunc",
         }],
-        description: 'actualMovingDuration.description',
+        description: "actualMovingDuration.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'month',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "month",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'cumulative',
-                text: 'cumulative',
+                type: "radio",
+                area: "measures",
+                name: "cumulative",
+                text: "cumulative",
                 model: false,
-                options: [false,true],
+                options: [false, true],
                 change: {
-                    'false': {
+                    "false": {
                         cumulative: false,
-                        chartType: 'bar',
-                        fillType: 'gradient',
+                        chartType: "bar",
+                        fillType: "gradient",
                         lineWidth: 0,
-                        avgValueLine: true
+                        avgValueLine: true,
                     },
-                    'true': {
+                    "true": {
                         cumulative: true,
-                        chartType: 'area',
-                        fillType: 'gradient',
+                        chartType: "area",
+                        fillType: "gradient",
                         lineWidth: 3,
-                        avgValueLine: false
-                    }
-                }
-            }
+                        avgValueLine: false,
+                    },
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
+                    "color": "rgba(0,0,0,0.5)",
                 },
-                "colorPalette": false
+                "colorPalette": false,
             },
             series : [{
                 label : "Период",
@@ -470,20 +470,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 currentPositionLine: true,
                 idx: 0,
                 measureSource: "activity.startDate",
-                seriesDateTrunc: 'month',
+                seriesDateTrunc: "month",
                 measureName: "Months",
                 dataType: "date",
                 dateFormat: "DD.MM",
                 valueType: "value",
-                groupByIntervalLength: 1
+                groupByIntervalLength: 1,
             }],
             measures : [{
                 label: "Время",
                 unit: "ч",
-                chartType: 'bar',
+                chartType: "bar",
                 stacked: false,
                 cumulative: false,
-                smoothSettings: 'curveCardinal',
+                smoothSettings: "curveCardinal",
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
@@ -499,11 +499,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 gradient: [{
                     offset: "0%",
                     color: "#CFD8DC", // deep-orange-50
-                    opacity: 0.2
+                    opacity: 0.2,
                 }, {
                     offset: "100%",
                     color: "#607D8B", // deep-orange-300
-                    opacity: 0.6
+                    opacity: 0.6,
                 }],
                 markerColor: "#455A64", // deep-orange-300
                 avgValueLineColor: "#455A64", //
@@ -514,8 +514,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dataType: "number",
                 dateFormat: "",
                 valueType: "value",
-                aggMethod: "sum"
-            }/**,{
+                aggMethod: "sum",
+            }, /**,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -584,8 +584,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "valueType": "value",
                 "aggMethod": "avg",
                 "reverse": false
-            }*/]
-        }]
+            }*/],
+        }],
     },
     /**
      * 4. Фактическое расстояние по тренировкам
@@ -600,91 +600,91 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'actualDistance',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "actualDistance",
         context: [{
             ind: 0,
             idx: 1,
-            area: 'measures',
-            param: 'cumulative'
-        },{
+            area: "measures",
+            param: "cumulative",
+        }, {
             ind: 0,
             idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
+            area: "series",
+            param: "seriesDateTrunc",
         }],
-        description: 'actualDistance.description',
+        description: "actualDistance.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'month',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "month",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'cumulative',
-                text: 'cumulative',
+                type: "radio",
+                area: "measures",
+                name: "cumulative",
+                text: "cumulative",
                 model: true,
-                options: [false,true],
+                options: [false, true],
                 change: {
-                    'false': {
+                    "false": {
                         cumulative: false,
-                        chartType: 'bar',
-                        fillType: 'gradient',
+                        chartType: "bar",
+                        fillType: "gradient",
                         lineWidth: 0,
-                        avgValueLine: true
+                        avgValueLine: true,
                     },
-                    'true': {
+                    "true": {
                         cumulative: true,
-                        chartType: 'area',
-                        fillType: 'gradient',
+                        chartType: "area",
+                        fillType: "gradient",
                         lineWidth: 3,
-                        avgValueLine: false
-                    }
-                }
-            }
+                        avgValueLine: false,
+                    },
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
+                    "color": "rgba(0,0,0,0.5)",
                 },
-                "colorPalette": false
+                "colorPalette": false,
             },
             series : [{
                 label: "Период",
@@ -696,18 +696,18 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 currentPositionLine: true,
                 idx: 0,
                 measureSource: "activity.startDate",
-                seriesDateTrunc: 'month',
+                seriesDateTrunc: "month",
                 measureName: "Months",
                 dataType: "date",
                 dateFormat: "DD.MM",
                 valueType: "value",
-                groupByIntervalLength: 1
+                groupByIntervalLength: 1,
             }],
             measures : [{
                 label: "Расстояние",
                 unit: "км",
                 chartType: "area",
-                smoothSettings: 'curveCardinal',
+                smoothSettings: "curveCardinal",
                 stacked: false,
                 cumulative: true,
                 tooltipType: "icon",
@@ -725,11 +725,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 gradient: [{
                     offset: "0%",
                     color: "#CFD8DC", // deep-orange-50
-                    opacity: 0.2
+                    opacity: 0.2,
                 }, {
                     offset: "100%",
                     color: "#607D8B", // deep-orange-300
-                    opacity: 0.6
+                    opacity: 0.6,
                 }],
                 markerColor: "#455A64", // deep-orange-300
                 avgValueLineColor: "#455A64", //
@@ -740,8 +740,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 dataType: "number",
                 dateFormat: "",
                 valueType: "value",
-                aggMethod: "sum"
-            }/*,{
+                aggMethod: "sum",
+            }, /*,{
                 "id": "TL",
                 "label": "TL",
                 "unit": "",
@@ -812,9 +812,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "reverse": false
             }*/
 
-
-            ]
-        }]
+            ],
+        }],
     },
      /**
      5.Показатели по периодам (конструктор)
@@ -824,22 +823,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'activityMeasuresSelected',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "activityMeasuresSelected",
         context: [{
                 ind: 0,
                 idx: 0,
-                area: 'series',
-                param: 'seriesDateTrunc'
+                area: "series",
+                param: "seriesDateTrunc",
             },
             {
                 ind: 0,
                 idx: 1,
-                area: 'measures',
-                param: 'measureName'
+                area: "measures",
+                param: "measureName",
             }],
-        description: 'activityMeasuresSelected.description',
-        globalParams: false,
+        description: "activityMeasuresSelected.description",
+        globalParams: true,
         localParams: {
             "users": {
                 "type": "checkbox",
@@ -847,21 +846,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "name": "users",
                 "text": "users",
                 "model": "me",
-                options: []
+                options: [],
             },
             "activityTypes": {
                 "type": "checkbox",
                 "area": "params",
                 "name": "activityTypes",
                 "text": "activityTypes",
-                "model": [2, 3, 4, 5, 6]
+                "model": [2, 3, 4, 5, 6],
             },
             activityCategories: {
                 type: "checkbox",
-                area: 'params',
-                name: 'activityCategories',
-                text: 'activityCategories',
-                model: []
+                area: "params",
+                name: "activityCategories",
+                text: "activityCategories",
+                model: [],
             },
             "periods": {
                 "type": "date",
@@ -873,74 +872,74 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "thisYear",
                     "thisMonth",
                     "thisWeek",
-                    "customPeriod"
-                ]
-            }
+                    "customPeriod",
+                ],
+            },
         },
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'week',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "week",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                  ind: [0],
                  idx: [1],
-                 type: 'radio',
-                 area: 'measures',
-                 name: 'measureName',
-                 text: 'volume',
-                 model: 'duration',
-                 options: ['duration','distance'],
+                 type: "radio",
+                 area: "measures",
+                 name: "measureName",
+                 text: "volume",
+                 model: "duration",
+                 options: ["duration", "distance"],
                  change: {
                     duration: {
-                        measureName: 'duration',
-                        unit: 'ч',
-                        label: 'Время',
+                        measureName: "duration",
+                        unit: "ч",
+                        label: "Время",
                     },
                     distance: {
-                        measureName: 'distance',
-                        unit: 'км',
-                        label: 'Расстояние',
-                    }
-                 }
+                        measureName: "distance",
+                        unit: "км",
+                        label: "Расстояние",
+                    },
+                 },
             },
             {
                 ind: [0],
-                idx: [2,3,4],
-                type: 'checkbox',
-                area: 'measures',
-                text: 'measures',
-                multiTextParam: 'label',
-                model: [true,true,true],
+                idx: [2, 3, 4],
+                type: "checkbox",
+                area: "measures",
+                text: "measures",
+                multiTextParam: "label",
+                model: [true, true, true],
                 options: [true, false],
                 change: {
-                    'false': {
+                    "false": {
                         visible: false,
-                        legend: false
+                        legend: false,
                     },
-                    'true': {
+                    "true": {
                         visible: true,
-                        legend: true
-                    }
-                }
-            },/*
+                        legend: true,
+                    },
+                },
+            }, /*
             {
                 ind: [0],
                 idx: [2,3,4,5,6],
@@ -964,55 +963,55 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
             {
                 ind: [0],
                 idx: [3],
-                type: 'radio',
-                area: 'measures',
-                name: 'unit',
-                text: 'paceSpeedUnit',
-                model: 'мин/км',
-                options: ['мин/км', 'км/ч', 'мин/100м'],
+                type: "radio",
+                area: "measures",
+                name: "unit",
+                text: "paceSpeedUnit",
+                model: "мин/км",
+                options: ["мин/км", "км/ч", "мин/100м"],
                 change: {
-                    'мин/км': {
-                        unit: 'мин/км',
+                    "мин/км": {
+                        unit: "мин/км",
                         dataType: "time",
                         dateFormat: "mm:ss",
-                        reverse: true
+                        reverse: true,
                     },
-                    'км/ч': {
-                        unit: 'км/ч',
+                    "км/ч": {
+                        unit: "км/ч",
                         dataType: "number",
                         dateFormat: "",
-                        reverse: false
+                        reverse: false,
                     },
-                    'мин/100м': {
-                        unit: 'мин/100м',
+                    "мин/100м": {
+                        unit: "мин/100м",
                         dataType: "time",
                         dateFormat: "mm:ss",
-                        reverse: true
+                        reverse: true,
                     },
-                }
-            }
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(2,1),
+        layout: new AnalyticsChartLayout(2, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "radius": 4,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series: [{
                 "label": "Период",
@@ -1029,7 +1028,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType": "value",
                 "seriesDateTrunc": "week",
-                "groupByIntervalLength": 1
+                "groupByIntervalLength": 1,
             }],
             measures: [
                 {
@@ -1038,7 +1037,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     chartType: "area",
                     //"stacked": false,
                     "cumulative": false,
-                    smoothSettings: 'curveStep',
+                    smoothSettings: "curveStep",
                     "tooltipType": "icon",
                     "minValue": 0,
                     "legend": false,
@@ -1053,10 +1052,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     fillColor: "",
                     gradient: [{
                         "offset": "0%", // grey-50
-                        "color": "#FAFAFA"
+                        "color": "#FAFAFA",
                     }, {
                         "offset": "100%",
-                        "color": "#E0E0E0" // grey-300
+                        "color": "#E0E0E0", // grey-300
                     }],
                     "markerColor": "#9E9E9E", // grey-500
                     //"avgValueLineColor": "green",
@@ -1067,7 +1066,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
-                    "aggMethod": "sum"
+                    "aggMethod": "sum",
                 },
                 {
                     "id": "heartRate",
@@ -1088,11 +1087,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#FCE4EC", // pink-50
-                        opacity: 0.1
+                        opacity: 0.1,
                     }, {
                         offset: "100%",
                         color: "#F06292", // pink-300
-                        opacity: 0.4
+                        opacity: 0.4,
                     }],
                     markerColor: "#F06292",
                     "idx": 2,
@@ -1101,7 +1100,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "avgValue",
-                    "aggMethod": "avg"
+                    "aggMethod": "avg",
                 },
                 {
                     "id": "pace",
@@ -1125,11 +1124,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#BBDEFB", // blue-100
-                        opacity: 0.1
+                        opacity: 0.1,
                     }, {
                         offset: "100%",
                         color: "#64B5F6", // blue-300
-                        opacity: 0.4
+                        opacity: 0.4,
                     }],
                     markerColor: "#64B5F6", // blue-300
                     "avgValueLineColor": "",
@@ -1141,7 +1140,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "mm:ss",
                     "valueType": "avgValue",
                     "aggMethod": "avg",
-                    "reverse": true
+                    "reverse": true,
                 },
                 {
                     "id": "speedDecoupling",
@@ -1171,8 +1170,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
-                    "aggMethod": "avg"
-                }/*,
+                    "aggMethod": "avg",
+                }, /*,
                 {
                     "id": "power",
                     "label": "Мощность",
@@ -1242,8 +1241,8 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "valueType": "value",
                     "aggMethod": "avg"
                 }*/
-            ]
-        }]
+            ],
+        }],
     },
     /**
      6.Нагрузка за период (TL)
@@ -1253,60 +1252,60 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'activityMeasuresTL',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "activityMeasuresTL",
         context: [{
             ind: 0,
             idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
+            area: "series",
+            param: "seriesDateTrunc",
         }],
-        description: 'activityMeasuresTL.description',
+        description: "activityMeasuresTL.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'month',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "month",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
-            }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "radius": 4,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series: [{
                 "label": "Период",
@@ -1323,7 +1322,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType": "value",
                 "seriesDateTrunc": "month",
-                "groupByIntervalLength": 1
+                "groupByIntervalLength": 1,
             }],
             measures: [
                 {
@@ -1350,11 +1349,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#D1C4E9", //  deep-purple-100
-                        opacity: 0.2
+                        opacity: 0.2,
                     }, {
                         offset: "100%",
                         color: "#673AB7", // deep-purple-500
-                        opacity: 0.6
+                        opacity: 0.6,
                     }],
                     markerColor: "#673AB7",
                     "avgValueLineColor": "#4527A0", // deep-purple-800
@@ -1365,7 +1364,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType": "value",
-                    "aggMethod": "sum"
+                    "aggMethod": "sum",
                 },
                 {
                     "id": "IL",
@@ -1396,10 +1395,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType": "value",
                     "aggMethod": "avg",
-                    "reverse": false
-                }
-            ]
-        }]
+                    "reverse": false,
+                },
+            ],
+        }],
     },
     /**
     7.Время в зонах по пульсу
@@ -1409,60 +1408,60 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'timeInZonesHR',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "timeInZonesHR",
         context: [{
             ind: 0,
             idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
+            area: "series",
+            param: "seriesDateTrunc",
         }],
-        description: 'timeInZonesHR.description',
+        description: "timeInZonesHR.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'week',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "week",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
-            }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": false,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
+                    "color": "rgba(0,0,0,0.5)",
                 },
-                "palette": paletteBpm
+                "palette": paletteBpm,
             },
             series : [
                 {
@@ -1480,7 +1479,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "DD.MM",
                     "valueType" : "value",
                     "seriesDateTrunc" : "week",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 },
                 {
                     "label" : "Зоны пульса",
@@ -1499,7 +1498,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType" : "value",
                     "groupBy" : "",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 }],
             measures : [{
                 "label" : "Время в зонах",
@@ -1531,10 +1530,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "timeInZone",
-                "aggMethod" : "sum"
-            }]
+                "aggMethod" : "sum",
+            }],
 
-        }]
+        }],
     },
     /**
      8.Время в зонах по темпу
@@ -1544,60 +1543,60 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         revision: 1,
         active: false,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'timeInZonesSpeed',
-        description: 'timeInZonesSpeed.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "timeInZonesSpeed",
+        description: "timeInZonesSpeed.description",
         context: [{
             ind: 0,
             idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
+            area: "series",
+            param: "seriesDateTrunc",
         }],
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'week',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "week",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
-            }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
+            },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": false,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
+                    "color": "rgba(0,0,0,0.5)",
                 },
-                "palette": palettePace
+                "palette": palettePace,
             },
             series : [
                 {
@@ -1615,7 +1614,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "DD.MM",
                     "valueType" : "value",
                     "seriesDateTrunc" : "week",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 },
                 {
                     "label" : "Зоны",
@@ -1634,7 +1633,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType" : "value",
                     "groupBy" : "",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 }],
             measures : [{
                 "label" : "Время в зонах",
@@ -1666,10 +1665,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "timeInZone",
-                "aggMethod" : "sum"
-            }]
+                "aggMethod" : "sum",
+            }],
 
-        }]
+        }],
     },
     /**
      9.Время в зонах по мощности
@@ -1679,60 +1678,60 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         revision: 1,
         active: false,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'timeInZonesPower',
-        description: 'timeInZonesPower.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "timeInZonesPower",
+        description: "timeInZonesPower.description",
         context: [{
             ind: 0,
             idx: 0,
-            area: 'series',
-            param: 'seriesDateTrunc'
+            area: "series",
+            param: "seriesDateTrunc",
         }],
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'week',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "week",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
-            }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
+            },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": false
+                    "combined": false,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
+                    "color": "rgba(0,0,0,0.5)",
                 },
-                "palette": palettePower
+                "palette": palettePower,
             },
             series : [
                 {
@@ -1750,7 +1749,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "DD.MM",
                     "valueType" : "value",
                     "seriesDateTrunc" : "week",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 },
                 {
                     "label" : "Зоны мощности",
@@ -1769,7 +1768,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType" : "value",
                     "groupBy" : "",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 }],
             measures : [{
                 "label" : "Время в зонах",
@@ -1801,10 +1800,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "timeInZone",
-                "aggMethod" : "sum"
-            }]
+                "aggMethod" : "sum",
+            }],
 
-        }]
+        }],
     },
     /**
      10.Пики по пульсу по времени
@@ -1814,27 +1813,27 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'HRTimePeaks',
-        description: 'HRTimePeaks.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "HRTimePeaks",
+        description: "HRTimePeaks.description",
         globalParams: true,
         settings: [
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series : [{
                 "label" : "Пики",
@@ -1851,7 +1850,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "",
                 "valueType" : "value",
                 "seriesDateTrunc" : "",
-                "groupByIntervalLength" : 1
+                "groupByIntervalLength" : 1,
             }],
             measures : [{
                 "id": "0",
@@ -1869,11 +1868,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 gradient: [{
                     offset: "0%",
                     color: "#F8BBD0", //  pink-100
-                    opacity: 0.2
+                    opacity: 0.2,
                 }, {
                     offset: "100%",
                     color: "#E91E63", // pink-500
-                    opacity: 0.6
+                    opacity: 0.6,
                 }],
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
@@ -1881,9 +1880,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType": "peak",
-                "aggMethod": "max"
-            }]
-        }]
+                "aggMethod": "max",
+            }],
+        }],
     },
     /**
      11.Пики по темпу/скорости по времени
@@ -1893,57 +1892,57 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         revision: 1,
         active: false,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'PaceTimePeaks',
-        description: 'PaceTimePeaks.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "PaceTimePeaks",
+        description: "PaceTimePeaks.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'unit',
-                text: 'paceSpeedUnit',
-                model: 'мин/км',
-                options: ['мин/км', 'км/ч', 'мин/100м'],
+                type: "radio",
+                area: "measures",
+                name: "unit",
+                text: "paceSpeedUnit",
+                model: "мин/км",
+                options: ["мин/км", "км/ч", "мин/100м"],
                 change: {
-                    'мин/км': {
-                        unit: 'мин/км',
+                    "мин/км": {
+                        unit: "мин/км",
                         dataType: "time",
                         dateFormat: "mm:ss",
-                        reverse: true
+                        reverse: true,
                     },
-                    'км/ч': {
-                        unit: 'км/ч',
+                    "км/ч": {
+                        unit: "км/ч",
                         dataType: "number",
                         dateFormat: "",
-                        reverse: false
+                        reverse: false,
                     },
-                    'мин/100м': {
-                        unit: 'мин/100м',
+                    "мин/100м": {
+                        unit: "мин/100м",
                         dataType: "time",
                         dateFormat: "mm:ss",
-                        reverse: true
+                        reverse: true,
                     },
-                }
-            }
+                },
+            },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series : [{
                 "label" : "Пики",
@@ -1960,7 +1959,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "",
                 "valueType" : "value",
                 "seriesDateTrunc" : "",
-                "groupByIntervalLength" : 1
+                "groupByIntervalLength" : 1,
             }],
             measures : [{
                 "id": "0",
@@ -1978,11 +1977,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 gradient: [{
                     offset: "0%",
                     color: "#BBDEFB", //  blue-100
-                    opacity: 0.2
+                    opacity: 0.2,
                 }, {
                     offset: "100%",
                     color: "#2196F3", // blue-500
-                    opacity: 0.6
+                    opacity: 0.6,
                 }],
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
@@ -1991,9 +1990,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "mm:ss",
                 "valueType": "peak",
                 "aggMethod": "max",
-                "reverse": true
-            }]
-        }]
+                "reverse": true,
+            }],
+        }],
     },
 
     /**
@@ -2004,27 +2003,27 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         revision: 1,
         active: false,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'PowerTimePeaks',
-        description: 'PowerTimePeaks.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "PowerTimePeaks",
+        description: "PowerTimePeaks.description",
         globalParams: true,
         settings: [
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series : [{
                 "label" : "Пики",
@@ -2041,7 +2040,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "",
                 "valueType" : "value",
                 "seriesDateTrunc" : "",
-                "groupByIntervalLength" : 1
+                "groupByIntervalLength" : 1,
             }],
             measures : [{
                 "id": "0",
@@ -2059,11 +2058,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 gradient: [{
                     offset: "0%",
                     color: "#E1BEE7", //  purple-100
-                    opacity: 0.2
+                    opacity: 0.2,
                 }, {
                     offset: "100%",
                     color: "#9C27B0", // purple-500
-                    opacity: 0.6
+                    opacity: 0.6,
                 }],
                 "idx" : 1,
                 "measureSource": "activity.actual.measure",
@@ -2071,9 +2070,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType": "peak",
-                "aggMethod": "max"
-            }]
-        }]
+                "aggMethod": "max",
+            }],
+        }],
     },
     /**
      13.Объемы по видам спорта по периодам
@@ -2084,21 +2083,21 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: false,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'DistanceByActivityTypeByPeriods',
-        description: 'DistanceByActivityTypeByPeriods.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "DistanceByActivityTypeByPeriods",
+        description: "DistanceByActivityTypeByPeriods.description",
         context: [
             {
                 ind: 0,
                 idx: 0,
-                area: 'series',
-                param: 'seriesDateTrunc'
+                area: "series",
+                param: "seriesDateTrunc",
             },
             {
                 ind: 0,
                 idx: 2,
-                area: 'measures',
-                param: 'measureName'
+                area: "measures",
+                param: "measureName",
             },
         ],
         globalParams: true,
@@ -2106,67 +2105,67 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
              {
                  ind: [0],
                  idx: [2],
-                 type: 'radio',
-                 area: 'measures',
-                 name: 'measureName',
-                 text: 'volume',
-                 model: 'duration',
-                 options: ['duration','distance'],
+                 type: "radio",
+                 area: "measures",
+                 name: "measureName",
+                 text: "volume",
+                 model: "duration",
+                 options: ["duration", "distance"],
                  change: {
                      duration: {
-                         measureName: 'duration',
-                         unit: 'ч'
+                         measureName: "duration",
+                         unit: "ч",
                          },
                      distance: {
-                         measureName: 'distance',
-                         unit: 'км'
-                        }
-                     }
+                         measureName: "distance",
+                         unit: "км",
+                        },
+                     },
                  },
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'month',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "month",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
-            }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
+            },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "currentPositionLine": {
                     "enabled": true,
-                    "color": "rgba(0,0,0,0.5)"
+                    "color": "rgba(0,0,0,0.5)",
 
                 },
-                "palette": paletteSports
+                "palette": paletteSports,
             },
             series : [{
                     "label" : "Период",
@@ -2183,7 +2182,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "DD.MM",
                     "valueType" : "value",
                     "seriesDateTrunc" : "week",
-                    "groupByIntervalLength" : 1
+                    "groupByIntervalLength" : 1,
                 },
                 {
                     "label" : "Виды спорта",
@@ -2202,7 +2201,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType" : "value",
                     "seriesDateTrunc" : "",
-                    "groupByIntervalLength" : 1	 }
+                    "groupByIntervalLength" : 1	 },
 
                 ],
             measures : [{
@@ -2227,10 +2226,10 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dataType": "number",
                 "dateFormat": "",
                 "valueType" : "value",
-                "aggMethod" : "sum"
+                "aggMethod" : "sum",
 
-            }]
-        }]
+            }],
+        }],
     },
     /**
      14.Объемы по видам спорта (piechart)
@@ -2240,54 +2239,54 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'DistanceByActivityTypes',
-        description: 'DistanceByActivityTypes.description',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "DistanceByActivityTypes",
+        description: "DistanceByActivityTypes.description",
         context: [
             {
                 ind: 0,
                 idx: 1,
-                area: 'measures',
-                param: 'measureName'
-            }
+                area: "measures",
+                param: "measureName",
+            },
         ],
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'measureName',
-                text: 'volume',
-                model: 'duration',
-                options: ['duration','distance'],
+                type: "radio",
+                area: "measures",
+                name: "measureName",
+                text: "volume",
+                model: "duration",
+                options: ["duration", "distance"],
                 change: {
                     duration: {
-                        measureName: 'duration',
-                        unit: 'ч'
+                        measureName: "duration",
+                        unit: "ч",
                     },
                     distance: {
-                        measureName: 'distance',
-                        unit: 'км'
-                    }
-                }
+                        measureName: "distance",
+                        unit: "км",
+                    },
+                },
             },
         ],
         layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
-                "palette": paletteSports
+                "palette": paletteSports,
             },
             series: [
                 {
@@ -2307,7 +2306,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dateFormat": "",
                     "valueType" : "value",
                     "seriesDateTrunc" : "",
-                    "groupByIntervalLength" : 1	 }
+                    "groupByIntervalLength" : 1	 },
                 ],
             measures: [
                 {
@@ -2332,9 +2331,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType" : "value",
-                    "aggMethod" : "sum"
-            }]
-        }]
+                    "aggMethod" : "sum",
+            }],
+        }],
     },
     /**
      15.История измерений
@@ -2344,52 +2343,52 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'measurementsByPeriods',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "measurementsByPeriods",
         context: [],
-        description: 'measurementsByPeriods.description',
+        description: "measurementsByPeriods.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
-                idx: [1,2,3,4],
-                type: 'checkbox',
-                area: 'measures',
-                text: 'measures',
-                multiTextParam: 'label',
-                model: [true,true,false,false],
+                idx: [1, 2, 3, 4],
+                type: "checkbox",
+                area: "measures",
+                text: "measures",
+                multiTextParam: "label",
+                model: [true, true, false, false],
                 options: [true, false],
                 change: {
-                    'false': {
-                        visible: false
+                    "false": {
+                        visible: false,
                     },
-                    'true': {
-                        visible: true
-                    }
-                }
-            }
+                    "true": {
+                        visible: true,
+                    },
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "radius": 4,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series: [{
                 "label": "Период",
@@ -2406,7 +2405,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType": "value",
                 "seriesDateTrunc": "day",
-                "groupByIntervalLength": 1
+                "groupByIntervalLength": 1,
             }],
             measures: [
                 {
@@ -2431,20 +2430,20 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#B2EBF2", //   100
-                        opacity: 0.0
+                        opacity: 0.0,
                     }, {
                         offset: "100%",
                         color: "#00ACC1", //  600
-                        opacity: 0.2
+                        opacity: 0.2,
                     }],
                     "markerColor": "#00838F", // 800
                     "idx": 1,
-                    'measureSource': "measurement",
-                    'measureName': "generalMeasures",
+                    "measureSource": "measurement",
+                    "measureName": "generalMeasures",
                     "valueType": "pulse",
                     "aggMethod": "avg",
                     "dataType": "number",
-                    "dateFormat": ""
+                    "dateFormat": "",
                 },
                 {
                     "id": "weight",
@@ -2468,22 +2467,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#FFCDD2", //   blue-grey-100
-                        opacity: 0.0
+                        opacity: 0.0,
                     }, {
                         offset: "100%",
                         color: "#E53935", //  blue-grey-500
-                        opacity: 0.2
+                        opacity: 0.2,
                     }],
                     "markerColor": "#C62828", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
-                    'measureSource': "measurement",
-                    'measureName': "sizes",
+                    "measureSource": "measurement",
+                    "measureName": "sizes",
                     "valueType": "weight",
                     "aggMethod": "avg",
                     "dataType": "number",
-                    "dateFormat": ""
+                    "dateFormat": "",
                 },
                 {
                     "id": "muscleMass",
@@ -2507,22 +2506,22 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#B2DFDB", //   blue-grey-100
-                        opacity: 0.0
+                        opacity: 0.0,
                     }, {
                         offset: "100%",
                         color: "#00897B", //  blue-grey-500
-                        opacity: 0.2
+                        opacity: 0.2,
                     }],
                     "markerColor": "#00695C", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 3,
-                    'measureSource': "measurement",
-                    'measureName': "generalMeasures",
+                    "measureSource": "measurement",
+                    "measureName": "generalMeasures",
                     "valueType": "muscleMass",
                     "aggMethod": "avg",
                     "dataType": "number",
-                    "dateFormat": ""
+                    "dateFormat": "",
                 },
                 {
                     "id": "percentFat",
@@ -2546,25 +2545,25 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#FFECB3", //   blue-grey-100
-                        opacity: 0.0
+                        opacity: 0.0,
                     }, {
                         offset: "100%",
                         color: "#FFB300", //  blue-grey-500
-                        opacity: 0.2
+                        opacity: 0.2,
                     }],
                     "markerColor": "#FF8F00", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 4,
-                    'measureSource': "measurement",
-                    'measureName': "generalMeasures",
+                    "measureSource": "measurement",
+                    "measureName": "generalMeasures",
                     "valueType": "percentFat",
                     "aggMethod": "avg",
                     "dataType": "number",
-                    "dateFormat": ""
-                }
-            ]
-        }]
+                    "dateFormat": "",
+                },
+            ],
+        }],
     },
     /**
      16.Вес и объемы
@@ -2574,88 +2573,88 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'weightAndTotalVolume',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "weightAndTotalVolume",
         context: [
             {
                 ind: 0,
                 idx: 0,
-                area: 'series',
-                param: 'seriesDateTrunc'
+                area: "series",
+                param: "seriesDateTrunc",
             },
             {
                 ind: 0,
                 idx: 1,
-                area: 'measures',
-                param: 'measureName'
+                area: "measures",
+                param: "measureName",
             },
         ],
-        description: 'weightAndTotalVolume.description',
+        description: "weightAndTotalVolume.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'week',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "week",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'measureName',
-                text: 'volume',
-                model: 'duration',
-                options: ['duration','distance'],
+                type: "radio",
+                area: "measures",
+                name: "measureName",
+                text: "volume",
+                model: "duration",
+                options: ["duration", "distance"],
                 change: {
                     duration: {
-                        measureName: 'duration',
-                        unit: 'ч'
+                        measureName: "duration",
+                        unit: "ч",
                     },
                     distance: {
-                        measureName: 'distance',
-                        unit: 'км'
-                    }
-                }
-            }
+                        measureName: "distance",
+                        unit: "км",
+                    },
+                },
+            },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "radius": 4,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series: [{
                 "label": "Период",
@@ -2672,14 +2671,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType": "value",
                 "seriesDateTrunc": "week",
-                "groupByIntervalLength": 1
+                "groupByIntervalLength": 1,
             }],
             measures: [
                 {
                     "label" : "Время",
                     "unit" : "ч",
                     chartType: "bar",
-                    smoothSettings: 'curveBasis',
+                    smoothSettings: "curveBasis",
                     "stacked" : false,
                     "cumulative": false,
                     "tooltipType" : "icon",
@@ -2697,11 +2696,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#CFD8DC", // deep-orange-50
-                        opacity: 0.2
+                        opacity: 0.2,
                     }, {
                         offset: "100%",
                         color: "#607D8B", // deep-orange-300
-                        opacity: 0.6
+                        opacity: 0.6,
                     }],
                     markerColor: "#455A64", // deep-orange-300
                     "idx" : 1,
@@ -2710,7 +2709,7 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     "dataType": "number",
                     "dateFormat": "",
                     "valueType" : "value",
-                    "aggMethod" : "sum"
+                    "aggMethod" : "sum",
                 },
                 {
                     "id": "weight",
@@ -2734,25 +2733,25 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#FFCDD2", //   blue-grey-100
-                        opacity: 0.0
+                        opacity: 0.0,
                     }, {
                         offset: "100%",
                         color: "#E53935", //  blue-grey-500
-                        opacity: 0.2
+                        opacity: 0.2,
                     }],
                     "markerColor": "#C62828", // red-600
                     "avgValueLineColor": "",
                     "avgValueLineStyle": "",
                     "idx": 2,
-                    'measureSource': "measurement",
-                    'measureName': "sizes",
+                    "measureSource": "measurement",
+                    "measureName": "sizes",
                     "valueType": "weight",
                     "aggMethod": "avg",
                     "dataType": "number",
-                    "dateFormat": ""
-                }
-            ]
-        }]
+                    "dateFormat": "",
+                },
+            ],
+        }],
     },
     /**
      17.План и факт
@@ -2762,88 +2761,88 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
         active: true,
         revision: 1,
         auth: [],
-        icon: 'insert_chart', // https://material.io/icons/ с фильтром chart
-        code: 'completePercent',
+        icon: "insert_chart", // https://material.io/icons/ с фильтром chart
+        code: "completePercent",
         context: [
             {
                 ind: 0,
                 idx: 0,
-                area: 'series',
-                param: 'seriesDateTrunc'
+                area: "series",
+                param: "seriesDateTrunc",
             },
             {
                 ind: 0,
                 idx: 1,
-                area: 'measures',
-                param: 'measureName'
+                area: "measures",
+                param: "measureName",
             },
         ],
-        description: 'completePercent.description',
+        description: "completePercent.description",
         globalParams: true,
         settings: [
             {
                 ind: [0],
                 idx: [0],
-                type: 'radio',
-                area: 'series',
-                name: 'seriesDateTrunc',
-                text: 'seriesDateTrunc',
-                model: 'week',
-                options: ['day','week','month'],
+                type: "radio",
+                area: "series",
+                name: "seriesDateTrunc",
+                text: "seriesDateTrunc",
+                model: "week",
+                options: ["day", "week", "month"],
                 change: {
-                    'day': {
-                        seriesDateTrunc: 'day'
+                    "day": {
+                        seriesDateTrunc: "day",
                     },
-                    'week': {
-                        seriesDateTrunc: 'week'
+                    "week": {
+                        seriesDateTrunc: "week",
                     },
-                    'month': {
-                        seriesDateTrunc: 'month'
-                    }
-                }
+                    "month": {
+                        seriesDateTrunc: "month",
+                    },
+                },
             },
             {
                 ind: [0],
                 idx: [1],
-                type: 'radio',
-                area: 'measures',
-                name: 'measureName',
-                text: 'volume',
-                model: 'duration',
-                options: ['duration','distance'],
+                type: "radio",
+                area: "measures",
+                name: "measureName",
+                text: "volume",
+                model: "duration",
+                options: ["duration", "distance"],
                 change: {
                     duration: {
-                        measureName: 'duration',
-                        unit: 'ч'
+                        measureName: "duration",
+                        unit: "ч",
                     },
                     distance: {
-                        measureName: 'distance',
-                        unit: 'км'
-                    }
-                }
+                        measureName: "distance",
+                        unit: "км",
+                    },
+                },
             },
         ],
-        layout: new AnalyticsChartLayout(1,1),
+        layout: new AnalyticsChartLayout(1, 1),
         charts: [{
             params: {
-                users: null,//[this.session.getUser().userId],
-                activityTypes: null,//[2],
-                periods: null
+                users: null, //[this.session.getUser().userId],
+                activityTypes: null, //[2],
+                periods: null,
             },
             options: {
                 "tooltip": {
-                    "combined": true
+                    "combined": true,
                 },
                 "legend": {
                     "vertical-align": "bottom",
                     "horizontal-align": "center",
-                    "type": "row"
+                    "type": "row",
                 },
                 "currentPositionLine": {
                     "enabled": true,
                     "radius": 4,
-                    "color": "rgba(0,0,0,0.5)"
-                }
+                    "color": "rgba(0,0,0,0.5)",
+                },
             },
             series: [{
                 "label": "Период",
@@ -2860,14 +2859,14 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                 "dateFormat": "DD.MM",
                 "valueType": "value",
                 "seriesDateTrunc": "week",
-                "groupByIntervalLength": 1
+                "groupByIntervalLength": 1,
             }],
             measures: [
                 {
                     label: "Время",
                     unit: "ч",
                     chartType: "bar",
-                    smoothSettings: 'curveBasis',
+                    smoothSettings: "curveBasis",
                     stacked: false,
                     cumulative: false,
                     tooltipType: "icon",
@@ -2885,11 +2884,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#CFD8DC", // deep-orange-50
-                        opacity: 0.2
+                        opacity: 0.2,
                     }, {
                         offset: "100%",
                         color: "#607D8B", // deep-orange-300
-                        opacity: 0.6
+                        opacity: 0.6,
                     }],
                     markerColor: "#455A64", // deep-orange-300
                     idx : 1,
@@ -2898,13 +2897,13 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     dataType: "number",
                     dateFormat: "",
                     valueType : "value",
-                    aggMethod : "sum"
+                    aggMethod : "sum",
                 },
                 {
                     label: "Процент выполнения",
                     unit: "",
                     chartType: "area",
-                    smoothSettings: 'curveStep',
+                    smoothSettings: "curveStep",
                     stacked: false,
                     cumulative: false,
                     tooltipType: "icon",
@@ -2922,11 +2921,11 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     gradient: [{
                         offset: "0%",
                         color: "#D1C4E9", //   blue-grey-100
-                        opacity: 0.0
+                        opacity: 0.0,
                     }, {
                         offset: "100%",
                         color: "#FF5722", //  blue-grey-500
-                        opacity: 0.1
+                        opacity: 0.1,
                     }],
                     markerColor: "#FF5722", //  blue-grey-500
                     avgValueLineColor: "#FF5722", //  blue-grey-500
@@ -2937,9 +2936,9 @@ export const DefaultAnalyticsSettings: Array<IAnalyticsChart> = [
                     dataType: "value",
                     dateFormat: "",
                     valueType : "value",
-                    aggMethod : "avg"
-                }
-            ]
-        }]
-    }
+                    aggMethod : "avg",
+                },
+            ],
+        }],
+    },
  ];

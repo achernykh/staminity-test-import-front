@@ -8,16 +8,17 @@ calendar-day {
   -webkit-box-sizing: border-box;
   display: inline-block;
   vertical-align: top;
-  min-height: 170px;
-  padding: 0px 6px 8px 6px;
+  min-height: 100px;
+  padding: 0 4px 0 4px;
   height: 100%;
   width: 12.4%;
-  vertical-align:top;
+  vertical-align: top;
 
   // xs & sm size
   @media (min-width: 0px) and (max-width: 959px) {
     width: 100%;
-    height:auto;
+    min-width: 100%;
+    height: auto;
     min-height: 70px;
     padding: 12px 8px 12px 8px;
     //border-bottom: 1px solid $grey-400;
@@ -43,6 +44,8 @@ calendar-day {
   transition: all 0s ease-in-out 0s;
 
   section.toolbar {
+    height: 26px;
+
     .day, .weekday {
       text-align: center;
       min-width:24px;
@@ -51,9 +54,29 @@ calendar-day {
     @media (min-width: 0px) and (max-width: 959px) {
       margin-right: 8px;
     }
+
+    .day-title {
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      margin: auto;
+
+      &__number {
+        text-align: center;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin: auto;
+        border-radius: 10px;
+      }
+
+      &__month {
+        margin-left: 0.4em;
+      }
+    }
     
     &.today {
-      border-top:solid 4px $orange-800;
+      //border-top:solid 4px $orange-800;
       // xs & sm size
       @media (min-width: 0px) and (max-width: 959px) {
         .day, .weekday {
@@ -127,11 +150,11 @@ calendar-day {
     min-height: 50px;
     margin: 6px 0px 0px 0px;
     cursor: pointer;
-    @include border-radius(3px);
+    //@include border-radius(3px);
 
     // md size
     @media (min-width: 960px) and (max-width: 1279px){
-      border-radius: 0px !important;
+      //border-radius: 0px !important;
       box-shadow: none !important;
 
       .data-category {
@@ -139,13 +162,8 @@ calendar-day {
       }
     }
 
-    @media (max-width: 1919px) and (min-width: 1280px){
-      -min-width: 10%;
-      -max-width: 175px;
-    }
-
     @media (max-width: 959px){
-      border-radius: 0px;
+      //border-radius: 0px;
       margin: 0px 4px 8px 4px;
       min-width: 200px;
       padding-bottom: 0px;
@@ -205,6 +223,13 @@ calendar-day {
     .icon {
       margin-left: 0px;
       margin-right: 8px;
+    }
+
+    @media(max-width: 959px){
+      min-height: 62px;
+      margin: 0px 4px 8px 4px;
+      min-width: 200px;
+      border-radius: 3px;
     }
 
   }

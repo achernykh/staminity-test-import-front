@@ -1,7 +1,7 @@
 import './summary-info.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {ActivityHeaderCtrl} from "../../activity-header/activity-header.component";
-import {Activity} from "../../activity.datamodel";
+import {Activity} from "../../activity-datamodel/activity.datamodel";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {Measure} from "../../../share/measure/measure.constants";
 
@@ -24,7 +24,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
          * базовым показателям (пульс, скорость, темп)
          * @type {string}
          */
-        let sportBasic:string = this.item.activity.sportBasic;
+        let sportBasic:string = this.item.activity.header.sportBasic;
         let durationValue:number = this.item.activity.durationValue;
         let durationMeasure:string =  this.item.activity.durationMeasure;
         let intensityValue: number | {} = this.item.activity.intensityValue;
@@ -32,17 +32,17 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         let movingDuration: number = this.item.activity.movingDuration;
         let distance: number = this.item.activity.distance;
 
-        let heartRate: number = ((this.item.activity.intervalW.calcMeasures.hasOwnProperty('heartRate')
-            && this.item.activity.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue'))
-            && this.item.activity.intervalW.calcMeasures.heartRate.avgValue) || null;
+        let heartRate: number = ((this.item.activity.intervals.W.calcMeasures.hasOwnProperty('heartRate')
+            && this.item.activity.intervals.W.calcMeasures.heartRate.hasOwnProperty('avgValue'))
+            && this.item.activity.intervals.W.calcMeasures.heartRate.avgValue) || null;
 
-        let speed: number = ((this.item.activity.intervalW.calcMeasures.hasOwnProperty('speed')
-            && this.item.activity.intervalW.calcMeasures.speed.hasOwnProperty('avgValue'))
-            && this.item.activity.intervalW.calcMeasures.speed.avgValue) || null;
+        let speed: number = ((this.item.activity.intervals.W.calcMeasures.hasOwnProperty('speed')
+            && this.item.activity.intervals.W.calcMeasures.speed.hasOwnProperty('avgValue'))
+            && this.item.activity.intervals.W.calcMeasures.speed.avgValue) || null;
 
-        let power: number = ((this.item.activity.intervalW.calcMeasures.hasOwnProperty('power')
-            && this.item.activity.intervalW.calcMeasures.power.hasOwnProperty('avgValue'))
-            && this.item.activity.intervalW.calcMeasures.power.avgValue) || null;
+        let power: number = ((this.item.activity.intervals.W.calcMeasures.hasOwnProperty('power')
+            && this.item.activity.intervals.W.calcMeasures.power.hasOwnProperty('avgValue'))
+            && this.item.activity.intervals.W.calcMeasures.power.avgValue) || null;
 
         let measure: Measure;
 
@@ -53,7 +53,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         switch (this.item.activity.status) {
             case 'coming': case 'dismiss': { // показываем плановые значения
 
-                if(this.item.activity.structured) { // для структурированных тренировок
+                if(this.item.activity.isStructured) { // для структурированных тренировок
                     this.durationInfo =
                         `${this.item.activity.movingDurationApprox ? '~' : ''}` +
                         `${this.$filter('measureCalc')(this.item.activity.movingDuration, sportBasic, 'movingDuration')}` +

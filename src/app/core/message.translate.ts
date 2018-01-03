@@ -172,10 +172,6 @@ export const _translateMessage = {
 			title: 'Ошибка!',
 			text: 'Ошибка отправки email-сообщения'
 		},
-		forbidden_ProcessIncomplete_ResetPassword: {
-			title: 'Ошибка!',
-			text: 'По вашей учетной записи запущена процедура восстановления пароля. Вход с использование старого логина и пароля не возможен.'
-		},
 		resetPasswordSuccess: {
 			title: '',
 			text: 'На ваш адрес e-mail отправлена ссылка для восстановления пароля'
@@ -333,6 +329,10 @@ export const _translateMessage = {
 			title: "",
 			text: "Шаблон сохранен"
 		},
+        forbidden_ExistsRelatedActivity: {
+            title: "Операция невозможна",
+            text: "Есть связанные тренировки, удаление невозможно"
+        },
 
 
 		// -------- Запросы и групповые операции ---------
@@ -490,8 +490,76 @@ export const _translateMessage = {
 		searchResult: {
 			title: 'Информация',
 			text: 'Найдено {{count}} записей'
-		}
-	},
+		},
+
+		// ----- Периодизация
+
+        periodizationMesocycleEdited: {
+            title: '',
+            text: 'Мезоцикл изменен'
+        },
+        periodizationMesocyclePosted: {
+            title: '',
+            text: 'Мезоцикл добавлен'
+        },
+        mesocycleDeleted: {
+            title: '',
+            text: 'Мезоцикл удален'
+        },
+        periodizationSchemePosted: {
+            title: '',
+            text: 'Добавлена новая схема периодизации'
+        },
+        periodizationSchemeEdited: {
+            title: '',
+            text: 'Схема периодизации изменена'
+        },
+        periodizationSchemeDeleted: {
+            title: '',
+            text: 'Схема периодизации удалена'
+        },
+
+        // ----- Планы на сезон
+        trainingSeasonDeleted: {
+            title: '',
+            text: 'План на сезон удален'
+        },
+        trainingSeasonCreated: {
+            title: '',
+            text: 'Создан новый план на сезон'
+        },
+        trainingSeasonEdited: {
+            title: '',
+            text: 'План на сезон изменен'
+        },
+        // ----- Планы на сезон
+        competitionCreated: {
+            title: '',
+            text: 'Соревнование создано'
+        },
+        competitionModified: {
+            title: '',
+            text: 'Соревнование изменено'
+        },
+        competitionDeleted: {
+            title: '',
+            text: 'Соревнование удалено'
+        },
+        // ----- Records
+        recordCreated: {
+            title: '',
+            text: 'Создано новое событие'
+        },
+        recordUpdated: {
+            title: '',
+            text: 'Событие изменено'
+        },
+        recordDeleted: {
+            title: '',
+            text: 'Событие удалено'
+        }
+
+    },
 	en: {
 		null: {
 			title: 'Unknown error',
@@ -821,9 +889,13 @@ export const _translateMessage = {
 			title: "",
 			text: "New template have been created"
 		},
+        forbidden_ExistsRelatedActivity: {
+            title: "Action forbidden",
+            text: "Item has related activities"
+        },
 
 
-		// -------- Запросы и групповые операции ---------
+    // -------- Запросы и групповые операции ---------
 		requestSent: { // отправить запрос из профиля пользователя, из профиля клуба
 			title: "",
 			text: "Operation was successful" // сделал такую нейтральную формулировку, т.к. есть запросы, требующие согласования, а есть например выход из клуба, который не требует согласования
@@ -978,6 +1050,73 @@ export const _translateMessage = {
 		searchResult: {
 			title: 'Information',
 			text: 'Found {{count}} items'
-		}
-	}
+		},
+        // ----- Периодизация
+
+        periodizationMesocycleEdited: {
+            title: '',
+            text: 'Mesocycle edited'
+        },
+        periodizationMesocyclePosted: {
+            title: '',
+            text: 'Mesocycle added'
+        },
+        mesocycleDeleted: {
+            title: '',
+            text: 'Mesocycle deleted'
+        },
+        periodizationSchemePosted: {
+            title: '',
+            text: 'New periodisation scheme created'
+        },
+        periodizationSchemeEdited: {
+            title: '',
+            text: 'Periodisation scheme edited'
+        },
+        periodizationSchemeDeleted: {
+            title: '',
+            text: 'Periodisation scheme deleted'
+        },
+
+        // ----- Планы на сезон
+        trainingSeasonDeleted: {
+            title: '',
+            text: 'Season plan deleted'
+        },
+        trainingSeasonCreated: {
+            title: '',
+            text: 'Season plan created'
+        },
+        trainingSeasonEdited: {
+            title: '',
+            text: 'Season plan edited'
+        },
+        // ----- Планы на сезон
+        competitionCreated: {
+            title: '',
+            text: 'Competition created'
+        },
+        competitionModified: {
+            title: '',
+            text: 'Competition edited'
+        },
+        competitionDeleted: {
+            title: '',
+            text: 'Competition deleted'
+        },
+        // ----- Records
+        recordCreated: {
+            title: '',
+            text: 'Event created'
+        },
+        recordUpdated: {
+            title: '',
+            text: 'Event updated'
+        },
+        recordDeleted: {
+            title: '',
+            text: 'Event deleted'
+        }
+
+    }
 };

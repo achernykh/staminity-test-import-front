@@ -1,37 +1,37 @@
-import './athlete-invitation.component.scss';
-import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
+import {copy, IComponentController, IComponentOptions, IPromise} from "angular";
+import {UserCredentials} from "../../../../api/auth/auth.request";
+import {IUserProfile} from "../../../../api/user/user.interface";
 import AuthService from "../../auth/auth.service";
 import {IAuthService} from "../../auth/auth.service";
-import {IUserProfile} from "../../../../api/user/user.interface";
-import {UserCredentials} from "../../../../api/auth/auth.request";
 import MessageService from "../../core/message.service";
+import "./athlete-invitation.component.scss";
 
 class AthleteInvitationCtrl implements IComponentController {
 
-    public groupId: number;
-    public onEvent: (response: Object) => IPromise<void>;
-    public onCancel: () => IPromise<void>;
+    groupId: number;
+    onEvent: (response: Object) => IPromise<void>;
+    onCancel: () => IPromise<void>;
 
     private credTempl: UserCredentials = {
         public: {
-            firstName: '',
-            lastName: '',
-            avatar: 'default.jpg',
-            background: 'default.jpg'
+            firstName: "",
+            lastName: "",
+            avatar: "default.jpg",
+            background: "default.jpg",
         },
         display: {
-            units: 'metric',
+            units: "metric",
             firstDayOfWeek: 1,
-            timezone: 'Europe/Moscow',
-            language: 'ru'
+            timezone: "Europe/Moscow",
+            language: "ru",
         },
-        email: '',
-        password: '',
+        email: "",
+        password: "",
         activateCoachTrial: false,
-        activatePremiumTrial: true
+        activatePremiumTrial: true,
     };
-    private users: Array<UserCredentials> = [];
-    public options:Object = {
+    private users: UserCredentials[] = [];
+    options: Object = {
         rowSelection: true,
         multiSelect: true,
         autoSelect: true,
@@ -39,10 +39,10 @@ class AthleteInvitationCtrl implements IComponentController {
         largeEditDialog: false,
         boundaryLinks: false,
         limitSelect: false,
-        pageSelect: false
+        pageSelect: false,
     };
 
-    static $inject = ['$scope', 'AuthService', 'message'];
+    static $inject = ["$scope", "AuthService", "message"];
 
     constructor(private $scope: any, private AuthService: IAuthService, private message: MessageService) {
 
@@ -54,29 +54,29 @@ class AthleteInvitationCtrl implements IComponentController {
     }
 
     invite() {
-        let users = this.users.filter(u => u.email && u.public.firstName && u.public.lastName);
+        const users = this.users.filter((u) => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
-            this.AuthService.inviteUsers(this.groupId,users)
-                .then((result)=>{
-                    if(result.hasOwnProperty('resultArray') && result.resultArray.every(r => r.status === 'I' || r.status === 'A')) {
-                        this.message.toastInfo('inviteSuccess');
+            this.AuthService.inviteUsers(this.groupId, users)
+                .then((result) => {
+                    if (result.hasOwnProperty("resultArray") && result.resultArray.every((r) => r.status === "I" || r.status === "A")) {
+                        this.message.toastInfo("inviteSuccess");
                         this.onCancel();
                     }
-                }, (error)=>{});
+                }, (error) => {});
         }
     }
 }
 
-const AthleteInvitationComponent:IComponentOptions = {
+const AthleteInvitationComponent: IComponentOptions = {
     bindings: {
-        groupId: '<',
-        onCancel: '&',
+        groupId: "<",
+        onCancel: "&",
     },
     require: {
         //component: '^component'
     },
     controller: AthleteInvitationCtrl,
-    template: require('./athlete-invitation.component.html') as string
+    template: require("./athlete-invitation.component.html") as string,
 };
 
 export default AthleteInvitationComponent;

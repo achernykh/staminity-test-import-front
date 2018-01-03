@@ -1,16 +1,16 @@
-import './dashboard-total.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {
-    calculateCalendarTotals, calculateCalendarSummary,
-    ICalendarWeekSummary, ICalendarWeekTotal
-} from '../../calendar/total/calendar-total.function';
+    calculateCalendarSummary, calculateCalendarTotals,
+    ICalendarWeekSummary, ICalendarWeekTotal,
+} from "../../calendar/total/calendar-total.function";
+import "./dashboard-total.component.scss";
 
 class DashboardTotalCtrl implements IComponentController {
 
-    public week: any;
-    public total: ICalendarWeekTotal;
-    public summary: ICalendarWeekSummary;
-    public onEvent: (response: Object) => IPromise<void>;
+    week: any;
+    total: ICalendarWeekTotal;
+    summary: ICalendarWeekSummary;
+    onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
     constructor() {
@@ -29,17 +29,17 @@ class DashboardTotalCtrl implements IComponentController {
     }
 }
 
-const DashboardTotalComponent:IComponentOptions = {
+const DashboardTotalComponent: IComponentOptions = {
     bindings: {
-        week: '<',
-        update: '<',
-        onEvent: '&'
+        week: "<",
+        update: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: DashboardTotalCtrl,
-    template: require('./dashboard-total.component.html') as string
+    template: require("./dashboard-total.component.html") as string,
 };
 
 export default DashboardTotalComponent;

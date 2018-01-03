@@ -105,17 +105,18 @@ export const isCompletedActivity = (item: ICalendarItem):boolean => {
  * @returns {ICalendarItem}
  */
 export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
-
     if(item.calendarItemType !== 'activity') {
         return item;
     }
-
     // Копируем все интрвелы с плановыми данными
     item.activityHeader.intervals = item.activityHeader.intervals
         .filter(i => i.type === 'pW' || i.type === 'P' || i.type === 'G');
 
     // В итоговом интервале есть рассчитанное относительно факта поле, его необходимо очистить
-    delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    if (item.activityHeader.intervals.some(i => i.type === 'pW') &&
+        item.activityHeader.intervals.filter(i => i.type === 'pW')[0].hasOwnProperty('calcMeasures')) {
+        delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
+    }
     return item;
 };
 
@@ -126,7 +127,6 @@ export const clearActualDataActivity = (item: ICalendarItem): ICalendarItem => {
  * @returns {ICalendarItem}
  */
 export const updateIntensity = (item: ICalendarItem, trgZones: ITrainingZones): ICalendarItem => {
-    // TODO for interval P
     debugger;
     let intervalPW: IActivityIntervalPW = <IActivityIntervalPW>item.activityHeader.intervals.filter(i => i.type === 'pW')[0];
     let intervalP: Array<IActivityIntervalP> = <Array<IActivityIntervalP>>item.activityHeader.intervals.filter(i => i.type === 'P');
@@ -176,5 +176,33 @@ export const shiftDate = (item: ICalendarItem, shift: number) => {
     item.dateStart = moment(item.dateStart, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     item.dateEnd = moment(item.dateEnd, 'YYYY-MM-DD').add(shift,'d').format('YYYY-MM-DD');
     return item;
+};
+
+/**
+ * Сборка массива координат для мини-граифка
+ * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
+ * @param intervals
+ */
+export const getIntervalsChartData = (intervals: Array<IActivityIntervalP>): Array<Array<number>> => {
+    let start: number = 0; //начало отсечки на графике
+    let finish: number = 0; // конец отсечки на графике
+    let maxFtp: number = 0;
+    let minFtp: number = 100;
+    let data: Array<any> = [];
+
+    intervals.map( interval => {
+        start = finish;
+        finish = start + interval.movingDurationLength;
+        maxFtp = Math.max(interval.intensityByFtpTo, maxFtp);
+        minFtp = Math.min(interval.intensityByFtpFrom, minFtp);
+        data.push([start, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2],
+            [finish, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2]);
+    });
+
+    minFtp = minFtp * 0.90;
+    data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
+
+    // Если сегменты есть, то для графика необходимо привести значения к диапазону от 0...1
+    return (data.length > 0 && data) || null;
 };
 

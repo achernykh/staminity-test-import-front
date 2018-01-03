@@ -1,0 +1,142 @@
+<st-application-frame
+        ng-cloak
+        class="methodology st-application-frame left-bar-show"
+        template="application"
+        navigation-bar="true"
+        left-bar="true"
+
+        nav-bar="true"
+        nav-bar-state="$ctrl.currentState"
+        ng-switch="$ctrl.currentState">
+
+    <st-application-frame-title>
+        <span class="md-title" translate="methodology.title"></span>
+    </st-application-frame-title>
+
+    <st-application-frame-navbar layout="row">
+        <md-nav-item  ng-repeat="state in $ctrl.navBarStates track by $index"
+                      md-nav-click="$ctrl.setState(state)" name="{{::state}}">
+            <span translate="methodology.{{::state}}.title"></span>
+        </md-nav-item>
+    </st-application-frame-navbar>
+
+    <!-- Тренировочные планы -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'trainingPlans'">
+        <training-plans-filter class="training-plans-search__filter"
+                               filter="$ctrl.trainingPlansFilter"
+                               on-hide="$ctrl.toggleLeftBar()"
+                               on-change-filter="$ctrl.changeTrainingPlansFilter(filter)"
+                               on-change-charts="$ctrl.saveSettings('charts')">
+        </training-plans-filter>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="trainingPlans">
+        <training-plans-list
+                plans="$ctrl.plans"
+                filter="$ctrl.trainingPlansFilter"
+                update="$ctrl.trainingPlansFilterChange"
+                filter-changes="$ctrl.filterChanges"
+                on-change-filter="$ctrl.saveSettings('charts')"
+                mobile-view="">
+        </training-plans-list>
+    </st-application-frame-content>
+
+    <!-- Категории -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'categories'">
+        <section class="methodology__left-bar">
+            <md-list class="md-dense">
+                <md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
+                              ng-click="$ctrl.filterParams.activityType = activity; $ctrl.updateFilterParams()"
+                              ng-class="{'active': $ctrl.filterParams.activityType.id === activity.id}">
+                    <md-icon md-svg-src="assets/icon/{{activity.code}}.svg" class="md-dark md-active"></md-icon>
+                    <p class="md-body-2 md-dark md-active" translate="sport.{{::activity.code}}"></p>
+                </md-list-item>
+            </md-list>
+        </section>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="categories">
+        <categories
+                templates="$ctrl.templates"
+                categories="$ctrl.categories"
+                filter-params="$ctrl.filterParams"
+                user="$ctrl.currentUser"
+                club="$ctrl.club">
+        </categories>
+    </st-application-frame-content>
+
+    <!-- Схемы периодизации -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'periodization'">
+        <md-content class="methodology__left-bar">
+            <st-periodization-scheme-filter
+                layout="column" layout-fill="true"
+                active="$ctrl.currentPeriodizationScheme.id"
+                schemes="$ctrl.periodizationData"
+                on-select="$ctrl.setPeriodizationScheme(scheme)">
+            </st-periodization-scheme-filter>
+        </md-content>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="periodization">
+        <st-periodization-scheme-list
+            scheme="$ctrl.currentPeriodizationScheme">
+        </st-periodization-scheme-list>
+    </st-application-frame-content>
+
+    <!-- Шаблоны тренировок -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'templates'">
+        <section class="methodology__left-bar">
+            <md-list class="md-dense">
+                <md-input-container class="md-block no-message reference__filter-input" md-no-float layout="row">
+                    <md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.filterParams.activityType.code || 'run' }}.svg"></md-icon>
+                    <md-select
+                            placeholder="{{ 'reference.sport' | translate }}"
+                            flex name="activity-type" class="icon"
+                            ng-model="$ctrl.filterParams.activityType"
+                            ng-change="$ctrl.updateFilterParams()">
+                        <md-option
+                                ng-repeat="activityType in $ctrl.activityTypes track by activityType.id"
+                                ng-value="activityType">
+                            {{ 'sport.' + activityType.code | translate }}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list>
+            <md-list class="md-dense">
+                <md-subheader ng-repeat-start="owner in ['user', 'coach', 'club', 'system']"
+                              ng-if="$ctrl.categoriesByOwner[owner].length">
+                    <span translate="reference.categories.{{::owner}}"></span>
+                </md-subheader>
+                <md-list-item ng-repeat="category in $ctrl.categoriesByOwner[owner]"
+                              ng-click="$ctrl.filterParams.category = category; $ctrl.updateFilterParams()">
+                    <p class="md-caption">{{ category | categoryCode }}</p>
+                    <span class="md-secondary template-count"
+                          ng-if="$ctrl.templatesCountByCategory(category) > 0">
+                        {{$ctrl.templatesCountByCategory(category)}}
+                    </span>
+                </md-list-item>
+                <md-divider ng-repeat-end
+                            ng-if="$ctrl.categoriesByOwner[owner].length"></md-divider>
+
+                <!--<md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
+                              ng-click="$ctrl.filterParams.activityType = activity; $ctrl.updateFilterParams()"
+                              ng-class="{'active': $ctrl.filterParams.activityType.id === activity.id}">
+                    <md-icon md-svg-src="assets/icon/{{activity.code}}.svg" class="md-dark md-active"></md-icon>
+                    <p class="md-body-2 md-dark md-active" translate="sport.{{::activity.code}}"></p>
+                </md-list-item>-->
+            </md-list>
+        </section>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="templates">
+        <templates
+                templates="$ctrl.templates"
+                categories="$ctrl.categories"
+                filter-params="$ctrl.filterParams"
+                user="$ctrl.currentUser"
+                club="$ctrl.club">
+        </templates>
+    </st-application-frame-content>
+
+</st-application-frame>
+

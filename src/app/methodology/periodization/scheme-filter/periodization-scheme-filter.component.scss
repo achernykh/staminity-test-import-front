@@ -1,0 +1,23 @@
+.periodization-scheme-filter {
+
+  .code, .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+  }
+
+  .code {
+    -webkit-line-clamp: 1;
+    line-height: 14px;
+    max-height: 14px;
+  }
+
+  .description {
+    -webkit-line-clamp: 2;
+    line-height: 12px;
+    max-height: 24px;
+  }
+
+}

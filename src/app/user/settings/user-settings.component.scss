@@ -1,0 +1,43 @@
+@import "../../../sass/color";
+
+$menu-width: 220px;
+
+.user-settings .st-application-frame__left-bar {
+  width: $menu-width;
+  background-color: $grey-050;
+  .md-subheader {
+    background-color: $grey-050 !important;
+  }
+}
+
+.user-settings.left-bar-show .st-application-frame__content {
+  margin-left: $menu-width;
+}
+
+.user-settings {
+
+  &__content {
+    max-width: 640px;
+    margin: auto;
+
+    @media (max-width: 959px) {
+      width: 100%;
+      margin: 8px;
+    }
+    
+    .first-level-section {
+      .title {
+        margin: 16px 8px;
+      }
+    }
+
+    .second-level-section {
+      .content {
+        margin: 0;
+        min-height: calc(100vh - 64px);
+      }
+    }
+    
+  }
+
+}

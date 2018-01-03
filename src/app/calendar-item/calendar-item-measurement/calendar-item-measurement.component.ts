@@ -1,79 +1,72 @@
 import './calendar-item-measurement.component.scss';
-import {IPromise} from 'angular';
-import {IUserProfileShort, IUserProfile} from "../../../../api/user/user.interface";
-import {ISessionService} from "../../core/session.service";
-import {CalendarItem} from "../calendar-item.datamodel";
-import {CalendarService} from "../../calendar/calendar.service";
-import {IMessageService} from "../../core/message.service";
+import { SessionService } from "../../core";
+import { CalendarItem } from "../calendar-item.datamodel";
+import { CalendarService } from "../../calendar/calendar.service";
+import { IMessageService } from "../../core/message.service";
+import { ICalendarItem } from "@api/calendar";
+import { ICalendarItemDialogOptions } from "@app/calendar-item/calendar-item-dialog.interface";
+import { FormMode } from "../../application.interface";
 
-const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
-const _FEELING: Array<string> = ['sentiment_very_satisfied','sentiment_satisfied','sentiment_neutral',
-    'sentiment_dissatisfied','sentiment_very_dissatisfied'];
+const _FEELING: Array<string> = [ 'sentiment_very_satisfied', 'sentiment_satisfied', 'sentiment_neutral',
+    'sentiment_dissatisfied', 'sentiment_very_dissatisfied' ];
 
 class CalendarItemMeasurementCtrl {
 
+    // bind
+    data: ICalendarItem;
+    options: ICalendarItemDialogOptions;
+
+    // private
+    measurement: CalendarItem;
+
+
     private feeling: Array<string> = _FEELING;
-    private data: any;
-    private mode: string;
-    private item: any;
-    private user: IUserProfile;
-    public onAnswer: (response: Object) => IPromise<void>;
-    public onCancel: (response: Object) => IPromise<void>;
+    public onAnswer: (response: { formMode: FormMode, item: ICalendarItem }) => Promise<void>;
+    public onCancel: () => Promise<void>;
 
-    static $inject = ['CalendarService','SessionService', 'message'];
+    static $inject = [ 'CalendarService', 'SessionService', 'message' ];
 
-    constructor(
-        private CalendarService: CalendarService,
-        private SessionService: ISessionService,
-        private message: IMessageService) {
+    constructor (private CalendarService: CalendarService,
+                 private SessionService: SessionService,
+                 private message: IMessageService) {
     }
 
-    $onInit() {
-
-        if (this.mode === 'post') {
-            this.data = {
-                calendarItemType: 'measurement',
-                dateStart: this.data.date,
-                dateEnd: this.data.date,
-                userProfileOwner: profileShort(this.user)
-            };
-        }
-
-        this.item = new CalendarItem(this.data);
-        this.item.prepare();
+    $onInit () {
+        debugger;
+        this.measurement = new CalendarItem(this.data, this.options);
+        this.measurement.prepare();
     }
 
-    onSave() {
-        if (this.mode === 'post') {
-            this.CalendarService.postItem(this.item.package())
-                .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
+    save () {
+        if (this.measurement.view.isPost) {
+            this.CalendarService.postItem(this.measurement.package())
+                .then(response => this.measurement.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo('measurementCreated'))
-                .then(() => this.onAnswer({response: {type:'post',item:this.item}}),
+                .then(() => this.onAnswer({ formMode: FormMode.Post, item: this.measurement }),
                     error => this.message.toastError(error));
         }
-        if (this.mode === 'put') {
-            this.CalendarService.putItem(this.item.package())
-                .then(response => this.item.compile(response)) // сохраняем id, revision в обьекте
+        if (this.measurement.view.isPut) {
+            this.CalendarService.putItem(this.measurement.package())
+                .then(response => this.measurement.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo('measurementUpdated'))
-                .then(() => this.onAnswer({response: {type:'put',item:this.item}}),
+                .then(() => this.onAnswer({ formMode: FormMode.Put, item: this.measurement }),
                     error => this.message.toastError(error));
         }
     }
 
-    onDelete() {
-        this.CalendarService.deleteItem('F', [this.item.calendarItemId])
+    delete () {
+        this.CalendarService.deleteItem('F', [ this.measurement.calendarItemId ])
             .then(response => {
                 this.message.toastInfo('measurementDeleted');
-                this.onAnswer({response: {type:'delete',item:this.item}});
+                this.onAnswer({ formMode: FormMode.Delete, item: this.measurement });
             }, error => this.message.toastError(error));
     }
 }
 
 export let CalendarItemMeasurementComponent = {
     bindings: {
-        data: '=',
-        mode: '@',
-        user: '<',
+        data: '<',
+        options: '<',
         onCancel: '&',
         onAnswer: '&'
     },

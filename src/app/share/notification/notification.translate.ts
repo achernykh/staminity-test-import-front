@@ -2,14 +2,14 @@
  * В переводах нотифкаций используется фильтры пересчета показателей -
  * masureCalc, вывода единиц измерения - measureCalc translate для перевода
  * единиц измререния на установленный в сессии пользователя язык интерфейса
- * 
+ *
  * Фильтры - это функции форматирования вывода. Они берут значение на вход,
  * пересчитывают и возвращают измененное значение.
- * 
+ *
  * Конструкция "вход" | "название_фильтра":["параметр"...]. Фильтры могут
  * идти следом друг за дргуом передавая рассчитанное значение на вход следующему
  * фильтру
- * 
+ *
  * При добавлении новых уведомлений необходимо создавать строку для последующего тестированию данного шаблона. Пример см. в notificationTestMessage
  * */
 export const translateNotification = {
@@ -38,7 +38,6 @@ export const translateNotification = {
 
         badUsernameOrPassword: "Пользователь с таким именем и паролем не найден",
 
-
         /* Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
         * data[0] - базовый вид спорта
         * data[1] - дата тренировки в формате DD.MM.YY
@@ -58,7 +57,7 @@ export const translateNotification = {
         * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
         * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
         * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
-        activityCompletedByAthlete: "Выполнена тренировка {{data[1] | date:'short'}} \n "+
+        activityCompletedByAthlete: "Выполнена тренировка {{data[1] | date:'short'}} \n " +
         "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3] | measureCalc:data[0]:'duration'}}",
 
         /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
@@ -67,7 +66,7 @@ export const translateNotification = {
         * data[2] - плановая дата тренировки в формате DD.MM.YY
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
-        activityCreatedByCoach: "Создана плановая тренировка: "+
+        activityCreatedByCoach: "Создана плановая тренировка: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
          /*  Плановая тренировка изменена тренером. Получатель - спортсмен, отправитель - тренер
@@ -76,7 +75,7 @@ export const translateNotification = {
         * data[2] - плановая дата тренировки в формате DD.MM.YY
         * data[3] - calendarItemId
         * data[4] - название типа тренировки**/
-        activityModifiedByCoach: "Изменен план в тренировке: "+
+        activityModifiedByCoach: "Изменен план в тренировке: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка удалена тренером. Получатель - спортсмен, отправитель - тренер
@@ -85,7 +84,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityDeletedByCoach: "Удалена тренировка: "+
+        activityDeletedByCoach: "Удалена тренировка: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка создана спортсменом. Получатель - тренер, отправитель - спортсмен
@@ -94,7 +93,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityCreatedByAthlete: "Спортсмен создал тренировку: "+
+        activityCreatedByAthlete: "Спортсмен создал тренировку: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка удалена спортсменом. Получатель - тренер, отправитель - спортсмен
@@ -103,9 +102,8 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityDeletedByAthlete: "Удалена тренировка спортсменом: "+
+        activityDeletedByAthlete: "Удалена тренировка спортсменом: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
-
 
          /*  Факт по тренировке изменен спортсменом. Условия получения такого уведомления:
             - спортсмен ввел или изменил факт вручную в тренировке,
@@ -121,7 +119,6 @@ export const translateNotification = {
 
         activityCompletedByFriend: "", /* под вопросом. Тренировки друзей достаточно видеть в ленте */
         activityCompletedByFollowing: "",  /* аналогично, под вопросом */
-
 
 /* ---------- Комментарии, лайки, сообщения  --------**/
         /*  Комментарий тренера спортсмену в тренировке.
@@ -226,7 +223,6 @@ export const translateNotification = {
          data[2] - Название клуба
          data[3[ - uri клуба           **/
         leaveClubMembersByOtherAdmin: "{{data[0]}} исключен из клуба {{data[2]}}",
-
 
     /* Friends **/
         /* Запрос на дружбу принят.
@@ -341,12 +337,10 @@ export const translateNotification = {
         joinClubConsultingByAdmin: "{{data[2]}} назначен консультантом клуба {{data[0]}}",
         joinClubAthletesByAdmin: "{{data[2]}} включен в число спортсменов клуба {{data[0]}}",
 
-
         joinClubCoachesByMember: "Назначил себя тренером клуба {{data[0]}}",
         joinClubChiefCoachesByMember: "Назначил себя главным тренером клуба {{data[0]}}",
         joinClubConsultingByMember: "Назначил себя консультантом клуба {{data[0]}}",
         joinClubAthletesByMember: "Включил себя в число спортсменов клуба {{data[0]}}",
-
 
         // выход из групп
         leaveClubManagementByAdmin: "{{data[2]}} отключена роль 'Администратор' клуба {{data[0]}}",
@@ -355,12 +349,10 @@ export const translateNotification = {
         leaveClubConsultingByAdmin: "{{data[2]}} отключена роль 'Консультант' клуба {{data[0]}}",
         leaveClubAthletesByAdmin: "{{data[2]}} отключена роль 'Спортсмен' клуба {{data[0]}}",
 
-
         leaveClubCoachesByMember: "Отключил себе роль 'Тренер' в клубе {{data[0]}}",
         leaveClubChiefCoachesByMember: "Отключил себе роль 'Главный тренер' в клубе {{data[0]}}",
         leaveClubConsultingByMember: "Отключил себе роль 'Консультант' в клубе {{data[0]}}",
         leaveClubAthletesByMember: "Отключил себе роль 'Спортсмен' в клубе {{data[0]}}",
-
 
         /* Оповещение админов группы Club_<>_<>_Athletes при изменении членства
         Отправитель - админ группы, выполняющий добавление/удаление члена группы
@@ -372,9 +364,9 @@ export const translateNotification = {
             data[3] - Uri спортсмена
             data[4] - Name тренера
             data[5] - Uri тренера **/
-        joinCoachAthleteByAdmin: "Назначен тренер для спортсмена в клубе {{data[0]}}:\n"+
+        joinCoachAthleteByAdmin: "Назначен тренер для спортсмена в клубе {{data[0]}}:\n" +
         "Тренер: {{data[4]}}, спортсмен: {{data[2]}}",
-        leaveCoachAthleteByAdmin: "Отключен тренер от спортсмена в клубе {{data[0]}}:\n"+
+        leaveCoachAthleteByAdmin: "Отключен тренер от спортсмена в клубе {{data[0]}}:\n" +
         "Тренер: {{data[4]}}, спортсмен: {{data[2]}}",
 
     /*  ----------Уведомления по членству в тарифных группах --------
@@ -387,7 +379,6 @@ export const translateNotification = {
             <join/leave><groupCode> - пользователь, получающий тарифные функции
             <join/leave><groupCode>ByMember - админы группы, кроме себя самого
             <join/leave><groupCode>ByAdmin - админы группы, кроме себя самого
-
 
         Контекст data[]:
             data[0] - Название клуба
@@ -416,7 +407,6 @@ export const translateNotification = {
         leavePremiumByCoach: "Вам отключен тариф 'Премиум', ранее подключенный за счет тренера",
         //другие типы для PremiumByCoach не релевантны
 
-
     /* ----------Уведомления по тарифам --------**
 
     Отправитель: Стаминити
@@ -439,8 +429,8 @@ export const translateNotification = {
         "тариф будет подключен на платной основе с ежедневными начислениями",
         trialExpireTodayAfterOldTariff: "Сегодня завершается пробный период по тарифу {{data[0] | translate}}. С {{data[2] | date:'shortDate'}} " +
         "тариф будет подключен на платной основе с ежедневными начислениями",
-        trialExpiredAfterOldTariff: 'Закончился пробный период по тарифу {{data[0] | translate}}. ' +
-        'С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ',
+        trialExpiredAfterOldTariff: "Закончился пробный период по тарифу {{data[0] | translate}}. " +
+        "С сегодняшнего дня тариф подключен на платной основе, начисления производятся ежедневно в рамках существующего счета ",
 
         /* ------ Оплата счетов + нулевые счета
              header (push): Успешная оплата
@@ -458,39 +448,38 @@ export const translateNotification = {
         billPayment_singleTariff_ZeroAmount: "Дополнительных начислений по тарифу {{data[0] | translate}} нет. Тариф продлен до {{data[1] | date:'shortDate'}}",
         billPayment_multiTariff_ZeroAmount: "Дополнительных начислений по вашим тарифам нет. Тарифы продлены до {{data[1] | date:'shortDate'}}",
 
-
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Ошибка оплаты
-        billPayment_Failure_singleTariff: 'Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[3]}} {{data[4]}}. Попробуйте еще раз',
+        billPayment_Failure_singleTariff: "Не удалось оплатить счет по тарифу {{data[0] | translate}} на {{data[3]}} {{data[4]}}. Попробуйте еще раз",
         //  data[0] - Сумма счета
         //  data[1] - Валюта счета
         //
-        billPayment_Failure_multiTariff: 'Не удалось оплатить счет по вашим тарифам на {{data[3]}} {{data[4]}}. Попробуйте еще раз',
+        billPayment_Failure_multiTariff: "Не удалось оплатить счет по вашим тарифам на {{data[3]}} {{data[4]}}. Попробуйте еще раз",
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Успешная оплата
         //  data[0] - Сумма счета
         //  data[1] - Валюта счета
         //
-        billExpiredPaymentReceived: 'Спасибо! Ваш платеж по счету на {{data[0]}} {{data[1]}} получен',
+        billExpiredPaymentReceived: "Спасибо! Ваш платеж по счету на {{data[0]}} {{data[1]}} получен",
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Функции заблокированы
          **/
-        disabledPremiumByCoach: 'Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера',
-        disabledPremiumByClub: 'Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба',
-        disabledCoachByClub: 'Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба',
+        disabledPremiumByCoach: "Вам временно отключен тариф Премиум, подключенный тренером. Ожидается оплата от тренера",
+        disabledPremiumByClub: "Вам временно отключен тариф Премиум, подключенный клубом. Ожидается оплата от клуба",
+        disabledCoachByClub: "Вам временно отключен тариф Тренер, подключенный клубом. Ожидается оплата от клуба",
 
         /* ----------- Снятие ограничений функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Функции разблокированы
          **/
-        enabledPremiumByCoach: 'Вам снова доступны функции по тарифу Премиум, подключенному тренером',
-        enabledPremiumByClub: 'Вам снова доступны функции по тарифу Премиум, подключенному клубом',
-        enabledCoachByClub: 'Вам снова доступны функции по тарифу Тренер, подключенному клубом',
+        enabledPremiumByCoach: "Вам снова доступны функции по тарифу Премиум, подключенному тренером",
+        enabledPremiumByClub: "Вам снова доступны функции по тарифу Премиум, подключенному клубом",
+        enabledCoachByClub: "Вам снова доступны функции по тарифу Тренер, подключенному клубом",
 
         /* ----------- Рекарринг --------**
 
@@ -524,26 +513,26 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        recurring_Failure_singleTariff: 'Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
-        recurring_Failure_multiTariff: 'Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную',
+        recurring_Failure_singleTariff: "Оплату по тарифу {{data[0] | translate}} по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную",
+        recurring_Failure_multiTariff: "Оплату по вашим тарифам по счету на {{data[2]}} {{data[3]}} выполнить не удалось. Оплатите счет вручную",
 
         /* ----------- Создание окружения клуба при подключении тарифа--------**
          Отправитель: Стаминити
          header (push): Клуб создан
          data[0] - Название клуба
           **/
-        clubEnvCreate: 'Для вас создан клуб {{data[0]}}. Клубный раздел доступен в левом меню',
+        clubEnvCreate: "Для вас создан клуб {{data[0]}}. Клубный раздел доступен в левом меню",
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
          header (push): Удаление клуба     **/
-        clubEnvDeleteInSomeDays: 'Ваш клуб будет удален через 5 дней. Подключите тариф, чтобы этого избежать',
-        clubEnvDeleted: 'Ваш клуб удален, спортсмены и тренеры клуба отключены от клуба',
+        clubEnvDeleteInSomeDays: "Ваш клуб будет удален через 5 дней. Подключите тариф, чтобы этого избежать",
+        clubEnvDeleted: "Ваш клуб удален, спортсмены и тренеры клуба отключены от клуба",
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Удаление спортсменов     **/
-        coachEnvDeleteInSomeDays: 'Связь с вашими не клубными спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать',
-        coachEnvDeleted: 'Связь с вашими не клубными спортсменами удалена',
+        coachEnvDeleteInSomeDays: "Связь с вашими не клубными спортсменами будет удалена через 5 дней. Подключите тариф, чтобы этого избежать",
+        coachEnvDeleted: "Связь с вашими не клубными спортсменами удалена",
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
@@ -552,8 +541,8 @@ export const translateNotification = {
          data[1] - paidTill date
          **/
         expireTariffPurchase: "Срок действия тарифа {{data[0] | translate}} истекает {{data[1] | date:'shortDate'}}",
-        expireTariffPurchaseToday: 'Срок действия тарифа {{data[0] | translate}} истекает сегодня',
-        expireTariffPurchaseYesterday: 'Тариф {{data[0] | translate}} отключен',
+        expireTariffPurchaseToday: "Срок действия тарифа {{data[0] | translate}} истекает сегодня",
+        expireTariffPurchaseYesterday: "Тариф {{data[0] | translate}} отключен",
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
@@ -563,10 +552,9 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        singleBBill: 'Выставлен счет #{{data[1]}} на {{data[2]}} {{data[3]}}. Просьба оплатить',
-        multipleBBill: 'Задолженность по неоплаченным счетам составляет {{data[2]}} {{data[3]}}. Просьба оплатить',
-        singleFBill: 'Для продолжения использования тарифа {{data[0] | translate}} оплатите счет #{{data[1]}} на {{data[2]}} {{data[3]}}',
-
+        singleBBill: "Выставлен счет #{{data[1]}} на {{data[2]}} {{data[3]}}. Просьба оплатить",
+        multipleBBill: "Задолженность по неоплаченным счетам составляет {{data[2]}} {{data[3]}}. Просьба оплатить",
+        singleFBill: "Для продолжения использования тарифа {{data[0] | translate}} оплатите счет #{{data[1]}} на {{data[2]}} {{data[3]}}",
 
 /* ----------Зоны и пороги --------**/
         /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот  */
@@ -577,30 +565,29 @@ export const translateNotification = {
          data [0] - базовый вид спорта
          data [1] - пороговое значение
          data [2] - дата обновления */
-        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{'sport.'+data[0] | translate}}. "+
+        newPaceFTPBySystem: "Предлагаем обновить значение ПАНО по темпу по виду спорта: {{'sport.'+data[0] | translate}}. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
-        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{'sport.'+data[0] | translate}}. "+
+        newHeartRateFTPBySystem: "Предлагаем обновить значение ПАНО по пульсу по виду спорта: {{'sport.'+data[0] | translate}}. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
-        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{'sport.'+data[0] | translate}}. "+
+        newPowerFTPBySystem: "Предлагаем обновить значение ПАНО по мощности по виду спорта: {{'sport.'+data[0] | translate}}. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
 
         /* Предлагается изменение порогов по итогам анализа тренировки. Отправитель - спортсмен, получатель - тренер.
          data [0] - базовый вид спорта
          data [1] - пороговое значение
          data [2] - дата обновления */
-        newAthletePaceFTPBySystem: "Предлагаем обновить ПАНО по темпу для вашего спортсмена по итогам его тренировки. "+
+        newAthletePaceFTPBySystem: "Предлагаем обновить ПАНО по темпу для вашего спортсмена по итогам его тренировки. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'speed'}} {{'speed' | measureUnit:data[0] | translate}} ",
-        newAthleteHeartRateFTPBySystem: "Предлагаем обновить ПАНО по пульсу для вашего спортсмена по итогам его тренировки. "+
+        newAthleteHeartRateFTPBySystem: "Предлагаем обновить ПАНО по пульсу для вашего спортсмена по итогам его тренировки. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'heartRate'}} {{'heartRate' | measureUnit:data[0] | translate}}",
-        newAthletePowerFTPBySystem: "Предлагаем обновить ПАНО по мощности для вашего спортсмена по итогам его тренировки. "+
+        newAthletePowerFTPBySystem: "Предлагаем обновить ПАНО по мощности для вашего спортсмена по итогам его тренировки. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
-
 
 /* ---------- Уведомления от сервиса --------**/
     /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
         * data[0] - текст сообщения RUS*
         * data[1] - текст сообщения ENG **/
-        staminityNotification: "{{data[0]}}"
+        staminityNotification: "{{data[0]}}",
     },
 
 //    ----------------- ENGLISH ---------------------
@@ -628,7 +615,6 @@ export const translateNotification = {
 
         badUsernameOrPassword: "Bad username or password",
 
-
         /* Сообщение спортсмену, что его тренировка загружена. Отправитель - провайдер
          * data[0] - базовый вид спорта
          * data[1] - дата тренировки в формате DD.MM.YY
@@ -648,7 +634,7 @@ export const translateNotification = {
          * data[3] - фактическая длительность тренировки = calcMeasures.duration.value
          * data[4] - фактическое расстояние тренировки = calcMeasures.distance.value
          * data[5] - фактический % выполнения = calcMeasures.completePercent.value */
-        activityCompletedByAthlete: "Activity from {{data[1] | date:'short'}} was completed \n "+
+        activityCompletedByAthlete: "Activity from {{data[1] | date:'short'}} was completed \n " +
         "{{'sport.'+data[0] | translate}}, {{data[4] | measureCalc:data[0]:'distance'}} {{'distance' | measureUnit:data[0] | translate}}, {{data[3] | measureCalc:data[0]:'duration'}}",
 
         /*  Плановая тренировка создана тренером. Получатель - спортсмен, отправитель - тренер
@@ -657,7 +643,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityCreatedByCoach: "New activity plan: "+
+        activityCreatedByCoach: "New activity plan: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка изменена тренером. Получатель - спортсмен, отправитель - тренер
@@ -666,7 +652,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityModifiedByCoach: "Activity plan was changed "+
+        activityModifiedByCoach: "Activity plan was changed " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка удалена тренером. Получатель - спортсмен, отправитель - тренер
@@ -675,7 +661,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityDeletedByCoach: "Activity was deleted: "+
+        activityDeletedByCoach: "Activity was deleted: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка создана спортсменом. Получатель - тренер, отправитель - спортсмен
@@ -684,7 +670,7 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityCreatedByAthlete: "New activity created by athlete: "+
+        activityCreatedByAthlete: "New activity created by athlete: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
 
         /*  Плановая тренировка удалена спортсменом. Получатель - тренер, отправитель - спортсмен
@@ -693,9 +679,8 @@ export const translateNotification = {
          * data[2] - плановая дата тренировки в формате DD.MM.YY
          * data[3] - calendarItemId
          * data[4] - название типа тренировки**/
-        activityDeletedByAthlete: "Activity was deleted by athlete: "+
+        activityDeletedByAthlete: "Activity was deleted by athlete: " +
         "{{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
-
 
         /*  Факт по тренировке изменен спортсменом. Условия получения такого уведомления:
          - спортсмен ввел или изменил факт вручную в тренировке,
@@ -711,7 +696,6 @@ export const translateNotification = {
 
         activityCompletedByFriend: "", /* под вопросом. Тренировки друзей достаточно видеть в ленте */
         activityCompletedByFollowing: "",  /* аналогично, под вопросом */
-
 
         /* ---------- Комментарии, лайки, сообщения  --------**/
         /*  Комментарий тренера спортсмену в тренировке.
@@ -802,7 +786,6 @@ export const translateNotification = {
          data[2] - Название клуба
          data[3[ - uri клуба           **/
         leaveClubMembersByOtherAdmin: "{{data[0]}} have been disconnected from {{data[2]}}",
-
 
         /* Friends **/
         /* Запрос на дружбу принят.
@@ -917,12 +900,10 @@ export const translateNotification = {
         joinClubConsultingByAdmin: "{{data[2]}} is club consultant in {{data[0]}}",
         joinClubAthletesByAdmin: "{{data[2]}} is club athlete in {{data[0]}}",
 
-
         joinClubCoachesByMember: "Made yourself club coach in {{data[0]}}",
         joinClubChiefCoachesByMember: "Made yourself chief coach in {{data[0]}}",
         joinClubConsultingByMember: "Made yourself club consultant in {{data[0]}}",
         joinClubAthletesByMember: "Made yourself club athlete in {{data[0]}}",
-
 
         // выход из групп
         leaveClubManagementByAdmin: "Role 'Administrator' was removed from {{data[2]}} in club {{data[0]}}",
@@ -931,12 +912,10 @@ export const translateNotification = {
         leaveClubConsultingByAdmin: "Role 'Consultant' was removed from {{data[2]}} in club {{data[0]}}",
         leaveClubAthletesByAdmin: "Role 'Club athlete' was removed from {{data[2]}} in club {{data[0]}}",
 
-
         leaveClubCoachesByMember: "Removed yourself from 'ClubCoach' in club {{data[0]}}",
         leaveClubChiefCoachesByMember: "Removed yourself from 'Chief Coach' in club {{data[0]}}",
         leaveClubConsultingByMember: "Removed yourself from 'Consultant' in club  {{data[0]}}",
         leaveClubAthletesByMember: "Removed yourself from 'Club athletes' in club {{data[0]}}",
-
 
         /* Оповещение админов группы Club_<>_<>_Athletes при изменении членства
          Отправитель - админ группы, выполняющий добавление/удаление члена группы
@@ -961,7 +940,6 @@ export const translateNotification = {
          <join/leave><groupCode> - пользователь, получающий тарифные функции
          <join/leave><groupCode>ByMember - админы группы, кроме себя самого
          <join/leave><groupCode>ByAdmin - админы группы, кроме себя самого
-
 
          Контекст data[]:
          data[0] - Название клуба
@@ -989,7 +967,6 @@ export const translateNotification = {
         joinPremiumByCoach: "You have Premium account paid by your coach",
         leavePremiumByCoach: "Your Premium tariff was removed by your coach",
         //другие типы для PremiumByCoach не релевантны
-
 
         /* ----------Уведомления по тарифам --------**
 
@@ -1023,33 +1000,32 @@ export const translateNotification = {
         billPayment_singleTariff_ZeroAmount: "Since last bill you have no additional cost for your tariff {{data[0] | translate}}. Keep using it till {{data[1] | date:'shortDate'}} without any payment",
         billPayment_multiTariff_ZeroAmount: "Since last bill you have no additional cost for your tariffs. Keep using them till {{data[1] | date:'shortDate'}} without any payment",
 
-
         //  ------ Оплата счетов не прошла из-за ошибки
         //     header (push): Payment failure
-        billPayment_Failure_singleTariff: 'Something went wrong with your {{data[3]}} {{data[4]}} payment for {{data[0] | translate}} tariff. Please try again',
-        billPayment_Failure_multiTariff: 'Something went wrong with your {{data[3]}} {{data[4]}} payment for your tariffs. Please try again',
+        billPayment_Failure_singleTariff: "Something went wrong with your {{data[3]}} {{data[4]}} payment for {{data[0] | translate}} tariff. Please try again",
+        billPayment_Failure_multiTariff: "Something went wrong with your {{data[3]}} {{data[4]}} payment for your tariffs. Please try again",
 
         // - оплачен просроченный счет (счет для пролонгации не найден в момент форм. уведомл.)
         //     header (push): Successful payment
-        billExpiredPaymentReceived: 'Thank you. Your {{data[3]}} {{data[4]}} payment was processed',
+        billExpiredPaymentReceived: "Thank you. Your {{data[3]}} {{data[4]}} payment was processed",
 
         /* ----------- Ограничения функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Tariff blocked
          **/
-        disabledPremiumByCoach: 'Your Premium by coach tariff was blocked',
-        disabledPremiumByClub: 'Your Premium by club tariff was blocked',
-        disabledCoachByClub: 'Your Coach by club tariff was blocked',
+        disabledPremiumByCoach: "Your Premium by coach tariff was blocked",
+        disabledPremiumByClub: "Your Premium by club tariff was blocked",
+        disabledCoachByClub: "Your Coach by club tariff was blocked",
 
         /* ----------- Снятие ограничений функций для пользователей, которым подключены тарифы за счет тренера/клуба --------**
 
          Отправитель: Тренер (Фамилия, Имя) или Название клуба
          header (push): Tariff enabled
          **/
-        enabledPremiumByCoach: 'Your Premium by coach tariff was enabled',
-        enabledPremiumByClub: 'Your Premium by club tariff was enabled',
-        enabledCoachByClub: 'Your Coach by club tariff was enabled',
+        enabledPremiumByCoach: "Your Premium by coach tariff was enabled",
+        enabledPremiumByClub: "Your Premium by club tariff was enabled",
+        enabledCoachByClub: "Your Coach by club tariff was enabled",
 
         /* ----------- Рекарринг --------**
 
@@ -1083,26 +1059,26 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        recurring_Failure_singleTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using the tariff {{data[0] | translate}} please check and pay unpaid bills',
-        recurring_Failure_multiTariff: 'We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using your tariffs please check and pay unpaid bills',
+        recurring_Failure_singleTariff: "We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using the tariff {{data[0] | translate}} please check and pay unpaid bills",
+        recurring_Failure_multiTariff: "We tried to charge your card for {{data[2]}} {{data[3]}} but something went wrong. To continue using your tariffs please check and pay unpaid bills",
 
         /* ----------- Создание окружения клуба при подключении тарифа--------**
          Отправитель: Стаминити
          header (push): Клуб создан
          data[0] - Название клуба
          **/
-        clubEnvCreate: 'Club {{data[0]}} created',
+        clubEnvCreate: "Club {{data[0]}} created",
 
         /* ----------- Удаление окружения клуба --------**
          Отправитель: Стаминити
          header (push): Delete club     **/
         clubEnvDeleteInSomeDays: 'Your club will be deleted in 5 days. To continue using it please purchase "Club" tariff',
-        clubEnvDeleted: 'Your club was deleted. All club members have been disconnected from club',
+        clubEnvDeleted: "Your club was deleted. All club members have been disconnected from club",
         /* ----------- Удаление окружения тренера --------**
          Отправитель: Стаминити
          header (push): Remove athletes     **/
         coachEnvDeleteInSomeDays: 'Your non-club athletes will be disconnected from you in 5 days. To continue work with them please purchase "Coach" tariff',
-        coachEnvDeleted: 'You have been disconnected from your non-club athletes',
+        coachEnvDeleted: "You have been disconnected from your non-club athletes",
 
         /* ----------- Истечение срока действия подключенных тарифов --------**
          Отправитель: Стаминити
@@ -1113,7 +1089,7 @@ export const translateNotification = {
          **/
         expireTariffPurchase: "Your tariff {{data[0] | translate}} expires {{data[1] | date:'shortDate'}}",
         expireTariffPurchaseToday: "Your tariff {{data[0] | translate}} expires today",
-        expireTariffPurchaseYesterday: 'Your tariff {{data[0] | translate}} was expired yesterday',
+        expireTariffPurchaseYesterday: "Your tariff {{data[0] | translate}} was expired yesterday",
 
         /* ----------- Уведомления по счетам  --------**
          Отправитель: Стаминити
@@ -1123,10 +1099,9 @@ export const translateNotification = {
          data[2] - Сумма счета
          data[3] - Валюта счета
          **/
-        singleBBill: 'Please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}. See details in Settings - Bills',
-        multipleBBill: 'You have unpaid bills on {{data[2]}} {{data[3]}}. Please make a payment',
-        singleFBill: 'To continue using {{data[0] | translate}} tariff please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}',
-
+        singleBBill: "Please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}. See details in Settings - Bills",
+        multipleBBill: "You have unpaid bills on {{data[2]}} {{data[3]}}. Please make a payment",
+        singleFBill: "To continue using {{data[0] | translate}} tariff please pay {{data[2]}} {{data[3]}} bill #{{data[1]}}",
 
         /* ----------Зоны и пороги --------**/
         /* Зоны изменены тренером. Отправитель - тренер, получатель - спортсмен. Или наоборот  */
@@ -1155,11 +1130,10 @@ export const translateNotification = {
         newAthletePowerFTPBySystem: "New athlete's power FTP value: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}, " +
         "sport: {{'sport.'+data[0] | translate}}. Please change his FTP settings",
 
-
         /* ---------- Уведомления от сервиса --------**/
         /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
          * data[0] - текст сообщения RUS*
          * data[1] - текст сообщения ENG **/
-        staminityNotification: "{{data[1]}}"
-    }
+        staminityNotification: "{{data[1]}}",
+    },
 };

@@ -1,4 +1,4 @@
-import moment from 'moment/min/moment-with-locales.js';
+ import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
 import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
 
@@ -52,30 +52,30 @@ export default class DialogsService {
         });
     }
     
-    tariffs (tariffs, byUs, bySelf, byWho) {
+    tariffs (tariffs, byClub, bySelf, message) {
         return this.$mdDialog.show({
             controller: TariffsController,
-            locals: { tariffs, byUs, bySelf, byWho },
+            locals: { tariffs, byClub, bySelf, message },
             template: require('./tariffs.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
     }
     
-    selectUsers (users, message) {
+    selectUsers (users, selectedUsers, message) {
         return this.$mdDialog.show({
             controller: SelectUsersController,
-            locals: { users, message },
+            locals: { users, selectedUsers, message },
             template: require('./select-users.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
     }
     
-    roles (roles) {
+    roles (roles, selectedRoles) {
         return this.$mdDialog.show({
             controller: RolesController,
-            locals: { roles },
+            locals: { roles, selectedRoles },
             template: require('./roles.html'),
             parent: angular.element(document.body),
             clickOutsideToClose: true
@@ -220,7 +220,6 @@ export default class DialogsService {
             escapeToClose: true,
             fullscreen: !this.$mdMedia('gt-sm')
         });
-
     }
 }
 
@@ -321,48 +320,56 @@ function UsersListController($scope, $mdDialog, $state, users, title) {
 
 UsersListController.$inject = ['$scope', '$mdDialog', '$state', 'users', 'title'];
 
+const isChecked = (list) => (item) => (isChecked) => {
+    if (isChecked === undefined) {
+        return list.includes(item);
+    }
 
-function RolesController ($scope, $mdDialog, roles) {
+    if (isChecked) {
+        list.push(item);
+    } else {
+        let index = list.indexOf(item);
+        list.splice(index, 1);
+    }        
+};
+
+
+function RolesController ($scope, $mdDialog, roles, selectedRoles) {
     $scope.roles = roles;
-    $scope.commit = () => { $mdDialog.hide($scope.roles) };
+    $scope.selectedRoles = selectedRoles.slice();
+    $scope.isChecked = isChecked($scope.selectedRoles);    
+    $scope.commit = () => { $mdDialog.hide($scope.selectedRoles) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
 
-RolesController.$inject = ['$scope', '$mdDialog', 'roles'];
+RolesController.$inject = ['$scope', '$mdDialog', 'roles', 'selectedRoles'];
 
 
-function TariffsController ($scope, $mdDialog, tariffs, byUs, bySelf, byWho) {
+function TariffsController ($scope, $mdDialog, tariffs, byClub, bySelf, message) {
     $scope.tariffs = tariffs;
-    $scope.selectedTariffs = byUs.slice();
+    $scope.selectedTariffs = byClub.slice();
     $scope.tariffsBySelf = bySelf;
-    $scope.byWho = byWho;
-    $scope.toggle = (tariff) => {
-        if ($scope.tariffsBySelf.includes(tariff)) return;
-        
-        if ($scope.selectedTariffs.includes(tariff)) {
-            let index = $scope.selectedTariffs.indexOf(tariff);
-            $scope.selectedTariffs.splice(index, 1);
-        } else {
-            $scope.selectedTariffs.push(tariff);
-        }
-    };
+    $scope.message = message;
+    $scope.isChecked = isChecked($scope.selectedTariffs);
     $scope.commit = () => { $mdDialog.hide($scope.selectedTariffs) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
 
-TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byUs', 'bySelf', 'byWho'];
+TariffsController.$inject = ['$scope', '$mdDialog', 'tariffs', 'byClub', 'bySelf', 'message'];
 
 
-function SelectUsersController ($scope, $mdDialog, users, message) {
+function SelectUsersController ($scope, $mdDialog, users, selectedUsers, message) {
     $scope.message = message;
     $scope.users = users;
-    $scope.checked = () => users.filter(user => user.checked);
-    $scope.unchecked = () => users.filter(user => !user.checked);
-    $scope.commit = () => { $mdDialog.hide($scope.users) };
+    $scope.selectedUsers = selectedUsers.slice();
+    $scope.isChecked = isChecked($scope.selectedUsers);
+    $scope.checked = () => $scope.users.filter((user) => $scope.selectedUsers.includes(user));
+    $scope.unchecked = () => $scope.users.filter((user) => !$scope.selectedUsers.includes(user));
+    $scope.commit = () => { $mdDialog.hide($scope.selectedUsers) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
 
-SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'message'];
+SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'selectedUsers', 'message'];
 
 
 function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
@@ -492,6 +499,7 @@ DisableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'mes
 function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, message, tariff, billing) {
     this.tariff = tariff;
     this.billing = billing;
+    this.terms = [1, 12];
 
     this.tariffStatus = BillingService.tariffStatus(tariff);
     this.tariffIsOwn = !BillingService.tariffEnablerClub(tariff) && !BillingService.tariffEnablerCoach(tariff);
@@ -517,6 +525,20 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
         dialogs.usersList(fee.varObjects, 'users');
     };
 
+    this.fixedFeeTerm = (value) => {
+        if (typeof value !== 'number') {
+            return this.getFixedFee().term;
+        }
+
+        BillingService.getTariff(tariff.tariffId, '', value)
+        .then((billing) => {
+            const fixedFee = billing.rates.find((rate) => rate.rateType === 'Fixed' && rate.term === value);
+            this.billing.rates = this.billing.rates.map((rate) => rate.rateType === 'Fixed' ? fixedFee : rate);
+            this.fixedFee = this.getFixedFee();
+            $scope.$apply();
+        });
+    };
+
     this.getActivePromo = (billing) => {
         return billing.rates.map(prop('promo')).find((promo) => promo && promo.code);
     };
@@ -529,7 +551,9 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
         this.autoRenewal = this.fixedFee.autoRenewal;
     };
 
-    this.setBilling(billing);
+    this.isTrial = () => {
+        return this.tariffStatus === 'trial';
+    };
 
     this.submitPromo = (promoCode) => {
         BillingService.getTariff(tariff.tariffId, promoCode)
@@ -558,6 +582,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             tariff.tariffId, 
             this.autoRenewal,
             maybe(this.activePromo) (prop('code')) (),
+            this.fixedFeeTerm(),
         ).then(() => {
             $mdDialog.hide();
         }, (info) => {
@@ -565,6 +590,8 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
             throw info;
         });
     };
+
+    this.setBilling(billing);
 
     console.log('TariffDetailsController', this);
 }

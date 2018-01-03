@@ -13,7 +13,7 @@
     </span>
 
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
-    <md-menu flex="none" ng-if="$ctrl.item.mode !== 'view'">
+    <md-menu flex="none" ng-if="!$ctrl.item.activity.view.isView">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
         </md-button>
@@ -36,7 +36,7 @@
                ng-attr-sport={{$ctrl.sport}} interval="false"
                ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                ng-change="$ctrl.changeValue($ctrl.interval.durationMeasure)"
-               ng-disabled="$ctrl.item.mode === 'view'">
+               ng-disabled="$ctrl.item.activity.view.isView">
         <input ng-if="$ctrl.viewPlan" measure-input ng-switch-when="distance"
                name="plan_distance"
                ng-model="$ctrl.interval.distance.durationValue"
@@ -45,7 +45,7 @@
                ng-attr-sport={{$ctrl.sport}} interval="false"
                ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                ng-change="$ctrl.changeValue($ctrl.interval.durationMeasure)"
-               ng-disabled="$ctrl.item.mode === 'view'">
+               ng-disabled="$ctrl.item.activity.view.isView">
     </md-input-container>
     <span class="duration" flex="noshrink" ng-if="$ctrl.viewActual">
         {{$ctrl.group && $ctrl.viewGroup ?
@@ -55,7 +55,7 @@
 
     <span flex="auto"></span>
     <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
-    <md-menu flex="none" ng-if="$ctrl.item.mode !== 'view'">
+    <md-menu flex="none" ng-if="!$ctrl.item.activity.view.isView">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
         </md-button>
@@ -70,7 +70,7 @@
     </md-menu>
     <md-input-container ng-if="$ctrl.viewPlan"
                         flex="noshrink" class="intensity" ng-switch="$ctrl.interval.intensityMeasure">
-        <span class="input-ftp" ng-if="$ctrl.isFTP()" ng-disabled="$ctrl.item.mode === 'view'">%</span>
+        <span class="input-ftp" ng-if="$ctrl.isFTP()" ng-disabled="$ctrl.item.activity.view.isView">%</span>
         <input ng-switch-when="heartRate"
                required
                measure-input
@@ -81,7 +81,7 @@
                ng-attr-sport={{$ctrl.sport}} interval="true"
                ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP()"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
-               ng-disabled="$ctrl.item.mode === 'view'">
+               ng-disabled="$ctrl.item.activity.view.isView">
         <input ng-switch-when="speed"
                required
                type="text"
@@ -95,7 +95,7 @@
                ftp-mode="$ctrl.isFTP()"
                ftp="$ctrl.getFTP('speed',$ctrl.sport)"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
-               ng-disabled="$ctrl.item.mode === 'view'">
+               ng-disabled="$ctrl.item.activity.view.isView">
         <input measure-input ng-switch-when="power"
                required
                ng-model="$ctrl.interval.power"
@@ -105,7 +105,7 @@
                ng-attr-sport={{$ctrl.sport}} interval="true"
                ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP()"
                ng-change="$ctrl.changeValue($ctrl.interval.intensityMeasure)"
-               ng-disabled="$ctrl.item.mode === 'view'">
+               ng-disabled="$ctrl.item.activity.view.isView">
     </md-input-container>
 
     <span class="intensity" flex="noshrink" ng-if="$ctrl.viewActual">

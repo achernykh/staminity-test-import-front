@@ -1,0 +1,60 @@
+md-dialog#training-plan-form{
+
+  @media (min-width: 960px) {
+    min-width: 640px;
+    max-width: 640px;
+    min-height: 90vh;
+    height: 100%;
+  }
+
+}
+
+.training-plan-form {
+
+  .label {
+    transform: translate3d(0, 6px, 0) scale(0.75);
+    transform-origin: left top;
+  }
+
+  md-icon.dense {
+    margin-right: 20px !important;
+  }
+
+  .tags-wrapper {
+    .md-list-item-inner {
+      align-items: flex-start !important;
+    }
+    md-icon {
+      margin-top: 42px !important;
+    }
+  }
+
+  .keywords-wrapper {
+
+    label {
+      margin-left: 50px;
+    };
+
+    md-chips {
+      margin-left: 50px;
+      display: flex;
+
+      .md-chips {
+        width: 100%;
+      }
+
+    }
+  }
+
+  md-input-container._md-datepicker-floating-label {
+    label {  transform: translate3d(42px, 6px, 0) scale(0.75); }
+    md-datepicker {  margin-left: 41px;  }
+    .md-datepicker-input-container {  width: calc(100% - 43px);  }
+    input {  max-width: 100%;  }
+  }
+
+  .ql-editor {
+    padding: 16px 0px;
+  }
+
+}

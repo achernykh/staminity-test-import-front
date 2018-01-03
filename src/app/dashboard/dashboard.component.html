@@ -58,8 +58,12 @@
                                    layout="column" layout-align="space-between start"
                                    ng-repeat="day in calendar.subItem track by $index"
                                    day="day"
-                                   athlete="calendar.profile"
+                                   current-user="$ctrl.coach"
+                                   owner="calendar.profile"
                                    selected="day.selected"
+                                   calendar-range-start="$ctrl.range[0]"
+                                   calendar-range-end="$ctrl.range[1]"
+                                   on-update="$ctrl.update(formMode, item)"
                                    on-select="day.selected = !day.selected">
                     </dashboard-day>
                     <dashboard-total class="total" week="calendar" update="calendar.changes" hide show-gt-md>

@@ -1,11 +1,11 @@
-import {ISocketService} from "../core/socket.service";
-import {SearchMethod, SearchParams, SearchResultByUser, SearchResultByGroup} from "../../../api/search/search.interface";
-import {SearchGetResult} from "../../../api/search/search.request";
+import {
+    SearchMethod, SearchParams, SearchResultByGroup, SearchResultByUser, SearchUserAndGroupsRequest} from "../../../api";
+import { SocketService} from "../core";
 
 export class SearchService {
 
-    static $inject = ['SocketService'];
-    constructor(private socket: ISocketService) {
+    static $inject = ["SocketService"];
+    constructor(private socket: SocketService) {
 
     }
 
@@ -16,11 +16,11 @@ export class SearchService {
      * @param params
      * @returns {Promise<TResult>}
      */
-    request(method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser | SearchResultByGroup>>{
-        return this.socket.send(new SearchGetResult(method,params))
-            .then(result => result.hasOwnProperty('arrayResult') &&
-                params.objectType === 'user' || params.objectType === 'coach' ?
-                    result.arrayResult.map(r => new SearchResultByUser(r)) :
-                    result.arrayResult.map(r => new SearchResultByGroup(r)));
+    request(method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser | SearchResultByGroup>> {
+        return this.socket.send(new SearchUserAndGroupsRequest(method, params))
+            .then((result) => result.hasOwnProperty("arrayResult") &&
+                params.objectType === "user" || params.objectType === "coach" ?
+                    result.arrayResult.map((r) => new SearchResultByUser(r)) :
+                    result.arrayResult.map((r) => new SearchResultByGroup(r)));
     }
 }

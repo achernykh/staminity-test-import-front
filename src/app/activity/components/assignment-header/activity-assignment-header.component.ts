@@ -1,10 +1,10 @@
-import './activity-assignment-header.component.scss';
-import {IComponentOptions, IComponentController, IPromise, INgModelController} from 'angular';
+import {IComponentController, IComponentOptions, INgModelController, IPromise} from "angular";
 import {
     CalendarItemActivityCtrl,
-    HeaderStructuredTab
+    HeaderStructuredTab,
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
+import "./activity-assignment-header.component.scss";
 
 class ActivityAssignmentHeaderCtrl implements IComponentController {
 
@@ -12,7 +12,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private onChange: (result: { form: INgModelController }) => IPromise<void>;
 
     private form: INgModelController;
-    public ftpMode: number;
+    ftpMode: number;
 
     static $inject = [];
 
@@ -25,7 +25,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     }
 
     private changeParam() {
-        setTimeout(()=>{
+        setTimeout(() => {
             this.clearTemplate();
             this.updateForm();
             this.item.updateFilterParams();
@@ -37,22 +37,22 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
      * Смене из одного типа в другой предидущие данные полностью удаляются, на будущее возможен
      * подтверждающий диалог для пользователя
      */
-    private changeStructuredMode(){
+    private changeStructuredMode() {
 
         if (this.item.structuredMode) {
             // Переключение на структурированную
             // Надоли удалять/очищать суммарный интервал? Скорее всего нет, при создании первого структурированного
             // интервала сумарный интервал пересчитается
             this.item.selectedTab = HeaderStructuredTab.Segments;
-            this.item.activity.updateIntervals();
+            //this.item.activity.updateIntervals();
         } else {
             // Переключение со структурированной на не структурированную
             this.item.activity.intervals.stack
-                .filter(i => i.type === 'P' || i.type === 'G')
-                .map(i => this.item.activity.intervals.splice(i.type, i.pos, 'single'));
+                .filter((i) => i.type === "P" || i.type === "G")
+                .map((i) => this.item.activity.intervals.splice(i.type, i.pos, "single"));
 
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
-            this.item.activity.updateIntervals();
+            //this.item.activity.updateIntervals();
         }
     }
 
@@ -60,7 +60,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         this.item.activity.header.template = null;
     }
 
-    private onTemplateOpen(){
+    private onTemplateOpen() {
         this.item.showSelectTemplate = true;
     }
 
@@ -70,26 +70,26 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         //this.prepareValues();
     }
 
-    private updateForm(){
+    private updateForm() {
         this.onChange({form: this.form});
     }
 
     get templateSelectorText(): string {
         return this.item.activity.header.template && `Шаблон: ${this.item.activity.header.template.code}` ||
-            this.item.templateByFilter && 'activity.template.enable' || 'activity.template.empty';
+            this.item.templateByFilter && "activity.template.enable" || "activity.template.empty";
     }
 }
 
-const ActivityAssignmentHeaderComponent:IComponentOptions = {
+const ActivityAssignmentHeaderComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        onChange: '&'
+        data: "<",
+        onChange: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityAssignmentHeaderCtrl,
-    template: require('./activity-assignment-header.component.html') as string
+    template: require("./activity-assignment-header.component.html") as string,
 };
 
 export default ActivityAssignmentHeaderComponent;

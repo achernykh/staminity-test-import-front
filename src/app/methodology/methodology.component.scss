@@ -1,0 +1,36 @@
+@import "../../sass/color";
+
+.methodology .st-application-frame__left-bar {
+  width: 300px;
+  .md-subheader {
+    background-color: $grey-050 !important;
+  }
+}
+
+.methodology.left-bar-show .st-application-frame__content {
+  margin-left: 300px;
+}
+
+.methodology {
+
+  &__left-bar {
+    overflow: auto;
+    height: 100%;
+    background-color: $grey-050;
+    border-right: 1px solid $grey-300;
+
+    .active {
+      background-color: $grey-300;
+    }
+
+  }
+
+  .template-count {
+    border-radius: 8px;
+    line-height: 16px;
+    padding: 0px 8px;
+    background-color: $grey-500;
+    color: white;
+  }
+
+}

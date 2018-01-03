@@ -1,13 +1,13 @@
-import './activity-interval-overview.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IFilterService} from 'angular';
-import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
-import {ActivityIntervalL} from "../activity-datamodel/activity.interval-l";
+import {IComponentController, IComponentOptions, IFilterService, IPromise} from "angular";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
+import {ActivityIntervalL} from "../activity-datamodel/activity.interval-l";
+import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
+import "./activity-interval-overview.component.scss";
 
 class ActivityIntervalOverviewCtrl implements IComponentController {
 
-    public interval: ActivityIntervalP | ActivityIntervalL;
+    interval: ActivityIntervalP | ActivityIntervalL;
     private item: CalendarItemActivityCtrl;
 
     private title: string = null;
@@ -18,17 +18,17 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
 
     private readonly structuredMeasure: any = {
         movingDuration: {
-            length: 'movingDurationLength',
-            approx: 'movingDurationApprox'
+            length: "movingDurationLength",
+            approx: "movingDurationApprox",
         },
         distance: {
-            length: 'distanceLength',
-            approx: 'distanceApprox'
-        }
+            length: "distanceLength",
+            approx: "distanceApprox",
+        },
     };
 
-    public onBack: (response: Object) => IPromise<void>;
-    static $inject = ['$filter'];
+    onBack: (response: Object) => IPromise<void>;
+    static $inject = ["$filter"];
 
     constructor(private $filter: IFilterService) {
 
@@ -41,25 +41,25 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     }
 
     private prepareInterval() {
-        this.isSegment = this.interval.type === 'P';
-        this.isSegmentGroup = this.isSegment && this.interval.hasOwnProperty('totalMeasures');
-        this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter(g => g.code === this.interval['parentGroupCode'])[0] || null;
+        this.isSegment = this.interval.type === "P";
+        this.isSegmentGroup = this.isSegment && this.interval.hasOwnProperty("totalMeasures");
+        this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter((g) => g.code === this.interval["parentGroupCode"])[0] || null;
     }
 
-    private prepareTitle(){
-        if(this.isSegment) {
-            this.title = this.interval.hasOwnProperty('totalMeasures') &&
-                `${this.$filter('translate')('activity.split.segmentGroup', {count: this.groupInfo.repeatCount})}` ||
-                `${this.$filter('translate')('activity.split.segment')} #${this.interval.pos}`;
+    private prepareTitle() {
+        if (this.isSegment) {
+            this.title = this.interval.hasOwnProperty("totalMeasures") &&
+                `${this.$filter("translate")("activity.split.segmentGroup", {count: this.groupInfo.repeatCount})}` ||
+                `${this.$filter("translate")("activity.split.segment")} #${this.interval.pos}`;
         } else {
-            this.title = `${this.$filter('translate')('activity.split.interval')}`;
+            this.title = `${this.$filter("translate")("activity.split.interval")}`;
         }
     }
 
-    private prepareSelection(){
-        if(this.isSegmentGroup) {
+    private prepareSelection() {
+        if (this.isSegmentGroup) {
             this.item.activity.intervals.stack.
-                filter(i => i.hasOwnProperty('parentGroupCode') && i['parentGroupCode'] === this.interval['parentGroupCode'] &&
+                filter((i) => i.hasOwnProperty("parentGroupCode") && i["parentGroupCode"] === this.interval["parentGroupCode"] &&
                     (i.pos - this.interval.pos) % this.groupInfo.grpLength === 0 &&
                     this.selection.push({startTimestamp: i.startTimestamp, endTimestamp: i.endTimestamp}));
         } else {
@@ -69,16 +69,16 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
 
 }
 
-const ActivityIntervalOverviewComponent:IComponentOptions = {
+const ActivityIntervalOverviewComponent: IComponentOptions = {
     bindings: {
-        interval: '<',
-        onBack: '&'
+        interval: "<",
+        onBack: "&",
     },
     require: {
-        item: '^calendarItemActivity'
+        item: "^calendarItemActivity",
     },
     controller: ActivityIntervalOverviewCtrl,
-    template: require('./activity-interval-overview.component.html') as string
+    template: require("./activity-interval-overview.component.html") as string,
 };
 
 export default ActivityIntervalOverviewComponent;

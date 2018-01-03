@@ -1,6 +1,6 @@
-import {ActivityInterval} from "./activity.interval";
 import {IActivityIntervalL, ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {ICalcMeasure} from "../components/segment-chart/segmentsChart.input";
+import {ActivityInterval} from "./activity.interval";
 import {ActivityIntervalCalcMeasure} from "./activity.models";
 
 export class ActivityIntervalL extends ActivityInterval implements IActivityIntervalL {

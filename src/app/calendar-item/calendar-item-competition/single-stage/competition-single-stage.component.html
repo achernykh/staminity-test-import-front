@@ -1,0 +1,68 @@
+<md-table-container class="competition-single-stage">
+    <table md-table md-row-select="false" multiple="false" ng-model="$ctrl.items">
+        <thead md-head>
+        <tr md-row>
+            <th md-column class="stage"><span translate="competition.stage"></span></th>
+            <th md-column class="plan" md-numeric><span translate="activity.plan"></span></th>
+            <th md-column class="actual" md-numeric><span translate="activity.actual"></span></th>
+            <th md-column class="percent" md-numeric><span translate="activity.completeShort"></span></th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-repeat="stage in $ctrl.items track by $index">
+            <!-- Этап соревнования: иконка со статусом + основная величина этапа -->
+            <td md-cell class="stage" layout="row" layout-align="start center">
+                <div flex="none" class="calendar-item-activity-icon layout-row layout-align-start-center
+                     bg-circle-32 color-{{stage.item.header.sportBasic}} {{stage.item.status}}"
+                     ng-class="{color: !stage.item.isCompleted || !stage.item.isSpecified}">
+                    <md-icon md-svg-src="assets/icon/{{stage.item.header.sportBasic}}.svg" class="md-dark md-light md-18"></md-icon>
+                </div>
+                <span>{{$ctrl.oppositeValue(stage.item, $index) | measureCalc:stage.item.header.sportBasic:$ctrl.oppositeMeasure(stage.item, $index)}}</span>
+                <span>{{$ctrl.oppositeMeasure(stage.item, $index) | measureUnit:stage.item.header.sportBasic | translate}}</span>
+            </td>
+            <!-- План по велчине второстипенной величине этапа -->
+            <td md-cell>
+                <md-input-container md-no-float>
+                    <input measure-input
+                           name="{{$index}}_plan"
+                           placeholder="{{$ctrl.durationMeasure(stage.item, $index) | measureUnit:stage.item.header.sportBasic | translate}}"
+                           ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item, $index)].durationValue"
+                           change="$ctrl.change"
+                           measure="$ctrl.durationMeasure(stage.item, $index)"
+                           ng-attr-sport={{stage.item.header.sportBasic}}
+                           interval="false"
+                           ftp-mode="false"
+                           ftp="null"
+                           ng-change="$ctrl.changeValue(stage, $index)"
+                           ng-disabled="stage.item.hasActualData || stage.item.view.isView">
+                </md-input-container>
+            </td>
+            <!-- Факт по величине второстипенной величине этапа -->
+            <td md-cell>
+                <md-input-container>
+                    <input measure-input
+                           name="{{$index}}_actual"
+                           ng-model="stage.item.intervals.W.calcMeasures[$ctrl.durationMeasure(stage.item, $index)].value"
+                           measure="$ctrl.durationMeasure(stage.item, $index)"
+                           ng-attr-sport={{stage.item.header.sportBasic}}
+                           interval="false"
+                           ftp-mode="false"
+                           ftp="null"
+                           ng-change="$ctrl.changeValue(stage, $index)"
+                           ng-disabled="stage.item.hasActualData || stage.item.view.isView">
+                </md-input-container>
+            </td>
+            <!-- Процент выполнения -->
+            <td md-cell ng-if="!stage.item.hasActualData">
+                <span>{{stage.item.intervals.PW.calcMeasures.completePercent.value | percent}}</span>
+            </td>
+            <!-- Кнопка перехода к тренировке -->
+            <td md-cell ng-if="stage.item.hasActualData">
+                <md-button class="md-icon-button" ng-click="$ctrl.open($event, stage.item)">
+                    <md-icon class="material-icons md-dark">keyboard_arrow_right</md-icon>
+                </md-button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>

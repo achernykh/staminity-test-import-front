@@ -1,9 +1,7 @@
 import moment from 'moment/src/moment.js';
 import { orderBy } from '../share/util.js';
-import { IGroupMembershipRequest } from '../../../api/group/group.interface';
-import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
-import { ISessionService } from './session.service';
-import { ISocketService } from './socket.service';
+import { IGroupMembershipRequest, GetGroupMembershipRequest, ProcessGroupMembershipRequest } from '../../../api';
+import { SessionService,SocketService } from './index';
 import { Observable, Subject } from 'rxjs/Rx';
 import { memorize } from '../share/util.js';
 
@@ -22,7 +20,7 @@ export default class RequestsService {
         "I": (request: IGroupMembershipRequest) => [...this.requests, request].sort(requestsOrder),
         "U": (request: IGroupMembershipRequest) => this.requests.map((r) => isSameRequest(request)(r)? request : r).sort(requestsOrder)
     };
-    private resetRequests = () => {
+    public resetRequests = () => {
         this.getMembershipRequest(0, 100)
         .then((requests) => { 
             this.requests = requests.sort(requestsOrder); 
@@ -33,9 +31,8 @@ export default class RequestsService {
     static $inject = ['SocketService', 'SessionService'];
 
     constructor(
-        private SocketService:ISocketService,
-        private SessionService:ISessionService
-    ) {
+        private SocketService: SocketService,
+        private SessionService: SessionService) {
         //this.resetRequests();
         this.SocketService.connections.subscribe(status => status && this.resetRequests());
 
@@ -57,6 +54,10 @@ export default class RequestsService {
             .share();
     }
 
+    clear (): void {
+        this.requests = [];
+    }
+
     /**
      * Реестр запросов
      * @param offset
@@ -64,7 +65,7 @@ export default class RequestsService {
      * @returns {Promise<any>}
      */
     getMembershipRequest (offset:number, limit: number) : Promise<any> {
-        return this.SocketService.send(new GetMembershipRequest(offset, limit));
+        return this.SocketService.send(new GetGroupMembershipRequest(offset, limit));
     }
 
     /**
@@ -73,7 +74,7 @@ export default class RequestsService {
      * @returns {Promise<any>}
      */
     processMembershipRequest (action:string, groupId?: number, requestId?:number) : Promise<any> {
-        return this.SocketService.send(new ProcessMembershipRequest(action, groupId, requestId));
+        return this.SocketService.send(new ProcessGroupMembershipRequest(action, groupId, requestId));
     }
 
     /**

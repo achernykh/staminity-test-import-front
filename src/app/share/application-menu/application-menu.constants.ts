@@ -22,6 +22,11 @@ export const UserMenuSettings = [
         link: "http://support.staminity.com/"
     },
     {
+        icon: "home",
+        name: "userMenu.home",
+        link: "welcome"
+    },
+    {
         icon: "exit_to_app",
         name: "userMenu.exit",
         link: "signout"
@@ -33,51 +38,66 @@ export const AppMenuSettings = [
         icon: "today",
         name: "appMenu.calendar",
         link: "calendar",
+        hideMobile: false
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: 'search',
         name: 'appMenu.search',
-        link: 'search'
+        link: 'search',
+        hideMobile: false
     },
-    {
+    /**{
         icon: 'import_contacts',
         name: 'appMenu.reference',
         link: 'reference'
 
-    },
+    },**/
     {
         icon: "forum",
         name: "appMenu.feeds",
         link: "feeds",
-        state: 'soon'
+        state: 'soon',
+        hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "insert_chart",
         name: "appMenu.reports",
-        link: "analytics"
+        link: "analytics",
+        hideMobile: true
         //state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
         icon: "show_chart",
         name: "appMenu.plan",
-        link: "plan",
-        state: 'soon'
+        link: "training-plans-search",
+        state: 'soon',
+        hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
-        icon: "show_chart",
+        icon: "methodology",
+        name: "appMenu.methodology",
+        link: "methodology",
+        hideMobile: true,
+        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
+    },
+    {
+        icon: "season",
         name: "appMenu.season",
-        link: "season",
-        state: 'soon'
+        link: "training-season-builder",
+        hideMobile: true,
+        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
+        //state: 'soon'
         //role: [_UserRoles.user]
     },
     {
         icon: "group",
         name: "appMenu.groups",
         link: "groups",
+        hideMobile: true,
         state: 'soon'
         //role: [_UserRoles.user, _UserRoles.coach]
     }

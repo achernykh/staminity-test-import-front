@@ -1,59 +1,39 @@
 @import "../../sass/color";
 @import "../../sass/base";
 @import "../../sass/font";
-//@import "../../sass/icon";
-//@import "../../sass/layout";
 @import "../../sass/animation";
 
-
-calendar {
-  .app-layer, .application {
-    position: absolute;
-    top: 60px;
-    height: calc(100% - 60px);
-    width: 100%;
-    //background: grey;
-    z-index: 60;
+.calendar .st-application-frame__left-bar {
+  width: 220px;
+  background-color: $grey-050;
+  .md-subheader {
+    background-color: $grey-050 !important;
   }
+}
 
-  section.application-toolbar {
-    color: white;
-    max-width: 1440px;
-    //position: absolute;
-    //width: 100%;
-    //top: 0px;
-    //height: 30px;
-    //background-color: blue;
-    margin: auto;
+.calendar.left-bar-show .st-application-frame__content {
+  margin-left: 220px;
+}
 
-    md-icon {
-      color: rgba(255,255,255,0.54);
+.calendar {
+
+  &__content {
+    margin: 8px 8px 0 8px;
+    @media (max-width: 959px) {
+      margin: 0;
     }
-
   }
 
-  section.content {
-    max-width: 1440px;
-    overflow: hidden;
-    height: calc(100% - 40px);
-    margin: auto;
-    // xs & sm size
-    @media (min-width: 0px) and (max-width: 959px) {
-      height: 100%;
-    }
-
-  }
-
-  md-toolbar.calendar-header {
-    background-color: $grey-300;
-    color: rgba(0,0,0,0.54);
+  &__days-header {
     min-height: 32px;
     display: block;
     line-height: 32px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid $grey-200;
 
-    div.day {
+    .day {
       box-sizing: border-box;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
@@ -61,121 +41,80 @@ calendar {
       width: 12.4%;
       vertical-align:top;
       text-transform: capitalize;
+      padding: 0 6px 0 6px;
 
       @media (min-width: 959px) and (max-width: 1279px){
         width: 13.9%;
       }
     }
 
-    div.total {
+    .total {
       box-sizing: border-box;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
       display:inline-block;
-      width: 12.8%;
-      display:inline-block;
-      vertical-align:top
+      width: 12.7%;
+      display: inline-block;
+      vertical-align:top;
+      padding: 0 6px 0 6px;
     }
-
   }
 
-  section.calendar-grid {
+  &__grid {
+    background: $grey-050;
     position: relative;
-    height: calc(100% - 55px);
+    height: calc(100vh - 105px);
     scroll-behavior: auto;
     overflow-y: scroll;
     overflow-x: hidden;
-    // xs & sm size
-    @media (min-width: 0px) and (max-width: 959px) {
-      height: 100%;
+    @media (max-width: 959px) {
+      height: calc(100vh - 56px);
+    }
+    .calendar-week {
+      position: relative; //todo проверит производительность
+      display: flex;
+      min-height: 100px;
+      border-bottom: 1px solid $grey-300;
+
+      @media(max-width: 959px){
+        display: block;
+        padding: 0;
+        border-bottom: none;
+        min-height: auto;
+        border-bottom: none;
+      }
+
+      transition: none !important;
+      // all 1s ease-in-out 0s;
+
+    }
+
+    .calendar__week--loading {
+      opacity: 0.5;
+    }
+
+    .calendar-week.calendar__week--highlight {
+      transition: none;
+      background: rgba(255, 0, 0, 0.05);
+      border: solid 1px rgb(255, 100, 100);
+    }
+
+    .calendar__week.ng-enter, .calendar__week.ng-move {
+      // transition: all 0.5s linear;
+      opacity: 0;
+    }
+
+    .calendar__week.ng-enter.ng-enter-active,
+    .calendar__week.ng-move.ng-move-active {
+      opacity: 1;
     }
   }
 
-  div.calendar-week {
-    position: relative; //todo проверит производительность
-    display: flex;
-    min-height: 170px;
-    border-bottom: 1px solid $grey-400;
-
-    @media(max-width: 959px){
-      width: 100%;
-      padding: 0;
-      border-bottom: none;
-      display: inline-block;
-    }
-
-    transition: none !important;
-    // all 1s ease-in-out 0s;
-
+  &__fab {
+    bottom: 8px;
+    right: 8px;
+    position: fixed;
   }
-
-  div.margin-left {
-    position: absolute;
-    display: none;
-    //background: #C7E3E4;
-    @media (min-width: 1439px){
-      width: 2%;
-      min-width: 2%;
-    }
-  }
-
-  section.application-body {
-    position: absolute;
-    //background: #E0D2C7;
-    height: 100%;
-    overflow: hidden;
-    left: 0%;
-    width: 100%;
-
-    @media (min-width: 1439px){
-      left: 2%;
-      width: 96%;
-      height: calc(100% - 10px);
-    }
-
-  }
-
-  div.margin-right {
-    position: absolute;
-    display: none;
-    right: 0;
-    //background: #ECD5DE;
-    @media (min-width: 1439px){
-      width: 2%;
-      min-width: 2%;
-    }
-  }
-
-  md-datepicker.picker {
-
-    padding-right: 0px !important;
-    margin-right: 0px !important;
-    vertical-align: inherit !important;
-
-    md-icon {
-      fill: rgba(255,255,255,0.54);
-    }
-
-    div.md-datepicker-input-container {
-      margin-left: 0px !important;
-    }
-
-    div.md-datepicker-input-container input, div.md-datepicker-input-container button{
-      display: none;
-    }
-  }
-
-  md-fab-speed-dial {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    z-index: 65;
-  }
-
-  /*div.calendar-week calendar-day:nth-child(7) {
-    border-right: 1px solid #BDBDBD;
-  }*/
-
 }
 
 

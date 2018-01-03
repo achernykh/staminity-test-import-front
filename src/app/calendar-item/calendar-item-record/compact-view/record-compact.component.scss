@@ -1,0 +1,49 @@
+@import "../../../../sass/color";
+
+.record-compact {
+  position: relative;
+  cursor: pointer;
+
+  .description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-height: 12px;
+    max-height: 48px;
+  }
+
+  header {
+    padding: 10px 12px 12px 12px;
+    background: $grey-300;
+  }
+
+  footer {
+    background: $grey-200;
+    padding: 8px 12px 8px 12px;
+  }
+
+  &__dashboard {
+    &:focus {
+      outline: none !important;
+    }
+    footer {
+      display: none;
+    }
+    .first-column {
+      margin-right: 8px;
+    }
+
+    .second-column {
+      width: calc(100% - 32px);
+    }
+
+    .type, .duration {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+  }
+}

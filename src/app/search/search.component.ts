@@ -1,24 +1,24 @@
-import './search.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IScope, ILocationService} from 'angular';
-import {SearchService} from "./search.service";
+import {IComponentController, IComponentOptions, ILocationService, IPromise, IScope} from "angular";
 import {
-    SearchParams, SearchResultByUser, SearchMethod,
-    SearchResultByGroup
+    SearchMethod, SearchParams, SearchResultByGroup,
+    SearchResultByUser,
 } from "../../../api/search/search.interface";
 import * as _connection from "../core/env.js";
 import MessageService from "../core/message.service";
+import "./search.component.scss";
+import {SearchService} from "./search.service";
 
 class SearchCtrl implements IComponentController {
 
-    public data: any;
-    public readonly method:SearchMethod = 'byParams';
+    data: any;
+    readonly method: SearchMethod = "byParams";
 
-    public params: SearchParams = {objectType: 'user'};
-    public type: Array<string> = ['user','coach','club'];//,'club','group'];
-    public result: Array<SearchResultByUser | SearchResultByGroup>;
-    public order: string = 'name';
+    params: SearchParams = {objectType: "user"};
+    type: string[] = ["user", "coach", "club"]; //,'club','group'];
+    result: Array<SearchResultByUser | SearchResultByGroup>;
+    order: string = "name";
 
-    public options:Object = {
+    options: Object = {
         rowSelection: false,
         multiSelect: false,
         autoSelect: false,
@@ -26,11 +26,11 @@ class SearchCtrl implements IComponentController {
         largeEditDialog: false,
         boundaryLinks: false,
         limitSelect: false,
-        pageSelect: false
+        pageSelect: false,
     };
 
-    public onEvent: (response: Object) => IPromise<void>;
-    static $inject = ['$scope','$stateParams','$location','search','message'];
+    onEvent: (response: Object) => IPromise<void>;
+    static $inject = ["$scope", "$stateParams", "$location", "search", "message"];
 
     constructor(private $scope: IScope,
                 private $stateParams: any,
@@ -41,25 +41,25 @@ class SearchCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.$scope['order'] = 'name';
-        let urlSearch = this.$location.search();
-        if(urlSearch && urlSearch.hasOwnProperty('objectType') && urlSearch.objectType) {
+        this.$scope["order"] = "name";
+        const urlSearch = this.$location.search();
+        if (urlSearch && urlSearch.hasOwnProperty("objectType") && urlSearch.objectType) {
             this.params = urlSearch;
             this.onSearch(this.params);
         }
         this.updateUrl(this.params);
     }
 
-    onDetails(uri:string, url: string = `${window.location.origin}/`) {
+    onDetails(uri: string, url: string = `${window.location.origin}/`) {
 
         switch (this.params.objectType) {
-            case 'user': case 'coach': {
-                let win = window.open(`${url}user/${uri}`, '_blank');
+            case "user": case "coach": {
+                const win = window.open(`${url}user/${uri}`, "_blank");
                 win.focus();
                 break;
             }
-            case 'club': {
-                let win = window.open(`${url}club/${uri}`, '_blank');
+            case "club": {
+                const win = window.open(`${url}club/${uri}`, "_blank");
                 win.focus();
                 break;
             }
@@ -68,33 +68,33 @@ class SearchCtrl implements IComponentController {
 
     onSearch(params: SearchParams) {
         this.search.request(this.method, params)
-            .then(result => this.result = result)
+            .then((result) => this.result = result)
             .then(() => !this.$scope.$$phase && this.$scope.$apply())
-            .then(() => this.message.toastInfo('searchResult',{count: this.result.length}));
+            .then(() => this.message.toastInfo("searchResult", {count: this.result.length}));
     }
 
-    changeQuery(param: string){
-        if (['objectType'].indexOf(param) !== -1) {
+    changeQuery(param: string) {
+        if (["objectType"].indexOf(param) !== -1) {
             this.result = [];
         }
         this.updateUrl(this.params);
     }
 
-    updateUrl(params: SearchParams){
+    updateUrl(params: SearchParams) {
         this.$location.search(params);
     }
 }
 
-const SearchComponent:IComponentOptions = {
+const SearchComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        onEvent: '&'
+        data: "<",
+        onEvent: "&",
     },
     require: {
         //component: '^component'
     },
     controller: SearchCtrl,
-    template: require('./search.component.html') as string
+    template: require("./search.component.html") as string,
 };
 
 export default SearchComponent;

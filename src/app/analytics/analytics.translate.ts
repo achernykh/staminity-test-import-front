@@ -1,36 +1,36 @@
 export const translateAnalytics = {
     ru: {
-        fullTitle: 'Аналитика и отчетность',
-        shortTitle: 'Аналитика',
+        fullTitle: "Аналитика и отчетность",
+        shortTitle: "Аналитика",
         panel: {
-            title: 'Общие настройки',
-            filter: 'Фильтр',
-            charts: 'Отчеты'
+            title: "Общие настройки",
+            filter: "Фильтр",
+            charts: "Отчеты",
         },
         filter: {
-            more: ' и еще {{num}}...',
+            more: " и еще {{num}}...",
             users: {
-                placeholder: "Пользователь"
+                placeholder: "Пользователь",
             },
             activityTypes: {
-                placeholder: "Виды спорта"
+                placeholder: "Виды спорта",
             },
             activityCategories: {
-                empty: "Выберите категорию"
+                empty: "Выберите категорию",
             },
             periods: {
                 placeholder: "Период",
                 startDate: "Начало периода",
-                endDate: "Конец периода"
+                endDate: "Конец периода",
             },
-            go: 'Обновить'
+            go: "Обновить",
         },
         defaultCharts: "Доступные графики",
         params: {
             // названия параметров
-            volume: 'Тренировочные объемы',
-            distance: 'Расстояние',
-            duration: 'Время',
+            volume: "Тренировочные объемы",
+            distance: "Расстояние",
+            duration: "Время",
             seriesDateTrunc: "Группировать",
             cumulative: "Нарастающим итогом",
             periods: "Период",
@@ -42,10 +42,10 @@ export const translateAnalytics = {
             heartRate: "Пульс",
             paceSpeed: "Скорость/темп",
             paceSpeedUnit: "Отображение темпа/скорости",
-            'мин/км': 'мин/км',
-            'км/ч': 'км/ч',
-            'мин/100м': 'мин/100м',
-            measures: 'Измерения',
+            "мин/км": "мин/км",
+            "км/ч": "км/ч",
+            "мин/100м": "мин/100м",
+            measures: "Измерения",
 
             // значения параметров
             day: "По дням",
@@ -53,129 +53,294 @@ export const translateAnalytics = {
             month: "По месяцам",
             quarter: "По кварталам",
             false: "Нет",
-            true: "Да"
+            true: "Да",
 
         },
         settings: {
-            title: 'Настройки графика',
-            params: 'Параметры выбора данных',
-            layout: 'Параметры отображения',
-            globalParams: 'Использовать общие параметры',
-            saveContext: 'Сохранить настройки',
-            restoreContext: 'Сбросить настройки',
-            authRoles: 'Роль',
-            aboutRoles: 'Набор доступных графиков зависит от вашего тарифного плана',
-            aboutStorage: 'Сохраните заданные фильтры, набор графиков и настройки каждого графика. В любой момент можно вернуться к исходным настройкам',
-            save: 'Сохранить'
+            title: "Настройки графика",
+            params: "Параметры выбора данных",
+            layout: "Параметры отображения",
+            globalParams: "Использовать общие параметры",
+            saveContext: "Сохранить настройки",
+            restoreContext: "Сбросить настройки",
+            authRoles: "Роль",
+            aboutRoles: "Набор доступных графиков зависит от вашего тарифного плана",
+            aboutStorage: "Сохраните заданные фильтры, набор графиков и настройки каждого графика. В любой момент можно вернуться к исходным настройкам",
+            save: "Сохранить",
 
         },
-        localFilter: 'фильтр',
-        globalParams: 'Общие параметры: {{value | translate | lowercase}}',
+        localFilter: "фильтр",
+        globalParams: "Общие параметры: {{value | translate | lowercase}}",
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
             //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
-            title: 'Время тренировок',
-            description: 'Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}',
-            shortDescription: 'Тренировочные объемы (время)'
+            title: "Время тренировок",
+            description: "Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
+            shortDescription: "Тренировочные объемы (время)",
         },
         actualDistance: {
-            title: 'Расстояние тренировок',
-            description: 'Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}',
-            shortDescription: 'Тренировочные объемы (расстояние)'
+            title: "Расстояние тренировок",
+            description: "Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
+            shortDescription: "Тренировочные объемы (расстояние)",
 
         },
         activityMeasuresSelected: {
-            title: 'Показатели тренировок',
-            shortDescription: 'История изменения показателей тренировок',
-            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Показатели тренировок",
+            shortDescription: "История изменения показателей тренировок",
+            description: "Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         activityMeasuresTL: {
-            title: 'Тренировочная нагрузка (TL и IL)',
-            shortDescription: 'Тренировочная нагрузка и уровень интенсивности',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Тренировочная нагрузка (TL и IL)",
+            shortDescription: "Тренировочная нагрузка и уровень интенсивности",
+            description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         timeInZonesHR: {
-            title: 'Время в зонах: Пульс',
-            shortDescription: 'Время в зонах по пульсу за период',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Время в зонах: Пульс",
+            shortDescription: "Время в зонах по пульсу за период",
+            description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         timeInZonesSpeed: {
-            title: 'Время в зонах: Темп/Скорость',
-            shortDescription: 'Время в зонах по темпу/скорости за период',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Время в зонах: Темп/Скорость",
+            shortDescription: "Время в зонах по темпу/скорости за период",
+            description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         timeInZonesPower: {
-            title: 'Время в зонах: Мощность',
-            shortDescription: 'Время в зонах по мощности за период',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Время в зонах: Мощность",
+            shortDescription: "Время в зонах по мощности за период",
+            description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         distanceByAthletesByPeriods: {
-            title: 'Объемы учеников (расстояние)',
-            shortDescription: 'Тренировочные объемы по ученикам (расстояние)',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Объемы учеников (расстояние)",
+            shortDescription: "Тренировочные объемы по ученикам (расстояние)",
+            description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         durationByAthletesByPeriods: {
-            title: 'Объемы учеников (время)',
-            shortDescription: 'Тренировочные объемы по ученикам (время)',
-            description: 'Группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Объемы учеников (время)",
+            shortDescription: "Тренировочные объемы по ученикам (время)",
+            description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         HRTimePeaks: {
-            title: 'Пики пульса по времени',
-            shortDescription: 'Максимальные пики по пульсу по времени',
-            description: ''
+            title: "Пики пульса по времени",
+            shortDescription: "Максимальные пики по пульсу по времени",
+            description: "",
         },
         PaceTimePeaks: {
-            title: 'Пики темпа по времени',
-            shortDescription: 'Максимальные пики по темпу по времени',
-            description: ''
+            title: "Пики темпа по времени",
+            shortDescription: "Максимальные пики по темпу по времени",
+            description: "",
         },
         SpeedTimePeaks: {
-            title: 'Пики скорости по времени',
-            shortDescription: 'Максимальные пики по скорости по времени',
-            description: ''
+            title: "Пики скорости по времени",
+            shortDescription: "Максимальные пики по скорости по времени",
+            description: "",
         },
         PowerTimePeaks: {
-            title: 'Пики мощности по времени',
-            shortDescription: 'Максимальные пики по мощности по времени',
-            description: ''
+            title: "Пики мощности по времени",
+            shortDescription: "Максимальные пики по мощности по времени",
+            description: "",
         },
         DistanceByActivityTypeByPeriods: {
-            title: 'Объемы по видам спорта',
-            shortDescription: 'Тренировочные объемы по видам спорта',
-            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Объемы по видам спорта",
+            shortDescription: "Тренировочные объемы по видам спорта",
+            description: "Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         DistanceByActivityTypes: {
-            title: 'Соотношение объемов тренировок',
-            shortDescription: 'Объемы тренировок по видам спорта за период',
-            description: 'Объемы: {{measureName | translate | lowercase}}'
+            title: "Соотношение объемов тренировок",
+            shortDescription: "Объемы тренировок по видам спорта за период",
+            description: "Объемы: {{measureName | translate | lowercase}}",
         },
         measurementsByPeriods: {
-            title: 'История измерений',
-            shortDescription: 'История измерений',
-            description: ''
+            title: "История измерений",
+            shortDescription: "История измерений",
+            description: "",
         },
         weightAndTotalVolume: {
-            title: 'Тренировочные объемы и вес',
-            shortDescription: 'Тренировочные объемы и вес',
-            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Тренировочные объемы и вес",
+            shortDescription: "Тренировочные объемы и вес",
+            description: "Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
         completePercent: {
-            title: 'Выполнение плана',
-            shortDescription: 'Процент выполнения плановых тренировок',
-            description: 'Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}'
+            title: "Выполнение плана",
+            shortDescription: "Процент выполнения плановых тренировок",
+            description: "Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
         }
     },
 
-
     en: {
+        fullTitle: "Analytics and reports",
+        shortTitle: "Analytics",
+        panel: {
+            title: "Settings",
+            filter: "Filter",
+            charts: "Reports",
+        },
+        filter: {
+            more: " and another {{num}}...",
+            users: {
+                placeholder: "User",
+            },
+            activityTypes: {
+                placeholder: "Activity types",
+            },
+            activityCategories: {
+                empty: "Caterory",
+            },
+            periods: {
+                placeholder: "Period",
+                startDate: "Start period",
+                endDate: "End period",
+            },
+            go: "Reload",
+        },
+        defaultCharts: "Available charts",
+        params: {
+            // названия параметров
+            volume: "Report type",
+            distance: "Distance",
+            duration: "Duration",
+            seriesDateTrunc: "Group by",
+            cumulative: "Cumulative",
+            periods: "Period",
+            thisYear: "This year",
+            thisMonth: "This month",
+            thisWeek: "This week",
+            customPeriod: "Custom...",
+            protected: "General settings",
+            heartRate: "HR",
+            paceSpeed: "Speed/pace",
+            paceSpeedUnit: "Speed/pace unit",
+            "мин/км": "min/km",
+            "км/ч": "km/h",
+            "мин/100м": "min/100m",
+            measures: "Measures",
 
-    }
+            // значения параметров
+            day: "by days",
+            week: "by weeks",
+            month: "by months",
+            quarter: "by quarters",
+            false: "No",
+            true: "Yes",
+
+        },
+        settings: {
+            title: "Settings",
+            params: "Params",
+            layout: "Layout",
+            globalParams: "Use global params",
+            saveContext: "Save settings",
+            restoreContext: "Reset settings",
+            authRoles: "Role",
+            aboutRoles: "Available charts depends on your tariff",
+            aboutStorage: "Save charts, filters and settings",
+            save: "Save",
+
+        },
+        localFilter: "Filter",
+        globalParams: "Global params: {{value | translate | lowercase}}",
+        // Переводы преднастроенных отчетов
+        actualMovingDuration: {
+            //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
+            title: "Completed duration",
+            description: "Cumulative: {{cumulative | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+            shortDescription: "Completed duration",
+        },
+        actualDistance: {
+            title: "Completed distance",
+            description: "Cumulative: {{cumulative | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+            shortDescription: "Completed distance",
+
+        },
+        activityMeasuresSelected: {
+            title: "Activity measures",
+            shortDescription: "Activity measures",
+            description: "Duration/distance: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        activityMeasuresTL: {
+            title: "Training load (TL) and IL",
+            shortDescription: "Training load (TL) and intensity level (TL)",
+            description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        timeInZonesHR: {
+            title: "Time in zones: Heart rate",
+            shortDescription: "Time in heart rate zones",
+            description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        timeInZonesSpeed: {
+            title: "Time in zones: Speed/pace",
+            shortDescription: "Time in speed/pace zones",
+            description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        timeInZonesPower: {
+            title: "Time in zones: Power",
+            shortDescription: "Time in power zones",
+            description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        distanceByAthletesByPeriods: {
+            title: "Completed distance by athletes",
+            shortDescription: "Completed distance by athletes",
+            description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        durationByAthletesByPeriods: {
+            title: "Completed duration by athletes",
+            shortDescription: "Completed duration by athletes",
+            description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        HRTimePeaks: {
+            title: "Heart rate peaks",
+            shortDescription: "HR peaks by time",
+            description: "",
+        },
+        PaceTimePeaks: {
+            title: "Pace peaks",
+            shortDescription: "Pace peaks by time",
+            description: "",
+        },
+        SpeedTimePeaks: {
+            title: "Speed peaks",
+            shortDescription: "Speed peaks by time",
+            description: "",
+        },
+        PowerTimePeaks: {
+            title: "Power peaks",
+            shortDescription: "Power peaks by time",
+            description: "",
+        },
+        DistanceByActivityTypeByPeriods: {
+            title: "Completed distance/duration",
+            shortDescription: "Completed distance/duration by activity types",
+            description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        DistanceByActivityTypes: {
+            title: "Completed distance/duration (piechart)",
+            shortDescription: "Completed distance/duration by activity types",
+            description: "Measure: {{measureName | translate | lowercase}}",
+        },
+        measurementsByPeriods: {
+            title: "Measurement history",
+            shortDescription: "Measurement history",
+            description: "",
+        },
+        weightAndTotalVolume: {
+            title: "Completed distance/duration and weight",
+            shortDescription: "Completed distance/duration and weight",
+            description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        completePercent: {
+            title: "Complete percent",
+            shortDescription: "Planned activity complete percent ",
+            description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+        }
+    },
 };
 
 export const translateDashboardClub = {
     ru: {
-        fullTitle: 'Analytics & Reports',
-        shortTitle: 'Analytics'
+        fullTitle: "Аналитика и отчетность",
+        shortTitle: "Аналитика",
     },
-    en: {}
+    en: {
+        fullTitle: "Analytics & Reports",
+        shortTitle: "Analytics",
+    },
 };

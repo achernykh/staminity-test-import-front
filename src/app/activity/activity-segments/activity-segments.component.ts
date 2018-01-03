@@ -35,7 +35,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     private select: Array<number> = [];
     private scenario: any = getSegmentTemplates();
 
-    public ftpMode: number;
+    public ftpMode: FtpState;
 
     static $inject = [];
 
@@ -51,6 +51,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.ftpMode = this.item.ftpMode;
         this.valid();
         this.prepareIntervals();
         //this.addInterval();
@@ -81,7 +82,7 @@ class ActivitySegmentsCtrl implements IComponentController {
             case SegmentChangeReason.deleteInterval:
             case SegmentChangeReason.changeGroupCount:
             case SegmentChangeReason.keyInterval: {
-                if(this.item.activity.completed) {
+                if(this.item.activity.isCompleted) {
                     this.item.calculateActivityRange(false);
                 }
                 this.intervals.PW.calculate(this.intervals.P);
@@ -102,7 +103,7 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     addInterval(scenarioType: string = 'default') {
-        let sport: string = this.item.activity.sportBasic;
+        let sport: string = this.item.activity.header.sportBasic;
         let ftp:{[measure: string] : number} = getFtpBySport(this.item.user.trainingZones, sport);
         let interval: ActivityIntervalP;
         let pos: number = null;

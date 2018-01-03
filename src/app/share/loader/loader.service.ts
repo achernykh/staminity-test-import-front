@@ -10,12 +10,10 @@ class LoaderService {
 	hideRequested$ = this.hideRequestedSource.asObservable();
 
 	show() {
-		console.log('LoaderService => show');
 		this.showRequestedSource.next(null);
 	}
 
 	hide() {
-		console.log('LoaderService => hide');
 		this.hideRequestedSource.next(null);
 	}
 }

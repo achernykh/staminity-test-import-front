@@ -22,13 +22,16 @@ categories {
 
 .categories {
 	&__content {
-		max-height: none;
-		margin: auto;
-		width: 600px; 
-		min-height: 500px;
-		border-radius: 3px;
-		background-color: $grey-050;
-		@extend .md-whiteframe-2dp;
+		// restyle with /methodology
+		width: auto;
+		padding-bottom: 80px; // margin for fab button
+		//max-height: none;
+		//margin: auto;
+		//width: 600px;
+		//min-height: 500px;
+		//border-radius: 3px;
+		//background-color: $grey-050;
+		//@extend .md-whiteframe-2dp;
 
 		@media (max-width: $maxMobileWidth) {
 			width: 100%;
@@ -74,10 +77,13 @@ categories {
 	}
 
 	&__create {
-		position: absolute;
-		top: 65px;
-		right: calc(25% - 250px);
+		position: fixed;
+		bottom: 16px;
+		right: 16px;
+		//top: 65px;
+		//right: calc(25% - 250px);
 		text-align: center;
+		z-index: 100;
 
 		@media (max-width: $maxMobileWidth) {
 			position: fixed;

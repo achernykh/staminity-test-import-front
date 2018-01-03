@@ -45,12 +45,12 @@
                     <td md-cell>
                         <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
                     </td>
-                    <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.sportBasic | translate}}</span></td>
+                    <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.header.sportBasic | translate}}</span></td>
                     <td md-cell class="md-body-2 md-dark">
-                        <span>{{$ctrl.interval[measure] | measureCalcInterval:$ctrl.item.activity.sportBasic:measure}}</span>
+                        <span>{{$ctrl.interval[measure] | measureCalcInterval:$ctrl.item.activity.header.sportBasic:measure}}</span>
                     </td>
                     <td md-cell class="md-body-2 md-dark">
-                        <span>{{$ctrl.interval.calcMeasure[measure].value | measureCalc:$ctrl.item.activity.sportBasic:measure}}</span>
+                        <span>{{$ctrl.interval.calcMeasure[measure].value | measureCalc:$ctrl.item.activity.header.sportBasic:measure}}</span>
                     </td>
                     <td md-cell class="md-body-1 md-dark md-inactive">
                         <span>{{$ctrl.interval.completePercent.value | percent}}</span>
@@ -64,16 +64,16 @@
 
     <measures-avg-table flex="none" class="measures-avg-table" ng-cloak
                         calc-measures="$ctrl.interval.totalMeasures || $ctrl.interval.calcMeasures"
-                        sport="$ctrl.item.activity.sportBasic"
+                        sport="$ctrl.item.activity.header.sportBasic"
                         changes="$ctrl.changes"></measures-avg-table>
 
     <measure-main-button flex="none" class="measure-main-button" ng-cloak
                          calc-measures="$ctrl.interval.totalMeasures || $ctrl.interval.calcMeasures"
-                         sport="$ctrl.item.activity.sportBasic"
+                         sport="$ctrl.item.activity.header.sportBasic"
                          changes="$ctrl.changes"></measure-main-button>
 
     <activity-peaks flex="auto" class="activity-peaks" ng-cloak
                     calc-measures="$ctrl.interval.totalMeasures || $ctrl.interval.calcMeasures"
-                    sport="$ctrl.item.activity.sportBasic"
+                    sport="$ctrl.item.activity.header.sportBasic"
                     changes="$ctrl.changes"></activity-peaks>
 </md-content>

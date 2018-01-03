@@ -42,7 +42,7 @@ class ActivitySegmentsTableCtrl implements IComponentController {
     }
 
     prepareSegments(){
-        this.$scope['segments'] = this.segments;
+        this.$scope['segments'] = this.segments.filter(i => i.type === 'P');
     }
 
     $onChanges() {

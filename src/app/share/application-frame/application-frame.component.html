@@ -1,0 +1,36 @@
+<!-- Заголовок -->
+<md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp">
+    <div class="md-toolbar-tools">
+        <section ng-transclude="profile"></section>
+        <md-button class="app-menu md-icon-button" aria-label="Application Menu"
+                   ng-click="$ctrl.sideNav('appmenu')">
+            <md-icon class="material-icons md-light">menu</md-icon>
+        </md-button>
+        <h2 class="md-title" ng-transclude="title"></h2>
+        <div flex></div>
+        <div flex="none" layout="row" ng-transclude="toolbar" class="icon-bar" md-colors="{background: 'primary-600'}"></div>
+        <st-application-user-toolbar flex="none"></st-application-user-toolbar>
+        <section class="st-application-frame__mobile-menu" flex="none" ng-transclude="mobileMenu"></section>
+    </div>
+</md-toolbar>
+<!-- Навигация: табы -->
+<md-nav-bar class="st-application-frame__navbar"
+        md-no-ink-bar="false"
+        md-selected-nav-item="$ctrl.navBarState"
+        nav-bar-aria-label="navigation links">
+    <div flex ng-transclude="navBar"></div>
+</md-nav-bar>
+<!-- Левая панель -->
+<section class="st-application-frame__left-bar" ng-transclude="leftBar" ng-if="$ctrl.leftBar"></section>
+<!-- Контент представления -->
+<md-content ng-transclude="content"
+            class="st-application-frame__content"
+            ng-class="{'{{$ctrl.leftBarHideType}}': !$ctrl.leftBarShow, 'left-bar': $ctrl.leftBar}"></md-content>
+<!-- Правая панель -->
+<section class="st-application-frame__right-bar" ng-transclude="rightBar"></section>
+<!-- Панель Меню приложения -->
+<md-sidenav id="appmenu" class="md-sidenav-left md-whiteframe-z2 st-fixed" md-component-id="appmenu"
+            ng-if="$ctrl.auth.isAuthenticated()">
+    <application-menu/>
+</md-sidenav>
+

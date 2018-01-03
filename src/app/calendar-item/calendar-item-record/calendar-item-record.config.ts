@@ -1,24 +1,24 @@
 import { IRepeatTerms } from "../../../../api/calendar/calendar.interface";
 export interface ICalendarItemRecordConfig {
-    types: Array<string>;
+    types: string[];
     defaultType: string;
-    periods: Array<string>;
-    endTypes: Array<string>;
+    periods: string[];
+    endTypes: string[];
     defaultRepeat: IRepeatTerms;
 }
 
 export const CalendarItemRecordConfig: ICalendarItemRecordConfig = {
-    types: ['restDay','sickness','travel', 'note', 'diet','bar','warning','female','vitamins', 'video'],
-    defaultType: 'restDay',
-    periods: ['D','W','M','Y'],
-    endTypes: ['D','C'],
+    types: ["restDay", "sickness", "travel", "note", "diet", "bar", "warning", "female", "vitamins", "video"],
+    defaultType: "restDay",
+    periods: ["D", "W", "M", "Y"],
+    endTypes: ["D", "C"],
     defaultRepeat: {
-        period: 'D',
+        period: "D",
         every: 1,
-        days: [0,1,2,3,4],
+        days: [0, 1, 2, 3, 4],
         position: null,
-        endType: 'D',
+        endType: "D",
         endOnDate: null,
-        endOnCount: null
-    }
+        endOnCount: null,
+    },
 };
