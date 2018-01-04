@@ -16,7 +16,7 @@ const athletes = {
             return UserService.getProfile(SessionService.getUser().userId);
         }],
         management: ["GroupService", "user", (GroupService: GroupService, user) => {
-            return GroupService.getManagementProfile(user.connections.Athletes.groupId, "coach");
+            return GroupService.getManagementProfile(user.connections.allAthletes.groupId, "coach");
         }],
     },
     views: DefaultTemplate("athletes"),

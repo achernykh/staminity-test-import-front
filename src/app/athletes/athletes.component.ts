@@ -105,7 +105,7 @@ class AthletesCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Удалить"
      */
     remove() {
-        this.athletesService.remove(this.management, this.checked)
+        this.athletesService.remove(this.user, this.checked)
         .then((result) => {
             if (result) {
                 this.update();
