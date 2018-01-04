@@ -16,6 +16,7 @@ export class SocketService {
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
     private socket: Subscription; // переменная для подписки на ws
+    private initRequest: Deferred<boolean>;// new Deferred<boolean>()
     private socketStarted: boolean = null;
     private requests: Array<Deferred<any>> = []; // буфер запросов к серверу
     private requestId: number = 1;
@@ -39,11 +40,22 @@ export class SocketService {
      */
     init (): Promise<boolean> {
         console.info(`socket service: init start`);
-        if ( this.socketStarted ) {
-            return Promise.resolve(true);
+        if ( this.socketStarted ) { return Promise.resolve(true);}
+        if (!this.initRequest) {
+            this.initRequest = new Deferred<boolean>();
+            setTimeout(() => {
+                console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
+                if ( this.socketStarted && this.initRequest ) {
+                    this.initRequest.resolve(true);
+                } else if ( this.initRequest ) {
+                    this.initRequest.reject(false);
+                }
+            }, this.settings.delayOnOpen);
         }
         this.open();
-        return new Promise<boolean>((resolve, reject) => {
+        return this.initRequest.promise;
+
+        /**return new Promise<boolean>((resolve, reject) => {
             setTimeout(() => {
                 console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
                 if ( this.socketStarted ) {
@@ -58,7 +70,7 @@ export class SocketService {
                     return reject(false);
                 }
             }, this.settings.delayOnOpen);
-        });
+        });**/
     }
     /**
      * Открытие сессии
@@ -71,7 +83,12 @@ export class SocketService {
             this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
             this.socket = this.ws.subscribe({
                 next: (message: IWSResponse) => {
-                    if ( !this.socketStarted ) { this.connections.next(true); }
+                    if ( !this.socketStarted ) {
+                        this.connections.next(true);
+                    }
+                    if (this.initRequest) {
+                        this.initRequest.resolve(true);
+                    }
                     this.messages.next(message);
                     this.response(message);
                     this.check();
@@ -82,6 +99,9 @@ export class SocketService {
         } catch ( e ) {
             if ( this.socketStarted ) {
                 this.connections.next(false);
+            }
+            if (this.initRequest) {
+                this.initRequest.reject(false);
             }
         }
     }
@@ -137,6 +157,7 @@ export class SocketService {
      */
     close () {
         this.ws.complete();
+        this.initRequest = null;
     }
 
     /**

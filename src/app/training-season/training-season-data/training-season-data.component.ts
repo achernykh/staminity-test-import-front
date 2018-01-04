@@ -23,6 +23,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
     private schemes: Array<IPeriodizationScheme>;
     private update: number = 0;
     private itemOptions: ICalendarItemDialogOptions;
+    private mesocycles: Array<IMesocycle> = [];
 
     static $inject = ['$scope', '$mdEditDialog', '$filter', 'TrainingSeasonService', 'PeriodizationService'];
 
@@ -50,6 +51,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
             this.schemes = [];
             this.schemes.push(this.data.season.periodizationScheme);
             this.cycles = copy(this.data);
+            this.mesocycles = this.data.season.periodizationScheme.mesocycles;
             this.update++;
             //this.prepareScheme();
         }
@@ -74,16 +76,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     getMesocycle (id: string | number): IMesocycle {
-        if ( this.schemes && id ) {
-            return this.schemes
-                .filter(s => s.id === this.cycles.season.periodizationScheme.id)[0]
-                .mesocycles.filter(m => m.id === Number(id))[0];
+        if ( this.mesocycles && id ) {
+            return this.mesocycles.filter(m => m.id === Number(id))[0];
         }
     }
 
     change (cycle: Microcycle, pos?: number): void {
         if ( cycle.mesocycle.id ) {
-            cycle.mesocycle = this.getMesocycle(cycle.mesocycle.id);
+            cycle.mesocycle = Object.assign({},this.getMesocycle(cycle.mesocycle.id));
         } else { return; }
         //if ( pos >= 0) { this.recalcMesoWeekNumber(); }
 
@@ -160,21 +160,18 @@ class TrainingSeasonDataCtrl implements IComponentController {
             modelValue: cycle.durationValue,
             placeholder: this.$filter('translate')(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
             save: function (input) {
-                if ( input.$modelValue === 'Donald Trump' ) {
+                if (!Number(input.$modelValue.replace(/\,/g,'.'))) {
                     input.$invalid = true;
                     //return Promise.reject();
-                    throw new Error('');
+                    throw new Error('please provide number');
                 }
-                if ( input.$modelValue === 'Bernie Sanders' ) {
-                    return cycle.durationValue = 'FEEL THE BERN!';
-                }
-                cycle.durationValue = Number(input.$modelValue);
+                cycle.durationValue = Number(input.$modelValue.replace(/\,/g,'.'));
                 _this.change(cycle);
             },
             targetEvent: event,
             title: 'Add a comment',
             validators: {
-                'type': 'number'//,
+                'type': 'text'//,
                 //'md-maxlength': 30
             }
         };

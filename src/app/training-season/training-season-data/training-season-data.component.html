@@ -80,12 +80,12 @@
                              class="block" ng-class="{selected: cycle.mesocycle.id}"
                              ng-style="{'background-color': $ctrl.getMesocycle(cycle.mesocycle.id).color}">
                             <md-select ng-model="cycle.mesocycle.id"
-                                       ng-change="$ctrl.change(cycle)"
+                                       ng-change="$ctrl.change(cycle, $index)"
                                        placeholder="Не указан"
                                        class="md-no-underline">
-                                <md-option ng-repeat="meso in $ctrl.getMesocycles() track by meso.id"
-                                           value="{{meso.id}}">
-                                    <span>{{meso | mesocycleCode:$ctrl.cycles.season.periodizationScheme}}</span>
+                                <md-option ng-repeat="mesocycle in $ctrl.mesocycles track by mesocycle.id"
+                                           value="{{mesocycle.id}}">
+                                    <span>{{mesocycle | mesocycleCode:$ctrl.data.season.periodizationScheme}}</span>
                                 </md-option>
                             </md-select>
                             <!--
