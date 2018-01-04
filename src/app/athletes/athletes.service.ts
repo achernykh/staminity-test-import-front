@@ -82,7 +82,7 @@ export class AthletesService {
      */
     remove(user: IUserProfile, members: IGroupManagementProfileMember[]): Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.removeAthlete" })
-            .then(() => members.map((member) => this.groupService.leave(user.connections.allAthletes.groupId, member.userProfile.userId)))
+            .then(() => members.map((member) => this.groupService.leave(user.connections.Athletes.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));
     }
 
