@@ -17,8 +17,12 @@ import { UserSettingsPrivacyComponent } from "./settings/user-settings-privacy/u
 import { UserSettingsFitComponent } from "./settings/user-settings-fit/user-settings-fit.component";
 import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-settings-zones.component";
 import { UserSettingsNotificationsComponent } from "./settings/user-settings-notifications/user-settings-notifications.component";
+import { UserSettingsService } from "./settings/user-settings.service";
+import SyncAdaptorService from "./sync-adaptor.service";
 
 export const User = module('staminity.user', [])
+    .service("SyncAdaptorService", SyncAdaptorService)
+    .service("UserSettingsService", UserSettingsService)
     .component('stUserSettings', UserSettingsComponent)
     .component('stUserSettingsMenu', UserSettingsMenuComponent)
     .component('stUserSettingsHeader', UserSettingsHeaderComponent)

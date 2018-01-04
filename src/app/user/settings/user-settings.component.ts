@@ -1,5 +1,5 @@
 import './user-settings.component.scss';
-import {IComponentOptions, IComponentController,ILocationService} from 'angular';
+import {IComponentOptions, IComponentController} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import MessageService from "../../core/message.service";
 import AuthService from "../../auth/auth.service";
@@ -7,12 +7,10 @@ import AuthService from "../../auth/auth.service";
 class UserSettingsCtrl implements IComponentController {
 
     // inject
-    static $inject = ['$stateParams', '$location', '$mdMedia', 'message', 'SessionService'];
+    static $inject = ['$stateParams', 'message', 'SessionService'];
 
     constructor (
         private $stateParams: any,
-        private $location: ILocationService,
-        private $mdMedia: any,
         private message: MessageService,
         private sessionService: any,
     ) {

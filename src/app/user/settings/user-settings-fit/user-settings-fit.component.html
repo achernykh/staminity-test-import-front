@@ -35,8 +35,6 @@
                 </div>
             </md-input-container>
         </md-list-item>
-    </form>
-    <form name="$ctrl.personalSecondForm" flex="100">
         <md-list-item layout="row">
             <fieldset name="activity" flex="100" style="margin: 12px 0px">
                 <legend style="margin-bottom: 16px" translate="user.settings.personalInfo.sportShape.activityTypes.header"></legend>
@@ -49,13 +47,10 @@
                 </div>
             </fieldset>
         </md-list-item>
+        <div flex layout="row" layout-align="end center">
+            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+                {{ 'form.save' | translate }}
+            </md-button>
+        </div>
     </form>
 </md-list>
-
-<md-fab-speed-dial md-theme="default">
-    <md-fab-trigger>
-        <md-button class="md-fab md-accent" ng-disabled="false" ng-class="{'md-warn': !$ctrl.form.isValid}" ng-click="$ctrl.submit()">
-            <md-icon class="material-icons">save</md-icon>
-        </md-button>
-    </md-fab-trigger>
-</md-fab-speed-dial>

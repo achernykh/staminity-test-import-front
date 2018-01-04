@@ -127,53 +127,6 @@ class SettingsUserCtrl {
         .then(this.setUser.bind(this), this.errorHandler());
     }
 
-    prepareZones () {
-
-    }
-
-    countrySearch (query) {
-        let countries = this._country_list[this.display.getLocale()];
-        let regexp = new RegExp(query, 'i');
-
-        return query ? Object.keys(countries).filter((key) => ~countries[key].search(regexp)) : countries;
-    }
-
-    citySearch (query) {
-        let language = this.display.getLocale();
-        let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-        let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
-        let request = {
-            method: 'GET',
-            url: `${api}?input=${query}&types=(cities)&language=${language}&key=${key}`,
-            headers: {
-                'Access-Control-Allow-Headers': 'Content-Type, Content-Range, Content-Disposition, Content-Description',
-                'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-                'Access-Control-Allow-Origin': '*'
-            }
-        };
-
-        return this._$http(request).then((result) => result.predictions, (error) => []);
-    }
-
-    update (form) {
-        if(this.user.public.isCoach) {
-            this.checkProfileComplete();
-        }
-        for (let name in form) {
-            if (form[name]) {
-                if (name === "personal" || name === "private") {
-                    this[name + 'FirstForm'].$setPristine();
-                    this[name + 'SecondForm'].$setPristine();
-                } else if (this.hasOwnProperty(name+'Form')) {
-                    this[name + 'Form'].$setPristine();
-                }
-            }
-        }
-
-        this.UserService.putProfile(this.user)
-        .then(this.successHandler('settingsSaveComplete'), this.errorHandler());
-    }
-
     /**
      * Проверка полноты заполнения профиля тренера
      */
@@ -198,24 +151,6 @@ class SettingsUserCtrl {
 
     changeProviderSettings (ev, adaptor){
 
-    }
-
-    showPasswordChange (ev) {
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template: require('./dialogs/changepassword.html'),
-            parent: angular.element(document.body),
-            targetEvent: ev,
-            bindToController: true,
-            clickOutsideToClose: true,
-            escapeToClose: true,
-            fullscreen: false // Only for -xs, -sm breakpoints.
-        }).then((password) => {
-            this.AuthService.setPassword(password)
-            .then(this.successHandler('setPasswordSuccess'))
-            .catch(this.errorHandler());
-        });
     }
 
     hasPaidBill () {

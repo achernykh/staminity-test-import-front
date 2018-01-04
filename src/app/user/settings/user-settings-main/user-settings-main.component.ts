@@ -8,19 +8,23 @@ class UserSettingsMainCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    static $inject = ['UserService', 'dialogs', 'message', '$mdDialog'];
+    static $inject = ['UserService', 'dialogs', 'message', 'UserSettingsService'];
 
     constructor (
         private userService: any,
         private dialogs: any,
         private message: any,
-        private $mdDialog: any,
+        private userSettingsService: any,
     ) {
         window['UserSettingsMainCtrl'] = this;
     }
 
     isOwnSettings () : boolean {
         return this.owner.userId === this.currentUser.userId;
+    }
+
+    showChangePassword (event) {
+        this.userSettingsService.changePassword(event);
     }
 }
 

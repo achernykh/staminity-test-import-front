@@ -6,7 +6,6 @@ import { DisplayView } from "../core/display.constants";
 import * as _connection from "../core/env.js";
 import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
-import {_translate} from "./settings-user.translate";
 
 function configure(
     $stateProvider: StateProvider,
@@ -150,10 +149,6 @@ function configure(
                 },
             },
         } as StateDeclaration);
-
-    // Текст представлений
-    $translateProvider.translations("en", {"settings": _translate.en});
-    $translateProvider.translations("ru", {"settings": _translate.ru});
 
 }
 

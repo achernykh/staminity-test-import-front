@@ -1,80 +1,5 @@
 
 import {ExternalProviderState} from "../../../api/sync/sync.interface";
-export const _NAVBAR = [
-    {
-        icon: "person",
-        name: "settings.personalInfo.header",
-        link: "#personal",
-        active: true,
-    },
-    {
-        icon: "security",
-        name: "settings.privacy.header",
-        link: "#privacy",
-        active: true,
-    },
-    {
-        icon: "dvr",
-        name: "settings.display.header",
-        link: "#display",
-        active: true,
-    },
-    {
-        icon: "vpn_key",
-        name: "settings.account.header",
-        link: "#account",
-        active: true,
-    },
-    {
-        icon: "sync",
-        name: "settings.sync.header",
-        link: "#sync",
-        active: true,
-    },
-    {
-        icon: "straighten",
-        name: "settings.zones.header",
-        link: "#zones",
-        active: true,
-        sub: [
-            {
-                icon: "help",
-                name: "settings.zones.bpm.header",
-                link: "#zonesBPM",
-            },
-            {
-                icon: "help",
-                name: "settings.zones.power.header",
-                link: "#zonesPower",
-            },
-            {
-                icon: "help",
-                name: "settings.zones.speed.header",
-                link: "#zonesSpeed",
-            },
-        ],
-    },
-    {
-        icon: "notifications",
-        name: "settings.notification.header",
-        link: "#notifications",
-        active: true,
-    },
-    // UX для этих панелей не определен
-    /*,
-     {
-     icon: "content_paste.svg",
-     name: 'settings.templates.header',
-     link: '#templates',
-     active: false
-     },
-     {
-     icon: "star.svg",
-     name: 'settings.favorites.header',
-     link: '#favorites',
-     active: false
-     }*/
-];
 
 export const _UNITS = ["metric", "imperial"];
 
@@ -88,8 +13,6 @@ export const _DELIVERY_METHOD = [{
     id: "E",
     name: "email",
 }];
-
-export const _PRIVACY_LEVEL = [{id: 50}, {id: 40}, {id: 10}];
 
 export const _CalculationMethod = {
     heartRate: [{

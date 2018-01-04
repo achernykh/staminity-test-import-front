@@ -1,6 +1,6 @@
-<form name="$ctrl.notificationsForm">
+<form name="$ctrl.form">
     <md-list class="md-dense section">
-        <md-list-item ng-repeat-start="(key, values) in $ctrl.owner.notifications">
+        <md-list-item ng-repeat-start="(key, values) in $ctrl.datamodel.notifications">
             <span translate="{{::key}}"></span>
             <div flex="100" layout="row" layout-align="end center">
                 <md-checkbox class="md-primary" ng-model="values[0]" aria-label="email">Email</md-checkbox>
@@ -9,5 +9,10 @@
             </div>
         </md-list-item>
         <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+        <div flex layout="row" layout-align="end center">
+            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+                {{ 'form.save' | translate }}
+            </md-button>
+        </div>
     </md-list>
 </form>
