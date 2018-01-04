@@ -37,7 +37,7 @@ function configure($stateProvider:StateProvider,
                 view: () => {return new DisplayView('calendar');},
                 currentUser: ['SessionService', (session: SessionService) => session.getUser()],
                 owner: ['SessionService', (session: SessionService) => session.getUser()],
-                user: ['UserService', 'message', '$stateParams',
+                /**user: ['UserService', 'message', '$stateParams',
                     function (UserService:UserService, message:MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
                             .catch((info)=> {
@@ -45,14 +45,14 @@ function configure($stateProvider:StateProvider,
                                 // TODO перейти на страницу 404
                                 throw info;
                             });
-                    }],
-                athlete: ['SessionService','user', (SessionService: SessionService, user:IUserProfile) =>
-                    SessionService.getUser().userId !== user.userId ? user : null],
+                    }],**/
+                athlete: ['SessionService', '$stateParams', (SessionService: SessionService, $stateParams) =>
+                    SessionService.getUser().userId !== $stateParams.userId ? $stateParams.userId : null],
                 checkPermissions: ['AuthService', 'SessionService', 'message','athlete',
                     (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
                         if(athlete) {
                             if (AuthService.isCoach()) {
-                                return AuthService.isMyAthlete(athlete)
+                                return AuthService.isMyAthlete(<IUserProfile>{userId: athlete})
                                     .catch((error)=>{
                                         athlete = null;
                                         message.systemWarning(error);

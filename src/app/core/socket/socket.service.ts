@@ -45,9 +45,9 @@ export class SocketService {
             this.initRequest = new Deferred<boolean>();
             setTimeout(() => {
                 console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
-                if ( this.socketStarted ) {
+                if ( this.socketStarted && this.initRequest ) {
                     this.initRequest.resolve(true);
-                } else {
+                } else if ( this.initRequest ) {
                     this.initRequest.reject(false);
                 }
             }, this.settings.delayOnOpen);

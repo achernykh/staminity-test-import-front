@@ -58,8 +58,9 @@ export class SessionService {
     }
 
     updateUser (userProfile: Object) {
+        console.info('session service: update user', userProfile);
         if (!userProfile[ 'userId' ] || this.isCurrentUserId(userProfile[ 'userId' ])) {
-            this.change({ userProfile: { ...userProfile } });
+            this.refresh({ userProfile: Object.assign({}, this.getUser(), { ...userProfile }) });
         }
     }
 
