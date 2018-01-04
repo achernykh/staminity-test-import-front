@@ -57,7 +57,6 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     setDate (): void {
-        debugger;
         if (this.competition.items) {
             //////this.competition.setDate();
         }
