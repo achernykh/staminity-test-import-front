@@ -19,6 +19,7 @@ import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-
 import { UserSettingsNotificationsComponent } from "./settings/user-settings-notifications/user-settings-notifications.component";
 import { UserSettingsService } from "./settings/user-settings.service";
 import SyncAdaptorService from "./sync-adaptor.service";
+import userSettingsConfig from "./settings/user-settings.config";
 
 export const User = module('staminity.user', [])
     .service("SyncAdaptorService", SyncAdaptorService)
@@ -43,4 +44,5 @@ export const User = module('staminity.user', [])
     .config(['$translateProvider', ($translate) => {
         supportLng.map(lng => $translate.translations(lng, {user: translateUser[lng]}));
     }])
+    .config(userSettingsConfig)
     .name;

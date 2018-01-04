@@ -4,7 +4,7 @@
             <div class="md-toolbar-tools">
                 <h2 >{{ 'settings.sync.'+ $ctrl.adaptor.provider | translate}}</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
                     <md-icon class="material-icons md-dark">close</md-icon>
                 </md-button>
             </div>
@@ -50,7 +50,7 @@
             <span flex></span>
             <md-button ng-disabled="!$ctrl.adaptorForm.$valid" type="submit"
                        ng-class="{'md-primary': $ctrl.adaptorForm.$valid, 'md-disabled': $ctrl.adaptorForm.$error}"
-                       ng-click="answer($ctrl.adaptor)">{{'settings.sync.status.'+$ctrl.adaptor.status.code+'.button' | translate}}</md-button>
+                       ng-click="$ctrl.confirm()">{{'settings.sync.status.'+$ctrl.adaptor.status.code+'.button' | translate}}</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>
