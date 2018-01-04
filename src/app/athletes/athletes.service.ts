@@ -80,12 +80,18 @@ export class AthletesService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    remove(management: IGroupManagementProfile, members: IGroupManagementProfileMember[]): Promise<any> {
+    remove(user: IUserProfile, members: IGroupManagementProfileMember[]): Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.removeAthlete" })
-            .then(() => members.map((member) => this.groupService.leave(management.groupId, member.userProfile.userId)))
+            .then(() => members.map((member) => this.groupService.leave(user.connections.allAthletes.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));
     }
 
+    /**
+     * Текст сообщения об изменении тарифов
+     * @param addTariffs
+     * @param removeTariffs
+     * @returns {string}
+     */
     editTariffsMessage(addTariffs, removeTariffs) {
         const translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
 
