@@ -9,7 +9,7 @@ export const UserMenuSettings = [
     {
         icon: "settings",
         name: "userMenu.settings",
-        link: "user-settings"
+        link: "user-settings.main"
     },
     {
         icon: "help",
