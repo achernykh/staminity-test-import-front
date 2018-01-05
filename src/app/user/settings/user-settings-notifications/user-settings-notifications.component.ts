@@ -1,6 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import { UserSettingsNotificationsDatamodel } from './user-settings-notifications.datamodel';
+import { UserSettingsNotificationsDatamodel, groups } from './user-settings-notifications.datamodel';
 import './user-settings-notifications.component.scss';
 
 class UserSettingsNotificationsCtrl {
@@ -12,6 +12,7 @@ class UserSettingsNotificationsCtrl {
     };
 
     // public
+    groups = groups;
     datamodel: UserSettingsNotificationsDatamodel;
 
     static $inject = ['UserService', 'dialogs', 'message'];
