@@ -1,3 +1,4 @@
+import satellizer from "satellizer"; 
 import { module } from "angular";
 import { supportLng } from "../core/display.constants";
 import { StateProvider } from "angular-ui-router";
@@ -21,7 +22,7 @@ import { UserSettingsService } from "./settings/user-settings.service";
 import SyncAdaptorService from "./sync-adaptor.service";
 import userSettingsConfig from "./settings/user-settings.config";
 
-export const User = module('staminity.user', [])
+export const User = module('staminity.user', [satellizer])
     .service("SyncAdaptorService", SyncAdaptorService)
     .service("UserSettingsService", UserSettingsService)
     .component('stUserSettings', UserSettingsComponent)

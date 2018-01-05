@@ -1,13 +1,20 @@
+import moment from 'moment/min/moment-with-locales.js';
 import {
     DeleteUserExternalAccountRequest, PostUserExternalAccountRequest,
-    PutUserExternalAccountRequest } from "../../../api";
-import { SocketService} from "../core";
+    PutUserExternalAccountRequest 
+} from "../../../api";
+import { SocketService } from "../core";
+import { UserSettingsProviderCtrl } from "./settings/user-settings-provider/user-settings-provider.dialog";
 
 export default class SyncAdaptorService {
 
-    static $inject = ["SocketService"];
+    static $inject = ["SocketService", "$mdDialog", "$auth"];
 
-    constructor(private SocketService: SocketService) {
+    constructor(
+        private SocketService: SocketService,
+        private $mdDialog: any,
+        private $auth: any
+    ) {
 
     }
 
@@ -45,6 +52,44 @@ export default class SyncAdaptorService {
      */
     post(provider: string, username: string, password: string, startDate: Date): Promise<any> {
         return this.SocketService.send(new PostUserExternalAccountRequest(provider, username, password, startDate));
+    }
+
+    /**
+     * Создание настроек синхронизации OAuth
+     * @param userId
+     * @param provider
+     * @returns {Promise<any>}
+     */
+    setupOAuthProvider (userId: number, provider: string) : Promise<any> {
+        return this.$auth.link(provider, {
+            internalData: {
+                userId: userId,
+                startDate: moment().subtract(3,'months'),
+                postAsExternalProvider: true,
+                provider: provider
+            }
+        });
+    }
+
+    /**
+     * Диалог настройки сихронизации
+     * @param adaptor
+     * @returns {Promise<any>}
+     */
+    showProviderDialog (provider: string) : Promise<any> {
+        return this.$mdDialog.show({
+            controller: UserSettingsProviderCtrl,
+            controllerAs: '$ctrl',
+            template: require('./settings/user-settings-provider/user-settings-provider.dialog.html'),
+            parent: angular.element(document.body),
+            locals: {
+                adaptor: { provider }
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: false 
+        });
     }
 
 }

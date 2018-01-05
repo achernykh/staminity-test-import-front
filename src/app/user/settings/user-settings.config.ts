@@ -1,4 +1,3 @@
-import satellizer from "satellizer"; 
 import * as connection from "../../core/env.js";
 
 function configure(

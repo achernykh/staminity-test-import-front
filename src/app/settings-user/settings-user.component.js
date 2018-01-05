@@ -8,23 +8,6 @@ import {
     _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, syncStatus
 } from './settings-user.constants';
 import { parseYYYYMMDD } from '../share/share.module';
-import './settings-user.component.scss';
-
-
-let emptyUser = {
-    public: {
-
-    },
-    personal: {
-        activity: []
-    },
-    display: {
-        units: null,
-        firstDayOfWeek: null,
-        timezone: null,
-        language: null
-    }
-};
 
 
 class SettingsUserCtrl {
@@ -38,26 +21,6 @@ class SettingsUserCtrl {
         this._UNITS = _UNITS
         this._country_list = _country_list;
         this._SYNC_ADAPTORS = _SYNC_ADAPTORS;
-
-        this.$scope = $scope;
-        this.SessionService = SessionService;
-        this.UserService = UserService;
-        this.AuthService = AuthService;
-        this.$http = $http
-        this.$mdDialog = $mdDialog
-        this.$auth = $auth
-        this.SyncAdaptorService = SyncAdaptorService;
-        this.dialogs = dialogs;
-        this.message = message;
-        this.BillingService = BillingService;
-        this.$translate = $translate;
-        this.$mdMedia = $mdMedia;
-        this.display = display;
-
-        this.destroy = new Subject();
-        this.adaptors = [];
-
-        console.log('SettingsUserCtrl', SettingsUserCtrl);
     }
 
     $onInit () {
@@ -184,26 +147,6 @@ class SettingsUserCtrl {
 SettingsUserCtrl.$inject = [
     '$scope', 'SessionService', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService'
 ];
-
-
-function DialogController($scope, $mdDialog) {
-
-    $scope.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-
-    $scope.hide = function () {
-        $mdDialog.hide();
-    };
-
-    $scope.cancel = function () {
-        $mdDialog.cancel();
-    };
-
-    $scope.answer = function (answer) {
-        $mdDialog.hide(answer);
-    };
-}
-
-DialogController.$inject = ['$scope', '$mdDialog'];
 
 
 let SettingsUser = {
