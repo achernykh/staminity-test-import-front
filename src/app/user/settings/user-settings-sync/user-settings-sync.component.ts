@@ -85,8 +85,25 @@ export const syncStatus = (last, state) => {
     if (state === "CheckRequisites") {
         return status.onCheckRequisites;
     }
-
 };
+
+const syncAdaptors = [ 
+    { 
+        provider: "garmin", 
+        isOAuth: false, 
+        state: ExternalProviderState.Disabled, 
+    }, 
+    { 
+        provider: "strava", 
+        state: ExternalProviderState.Disabled, 
+        isOAuth: true, 
+    }, /*, 
+    { 
+        provider: 'polar', 
+        state: ExternalProviderState.Disabled, 
+        isOAuth: false 
+    }*/ 
+]; 
 
 class UserSettingsSyncCtrl {
     
@@ -94,7 +111,8 @@ class UserSettingsSyncCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    adaptors = ["garmin", "strava"];
+    adaptors: any[]; 
+    toggle = {};
 
     static $inject = ['SyncAdaptorService', 'dialogs', 'message', '$mdDialog'];
 
@@ -104,41 +122,67 @@ class UserSettingsSyncCtrl {
         private message: any,
         private $mdDialog: any,
     ) {
-
     }
 
-    isAdaptorEnabled (adaptor: string) : boolean {
-        return false;
+    $onInit () {
+        this.adaptors = syncAdaptors.map((adaptor: any) => { 
+            let settings = this.owner.externalDataProviders.filter((a) => a.provider === adaptor.provider)[0]; 
+            adaptor = (settings && settings) || adaptor; 
+            adaptor['status'] = syncStatus(adaptor.lastSync, adaptor.state); 
+            adaptor['startDate'] = (adaptor.hasOwnProperty('startDate') && new Date(adaptor.startDate)) || new Date('2017-01-01'); 
+            return adaptor; 
+        }); 
     }
 
-    adaptorStatus (adaptor: string) : string {
-        return "offSyncNeverEnabled";
+    syncEnabled (adaptor) { 
+        return adaptor.state === "Enabled"; 
     }
 
-    handleSelectAdaptor (adaptor: string) {
-        
-    }
-
-    adaptorState (adaptor: string) {
-        return (value?: boolean) => {
-            const isEnabled = this.isAdaptorEnabled(adaptor);
-
-            if (typeof value === 'undefined') {
-                return isEnabled;
+    enableStrava (adaptor) {
+        this.syncAdaptorService.setupOAuthProvider(this.owner.userId, adaptor)
+        .then((response) => {
+            // You have successfully linked an account.
+            this.updateAdaptor(adaptor, response.data.data);
+            console.log('response', response);
+            this.toggle[adaptor.provider] = true;
+        }, (error) => {
+            if (error.hasOwnProperty('stack') && error.stack.indexOf('The popup window was closed') !== -1) {
+                this.message.toastInfo('userCancelOAuth');
+            } else {
+                this.message.toastInfo(error.data.errorMessage || error.errorMessage || error);
             }
-
-            if (!isEnabled && value) {
-                this.enableAdaptor(adaptor);
-            } else if (isEnabled && !value) {
-                this.disableAdaptor(adaptor);
-            }
-        };
+            this.toggle[adaptor.provider] = false;
+        }).catch(response => {
+            // (Handle) errors here.
+            console.error('response', response);
+            this.message.toastInfo(response);
+            this.toggle[adaptor.provider] = false;
+        });
     }
 
-    enableAdaptor (adaptor) {
-        this.syncAdaptorService.showProviderDialog()
-        .then(() => {
-            this.message.toastInfo('settingsSaveComplete');
+    enableGarmin (adaptor) {
+        this.syncAdaptorService.showProviderDialog(adaptor)
+        .then((form) => {
+            if (adaptor.status.code === 'offSyncNeverEnabled') {
+                this.syncAdaptorService.post(adaptor.provider, form.username, form.password, form.startDate)
+                .then((response) => {
+                    this.updateAdaptor(adaptor, response);
+                    console.info(response);
+                    this.toggle[adaptor.provider] = true;
+                }, (error) => {
+                    this.message.toastError(error);
+                    return true;
+                });
+            } else { 
+                this.syncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password, form.startDate, "Enabled")
+                .then((response) => {
+                    this.updateAdaptor(adaptor, response);
+                    this.toggle[adaptor.provider] = true;
+                }, (error) => {
+                    this.message.toastError(error);
+                    this.toggle[adaptor.provider] = false;
+                });
+            }
         });
     }
 
@@ -151,8 +195,38 @@ class UserSettingsSyncCtrl {
 
         this.$mdDialog.show(confirm)
         .then(() => {
-            return this.syncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password, moment(adaptor.startDate).format('YYYY-MM-DD'), adaptor.status.switch ? "Enabled" : "Disabled");
+            return this.syncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password, moment(adaptor.startDate).format('YYYY-MM-DD'), "Disabled")
+            .then((response) => {
+                this.updateAdaptor(adaptor, response);
+                console.info(response);
+                this.toggle[adaptor.provider] = false;
+            }, (error) => {
+                console.error(error);
+                this.toggle[adaptor.provider] = true;
+            });
+        }, (error) => {
+            this.toggle[adaptor.provider] = true;
+            //adaptor.status.switch = true;
         });
+    }
+
+    showProviderSettings (ev, adaptor, toggle) {
+        if (!toggle && adaptor.status.switch) {
+            this.disableAdaptor(adaptor);
+        } else if (toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
+            this.enableStrava(adaptor);
+        } else if (toggle) {
+            this.enableGarmin(adaptor);
+        }
+    }
+
+    updateAdaptor (adaptor, response) { 
+        let idx = this.adaptors.findIndex(a => a.provider === adaptor.provider); 
+        this.adaptors[idx].state = response.state; 
+        this.adaptors[idx].lastSync = response.lastSync; 
+        this.adaptors[idx].status = syncStatus(response.lastSync, response.state); 
+        //this.$scope.$apply(); 
+        this.message.toastInfo('settingsSaveComplete'); 
     }
 }
 

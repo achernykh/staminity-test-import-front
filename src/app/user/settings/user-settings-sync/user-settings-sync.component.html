@@ -1,15 +1,14 @@
 <form name="$ctrl.syncForm">
     <md-list class="md-dense section">
-        <md-list-item ng-repeat-start="adaptor in $ctrl.adaptors" class="md-2-line" ng-click="$ctrl.handleSelectAdaptor(adaptor)">
-            <img ng-src="/assets/icon/{{adaptor}}_{{$ctrl.isAdaptorEnabled(adaptor) ? 'on':'off'}}.png"
+        <md-list-item ng-repeat-start="adaptor in $ctrl.adaptors" class="md-2-line" ng-click="adaptor.status.switch ? $ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider]): angular.noop()">
+            <img ng-src="/assets/icon/{{adaptor.provider}}_{{adaptor.status.switch ? 'on':'off'}}.png"
                  class="md-avatar" style="border-radius: 50%"/>
             <div class="md-list-item-text">
-                <h3> {{ 'user.settings.sync.' + adaptor | translate }} </h3>
-                <h4>{{ 'user.settings.sync.status.' + $ctrl.adaptorStatus(adaptor) + '.title' | translate }}</h4>
-                <p>{{ 'user.settings.sync.status.' + $ctrl.adaptorStatus(adaptor) + '.text' | translate:adaptor }}</p>
+                <h3> {{ 'user.settings.sync.' + adaptor.provider | translate }} </h3>
+                <h4>{{ 'user.settings.sync.status.' + adaptor.status.code + '.title' | translate }}</h4>
+                <p>{{ 'user.settings.sync.status.' + adaptor.status.code + '.text' | translate:adaptor }}</p>
             </div>
-            <md-switch class="md-secondary md-primary" ng-model="$ctrl.adaptorState(adaptor)" ng-model-options="{ getterSetter: true }">
-            </md-switch>
+            <md-switch class="md-secondary md-primary" ng-init="$ctrl.toggle[adaptor.provider] = adaptor.status.switch" ng-model="$ctrl.toggle[adaptor.provider]" ng-change="$ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider])"></md-switch>
         </md-list-item>
         <md-divider ng-repeat-end ng-if="!$last"/>
     </md-list>

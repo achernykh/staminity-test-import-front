@@ -60,13 +60,13 @@ export default class SyncAdaptorService {
      * @param provider
      * @returns {Promise<any>}
      */
-    setupOAuthProvider (userId: number, provider: string) : Promise<any> {
-        return this.$auth.link(provider, {
+    setupOAuthProvider (userId: number, adaptor: any) : Promise<any> {
+        return this.$auth.link(adaptor.provider, {
             internalData: {
                 userId: userId,
                 startDate: moment().subtract(3,'months'),
                 postAsExternalProvider: true,
-                provider: provider
+                provider: adaptor.provider
             }
         });
     }
@@ -76,14 +76,14 @@ export default class SyncAdaptorService {
      * @param adaptor
      * @returns {Promise<any>}
      */
-    showProviderDialog (provider: string) : Promise<any> {
+    showProviderDialog (adaptor: any) : Promise<any> {
         return this.$mdDialog.show({
             controller: UserSettingsProviderCtrl,
             controllerAs: '$ctrl',
             template: require('./settings/user-settings-provider/user-settings-provider.dialog.html'),
             parent: angular.element(document.body),
             locals: {
-                adaptor: { provider }
+                adaptor: adaptor
             },
             bindToController: true,
             clickOutsideToClose: true,
