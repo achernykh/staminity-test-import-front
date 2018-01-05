@@ -57,7 +57,7 @@ export default class DisplayService {
     }
 
     setLocale(locale: string) {
-        const userChanges = { display: { language: locale } };
+        const userChanges = this.getUserChanges({ language: locale });
 
         if (this.SessionService.getToken()) {
             this.UserService.putProfile(userChanges as any);
@@ -71,8 +71,7 @@ export default class DisplayService {
     }
 
     setUnits(units: string) {
-        const userChanges = { display: { units: units } };
-        this.UserService.putProfile(userChanges as any);
+        this.UserService.putProfile(this.getUserChanges({ units }));
     }
 
     getTimezone(): string {
@@ -80,8 +79,7 @@ export default class DisplayService {
     }
 
     setTimezone(timezone: string) {
-        const userChanges = { display: { timezone: timezone } };
-        this.UserService.putProfile(userChanges as any);
+        this.UserService.putProfile(this.getUserChanges({ timezone }));
     }
 
     getFirstDayOfWeek(): number {
@@ -89,8 +87,16 @@ export default class DisplayService {
     }
 
     setFirstDayOfWeek(firstDayOfWeek: number) {
-        const userChanges = { display: { firstDayOfWeek: firstDayOfWeek } };
-        this.UserService.putProfile(userChanges as any);
+        this.UserService.putProfile(this.getUserChanges({ firstDayOfWeek }));
+    }
+
+    private getUserChanges(displayChanges: any): any {
+        return { 
+            display: { 
+                ...this.SessionService.getUser().display,
+                ...displayChanges,
+            },
+        };
     }
 }
 

@@ -1,6 +1,6 @@
 <form name="$ctrl.zonesForm">
     <md-list class="md-dense section">
-        <md-list-item ng-repeat-start="(intensityFactor,zone) in $ctrl.owner.trainingZones track by $index">
+        <md-list-item ng-repeat-start="(intensityFactor,zone) in $ctrl.datamodel.trainingZones track by $index">
             <md-icon md-svg-src="/assets/icon/{{::intensityFactor}}.svg"
                      class="fill-measure {{::intensityFactor}}"></md-icon>
             <p class="md-body-2" translate="{{::intensityFactor}}"></p>
