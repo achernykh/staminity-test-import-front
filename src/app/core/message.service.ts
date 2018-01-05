@@ -6,15 +6,15 @@ import {_translateMessage} from './message.translate';
 
 export interface IMessageService {
 
-    system(code: string, status: string, context?: {}, delay?: number): void;
-    systemError(code: string, context?: {}, delay?: number): void;
-    systemWarning(code: string, context?: {}, delay?: number): void;
-    systemSuccess(code: string, context?: {}, delay?: number): void;
+    system (code: string, status: string, context?: {}, delay?: number): void;
+    systemError (code: string, context?: {}, delay?: number): void;
+    systemWarning (code: string, context?: {}, delay?: number): void;
+    systemSuccess (code: string, context?: {}, delay?: number): void;
 
-    toast(code: string, status: string, context?: {}, delay?: number): void;
-    toastInfo(code: string, context?: {}, delay?: number): void;
-    toastError(code: string, context?: {}, delay?: number): void;
-    toastWarning(code: string, context?: {}, delay?: number): void;
+    toast (code: string, status: string, context?: {}, delay?: number): void;
+    toastInfo (code: string, context?: {}, delay?: number): void;
+    toastError (code: string, context?: {}, delay?: number): void;
+    toastWarning (code: string, context?: {}, delay?: number): void;
 }
 /**
  * @ngdoc  service
@@ -55,7 +55,7 @@ export default class MessageService implements IMessageService{
 
     static $inject = ['$rootScope','$compile','$timeout','$mdToast'];
 
-    constructor(
+    constructor (
         private $rootScope: IRootScopeService,
         private $compile: ICompileService,
         private $timeout: ITimeoutService,
@@ -71,7 +71,7 @@ export default class MessageService implements IMessageService{
 	 * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
 	 * @delay {number} delay Задержка в с показа сообщения на экране
 	 */
-    system(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
+    system (code: string, status: string = 'error', context: {} = null, delay: number = 10) {
         let id = "system-message#" + ++this.id;
 
         angular
@@ -91,15 +91,15 @@ export default class MessageService implements IMessageService{
 
     }
 
-    systemError(code: string, context?: {}, delay?: number) {
+    systemError (code: string, context?: {}, delay?: number) {
         this.system(code,'error',context,delay);
     }
 
-    systemWarning(code: string, context?: {}, delay?: number) {
+    systemWarning (code: string, context?: {}, delay?: number) {
         this.system(code,'warning',context,delay);
     }
 
-    systemSuccess(code: string, context?: {}, delay?: number) {
+    systemSuccess (code: string, context?: {}, delay?: number) {
         this.system(code,'success',context,delay);
     }
 
@@ -112,7 +112,7 @@ export default class MessageService implements IMessageService{
 	 * @param {string} status Статус сообщения, может принимать значения `error`,`success`,`warning`
 	 * @delay {number} delay Задержка в с показа сообщения на экране
 	 */
-    toast(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
+    toast (code: string, status: string = 'error', context: {} = null, delay: number = 10) {
         this.$mdToast.show({
             hideDelay: delay * 1000,
             position: 'bottom center',
@@ -128,24 +128,24 @@ export default class MessageService implements IMessageService{
         });
     }
 
-    toastError(code: string, context?: {}, delay?: number) {
+    toastError (code: string, context?: {}, delay?: number) {
         debugger;
         this.toast(code,'error',context,delay);
     }
 
-    toastWarning(code: string, context?: {}, delay?: number) {
+    toastWarning (code: string, context?: {}, delay?: number) {
         this.toast(code,'warning',context,delay);
     }
 
-    toastInfo(code: string, context?: {}, delay?: number) {
+    toastInfo (code: string, context?: {}, delay?: number) {
         this.toast(code,'info',context,delay);
     }
 
 }
 
-function ToastCtrl($scope, $mdToast) {
+function ToastCtrl ($scope, $mdToast) {
 
-    $scope.hide = function() {
+    $scope.hide = function () {
         $mdToast.hide();
     };
 }

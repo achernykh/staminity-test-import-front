@@ -40,7 +40,7 @@ class AthletesCtrl implements IComponentController {
 
     static $inject = ["$scope", "$mdDialog", "$translate", "GroupService", "AthletesService", "dialogs", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService"];
 
-    constructor(
+    constructor (
         private $scope: any,
         private $mdDialog: any,
         private $translate: any,
@@ -57,7 +57,7 @@ class AthletesCtrl implements IComponentController {
     /**
      * Обновить
      */
-    update() {
+    update () {
         return this.groupService.getManagementProfile(this.management.groupId, "coach")
             .then((management) => {
                 this.management = management;
@@ -72,7 +72,7 @@ class AthletesCtrl implements IComponentController {
      * Доступна ли при выбранных строчках кнопка "Удалить"
      * @returns {boolean}
      */
-    isRemoveAvailable(): boolean {
+    isRemoveAvailable (): boolean {
         return this.athletesService.isRemoveAvailable(this.user, this.checked);
     }
 
@@ -80,14 +80,14 @@ class AthletesCtrl implements IComponentController {
      * Доступна ли при выбранных строчках кнопка "Тарифы"
      * @returns {boolean}
      */
-    isEditTariffsAvailable(): boolean {
+    isEditTariffsAvailable (): boolean {
         return this.athletesService.isEditTariffsAvailable(this.user, this.checked);
     }
 
     /**
      * Действие над выбранными строчками по кнопке "Тарифы"
      */
-    editTariffs() {
+    editTariffs () {
         this.athletesService.editTariffs(this.user, this.management, this.checked)
         .then((result) => {
             if (result) {
@@ -104,7 +104,7 @@ class AthletesCtrl implements IComponentController {
     /**
      * Действие над выбранными строчками по кнопке "Удалить"
      */
-    remove() {
+    remove () {
         this.athletesService.remove(this.user, this.checked)
         .then((result) => {
             if (result) {
@@ -121,7 +121,7 @@ class AthletesCtrl implements IComponentController {
      * Действие по кнопке "Меню" члена клуба в мобильной версии
      * @param member: Member
      */
-    showActions(member: IGroupManagementProfileMember) {
+    showActions (member: IGroupManagementProfileMember) {
         this.checked = [member];
 
         this.$mdBottomSheet.show({
@@ -136,7 +136,7 @@ class AthletesCtrl implements IComponentController {
      * @param bill: IBillingTariff
      * @returns {boolean}
      */
-    isBillByUser(bill: IBillingTariff): boolean {
+    isBillByUser (bill: IBillingTariff): boolean {
         return isBillByUser(this.user.userId, bill);
     }
 
@@ -144,7 +144,7 @@ class AthletesCtrl implements IComponentController {
      * Действие по кнопке "Пригласить в клуб"
      * @param $event
      */
-    invite($event) {
+    invite ($event) {
         this.$mdDialog.show(inviteDialogConf(this.user.connections.Athletes.groupId, $event));
     }
 
@@ -152,7 +152,7 @@ class AthletesCtrl implements IComponentController {
      * Использовать ли мобильную вёрстку
      * @returns {boolean}
     */
-    isMobileLayout(): boolean {
+    isMobileLayout (): boolean {
         return this.$mdMedia("max-width: 959px");
     }
 };

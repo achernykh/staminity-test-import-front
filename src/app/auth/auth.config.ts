@@ -3,7 +3,7 @@
  import {_display_view, DisplayView} from "../core/display.constants";
  import {_translate} from "./auth.translate";
 
- function configure(
+ function configure (
     $stateProvider: StateProvider,
     $translateProvider: any) {
 

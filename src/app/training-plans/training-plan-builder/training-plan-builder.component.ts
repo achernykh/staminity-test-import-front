@@ -22,7 +22,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     private calendar: Calendar;
     static $inject = ['$scope', '$anchorScroll', 'CalendarService', 'SessionService'];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $anchorScroll: IAnchorScrollService,
         private calendarService: CalendarService,
@@ -31,7 +31,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.weekdayNames = moment.weekdays(true);
         this.currentUser = this.session.getUser();
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, this.calendarService, this.currentUser, this.plan.calendarItems);

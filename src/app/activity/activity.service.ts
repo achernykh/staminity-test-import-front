@@ -15,7 +15,7 @@ export default class ActivityService {
 
     static $inject = ["SocketService", "RESTService"];
 
-    constructor(//private StorageService:any,
+    constructor (//private StorageService:any,
                 //private SessionService:ISessionService,
                 private SocketService: SocketService,
                 private RESTService: RESTService) {
@@ -31,7 +31,7 @@ export default class ActivityService {
      * @param ws - протокол запроса, true - websocket, false - http
      * @returns {Promise<T>}
      */
-    getDetails(id: number, ws: boolean = false): Promise<IActivityDetails> {
+    getDetails (id: number, ws: boolean = false): Promise<IActivityDetails> {
         return ws ?
             this.SocketService.send(new GetActivityDetailsRequest(id)) :
             this.RESTService.postData(new GetData(`/activity/${id}/full`, null));
@@ -43,7 +43,7 @@ export default class ActivityService {
      * @param types
      * @returns {Promise<any>}
      */
-    getIntervals(id: number, types: string[] = ["L"]): Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
+    getIntervals (id: number, types: string[] = ["L"]): Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
         return this.SocketService.send(new GetActivityIntervalsRequest(id, types))
             .then((response: {intervals: any[]}) => response.intervals);
     }
@@ -54,11 +54,11 @@ export default class ActivityService {
      * @param onlyMine
      * @returns {Promise<any>}
      */
-    getCategory(id: number = null, onlyMine: boolean = false): Promise<any> {
+    getCategory (id: number = null, onlyMine: boolean = false): Promise<any> {
         return this.SocketService.send(new GetActivityGategoryRequest(id , onlyMine));
     }
 
-    calculateRange(
+    calculateRange (
         activityId: number,
         start: number,
         end: number,

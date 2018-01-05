@@ -13,11 +13,11 @@ class DashboardAthleteCtrl implements IComponentController {
 
     static $inject = ["$state"];
 
-    constructor(private $state: any, private $mdDialog: any) {
+    constructor (private $state: any, private $mdDialog: any) {
 
     }
 
-    $onInit() {
+    $onInit () {
         //this.selected = this.dashboard.selectedAthletes.indexOf(this.profile.userId) !== -1;
     }
 }

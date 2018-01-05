@@ -8,6 +8,6 @@ export type Filter<P, T> = (params: P) => Predicate<T>;
  * @param params: P
  * @returns {Predicate<T>}
  */
-export function filtersToPredicate<P, T>(filters: Array<Filter<P, T>>, params: P) {
+export function filtersToPredicate<P, T> (filters: Array<Filter<P, T>>, params: P) {
     return (t: T) => filters.every((filter) => filter(params)(t));
 }

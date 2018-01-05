@@ -23,11 +23,11 @@ class DashboardActivityCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['$mdDialog','message'];
 
-    constructor(private $mdDialog: any, private message: MessageService) {
+    constructor (private $mdDialog: any, private message: MessageService) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.activity = new Activity(this.item);
         //this.activity.prepare();
 
@@ -42,7 +42,7 @@ class DashboardActivityCtrl implements IComponentController {
 
     }
 
-    onOpen($event, mode: string) {
+    onOpen ($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -89,7 +89,7 @@ class DashboardActivityCtrl implements IComponentController {
             });
     }
 
-    onDelete() {
+    onDelete () {
         this.dashboard.onDeleteItem(this.item);
     }
 
@@ -111,17 +111,17 @@ const DashboardActivityComponent:IComponentOptions = {
 
 export default DashboardActivityComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

@@ -12,7 +12,7 @@ import * as _connection from "../core/env.js";
 export class CalendarService {
     item$: Observable<any>;
 
-    constructor(private SocketService: SocketService, private RESTService: IRESTService) {
+    constructor (private SocketService: SocketService, private RESTService: IRESTService) {
         this.item$ = this.SocketService.messages.filter(message => message.type === 'calendarItem').share();
     }
 
@@ -24,7 +24,7 @@ export class CalendarService {
      * @param end
      * @returns {Promise<TResult>}
      */
-    getCalendarItem(start:Date, end:Date, userId?:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
+    getCalendarItem (start:Date, end:Date, userId?:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
         return this.SocketService.send(new GetCalendarItemRequest(start, end, userId, groupId, itemId));
             /*.then((result) => {
                 console.log('getCalendarItem=', result)
@@ -40,7 +40,7 @@ export class CalendarService {
      * @param item {Object}
      * @returns {Promise}
      */
-    postItem(item: ICalendarItem):Promise<IRevisionResponse> {
+    postItem (item: ICalendarItem):Promise<IRevisionResponse> {
         //let data: ICalendarItem = copy(item);
         return this.SocketService.send(new PostCalendarItemRequest(item));
     }
@@ -50,7 +50,7 @@ export class CalendarService {
      * @param item {Object}
      * @returns {Promise}
      */
-    putItem(item: ICalendarItem):Promise<IRevisionResponse> {
+    putItem (item: ICalendarItem):Promise<IRevisionResponse> {
         return this.SocketService.send(new PutCalendarItemRequest(item));
     }
 
@@ -61,11 +61,11 @@ export class CalendarService {
      * @params rmParams
      * @returns {Promise<any>}
      */
-    deleteItem(mode: string, items: Array<number>, rmParams?: Object):Promise<any> {
+    deleteItem (mode: string, items: Array<number>, rmParams?: Object):Promise<any> {
         return this.SocketService.send(new DeleteCalendarItemRequest(mode,items, rmParams));
     }
 
-    postFile(file: any, activityId?:number):IHttpPromise<any> {
+    postFile (file: any, activityId?:number):IHttpPromise<any> {
         return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
             .then((response) => response.data);
     }
@@ -84,7 +84,7 @@ export class CalendarService {
      * @param image
      * @returns {Promise<string>}
      */
-    postImage(image: any):Promise<string> {
+    postImage (image: any):Promise<string> {
         return this.RESTService.postFile(new PostFile(`/calendarItem/recordImage/1`, image))
             .then((response: any) => `${response.fileName}`);
     }

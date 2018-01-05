@@ -59,7 +59,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         "heartRate", "power", "speed", "speed", "zones", "limit", "opposite", "index", "ftpMeasures", "keys",
         "hasRecalculate", "totalMeasures"];
 
-    constructor(type: string, params: IActivityInterval) {
+    constructor (type: string, params: IActivityInterval) {
         super(type, params);
 
         this.distance = this.distance || new DurationMeasure();
@@ -73,14 +73,14 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         this.prepareIntensity();
     }
 
-    private prepareDuration() {
+    private prepareDuration () {
 
         ["distance", "movingDuration"].forEach((m) => !this[m].durationValue && Object.assign(this[m], {
             durationValue: (this.durationMeasure === m && this.durationValue) || null,
         }));
     }
 
-    private prepareIntensity() {
+    private prepareIntensity () {
 
         ["heartRate", "speed", "power"].forEach((m) =>
             (!this[m].intensityLevelFrom && !this[m].intensityByFtpFrom) && Object.assign(this[m], {
@@ -96,7 +96,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @param keys
      * @returns {IActivityIntervalP}
      */
-    clear(keys: string[] = this.keys): IActivityIntervalP {
+    clear (keys: string[] = this.keys): IActivityIntervalP {
         if (this.hasRecalculate) {
             ["calcMeasures"].map((key) => this.keys.splice(this.keys.indexOf(key), 1));
         }
@@ -108,7 +108,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * Восстановление первоначального интервала
      * @param initial
      */
-    reset(): ActivityIntervalP | ActivityIntervalPW {
+    reset (): ActivityIntervalP | ActivityIntervalPW {
         return Object.assign(this, this.params);
     }
 
@@ -119,7 +119,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
       * intensityLevelFrom: number, intensityByFtpFrom: number, intensityLevelTo: number, intensityByFtpTo: number,
       * intensityDistribution: string, intensityFtpMax: number, intensityMaxZone: number}}
      */
-    assignment(): Object {
+    assignment (): Object {
         return {
             keyInterval: this.keyInterval,
 
@@ -155,7 +155,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * Метод работает как для заполнения интревала в целом, так и после изменения парамтреа длительности или
      * интенсивности
      */
-    complete(
+    complete (
         ftp: {[measure: string]: number},
         ftpState: FtpState = FtpState.On,
         changes: Array<{
@@ -203,7 +203,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @param measure - показатель интенсиновсти, по которому идет расчет
      * @returns {number} - рассчитанное знаение аболютное | относительное
      */
-    calculateFtpValue(
+    calculateFtpValue (
         ftp: number,
         ftpState: FtpState,
         key: string,
@@ -212,7 +212,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         return ftpState === FtpState.On ? this[measure][key] * ftp : Math.ceil(this[measure][key] * 100 / ftp) / 100;
     }
 
-    approxCalc(measure, ftp: {[measure: string]: number}): any[] {
+    approxCalc (measure, ftp: {[measure: string]: number}): any[] {
 
         if (this.durationMeasure === "movingDuration" &&
             this.intensityMeasure === "speed") {
@@ -241,7 +241,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         }
     }
 
-    approxSpeed(measure, ftp: {[measure: string]: number}): number {
+    approxSpeed (measure, ftp: {[measure: string]: number}): number {
         const FTP: number = (this.intensityByFtpFrom + this.intensityByFtpTo) / 2;
 
         if (!FTP) {
@@ -266,22 +266,22 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         return approxFTP * ftp["speed"];
     }
 
-    maxZone(): number[] {
+    maxZone (): number[] {
         return [0, 0];
     }
 
-    clearAbsoluteValue() {
+    clearAbsoluteValue () {
         this.intensityLevelFrom = null;
         this.intensityLevelTo = null;
     }
 
-    clearRelativeValue() {
+    clearRelativeValue () {
         this.intensityByFtpFrom = null;
         this.intensityByFtpTo = null;
 
     }
 
-    completeAbsoluteValue(zones: ITrainingZones, sport: string) {
+    completeAbsoluteValue (zones: ITrainingZones, sport: string) {
 
         if (this.intensityMeasure) {
             this.intensityLevelFrom = this[this.intensityMeasure].intensityLevelFrom =
@@ -296,7 +296,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @description Процент выполнения тренировки
      * @returns {number}
      */
-    percent(): number {
+    percent (): number {
         return this.hasOwnProperty("calcMeasures") && this.calcMeasures.hasOwnProperty("completePercent") &&
             this.calcMeasures.completePercent.hasOwnProperty("value") && this.calcMeasures.completePercent.value * 100 ||
             null;
@@ -306,7 +306,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @description Статус выполнения интервала
      * @returns {string}
      */
-    get status(): string {
+    get status (): string {
         return  (this.percent() === null && "coming") ||
                 (Math.abs(100 - this.percent()) <= this.limit.warn) && "complete" ||
                 (Math.abs(100 - this.percent()) <= this.limit.error) && "complete-warn" ||
@@ -318,7 +318,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @description Подготавливаем инетрвал для перерасчета на стороне бэка
      * @returns {IActivityIntervalP}
      */
-    prepareForCalculateRange(): IActivityIntervalP {
+    prepareForCalculateRange (): IActivityIntervalP {
         const interval: IActivityIntervalP = copy(this);
         this.keys.map((p) => delete interval[p]);
         this.hasRecalculate = true;
@@ -332,7 +332,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @description подготовка интревала к сохранению в шаблоне
      * @returns {IActivityIntervalPW}
      */
-    toTemplate(): IActivityIntervalP | IActivityIntervalPW {
+    toTemplate (): IActivityIntervalP | IActivityIntervalPW {
         this.intensityLevelFrom = null;
         this.intensityLevelTo = null;
         this.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;

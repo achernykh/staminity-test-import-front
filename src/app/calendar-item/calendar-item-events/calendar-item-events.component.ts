@@ -33,13 +33,13 @@ class CalendarItemEventsCtrl {
 
     static $inject = ['CalendarService','SessionService', 'message'];
 
-    constructor(
+    constructor (
         private CalendarService: CalendarService,
         private SessionService: SessionService,
         private message: IMessageService) {
     }
 
-    $onInit() {
+    $onInit () {
         this.currentUser = this.SessionService.getUser();
         if (this.mode === 'post') {
             this.data = {
@@ -76,7 +76,7 @@ class CalendarItemEventsCtrl {
      * Функция получает выделенных атлетов для планирования трениовки
      * @param response
      */
-    selectAthletes(response){
+    selectAthletes (response){
         this.showSelectAthletes = false;
         this.forAthletes = response;
     }
@@ -86,7 +86,7 @@ class CalendarItemEventsCtrl {
      * @param pos
      * @returns {IUserProfileShort}
      */
-    firstAthlete(pos: number){
+    firstAthlete (pos: number){
         return this.forAthletes.filter(athlete => athlete.active)[pos].profile;
     }
 
@@ -94,12 +94,12 @@ class CalendarItemEventsCtrl {
      * Указывает, что тренировка планируется для более чем одного атлета
      * @returns {boolean}
      */
-    multiAthlete(){
+    multiAthlete (){
         return this.forAthletes.filter(athlete => athlete.active).length > 1;
     }
 
 
-    onSave() {
+    onSave () {
         if (this.mode === 'post') {
             let athletes: Array<{profile: IUserProfileShort, active: boolean}> = [];
             athletes.push(...this.forAthletes.filter(athlete => athlete.active));
@@ -122,7 +122,7 @@ class CalendarItemEventsCtrl {
         }
     }
 
-    onDelete() {
+    onDelete () {
         this.CalendarService.deleteItem('F', [this.item.calendarItemId])
             .then(() => {
                 this.message.toastInfo('eventDeleted');

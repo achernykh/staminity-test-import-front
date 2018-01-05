@@ -14,12 +14,12 @@ export class AnalyticsChartLayout {
 
     fullScreen: boolean = false;
 
-    constructor(public gridColumnEnd: number,
+    constructor (public gridColumnEnd: number,
                 public gridRowEnd: number) {
 
     }
 
-    get style(): any {
+    get style (): any {
         return {
             "grid-column-end": `span ${this.gridColumnEnd}`,
             "grid-row-end": `span ${this.gridRowEnd}`,
@@ -74,7 +74,7 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     private keys: string[] = ["params", "user", "categories", "isAuthorized", "globalFilter", "keys"];
 
-    constructor(
+    constructor (
         private params?: IAnalyticsChart,
         private user?: IUserProfile,
         private globalFilter?: AnalyticsChartFilter,
@@ -97,15 +97,15 @@ export class AnalyticsChart implements IAnalyticsChart {
         }
     }
 
-    clearMetrics() {
+    clearMetrics () {
         this.charts.map((c) => c.hasOwnProperty("metrics") && delete c.metrics);
     }
 
-    hasMetrics(): boolean {
+    hasMetrics (): boolean {
         return this.charts.some((c) => c.hasOwnProperty("metrics"));
     }
 
-    transfer(keys: string[] = this.keys): IAnalyticsChart {
+    transfer (keys: string[] = this.keys): IAnalyticsChart {
 
         const obj: IAnalyticsChart = copy(this);
         // удаляем вспомогательные данные
@@ -116,7 +116,7 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     }
 
-    private prepareLocalParams(user: IUserProfile) {
+    private prepareLocalParams (user: IUserProfile) {
 
         if (this.localParams.activityTypes.model &&
             (!this.localParams.activityTypes.hasOwnProperty("options") || !this.localParams.activityTypes.options)) {
@@ -165,7 +165,7 @@ export class AnalyticsChart implements IAnalyticsChart {
         }
     }
 
-    prepareMetrics(ind: number, metrics: any[][]): void {
+    prepareMetrics (ind: number, metrics: any[][]): void {
         this.charts[ind].metrics = [];
         metrics.map((m) => {
             const metric: any[] = [];

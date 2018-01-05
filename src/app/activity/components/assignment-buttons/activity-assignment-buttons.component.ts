@@ -8,15 +8,15 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    onSave(){
+    onSave (){
         this.item.options.templateMode ? this.item.onSaveTemplate() : this.item.onSave();
     }
 }

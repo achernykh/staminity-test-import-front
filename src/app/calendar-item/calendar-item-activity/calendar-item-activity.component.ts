@@ -144,7 +144,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
         'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $translate,
         private CalendarService: CalendarService,
@@ -162,13 +162,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     }
 
-    $onChanges(changes) {
+    $onChanges (changes) {
         if(changes.mode && !changes.mode.isFirstChange()) {
             this.changeMode(changes.mode);
         }
     }
 
-    $onInit() {
+    $onInit () {
         //this.currentUser = this.SessionService.getUser();
 
         if ( this.options ) {
@@ -213,7 +213,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.prepareTabPosition();
     }
 
-    prepareDetails(){
+    prepareDetails (){
         if (!this.activity.view.isTemplate && !this.view) {
             //Получаем детали по тренировке загруженной из внешнего источника
             if (!this.activity.view.isPost && this.activity.hasActualData) {
@@ -234,12 +234,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    prepareTabPosition(){
+    prepareTabPosition (){
         this.selectedTab = (this.tab === 'chat' && this.activity.hasActualData && 2) ||
             (this.tab === 'chat' && !this.activity.hasActualData && 1) || 0;
     }
 
-    changeTab(tab: string):void {
+    changeTab (tab: string):void {
         this.selectedTab = this.structuredMode ? HeaderStructuredTab[tab] : HeaderTab[tab];
     }
 
@@ -247,7 +247,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * Подготовка перечня категорий.
      * Актуальный список содержится в сервисе ReferenceService
      */
-    prepareCategories(){
+    prepareCategories (){
         this.activity.setCategoriesList(this.ReferenceService.categories, this.user);
         this.ReferenceService.categoriesChanges
             .takeUntil(this.destroy)
@@ -273,7 +273,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }**/
     }
 
-    prepareTemplates(): void {
+    prepareTemplates (): void {
         this.templates = this.ReferenceService.templates;
         this.activity.header.template = this.templates.filter(t => t.id === this.activity.header.templateId)[0] || null;
         this.ReferenceService.templatesChanges
@@ -310,7 +310,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * Выбран шаблон тренировки
      * @param template
      */
-    onSelectTemplate(template: IActivityTemplate){
+    onSelectTemplate (template: IActivityTemplate){
         this.showSelectTemplate = false;
         this.activity.header.template = template;
         this.activity.intervals = new ActivityIntervals(template.content);
@@ -321,14 +321,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.templateChangeCount ++;
     }
 
-    prepareAuth(){
+    prepareAuth (){
         //this.isOwner = this.activity.userProfileOwner.userId === this.currentUser.userId;
         //this.isCreator = this.activity.userProfileCreator.userId === this.currentUser.userId;
         //this.isPro = this.AuthService.isActivityPro();
         //this.isMyCoach = this.activity.userProfileCreator.userId !== this.currentUser.userId;
     }
 
-    updateFilterParams(): void {
+    updateFilterParams (): void {
         this.filterParams = {
             club: null,
             activityType: this.activity.header.activityType,
@@ -350,7 +350,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     /**
      * @description Подготовка перечня атлетов достунпых для планирования
      */
-    prepareAthletesList() {
+    prepareAthletesList () {
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))
@@ -372,7 +372,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.destroy.complete();
     }
 
-    changeMode(mode:string) {
+    changeMode (mode:string) {
         this.mode = mode;
         if (mode === 'put' && !this.activity.categoriesList.length) {
             this.ActivityService.getCategory()
@@ -386,7 +386,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param response
      * @param mode
      */
-    onSelectAthletes(list, mode: boolean){
+    onSelectAthletes (list, mode: boolean){
         this.showSelectAthletes = false;
         this.recalculateMode = mode;
         this.forAthletes = list;
@@ -397,7 +397,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param pos
      * @returns {IUserProfileShort}
      */
-    firstAthlete(pos: number){
+    firstAthlete (pos: number){
         return this.forAthletes && this.forAthletes.filter(athlete => athlete.active)[pos].profile;
     }
 
@@ -405,11 +405,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * Указывает, что тренировка планируется для более чем одного атлета
      * @returns {boolean}
      */
-    multiAthlete(){
+    multiAthlete (){
         return this.forAthletes && this.forAthletes.filter(athlete => athlete.active).length > 1;
     }
 
-    calculateActivityRange(nonContiguousMode: boolean):void {
+    calculateActivityRange (nonContiguousMode: boolean):void {
         this.ActivityService.calculateRange(
             this.activity.header.id, null, null,
             [   this.activity.intervals.PW.prepareForCalculateRange(),
@@ -427,7 +427,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param initiator - 'header' | 'details'
      * @param selection - перечень индексов интервалов для выделения
      */
-    selectIntervalIndex(initiator: SelectInitiator, selection: ISelectionIndex){
+    selectIntervalIndex (initiator: SelectInitiator, selection: ISelectionIndex){
         console.log('changeSelectedInterval',initiator, selection);
         this.selectionIndex = selection; // устанавливаем выделение
         this.selectionTimestamp = this.calculateTimestampSelection(this.selectionIndex); //создаем выделение по времени
@@ -464,7 +464,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.setDetailsTab(initiator, false);
     }
 
-    calculateTimestampSelection(selection: ISelectionIndex){
+    calculateTimestampSelection (selection: ISelectionIndex){
         let selectionTimestamp: Array<ISelectionTimestamp> = [];
         let types = Object.keys(selection);
         types.forEach(type => {
@@ -479,7 +479,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         return selectionTimestamp;
     }
 
-    addUserInterval(range: {startTimestamp: number, endTimestamp: number}){
+    addUserInterval (range: {startTimestamp: number, endTimestamp: number}){
         let initiator: SelectInitiator = 'details';
 
         if(!range) {
@@ -507,12 +507,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
             });
     }
 
-    clearUserInterval():void{
+    clearUserInterval ():void{
         let initiator: SelectInitiator = 'details';
         this.selectIntervalIndex(initiator,{ L: null, P: null, U: null});
     }
 
-    setDetailsTab(initiator: SelectInitiator, loading: boolean):void {
+    setDetailsTab (initiator: SelectInitiator, loading: boolean):void {
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
@@ -528,7 +528,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    onReset(mode: string) {
+    onReset (mode: string) {
         if (this.template) {
             this.onCancel();
         }
@@ -559,7 +559,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     // Функции можно было бы перенсти в компонент Календаря, но допускаем, что компоненты Активность, Измерения и пр.
     // могут вызваны из любого другого представления
-    onSave() {
+    onSave () {
         this.inAction = true;
         if (this.activity.view.isPost) {
             let athletes: Array<{profile: IUserProfile, active: boolean}> = [];
@@ -601,7 +601,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    onDelete() {
+    onDelete () {
         this.dialogs.confirm({ text: this.activity.hasIntervalDetails ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
         .then((response)=> {
@@ -629,7 +629,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 });
     }
 
-    onSaveTrainingPlanActivity(): void {
+    onSaveTrainingPlanActivity (): void {
         this.inAction = true;
 
         if (this.activity.view.isPost) {
@@ -661,7 +661,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             }, error => this.message.toastError(error));
     }
 
-    onSaveTemplate() {
+    onSaveTemplate () {
         if (!this.activity.view.isTemplate) {
             this.onCancel();
         }
@@ -710,7 +710,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     /**
      * Обновление данных из формы ввода/редактирования activity-assignment
      */
-    updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
+    updateAssignment (plan:IActivityIntervalPW, actual:ICalcMeasures) {
 
         this.activity.intervals.PW.update(plan);
         this.activity.intervals.W.update({calcMeasures: actual});

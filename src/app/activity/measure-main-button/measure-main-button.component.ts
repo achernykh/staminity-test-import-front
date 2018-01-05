@@ -9,17 +9,17 @@ class MeasureMainButtonCtrl implements IComponentController {
     private filter: string[] = ["calories", "adjustedPower"];
     static $inject = ["$scope"];
 
-    constructor(private $scope: any) {
+    constructor (private $scope: any) {
 
     }
 
-    $onChanges(change: any): void {
+    $onChanges (change: any): void {
         if (change.hasOwnProperty("changes") && !change.changes.isFirstChange()) {
             this.$onInit();
         }
     }
 
-    $onInit() {
+    $onInit () {
 
         if (this.calcMeasures.hasOwnProperty("elevationGain") || this.calcMeasures.hasOwnProperty("elevationLoss")) {
             this.calcMeasures["elevation"] = {
@@ -73,11 +73,11 @@ class MeasureMainButtonCtrl implements IComponentController {
         this.$scope.search = (m) => this.$scope.measure[this.sport].indexOf(m.$key) !== -1;
     }
 
-    link(url) {
+    link (url) {
         window.open(url);
     }
 
-    check(data: any): boolean {
+    check (data: any): boolean {
         return !data.needParam || (data.needParam && data.param.every((p) => this.calcMeasures.hasOwnProperty(p)));
     }
 }

@@ -3,7 +3,7 @@ import {DefaultTemplate, DisplayView} from "../core/display.constants";
 import {_translateSearch} from "./search.translate";
 //import {ITranslateProvider} from "angular-translate";
 
-function configure($stateProvider: StateProvider,
+function configure ($stateProvider: StateProvider,
                    $translateProvider: any) {
 
     $stateProvider

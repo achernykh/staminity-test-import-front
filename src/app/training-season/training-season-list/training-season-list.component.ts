@@ -24,14 +24,14 @@ class TrainingSeasonListCtrl implements IComponentController {
 
     static $inject = ['$scope', 'TrainingSeasonService', 'TrainingSeasonDialogService', 'message'];
 
-    constructor(private $scope: IScope,
+    constructor (private $scope: IScope,
                 private trainingSeasonService: TrainingSeasonService,
                 private trainingSeasonDialog: TrainingSeasonDialogSerivce,
                 private messageService: MessageService) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareData();
     }
 

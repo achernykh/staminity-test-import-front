@@ -43,7 +43,7 @@ export default class BillingService {
      * @param paymentSystem
      * @returns {Promise<any>}
      */
-    enableTariff(
+    enableTariff (
         tariffId: number,
         userIdReceiver: number,
         term: number,
@@ -132,7 +132,7 @@ export default class BillingService {
      * @param tariff
      * @returns IUserProfile?
      */
-    tariffEnablerCoach(tariff): any {
+    tariffEnablerCoach (tariff): any {
         return (
             maybe(tariff.userProfilePayer) (prop('userId')) () !== 
             maybe(this.SessionService.getUser()) (prop('userId')) () 

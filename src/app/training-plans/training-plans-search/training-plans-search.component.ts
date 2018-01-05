@@ -28,7 +28,7 @@ class TrainingPlansSearchCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
     static $inject = ["SessionService", "TrainingPlansService"];
 
-    constructor(private session: SessionService, private trainingPlansService: TrainingPlansService) {
+    constructor (private session: SessionService, private trainingPlansService: TrainingPlansService) {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
@@ -46,11 +46,11 @@ class TrainingPlansSearchCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    prepareList(result: ITrainingPlanSearchResult) {
+    prepareList (result: ITrainingPlanSearchResult) {
 
         this.plans = new TrainingPlansList(result.items);
     }

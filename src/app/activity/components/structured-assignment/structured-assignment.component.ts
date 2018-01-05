@@ -43,19 +43,19 @@ class StructuredAssignmentCtrl implements IComponentController {
     public onChange: (response: {reason: SegmentChangeReason}) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.loops = this.loopsFromGroups;
     }
 
-    $onChanges(changes: any):void{
+    $onChanges (changes: any):void{
         this.loops = this.loopsFromGroups;
     }
 
-    onChangeValue(interval: ActivityIntervalP) {
+    onChangeValue (interval: ActivityIntervalP) {
         this.intervals.setValue(interval.type, interval.pos, interval.assignment());
         this.intervals.PW.calculate(this.intervals.P);
         if(this.item.activity.isCompleted){
@@ -64,13 +64,13 @@ class StructuredAssignmentCtrl implements IComponentController {
         this.onChange({reason: SegmentChangeReason.changeValue});
     }
 
-    onChangeSelection(interval: ActivityIntervalP):void {
+    onChangeSelection (interval: ActivityIntervalP):void {
         interval.isSelected ? this.intervals.deselect(interval.type, interval.pos) : this.intervals.select(interval.type, interval.pos);
         this.checkSequence();
         this.onChange({reason: SegmentChangeReason.selectInterval});
     }
 
-    get loopsFromGroups():Array<Loop>{
+    get loopsFromGroups ():Array<Loop>{
         return this.intervals.G.map((g,i) => ({
             id: i,
             code: g.code,
@@ -82,7 +82,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         }));
     }
 
-    calcPrevLoops(currLoop: Loop):number {
+    calcPrevLoops (currLoop: Loop):number {
         let count: number = 0;
         this.loops.forEach(l => {
             if(currLoop.start > l.start) {
@@ -94,7 +94,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         return count;
     }
 
-    checkSequence():void {
+    checkSequence ():void {
         let sequence:Array<number> = [];
 
         this.intervals.P.forEach(i => {
@@ -116,7 +116,7 @@ class StructuredAssignmentCtrl implements IComponentController {
         } : null;
     }
 
-    haveLoops():boolean {
+    haveLoops ():boolean {
         return this.loops.length > 0 || !!this.sequence;
     }
 
@@ -126,7 +126,7 @@ class StructuredAssignmentCtrl implements IComponentController {
      * Количество повторений вводится в последнем интервале первого повтора группы
      * @param interval
      */
-    myLoop(interval: ActivityIntervalP):Loop {
+    myLoop (interval: ActivityIntervalP):Loop {
         // Повтор в котором участвует интервал
         let loop: Loop = ((!interval.hasOwnProperty('parentGroupCode') || interval.parentGroupCode === null)  && this.sequence) || // для выделения
             this.loops.filter(l => l.code === interval.parentGroupCode)[0] || null; // для группы
@@ -140,7 +140,7 @@ class StructuredAssignmentCtrl implements IComponentController {
      * @param loop
      * @param repeat
      */
-    setRepeat(loop: Loop, repeat: number):void {
+    setRepeat (loop: Loop, repeat: number):void {
         let success: boolean = false;
         let loopSegment: Array<ActivityIntervalP> = [];
 
@@ -169,11 +169,11 @@ class StructuredAssignmentCtrl implements IComponentController {
 
     }
 
-    changeMode():string {
+    changeMode ():string {
         return this.mode === 'group' ? 'input' : 'group';
     }
 
-    group(interval: ActivityIntervalP):ActivityIntervalG {
+    group (interval: ActivityIntervalP):ActivityIntervalG {
         return ((this.viewGroup && interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) &&
             this.intervals.G.filter(i => i.code === interval.parentGroupCode)[0]) || null;
     }

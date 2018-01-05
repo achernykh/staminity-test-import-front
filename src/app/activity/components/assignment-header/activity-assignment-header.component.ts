@@ -16,15 +16,15 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    private changeParam() {
+    private changeParam () {
         setTimeout(() => {
             this.clearTemplate();
             this.updateForm();
@@ -37,7 +37,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
      * Смене из одного типа в другой предидущие данные полностью удаляются, на будущее возможен
      * подтверждающий диалог для пользователя
      */
-    private changeStructuredMode() {
+    private changeStructuredMode () {
 
         if (this.item.structuredMode) {
             // Переключение на структурированную
@@ -56,25 +56,25 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         }
     }
 
-    private clearTemplate() {
+    private clearTemplate () {
         this.item.activity.header.template = null;
     }
 
-    private onTemplateOpen() {
+    private onTemplateOpen () {
         this.item.showSelectTemplate = true;
     }
 
-    private ftpModeChange(mode: FtpState) {
+    private ftpModeChange (mode: FtpState) {
         this.ftpMode = mode;
         this.item.ftpMode = mode;
         //this.prepareValues();
     }
 
-    private updateForm() {
+    private updateForm () {
         this.onChange({form: this.form});
     }
 
-    get templateSelectorText(): string {
+    get templateSelectorText (): string {
         return this.item.activity.header.template && `Шаблон: ${this.item.activity.header.template.code}` ||
             this.item.templateByFilter && "activity.template.enable" || "activity.template.empty";
     }

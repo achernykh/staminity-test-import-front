@@ -8,12 +8,12 @@ import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 import {_translate} from "./settings-user.translate";
 
-function configure(
+function configure (
     $stateProvider: StateProvider,
     $translateProvider: any,
     $authProvider: any) {
 
-    $authProvider.httpInterceptor = function() { return true; };
+    $authProvider.httpInterceptor = function () { return true; };
     $authProvider.withCredentials = false;
     $authProvider.tokenRoot = null;
     $authProvider.baseUrl =  _connection.protocol.rest + _connection.server; //null;//_connection.server + '/oauth/';
@@ -100,7 +100,7 @@ function configure(
             resolve: {
                 view: () => new DisplayView("settings"),
                 user: ["UserService", "message", "$stateParams",
-                    function(UserService: UserService, message: MessageService, $stateParams) {
+                    function (UserService: UserService, message: MessageService, $stateParams) {
                         return UserService.getProfile($stateParams.uri)
                             .catch((info) => {
                                 message.systemWarning(info);

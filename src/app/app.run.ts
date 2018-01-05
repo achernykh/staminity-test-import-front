@@ -6,7 +6,7 @@ import { path } from "./share/utility/path";
 import { SocketService } from "./core/socket/socket.service";
 import { IStaminityState } from "./application.interface";
 
-function run(
+function run (
     $transitions: TransitionService,
     $state: StateService,
     $translate,

@@ -9,11 +9,11 @@ class ActivityHeaderSplitsCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 }

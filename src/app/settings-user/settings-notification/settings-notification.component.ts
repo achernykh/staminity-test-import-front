@@ -13,16 +13,16 @@ class SettingsNotificationCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.list = Object.assign({}, this.notifications);
         this.prepareNotificationGroup();
     }
 
-    private prepareNotificationGroup(): void {
+    private prepareNotificationGroup (): void {
 
         if (!this.list) { return; }
 
@@ -44,7 +44,7 @@ class SettingsNotificationCtrl implements IComponentController {
         );
     }
 
-    private change(name, value): void {
+    private change (name, value): void {
 
         this.list[name] = value;
         this.notifications = Object.assign({}, this.list);

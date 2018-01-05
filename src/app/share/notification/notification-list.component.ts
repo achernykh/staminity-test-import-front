@@ -37,7 +37,7 @@ class NotificationListCtrl implements IComponentController {
     static $inject = ['$scope','$mdDialog','$mdSidenav','NotificationService','CalendarService', 'UserService',
         'SessionService', 'CalendarItemDialogService'];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $mdDialog: any,
         private $mdSidenav: any,
@@ -50,14 +50,14 @@ class NotificationListCtrl implements IComponentController {
 
     }
 
-    $onChanges(changes: any):void {
+    $onChanges (changes: any):void {
         /*if(changes.hasOwnProperty('isOpen') && !changes.isOpen.isFirstChange()){
             this.timer = setTimeout(() => !!this.notifications && this.notifications.filter(n => !n.isRead)
                 .forEach(n => this.NotificationService.put(n.id, true)), this.readTime);
         }*/
     }
 
-    $onInit() {
+    $onInit () {
         this.notifications = this.NotificationService.notifications;
         
         this.NotificationService.notificationsChanges
@@ -81,7 +81,7 @@ class NotificationListCtrl implements IComponentController {
         };
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next(); 
         this.destroy.complete();
     }
@@ -106,7 +106,7 @@ class NotificationListCtrl implements IComponentController {
      * @param e
      * @param notification
      */
-    onClick(e: Event, notification: Notification):void {
+    onClick (e: Event, notification: Notification):void {
         if(Object.keys(this.activityTemplates).some(k => k === notification.template)) {
 
             this.CalendarService.getCalendarItem(null,null,null,null,notification.context[this.activityTemplates[notification.template]])
@@ -185,17 +185,17 @@ const NotificationListComponent:IComponentOptions = {
 
 export default NotificationListComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

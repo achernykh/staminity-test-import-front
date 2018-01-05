@@ -9,22 +9,22 @@ class LoaderController implements IComponentController {
 
     private isVisible: boolean;
 
-    constructor(private loaderService: LoaderService, private $scope: IScope) {
+    constructor (private loaderService: LoaderService, private $scope: IScope) {
         this.loaderService.showRequested$.subscribe(() => this.show());
         this.loaderService.hideRequested$.subscribe(() => this.hide());
     }
 
-    private show() {
+    private show () {
         this.isVisible = true;
         this.update();
     }
 
-    private hide() {
+    private hide () {
         this.isVisible = false;
         this.update();
     }
 
-    private update() {
+    private update () {
         this.$scope.$evalAsync();
     }
 

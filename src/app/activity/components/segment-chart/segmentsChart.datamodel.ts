@@ -39,7 +39,7 @@ export class PlanChartDatamodel {
 
     private intervals: IPlanInterval[];
 
-    constructor(activityHeader: IInputPlanSegment[]) {
+    constructor (activityHeader: IInputPlanSegment[]) {
         this.intervals = [];
         let currentPlanDistance = 0;
         let currentPlanTime = 0;
@@ -98,21 +98,21 @@ export class PlanChartDatamodel {
         }
     };
 
-    getIntervals(): IPlanInterval[] {
+    getIntervals (): IPlanInterval[] {
         return this.intervals || [];
     }
 
-    getSelect(): number[] {
+    getSelect (): number[] {
         const select: number[] = [];
         this.intervals.forEach((interval, i) => interval.isSelected && select.push(i));
         return select || [];
     }
 
-    private getIntervalPlanFTP(segment: IInputPlanSegment): number {
+    private getIntervalPlanFTP (segment: IInputPlanSegment): number {
         return (segment.intensityByFtpFrom + segment.intensityByFtpTo) * 50;
     }
 
-    private getStatus(segment: IInputPlanSegment): IntervalStatus {
+    private getStatus (segment: IInputPlanSegment): IntervalStatus {
         if (!segment.calcMeasures ||
             !segment.calcMeasures.completePercent ||
             !segment.calcMeasures.completePercent ||

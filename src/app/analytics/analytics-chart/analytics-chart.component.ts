@@ -31,15 +31,15 @@ class AnalyticsChartCtrl implements IComponentController {
 
     static $inject = ["$scope", "statistics", "$mdDialog", "$filter"];
 
-    constructor(private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
+    constructor (private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    $onChanges(changes): void {
+    $onChanges (changes): void {
         if ((changes.hasOwnProperty("chart") && changes.filterChanges.isFirstChange()) ||
             (changes.hasOwnProperty("filterChanges") && !changes.filterChanges.isFirstChange() && this.chart.globalParams)) {
             this.chart.clearMetrics();
@@ -49,7 +49,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    onSettings(env: Event) {
+    onSettings (env: Event) {
         //debugger;
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
@@ -86,7 +86,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     }
 
-    descriptions(): string {
+    descriptions (): string {
         if (this.chart.globalParams) {
             return `${this.$filter("translate")("analytics." + this.chart.code + ".description", this.context)}`;
         } else {
@@ -94,7 +94,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    private updateSettings(chart: AnalyticsChart, update: boolean) {
+    private updateSettings (chart: AnalyticsChart, update: boolean) {
         this.chart = copy(chart);
         this.prepareTitleContext();
         if (update) {
@@ -104,7 +104,7 @@ class AnalyticsChartCtrl implements IComponentController {
         this.updateCount++;
     }
 
-    update(param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
+    update (param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
         switch (param.area) {
             case "series": {
                 param.ind.map((ind) =>
@@ -141,14 +141,14 @@ class AnalyticsChartCtrl implements IComponentController {
         this.onChangeFilter(); // сохраняем настройки в браузере
     }
 
-    grow() {
+    grow () {
         this.chart.layout.gridColumnEnd === 1 ? this.chart.layout.gridColumnEnd = 2 : this.chart.layout.gridColumnEnd = 1;
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 1 ? this.chart.layout.gridRowEnd = 2 : angular.noop();
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 2 ? this.chart.layout.gridRowEnd = 1 : angular.noop();
         this.updateCount++;
     }
 
-    fullScreen() {
+    fullScreen () {
         this.chart.layout.fullScreen = !this.chart.layout.fullScreen;
         setTimeout(() => {
                 this.updateCount++;
@@ -156,7 +156,7 @@ class AnalyticsChartCtrl implements IComponentController {
             }, 1);
     }
 
-    private prepareTitleContext() {
+    private prepareTitleContext () {
         if (this.chart.hasOwnProperty("context")) {
             this.chart.context.map((c) => {
                 this.context[c.param] = this.chart.charts[c.ind][c.area].filter((s) => s.idx === c.idx)[0][c.param];
@@ -164,7 +164,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
     }
 
-    private prepareParams() {
+    private prepareParams () {
 
         //let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
         const globalParams: {
@@ -200,7 +200,7 @@ class AnalyticsChartCtrl implements IComponentController {
         });
     }
 
-    private prepareData() {
+    private prepareData () {
         const request: IReportRequestData = {
             charts: this.chart.charts,
         };

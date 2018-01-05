@@ -23,11 +23,11 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.onChange();
     }
 }

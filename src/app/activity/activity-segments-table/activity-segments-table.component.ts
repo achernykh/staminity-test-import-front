@@ -26,11 +26,11 @@ class ActivitySegmentsTableCtrl implements IComponentController {
 
     static $inject = ['$scope'];
 
-    constructor(private $scope: IScope) {
+    constructor (private $scope: IScope) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareSegments();
         this.$scope['change'] = () => this.onSelect({
             initiator: 'splits',
@@ -41,11 +41,11 @@ class ActivitySegmentsTableCtrl implements IComponentController {
         });
     }
 
-    prepareSegments(){
+    prepareSegments (){
         this.$scope['segments'] = this.segments.filter(i => i.type === 'P');
     }
 
-    $onChanges() {
+    $onChanges () {
         this.prepareSegments();
     }
 }

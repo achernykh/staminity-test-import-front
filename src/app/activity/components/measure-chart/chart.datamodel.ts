@@ -29,39 +29,39 @@ export class ActivityChartDatamodel implements IComponentController {
     private data: Array<IActivityMetrics<number>>;
     private selectIntervals: ITimestampInterval[];
 
-    constructor(measures, data, x, select = []) {
+    constructor (measures, data, x, select = []) {
         this.measures = measures;
         this.data = data;
         this.selectIntervals = select || [];
     };
 
-    getData(ind: number = null): Array<IActivityMetrics<number>> | any {
+    getData (ind: number = null): Array<IActivityMetrics<number>> | any {
         return ind ? this.data[ind] : this.data;
     };
 
-    getSelect(): ITimestampInterval[] {
+    getSelect (): ITimestampInterval[] {
         return this.selectIntervals;
     };
 
-    setSelect(intervals): void {
+    setSelect (intervals): void {
         this.selectIntervals = !intervals ? [] : intervals;
     };
 
-    getMeasures(): IActivityMetrics<IMeasureInfo> {
+    getMeasures (): IActivityMetrics<IMeasureInfo> {
         return this.measures;
     }
 
-    getBaseMetrics(except: string[] = []): string[] {
+    getBaseMetrics (except: string[] = []): string[] {
         const baseMetrics = ["timestamp", "distance", "elapsedDuration", "duration"];
         return Object.keys(this.measures).filter((m) => baseMetrics.indexOf(m) > -1 && except.indexOf(m) === -1);
     }
 
-    supportedMetrics(): string[] {
+    supportedMetrics (): string[] {
         const except = ["timestamp", "distance", "elapsedDuration", "duration"];
         return Object.keys(this.measures).filter((m) => except.indexOf(m) === -1);
     }
 
-    private getPace(speed: number) {
+    private getPace (speed: number) {
         return 1000.0 / Math.max(speed, 1); //sec/km
     }
 }

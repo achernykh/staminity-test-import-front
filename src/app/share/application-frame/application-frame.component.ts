@@ -32,7 +32,7 @@ class ApplicationFrameCtrl implements IComponentController {
     static $inject = ['$scope', '$mdSidenav', '$mdMedia', 'SessionService','SocketService','NotificationService','RequestsService',
         'AuthService'];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $mdSidenav: any,
         private $mdMedia: any,
@@ -53,7 +53,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
 
         this.notificationsList = this.NotificationService.notifications;
 
@@ -75,16 +75,16 @@ class ApplicationFrameCtrl implements IComponentController {
 
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    get notifications() {
+    get notifications () {
         return this.notificationsList.filter((notification) => !notification.isRead).length;
     }
 
-    get requests() {
+    get requests () {
         let userId = this.user.userId;
         return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
     }

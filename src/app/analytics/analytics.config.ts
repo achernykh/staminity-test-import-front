@@ -6,7 +6,7 @@ import GroupService from "../core/group.service";
 import ReferenceService from "../reference/reference.service";
 import {translateAnalytics} from "./analytics.translate";
 
-function configure($stateProvider: StateProvider,
+function configure ($stateProvider: StateProvider,
                    $translateProvider: any) {
 
     $stateProvider

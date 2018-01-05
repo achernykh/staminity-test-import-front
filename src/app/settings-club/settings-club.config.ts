@@ -5,7 +5,7 @@ import GroupService from "../core/group.service";
 import MessageService from "../core/message.service";
 import {_translate} from "./settings-club.translate";
 
-function configure(
+function configure (
     $stateProvider: StateProvider,
     $translateProvider: any) {
 

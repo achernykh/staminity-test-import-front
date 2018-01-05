@@ -17,15 +17,15 @@ class AnalyticsManagementPanelCtrl implements IComponentController {
 
     static $inject = ["$filter", "storage"];
 
-    constructor(private $filter: any, private storage: StorageService) {
+    constructor (private $filter: any, private storage: StorageService) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.panel = this.storage.get(`${this.analytics.user.userId}#panelStatus`) || "filters";
     }
 
-    panelChange(value) {
+    panelChange (value) {
         if ((this.panel !== "hide" && value === "hide") || (this.panel === "hide" && value !== "hide")) {
             this.onChangePanelSize();
         }

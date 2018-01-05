@@ -70,7 +70,7 @@ export class CalendarItemCompetition extends CalendarItem {
         this.items.map(i => i.item.parentId = id);
     }
 
-    setItems(
+    setItems (
         template: Array<ICompetitionStageConfig>,
         categories: Array<IActivityCategory>,
         options: ICalendarItemDialogOptions = this.options): void {

@@ -39,40 +39,40 @@ class ActivitySegmentsCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
     /**
      *
      */
-    private firstSelectPosition(): number {
+    private firstSelectPosition (): number {
         return this.intervals.P.some(i => i.isSelected) && this.intervals.P.filter(i => i.isSelected)[0]['pos'] || null;
     }
 
-    $onInit() {
+    $onInit () {
         this.ftpMode = this.item.ftpMode;
         this.valid();
         this.prepareIntervals();
         //this.addInterval();
     }
 
-    $onChanges():void {
+    $onChanges ():void {
         this.prepareIntervals();
     }
 
-    prepareIntervals(): void {
+    prepareIntervals (): void {
         this.intervals = this.item.activity.intervals;
     }
 
-    valid():void {
+    valid ():void {
         this.item.assignmentForm.$setValidity('needInterval', this.intervals.P.length > 0);
         this.item.assignmentForm.$setValidity('needDuration', this.intervals.P.length > 0);
     }
     /**
      * @description Обновление модели данных
      */
-    update(reason: SegmentChangeReason):void {
+    update (reason: SegmentChangeReason):void {
         this.intervals = this.item.activity.intervals;
         this.valid();
         this.item.assignmentForm.$setDirty();
@@ -93,7 +93,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         }
     }
 
-    onChartSelection(id: number){
+    onChartSelection (id: number){
         if(this.intervals[id]){
             //this.intervals[id].isSelected = true;
         }
@@ -102,7 +102,7 @@ class ActivitySegmentsCtrl implements IComponentController {
     /**
      *
      */
-    addInterval(scenarioType: string = 'default') {
+    addInterval (scenarioType: string = 'default') {
         let sport: string = this.item.activity.header.sportBasic;
         let ftp:{[measure: string] : number} = getFtpBySport(this.item.user.trainingZones, sport);
         let interval: ActivityIntervalP;
@@ -133,7 +133,7 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.update(SegmentChangeReason.addInterval);
     }
 
-    delete() {
+    delete () {
         this.intervals.P.filter(interval =>
             interval.isSelected &&
             (!interval.hasOwnProperty('repeatPos') || interval.repeatPos === null || interval.repeatPos === 0))
@@ -142,17 +142,17 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.update(SegmentChangeReason.deleteInterval);
     }
 
-    isKey():boolean {
+    isKey ():boolean {
         return this.selectedInterval().length === this.selectedKeyInterval().length;
     }
 
-    isIndeterminate():boolean {
+    isIndeterminate ():boolean {
         console.log(this.selectedInterval().length, this.selectedKeyInterval().length);
         //return false;
         return this.selectedKeyInterval().length !== 0 && this.selectedInterval().length !== this.selectedKeyInterval().length;
     }
 
-    toggleKey(){
+    toggleKey (){
         if(this.selectedInterval().length === this.selectedKeyInterval().length){
             this.intervals.P.filter(interval => interval.isSelected).forEach(interval => interval.keyInterval = false);
         } else if(this.selectedKeyInterval().length === 0 || this.selectedKeyInterval().length > 0){
@@ -161,15 +161,15 @@ class ActivitySegmentsCtrl implements IComponentController {
        this.update(SegmentChangeReason.keyInterval);
     }
 
-    selectedInterval():Array<any> {
+    selectedInterval ():Array<any> {
         return this.intervals.P.filter(interval => interval.isSelected) || [];
     }
 
-    selectedKeyInterval():Array<any> {
+    selectedKeyInterval ():Array<any> {
         return this.intervals.P.filter(interval => interval.isSelected && interval.keyInterval);
     }
 
-    ftpModeChange(mode: FtpState) {
+    ftpModeChange (mode: FtpState) {
         this.ftpMode = mode;
         this.item.ftpMode = mode;
     }

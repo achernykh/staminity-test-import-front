@@ -8,7 +8,7 @@ export class Member implements IGroupManagementProfileMember {
     roleMembership: string[];
     coaches: number[];
 
-    constructor(
+    constructor (
         public membersList: MembersList,
         public member: IGroupManagementProfileMember,
     ) {

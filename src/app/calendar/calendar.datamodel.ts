@@ -19,7 +19,7 @@ export class Calendar {
     range: Array<number> = [0, 1];
     private currentWeek: ICalendarWeek;
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $anchorScroll: IAnchorScrollService,
         private calendarService: CalendarService,
@@ -384,7 +384,7 @@ export class Calendar {
      * @param w - неделя в формате GGGG-WW
      * @returns {number}
      */
-    private getWeekSeed( w: string ): number {
+    private getWeekSeed ( w: string ): number {
         return this.weeks.some(d => d.week === w) && this.weeks.findIndex(d => d.week === w) || null;
     }
 

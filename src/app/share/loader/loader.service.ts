@@ -4,16 +4,16 @@ class LoaderService {
     private showRequestedSource = new Subject<string>();
     private hideRequestedSource = new Subject<string>();
 
-    constructor() { }
+    constructor () { }
 
     showRequested$ = this.showRequestedSource.asObservable();
     hideRequested$ = this.hideRequestedSource.asObservable();
 
-    show() {
+    show () {
         this.showRequestedSource.next(null);
     }
 
-    hide() {
+    hide () {
         this.hideRequestedSource.next(null);
     }
 }

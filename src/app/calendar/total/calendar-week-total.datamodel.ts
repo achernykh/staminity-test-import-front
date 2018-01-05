@@ -144,7 +144,7 @@ export class CalendarWeekData {
     private readonly primarySport: [string] = ["run", "bike", "swim"];
     private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 
-    constructor(week: ICalendarWeek) {
+    constructor (week: ICalendarWeek) {
         this._items = (week.hasOwnProperty("subItem") && week.subItem) &&
             this.getItems(week.subItem).filter((i) => i.calendarItemType === "activity");
 
@@ -152,22 +152,22 @@ export class CalendarWeekData {
         this._summary = this._items.length > 0 && this.calcSummary();
     }
 
-    get summary(): ICalendarWeekSummary {
+    get summary (): ICalendarWeekSummary {
         return this._summary;
     }
 
-    get total(): ICalendarWeekTotal {
+    get total (): ICalendarWeekTotal {
         return this._total;
     }
 
-    getItems(days: ICalendarDay[]): ICalendarItem[] {
+    getItems (days: ICalendarDay[]): ICalendarItem[] {
         const items: ICalendarItem[] = [];
         days.map((d) =>
             d.data.calendarItems && d.data.calendarItems.length > 0 && items.push(...d.data.calendarItems));
         return items;
     }
 
-    calcSummary(): ICalendarWeekSummary {
+    calcSummary (): ICalendarWeekSummary {
         const summary: ICalendarWeekSummary = new CalendarWeekSummary();
 
         Object.keys(this._total).forEach((sport) => {
@@ -182,7 +182,7 @@ export class CalendarWeekData {
 
     }
 
-    calcTotal(): ICalendarWeekTotal {
+    calcTotal (): ICalendarWeekTotal {
         const total: ICalendarWeekTotal = {};
         let sport = null;
         let distance = 0, movingDuration = 0, completed = 0, completePercent = 0, specified = 0, specifiedOnToday = 0,
@@ -219,17 +219,17 @@ export class CalendarWeekData {
         return total;
     }
 
-    hasSummary(): boolean {
+    hasSummary (): boolean {
         return this._summary &&
             (this._summary.plan.specified > 0 || this._summary.fact.completed > 0) || false;
     }
 
-    hasTotalBySport(sport: string): boolean {
+    hasTotalBySport (sport: string): boolean {
         return this._total && this._total.hasOwnProperty(sport) &&
             (this._total[sport].plan.specified > 0 || this._total[sport].fact.completed > 0) || false;
     }
 
-    totalStatus(sport: string): string {
+    totalStatus (sport: string): string {
         const percent: number = this.totalPercent(sport);
         return this._total && this._total.hasOwnProperty(sport) && percent &&
             ((Math.abs(100 - percent) <= this.statusLimit.warn && percent > 0) && "complete") ||
@@ -238,17 +238,17 @@ export class CalendarWeekData {
 
     }
 
-    totalPercent(sport: string): number {
+    totalPercent (sport: string): number {
         return this._total && this._total.hasOwnProperty(sport) &&
                 100 * this._total[sport].plan.completePercentOnToday / this._total[sport].plan.specifiedOnToday;
     }
 
-    totalPercentByCount(sport: string): number {
+    totalPercentByCount (sport: string): number {
         return this._total && this._total.hasOwnProperty(sport) &&
                 100 * this._total[sport].plan.completedOnToday / this._total[sport].plan.specified;
     }
 
-    summaryStatus(): string {
+    summaryStatus (): string {
         const percent: number = this.summaryPercent();
         return this._summary && percent &&
             ((Math.abs(100 - percent) <= this.statusLimit.warn && percent > 0) && "complete") ||
@@ -256,12 +256,12 @@ export class CalendarWeekData {
             ((Math.abs(100 - percent) > this.statusLimit.error && percent > 0)  && "complete-error") || "coming";
     }
 
-    summaryPercent(): number {
+    summaryPercent (): number {
         return this._summary &&
             100 * this._summary.plan.completePercentOnToday / this._summary.plan.specifiedOnToday;
     }
 
-    summaryPercentByCount(): number {
+    summaryPercentByCount (): number {
         return this._summary &&
             100 * this._summary.plan.completedOnToday / this._summary.plan.specified;
     }

@@ -23,11 +23,11 @@ class ActivityHeaderZonesCtrl implements IComponentController {
     private readonly colors: {} = {heartRate: 0xE91E63, speed: 0x2196F3, power: 0x9C27B0};
     static $inject = ['$scope'];
 
-    constructor(private $scope: any) {
+    constructor (private $scope: any) {
 
     }
 
-    $onChanges(changes) {
+    $onChanges (changes) {
         if(changes['sport'] && !changes.sport.isFirstChange()){
             console.log('sport change',this.sport);
         }
@@ -36,12 +36,12 @@ class ActivityHeaderZonesCtrl implements IComponentController {
         }
     }
 
-    changeFactor(factor: string){
+    changeFactor (factor: string){
         this.factor = factor;
         //this.$scope.$apply();
     }
 
-    getZone(factor:string = this.factor, sport: string = this.sport):Array<any> {
+    getZone (factor:string = this.factor, sport: string = this.sport):Array<any> {
         if(this.hasDetails){
             return this.calcMeasures.hasOwnProperty(factor) && this.calcMeasures[factor].zones;
         } else {
@@ -51,13 +51,13 @@ class ActivityHeaderZonesCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.movingDuration = this.item.activity.movingDuration;
         this.calcMeasures = this.item.activity.intervals.W.calcMeasures;
         this.factor = this.prepareFactor();
     }
 
-    prepareFactor():string {
+    prepareFactor ():string {
         return (!this.hasDetails && 'heartRateTimeInZone') ||
             (this.hasDetails && this.calcMeasures.hasOwnProperty('heartRateTimeInZone') && 'heartRateTimeInZone') ||
             (this.hasDetails && this.calcMeasures.hasOwnProperty('speedTimeInZone') && 'speedTimeInZone') ||

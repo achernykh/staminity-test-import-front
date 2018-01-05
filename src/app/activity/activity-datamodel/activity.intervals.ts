@@ -22,7 +22,7 @@ export class ActivityIntervals {
 
     stack: Array<ActivityIntervalP | ActivityIntervalL | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW | ActivityIntervalU>;
 
-    constructor(intervals: Array<IActivityIntervals> = []){
+    constructor (intervals: Array<IActivityIntervals> = []){
         this.stack = intervals.map(i => ActivityIntervalFactory(i.type, i));
         // Если интервалов нет, то создаем два итоговых инетрвала по плану и факту
         if(!this.PW) {
@@ -35,48 +35,48 @@ export class ActivityIntervals {
         this.prepare();
     }
 
-    get P():Array<ActivityIntervalP> {
+    get P ():Array<ActivityIntervalP> {
         return <Array<ActivityIntervalP>>this.stack.filter(i => i.type === 'P').sort(posOrder);
     }
 
-    set P(intervals: Array<ActivityIntervalP>) {
+    set P (intervals: Array<ActivityIntervalP>) {
         this.P.map(i => this.splice('P',i.pos,'single'));
         this.add([...intervals]);
     }
 
-    get L():Array<ActivityIntervalL> {
+    get L ():Array<ActivityIntervalL> {
         return <Array<ActivityIntervalL>>this.stack.filter(i => i.type === 'L');
     }
 
-    get G():Array<ActivityIntervalG> {
+    get G ():Array<ActivityIntervalG> {
         return <Array<ActivityIntervalG>>this.stack.filter(i => i.type === 'G');
     }
 
-    get U():Array<ActivityIntervalU> {
+    get U ():Array<ActivityIntervalU> {
         return <Array<ActivityIntervalU>>this.stack.filter(i => i.type === 'U');
     }
 
-    get PW():ActivityIntervalPW {
+    get PW ():ActivityIntervalPW {
         return <ActivityIntervalPW>this.stack.filter(i => i.type === 'pW')[0];
     }
 
-    set PW(interval: ActivityIntervalPW) {
+    set PW (interval: ActivityIntervalPW) {
         this.splice('pW', null, 'single');
         this.add([interval]);
     }
 
-    get W():ActivityIntervalW {
+    get W ():ActivityIntervalW {
         return <ActivityIntervalW>this.stack.filter(i => i.type === 'W')[0];
     }
 
-    prepare() {
+    prepare () {
         // 1. Перенеоис totalMeasures в первые позиции повторяющихся интревалов
         this.G.map(group =>
             group.hasOwnProperty('totalMeasures') && group.totalMeasures.map((total, ind) =>
                 this.setParams('P', group.fPos + ind, {totalMeasures: total})));
     }
 
-    add(
+    add (
         intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [],
         mode: 'insert' | 'update' = 'insert'): void {
         intervals.forEach(i => {
@@ -117,15 +117,15 @@ export class ActivityIntervals {
         });
     }
 
-    build(){
+    build (){
         return [...this.P.map(i => this.clear(i)), ...this.G.map(i => this.clear(i)), this.clear(this.W), this.clear(this.PW)];
     }
 
-    buildTemplate() {
+    buildTemplate () {
         return [...this.P.map(i => i.toTemplate()), ...this.G, this.PW.toTemplate()];
     }
 
-    clear(interval: ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW):IActivityIntervals{
+    clear (interval: ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW):IActivityIntervals{
         return interval.clear();
     }
 
@@ -135,7 +135,7 @@ export class ActivityIntervals {
      * @param id - pos - для плановых сегментов, code - для группы
      * @returns {number}
      */
-    find(type: string, id: string | number):number {
+    find (type: string, id: string | number):number {
         switch (type) {
             case 'P': {
                 return this.stack.findIndex(i => i.type === type && i['pos'] === id);
@@ -152,7 +152,7 @@ export class ActivityIntervals {
         }
     }
 
-    lastPos():number{
+    lastPos ():number{
         let max:number = Math.max(...this.P.map(i => i.pos),0);
         return max;
     }
@@ -162,7 +162,7 @@ export class ActivityIntervals {
      * @param type
      * @param id
      */
-    splice(type: string, id: string | number = null, mode: 'single' | 'multi' = 'multi'): void {
+    splice (type: string, id: string | number = null, mode: 'single' | 'multi' = 'multi'): void {
         let i: number = this.find(type, id);
         if(i !== -1){
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
@@ -209,7 +209,7 @@ export class ActivityIntervals {
      * @param id - pos - для плановых сегментов, code - для группы
      * @param params - обновленный набор свойств интервала
      */
-    setParams(type: string, id: string | number, params: Object): void {
+    setParams (type: string, id: string | number, params: Object): void {
         if(!id) {return;}
         let i: number = this.find(type,id);
         debugger;
@@ -232,7 +232,7 @@ export class ActivityIntervals {
      * @param id
      * @param params
      */
-    setValue(type: string = 'P', id: string | number, params: Object):void {
+    setValue (type: string = 'P', id: string | number, params: Object):void {
 
         let i: number = this.find(type,id);
         if (i !== -1) {
@@ -254,7 +254,7 @@ export class ActivityIntervals {
      * @param id
      * @param params
      */
-    select(type: string = 'P', id: string | number, params: Object = {isSelected: true}):void {
+    select (type: string = 'P', id: string | number, params: Object = {isSelected: true}):void {
         // Если интрал задан
         if (id !== undefined){
             let i: number = this.find(type,id);
@@ -279,7 +279,7 @@ export class ActivityIntervals {
      * @param type
      * @param id
      */
-    deselect(type: string = 'P', id?: string | number, params = {isSelected: false}): void {
+    deselect (type: string = 'P', id?: string | number, params = {isSelected: false}): void {
         // Если интрал задан
         if (id !== undefined){
             let i: number = this.find(type,id);
@@ -306,7 +306,7 @@ export class ActivityIntervals {
      * @param length
      * @returns {boolean}
      */
-    spliceGroup(code: string, start: number, length: number, repeat: number):boolean{
+    spliceGroup (code: string, start: number, length: number, repeat: number):boolean{
         // 1. Удаляем группу
         this.splice('G', code);
 
@@ -333,7 +333,7 @@ export class ActivityIntervals {
      * @param start - pos первого интервала
      * @returns {boolean}
      */
-    createGroup(segment: Array<ActivityIntervalP>, repeat: number, start: number):boolean {
+    createGroup (segment: Array<ActivityIntervalP>, repeat: number, start: number):boolean {
         // 1. создаем группу
         let group: ActivityIntervalG = <ActivityIntervalG>ActivityIntervalFactory('G', {
             repeatCount: repeat,
@@ -369,7 +369,7 @@ export class ActivityIntervals {
      * @param trgRepeat
      * @returns {boolean}
      */
-    increaseGroup(segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
+    increaseGroup (segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
         //1. Номер группы
         let group: ActivityIntervalG = <ActivityIntervalG>this.stack
             .filter(i => i.type === 'G' && i['code'] === segment[0].parentGroupCode)[0];
@@ -402,7 +402,7 @@ export class ActivityIntervals {
      * @param trgRepeat
      * @returns {boolean}
      */
-    decreaseGroup(segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
+    decreaseGroup (segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
         debugger;
         //1. Номер группы и начальное количество повторов
         let group: ActivityIntervalG = <ActivityIntervalG>this.stack
@@ -431,7 +431,7 @@ export class ActivityIntervals {
      * @description Копирование инетрвала
      * @param interval
      */
-    copy(interval: IActivityIntervals):void {
+    copy (interval: IActivityIntervals):void {
 
     }
 
@@ -442,7 +442,7 @@ export class ActivityIntervals {
      * @param start
      * @param shift
      */
-    reorganisation(start: number, shift: number):void {
+    reorganisation (start: number, shift: number):void {
         debugger;
 
         this.P.filter(i => i.pos >= start).forEach(i => Object.assign(i, { pos: i.pos + shift })); // this.setParams(i.type, i.pos, { pos: i.pos + shift}));
@@ -459,7 +459,7 @@ export class ActivityIntervals {
      * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
      * @returns {any[]}
      */
-    chart():Array<Array<number>> {
+    chart ():Array<Array<number>> {
         let start: number = 0; //начало отсечки на графике
         let finish: number = 0; // конец отсечки на графике
         let maxFtp: number = 0;

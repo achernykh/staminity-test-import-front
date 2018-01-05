@@ -92,9 +92,9 @@ const convertFromFTP = (interval: boolean, initial: {}, value: any, ftp: number)
  * @returns {{require: string, link: (($scope:IScope, $element:IAugmentedJQuery, $attrs:IAttributes, $ctrl:INgModelController)=>undefined)}}
  * @constructor
  */
-export function MeasurementInput($filter): IDirective {
+export function MeasurementInput ($filter): IDirective {
 
-    function link($scope: IScopeMeasureInput, $element: IAugmentedJQuery, $attrs: IAttributes, $ctrl: INgModelController) {
+    function link ($scope: IScopeMeasureInput, $element: IAugmentedJQuery, $attrs: IAttributes, $ctrl: INgModelController) {
 
         const FTPMeasures: string[] = ["heartRate", "speed", "power"];
         const interval = $scope.interval;
@@ -362,7 +362,7 @@ export function MeasurementInput($filter): IDirective {
 
         setParams();
 
-        function setParams() {
+        function setParams () {
             // Тип измерения для ввода определяется в атрибуте <input>, в виде
             // ng-attr-measure-input={{expression = measure}} ng-attr-sport={{expression = sport}}
 

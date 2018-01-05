@@ -39,7 +39,7 @@ export default class DisplayService {
 
     static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
 
-    constructor(
+    constructor (
         private SessionService: SessionService,
         private UserService: UserService,
         private $translate: any,
@@ -52,11 +52,11 @@ export default class DisplayService {
         .subscribe(this.handleChanges);
     }
 
-    getLocale(): string {
+    getLocale (): string {
         return getLocale(this.SessionService.get());
     }
 
-    setLocale(locale: string) {
+    setLocale (locale: string) {
         const userChanges = { display: { language: locale } };
 
         if (this.SessionService.getToken()) {
@@ -66,20 +66,20 @@ export default class DisplayService {
         }
     }
 
-    getUnits(): string {
+    getUnits (): string {
         return getUnits(this.SessionService.get());
     }
 
-    getTimezone(): string {
+    getTimezone (): string {
         return getTimezone(this.SessionService.get());
     }
 
-    getFirstDayOfWeek(): number {
+    getFirstDayOfWeek (): number {
         return getFirstDayOfWeek(this.SessionService.get());
     }
 }
 
-export function configure(
+export function configure (
     $translateProvider: any,
     tmhDynamicLocaleProvider: any,
     $mdDateLocaleProvider: any,

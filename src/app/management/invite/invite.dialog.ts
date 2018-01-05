@@ -30,7 +30,7 @@ class InviteDialogController {
         this.$mdDialog.hide(answer);
     }
 
-    constructor(
+    constructor (
         private $scope: any,
         private $mdDialog: any,
     ) {

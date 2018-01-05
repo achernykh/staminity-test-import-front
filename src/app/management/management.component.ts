@@ -16,7 +16,7 @@ class ManagementCtrl implements IComponentController {
      * Обработчик биндинга management
      * @param management: IGroupManagementProfile
      */
-    set management(management: IGroupManagementProfile) {
+    set management (management: IGroupManagementProfile) {
         this.membersList = new MembersList(management);
     }
 
@@ -44,7 +44,7 @@ class ManagementCtrl implements IComponentController {
 
     static $inject = ["$scope", "$mdDialog", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService", "ManagementService"];
 
-    constructor(
+    constructor (
         private $scope: any,
         private $mdDialog: any,
         private $mdMedia: any,
@@ -59,7 +59,7 @@ class ManagementCtrl implements IComponentController {
     /**
      * Обновить
      */
-    update() {
+    update () {
         this.groupService.getManagementProfile(this.membersList.groupId, "club")
         .then((management) => {
             this.management = management;
@@ -74,7 +74,7 @@ class ManagementCtrl implements IComponentController {
      * Выделение строчек таблицы, согласованное с фильтрами
      * @returns {Array<Member>}
      */
-    getChecked(): Member[] {
+    getChecked (): Member[] {
         return this.getRows().filter((member) => this.checked.indexOf(member) !== -1);
     }
 
@@ -82,7 +82,7 @@ class ManagementCtrl implements IComponentController {
      * Список всех тренеров (для меню фильтров)
      * @returns {Array<Member>}
      */
-    getCoaches(): Member[] {
+    getCoaches (): Member[] {
         return this.membersList.getCoaches();
     }
 
@@ -91,7 +91,7 @@ class ManagementCtrl implements IComponentController {
      * @param bill: IBillingTariff
      * @returns {boolean}
      */
-    isBillByClub(bill: IBillingTariff): boolean {
+    isBillByClub (bill: IBillingTariff): boolean {
         return this.membersList.isClubBill(bill);
     }
 
@@ -99,7 +99,7 @@ class ManagementCtrl implements IComponentController {
      * Доступна ли при выбранных строчках кнопка "Тарифы"
      * @returns {boolean}
      */
-    isEditTariffsAvailable(): boolean {
+    isEditTariffsAvailable (): boolean {
         return this.managementService.isEditTariffsAvailable(this.membersList, this.getChecked());
     }
 
@@ -107,7 +107,7 @@ class ManagementCtrl implements IComponentController {
      * Доступна ли при выбранных строчках кнопка "Тренеры"
      * @returns {boolean}
      */
-    isEditCoachesAvailable(): boolean {
+    isEditCoachesAvailable (): boolean {
         return this.managementService.isEditCoachesAvailable(this.membersList, this.getChecked());
     }
 
@@ -115,7 +115,7 @@ class ManagementCtrl implements IComponentController {
      * Доступна ли при выбранных строчках кнопка "Спортсмены"
      * @returns {boolean}
      */
-    isEditAthletesAvailable(): boolean {
+    isEditAthletesAvailable (): boolean {
         return this.managementService.isEditAthletesAvailable(this.membersList, this.getChecked());
     }
 
@@ -123,14 +123,14 @@ class ManagementCtrl implements IComponentController {
      * Доступна ли при выбранных строчках кнопка "Роли"
      * @returns {boolean}
      */
-    isEditRolesAvailable(): boolean {
+    isEditRolesAvailable (): boolean {
         return this.managementService.isEditRolesAvailable(this.membersList, this.getChecked());
     }
 
     /**
      * Действие над выбранными строчками по кнопке "Тарифы"
      */
-    editTariffs() {
+    editTariffs () {
         this.managementService.editTariffs(this.membersList, this.getChecked())
         .then((result) => {
             if (result) {
@@ -147,7 +147,7 @@ class ManagementCtrl implements IComponentController {
     /**
      * Действие над выбранными строчками по кнопке "Тренеры"
      */
-    editCoaches() {
+    editCoaches () {
         this.managementService.editCoaches(this.membersList, this.getChecked())
         .then((result) => {
             if (result) {
@@ -164,7 +164,7 @@ class ManagementCtrl implements IComponentController {
     /**
      * Действие над выбранными строчками по кнопке "Спортсмены"
      */
-    editAthletes() {
+    editAthletes () {
         this.managementService.editAthletes(this.membersList, this.getChecked())
         .then((result) => {
             if (result) {
@@ -181,7 +181,7 @@ class ManagementCtrl implements IComponentController {
     /**
      * Действие над выбранными строчками по кнопке "Роли"
      */
-    editRoles() {
+    editRoles () {
         this.managementService.editRoles(this.membersList, this.getChecked())
         .then((result) => {
             if (result) {
@@ -198,7 +198,7 @@ class ManagementCtrl implements IComponentController {
     /**
      * Действие над выбранными строчками по кнопке "Удалить"
      */
-    remove() {
+    remove () {
         this.managementService.remove(this.membersList, this.getChecked())
         .then((result) => {
             if (result) {
@@ -215,7 +215,7 @@ class ManagementCtrl implements IComponentController {
      * Действие по кнопке "Меню" члена клуба в мобильной версии
      * @param member: Member
      */
-    showActions(member: Member) {
+    showActions (member: Member) {
         this.checked = [member];
 
         this.$mdBottomSheet.show({
@@ -229,14 +229,14 @@ class ManagementCtrl implements IComponentController {
      * Действие по кнопке "Пригласить в клуб"
      * @param $event
      */
-    invite($event) {
+    invite ($event) {
         this.$mdDialog.show(inviteDialogConf(this.membersList.groupId, $event));
     }
 
     /**
      * Настройка фильтров членов клуба "Все"
      */
-    clearFilter() {
+    clearFilter () {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -249,7 +249,7 @@ class ManagementCtrl implements IComponentController {
      * Выбрана ли настройка фильтров членов клуба "Все"
      * @returns {boolean}
      */
-    isFilterEmpty(): boolean {
+    isFilterEmpty (): boolean {
         const { clubRole, coachUserId, noCoach } = this.filterParams;
         return !clubRole && !coachUserId && !noCoach;
     }
@@ -257,7 +257,7 @@ class ManagementCtrl implements IComponentController {
     /**
      * Настройка фильтров членов клуба "Без тренера"
      */
-    setFilterNoCoach() {
+    setFilterNoCoach () {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -270,7 +270,7 @@ class ManagementCtrl implements IComponentController {
      * Выбрана ли настройка фильтров членов клуба "Без тренера"
      * @returns {boolean}
      */
-    isFilterNoCoach(): boolean {
+    isFilterNoCoach (): boolean {
         return this.filterParams.noCoach;
     }
 
@@ -278,7 +278,7 @@ class ManagementCtrl implements IComponentController {
      * Настройка фильтров членов клуба "Тренер"
      * @param coach: Member
      */
-    setFilterCoach(coach: Member) {
+    setFilterCoach (coach: Member) {
         this.filterParams = {
             ...this.filterParams,
             clubRole: null,
@@ -292,7 +292,7 @@ class ManagementCtrl implements IComponentController {
      * @param coach: Member
      * @returns {boolean}
      */
-    isFilterCoach(coach: Member) {
+    isFilterCoach (coach: Member) {
         return this.filterParams.coachUserId === coach.userProfile.userId;
     }
 
@@ -300,7 +300,7 @@ class ManagementCtrl implements IComponentController {
      * Настройка фильтров членов клуба "Роль"
      * @param clubRole: ClubRole
      */
-    setFilterRole(clubRole: ClubRole) {
+    setFilterRole (clubRole: ClubRole) {
         this.filterParams = {
             ...this.filterParams,
             coachUserId: null,
@@ -314,7 +314,7 @@ class ManagementCtrl implements IComponentController {
      * @param clubRole: ClubRole
      * @returns {boolean}
      */
-    isFilterRole(clubRole: ClubRole): boolean {
+    isFilterRole (clubRole: ClubRole): boolean {
         return this.filterParams.clubRole === clubRole;
     }
 
@@ -322,7 +322,7 @@ class ManagementCtrl implements IComponentController {
      * Геттер фильтра-поиска
      * @returns {string}
     */
-    get search(): string {
+    get search (): string {
         return this.filterParams.search;
     }
 
@@ -330,7 +330,7 @@ class ManagementCtrl implements IComponentController {
      * Сеттер фильтра-поиска
      * @param search: string
     */
-    set search(search: string) {
+    set search (search: string) {
         this.filterParams = {
             ...this.filterParams,
             search,
@@ -341,7 +341,7 @@ class ManagementCtrl implements IComponentController {
      * Активен ли фильтр-поиск
      * @returns {boolean}
     */
-    isFilterSearch(): boolean {
+    isFilterSearch (): boolean {
         return !!this.filterParams.search;
     }
 
@@ -349,7 +349,7 @@ class ManagementCtrl implements IComponentController {
      * Использовать ли мобильную вёрстку
      * @returns {boolean}
     */
-    isMobileLayout(): boolean {
+    isMobileLayout (): boolean {
         return this.$mdMedia("max-width: 959px");
     }
 };

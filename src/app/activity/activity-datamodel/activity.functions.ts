@@ -12,7 +12,7 @@ import {ActivityIntervalW} from "./activity.interval-w";
  * 1) тип интервала
  * 2) парамтеры инетрвала
  */
-export function ActivityIntervalFactory(type: string, params?: any) {
+export function ActivityIntervalFactory (type: string, params?: any) {
     switch (type) {
         case "G": {
             return new ActivityIntervalG(type, params);

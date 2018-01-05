@@ -29,12 +29,12 @@ class CompetitionSingleStageCtrl implements IComponentController {
 
     static $inject = ['CompetitionConfig', 'CalendarItemDialogService'];
 
-    constructor(private config: ICompetitionConfig,
+    constructor (private config: ICompetitionConfig,
                 private calendarItemDialog: CalendarItemDialogService) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 

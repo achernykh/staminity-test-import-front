@@ -1,4 +1,4 @@
-﻿const timeFormatter = function(d) {
+﻿const timeFormatter = function (d) {
     const hours = ~~(d / 3600);
     const minutes = ~~((d % 3600) / 60);
     const seconds = ~~(d % 60);
@@ -17,14 +17,14 @@ const LabelFormatters = {
     },
     distance:
     {
-        formatter(d) {
+        formatter (d) {
             const kms = d / 1000;
             return kms.toFixed(2);
         },
         label: " км",
     },
     ftp: {
-        formatter(d) { return d.toFixed(0); },
+        formatter (d) { return d.toFixed(0); },
         label: " %",
     },
 };

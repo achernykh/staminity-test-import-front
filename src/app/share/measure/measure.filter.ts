@@ -53,7 +53,7 @@ export const duration = () => (second = 0, round: string = "second") => {
     }
 };
 
-export function peaksByTime(second: number): string {
+export function peaksByTime (second: number): string {
     if (second < 60) {
         return `${moment().startOf("day").millisecond(second * 1000).format("ss")} с`;
     } else if (second < 60 * 60) {

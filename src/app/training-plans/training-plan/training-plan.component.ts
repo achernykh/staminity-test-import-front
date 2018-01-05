@@ -8,11 +8,11 @@ class TrainingPlanCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = ['$mdMedia'];
 
-    constructor(private $mdMedia: any) {
+    constructor (private $mdMedia: any) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 }

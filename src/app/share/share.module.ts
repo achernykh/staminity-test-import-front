@@ -140,7 +140,7 @@ const userpic = {
     },
     transclude: true,
     controller: ["$scope", class UserpicController {
-        constructor($scope) {
+        constructor ($scope) {
         }
     }],
     template: require("./userpic.component.html") as string,
@@ -154,7 +154,7 @@ const AvatarPicComponent = {
         isPremium: "<",
     },
     controller: ["$scope", class AvatarPicCtrl {
-        constructor($scope) {
+        constructor ($scope) {
         }
     }],
     template: require("./avatar-pic.component.html") as string,
@@ -167,23 +167,23 @@ const userInfo = {
     template: require("./user-info.component.html") as string,
 };
 
-function onFiles() {
+function onFiles () {
     return {
         scope: {
             onFiles: "<",
         },
 
-        link(scope, element, attributes) {
+        link (scope, element, attributes) {
             const onFiles = (event) => (scope) => scope.onFiles(event.target.files);
             element.bind("change", (event) => scope.$apply(onFiles(event)));
         },
     };
 }
 
-function autoFocus() {
+function autoFocus () {
     return {
         link: {
-            post(scope, element, attr) {
+            post (scope, element, attr) {
                 element[0].focus();
             },
         },
@@ -274,17 +274,17 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
         };
     }])
     //https://github.com/petebacondarwin/angular-toArrayFilter
-    .filter("toArray", function() {
-        return function(obj, addKey) {
+    .filter("toArray", function () {
+        return function (obj, addKey) {
             if (!isObject(obj)) {
                 return obj;
             }
             if ( addKey === false ) {
-                return Object.keys(obj).map(function(key) {
+                return Object.keys(obj).map(function (key) {
                     return obj[key];
                 });
             } else {
-                return Object.keys(obj).map(function(key) {
+                return Object.keys(obj).map(function (key) {
                     const value = obj[key];
                     return isObject(value) ?
                         Object.defineProperty(value, "$key", { enumerable: false, value: key}) :

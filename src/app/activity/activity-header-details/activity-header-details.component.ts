@@ -39,11 +39,11 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    prepareIntervals() {
+    prepareIntervals () {
         this.intervalTypes.forEach(type =>
             this.item.activity.intervals.stack
                 .filter(interval => interval.type === type && interval.hasOwnProperty('calcMeasures'))
@@ -58,7 +58,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         );
     }
 
-    calculateIndex(selection: ISelectionIndex) {
+    calculateIndex (selection: ISelectionIndex) {
         let type = Object.keys(selection);
         let selectionIndex: Array<string> = [];
 
@@ -72,11 +72,11 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareIntervals();
     }
 
-    $onChanges(changes: any): void {
+    $onChanges (changes: any): void {
 
         if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
             this.prepareIntervals();
@@ -92,7 +92,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         }
     }
 
-    changeSelect() {
+    changeSelect () {
 
         this.changes++;
         let selection: ISelectionIndex = { L: [], P: [], U: []};
@@ -108,7 +108,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         });
     }
 
-    getCalcMeasure(selection: Array<string>):ICalcMeasures {
+    getCalcMeasure (selection: Array<string>):ICalcMeasures {
         if (selection.length === 0) {
             return this.item.activity.intervals.W.calcMeasures;
         }
@@ -122,7 +122,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
         return this.item.activity.intervals[intervalType][index].calcMeasures;
     }
 
-    lapIndex(index: Array<string>):number {
+    lapIndex (index: Array<string>):number {
         console.log('lapIndex', Number(index[0].substr(1))-1);
         return index ? Number(index[0].substr(1))-1 : null;
     }

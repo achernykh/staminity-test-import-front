@@ -10,11 +10,11 @@ class ActivityCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 }

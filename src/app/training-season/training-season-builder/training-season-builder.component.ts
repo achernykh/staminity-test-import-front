@@ -227,7 +227,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      * Подготавливаем перечень атлетов для тренера
      * Перечень используемтся при смене владельца
      */
-    private prepareAthletesList(): void {
+    private prepareAthletesList (): void {
         if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
             this.athletes = this.currentUser.connections.allAthletes.groupMembers;
         }

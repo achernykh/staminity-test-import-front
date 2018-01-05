@@ -30,23 +30,23 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     onBack: (response: Object) => IPromise<void>;
     static $inject = ["$filter"];
 
-    constructor(private $filter: IFilterService) {
+    constructor (private $filter: IFilterService) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareInterval();
         this.prepareTitle();
         this.prepareSelection();
     }
 
-    private prepareInterval() {
+    private prepareInterval () {
         this.isSegment = this.interval.type === "P";
         this.isSegmentGroup = this.isSegment && this.interval.hasOwnProperty("totalMeasures");
         this.groupInfo = this.isSegmentGroup && this.item.activity.intervals.G.filter((g) => g.code === this.interval["parentGroupCode"])[0] || null;
     }
 
-    private prepareTitle() {
+    private prepareTitle () {
         if (this.isSegment) {
             this.title = this.interval.hasOwnProperty("totalMeasures") &&
                 `${this.$filter("translate")("activity.split.segmentGroup", {count: this.groupInfo.repeatCount})}` ||
@@ -56,7 +56,7 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
         }
     }
 
-    private prepareSelection() {
+    private prepareSelection () {
         if (this.isSegmentGroup) {
             this.item.activity.intervals.stack.
                 filter((i) => i.hasOwnProperty("parentGroupCode") && i["parentGroupCode"] === this.interval["parentGroupCode"] &&

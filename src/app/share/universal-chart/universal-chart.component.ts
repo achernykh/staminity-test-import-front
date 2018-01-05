@@ -13,14 +13,14 @@ class UniversalChartCtrl implements IComponentController {
 
     static $inject = ['$element','$window'];
 
-    constructor(private $element: any, private $window: IWindowService) {
+    constructor (private $element: any, private $window: IWindowService) {
 
     }
 
-    $onInit() {
+    $onInit () {
     }
 
-    $onDestroy() {
+    $onDestroy () {
 
         if(this.hasOwnProperty('chart') && this.chart) {
             this.chart.remove();
@@ -28,7 +28,7 @@ class UniversalChartCtrl implements IComponentController {
 
     };
 
-    $postLink():void {
+    $postLink ():void {
         let self = this;
         this.$element.ready(() => self.redraw());
 
@@ -41,7 +41,7 @@ class UniversalChartCtrl implements IComponentController {
     }
 
 
-    $onChanges(changes: any) {
+    $onChanges (changes: any) {
         if(changes.hasOwnProperty('update') && !changes.update.isFirstChange()){
             if(!this.chart){
                 return;
@@ -53,7 +53,7 @@ class UniversalChartCtrl implements IComponentController {
         }
     }
 
-    redraw():void {
+    redraw ():void {
         this.container = this.$element[0];
         this.chart = UChartFactory.getInstance(copy(this.data)).renderTo(this.container);
     }

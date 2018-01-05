@@ -35,7 +35,7 @@ export class AnalyticsCtrl implements IComponentController {
     static $inject = ["$scope", "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
         "AuthService", "$filter"];
 
-    constructor(private $scope: IScope,
+    constructor (private $scope: IScope,
                 private session: SessionService,
                 private statistics: StatisticsService,
                 private storageService: StorageService,
@@ -60,36 +60,36 @@ export class AnalyticsCtrl implements IComponentController {
             });
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareData();
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    private prepareData() {
+    private prepareData () {
         this.prepareFilter(this.user, this.categories);
         this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
     }
 
-    restoreSettings() {
+    restoreSettings () {
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.charts}`);
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.filter}`);
         this.prepareCharts(this.defaultSettings);
     }
 
-    private getSettings(obj: string): any {
+    private getSettings (obj: string): any {
         return this.storageService.get(`${this.user.userId}${this.storage.name}_${obj}`);
     }
 
-    private saveSettings() {
+    private saveSettings () {
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.charts}`, this.charts.map((c) => c.transfer()));
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.filter.transfer());
     }
 
-    private prepareFilter(user: IUserProfile, categories: IActivityCategory[]) {
+    private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {
         this.filter = new AnalyticsChartFilter(
             user,
             categories,
@@ -97,7 +97,7 @@ export class AnalyticsCtrl implements IComponentController {
             this.$filter);
     }
 
-    private prepareCharts(charts: IAnalyticsChart[]) {
+    private prepareCharts (charts: IAnalyticsChart[]) {
         this.charts = charts.map((c) => new AnalyticsChart(
             Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
             this.user,

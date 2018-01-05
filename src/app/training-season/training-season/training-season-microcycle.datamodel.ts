@@ -35,7 +35,7 @@ export class Microcycle implements IMicrocycle {
         this.prepareDefaultData();
     }
 
-    get title(): string {
+    get title (): string {
         let next: Moment = moment(this._dateStart).add(1, 'week');
 
         return moment(next).startOf('month').diff(moment(this._dateStart).startOf('month'), 'months') > 0 ?

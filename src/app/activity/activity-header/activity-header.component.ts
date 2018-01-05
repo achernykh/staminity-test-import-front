@@ -16,26 +16,26 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     static $inject = ['$mdMedia','CommentService'];
 
-    constructor(private $mdMedia: any, private comment: CommentService) {
+    constructor (private $mdMedia: any, private comment: CommentService) {
     }
 
-    $onInit() {
+    $onInit () {
     }
 
-    openChat():void {
+    openChat ():void {
         let chat: ChatSession = {type: 'activity', id: this.item.activity.calendarItemId};
         this.comment.openChat$.next(chat);
     }
 
-    closeChat():void {
+    closeChat ():void {
         this.comment.openChat$.next(null);
     }
 
-    updateComments(response):void {
+    updateComments (response):void {
         this.comments = response && response.hasOwnProperty('count') && response.count || null;
     }
 
-    toggleStrucuredMode() {
+    toggleStrucuredMode () {
         this.item.structuredMode = !this.item.structuredMode;
     }
 }

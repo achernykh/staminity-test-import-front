@@ -8,13 +8,13 @@ class ApplicationProfileTemplateCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = ["$mdMedia"];
 
-    constructor(
+    constructor (
         private $mdMedia: any,
     ) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 }

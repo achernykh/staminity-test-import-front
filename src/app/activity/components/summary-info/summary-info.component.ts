@@ -13,11 +13,11 @@ class ActivitySummaryInfoCtrl implements IComponentController {
 
     static $inject = ['$filter'];
 
-    constructor(private $filter: any) {
+    constructor (private $filter: any) {
 
     }
 
-    $onInit() {
+    $onInit () {
         /**
          * Если статус тренировки плановая или пропущена, то выводятся только плановые показатели, по которым задан план
          * В противном случае выводится файтические значения как по длительности (время, расстояние) и интенсиности по
@@ -108,7 +108,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
         }
     }
 
-    view(id:number) {
+    view (id:number) {
         //debugger;
         //window.open(`${window.location.origin}/activity/${id}`);
     }

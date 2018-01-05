@@ -13,15 +13,15 @@ class DashboardTotalCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    $onChanges(changes) {
+    $onChanges (changes) {
         if (changes.update) {
             this.total = calculateCalendarTotals(this.week.subItem);
             this.summary = calculateCalendarSummary(this.total);

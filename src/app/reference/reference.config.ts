@@ -13,7 +13,7 @@ import UserService from "../core/user.service";
 import ReferenceService from "./reference.service";
 import * as translate from "./reference.translate";
 
-function configure(
+function configure (
     $stateProvider: StateProvider,
     $translateProvider,
 ) {

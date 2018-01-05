@@ -44,16 +44,16 @@ class AthleteInvitationCtrl implements IComponentController {
 
     static $inject = ["$scope", "AuthService", "message"];
 
-    constructor(private $scope: any, private AuthService: IAuthService, private message: MessageService) {
+    constructor (private $scope: any, private AuthService: IAuthService, private message: MessageService) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.users = Array.from(new Array(10)).map(() => copy(this.credTempl));
         //this.users.push(copy(this.credTempl), copy(this.credTempl), copy(this.credTempl));
     }
 
-    invite() {
+    invite () {
         const users = this.users.filter((u) => u.email && u.public.firstName && u.public.lastName);
         if (users && users.length > 0) {
             this.AuthService.inviteUsers(this.groupId, users)

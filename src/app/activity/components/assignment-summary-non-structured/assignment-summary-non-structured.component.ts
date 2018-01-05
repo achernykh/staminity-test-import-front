@@ -65,7 +65,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     static $inject = ['$scope', 'AuthService', 'quillConfig'];
 
-    constructor(
+    constructor (
         private $scope: any,
         private AuthService: IAuthService,
         private quillConf: IQuillConfig) {
@@ -98,7 +98,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.$scope.measure[this.item.activity.header.sportBasic || 'default'].indexOf(measure.$key) !== -1;
     }
 
-    $onInit() {
+    $onInit () {
         // расчет процента по позициям планогово задания в тренировке
         this.prepareData();
         this.$scope.measure[this.item.activity.header.sportBasic || 'default'].forEach(key => {
@@ -110,11 +110,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     }
 
-    $onDestroy(): void {
+    $onDestroy (): void {
         this.validateForm();
     }
 
-    $onChanges(changes: any): void {
+    $onChanges (changes: any): void {
         if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
             this.plan = null;
             this.actual = null;
@@ -126,11 +126,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    link(url) {
+    link (url) {
         window.open(url);
     }
 
-    showRow(measure: string) {
+    showRow (measure: string) {
 
         if (!this.item.activity.view.isView) {
             return true;
@@ -143,13 +143,13 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    prepareData(): void {
+    prepareData (): void {
         this.plan = this.item.activity.intervals.PW;
         this.actual = this.item.activity.intervals.W.calcMeasures;
         this.$scope.$evalAsync();
     }
 
-    prepareValues() {
+    prepareValues () {
         if(this.ftpMode) {
             this.from = 'intensityByFtpFrom';
             this.to = 'intensityByFtpTo';
@@ -159,28 +159,28 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    ftpModeChange(mode: FtpState) {
+    ftpModeChange (mode: FtpState) {
         this.ftpMode = mode;
         this.item.ftpMode = mode;
         this.prepareValues();
     }
 
-    isFTP() {
+    isFTP () {
         return this.ftpMode === FtpState.On;
     }
 
-    isInterval(key) {
+    isInterval (key) {
         return ['speed','heartRate','power'].indexOf(key) !== -1;
     }
 
-    getFTP(measure: string, sport: string = this.sport):number {
+    getFTP (measure: string, sport: string = this.sport):number {
         let zones = this.item.options.owner.trainingZones;
         return (this.isInterval(measure) && 0) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty(sport) && zones[measure][sport]['FTP']) ||
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
     }
 
-    changeValue(key) {
+    changeValue (key) {
         if(!!!key) {
             return;
         }
@@ -193,17 +193,17 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.updateForm();
     }
 
-    completeAbsoluteMeasure(key) {
+    completeAbsoluteMeasure (key) {
         this.plan[key][this.index[FtpState.Off]['from']] = this.plan[key][this.index[FtpState.On]['from']] * this.getFTP(key);
         this.plan[key][this.index[FtpState.Off]['to']] = this.plan[key][this.index[FtpState.On]['to']] * this.getFTP(key);
     }
 
-    completeFtpMeasure(key) {
+    completeFtpMeasure (key) {
         this.plan[key][this.index[FtpState.On]['from']] = this.plan[key][this.index[FtpState.Off]['from']] / this.getFTP(key);
         this.plan[key][this.index[FtpState.On]['to']] = this.plan[key][this.index[FtpState.Off]['to']] / this.getFTP(key);
     }
 
-    prepareDataForUpdate() {
+    prepareDataForUpdate () {
         this.plan.durationMeasure = (!!this.plan.distance['durationValue'] && 'distance') ||
             (!!this.plan.movingDuration['durationValue'] && 'movingDuration') || null;
 
@@ -226,7 +226,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.On]['to']]) || null;
     }
 
-    calcPercent(key: string): number {
+    calcPercent (key: string): number {
 
         let plan = (this.plan[key].hasOwnProperty('durationValue') && this.plan[key].durationValue) ||
             (this.plan[key][this.index[FtpState.Off]['from']] === this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key][this.index[FtpState.Off]['from']]) ||
@@ -252,7 +252,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
     }
 
-    changeParam() {
+    changeParam () {
         setTimeout(()=>{
             this.clearTemplate();
             this.validateForm();
@@ -261,7 +261,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }, 100);
     }
 
-    validateForm() {
+    validateForm () {
 
         if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
@@ -313,7 +313,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
      * 1) которые есть в фильтре задания
      * 2) по которым есть план
      */
-    calculateCompletePercent():number {
+    calculateCompletePercent ():number {
 
         return ((this.plan.durationMeasure && this.plan.intensityMeasure) &&
             this.percentComplete[this.plan.durationMeasure] * this.percentComplete[this.plan.intensityMeasure] ) ||
@@ -321,15 +321,15 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (this.plan.intensityMeasure && this.percentComplete[this.plan.intensityMeasure]) || null;
     }
 
-    changeStructuredMode(){
+    changeStructuredMode (){
         this.item.structuredMode ? this.item.selectedTab = HeaderStructuredTab.Segments : angular.noop();
     }
 
-    clearTemplate() {
+    clearTemplate () {
         this.item.activity.header.template = null;
     }
 
-    private updateForm() {
+    private updateForm () {
         this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
 

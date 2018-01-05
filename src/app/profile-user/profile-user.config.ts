@@ -6,7 +6,7 @@ import UserService from "../core/user.service";
 import {_translate} from "./profile-user.translate";
 import { summaryStatisticsTranslate } from "./summary-statistics.translate";
 
-function configure(
+function configure (
     $stateProvider: StateProvider,
     $translateProvider: any) {
     $stateProvider
@@ -17,10 +17,10 @@ function configure(
             resolve: {
                 view: () => new DisplayView("user"),
                 auth: ["AuthService", (AuthService: AuthService) => AuthService.isAuthenticated()],
-                userId: ["SessionService", function(SessionService) {
+                userId: ["SessionService", function (SessionService) {
                     return SessionService.getUser().userId;
                 }],
-                user: ["UserService", "auth", function(UserService, userId, auth: boolean) {
+                user: ["UserService", "auth", function (UserService, userId, auth: boolean) {
                     return UserService.getProfile(userId, auth);
                 }],
             },
@@ -34,7 +34,7 @@ function configure(
                 view: () => new DisplayView("user"),
                 auth: ["AuthService", (AuthService: AuthService) => AuthService.isAuthenticated()],
                 userId: ["$stateParams", ($stateParams) =>  $stateParams.uri],
-                user: ["UserService", "userId", "auth", "$location", function(UserService: UserService, userId, auth: boolean, $location: ILocationService) {
+                user: ["UserService", "userId", "auth", "$location", function (UserService: UserService, userId, auth: boolean, $location: ILocationService) {
                     return UserService.getProfile(userId, auth).catch((error) => {
                         if (error.hasOwnProperty("errorMessage") && error.errorMessage === "userNotFound") {
                             $location.path("/404");

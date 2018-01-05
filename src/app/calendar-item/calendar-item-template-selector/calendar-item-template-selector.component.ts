@@ -16,16 +16,16 @@ class CalendarItemTemplateSelectorCtrl implements IComponentController {
 
     static $inject = ["$scope", "ReferenceService"];
 
-    constructor(
+    constructor (
         private $scope,
         private ReferenceService: ReferenceService) {
 
     }
 
-    $onInit(): void {
+    $onInit (): void {
     }
 
-    $onDestroy(): void {
+    $onDestroy (): void {
     }
 
 }

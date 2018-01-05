@@ -35,7 +35,7 @@ export class ReferenceCtrl implements IComponentController {
 
     static $inject = ["$scope", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
-    constructor(
+    constructor (
         private $scope,
         private $mdDialog,
         private $mdMedia,
@@ -45,7 +45,7 @@ export class ReferenceCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.filterParams.club = this.club;
 
         this.categories = this.ReferenceService.categories;
@@ -69,16 +69,16 @@ export class ReferenceCtrl implements IComponentController {
         this.updateFilterParams();
     }
 
-    $onChanges() {
+    $onChanges () {
         this.updateFilterParams();
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    updateFilterParams() {
+    updateFilterParams () {
         const filters = pick(["club", "activityType", "isActive"]) (categoriesFilters);
         const categories = this.categories.filter(filtersToPredicate(filters, this.filterParams));
         const category = this.filterParams.category;
@@ -94,7 +94,7 @@ export class ReferenceCtrl implements IComponentController {
         ) (categories);
     }
 
-    get isMobileLayout(): boolean {
+    get isMobileLayout (): boolean {
         const maxWidth = {
             templates: "1200px",
             categories: "960px",

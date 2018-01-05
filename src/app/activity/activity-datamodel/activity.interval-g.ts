@@ -17,12 +17,12 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
     hasRecalculate: boolean = false;
     keys: string[] = ["params", "calcMeasures", "totalMeasures", "hasRecalculate", "keys"];
 
-    constructor(type: string, params: any) {
+    constructor (type: string, params: any) {
         super(type, params);
         this.code = this.code || `${genHash(6)}`; //`${genHash(6)}-${genHash(4)}-${genHash(4)}-${genHash(4)}-${genHash(12)}`;
     }
 
-    clear(keys: string[] = this.keys): IActivityIntervalG {
+    clear (keys: string[] = this.keys): IActivityIntervalG {
         if (this.hasRecalculate) {
             ["totalMeasures"].map((key) => this.keys.splice(this.keys.indexOf(key), 1));
         }
@@ -34,7 +34,7 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
     * @description Подготавливаем инетрвал для перерасчета на стороне бэка
     * @returns {IActivityIntervalP}
     */
-    prepareForCalculateRange(): IActivityIntervalG {
+    prepareForCalculateRange (): IActivityIntervalG {
         const interval: IActivityIntervalG = copy(this);
         this.keys.map((p) => delete interval[p]);
         this.hasRecalculate = true;

@@ -16,11 +16,11 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
         // для удобства верстки создаем быстрый путь к данным
         this.mode = this.item.mode;
         this.activity = this.item.activity;
@@ -28,7 +28,7 @@ class ActivityHeaderOverviewCtrl implements IComponentController {
         this.intervalW = this.item.activity.intervals.W;
     }
 
-    onChangeForm( plan: IActivityIntervalPW ,actual: ICalcMeasures, form: INgModelController) {
+    onChangeForm ( plan: IActivityIntervalPW ,actual: ICalcMeasures, form: INgModelController) {
 
     }
 }

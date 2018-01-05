@@ -32,7 +32,7 @@ class DashboardDayCtrl implements IComponentController {
 
     static $inject = ['$mdDialog','message','dialogs','CalendarService', 'CalendarItemDialogService'];
 
-    constructor(private $mdDialog: any,
+    constructor (private $mdDialog: any,
                 private message: any,
                 private dialogs: any,
                 private CalendarService: CalendarService,
@@ -40,7 +40,7 @@ class DashboardDayCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.itemOptions = {
             currentUser: this.currentUser,
             owner: this.owner,
@@ -82,7 +82,7 @@ class DashboardDayCtrl implements IComponentController {
     }
 
 
-    onDrop(srcItem: ICalendarItem,
+    onDrop (srcItem: ICalendarItem,
            operation: string,
            srcIndex:number,
            trgDate:string,
@@ -106,7 +106,7 @@ class DashboardDayCtrl implements IComponentController {
         return true;
     }
 
-    onProcess(item: ICalendarItem, operation: string, post: boolean = false) {
+    onProcess (item: ICalendarItem, operation: string, post: boolean = false) {
         switch (operation) {
             case 'move': {
                 if (!post && isCompletedActivity(item)) {
@@ -133,15 +133,15 @@ class DashboardDayCtrl implements IComponentController {
         }
     }
 
-    onSelect() {
+    onSelect () {
         this.selected = !this.selected;
     }
 
-    isSpecified(item: ICalendarItem):boolean {
+    isSpecified (item: ICalendarItem):boolean {
         return isSpecifiedActivity(item);
     }
 
-    postItem($event, date){
+    postItem ($event, date){
         this.$mdDialog.show({
             controller: CalendarItemWizardSelectCtrl,
             controllerAs: '$ctrl',

@@ -32,7 +32,7 @@ class SearchCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = ["$scope", "$stateParams", "$location", "search", "message"];
 
-    constructor(private $scope: IScope,
+    constructor (private $scope: IScope,
                 private $stateParams: any,
                 private $location: ILocationService,
                 private search: SearchService,
@@ -40,7 +40,7 @@ class SearchCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.$scope["order"] = "name";
         const urlSearch = this.$location.search();
         if (urlSearch && urlSearch.hasOwnProperty("objectType") && urlSearch.objectType) {
@@ -50,7 +50,7 @@ class SearchCtrl implements IComponentController {
         this.updateUrl(this.params);
     }
 
-    onDetails(uri: string, url: string = `${window.location.origin}/`) {
+    onDetails (uri: string, url: string = `${window.location.origin}/`) {
 
         switch (this.params.objectType) {
             case "user": case "coach": {
@@ -66,21 +66,21 @@ class SearchCtrl implements IComponentController {
         }
     }
 
-    onSearch(params: SearchParams) {
+    onSearch (params: SearchParams) {
         this.search.request(this.method, params)
             .then((result) => this.result = result)
             .then(() => !this.$scope.$$phase && this.$scope.$apply())
             .then(() => this.message.toastInfo("searchResult", {count: this.result.length}));
     }
 
-    changeQuery(param: string) {
+    changeQuery (param: string) {
         if (["objectType"].indexOf(param) !== -1) {
             this.result = [];
         }
         this.updateUrl(this.params);
     }
 
-    updateUrl(params: SearchParams) {
+    updateUrl (params: SearchParams) {
         this.$location.search(params);
     }
 }

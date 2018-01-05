@@ -58,24 +58,24 @@ class CalendarTotalCtrl implements IComponentController {
 
     static $inject = ['$mdDialog', 'TrainingSeasonService'];
 
-    constructor(
+    constructor (
         private $mdDialog: any,
         private trainingSeasonService: TrainingSeasonService){
     }
 
-    $onInit(): void {
+    $onInit (): void {
         this.title = moment(this.week.week,'YYYY-WW').week();
         this.trainingSeasonService.getUserWeekData(this.owner.userId, moment(this.week.week,'YYYY-WW').format('YYYY.WW'))
             .then(result => this.periodizationData = result.arrayResult[0]);
     }
 
-    onToggle() {
+    onToggle () {
         this.selected = !this.selected;
         this.week.subItem.forEach(day => day.selected = !day.selected);
         this.onSelect();
     }
 
-    $onChanges(changes){
+    $onChanges (changes){
         if(changes.update){
             this.data = new CalendarWeekData(this.week);
             this.items = [];

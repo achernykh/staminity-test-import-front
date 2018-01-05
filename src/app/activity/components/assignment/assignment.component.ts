@@ -28,10 +28,10 @@ class ActivityAssignmentCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
@@ -51,7 +51,7 @@ class ActivityAssignmentCtrl implements IComponentController {
      * @param actual - фактические данные (пользователь мог ввести факт руками)
      * @param form - статус формы ввода
      */
-    changeForm( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
+    changeForm ( form: INgModelController, plan: IActivityIntervalPW, actual: ICalcMeasures) {
 
         this.item.assignmentForm.$dirty = this.item.assignmentForm.$dirty || form.$dirty;
         this.item.assignmentForm.$valid = this.item.assignmentForm.$valid || form.$valid;

@@ -13,7 +13,7 @@ class CategoryCtrl implements IComponentController {
 
     static $inject = ["$scope", "$filter", "$mdDialog", "$mdMedia", "message", "ReferenceService"];
 
-    constructor(
+    constructor (
         private $scope,
         private $filter,
         private $mdDialog,
@@ -24,11 +24,11 @@ class CategoryCtrl implements IComponentController {
 
     }
 
-    get isEnabled() {
+    get isEnabled () {
         return this.category.visible;
     }
 
-    set isEnabled(visible) {
+    set isEnabled (visible) {
         const { id, code, description, groupProfile, sortOrder } = this.category;
         const groupId = groupProfile && groupProfile.groupId;
 
@@ -39,7 +39,7 @@ class CategoryCtrl implements IComponentController {
         });
     }
 
-    get activityTypeCode() {
+    get activityTypeCode () {
         return getType(this.category.activityTypeId).code;
     }
 }

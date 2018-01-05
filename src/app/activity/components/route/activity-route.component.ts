@@ -11,17 +11,17 @@ class ActivityRouteCtrl implements IComponentController {
     private map;
 
     static $inject = ["leafletData"];
-    constructor(private leafletData: any) {
+    constructor (private leafletData: any) {
 
     }
 
-    $onChanges(change: any): void {
+    $onChanges (change: any): void {
         if (!change.select.isFirstChange()) {
             this.$onInit();
         }
     }
 
-    $onInit() {
+    $onInit () {
         this.map = new ActivityRouteDatamodel(this.data, this.select);
         // показывать или нет панель зума
         this.options.zoomControl = this.zoomEnabled;

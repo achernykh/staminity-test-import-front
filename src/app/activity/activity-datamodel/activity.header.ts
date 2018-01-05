@@ -26,32 +26,32 @@ export class ActivityHeader implements IActivityHeader {
     // Вспомогательные поля фронт-енд
     public template: IActivityTemplate;
 
-    constructor(header?: IActivityHeader){
+    constructor (header?: IActivityHeader){
         this.startTimestamp = new Date();
         Object.assign(this, header || {});
     }
 
-    get id(): number {
+    get id (): number {
         return this.activityId;
     }
 
-    get sport() {
+    get sport () {
         return this.activityType.id;
     }
 
-    set sport(id) {
+    set sport (id) {
         this.activityType = getType(Number(id));
     }
 
-    get sportBasic(){
+    get sportBasic (){
         return this.activityType.typeBasic;
     }
 
-    get sportUrl() {
+    get sportUrl () {
         return `assets/icon/${this.activityType.code || 'default_sport'}.svg`;
     }
 
-    get category(): IActivityCategory {
+    get category (): IActivityCategory {
         return this.hasOwnProperty('activityCategory') && this.activityCategory;
     }
 
@@ -59,18 +59,18 @@ export class ActivityHeader implements IActivityHeader {
         this.activityCategory = c;
     }
 
-    get categoryCode():string {
+    get categoryCode ():string {
         return (this.activityCategory && this.activityCategory.hasOwnProperty('code'))
             && this.activityCategory.code;
     }
 
 
-    build():IActivityHeader{
+    build ():IActivityHeader{
         this.templateId = (this.template && this.template.id) || null;
         return this.clear();
     }
 
-    clear():IActivityHeader {
+    clear ():IActivityHeader {
         ['template'].map(p => delete this[p]);
         return <IActivityHeader>this;
     }

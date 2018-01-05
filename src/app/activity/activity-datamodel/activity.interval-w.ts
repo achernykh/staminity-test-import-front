@@ -7,29 +7,29 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     actualDataIsImported: boolean; // признак загрузки фактических данных с устройства
     calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
 
-    constructor(type: string, params: any) {
+    constructor (type: string, params: any) {
         super(type, params);
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
     }
 
-    update(params: Object) {
+    update (params: Object) {
         Object.assign(this, params);
     }
 
-    clear(keys?: Array<string>):IActivityIntervalW{
+    clear (keys?: Array<string>):IActivityIntervalW{
         let params: Array<string> = keys || ['params', ...Object.keys(this.calcMeasures)];
         //Object.keys(this).map(k => api.indexOf(k) === -1 && delete this[k]);
         params.map(p => delete this[p]);
         return <IActivityIntervalW>this;
     }
 
-    movingDuration():number {
+    movingDuration ():number {
         return this.calcMeasures.hasOwnProperty('movingDuration') &&
             this.calcMeasures.movingDuration.hasOwnProperty('value') &&
             this.calcMeasures.movingDuration.value;
     }
 
-    distance():number {
+    distance ():number {
         return this.calcMeasures.hasOwnProperty('distance') &&
             this.calcMeasures.distance.hasOwnProperty('value') &&
             this.calcMeasures.distance.value;
@@ -45,7 +45,7 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     }
 
     // TODO надо продумать алгоритм перевода фактических итогов плановый интервал
-    toTemplate(): IActivityIntervalPW {
+    toTemplate (): IActivityIntervalPW {
         return Object.assign(this.clear(), {
             type: 'pW'
         }, {

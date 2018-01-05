@@ -19,7 +19,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     power: IIntensityMeasure;
     speed: IIntensityMeasure;
 
-    constructor(type: string, params: any) {
+    constructor (type: string, params: any) {
         super(type, params);
 
         this.distance = this.distance || new DurationMeasure();
@@ -35,7 +35,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     /**
      * @description Подготовка данных модели
      */
-    prepareData(): void {
+    prepareData (): void {
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
         this.durationValue = this.durationValue || 0;
         this.movingDurationLength = this.movingDurationLength || 0;
@@ -77,7 +77,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         }
     }
 
-    update(params: Object) {
+    update (params: Object) {
         Object.assign(this, params);
     }
 
@@ -86,7 +86,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param keys
      * @returns {IActivityIntervalPW}
      */
-    clear(keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
+    clear (keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
         keys.map((p) => delete this[p]);
         return this as IActivityIntervalPW;
     }
@@ -95,7 +95,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @description Тренировка имеет плановые данные?
      * @returns {boolean}
      */
-    specified(): boolean {
+    specified (): boolean {
         return this.durationValue > 0;
     }
 
@@ -103,7 +103,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * Пересчет значений инетрвала на основе массива отдельных интервалов
      * @param intervals = массив интревалов с типом P
      */
-    calculate(intervals: ActivityIntervalP[]) {
+    calculate (intervals: ActivityIntervalP[]) {
         const update: {
             durationMeasure: string,
             intensityMeasure: string,

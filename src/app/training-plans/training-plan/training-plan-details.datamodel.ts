@@ -1,6 +1,6 @@
 export class TrainingPlanDetails {
 
-    constructor() {
+    constructor () {
 
     }
 

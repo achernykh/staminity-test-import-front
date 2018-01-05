@@ -8,7 +8,7 @@ export class MembersList implements IGroupManagementProfile {
     availableGroups: IGroupProfileShort[];
     members: Member[];
 
-    constructor(
+    constructor (
         public management: IGroupManagementProfile,
     ) {
         this.groupId = management.groupId;

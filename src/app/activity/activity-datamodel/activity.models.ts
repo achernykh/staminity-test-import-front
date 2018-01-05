@@ -10,7 +10,7 @@ export class ActivityMeasure implements IActivityMeasure {
     maxValue: number = null;
     avgValue: number = null;
 
-    constructor(public code: string) {
+    constructor (public code: string) {
 
     }
 }
@@ -23,19 +23,19 @@ export class ActivityIntervalCalcMeasure implements ICalcMeasures {
         "altitude", "elevationGain", "elevationLoss", "grade", "vam", "vamPowerKg", "temperature", "intensityLevel",
         "variabilityIndex", "efficiencyFactor", "decouplingPower", "decouplingPace", "trainingLoad", "completePercent"];
 
-    constructor() {
+    constructor () {
         this.params.map((p) => Object.assign(this, { [p]: new ActivityMeasure(p)}));
         //Object.assign(this,...this.params.map(p => new ActivityMeasure(p)));
     }
 }
 
 export class DurationMeasure implements IDurationMeasure {
-    constructor(
+    constructor (
         public durationValue: number = null) {}
 }
 
 export class IntensityMeasure implements IIntensityMeasure {
-    constructor(
+    constructor (
         public intensityByFtpFrom: number = null,
         public intensityByFtpTo: number = null,
         public intensityLevelFrom: number = null,

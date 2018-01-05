@@ -83,7 +83,7 @@ class PeriodizationMesocycleDialogCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.mesocycle = Object.assign({}, this.data);
     }
 

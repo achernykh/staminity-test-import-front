@@ -30,16 +30,16 @@ class SettingsZonesEditCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.settings = copy(this.sportSettings);
         this.viewMode = ['5','7','9'].indexOf(this.settings.calculateMethod) === -1;
     }
 
-    selectMethod(method: string, factor: string) {
+    selectMethod (method: string, factor: string) {
         this.settings.calculateMethod = method;
         this.settings.zones = this.calculateMethod(method, {
             FTP: this.settings['FTP'],
@@ -50,7 +50,7 @@ class SettingsZonesEditCtrl implements IComponentController {
         this.checkForm();
     }
 
-    changeZone(i: number, value: number, factor: string) {
+    changeZone (i: number, value: number, factor: string) {
         let step: number = factor !== 'speed' ? 1 : 0.00000000000001;
         if (i !== this.settings.zones.length - 1) {
             this.settings.zones[i+1].valueFrom = value + step;
@@ -100,7 +100,7 @@ class SettingsZonesEditCtrl implements IComponentController {
 
 
 
-    calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}, factor: string):Array<any> {
+    calculateMethod (method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}, factor: string):Array<any> {
 
         let zones: Array<any> = [];
         let step: number = factor !== 'speed' ? 1 : 0.00000000000001;

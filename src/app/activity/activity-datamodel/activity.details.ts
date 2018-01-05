@@ -32,18 +32,18 @@ export class ActivityDetails implements IActivityDetails {
 
     private _route: IRoute[] = [];
 
-    constructor(params?: any) {
+    constructor (params?: any) {
         Object.assign(this, params || {});
         this._route = this.calculateRoute();
         this.isEmpty = this.metrics.length === 0;
         this.isRouteExist = this._route.length > 0;
     }
 
-    get route(): IRoute[] {
+    get route (): IRoute[] {
         return this._route;
     }
 
-    chartData(sportBasic: string, calcMeasure: ICalcMeasures): IChartMeasureData {
+    chartData (sportBasic: string, calcMeasure: ICalcMeasures): IChartMeasureData {
         const measures: {} = {}; // Перечень показателей, которые будут показаны на графике
         const data: Array<{}> = []; // Массив данных для показа на графике
         const maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
@@ -115,7 +115,7 @@ export class ActivityDetails implements IActivityDetails {
      * @description Маршрут в формате постронения карты leaflet
      * @returns {{lng: number, lat: number, timestamp: number}[]}
      */
-    private calculateRoute(): IRoute[] {
+    private calculateRoute (): IRoute[] {
         if (!this.measures || (
             this.measures &&
             !this.measures.hasOwnProperty("longitude") &&

@@ -7,7 +7,7 @@ export class ActivityIntervalL extends ActivityInterval implements IActivityInte
 
     calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
 
-    constructor(type: string, params: any) {
+    constructor (type: string, params: any) {
         super(type, params);
         this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
     }

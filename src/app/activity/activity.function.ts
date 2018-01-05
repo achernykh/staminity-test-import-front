@@ -25,7 +25,7 @@ export class MeasureChartData {
      * @param calcMeasure
      * @param details
      */
-    constructor(private sportBasic: string, private calcMeasure: ICalcMeasures, private details: IActivityDetails) {
+    constructor (private sportBasic: string, private calcMeasure: ICalcMeasures, private details: IActivityDetails) {
 
         let array: Array<string>;
 

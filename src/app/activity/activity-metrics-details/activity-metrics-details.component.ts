@@ -36,47 +36,47 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     static $inject = ['$mdMedia','$filter'];
 
 
-    constructor(private $mdMedia: any, private $filter: any) {
+    constructor (private $mdMedia: any, private $filter: any) {
 
     }
 
-    $onChanges(changes){
+    $onChanges (changes){
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
             this.chartData = this.item.activity.details.chartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures);
             this.completeDetails = true;
         }
     }
 
-    $onInit() {
+    $onInit () {
 
         this.item.activity.isStructured ? this.tableOption = 'segments' : this.tableOption = 'laps';
         this.item.activity.isStructured ? this.chartOption = 'segments' : this.chartOption = 'measures';
     }
 
-    toggleMap() {
+    toggleMap () {
         return this.showMap = !this.showMap;
     }
 
-    toggleChart() {
+    toggleChart () {
         return this.showChart = !this.showChart;
     }
 
-    toggleTable() {
+    toggleTable () {
         return this.showTable = !this.showTable;
     }
 
-    changeChartX(measure) {
+    changeChartX (measure) {
         this.chartX = measure;
         this.change++;
     }
 
-    changeChartMetrics(measure) {
+    changeChartMetrics (measure) {
         this.chartData.measures[measure]['show'] = !this.chartData.measures[measure]['show'];
         this.changeMeasure = measure;
         this.change++;
     }
 
-    onSelectionRange(select: Array<{startTimestamp: number, endTimestamp}>){
+    onSelectionRange (select: Array<{startTimestamp: number, endTimestamp}>){
         if(select.length === 0) {
             this.item.clearUserInterval();
         } else {
@@ -88,7 +88,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
         }
     }
 
-    onChartSelect(segmentId){
+    onChartSelect (segmentId){
         console.log('chart select interval=', segmentId);
     }
 }

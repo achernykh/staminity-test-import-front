@@ -1,5 +1,5 @@
 ﻿import {measureUnit, measureValue} from "../../../../share/measure/measure.constants";
-const timeFormatter = function(d) {
+const timeFormatter = function (d) {
     const hours = ~~(d / 3600);
     const minutes = ~~((d % 3600) / 60);
     const seconds = ~~(d % 60);
@@ -10,7 +10,7 @@ const timeFormatter = function(d) {
     return res;
 };
 
-const intFormatter = function(d) { return d.toFixed(0); };
+const intFormatter = function (d) { return d.toFixed(0); };
 
 //todo move to helper class
 const LabelFormatters = {

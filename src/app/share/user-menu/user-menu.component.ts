@@ -14,7 +14,7 @@ class UserMenuCtrl implements IComponentController {
 
     static $inject = ["$mdSidenav", "$location", "SessionService", "$state", "DisplayService"];
 
-    constructor(
+    constructor (
         private $mdSidenav: any,
         private $location: ILocationService,
         private SessionService: SessionService,
@@ -29,17 +29,17 @@ class UserMenuCtrl implements IComponentController {
         });
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    onUserMenu($mdOpenMenu, ev) {
+    onUserMenu ($mdOpenMenu, ev) {
         const originatorEv = ev;
         $mdOpenMenu(ev);
     }
 
-    transitionToState(url) {
+    transitionToState (url) {
         if (this.$state.current.name === url) {
             return;
         }

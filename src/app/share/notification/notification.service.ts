@@ -49,7 +49,7 @@ export default class NotificationService {
 
     static $inject = ["SocketService", "toaster", "CommentService"];
 
-    constructor(
+    constructor (
         private socket: SocketService, private toaster: any, private comment: CommentService) {
 
         this.comment.openChat$.subscribe((chat) => this.openChat = chat); // следим за открытми чатами
@@ -92,7 +92,7 @@ export default class NotificationService {
      * @param offset - отступ от начального элемента, попадающего под условия фильтрации
      * @returns {Promise<Array<INotification>>}
      */
-    get(limit: number = null, offset: number = null): Promise<Notification[]> {
+    get (limit: number = null, offset: number = null): Promise<Notification[]> {
         return this.socket.send(new GetNotificationRequest(limit, offset))
             .then((result: {resultArray: any[]}) => result.resultArray.map((n) => new Notification(n)));
     }
@@ -103,11 +103,11 @@ export default class NotificationService {
      * @param isRead
      * @returns {Promise<any>}
      */
-    put(id: number, readUntil: string, isRead: boolean): Promise<any> {
+    put (id: number, readUntil: string, isRead: boolean): Promise<any> {
         return this.socket.send(new PutNotificationRequest(id, readUntil, isRead));
     }
 
-    show(notification: Notification, settings: INotificationSettings = this.defaultSettings) {
+    show (notification: Notification, settings: INotificationSettings = this.defaultSettings) {
         this.timeouts[notification.index] = Date.now();
 
         this.toaster.pop({

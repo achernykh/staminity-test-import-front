@@ -29,7 +29,7 @@ class HeaderCtrl implements IComponentController {
     static $inject = ["$scope", "$mdSidenav", "AuthService", "SessionService", "RequestsService", "NotificationService",
         "CommentService", "$mdDialog", '$mdMedia', "$state", "toaster", "DisplayService", "SocketService"];
 
-    constructor(
+    constructor (
         private $scope,
         private $mdSidenav: any,
         private AuthService: any,
@@ -58,7 +58,7 @@ class HeaderCtrl implements IComponentController {
         .subscribe((chat) => this.openChat = chat);
     }
 
-    $onInit() {
+    $onInit () {
         this.notificationsList = this.NotificationService.notifications;
 
         this.NotificationService.notificationsChanges
@@ -78,38 +78,38 @@ class HeaderCtrl implements IComponentController {
         });
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    get notifications() {
+    get notifications () {
         return this.notificationsList.filter((notification) => !notification.isRead).length;
     }
 
-    get requests() {
+    get requests () {
         const userId = this.user.userId;
         return this.requestsList.filter((request) => request.receiver.userId === userId && !request.updated).length;
     }
 
-    onBack() {
+    onBack () {
         window.history.back();
     }
 
-    historyLength(): number {
+    historyLength (): number {
         return window.history.length;
     }
 
-    onMenu($mdOpenMenu, ev) {
+    onMenu ($mdOpenMenu, ev) {
         const originatorEv = ev;
         $mdOpenMenu(ev);
     }
 
-    toggleSlide(component) {
+    toggleSlide (component) {
         this.$mdSidenav(component).toggle().then(() => angular.noop);
     }
 
-    showAthleteSelector($event) {
+    showAthleteSelector ($event) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -136,14 +136,14 @@ class HeaderCtrl implements IComponentController {
                 console.log("cancel athlete selector"));
     }
 
-    setAthlete(response: {user: IUserProfile}) {
+    setAthlete (response: {user: IUserProfile}) {
         //this.athlete = response.user;
         console.log("setAthlete", this.$state.current.name, `${this.$state.current.name}${this.routeUri}`);
         // костыли ((
         this.$state.go(this.$state.current.name === "calendar-my" ? "calendar" : this.$state.current.name , {uri: response.user.public.uri});
     }
 
-    isEnableAthleteSelector() {
+    isEnableAthleteSelector () {
         return (this.athleteSelectorStates.indexOf(this.$state.current.name) !== -1) && this.AuthService.isCoach();
     }
 }
@@ -161,16 +161,16 @@ const HeaderComponent: IComponentOptions = {
 };
 export default HeaderComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         console.log(answer);
         $mdDialog.hide(answer);
     };

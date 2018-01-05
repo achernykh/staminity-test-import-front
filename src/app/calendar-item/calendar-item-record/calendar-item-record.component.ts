@@ -105,7 +105,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
         }
     }
 
-    onDelete(rmParams: Object) {
+    onDelete (rmParams: Object) {
         this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
             .then(() => {
                 this.message.toastInfo('recordDeleted');

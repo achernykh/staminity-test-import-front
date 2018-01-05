@@ -5,7 +5,7 @@ import {DisplayView} from "../core/display.constants";
 import GroupService from "../core/group.service";
 import {translateDashboard, translateDashboardClub} from "./dashboard.translate";
 
-function configure($stateProvider: StateProvider,
+function configure ($stateProvider: StateProvider,
                    $translateProvider: any) {
 
     $stateProvider

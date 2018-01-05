@@ -27,7 +27,7 @@ export default class UserService {
 
     static $inject = ['SessionService', 'SocketService', 'RESTService', 'ReferenceService'];
 
-    constructor(
+    constructor (
         private SessionService: SessionService,
         private SocketService: SocketService,
         private RESTService:IRESTService,
@@ -69,7 +69,7 @@ export default class UserService {
      * зон атлетов
      * @param connections
      */
-    setConnections(connections: IUserConnections) {
+    setConnections (connections: IUserConnections) {
         console.info('user service: set connections');
         if (connections && connections.allAthletes) {
             this.getTrainingZones(null, connections.allAthletes.groupId)
@@ -91,7 +91,7 @@ export default class UserService {
      * Запрос обьекта connections из userProfile пользователя
      * @returns {Promise<any>}
      */
-    getConnections() : Promise<any> {
+    getConnections () : Promise<any> {
         return this.SocketService.send(new GetUserConnectionsRequest());
     }
 
@@ -101,7 +101,7 @@ export default class UserService {
      * @param groupId
      * @returns {Promise<any>}
      */
-    getTrainingZones(userId: number, groupId: number = null) : Promise<any> {
+    getTrainingZones (userId: number, groupId: number = null) : Promise<any> {
         return this.SocketService.send(new GetTrainingZonesRequest(userId, groupId)).then(result => result.arrayResult);
     }
 
@@ -111,7 +111,7 @@ export default class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
+    getProfile (key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
         ) : 
@@ -130,7 +130,7 @@ export default class UserService {
      * @param userChanges - может содержать частичные данные профиля, по секциям
      * @returns {Promise<T>}
      */
-    putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
+    putProfile (userChanges: IUserProfile) : Promise<IUserProfile> {
         let needRefresh: boolean = userChanges.hasOwnProperty('trainingZones') || userChanges.hasOwnProperty('public');
 
         return this.SocketService.send(new PutUserRequest(userChanges))
@@ -159,7 +159,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileAvatar(file:any) : IHttpPromise<any> {
+    postProfileAvatar (file:any) : IHttpPromise<any> {
         const userId = this.SessionService.getCurrentUserId();
         const url = `/user/avatar/${userId}`;
         return this.RESTService.postFile(new PostFile(url, file))
@@ -174,7 +174,7 @@ export default class UserService {
      * @param file
      * @returns {Promise<IUserProfile>|Promise<T>|PromiseLike<IUserProfile>|Promise<TResult2|IUserProfile>}
      */
-    postProfileBackground(file:any) : IHttpPromise<any> {
+    postProfileBackground (file:any) : IHttpPromise<any> {
         const userId = this.SessionService.getCurrentUserId();
         const url = `/user/background/${userId}`;
         return this.RESTService.postFile(new PostFile(url, file))
@@ -193,7 +193,7 @@ export default class UserService {
      * @param data
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
+    getSummaryStatistics (id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
         return ws ?
             this.SocketService.send(new GetSummaryStatisticsRequest(id, start, end, group, data)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetSummaryStatisticsRequest(id, start, end, group, data)))
@@ -204,7 +204,7 @@ export default class UserService {
      * Обновление состава групп текущего пользователя
      * @param message
      */
-    private updateGroup(message: ProtocolGroupUpdate) : void {
+    private updateGroup (message: ProtocolGroupUpdate) : void {
         let connections = copy(this.SessionService.getUser().connections) || null;
         let group:IGroupProfile = connections && connections[message.groupCode] || null;
 
@@ -233,7 +233,7 @@ export default class UserService {
         this.SessionService.updateUser({connections});
     }
 
-    private updateClubs(message: ProtocolGroupUpdate): void {
+    private updateClubs (message: ProtocolGroupUpdate): void {
         let connections = copy(this.SessionService.getUser().connections) || null;
         let clubs:Array<IGroupProfile> = connections && connections.ControlledClubs || null;
 
@@ -264,7 +264,7 @@ export default class UserService {
      * Ассинхронное сообщение с функциями приходит при каждом открытие сессии
      * @param permissions
      */
-    private updatePermissions(message: {action: string, value: any}):void {
+    private updatePermissions (message: {action: string, value: any}):void {
         this.SessionService.setPermissions(message.value);
     }
 

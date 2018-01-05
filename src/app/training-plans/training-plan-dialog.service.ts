@@ -5,11 +5,11 @@ export class TrainingPlanDialogService {
 
     static $inject = ["$mdDialog"];
 
-    constructor(private $mdDialog: any) {
+    constructor (private $mdDialog: any) {
 
     }
 
-    open(env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
+    open (env: Event, mode: FormMode, plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {

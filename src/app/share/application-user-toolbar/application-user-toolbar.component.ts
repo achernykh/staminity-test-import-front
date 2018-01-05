@@ -8,11 +8,11 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = ["AuthService"];
 
-    constructor(private AuthService: AuthService) {
+    constructor (private AuthService: AuthService) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 }

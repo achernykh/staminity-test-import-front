@@ -50,7 +50,7 @@ export class CalendarCtrl implements IComponentController{
     private athletes: Array<IUserProfileShort>;
     private destroy: Subject<any> = new Subject();
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $mdDialog: any,
         private $mdMedia: any,
@@ -98,7 +98,7 @@ export class CalendarCtrl implements IComponentController{
     /**
      * Подготовка перечня ателтов для тренера
      */
-    private prepareAthletesList(): void {
+    private prepareAthletesList (): void {
         if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
             this.athletes = this.currentUser.connections.allAthletes.groupMembers;
         }
@@ -129,7 +129,7 @@ export class CalendarCtrl implements IComponentController{
         this.setData();
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareAthletesList();
         if (this.$stateParams.userId && this.athletes &&
             this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
@@ -183,7 +183,7 @@ export class CalendarCtrl implements IComponentController{
         this.weekdayNames = moment.weekdays(true);
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
@@ -212,7 +212,7 @@ export class CalendarCtrl implements IComponentController{
      * @param date
      * @returns {{dateStart: string, currentUser: IUserProfile, owner: (IUserProfile|IUserProfileShort), popupMode: boolean, formMode: FormMode, trainingPlanMode: boolean, planId: null}}
      */
-    private getOptions(mode: FormMode = FormMode.Post, date: string = new Date().toISOString()): ICalendarItemDialogOptions {
+    private getOptions (mode: FormMode = FormMode.Post, date: string = new Date().toISOString()): ICalendarItemDialogOptions {
         return {
             dateStart: date,
             currentUser: this.currentUser,
@@ -232,7 +232,7 @@ export class CalendarCtrl implements IComponentController{
      * Создание записи календаря
      * @param item<ICalendarItem>
      */
-    onPostItem(item: ICalendarItem): void {
+    onPostItem (item: ICalendarItem): void {
         if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('async post: item already exist'); return; };
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
@@ -247,7 +247,7 @@ export class CalendarCtrl implements IComponentController{
      * Удаление записи календаря
      * @param item
      */
-    onDeleteItem(item): void {
+    onDeleteItem (item): void {
         if (!this.calendar.include(item.calendarItemId, item.revision)) { console.warn('item not found'); return; }
 
         let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
@@ -265,7 +265,7 @@ export class CalendarCtrl implements IComponentController{
         }
     }
 
-    onFileUpload(){
+    onFileUpload (){
         this.dialogs.uploadFile()
             .then(file => this.calendarService.postFile(file,null))
             .then(response => this.message.toastInfo(response), error => this.message.toastInfo(error));
@@ -276,7 +276,7 @@ export class CalendarCtrl implements IComponentController{
      * @param w - неделя в формате GGGG-WW
      * @returns {number}
      */
-    getDayIndex(w) {
+    getDayIndex (w) {
         return this.calendar.weeks.findIndex(item => item.week === w);
     }
 
@@ -292,7 +292,7 @@ export class CalendarCtrl implements IComponentController{
      * Копирование записей календаря
      * @param items
      */
-    copyItems(items: Array<ICalendarItem> = [...copy(this.selectedItems)]){
+    copyItems (items: Array<ICalendarItem> = [...copy(this.selectedItems)]){
         this.copiedItems = [];
         this.firstSrcDay = null;
         if(items){
@@ -337,7 +337,7 @@ export class CalendarCtrl implements IComponentController{
         }
     }
 
-    onPostPlan(env: Event){
+    onPostPlan (env: Event){
         this.$mdDialog.show({
             controller: ['$scope','$mdDialog', ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
@@ -376,7 +376,7 @@ export class CalendarCtrl implements IComponentController{
      * иначе удаляем выделенные позиции
      * @param items
      */
-    deleteItems(items: Array<ICalendarItem>): void {
+    deleteItems (items: Array<ICalendarItem>): void {
         let isSelection: boolean = !!items;
         if (!isSelection) { items = [...copy(this.selectedItems)];}
 
@@ -459,7 +459,7 @@ export class CalendarCtrl implements IComponentController{
         this.post(updateIntensity(item, this.owner.trainingZones));
     }
 
-    clearBuffer() {
+    clearBuffer () {
         this.buffer = [];
         this.selectedItems = [];
         this.copiedItems = [];
@@ -471,7 +471,7 @@ export class CalendarCtrl implements IComponentController{
      * Диапазон дат от начала загруженного календаря до окончания
      * @returns {any[]}
      */
-    get calendarRange(): Array<string> {
+    get calendarRange (): Array<string> {
         return [
             this.calendar.weeks[0].date.format(this.dateFormat),
             this.calendar.weeks[this.calendar.weeks.length - 1].date.add('days', 6).format(this.dateFormat)
@@ -493,17 +493,17 @@ const CalendarComponent: IComponentOptions = {
 };
 export default CalendarComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

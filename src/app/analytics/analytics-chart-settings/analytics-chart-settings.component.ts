@@ -30,11 +30,11 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     onSave: (response: {chart: IAnalyticsChart, update: boolean}) => IPromise<void>;
     static $inject = ["$filter"];
 
-    constructor(private $filter: any) {
+    constructor (private $filter: any) {
 
     }
 
-    $onInit() {
+    $onInit () {
         if (this.chart.hasOwnProperty("localParams") && !this.chart.localParams) {
             this.prepareLocalFilter("fromGlobal");
         }
@@ -47,7 +47,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         this.settings = copy(this.chart.settings);
     }
 
-    private prepareLocalFilter(mode: "fromSettings" | "fromGlobal" = "fromSettings") {
+    private prepareLocalFilter (mode: "fromSettings" | "fromGlobal" = "fromSettings") {
 
         if (mode === "fromSettings" && this.chart.localParams) {
             this.localFilter = this.chart.localParams;
@@ -68,13 +68,13 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
     }
 
-    changeParamsPoint() {
+    changeParamsPoint () {
         if (!this.globalParams) {
             this.prepareLocalFilter("fromGlobal");
         }
     }
 
-    change(param: IAnalyticsChartSettings<any>, value) {
+    change (param: IAnalyticsChartSettings<any>, value) {
         switch (param.area) {
             case "series": {
                 param.ind.map((ind) =>
@@ -101,21 +101,21 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         this.update = true;
     }
 
-    getGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number): boolean {
+    getGroupCheckboxStatus (param: IAnalyticsChartSettings<any>, idx: number): boolean {
         return param.model[param.idx.indexOf(idx)];
     }
 
-    setGroupCheckboxStatus(param: IAnalyticsChartSettings<any>, idx: number) {
+    setGroupCheckboxStatus (param: IAnalyticsChartSettings<any>, idx: number) {
         param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
         this.change(Object.assign({}, param, {idx: [idx]}), param.model[param.idx.indexOf(idx)]);
         this.settingsForm.$setDirty();
     }
 
-    getCheckboxLabel(param: IAnalyticsChartSettings<any>, idx: number): string {
+    getCheckboxLabel (param: IAnalyticsChartSettings<any>, idx: number): string {
         return this.chart.charts[param.ind[0]].measures.filter((a) => a.idx === idx)[0][param.multiTextParam];
     }
 
-    save() {
+    save () {
         if (!this.globalParams) {
             this.chart.charts[0].params = this.localFilter.chartParams();
             this.chart.localParams = this.localFilter;

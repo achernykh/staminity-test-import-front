@@ -61,30 +61,30 @@ class StructuredIntervalCtrl implements IComponentController {
 
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.ftp = getFtpBySport(this.item.user.trainingZones, this.sport);
         this.prepareInterval();
     }
 
-    $onChanges(changes: any): void {
+    $onChanges (changes: any): void {
         this.prepareInterval();
     }
 
-    splice() {
+    splice () {
         this.onDelete({id: 0});
     }
 
-    isInputMode():boolean {
+    isInputMode ():boolean {
         return this.loop &&
             this.loop.mode === LoopMode.Input &&
             this.interval.pos === (this.loop.start + this.loop.length - 1);
     }
 
-    select(){
+    select (){
         if(this.item.activity.view.isView) {
             //this.item.showIntervalOverview = true;
             //this.item.intervalOverview = this.interval;
@@ -93,12 +93,12 @@ class StructuredIntervalCtrl implements IComponentController {
         }
     }
 
-    isFTP():boolean {
+    isFTP ():boolean {
         return this.ftpMode === FtpState.On;
     }
 
 
-    prepareInterval(){
+    prepareInterval (){
         //this.interval = copy(this.interval); // срабатывает обновление модели (мешает работе с вводом скорости)
         Object.assign(this.interval, this.interval);
 
@@ -132,7 +132,7 @@ class StructuredIntervalCtrl implements IComponentController {
     /**
      * Передаем статус валидности формы ввода сегмента на уровнеь гавной формы ввода задания по тренировке
      */
-    broadcastFormValidation(): void {
+    broadcastFormValidation (): void {
         setTimeout(() => this.item.assignmentForm.$setValidity('segmentInput', this.segmentForm.$valid), 100);
     }
 
@@ -140,7 +140,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Смена параметра длительности
      * @param type
      */
-    changeDurationType(type: string): void {
+    changeDurationType (type: string): void {
         this.interval.durationMeasure = type;
         this.broadcastFormValidation();
     }
@@ -149,7 +149,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Смена парметра интенсивности
      * @param type
      */
-    changeIntensityMeasure(type: string): void {
+    changeIntensityMeasure (type: string): void {
         this.interval.intensityMeasure = type;
         this.broadcastFormValidation();
     }
@@ -158,7 +158,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Смена значения параметра интенсивности
      * @param measure
      */
-    changeValue(measure: string) {
+    changeValue (measure: string) {
         this.completeInterval(measure);
         if (measure === 'movingDuration') {
             this.interval.movingDurationLength = this.interval.durationValue;
@@ -174,7 +174,7 @@ class StructuredIntervalCtrl implements IComponentController {
      * Расчет производных показателей интервала по введенмоу значению
      * @param measure
      */
-    completeInterval(measure: string) {
+    completeInterval (measure: string) {
         let value:DurationMeasure | IntensityMeasure = this.interval[measure];
         this.interval.complete(this.ftp, this.ftpMode, [{ measure: measure, value: value}]);
         /**measure = this.durationMeasure.indexOf(measure) === -1 ? this.interval.intensityMeasure : measure;

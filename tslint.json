@@ -52,6 +52,10 @@
         "no-string-throw": false,
         "arrow-parens": false,
         "only-arrow-functions": false, 
-        "arrow-return-shorthand": false
+        "arrow-return-shorthand": false,
+        "space-before-function-paren": {
+            "method": "always",
+            "constructor": "always"
+        }
     }
 }

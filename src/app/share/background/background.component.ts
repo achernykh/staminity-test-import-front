@@ -8,7 +8,7 @@ class BackgroundCtrl implements IComponentController {
     private internetStatus: boolean = true;
     static $inject = ["SocketService", "AuthService"];
 
-    constructor(private socket: SocketService, private auth: IAuthService) {
+    constructor (private socket: SocketService, private auth: IAuthService) {
         this.socket.connections.subscribe((status) => this.internetStatus = !!status || !this.auth.isAuthenticated());
     }
 

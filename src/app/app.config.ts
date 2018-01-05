@@ -6,7 +6,7 @@ import { IUserProfile } from "../../api/user/user.interface";
 import AuthService from "./auth/auth.service";
 import { SocketService } from "@app/core";
 
-function configure(
+function configure (
     $compileProvider: ICompileProvider,
     $locationProvider: ILocationProvider,
     $urlRouterProvider: any,

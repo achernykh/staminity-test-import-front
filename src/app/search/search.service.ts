@@ -5,7 +5,7 @@ import { SocketService} from "../core";
 export class SearchService {
 
     static $inject = ["SocketService"];
-    constructor(private socket: SocketService) {
+    constructor (private socket: SocketService) {
 
     }
 
@@ -16,7 +16,7 @@ export class SearchService {
      * @param params
      * @returns {Promise<TResult>}
      */
-    request(method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser | SearchResultByGroup>> {
+    request (method: SearchMethod, params: SearchParams): Promise<Array<SearchResultByUser | SearchResultByGroup>> {
         return this.socket.send(new SearchUserAndGroupsRequest(method, params))
             .then((result) => result.hasOwnProperty("arrayResult") &&
                 params.objectType === "user" || params.objectType === "coach" ?

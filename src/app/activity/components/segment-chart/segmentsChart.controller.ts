@@ -9,7 +9,7 @@ import LabelFormatters from "./utils/labelFormatter";
 const PlanChartMode = {
     distance: "distance",
     movingDuration: "movingDuration",
-    ensure(type) {
+    ensure (type) {
         return (type === PlanChartMode.distance) ?
             PlanChartMode.distance :
             PlanChartMode.movingDuration;
@@ -51,7 +51,7 @@ class SegmentChartController implements IComponentController {
 
     static $inject = ["$element", "$location", "$window", "segmentChartSettings", "$mdMedia"];
 
-    constructor(
+    constructor (
         private $element: JQuery,
         private $location,
         private $window,
@@ -65,14 +65,14 @@ class SegmentChartController implements IComponentController {
         }
     }
 
-    $onInit(): void {
+    $onInit (): void {
         this.absUrl = this.$location.absUrl().split("#")[0];
         this.prepareData();
     }
 
-    $postLink(): void {
+    $postLink (): void {
         const self = this;
-        this.$element.ready(function() {
+        this.$element.ready(function () {
             setTimeout(() => {
                 self.isReady = true;
                 self.preparePlaceholder();
@@ -81,12 +81,12 @@ class SegmentChartController implements IComponentController {
             }, 500);
         });
         if (this.chartSettings.autoResizable) {
-            this.onResize = function() { self.redraw(); };
+            this.onResize = function () { self.redraw(); };
             angular.element(this.$window).on("resize", self.onResize);
         }
     }
 
-    $onChanges(changes: any): void {
+    $onChanges (changes: any): void {
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);
         let isFirst = true;
         for (const item in changes) {
@@ -104,13 +104,13 @@ class SegmentChartController implements IComponentController {
         }
     }
 
-    $onDestroy(): void {
+    $onDestroy (): void {
         if (this.chartSettings.autoResizable && !!this.onResize) {
             angular.element(this.$window).off("resize", this.onResize);
         }
     }
 
-    redraw() {
+    redraw () {
         if (!!this.$placeholder) {
             this.$placeholder.remove();
         }
@@ -119,7 +119,7 @@ class SegmentChartController implements IComponentController {
         this.drawChart();
     }
 
-    private prepareData(): void {
+    private prepareData (): void {
         const model = new PlanChartDatamodel(this.activityHeader);
         this.intervals = model.getIntervals();
         this.select = model.getSelect() || [];
@@ -128,11 +128,11 @@ class SegmentChartController implements IComponentController {
         this.durationMeasure = PlanChartMode.ensure(this.durationMeasure);
     }
 
-    private prepareScales(): void {
+    private prepareScales (): void {
         //debugger;
         const mode: ChartMode = this.actualFtp ? "fact" : "plan";
-        const totalDuration = d3.sum(this.intervals, function(d: IPlanInterval) { return d[mode].movingDuration.duration; });
-        const totalDistance = d3.sum(this.intervals, function(d: IPlanInterval) { return d[mode].distance.duration; });
+        const totalDuration = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].movingDuration.duration; });
+        const totalDistance = d3.sum(this.intervals, function (d: IPlanInterval) { return d[mode].distance.duration; });
         let maxFTP = 0;
         let minFTP = Infinity;
         for (let i = 0; i < this.intervals.length; i++) {
@@ -155,7 +155,7 @@ class SegmentChartController implements IComponentController {
             };
     }
 
-    private preparePlaceholder(): void {
+    private preparePlaceholder (): void {
         //let parent: Element = angular.element(document).find('activity-segment-chart')[0];
         this.width = this.$element[0].clientWidth; //parent.clientWidth;
         this.height = this.$element[0].clientHeight; //parent.clientHeight;
@@ -190,12 +190,12 @@ class SegmentChartController implements IComponentController {
         this.$tooltip = container.select(".tooltip");
     }
 
-    private cleanupPlaceholder(): void {
+    private cleanupPlaceholder (): void {
         this.$interactiveArea.remove();
         this.$placeholder.remove();
     }
 
-    private drawChart(): void {
+    private drawChart (): void {
         this.drawGrid();
         this.drawPlanChart();
         this.drawFactChart();
@@ -204,12 +204,12 @@ class SegmentChartController implements IComponentController {
         this.setupTooltip();
     }
 
-    private drawGrid(): void {
+    private drawGrid (): void {
         this.drawDomainAxis();
         this.drawRangeAxis();
     }
 
-    private drawDomainAxis(): void {
+    private drawDomainAxis (): void {
         const labelFormatter = LabelFormatters[this.durationMeasure].formatter;
         const rangeInfo = this.scales[this.durationMeasure];
         const settings = this.chartSettings.grid[this.durationMeasure];
@@ -218,7 +218,7 @@ class SegmentChartController implements IComponentController {
         const xAxis = d3.axisBottom(rangeInfo)
             .tickSizeOuter(0)
             .tickValues(ticks)
-            .tickFormat(function(d: number, i: number) {
+            .tickFormat(function (d: number, i: number) {
                 if (i === lastTick) { return ""; }
                 return (i % settings.ticksPerLabel === settings.fistLabelAtTick) ? labelFormatter(d) : "";
             });
@@ -229,7 +229,7 @@ class SegmentChartController implements IComponentController {
             .call(xAxis);
     }
 
-    private drawRangeAxis(): void {
+    private drawRangeAxis (): void {
         const rangeInfo = this.scales.ftp;
         const settings = this.chartSettings.grid.ftp;
         const ticks = this.calcTics(rangeInfo, settings);
@@ -237,7 +237,7 @@ class SegmentChartController implements IComponentController {
             .tickSizeOuter(0)
             .tickSize(-this.width)
             .tickValues(ticks)
-            .tickFormat(function(d: number, i: number) {
+            .tickFormat(function (d: number, i: number) {
                 return (i % settings.ticksPerLabel === settings.fistLabelAtTick) ? LabelFormatters.ftp.formatter(d) : "";
             });
         const axis = this.$placeholder
@@ -253,7 +253,7 @@ class SegmentChartController implements IComponentController {
         axis.select(".domain").remove();
     }
 
-    private drawPlanChart(): void {
+    private drawPlanChart (): void {
         if (!this.planFtp || this.intervals.length === 0) {
             return;
         }
@@ -269,14 +269,14 @@ class SegmentChartController implements IComponentController {
         this.$interactiveArea.selectAll(".interval-plan")
             .data(this.intervals)
             .enter().append("rect")
-            .filter(function(d) { return d[mode][domain].duration > 0; })
+            .filter(function (d) { return d[mode][domain].duration > 0; })
             .attr("class", "interval plan ttp-interval")
-            .attr("data-interval-id", function(d) { return d.originId; })
-            .attr("x", function(d: IPlanInterval) { return xScale(d[mode][domain].start); })
-            .attr("y", function(d: IPlanInterval) { return yScale(d.plan.intensityByFtp); })
-            .attr("width", function(d) { return xScale(d[mode][domain].duration); })
-            .attr("height", function(d) { return chartHeight - yScale(d.plan.intensityByFtp); })
-            .attr("fill", function(d) { return d.isKey ? keyFill : defaultFill; })
+            .attr("data-interval-id", function (d) { return d.originId; })
+            .attr("x", function (d: IPlanInterval) { return xScale(d[mode][domain].start); })
+            .attr("y", function (d: IPlanInterval) { return yScale(d.plan.intensityByFtp); })
+            .attr("width", function (d) { return xScale(d[mode][domain].duration); })
+            .attr("height", function (d) { return chartHeight - yScale(d.plan.intensityByFtp); })
+            .attr("fill", function (d) { return d.isKey ? keyFill : defaultFill; })
             .attr("pointer-events", "all");
         //
         const bottomFtp = yScale.domain()[0];
@@ -293,8 +293,8 @@ class SegmentChartController implements IComponentController {
         edges.push({ start: xScale.domain()[1], intensityByFtp: bottomFtp });
 
         const borderLine = d3.line()
-            .x(function(d: any) { return xScale(d.start); })
-            .y(function(d: any) { return yScale(d.intensityByFtp); })
+            .x(function (d: any) { return xScale(d.start); })
+            .y(function (d: any) { return yScale(d.intensityByFtp); })
             .curve(d3.curveStepAfter);
 
         this.$interactiveArea
@@ -304,7 +304,7 @@ class SegmentChartController implements IComponentController {
             .attr("class", "plan-border");
     }
 
-    private setupHover(): void {
+    private setupHover (): void {
         const hoversettings = this.chartSettings.hoverArea;
         const hoverFillStyle = this.getFillColor(hoversettings.area);
         const hoverStrokeStyle = this.getFillColor(hoversettings.border);
@@ -320,17 +320,17 @@ class SegmentChartController implements IComponentController {
         const strokeStyle = this.getFillColor(settings.border);
         const self = this;
         this.$interactiveArea.selectAll(".interval")
-            .on("mouseover.hover", function() {
+            .on("mouseover.hover", function () {
                 const current = d3.select(this);
                 hover
                     .attr("x", current.attr("x"))
                     .attr("width", current.attr("width"))
                     .style("display", "block");
             })
-            .on("mouseout.hover", function() {
+            .on("mouseout.hover", function () {
                 hover.style("display", "none");
             })
-            .on("click", function() {
+            .on("click", function () {
                 const current = d3.select(this);
                 self.$interactiveArea.selectAll(".selected-segment").remove();
                 self.$interactiveArea.append("rect")
@@ -346,7 +346,7 @@ class SegmentChartController implements IComponentController {
             });
     }
 
-    private setupTooltip(): void {
+    private setupTooltip (): void {
         const self = this;
 
         this.$tooltip.select(".fact")
@@ -361,7 +361,7 @@ class SegmentChartController implements IComponentController {
             .attr("pointer-events", "none")
             .style("display", "none");
         this.$interactiveArea.selectAll(".ttp-interval")
-            .on("mousemove.tooltip", function() {
+            .on("mousemove.tooltip", function () {
                 const mouse = d3.mouse(this);
                 d3.selectAll(".tooltip_line")
                     .attr("x1", mouse[0]).attr("y1", 0)
@@ -396,16 +396,16 @@ class SegmentChartController implements IComponentController {
                     fact.select(".intensivity").text(interval.fact.intensityByFtp > 0 ?
                         (LabelFormatters.ftp.formatter(interval.fact.intensityByFtp) + LabelFormatters.ftp.label) : "-");
                 }
-            }).on("mouseover.tooltip", function() {
+            }).on("mouseover.tooltip", function () {
                 d3.selectAll(".tooltip_line").style("display", "block");
                 self.$tooltip.style("display", "block");
-            }).on("mouseout.tooltip", function() {
+            }).on("mouseout.tooltip", function () {
                 d3.selectAll(".tooltip_line").style("display", "none");
                 self.$tooltip.style("display", "none");
             });
     }
 
-    private drawFactChart(): void {
+    private drawFactChart (): void {
         if (!this.actualFtp) {
             return;
         }
@@ -453,23 +453,23 @@ class SegmentChartController implements IComponentController {
         this.$interactiveArea.selectAll(".segment-status")
             .data(segments)
             .enter().append("line")
-            .attr("class", function(d) { return "segment-status " + d.status; })
-            .attr("x1", function(d) { return xScale(d.start); })
-            .attr("x2", function(d) { return xScale(d.end); })
-            .attr("y1", function(d) { return yScale(d.from); })
-            .attr("y2", function(d) { return yScale(d.to); });
+            .attr("class", function (d) { return "segment-status " + d.status; })
+            .attr("x1", function (d) { return xScale(d.start); })
+            .attr("x2", function (d) { return xScale(d.end); })
+            .attr("y1", function (d) { return yScale(d.from); })
+            .attr("y2", function (d) { return yScale(d.to); });
 
         // transparent background for onHover events
         this.$interactiveArea.selectAll(".interval-fact")
             .data(this.intervals)
             .enter().append("rect")
-            .filter(function(d) { return d.fact[domain].duration > 0; })
+            .filter(function (d) { return d.fact[domain].duration > 0; })
             .attr("class", "interval fact ttp-interval")
-            .attr("data-interval-id", function(d) { return d.originId; })
-            .attr("x", function(d: IPlanInterval) { return xScale(d.fact[domain].start); })
-            .attr("y", function(d: IPlanInterval) { return yScale(d.fact.intensityByFtp); })
-            .attr("width", function(d) { return xScale(d.fact[domain].duration); })
-            .attr("height", function(d) { return height - yScale(d.fact.intensityByFtp); })
+            .attr("data-interval-id", function (d) { return d.originId; })
+            .attr("x", function (d: IPlanInterval) { return xScale(d.fact[domain].start); })
+            .attr("y", function (d: IPlanInterval) { return yScale(d.fact.intensityByFtp); })
+            .attr("width", function (d) { return xScale(d.fact[domain].duration); })
+            .attr("height", function (d) { return height - yScale(d.fact.intensityByFtp); })
             .attr("fill", "rgba(255, 255, 255, 0)").attr("stroke", "none")
             .attr("pointer-events", "all");
 
@@ -479,25 +479,25 @@ class SegmentChartController implements IComponentController {
             .append("g").attr("class", "missed-segment");
         markers
             .append("line")
-            .attr("x1", function(d) { return d.pos; })
-            .attr("x2", function(d) { return d.pos; })
-            .attr("y1", function(d) { return d.height; })
-            .attr("y2", function() { return height; });
+            .attr("x1", function (d) { return d.pos; })
+            .attr("x2", function (d) { return d.pos; })
+            .attr("y1", function (d) { return d.height; })
+            .attr("y2", function () { return height; });
         markers.append("circle")
-            .attr("cx", function(d) { return d.pos; })
-            .attr("cy", function(d) { return (d.height + height) / 2; })
+            .attr("cx", function (d) { return d.pos; })
+            .attr("cy", function (d) { return (d.height + height) / 2; })
             .attr("class", "ttp-interval")
-            .attr("data-interval-id", function(d) { return d.originId;  })
+            .attr("data-interval-id", function (d) { return d.originId;  })
             .attr("pointer-events", "all")
             .attr("r", 7);
         markers.append("text")
-            .attr("dx", function(d) { return d.pos; })
-            .attr("dy", function(d) { return (d.height + height + 6) / 2; })
+            .attr("dx", function (d) { return d.pos; })
+            .attr("dy", function (d) { return (d.height + height + 6) / 2; })
             .attr("pointer-events", "none")
             .text("\u274C");
     }
 
-    private drawSelects(): void {
+    private drawSelects (): void {
         if (this.select.length < 1) {
             return;
         }
@@ -526,7 +526,7 @@ class SegmentChartController implements IComponentController {
     }
 
     //todo shared utils
-    private calcTics(scale, settings): number[] {
+    private calcTics (scale, settings): number[] {
         let currStep = settings.tickMinStep;
         const min = Math.min.apply(null, scale.domain());
         const max = Math.max.apply(null, scale.domain());
@@ -544,7 +544,7 @@ class SegmentChartController implements IComponentController {
     }
 
     //todo shared utils
-    getFillColor(areaSettings: IFilledShape): string {
+    getFillColor (areaSettings: IFilledShape): string {
         switch (areaSettings.fillType) {
             case FillType.Gradient:
                 const gradientId = this.getGradient(areaSettings.gradient);
@@ -559,7 +559,7 @@ class SegmentChartController implements IComponentController {
 
     //todo shared utils
     // create new svg gradien based on provided gradient points and max area height
-    private getGradient(gradientPoints: IGradientPoint[], heightRation: number = 1): string {
+    private getGradient (gradientPoints: IGradientPoint[], heightRation: number = 1): string {
         const index = "lnrGradientSeg" + this.gradientId;
         this.gradientId = this.gradientId + 1;
         this.$placeholder.append("linearGradient")
@@ -570,9 +570,9 @@ class SegmentChartController implements IComponentController {
             .selectAll("stop")
             .data(gradientPoints)
             .enter().append("stop")
-            .attr("offset", function(d) { return d.offset; })
-            .attr("stop-color", function(d) { return d.color; })
-            .attr("stop-opacity", function(d) { return d.opacity; }); // fix for Safari;
+            .attr("offset", function (d) { return d.offset; })
+            .attr("stop-color", function (d) { return d.color; })
+            .attr("stop-opacity", function (d) { return d.opacity; }); // fix for Safari;
         return index;
     };
 }

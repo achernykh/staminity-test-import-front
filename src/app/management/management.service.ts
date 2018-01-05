@@ -10,7 +10,7 @@ export class ManagementService {
 
     static $inject = ["$mdDialog", "$translate", "GroupService", "dialogs"];
 
-    constructor(
+    constructor (
         private $mdDialog: any,
         private $translate: any,
         private groupService: GroupService,
@@ -25,7 +25,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {boolean}
      */
-    isEditTariffsAvailable(membersList: MembersList, members: Member[]): boolean {
+    isEditTariffsAvailable (membersList: MembersList, members: Member[]): boolean {
         return arrays.allEqual(members.map(membersList.getTariffsByClub), angular.equals)
             && arrays.allEqual(members.map(membersList.getTariffsNotByClub), angular.equals);
     }
@@ -36,7 +36,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {boolean}
      */
-    isEditCoachesAvailable(membersList: MembersList, members: Member[]): boolean {
+    isEditCoachesAvailable (membersList: MembersList, members: Member[]): boolean {
         return arrays.allEqual(members.map((member) => member.coaches), angular.equals)
             && members.every((member) => member.hasClubRole("ClubAthletes"));
     }
@@ -47,7 +47,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {boolean}
      */
-    isEditAthletesAvailable(membersList: MembersList, members: Member[]): boolean {
+    isEditAthletesAvailable (membersList: MembersList, members: Member[]): boolean {
         return arrays.allEqual(members.map((member) => member.getAthletes()), angular.equals)
             && members.every((member) => member.hasClubRole("ClubCoaches"));
     }
@@ -58,7 +58,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {boolean}
      */
-    isEditRolesAvailable(membersList: MembersList, members: Member[]): boolean {
+    isEditRolesAvailable (membersList: MembersList, members: Member[]): boolean {
         return arrays.allEqual(members.map((member) => member.roleMembership), angular.equals);
     }
 
@@ -68,7 +68,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editTariffs(membersList: MembersList, members: Member[]): Promise<any> {
+    editTariffs (membersList: MembersList, members: Member[]): Promise<any> {
         const byClub = membersList.getTariffsByClub(members[0]);
         const bySelf = membersList.getTariffsNotByClub(members[0]);
 
@@ -102,7 +102,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editCoaches(membersList: MembersList, members: Member[]): Promise<any> {
+    editCoaches (membersList: MembersList, members: Member[]): Promise<any> {
         const checkedCoaches = members[0].getCoaches();
 
         return this.dialogs.selectUsers(membersList.getCoaches(), checkedCoaches, "coaches")
@@ -123,7 +123,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editAthletes(membersList: MembersList, members: Member[]): Promise<any> {
+    editAthletes (membersList: MembersList, members: Member[]): Promise<any> {
         const checkedAthletes = members[0].getAthletes();
 
         return this.dialogs.selectUsers(membersList.getAthletes(), checkedAthletes, "athletes")
@@ -147,7 +147,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editRoles(membersList: MembersList, members: Member[]): Promise<any> {
+    editRoles (membersList: MembersList, members: Member[]): Promise<any> {
         const checkedRoles = members[0].roleMembership.filter((role) => clubRoles.indexOf(role) !== -1);
 
         return this.dialogs.roles(clubRoles, checkedRoles)
@@ -180,7 +180,7 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    remove(membersList: MembersList, members: Member[]): Promise<any> {
+    remove (membersList: MembersList, members: Member[]): Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.excludeClub" })
             .then(() => members.map((member) => this.groupService.leave(membersList.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));

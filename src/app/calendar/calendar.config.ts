@@ -7,7 +7,7 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import {IAuthService} from "../auth/auth.service";
 import { SessionService, SocketService } from "../core";
 
-function configure($stateProvider:StateProvider,
+function configure ($stateProvider:StateProvider,
                    $translateProvider:any) {
 
     $stateProvider

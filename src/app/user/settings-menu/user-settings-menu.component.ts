@@ -12,11 +12,11 @@ class UserSettingsMenuCtrl implements IComponentController {
     // inject
     static $inject = ['$location'];
 
-    constructor(private $location: ILocationService) {
+    constructor (private $location: ILocationService) {
 
     }
 
-    $onInit(): void {
+    $onInit (): void {
     }
 }
 

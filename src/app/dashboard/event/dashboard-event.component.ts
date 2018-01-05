@@ -14,15 +14,15 @@ class DashboardEventCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = ["$mdDialog", "message"];
 
-    constructor(private $mdDialog: any, private message: MessageService) {
+    constructor (private $mdDialog: any, private message: MessageService) {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    onOpen($event, mode: string) {
+    onOpen ($event, mode: string) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: "$ctrl",
@@ -66,17 +66,17 @@ const DashboardEventComponent: IComponentOptions = {
 
 export default DashboardEventComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log("cancel");
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

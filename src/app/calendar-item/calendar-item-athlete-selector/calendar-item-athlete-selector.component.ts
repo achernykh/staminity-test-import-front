@@ -10,14 +10,14 @@ class CalendarItemAthleteSelectorCtrl implements IComponentController {
     public onSelect: (response: {list: Array<{profile: IUserProfile, active: boolean}>, mode: boolean}) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
     }
 
-    onBack() {
+    onBack () {
         this.onSelect({list: this.athletes, mode: this.recalculateMode});
     }
 }

@@ -9,7 +9,7 @@ export class AthletesService {
 
     static $inject = ["$mdDialog", "$translate", "GroupService", "dialogs"];
 
-    constructor(
+    constructor (
         private $mdDialog: any,
         private $translate: any,
         private groupService: GroupService,
@@ -22,7 +22,7 @@ export class AthletesService {
      * Доступно ли удаление выбранных спортсменов
      * @returns {boolean}
      */
-    isRemoveAvailable(user: IUserProfile, members: IGroupManagementProfileMember[]): boolean {
+    isRemoveAvailable (user: IUserProfile, members: IGroupManagementProfileMember[]): boolean {
         return members.every((member) => !isClubAthlete(user, member));
     }
 
@@ -32,7 +32,7 @@ export class AthletesService {
      * @param members: Array<Member>
      * @returns {boolean}
      */
-    isEditTariffsAvailable(user: IUserProfile, members: IGroupManagementProfileMember[]): boolean {
+    isEditTariffsAvailable (user: IUserProfile, members: IGroupManagementProfileMember[]): boolean {
         return members.every((member) => !isClubAthlete(user, member))
             && arrays.allEqual(members.map(tariffsByUser(user.userId)), equals)
             && arrays.allEqual(members.map(tariffsNotByUser(user.userId)), equals);
@@ -44,7 +44,7 @@ export class AthletesService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editTariffs(user: IUserProfile, management: IGroupManagementProfile, members: IGroupManagementProfileMember[]): Promise<any> {
+    editTariffs (user: IUserProfile, management: IGroupManagementProfile, members: IGroupManagementProfileMember[]): Promise<any> {
         const byUs = tariffsByUser(user.userId) (members[0]);
         const bySelf = tariffsNotByUser(user.userId) (members[0]);
 
@@ -80,7 +80,7 @@ export class AthletesService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    remove(user: IUserProfile, members: IGroupManagementProfileMember[]): Promise<any> {
+    remove (user: IUserProfile, members: IGroupManagementProfileMember[]): Promise<any> {
         return this.dialogs.confirm({ text: "dialogs.removeAthlete" })
             .then(() => members.map((member) => this.groupService.leave(user.connections.Athletes.groupId, member.userProfile.userId)))
             .then((promises) => Promise.all(promises));
@@ -92,7 +92,7 @@ export class AthletesService {
      * @param removeTariffs
      * @returns {string}
      */
-    editTariffsMessage(addTariffs, removeTariffs) {
+    editTariffsMessage (addTariffs, removeTariffs) {
         const translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
 
         if (addTariffs.length) {

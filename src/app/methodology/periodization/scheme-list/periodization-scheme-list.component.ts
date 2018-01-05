@@ -23,7 +23,7 @@ class PeriodizationSchemeListCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 

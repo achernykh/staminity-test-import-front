@@ -6,7 +6,7 @@ import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 import {translateActivity, translateCategories, translateSport} from "./activity.translate";
 
-function configure($translateProvider: any,
+function configure ($translateProvider: any,
                    $stateProvider: StateProvider) {
 
     $stateProvider

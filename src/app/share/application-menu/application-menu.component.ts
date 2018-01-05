@@ -21,7 +21,7 @@ class ApplicationMenuCtrl implements IComponentController {
 
     static $inject = ["$scope", '$mdMedia', "$mdSidenav", "AuthService", "SessionService", "$state"];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $mdMedia: any,
         private $mdSidenav: any,
@@ -42,20 +42,20 @@ class ApplicationMenuCtrl implements IComponentController {
         .subscribe(() => $scope.$evalAsync());
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    toggleSlide() {
+    toggleSlide () {
         this.$mdSidenav("appmenu").toggle().then(() => angular.noop);
     }
 
-    checkAuth(roles: Array<string>): boolean {
+    checkAuth (roles: Array<string>): boolean {
         return !roles && true || this.AuthService.isAuthorized(roles, false);
     }
 
-    transitionToState(url, param) {
+    transitionToState (url, param) {
         if (this.$state.current.name === url && param === this.$state.params["uri"]) {
             return;
         }
@@ -73,7 +73,7 @@ class ApplicationMenuCtrl implements IComponentController {
         this.toggleSlide();
     }
 
-    close() {
+    close () {
         this.$mdSidenav("appmenu").toggle();
     }
 

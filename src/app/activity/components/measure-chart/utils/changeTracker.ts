@@ -3,7 +3,7 @@ export class ChangeTracker {
 
     private userSelection;
 
-    isFirstChange(changes): boolean {
+    isFirstChange (changes): boolean {
         let isFirstChange = true;
         for (const item in changes) {
             isFirstChange = isFirstChange && changes[item].isFirstChange();
@@ -11,16 +11,16 @@ export class ChangeTracker {
         return isFirstChange;
     };
 
-    isZoomOnlyChange(changes): boolean {
+    isZoomOnlyChange (changes): boolean {
         const zoomChanges = ["autoZoom", "zoomInClick", "zoomOutClick"];
         return Object.keys(changes).every((c) => zoomChanges.indexOf(c) !== -1);
     };
 
-    isSelectsOnlyChange(changes): boolean {
+    isSelectsOnlyChange (changes): boolean {
         return !!(changes.select) && ((Object.keys(changes).length === 1) || (Object.keys(changes).length === 0));
     };
 
-    areSelectsUpdated(changes): boolean {
+    areSelectsUpdated (changes): boolean {
         if (!changes.select) {
             return false;
         }
@@ -46,22 +46,22 @@ export class ChangeTracker {
         return false;
     };
 
-    isUserSelection(select): boolean {
+    isUserSelection (select): boolean {
         if (select && select.length === 1) {
             return this.isEqualIntervals(select[0], this.userSelection);
         }
         return false;
     }
 
-    storeUserSelection(intervals): void {
+    storeUserSelection (intervals): void {
         this.userSelection = (!intervals || !intervals.length) ? null : intervals[0];
     };
 
-    resetUserSelection(): void {
+    resetUserSelection (): void {
         this.userSelection = null;
     }
 
-    private isEqualIntervals(first, second): boolean {
+    private isEqualIntervals (first, second): boolean {
         if (!first && !second) {
             return true;
         }

@@ -4,7 +4,7 @@ import { SocketService } from "../core/socket/socket.service";
 import {_translate} from "./landingpage.translate";
 //import {ITranslateProvider} from "angular-translate";
 
-function configure($stateProvider: StateProvider,
+function configure ($stateProvider: StateProvider,
                    $translateProvider: any) {
 
     $stateProvider

@@ -13,15 +13,15 @@ class SettingsZonesCtrl implements IComponentController {
 
     static $inject = ['$mdDialog'];
 
-    constructor(private $mdDialog: any) {
+    constructor (private $mdDialog: any) {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareZones();
     }
 
-    prepareZones(){
+    prepareZones (){
         Object.keys(this.zones)
             .forEach(measure => Object.keys(this.zones[measure])
                 .forEach(sport => {
@@ -53,7 +53,7 @@ class SettingsZonesCtrl implements IComponentController {
                 }));
     }
 
-    putZones($event, intensityFactor, sport, sportSettings){
+    putZones ($event, intensityFactor, sport, sportSettings){
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -88,20 +88,20 @@ class SettingsZonesCtrl implements IComponentController {
 
     }
 
-    postZones($event){
+    postZones ($event){
 
     }
 
-    deleteZones(){
+    deleteZones (){
 
     }
 
-    addSport(factor: string, sport: string) {
+    addSport (factor: string, sport: string) {
         this.zones[factor][sport] = this.zones[factor]['default'];
         this.parent.update({trainingZones: true});
     }
 
-    deleteSport(factor: string, sport: string) {
+    deleteSport (factor: string, sport: string) {
         delete this.zones[factor][sport];
         this.parent.update({trainingZones: true});
     }
@@ -121,17 +121,17 @@ const SettingsZonesComponent:IComponentOptions = {
 
 export default SettingsZonesComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

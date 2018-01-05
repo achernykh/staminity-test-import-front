@@ -5,7 +5,7 @@ export class ActivityAthletes {
     isRecalculateMode: boolean;
     list: Array<{profile: IUserProfile, active: boolean}> = [];
 
-    constructor(private owner: IUserProfile, private currentUser: IUserProfile) {
+    constructor (private owner: IUserProfile, private currentUser: IUserProfile) {
 
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.list = this.currentUser.connections.allAthletes.groupMembers

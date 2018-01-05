@@ -2,7 +2,7 @@ import {StateDeclaration, StateProvider} from "angular-ui-router";
 import {DefaultTemplate, DisplayView, supportLng} from "../core/display.constants";
 import {_translateTrainingPlans} from "./training-plans.translate";
 
-function configure($stateProvider: StateProvider, $translateProvider) {
+function configure ($stateProvider: StateProvider, $translateProvider) {
 
     /**$stateProvider
         .state('training-plans-search', <StateDeclaration>{

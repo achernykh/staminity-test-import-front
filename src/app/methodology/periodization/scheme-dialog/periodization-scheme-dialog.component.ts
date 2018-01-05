@@ -28,7 +28,7 @@ class PeriodizationSchemeDialogCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.scheme = Object.assign({},
             this.data,
             {isSystem: this.data.hasOwnProperty('isSystem') && this.data.isSystem || false},

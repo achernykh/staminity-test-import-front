@@ -4,7 +4,7 @@ import { DefaultTemplate, DisplayView } from "../core/display.constants";
 import GroupService from "../core/group.service";
 import {_translate} from "./club.translate";
 
-function configure(
+function configure (
     $stateProvider: StateProvider,
     $translateProvider: any) {
     $stateProvider

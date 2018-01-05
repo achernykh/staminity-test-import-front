@@ -38,7 +38,7 @@ class CalendarActivityCtrl {
     static $inject = ['$scope','$mdDialog','ActivityService', 'message', 'CalendarService','dialogs',
         'CalendarItemDialogService'];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $mdDialog: any,
         private ActivityService: ActivityService,
@@ -49,7 +49,7 @@ class CalendarActivityCtrl {
 
     }
 
-    $onInit() {
+    $onInit () {
         this.data = new Activity(this.item, {
             currentUser: this.currentUser,
             owner: this.owner,
@@ -176,7 +176,7 @@ class CalendarActivityCtrl {
         }
     }
 
-    $onChanges(changes) {
+    $onChanges (changes) {
         if (changes.hasOwnProperty('selected') && !changes.selected) {
             console.log('CalendarActivityCtrl: onChange, selected=', changes.selected);
         }
@@ -190,7 +190,7 @@ class CalendarActivityCtrl {
      * @param group - true если интервал является группой, false если интервал является сегментом
      * @param interval - описание интервала
      */
-    prepareSegmentList(group, interval) {
+    prepareSegmentList (group, interval) {
         // В верстке будет использоваться данный признак для разного отображения
         interval.group = group;
         interval.show = true;
@@ -227,7 +227,7 @@ class CalendarActivityCtrl {
         }
     }
 
-    prepareSegmentChart(interval, duration) {
+    prepareSegmentChart (interval, duration) {
         /**
          * Для каждого интервала создается две точки на графике: начало и окончание.
          * Начало рассчитывается как время окончания предидущих интервалов и значение intensityByFtpFrom
@@ -252,7 +252,7 @@ class CalendarActivityCtrl {
      * @param list
      * @returns {number}
      */
-    calculateSegmentListSize(list) {
+    calculateSegmentListSize (list) {
         "use strict";
         let size = 0;
         for (let item of list) {
@@ -266,7 +266,7 @@ class CalendarActivityCtrl {
         return size;
     }
 
-    getBullet(first, middle, last) {
+    getBullet (first, middle, last) {
         let icon;
         if (first) {
             icon = `assets/icon/bullet_first.svg`;
@@ -295,7 +295,7 @@ class CalendarActivityCtrl {
             .then((response) => this.onSave(response), () => {});
     }
 
-    onOpen($event, mode) {
+    onOpen ($event, mode) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -328,14 +328,14 @@ class CalendarActivityCtrl {
     /**
      * Копировать запись календаря
      */
-    onCopy() {
+    onCopy () {
         //this.calendar.onCopyItem([this.item]);
     }
 
     /**
      * Удалить запись
      */
-    onDelete() {
+    onDelete () {
         this.dialogs.confirm({ text: 'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', [this.item.calendarItemId]))
         .then(() => {
@@ -351,23 +351,23 @@ class CalendarActivityCtrl {
      *
      * @param value
      */
-    onToggleCollapse(value) {
+    onToggleCollapse (value) {
         !!value ? this.collapse = null : this.collapse = {show: false};
     }
 }
 
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

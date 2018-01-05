@@ -24,20 +24,20 @@ class ActivityHeaderChatCtrl implements IComponentController {
     onUpdate: (response: Object) => IPromise<void>;
     static $inject = ["CommentService", "message", "$scope"];
 
-    constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
+    constructor (private comment: CommentService, private message: MessageService, private $scope: IScope) {
         this.comment.comment$
             .filter((item) => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
                     item.value.userProfile.userId !== this.currentUser.userId)
             .subscribe((item) => this.comments.push(item.value));
     }
 
-    $onInit() {
+    $onInit () {
         this.comment.get(this.commentType, this.activityId, true, 50)
             .then((result) => this.comments = result, (error) => this.message.toastError(error))
             .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
-    onPostComment(text) {
+    onPostComment (text) {
         this.inAction = true;
         this.comment.post(this.commentType, this.activityId, true, text)
             .then((result) => {
@@ -49,11 +49,11 @@ class ActivityHeaderChatCtrl implements IComponentController {
             //.then(() => !this.$scope.$$phase && this.$scope.$apply());;
     }
 
-    isMe(id: number): boolean {
+    isMe (id: number): boolean {
         return (this.currentUser.hasOwnProperty("userId") && id === this.currentUser.userId) || false;
     }
 
-    localDate(date) {
+    localDate (date) {
         console.log("date: ", date, moment.utc(date).format("DD MMM HH:mm"), new Date().getTimezoneOffset());
         return moment(date).add("minutes", -1 * (new Date().getTimezoneOffset())).format("DD MMM HH:mm");
     }

@@ -30,7 +30,7 @@ export default class RequestsService {
 
     static $inject = ['SocketService', 'SessionService'];
 
-    constructor(
+    constructor (
         private SocketService: SocketService,
         private SessionService: SessionService) {
         //this.resetRequests();

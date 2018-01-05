@@ -48,7 +48,7 @@ class TrainingPlansListCtrl implements IComponentController {
         }
     }
 
-    getTrainingPlanList(): Array<TrainingPlan> {
+    getTrainingPlanList (): Array<TrainingPlan> {
         return this.plans.list
             .filter(p =>
                 (!this.filter['name'] || (this.filter['name'] && p.name.indexOf(this.filter['name']) !== -1)) &&

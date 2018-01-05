@@ -16,7 +16,7 @@ class AthleteSelectorCtrl implements IComponentController {
 
     static $inject = ["SessionService", "GroupService", "message", "$scope"];
 
-    constructor(
+    constructor (
         private SessionService: SessionService,
         private GroupService: GroupService,
         private message: MessageService,
@@ -30,7 +30,7 @@ class AthleteSelectorCtrl implements IComponentController {
         });
     }
 
-    $onInit() {
+    $onInit () {
         /**let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
         if (groupId) {
             this.GroupService.getManagementProfile(groupId,'coach')
@@ -41,7 +41,7 @@ class AthleteSelectorCtrl implements IComponentController {
         }**/
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }

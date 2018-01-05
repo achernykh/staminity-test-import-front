@@ -84,7 +84,7 @@ export class CalendarItemWizardSelectCtrl implements IComponentController {
 
     static $inject = ['$scope','$mdDialog','CalendarItemDialogService'];
 
-    constructor(
+    constructor (
         private $scope,
         private $mdDialog,
         private calendarItemDialog: CalendarItemDialogService) {
@@ -227,7 +227,7 @@ class DialogCtrl implements IComponentController {
 
     static $inject = ['$scope','$mdDialog'];
 
-    constructor(private $scope, private $mdDialog){
+    constructor (private $scope, private $mdDialog){
         $scope.hide = () => $mdDialog.hide();
         $scope.cancel = () => $mdDialog.cancel();
         $scope.answer = (answer) => $mdDialog.hide(answer);

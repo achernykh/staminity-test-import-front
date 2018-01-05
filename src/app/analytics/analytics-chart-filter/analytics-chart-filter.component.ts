@@ -13,7 +13,7 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 
     static $inject = ["$mdPanel", "$mdDialog"];
 
-    constructor(private $mdPanel: any, private $mdDialog: any) {
+    constructor (private $mdPanel: any, private $mdDialog: any) {
 
         this.position = $mdPanel.newPanelPosition()
             .relativeTo(".open-button")
@@ -38,11 +38,11 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 
-    onOpen(env: Event) {
+    onOpen (env: Event) {
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
         this.$mdDialog.show({
@@ -76,7 +76,7 @@ class AnalyticsChartFilterCtrl implements IComponentController {
 
     }
 
-    change(param, option) {
+    change (param, option) {
         debugger;
     }
 }

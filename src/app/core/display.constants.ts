@@ -3,7 +3,7 @@ import { merge } from "angular";
 export const supportLng: string[] = ["en", "ru"];
 
 export class DisplayView  {
-    constructor(private state: string) {
+    constructor (private state: string) {
         merge(
             this,
             _display_view[this.state],

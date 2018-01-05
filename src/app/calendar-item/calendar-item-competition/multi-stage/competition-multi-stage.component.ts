@@ -7,11 +7,11 @@ class CompetitionMultiStageCtrl implements IComponentController {
     public onEvent: (response: Object) => IPromise<void>;
     static $inject = [];
 
-    constructor() {
+    constructor () {
 
     }
 
-    $onInit() {
+    $onInit () {
 
     }
 }

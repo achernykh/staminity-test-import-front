@@ -38,7 +38,7 @@ class TrainingSeasonFormCtrl implements IComponentController {
         if (this.schemeList && this.schemeList.length === 0) { this.season.periodizationScheme.id = this.schemeList[0].id; }
     }
 
-    $onInit() {
+    $onInit () {
         this.periodizationService.get().then(result => this.schemes = result.arrayResult, error => {});
         this.season = new TrainingSeason(copy(this.data));
     }

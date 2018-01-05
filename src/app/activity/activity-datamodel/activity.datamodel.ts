@@ -86,7 +86,7 @@ export class Activity extends CalendarItem {
     get isSpecified (): boolean { return this.intervals.PW && this.intervals.PW.specified(); }
 
     // Статус выполнения тренировки
-    get status() {
+    get status () {
         return this.options.hasOwnProperty('templateMode') && this.options.templateMode ? 'template' : (
             !this.isToday ?
                 // приоритет статусов, если запись не сегодня
@@ -106,7 +106,7 @@ export class Activity extends CalendarItem {
     }
 
     // Тип информации для дополнительной панели тренировки в календаре
-    get bottomPanel() {
+    get bottomPanel () {
         return (this.status === 'coming' &&
             ((this.intervals.PW.trainersPrescription && this.intervals.PW.trainersPrescription.length > 0 ) ||
             (!this.isStructured && this.intervals.PW.intensityMeasure)) && 'plan') ||
@@ -115,64 +115,64 @@ export class Activity extends CalendarItem {
     }
 
     // информация
-    printPercent() { return ((this.percent && this.isCompleted) && `${this.percent.toFixed(0)}%`);}
+    printPercent () { return ((this.percent && this.isCompleted) && `${this.percent.toFixed(0)}%`);}
 
     get percent () { return this.intervals.PW && this.intervals.PW.percent(); }
 
-    get durationValue(){
+    get durationValue (){
         return (!!this.durationMeasure && this[this.durationMeasure]) || null;
     }
 
-    get durationMeasure() {
+    get durationMeasure () {
         return (this.intervals.PW && this.intervals.PW.durationMeasure)
             || (!!this.intervals.W.calcMeasures.duration.maxValue && 'duration')
             || (!!this.intervals.W.calcMeasures.distance.maxValue && 'distance') || null;
     }
 
-    get intensityValue() {
+    get intensityValue () {
         return ((this.status === 'coming' || this.status === 'dismiss') && {from: this.intervals.PW.intensityLevelFrom, to: this.intervals.PW.intensityLevelTo}) ||
             (this.intensityMeasure &&  this.intervals.W.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.intervals.W.calcMeasures[this.intensityMeasure].avgValue) || null;
     }
 
-    get intensityMeasure() {
+    get intensityMeasure () {
         return this.intervals.PW.intensityMeasure || this.defaultIntensityMeasure;
     }
 
-    get defaultIntensityMeasure() {
+    get defaultIntensityMeasure () {
         return (this.intervals.W.calcMeasures.hasOwnProperty('speed') &&  this.intervals.W.calcMeasures.speed.hasOwnProperty('avgValue')  && this.intervals.W.calcMeasures.speed.avgValue && 'speed')
             || (this.intervals.W.calcMeasures.hasOwnProperty('heartRate') &&  this.intervals.W.calcMeasures.heartRate.hasOwnProperty('avgValue') && this.intervals.W.calcMeasures.heartRate.avgValue && 'heartRate')
             || (this.intervals.W.calcMeasures.hasOwnProperty('power') &&  this.intervals.W.calcMeasures.power.hasOwnProperty('avgValue') && this.intervals.W.calcMeasures.power.avgValue && 'power') || null;
     }
 
-    get movingDuration():number {
+    get movingDuration ():number {
         return this.intervals.W.movingDuration() ||
             (this.intervals.PW.movingDurationLength > 0 && this.intervals.PW.movingDurationLength) ||
             (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
     }
 
-    get movingDurationApprox():boolean {
+    get movingDurationApprox ():boolean {
         return !!!this.intervals.W.movingDuration() && this.intervals.PW.movingDurationApprox;
     }
 
-    get duration() {
+    get duration () {
         return this.intervals.W.movingDuration() ||
             (this.isStructured && this.intervals.PW.movingDurationLength) ||
             (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
     }
 
-    get distance() {
+    get distance () {
         return this.intervals.W.distance() ||
             (this.intervals.PW.distanceLength > 0 && this.intervals.PW.distanceLength) ||
             (this.intervals.PW.durationMeasure === 'distance' && this.intervals.PW.durationValue) || null;
     }
 
-    get distanceApprox():boolean {
+    get distanceApprox ():boolean {
         return !!!this.intervals.W.distance() && this.intervals.PW.distanceApprox;
     }
 
     // TODO Перенести в функции
     // Формируем перечень показателей для панели data (bottomPanel)
-    get summaryAvg() {
+    get summaryAvg () {
         let measures = ['speed','heartRate','power'];
         let calc = this.intervals.W.calcMeasures;
 
@@ -186,7 +186,7 @@ export class Activity extends CalendarItem {
     }
 
     // TODO Перенести в функции
-    prepareSegmentList(){
+    prepareSegmentList (){
 
         let segmentList: Array<any> = [];
         let segment: any = {};
@@ -216,7 +216,7 @@ export class Activity extends CalendarItem {
     }
 
     // TODO Перенести в функции
-    formChart():Array<Array<number>>{
+    formChart ():Array<Array<number>>{
         return this.intervals.P && this.intervals.chart() || null;
     }
 

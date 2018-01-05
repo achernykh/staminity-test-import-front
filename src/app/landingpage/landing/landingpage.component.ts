@@ -17,7 +17,7 @@ class LandingPageCtrl implements IComponentController {
 
     static $inject = ["AuthService", "$state", "SessionService", "DisplayService", '$mdMedia'];
 
-    constructor(private AuthService: IAuthService,
+    constructor (private AuthService: IAuthService,
                 private $state: StateService,
                 private SessionService: SessionService,
                 private display: DisplayService,
@@ -25,11 +25,11 @@ class LandingPageCtrl implements IComponentController {
 
     }
 
-    get user(): IUserProfile {
+    get user (): IUserProfile {
         return this.SessionService.getUser();
     }
 
-    go() {
+    go () {
         if (this.AuthService.isAuthenticated()) {
             this.$state.go(this.$mdMedia('gt-sm') ? "initialisation" : "calendar");
         } else {

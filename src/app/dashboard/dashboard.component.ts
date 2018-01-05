@@ -79,7 +79,7 @@ export class DashboardCtrl implements IComponentController {
 
     static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message','storage','dialogs'];
 
-    constructor(
+    constructor (
         private $scope: IScope,
         private $mdDialog: any,
         private calendar: CalendarService,
@@ -90,11 +90,11 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
-    toolbarDate() {
+    toolbarDate () {
         return new Date(moment(this.currentDate).format(this.dateFormat));
     }
 
-    changeOrder(up: boolean){
+    changeOrder (up: boolean){
         let from: Array<number> = this.selectedAthletes.map(a => this.orderAthletes.indexOf(a));
         let to: Array<number> = from.map(a => up ?
             this.orderAthletes.indexOf(this.viewAthletes[this.viewAthletes.indexOf(this.orderAthletes[a])-1]) :
@@ -119,11 +119,11 @@ export class DashboardCtrl implements IComponentController {
     }
 
 
-    isVisible(id: number){
+    isVisible (id: number){
         return this.viewAthletes.indexOf(id) !== -1;
     }
 
-    setVisible(view: boolean, id: number){
+    setVisible (view: boolean, id: number){
         let ind: number = this.viewAthletes.indexOf(id);
         if (view) {
             this.viewAthletes.push(id);
@@ -134,7 +134,7 @@ export class DashboardCtrl implements IComponentController {
     }
 
 
-    onSelectAthlete(select: boolean, id: number){
+    onSelectAthlete (select: boolean, id: number){
         let ind: number = this.selectedAthletes.indexOf(id);
         if (select) {
             this.selectedAthletes.push(id);
@@ -144,7 +144,7 @@ export class DashboardCtrl implements IComponentController {
         this.storage.set('dashboard_selectedAthletes',this.selectedAthletes);
     }
 
-    $onInit() {
+    $onInit () {
         this.cache = [];
         this.currentWeek = 0;
         this.range = [this.currentWeek, this.currentWeek];
@@ -244,21 +244,21 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    next() {
+    next () {
         this.currentWeek++;
         this.range[1] = Math.max(this.currentWeek, this.range[1]);
         this.currentDate = moment(this.currentDate).startOf('week').add(1,'w');
         this.getData(this.currentDate);
     }
 
-    prev() {
+    prev () {
         this.currentWeek--;
         this.range[0] = Math.min(this.currentWeek, this.range[0]);
         this.currentDate = moment(this.currentDate).startOf('week').add(-1,'w');
         this.getData(this.currentDate);
     }
 
-    getData(date) {
+    getData (date) {
 
         console.log('getDate', date.format('YYYY-MM-DD'));
         let start = moment(date).startOf('week');
@@ -327,7 +327,7 @@ export class DashboardCtrl implements IComponentController {
      * Создание записи календаря
      * @param item
      */
-    onPostItem(item: ICalendarItem, parentId?: number): void {
+    onPostItem (item: ICalendarItem, parentId?: number): void {
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
@@ -345,7 +345,7 @@ export class DashboardCtrl implements IComponentController {
      * Удаление записи календаря
      * @param item
      */
-    onDeleteItem(item: ICalendarItem, parentId?: number): void {
+    onDeleteItem (item: ICalendarItem, parentId?: number): void {
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
@@ -363,7 +363,7 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    onCopy(items: Array<ICalendarItem>){
+    onCopy (items: Array<ICalendarItem>){
         this.buffer = [];
         this.firstSrcDay = null;
 
@@ -388,7 +388,7 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    onPaste(firstTrgDay: string, athlete: IUserProfile){
+    onPaste (firstTrgDay: string, athlete: IUserProfile){
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let updateZones: boolean = false;
 
@@ -404,7 +404,7 @@ export class DashboardCtrl implements IComponentController {
         }
     }
 
-    onProcessPaste(shift: number){
+    onProcessPaste (shift: number){
 
         let task:Array<Promise<any>> = [];
         task = this.buffer
@@ -417,7 +417,7 @@ export class DashboardCtrl implements IComponentController {
 
     }
 
-    onDelete(items:Array<ICalendarItem> = []){
+    onDelete (items:Array<ICalendarItem> = []){
         let selected: Array<ICalendarItem> = [];
         this.cache
             .forEach(w => w.calendar
@@ -433,17 +433,17 @@ export class DashboardCtrl implements IComponentController {
             .then(() => inSelection && this.clearBuffer());
     }
 
-    clearBuffer(){
+    clearBuffer (){
         this.buffer = [];
         this.firstSrcDay = null;
         this.unSelect();
     }
 
-    unSelect(){
+    unSelect (){
         this.cache.forEach(d => d.calendar.forEach(w => w.subItem.forEach(d => d.selected && (d.selected = false))));
     }
 
-    onOpen($event, mode, data) {
+    onOpen ($event, mode, data) {
         this.$mdDialog.show({
             controller: DialogController,
             controllerAs: '$ctrl',
@@ -495,7 +495,7 @@ export class DashboardCtrl implements IComponentController {
             });
     }
 
-    onSelectWeek(select: boolean, id: number) {
+    onSelectWeek (select: boolean, id: number) {
 
     }
 
@@ -516,17 +516,17 @@ const DashboardComponent:IComponentOptions = {
 
 export default DashboardComponent;
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
+function DialogController ($scope, $mdDialog) {
+    $scope.hide = function () {
         $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.cancel = function () {
         console.log('cancel');
         $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function (answer) {
         $mdDialog.hide(answer);
     };
 }

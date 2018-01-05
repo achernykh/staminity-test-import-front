@@ -35,10 +35,10 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     static $inject = ['$scope'];
 
-    constructor(private $scope: any) {
+    constructor (private $scope: any) {
     }
 
-    $onInit() {
+    $onInit () {
         //this.measures = this.measures.filter(m => this.filter.indexOf(m.code) !== -1);
         //this.$scope.selected = [];
         this.$scope.splits = this.splits.filter(i => i.type === 'L').map( (d,i) => {
@@ -56,12 +56,12 @@ class MeasureSplitTableCtrl implements IComponentController {
 
     }
 
-    getFTP(factor: string, sport: string = this.sport):number {
+    getFTP (factor: string, sport: string = this.sport):number {
         return (this.zones[factor].hasOwnProperty(sport) && this.zones[factor][sport]['FTP']) ||
             this.zones[factor]['default']['FTP'];
     }
 
-    change(){
+    change (){
         //console.log('change', this.selected);
         //this.onSelected({type: 'L', selected: this.selected.map(i => i.ind)});
     }

@@ -11,7 +11,7 @@ export class CalendarItemAthletes {
     isRecalculateMode: boolean;
     list: Array<{profile: IUserProfile, active: boolean}> = [];
 
-    constructor(private owner: IUserProfile, private currentUser: IUserProfile) {
+    constructor (private owner: IUserProfile, private currentUser: IUserProfile) {
 
         if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
             this.list = this.currentUser.connections.allAthletes.groupMembers
@@ -76,7 +76,7 @@ export class CalendarItemAuth {
 
 export class CalendarItemView {
 
-    constructor(private options: ICalendarItemDialogOptions) {
+    constructor (private options: ICalendarItemDialogOptions) {
 
     }
 
@@ -133,7 +133,7 @@ export class CalendarItem implements ICalendarItem {
     auth: CalendarItemAuth;
     athletes: CalendarItemAthletes;
 
-    constructor(item: ICalendarItem, options?: ICalendarItemDialogOptions) {
+    constructor (item: ICalendarItem, options?: ICalendarItemDialogOptions) {
         merge(this,item); // deep copy
         this.index = Number(`${this.calendarItemId}${this.revision}`);
         this.view = new CalendarItemView(options);
@@ -142,7 +142,7 @@ export class CalendarItem implements ICalendarItem {
     }
 
     // Подготовка данных для модели отображения
-    prepare(method?: string) {
+    prepare (method?: string) {
         //this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
         //this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
         this._dateStart = new Date(this.dateStart);
@@ -151,7 +151,7 @@ export class CalendarItem implements ICalendarItem {
     }
 
     // Подготовка данных для передачи в API
-    package(userProfile?: IUserProfileShort) {
+    package (userProfile?: IUserProfileShort) {
         this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
         this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
         this.userProfileOwner = userProfile || this.userProfileOwner;
@@ -159,7 +159,7 @@ export class CalendarItem implements ICalendarItem {
     }
 
     // Обновление данных, после сохранения
-    compile(response: IRevisionResponse) {
+    compile (response: IRevisionResponse) {
         this.revision = response.value.revision;
         this.calendarItemId = response.value.id;
         this.index = Number(`${this.calendarItemId}${this.revision}`);
