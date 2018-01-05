@@ -17,14 +17,14 @@
                     <md-menu-item>
                         <md-button ng-click="$ctrl.putZones($event,intensityFactor, sportName, sport)">
                             <md-icon class="material-icons" md-menu-align-target>mode_edit</md-icon>
-                            {{'settings.zones.editZones' | translate}}
+                            {{'user.settings.zones.editZones' | translate}}
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.deleteSport(intensityFactor, sportName, sport)"
                                    ng-disabled="sportName === 'default'">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                            {{'settings.zones.deleteZones' | translate}}
+                            {{'user.settings.zones.deleteZones' | translate}}
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -47,7 +47,7 @@
             </md-button>
         </md-list-item>
         <md-list-item>
-            <p style="text-align: right" translate="settings.zones.addSport"></p>
+            <p style="text-align: right" translate="user.settings.zones.addSport"></p>
             <md-menu class="md-secondary">
                 <md-button class="md-icon-button">
                     <md-icon class="material-icons">add_circle_outline</md-icon>
@@ -62,5 +62,10 @@
             </md-menu>
         </md-list-item>
         <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+        <div flex layout="row" layout-align="end center">
+            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+                {{ 'form.save' | translate }}
+            </md-button>
+        </div>
     </md-list>
 </form>

@@ -73,13 +73,13 @@ class UserSettingsZonesCtrl {
             controllerAs: '$ctrl',
             template:
                 `<md-dialog id="put-zones" aria-label="Put Zones">
-                        <settings-zones-edit layout="column"
+                        <st-user-settings-edit-zone layout="column"
                                 class="settings-zones-edit"
                                 intensity-factor="$ctrl.intensityFactor"
                                 sport="$ctrl.sport"
                                 sport-settings="$ctrl.sportSettings"
                                 on-cancel="cancel()" on-save="answer(response)">
-                        </settings-zones-edit>
+                        </st-user-settings-edit-zone>
                    </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: $event,
