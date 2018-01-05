@@ -1,8 +1,39 @@
-import './settings-zones-edit.component.scss';
+import './user-settings-edit-zone.component.scss';
 import {IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
-import {_CalculationMethod} from "../settings-user.constants";
 
-class SettingsZonesEditCtrl implements IComponentController {
+export const _CalculationMethod = { 
+    heartRate: [{ 
+        type: "lactateThreshold", 
+        method: ["JoeFrielHeartRateRunning7", "JoeFrielHeartRateCycling7"], 
+    }, { 
+        type: "restingAndMax", 
+        method: ["Karvonen5"], 
+    }, { 
+        type: "max", 
+        method: ["Yansen6"], 
+    }, { 
+        type: "custom", 
+        method: ["5", "7", "9"], 
+    }], 
+    power: [{ 
+        type: "powerThreshold", 
+        method: ["AndyCoggan6"], 
+    }, { 
+        type: "custom", 
+        method: ["5", "7", "9"], 
+    }], 
+    speed: [ 
+        { 
+            type: "paceThreshold", 
+            method: ["JoeFrielSpeed7"], 
+        }, { 
+            type: "custom", 
+            method: ["5", "7", "9"], 
+        }, 
+    ], 
+}; 
+
+class UserSettingsEditZoneCtrl implements IComponentController {
 
     private zone: any;
     private sportSettings: any;
@@ -403,7 +434,7 @@ class SettingsZonesEditCtrl implements IComponentController {
     }
 }
 
-const SettingsZonesEditComponent:IComponentOptions = {
+export const UserSettingsEditZoneComponent: IComponentOptions = {
     bindings: {
         intensityFactor: '<',
         sport: '<',
@@ -414,8 +445,6 @@ const SettingsZonesEditComponent:IComponentOptions = {
     require: {
         //component: '^component'
     },
-    controller: SettingsZonesEditCtrl,
-    template: require('./settings-zones-edit.component.html') as string
+    controller: UserSettingsEditZoneCtrl,
+    template: require('./user-settings-edit-zone.component.html') as string
 };
-
-export default SettingsZonesEditComponent;

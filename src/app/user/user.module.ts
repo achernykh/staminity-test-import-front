@@ -17,6 +17,7 @@ import { UserSettingsProfileComponent } from "./settings/user-settings-profile/u
 import { UserSettingsPrivacyComponent } from "./settings/user-settings-privacy/user-settings-privacy.component";
 import { UserSettingsFitComponent } from "./settings/user-settings-fit/user-settings-fit.component";
 import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-settings-zones.component";
+import { UserSettingsEditZoneComponent } from "./settings/user-settings-edit-zone/user-settings-edit-zone.component";
 import { UserSettingsNotificationsComponent } from "./settings/user-settings-notifications/user-settings-notifications.component";
 import { UserSettingsService } from "./settings/user-settings.service";
 import SyncAdaptorService from "./sync-adaptor.service";
@@ -38,6 +39,7 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettingsPrivacy', UserSettingsPrivacyComponent)
     .component('stUserSettingsFit', UserSettingsFitComponent)
     .component('stUserSettingsZones', UserSettingsZonesComponent)
+    .component('stUserSettingsEditZone', UserSettingsEditZoneComponent)
     .component('stUserSettingsNotifications', UserSettingsNotificationsComponent)
     .config(['$stateProvider', ($stateProvider: StateProvider) => {
         userState.map(s => $stateProvider.state(s));
