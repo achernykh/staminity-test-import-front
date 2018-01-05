@@ -10,7 +10,13 @@ class UserSettingsDisplayCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    units = ["metric", "imperial"];
+    // public
+    unitsOptions = ["metric", "imperial"];
+    timeZones = momentTimezone.tz.names().map((z) => ({ 
+        title: `(GMT${momentTimezone.tz(z).format('Z')}) ${z}`, 
+        name: z, 
+        offset: momentTimezone.tz(z).offset 
+    })); 
 
     static $inject = ['DisplayService', 'dialogs', 'message', '$mdDialog'];
 
@@ -23,39 +29,49 @@ class UserSettingsDisplayCtrl {
 
     }   
 
-    getTimezoneTitle () {
-        if (this.owner) {
-            let timezone = this.owner.display.timezone;
-            return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
-        }
+    get locale () : string {
+        return this.displayService.getLocale();
     }
 
-    getDateFormat () {
-        return moment().format('L');
+    set locale (locale: string) {
+        this.displayService.setLocale(locale);
     }
 
-    changeLocale (locale) {
-        this.owner.display.language = locale;
+    get timezone () {
+        return this.displayService.getTimezone();
     }
 
-    changeTimezone (name) {
-        this.owner.display.timezone = name;
+    set timezone (timezone: string) {
+        this.displayService.setTimezone(timezone);
     }
 
-    changeUnit (units) {
-        this.owner.display.units = units;
+    get units () : string {
+        return this.displayService.getUnits();
     }
 
-    getFirstDayOfWeek () {
-        return this.owner && this.owner.display.firstDayOfWeek || 0;
+    set units (units: string) {
+        this.displayService.setUnits(units);
     }
 
-    setFirstDayOfWeek (number) {
-        this.owner.display.firstDayOfWeek = number;
+    get firstDayOfWeek () {
+        return this.displayService.getFirstDayOfWeek();
+    }
+
+    set firstDayOfWeek (firstDayOfWeek: number) {
+        this.displayService.setFirstDayOfWeek(firstDayOfWeek);
     }
 
     weekdays (day) {
         return moment.weekdays(day);
+    }
+
+    getTimezoneTitle () {
+        let timezone = this.timezone;
+        return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
+    }
+
+    getDateFormat () {
+        return moment().format('L');
     }
 }
 

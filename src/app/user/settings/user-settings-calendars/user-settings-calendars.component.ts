@@ -10,9 +10,10 @@ class UserSettingsCalendarsCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    static $inject = ['SyncAdaptorService', 'dialogs', 'message', '$mdDialog'];
+    static $inject = ['DisplayService', 'SyncAdaptorService', 'dialogs', 'message', '$mdDialog'];
 
     constructor (
+        private displayService: any,
         private syncAdaptorService: any,
         private dialogs: any,
         private message: any,
@@ -22,9 +23,8 @@ class UserSettingsCalendarsCtrl {
     }
 
     getICalLink () : string {
-        return this.owner && this.owner.display.language && this.owner.private.iCal[this.owner.display.language] &&
-            `https://app.staminity.com/ical/${this.owner.private.iCal[this.owner.display.language]}` ||
-            'settings.personalInfo.calendar.empty';
+        const name = this.owner.private.iCal && this.owner.private.iCal[this.displayService.getLocale()];
+        return name ? `https://app.staminity.com/ical/${name}` : 'user.settings.personalInfo.calendar.empty';
     }
 }
 

@@ -70,12 +70,27 @@ export default class DisplayService {
         return getUnits(this.SessionService.get());
     }
 
+    setUnits(units: string) {
+        const userChanges = { display: { units: units } };
+        this.UserService.putProfile(userChanges as any);
+    }
+
     getTimezone(): string {
         return getTimezone(this.SessionService.get());
     }
 
+    setTimezone(timezone: string) {
+        const userChanges = { display: { timezone: timezone } };
+        this.UserService.putProfile(userChanges as any);
+    }
+
     getFirstDayOfWeek(): number {
         return getFirstDayOfWeek(this.SessionService.get());
+    }
+
+    setFirstDayOfWeek(firstDayOfWeek: number) {
+        const userChanges = { display: { firstDayOfWeek: firstDayOfWeek } };
+        this.UserService.putProfile(userChanges as any);
     }
 }
 

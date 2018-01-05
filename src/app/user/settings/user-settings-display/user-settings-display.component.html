@@ -1,14 +1,14 @@
 <md-list class="md-dense">
     <md-list-item class="mobile-select">
         <span translate="user.settings.display.language"></span>
-        <span class="md-secondary">{{ $ctrl.displayService.locales[$ctrl.owner.display.language] }}</span>
+        <span class="md-secondary">{{ $ctrl.displayService.locales[$ctrl.locale] }}</span>
         <md-menu class="md-secondary">
             <md-button class="md-icon-button">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="(locale, localeName) in $ctrl.displayService.locales">
-                    <md-button ng-click="$ctrl.changeLocale(locale)">
+                    <md-button ng-click="$ctrl.locale = locale">
                         {{ localeName }}
                     </md-button>
                 </md-menu-item>
@@ -24,8 +24,8 @@
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content width="4">
-                <md-menu-item ng-repeat="zone in $ctrl.timeZones track by $index">
-                    <md-button ng-click="$ctrl.changeTimezone(zone.name)">{{::zone.title}}</md-button>
+                <md-menu-item ng-repeat="zone in $ctrl.timeZones">
+                    <md-button ng-click="$ctrl.timezone = zone.name">{{::zone.title}}</md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
@@ -33,16 +33,14 @@
 
     <md-list-item class="mobile-select">
         <span translate="user.settings.display.units"></span>
-        <span class="md-secondary" ng-if="$ctrl.owner.display.units"
-             translate="settings.display.{{$ctrl.owner.display.units}}.short"></span>
+        <span class="md-secondary" translate="user.settings.display.{{$ctrl.units}}.short"></span>
         <md-menu class="md-secondary">
             <md-button class="md-icon-button">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content width="4">
-                <md-menu-item ng-repeat="units in $ctrl.units">
-                    <md-button ng-click="$ctrl.changeUnit(units)"
-                               translate="settings.display.{{units}}.full"></md-button>
+                <md-menu-item ng-repeat="units in $ctrl.unitsOptions">
+                    <md-button ng-click="$ctrl.units = units" translate="user.settings.display.{{units}}.full"></md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
@@ -51,7 +49,7 @@
     <md-list-item class="mobile-select">
         <span translate="user.settings.display.firstDayOfWeek"></span>
         <span class="md-secondary" style="text-transform: capitalize">
-            {{$ctrl.weekdays($ctrl.getFirstDayOfWeek())}}
+            {{$ctrl.weekdays($ctrl.firstDayOfWeek)}}
         </span>
         <md-menu class="md-secondary">
             <md-button class="md-icon-button">
@@ -59,7 +57,7 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="number in [0, 1]">
-                    <md-button ng-click="$ctrl.setFirstDayOfWeek(number)" style="text-transform: capitalize">
+                    <md-button ng-click="$ctrl.firstDayOfWeek = number" style="text-transform: capitalize">
                         {{$ctrl.weekdays(number)}}
                     </md-button>
                 </md-menu-item>

@@ -17,8 +17,7 @@
         <form name="$ctrl.zones">
             <md-subheader>Показатели</md-subheader>
             <md-list-item layout="row">
-                <md-input-container flex class="no-message"
-                                    ng-repeat="measure in $ctrl.measures track by $index">
+                <md-input-container flex class="no-message" ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
                     <input name="{{::measure}}" measure-input
                            ng-model="$ctrl.settings[measure]"
@@ -27,11 +26,9 @@
                            ng-attr-sport={{$ctrl.sport}}
                            ng-disabled="false">
                     <div ng-messages="$ctrl.zones[measure].$error" role="alert">
-                        <div ng-message-exp="['required']"
-                             translate="form.required">
+                        <div ng-message-exp="['required']" translate="form.required">
                         </div>
-                        <div ng-message-exp="['minlength', 'maxlength']"
-                             translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}">
                         </div>
                     </div>
                 </md-input-container>
@@ -39,14 +36,12 @@
             <md-subheader>Метод расчета</md-subheader>
             <md-list-item layout="row">
                 <md-input-container flex class="no-message">
-                    <label>{{'settings.zones.calculation.method' | translate}}</label>
-                    <md-select flex class="no-border"
-                               ng-model="$ctrl.settings.calculateMethod"
-                               placeholder="{{'settings.zones.calculation.choose' | translate}}">
+                    <label>{{'user.settings.zones.calculation.method' | translate}}</label>
+                    <md-select flex class="no-border" ng-model="$ctrl.settings.calculateMethod" placeholder="{{'user.settings.zones.calculation.choose' | translate}}">
                         <md-optgroup ng-repeat="calculation in $ctrl.calculationMethod[$ctrl.intensityFactor] track by $index"
-                                     label="{{::'settings.zones.calculation.'+ calculation.type | translate}}" class="md-caption">
+                                     label="{{::'user.settings.zones.calculation.'+ calculation.type | translate}}" class="md-caption">
                             <md-option class="md-caption" ng-repeat="method in calculation.method" ng-value="method"
-                                       ng-click="$ctrl.selectMethod(method, $ctrl.intensityFactor)">{{::'settings.zones.calculation.' + method | translate}}
+                                       ng-click="$ctrl.selectMethod(method, $ctrl.intensityFactor)">{{::'user.settings.zones.calculation.' + method | translate}}
                             </md-option>
                         </md-optgroup>
                     </md-select>
@@ -62,9 +57,9 @@
                         <thead ng-if="!$ctrl.options.decapitate" md-head>
                         <tr md-row>
                             <th md-column style="width: 10px"><span>#</span></th>
-                            <th md-column><span translate="settings.zones.zoneCaption"></span></th>
-                            <th md-column md-numeric><span translate="settings.zones.zoneFrom"></span></th>
-                            <th md-column md-numeric><span translate="settings.zones.zoneTo"></span></th>
+                            <th md-column><span translate="user.settings.zones.zoneCaption"></span></th>
+                            <th md-column md-numeric><span translate="user.settings.zones.zoneFrom"></span></th>
+                            <th md-column md-numeric><span translate="user.settings.zones.zoneTo"></span></th>
                         </tr>
                         </thead>
                         <tbody md-body>
@@ -115,18 +110,16 @@
     <div class="md-caption error-block"
          ng-messages="$ctrl.zones.$error"
          ng-if="$ctrl.zones.$dirty && $ctrl.zones.$invalid">
-        <div ng-message="required">{{'settings.zones.error.required' | translate}}</div>
-        <div ng-message="consistencyPositive">{{'settings.zones.error.consistencyPositive' | translate}}</div>
-        <div ng-message="consistencyBetweenValues">{{'settings.zones.error.consistencyBetweenValues' | translate}}</div>
-        <div ng-message="consistencyBetweenZones">{{'settings.zones.error.consistencyBetweenZones' | translate}}</div>
+        <div ng-message="required">{{'user.settings.zones.error.required' | translate}}</div>
+        <div ng-message="consistencyPositive">{{'user.settings.zones.error.consistencyPositive' | translate}}</div>
+        <div ng-message="consistencyBetweenValues">{{'user.settings.zones.error.consistencyBetweenValues' | translate}}</div>
+        <div ng-message="consistencyBetweenZones">{{'user.settings.zones.error.consistencyBetweenZones' | translate}}</div>
     </div>
 </md-dialog-content>
 
 <md-dialog-actions layout="row" flex="none">
     <span flex></span>
-    <md-button
-
-               ng-click="$ctrl.onCancel()">{{'form.cancel' | translate}}</md-button>
+    <md-button ng-click="$ctrl.onCancel()">{{'form.cancel' | translate}}</md-button>
     <md-button type="submit"
                ng-class="{'md-primary': $ctrl.zones.$valid, 'md-warn': $ctrl.zones.$invalid}"
                ng-click="$ctrl.zones.$valid ? $ctrl.onSave({ response: {intensityFactor: $ctrl.intensityFactor, sport: $ctrl.sport, settings: $ctrl.settings}}) : angular.noop()">{{'form.save' | translate}}</md-button>
