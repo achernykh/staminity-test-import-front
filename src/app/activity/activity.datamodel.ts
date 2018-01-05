@@ -1,12 +1,12 @@
 import {
-	IActivityHeader,
-	IActivityDetails,
-	IActivityIntervalW,
-	IActivityIntervalL,
-	IActivityIntervalP,
-	IActivityMeasure,
-	ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType, IActivityIntervalG, IDurationMeasure,
-	IIntensityMeasure, IActivityIntervalU
+    IActivityHeader,
+    IActivityDetails,
+    IActivityIntervalW,
+    IActivityIntervalL,
+    IActivityIntervalP,
+    IActivityMeasure,
+    ICalcMeasures, IActivityIntervalPW, IActivityInterval, IActivityType, IActivityIntervalG, IDurationMeasure,
+    IIntensityMeasure, IActivityIntervalU
 } from "../../../api/activity/activity.interface";
 import {IActivityCategory} from '../../../api/reference/reference.interface';
 import moment from 'moment/src/moment.js';
@@ -35,44 +35,44 @@ export enum ActivityStatus {
 }
 
 export class Interval implements IActivityInterval {
-	trainersPrescription: string;
-	durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
-	durationValue: number; // длительность интервала в ед.изм. показателя длительности
-	keyInterval: boolean; // признак того, что плановый сегмент является ключевым
-	intensityMeasure: string; //heartRate/speed/power, показатель, по которому задается интенсивность на данном интервале
-	intensityLevelFrom: number; // начальное абсолютное значение интенсивности
-	intensityByFtpFrom: number; // начальное относительное значение интенсивности
-	intensityLevelTo: number; // конечное абсолютное значение интенсивности
-	intensityByFtpTo: number; // конечное относительное значение интенсивности
-	intensityDistribution: string; // [A] = любое значение по показателю интенсивности в заданном интервале. [I] = рост значенией показателя. [D] = снижение
-	intensityFtpMax: number; // максимальная средняя интенсивность среди фактических данных , относящихся к разметке плановых сегментов. Пригодно к использованию только в рамках интервала с type = [P].
-	intensityMaxZone: number; // максимальная зона интенсивности
-	movingDurationLength: number; // времени
-	distanceLength: number; // по дистанции
-	actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
-	movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
-	distanceApprox: boolean; // признак, что distance рассчитан приблизительно
+    trainersPrescription: string;
+    durationMeasure: string; //movingDuration/distance, каким показателем задается длительность планового сегмента
+    durationValue: number; // длительность интервала в ед.изм. показателя длительности
+    keyInterval: boolean; // признак того, что плановый сегмент является ключевым
+    intensityMeasure: string; //heartRate/speed/power, показатель, по которому задается интенсивность на данном интервале
+    intensityLevelFrom: number; // начальное абсолютное значение интенсивности
+    intensityByFtpFrom: number; // начальное относительное значение интенсивности
+    intensityLevelTo: number; // конечное абсолютное значение интенсивности
+    intensityByFtpTo: number; // конечное относительное значение интенсивности
+    intensityDistribution: string; // [A] = любое значение по показателю интенсивности в заданном интервале. [I] = рост значенией показателя. [D] = снижение
+    intensityFtpMax: number; // максимальная средняя интенсивность среди фактических данных , относящихся к разметке плановых сегментов. Пригодно к использованию только в рамках интервала с type = [P].
+    intensityMaxZone: number; // максимальная зона интенсивности
+    movingDurationLength: number; // времени
+    distanceLength: number; // по дистанции
+    actualDurationValue: number; // Указанная вручную пользователем длительность сегмента
+    movingDurationApprox: boolean; // признак, что movingDuration определен приблизительно
+    distanceApprox: boolean; // признак, что distance рассчитан приблизительно
 
-	// Дополнительные поля для модели данных отображения сегмента pW | P
-	movingDuration: IDurationMeasure;
-	distance: IDurationMeasure;
-	heartRate: IIntensityMeasure;
-	power: IIntensityMeasure;
-	speed: IIntensityMeasure;
+    // Дополнительные поля для модели данных отображения сегмента pW | P
+    movingDuration: IDurationMeasure;
+    distance: IDurationMeasure;
+    heartRate: IIntensityMeasure;
+    power: IIntensityMeasure;
+    speed: IIntensityMeasure;
 
-	// Поля для типа интервала G
-	code: string;
-	repeatCount: number;
+    // Поля для типа интервала G
+    code: string;
+    repeatCount: number;
 
-	public calcMeasures: ICalcMeasures;
+    public calcMeasures: ICalcMeasures;
 
-	constructor(public type: string, obj?: {}){
-		this.type = type;
-		this.trainersPrescription = null;
-		this.durationMeasure = null; //movingDuration/distance, каким показателем задается длительность планового сегмента
-		this.durationValue = null; // длительность интервала в ед.изм. показателя длительности
-		//this.calcMeasures = new IntervalCalcMeasure();
-		/**{
+    constructor(public type: string, obj?: {}){
+        this.type = type;
+        this.trainersPrescription = null;
+        this.durationMeasure = null; //movingDuration/distance, каким показателем задается длительность планового сегмента
+        this.durationValue = null; // длительность интервала в ед.изм. показателя длительности
+        //this.calcMeasures = new IntervalCalcMeasure();
+        /**{
 			heartRate: { code: 'heartRate', value: null, minValue: null, avgValue: null, maxValue: null}, // пульсовая статистика по интервалу
 			heartRateDistancePeaks: { code: 'heartRateDistancePeaks', value: null, minValue: null, avgValue: null, maxValue: null}, // данные по пульсовым пикам на разных дистанциях
 			speed: { code: 'speed', value: null, minValue: null, avgValue: null, maxValue: null}, // статистика по скорости
@@ -103,41 +103,41 @@ export class Interval implements IActivityInterval {
 			completePercent: { code: 'completePercent', value: null, minValue: null, avgValue: null, maxValue: null}, // процент выполнения сегмента по отношению к плановым значениям
 		};**/
 
-		switch (type) {
-			case 'pW': {
-				this.calcMeasures = new ActivityIntervalCalcMeasure();
-				break;
-			}
-		}
+        switch (type) {
+            case 'pW': {
+                this.calcMeasures = new ActivityIntervalCalcMeasure();
+                break;
+            }
+        }
 
-		if (type === 'P' || type === 'pW') {
-			this.durationMeasure = null;
-			this.intensityMeasure = null;
-			this.intensityLevelFrom = null;
-			this.intensityByFtpTo = null;
-			this.intensityByFtpFrom = null;
-			this.intensityByFtpTo = null;
-			this.intensityFtpMax = null;
-			this.intensityMaxZone = null;
-			this.movingDurationLength = null;
-			this.distanceLength = null;
-			this.movingDurationApprox = null;
-			this.distanceApprox = null;
-		} else if(type === 'G') {
-			this.code = Math.random().toString(36).substr(2, 5);
-			this.repeatCount = 0;
-		}
+        if (type === 'P' || type === 'pW') {
+            this.durationMeasure = null;
+            this.intensityMeasure = null;
+            this.intensityLevelFrom = null;
+            this.intensityByFtpTo = null;
+            this.intensityByFtpFrom = null;
+            this.intensityByFtpTo = null;
+            this.intensityFtpMax = null;
+            this.intensityMaxZone = null;
+            this.movingDurationLength = null;
+            this.distanceLength = null;
+            this.movingDurationApprox = null;
+            this.distanceApprox = null;
+        } else if(type === 'G') {
+            this.code = Math.random().toString(36).substr(2, 5);
+            this.repeatCount = 0;
+        }
 
-		if(obj) { // дополнительные параметры для создания интервала
-			Object.assign(this,obj);
-		}
-	}
+        if(obj) { // дополнительные параметры для создания интервала
+            Object.assign(this,obj);
+        }
+    }
 }
 
 export let toDay = (date):Date => {
-	let result = new Date(date);
-	result.setHours(0, 0, 0, 0);
-	return result;
+    let result = new Date(date);
+    result.setHours(0, 0, 0, 0);
+    return result;
 };
 
 /**
@@ -145,60 +145,60 @@ export let toDay = (date):Date => {
  */
 export class ActivityOld extends CalendarItem {
 
-	public activityHeader: IActivityHeader;
-	public header: ActivityHeader;
-	public categoriesList: Array<IActivityCategory> = [];
+    public activityHeader: IActivityHeader;
+    public header: ActivityHeader;
+    public categoriesList: Array<IActivityCategory> = [];
 
-	public intervals: ActivityIntervals;
-	public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
-	public intervalPW: ActivityIntervalPW;
-	public intervalW: ActivityIntervalW;
-	public intervalL: Array<ActivityIntervalL> = [];
-	public intervalP: Array<ActivityIntervalP> = [];
-	public intervalG: Array<ActivityIntervalG> = [];
-	public intervalU: Array<ActivityIntervalU> = [];
+    public intervals: ActivityIntervals;
+    public categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
+    public intervalPW: ActivityIntervalPW;
+    public intervalW: ActivityIntervalW;
+    public intervalL: Array<ActivityIntervalL> = [];
+    public intervalP: Array<ActivityIntervalP> = [];
+    public intervalG: Array<ActivityIntervalG> = [];
+    public intervalU: Array<ActivityIntervalU> = [];
 
-	private route: Array<IRoute>;
-	private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
-	private hasDetails: boolean = false;
-	public hasImportedData: boolean = false;
-	private peaks: Array<any>;
-	private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
-	//public actualDataIsImported: boolean = false;
+    private route: Array<IRoute>;
+    private isRouteExist: boolean = true; // ставим начально значени true, чтобы отобразить процесс загрузки данных, далее значение будет переопределно наличем координат
+    private hasDetails: boolean = false;
+    public hasImportedData: boolean = false;
+    private peaks: Array<any>;
+    private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
+    //public actualDataIsImported: boolean = false;
     private _startDate: Date;
-	public details: ActivityDetails;
+    public details: ActivityDetails;
 
-	// Дополнительные поля для использования в шаблонах тренировки
-	public isTemplate: boolean;
-	public templateId: number;
-	public code: string;
-	public description: string;
-	public favourite: boolean;
-	public visible: boolean;
-	public groupProfile: IGroupProfileShort;
+    // Дополнительные поля для использования в шаблонах тренировки
+    public isTemplate: boolean;
+    public templateId: number;
+    public code: string;
+    public description: string;
+    public favourite: boolean;
+    public visible: boolean;
+    public groupProfile: IGroupProfileShort;
 
-	constructor(private item: ICalendarItem){
-		super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
-		// Запоминаем, чтобы парсить только один раз
-		this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
+    constructor(private item: ICalendarItem){
+        super(item); // в родителе есть часть полей, которые будут использованы в форме, например даты
+        // Запоминаем, чтобы парсить только один раз
+        this._startDate = toDay(moment(this.dateStart, 'YYYY-MM-DD').toDate());
 
-		this.prepare();
-	}
+        this.prepare();
+    }
 
-	// TODO delete -> never used
-	/*completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
+    // TODO delete -> never used
+    /*completeIntervals(intervals: Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalPW | IActivityIntervalL>) {
 		this.header.intervals = [];
 		this.header.intervals.push(...this.intervalP, this.intervalPW, ...intervals, this.intervalW);
 		this.intervalL = <Array<ActivityIntervalL>>this.header.intervals.filter(i => i.type === "L");
 		this.hasImportedData = this.intervalL.hasOwnProperty('length') && this.intervalL.length > 0;
 	}*/
 
-	hasIntervalDetails(): boolean {
-		return this.intervals.L.length > 0;
-	}
+    hasIntervalDetails(): boolean {
+        return this.intervals.L.length > 0;
+    }
 
-	// TODO delete -> never used
-	/*completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
+    // TODO delete -> never used
+    /*completeInterval(interval: IActivityIntervalL | IActivityIntervalP | IActivityIntervalG | ActivityIntervalU) {
 		//this.header.intervals.push(interval);
 		switch (interval.type) {
 			case 'U': {
@@ -217,8 +217,8 @@ export class ActivityOld extends CalendarItem {
 		}
 	}*/
 
-	// TODO delete
-	/*calculateInterval(type: string) {
+    // TODO delete
+    /*calculateInterval(type: string) {
 		switch (type) {
 			case 'pW': {
 				let intervalPW:Interval = new Interval('pW');
@@ -243,8 +243,8 @@ export class ActivityOld extends CalendarItem {
 		}
 	}*/
 
-	// TODO перенос в ActivityIntervals
-	/*spliceInterval(type: string, id: number) {
+    // TODO перенос в ActivityIntervals
+    /*spliceInterval(type: string, id: number) {
 		switch (type) {
 			case 'P': {
 				this.intervalP.splice(id,1);
@@ -255,164 +255,164 @@ export class ActivityOld extends CalendarItem {
 		}
 	}*/
 
-	// Подготовка данных для модели отображения
-	prepare() {
-		super.prepare();
-		// Заголовок тренировки
-		this.header = new ActivityHeader(this.item.activityHeader);
-		// Интервалы тренировки
-		this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
-		// Детали тренировки
-		this.details = new ActivityDetails();
+    // Подготовка данных для модели отображения
+    prepare() {
+        super.prepare();
+        // Заголовок тренировки
+        this.header = new ActivityHeader(this.item.activityHeader);
+        // Интервалы тренировки
+        this.intervals = new ActivityIntervals(this.header.intervals.length > 0 && this.header.intervals || undefined);
+        // Детали тренировки
+        this.details = new ActivityDetails();
 
-		//this.updateIntervals();
-	}
+        //this.updateIntervals();
+    }
 
-	// TODO перейти на использование ссылок вида this.intervals.XX
-	updateIntervals(){
-		// Ссылки на интервалы для быстрого доступа
-		this.intervalPW = <ActivityIntervalPW>this.intervals.PW;
-		this.intervalW = <ActivityIntervalW>this.intervals.W;
-		this.intervalP = <Array<ActivityIntervalP>>this.intervals.P;
-		this.intervalG = <Array<ActivityIntervalG>>this.intervals.G;
-		this.intervalL = <Array<ActivityIntervalL>>this.intervals.L;
-		this.intervalU = <Array<ActivityIntervalU>>this.intervals.U;
-	}
+    // TODO перейти на использование ссылок вида this.intervals.XX
+    updateIntervals(){
+        // Ссылки на интервалы для быстрого доступа
+        this.intervalPW = <ActivityIntervalPW>this.intervals.PW;
+        this.intervalW = <ActivityIntervalW>this.intervals.W;
+        this.intervalP = <Array<ActivityIntervalP>>this.intervals.P;
+        this.intervalG = <Array<ActivityIntervalG>>this.intervals.G;
+        this.intervalL = <Array<ActivityIntervalL>>this.intervals.L;
+        this.intervalU = <Array<ActivityIntervalU>>this.intervals.U;
+    }
 
-	get hasActualData(){
-		return this.intervalW.actualDataIsImported || false;
-	}
+    get hasActualData(){
+        return this.intervalW.actualDataIsImported || false;
+    }
 
-	// Подготовка данных для передачи в API
-	build(userProfile?: IUserProfileShort):ICalendarItem {
-		super.package();
-		this.dateEnd = this.dateStart;
-		//this.header = this.header.build();
-		this.header.activityType = getType(Number(this.header.activityType.id));
-		//this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
-		//this.header.intervals = this.intervals.build();
-		//this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
+    // Подготовка данных для передачи в API
+    build(userProfile?: IUserProfileShort):ICalendarItem {
+        super.package();
+        this.dateEnd = this.dateStart;
+        //this.header = this.header.build();
+        this.header.activityType = getType(Number(this.header.activityType.id));
+        //this.header.activityCategory = this.categoriesList.filter(c => c.id === this.category)[0] || null;
+        //this.header.intervals = this.intervals.build();
+        //this.header.intervals.push(...this.intervalP, this.intervalPW, this.intervalW); //, ...this.intervalL
 
-		return {
-			//index: this.index,
-			calendarItemId: this.calendarItemId,
-			calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
-			revision: this.revision,
-			dateStart: this.dateStart, // timestamp даты и времени начала
-			dateEnd: this.dateEnd, // timestamp даты и времени окончания
-			userProfileOwner: userProfile || this.userProfileOwner,
-			userProfileCreator: this.userProfileCreator,
-			//userProfileCreator: IUserProfileShort,
-			activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()})
-		};
-	}
+        return {
+            //index: this.index,
+            calendarItemId: this.calendarItemId,
+            calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
+            revision: this.revision,
+            dateStart: this.dateStart, // timestamp даты и времени начала
+            dateEnd: this.dateEnd, // timestamp даты и времени окончания
+            userProfileOwner: userProfile || this.userProfileOwner,
+            userProfileCreator: this.userProfileCreator,
+            //userProfileCreator: IUserProfileShort,
+            activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()})
+        };
+    }
 
-	// TODO перенести в ActivityHeader
-	/**
+    // TODO перенести в ActivityHeader
+    /**
 	 * Вид спорта
 	 * @returns {String}
      */
-	get sport() {
-		return this.header.activityType.id;
-	}
+    get sport() {
+        return this.header.activityType.id;
+    }
 
-	set sport(id) {
-		this.header.activityType = getType(Number(id));
-	}
+    set sport(id) {
+        this.header.activityType = getType(Number(id));
+    }
 
-	/**
+    /**
 	 * Базовый вид спорта
 	 * @returns {String}
      */
-	get sportBasic(){
-		return this.header.activityType.typeBasic;
-	}
+    get sportBasic(){
+        return this.header.activityType.typeBasic;
+    }
 
-	/**
+    /**
 	 * Путь к иконке вида спорта (не базовый вид спорта)
 	 * @returns {string}
 	 */
-	get sportUrl() {
-		return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
-	}
+    get sportUrl() {
+        return `assets/icon/${this.header.activityType.code || 'default_sport'}.svg`;
+    }
 
-	get category():IActivityCategory {
-		return this.header.hasOwnProperty('activityCategory') && this.header.activityCategory;
-	}
+    get category():IActivityCategory {
+        return this.header.hasOwnProperty('activityCategory') && this.header.activityCategory;
+    }
 
-	set category(c: IActivityCategory) {
-		this.header.activityCategory = c;
-	}
+    set category(c: IActivityCategory) {
+        this.header.activityCategory = c;
+    }
 
-	get categoryCode():string {
-		return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('code'))
-			&& this.header.activityCategory.code;
-	}
+    get categoryCode():string {
+        return (this.header.activityCategory && this.header.activityCategory.hasOwnProperty('code'))
+            && this.header.activityCategory.code;
+    }
 
-	/**
+    /**
 	 * Выполнена ли тренировка?
 	 * Проверяем наличие интервала с типов W, а также наличие значений в показателях
 	 * @returns {boolean}
      */
-	get completed() {
-		return this.intervalW && this.intervalW.isCompleted;
-	}
+    get completed() {
+        return this.intervalW && this.intervalW.isCompleted;
+    }
 
-	get structured() {
-		return this.intervalP && this.intervalP.length > 0;
-	}
+    get structured() {
+        return this.intervalP && this.intervalP.length > 0;
+    }
 
-	get isToday() {
-		return this._startDate.getTime() === toDay(new Date()).getTime();
-	}
+    get isToday() {
+        return this._startDate.getTime() === toDay(new Date()).getTime();
+    }
 
-	get coming() {
-		return this._startDate.getTime() >= toDay(new Date()).getTime();
-	}
+    get coming() {
+        return this._startDate.getTime() >= toDay(new Date()).getTime();
+    }
 
-	get dismiss() {
-		return this.status === 'dismiss';
-	}
+    get dismiss() {
+        return this.status === 'dismiss';
+    }
 
-	/**
+    /**
 	 * Тренировка имеет план?
 	 * Проверяем наличие интервала с типом pW, а также наличие значения в показателях
 	 * @returns {boolean}
      */
-	get specified() {
-		return this.intervalPW && this.intervalPW.specified();
-	}
+    get specified() {
+        return this.intervalPW && this.intervalPW.specified();
+    }
 
-	get bottomPanel() {
-		return (this.status === 'coming' &&
-			((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0 ) ||
-			(!this.structured && this.intervalPW.intensityMeasure)) && 'plan') ||
-			//(this.status === 'coming' && this.structured && 'segmentList') ||
-			((this.completed && this.summaryAvg.length > 0) && 'data') || null;
-	}
+    get bottomPanel() {
+        return (this.status === 'coming' &&
+            ((this.intervalPW.trainersPrescription && this.intervalPW.trainersPrescription.length > 0 ) ||
+            (!this.structured && this.intervalPW.intensityMeasure)) && 'plan') ||
+            //(this.status === 'coming' && this.structured && 'segmentList') ||
+            ((this.completed && this.summaryAvg.length > 0) && 'data') || null;
+    }
 
-	/**
+    /**
 	 * Опредлеям нужно ли выводить дополнительную панель с информацией
 	 * @returns {boolean}
 	 */
-	hasBottomData() {
-		return !!this.bottomPanel;
-	}
+    hasBottomData() {
+        return !!this.bottomPanel;
+    }
 
-	get percent() {
-		return this.intervalPW && this.intervalPW.percent();
-	}
+    get percent() {
+        return this.intervalPW && this.intervalPW.percent();
+    }
 
-	printPercent() {
-		return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
-	}
+    printPercent() {
+        return ((this.percent && this.completed) && `${this.percent.toFixed(0)}%`);
+    }
 
-	// TODO перенеси в ActivityHeader
-	get id(){
-		return this.header.activityId;
-	}
+    // TODO перенеси в ActivityHeader
+    get id(){
+        return this.header.activityId;
+    }
 
-	/**
+    /**
 	 * Перечень статусов тренировки
 	 * 0) Шаблон - template
 	 * 1) Запланирована, в будущем - coming
@@ -423,135 +423,135 @@ export class ActivityOld extends CalendarItem {
 	 * 6) Не запланирована, выполнена - not-specified
 	 * @returns {string}
 	 */
-	get status() {
-		return this.isTemplate? 'template' : (
-			!this.isToday ?
-			// приоритет статусов, если запись не сегодня
-			(this.coming && 'coming')
-				|| (!this.specified && 'not-specified')
-				|| (!this.completed && 'dismiss')
-				|| ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
-				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn')
-				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
-			//приоритет статусов, если запись сегодня
-			((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
-				|| ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
-				|| ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
-				|| (!this.specified && 'not-specified')
-				|| (this.coming && 'coming')
-		);
-	}
+    get status() {
+        return this.isTemplate? 'template' : (
+            !this.isToday ?
+            // приоритет статусов, если запись не сегодня
+            (this.coming && 'coming')
+                || (!this.specified && 'not-specified')
+                || (!this.completed && 'dismiss')
+                || ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
+                || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0) && 'complete-warn')
+                || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error') :
+            //приоритет статусов, если запись сегодня
+            ((Math.abs(100-this.percent) <= this.statusLimit.warn && this.percent > 0) && 'complete')
+                || ((Math.abs(100-this.percent) <= this.statusLimit.error && this.percent > 0)  && 'complete-warn')
+                || ((Math.abs(100-this.percent) > this.statusLimit.error && this.percent > 0)  && 'complete-error')
+                || (!this.specified && 'not-specified')
+                || (this.coming && 'coming')
+        );
+    }
 
-	get durationValue(){
-		return (!!this.durationMeasure && this[this.durationMeasure]) || null;
-	}
+    get durationValue(){
+        return (!!this.durationMeasure && this[this.durationMeasure]) || null;
+    }
 
-	get durationMeasure() {
-		return (this.intervalPW && this.intervalPW.durationMeasure)
-			|| (!!this.intervalW.calcMeasures.duration.maxValue && 'duration')
-			|| (!!this.intervalW.calcMeasures.distance.maxValue && 'distance') || null;
-	}
+    get durationMeasure() {
+        return (this.intervalPW && this.intervalPW.durationMeasure)
+            || (!!this.intervalW.calcMeasures.duration.maxValue && 'duration')
+            || (!!this.intervalW.calcMeasures.distance.maxValue && 'distance') || null;
+    }
 
-	get intensityValue() {
-		return ((this.status === 'coming' || this.status === 'dismiss') && {from: this.intervalPW.intensityLevelFrom, to: this.intervalPW.intensityLevelTo}) ||
-			(this.intensityMeasure &&  this.intervalW.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.intervalW.calcMeasures[this.intensityMeasure].avgValue) || null;
-	}
+    get intensityValue() {
+        return ((this.status === 'coming' || this.status === 'dismiss') && {from: this.intervalPW.intensityLevelFrom, to: this.intervalPW.intensityLevelTo}) ||
+            (this.intensityMeasure &&  this.intervalW.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.intervalW.calcMeasures[this.intensityMeasure].avgValue) || null;
+    }
 
-	get intensityMeasure() {
-		return this.intervalPW.intensityMeasure || this.defaultIntensityMeasure;
-	}
+    get intensityMeasure() {
+        return this.intervalPW.intensityMeasure || this.defaultIntensityMeasure;
+    }
 
-	get defaultIntensityMeasure() {
-		return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue')  && this.intervalW.calcMeasures.speed.avgValue && 'speed')
-			|| (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
-			|| (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.power.avgValue && 'power') || null;
-	}
+    get defaultIntensityMeasure() {
+        return (this.intervalW.calcMeasures.hasOwnProperty('speed') &&  this.intervalW.calcMeasures.speed.hasOwnProperty('avgValue')  && this.intervalW.calcMeasures.speed.avgValue && 'speed')
+            || (this.intervalW.calcMeasures.hasOwnProperty('heartRate') &&  this.intervalW.calcMeasures.heartRate.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.heartRate.avgValue && 'heartRate')
+            || (this.intervalW.calcMeasures.hasOwnProperty('power') &&  this.intervalW.calcMeasures.power.hasOwnProperty('avgValue') && this.intervalW.calcMeasures.power.avgValue && 'power') || null;
+    }
 
-	get movingDuration():number {
-		return this.intervalW.movingDuration() ||
-			(this.structured && this.intervalPW.movingDurationLength) ||
-			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
-	}
+    get movingDuration():number {
+        return this.intervalW.movingDuration() ||
+            (this.structured && this.intervalPW.movingDurationLength) ||
+            (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
+    }
 
-	get movingDurationApprox():boolean {
-		return !!!this.intervalW.movingDuration() && this.intervalPW.movingDurationApprox;
-	}
+    get movingDurationApprox():boolean {
+        return !!!this.intervalW.movingDuration() && this.intervalPW.movingDurationApprox;
+    }
 
-	get duration() {
-		return this.intervalW.movingDuration() ||
-			(this.structured && this.intervalPW.movingDurationLength) ||
-			(this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
-	}
+    get duration() {
+        return this.intervalW.movingDuration() ||
+            (this.structured && this.intervalPW.movingDurationLength) ||
+            (this.intervalPW.durationMeasure === 'movingDuration' && this.intervalPW.durationValue) || null;
+    }
 
-	get distance() {
-		return this.intervalW.distance() ||
-			(this.structured && this.intervalPW.distanceLength) ||
-			(this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null;
-	}
+    get distance() {
+        return this.intervalW.distance() ||
+            (this.structured && this.intervalPW.distanceLength) ||
+            (this.intervalPW.durationMeasure === 'distance' && this.intervalPW.durationValue) || null;
+    }
 
-	get distanceApprox():boolean {
-		return !!!this.intervalW.distance() && this.intervalPW.distanceApprox;
-	}
+    get distanceApprox():boolean {
+        return !!!this.intervalW.distance() && this.intervalPW.distanceApprox;
+    }
 
-	// Формируем перечень показателей для панели data (bottomPanel)
-	get summaryAvg() {
-		let measures = ['speed','heartRate','power'];
-		let calc = this.intervalW.calcMeasures;
+    // Формируем перечень показателей для панели data (bottomPanel)
+    get summaryAvg() {
+        let measures = ['speed','heartRate','power'];
+        let calc = this.intervalW.calcMeasures;
 
-		return measures
-			.map((measure)=>{
-				if(calc.hasOwnProperty(measure)){
-					return ((calc[measure].hasOwnProperty('avgValue')) &&
-						{ measure : measure, value: Number(calc[measure].avgValue)}) || {[measure]: null, value: null};
-				}})
-			.filter(measure => !!measure && !!measure.value);
-	}
+        return measures
+            .map((measure)=>{
+                if(calc.hasOwnProperty(measure)){
+                    return ((calc[measure].hasOwnProperty('avgValue')) &&
+                        { measure : measure, value: Number(calc[measure].avgValue)}) || {[measure]: null, value: null};
+                }})
+            .filter(measure => !!measure && !!measure.value);
+    }
 
-	prepareSegmentList(){
+    prepareSegmentList(){
 
-		let segmentList: Array<any> = [];
-		let segment: any = {};
+        let segmentList: Array<any> = [];
+        let segment: any = {};
 
-		if(this.structured && this.intervalP.length > 0) {
-			this.intervalP.forEach(interval => {
-				segment = interval;
-				segment['show'] = true;
-				segment['group'] = interval.type === 'G';
-				if (segment['group']) { //если группа
-					segment.subItem = []; // для записи членов группы
-					segmentList.push(segment);
-				} else { // отдельный интервал
-					if (segment.hasOwnProperty('parentGroupCode') && segment['parentGroupCode']) { // входит в группу
-						let gId = segmentList.findIndex(s => s['code'] === segment['parentGroupCode']);
-						if (gId !== -1) {
-							segmentList[gId].subItem.push(segment);
-						}
-					} else { // одиночный интервал, без группы
-						segmentList.push(segment);
-					}
-				}
-			});
-		}
+        if(this.structured && this.intervalP.length > 0) {
+            this.intervalP.forEach(interval => {
+                segment = interval;
+                segment['show'] = true;
+                segment['group'] = interval.type === 'G';
+                if (segment['group']) { //если группа
+                    segment.subItem = []; // для записи членов группы
+                    segmentList.push(segment);
+                } else { // отдельный интервал
+                    if (segment.hasOwnProperty('parentGroupCode') && segment['parentGroupCode']) { // входит в группу
+                        let gId = segmentList.findIndex(s => s['code'] === segment['parentGroupCode']);
+                        if (gId !== -1) {
+                            segmentList[gId].subItem.push(segment);
+                        }
+                    } else { // одиночный интервал, без группы
+                        segmentList.push(segment);
+                    }
+                }
+            });
+        }
 
-		return segmentList;
-	}
+        return segmentList;
+    }
 
-	/**
+    /**
 	 * @description Сборка массива координат для мини-граифка
 	 * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
 	 * @returns {any[]}
      */
-	formChart():Array<Array<number>>{
-		return this.intervalP && this.intervals.chart() || null;
-	}
+    formChart():Array<Array<number>>{
+        return this.intervalP && this.intervals.chart() || null;
+    }
 
-	setCategoriesList (categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
-		this.categoriesList = categoriesList;
-		this.categoriesByOwner = pipe(
-			orderBy(prop('sortOrder')),
-			groupBy(getOwner(userProfile))
-		) (categoriesList);
-	}
+    setCategoriesList (categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {
+        this.categoriesList = categoriesList;
+        this.categoriesByOwner = pipe(
+            orderBy(prop('sortOrder')),
+            groupBy(getOwner(userProfile))
+        ) (categoriesList);
+    }
 }
 
 export default ActivityOld;

@@ -12,13 +12,13 @@ import TemplateListComponent from "./template-list/template-list.component";
 
 
 export default module('staminity.reference', [])
-	.service('ReferenceService', ReferenceService)
-	.component('reference', ReferenceComponent)
-	.component('categories', CategoriesComponent)
-	.component('category', CategoryComponent)
-	.component('templates', TemplatesComponent)
-	.component('stTemplateList', TemplateListComponent)
-	.component('activityTemplate', TemplateComponent)
-	.filter('categoryCode', categoryCodeFilter)
-	.config(config)
-	.name;
+    .service('ReferenceService', ReferenceService)
+    .component('reference', ReferenceComponent)
+    .component('categories', CategoriesComponent)
+    .component('category', CategoryComponent)
+    .component('templates', TemplatesComponent)
+    .component('stTemplateList', TemplateListComponent)
+    .component('activityTemplate', TemplateComponent)
+    .filter('categoryCode', categoryCodeFilter)
+    .config(config)
+    .name;

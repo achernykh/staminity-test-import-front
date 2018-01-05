@@ -17,83 +17,83 @@ import { profileShort } from "../../core/user.function";
 
 class TemplateCtrl implements IComponentController {
 
-	private template: IActivityTemplate;
-	currentUser: IUserProfile;
-	private onDelete: () => any;
-	private onSelect: () => any;
-	private onCopy: () => any;
-	private reference: ReferenceCtrl;
-	private segmentChart: any;
-	private dialogOptions: ICalendarItemDialogOptions;
+    private template: IActivityTemplate;
+    currentUser: IUserProfile;
+    private onDelete: () => any;
+    private onSelect: () => any;
+    private onCopy: () => any;
+    private reference: ReferenceCtrl;
+    private segmentChart: any;
+    private dialogOptions: ICalendarItemDialogOptions;
 
-	static $inject = ['$scope', '$filter', '$mdDialog', 'CalendarItemDialogService'];
+    static $inject = ['$scope', '$filter', '$mdDialog', 'CalendarItemDialogService'];
 
-	constructor (
-		private $scope, 
-		private $filter, 
-		private $mdDialog, private calendarItemDialog: CalendarItemDialogService) {
+    constructor (
+        private $scope, 
+        private $filter, 
+        private $mdDialog, private calendarItemDialog: CalendarItemDialogService) {
 
-	}
+    }
 
-	$onInit (): void {
-	    this.segmentChart = this.isStructured ?
+    $onInit (): void {
+        this.segmentChart = this.isStructured ?
             getIntervalsChartData(<Array<IActivityIntervalP>>this.template.content.filter(i => i.type === 'P')) :
             null;
 
-		this.dialogOptions = {
-			currentUser: this.currentUser,
-			owner: this.currentUser,
-			popupMode: true,
-			formMode: FormMode.Put,
-			trainingPlanMode: false,
-			planId: null,
-			templateMode: true,
-			templateOptions: {
-				templateId: this.template.id,
-				code: this.template.code,
-				visible: this.template.visible,
-				favourite: this.template.favourite,
-				groupProfile: this.template.groupProfile
-			}
-		};
+        this.dialogOptions = {
+            currentUser: this.currentUser,
+            owner: this.currentUser,
+            popupMode: true,
+            formMode: FormMode.Put,
+            trainingPlanMode: false,
+            planId: null,
+            templateMode: true,
+            templateOptions: {
+                templateId: this.template.id,
+                code: this.template.code,
+                visible: this.template.visible,
+                favourite: this.template.favourite,
+                groupProfile: this.template.groupProfile
+            }
+        };
     }
 
     open (e: Event): void {
-    	this.calendarItemDialog.activity(e, this.dialogOptions, templateToActivity(this.template))
-			.then(response => {debugger;});
-	}
-
-	get isStructured (): boolean {
-	    return this.template.content.some(i => i.type === 'P');
+        this.calendarItemDialog.activity(e, this.dialogOptions, templateToActivity(this.template))
+            .then(response => {debugger;});
     }
 
-	get activityType () {
-		let { activityTypeId } = this.template.activityCategory;
-		return getType(activityTypeId);
-	}
+    get isStructured (): boolean {
+        return this.template.content.some(i => i.type === 'P');
+    }
 
-	get description () {
-		return path(['content', 0, 'trainerPrescription'])(this.template) || this.template.description;
-	}
+    get activityType () {
+        let { activityTypeId } = this.template.activityCategory;
+        return getType(activityTypeId);
+    }
 
-	get name () {
-		return this.template.code;
-	}
+    get description () {
+        return path(['content', 0, 'trainerPrescription'])(this.template) || this.template.description;
+    }
+
+    get name () {
+        return this.template.code;
+    }
 }
 
 
 const TemplateComponent: IComponentOptions = {
-	bindings: {
-		template: '<',
+    bindings: {
+        template: '<',
         view: '<',
-		currentUser: '<',
+        currentUser: '<',
         isMobileLayout: '<',
-		onDelete: '&',
-		onSelect: '&',
-		onCopy: '&'
-	},
-	controller: TemplateCtrl,
-	template: require('./template.component.html') as string
+        onDelete: '&',
+        onSelect: '&',
+        onCopy: '&'
+    },
+    controller: TemplateCtrl,
+    template: require('./template.component.html') as string
 };
 
 

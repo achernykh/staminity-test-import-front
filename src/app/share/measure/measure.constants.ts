@@ -333,7 +333,7 @@ export class Measure {
         return this.type === 'pace';
     }
 
-	/**
+    /**
      * Пересчет единиц измерения
      * @param unit - целевая единица измерения
      * @param value - значение показателя

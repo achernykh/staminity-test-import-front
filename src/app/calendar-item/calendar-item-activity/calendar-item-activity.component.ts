@@ -707,7 +707,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-	/**
+    /**
      * Обновление данных из формы ввода/редактирования activity-assignment
      */
     updateAssignment(plan:IActivityIntervalPW, actual:ICalcMeasures) {
