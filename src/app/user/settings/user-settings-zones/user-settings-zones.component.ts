@@ -1,5 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { userSettingsEditZoneDialog } from '../user-settings-edit-zone/user-settings-edit-zone.dialog';
 import './user-settings-zones.component.scss';
 
 class UserSettingsZonesCtrl {
@@ -68,36 +69,15 @@ class UserSettingsZonesCtrl {
 //     }
 
     putZones($event, intensityFactor, sport, sportSettings){
-        this.$mdDialog.show({
-            controller: DialogController,
-            controllerAs: '$ctrl',
-            template:
-                `<md-dialog id="put-zones" aria-label="Put Zones">
-                        <st-user-settings-edit-zone layout="column"
-                                class="settings-zones-edit"
-                                intensity-factor="$ctrl.intensityFactor"
-                                sport="$ctrl.sport"
-                                sport-settings="$ctrl.sportSettings"
-                                on-cancel="cancel()" on-save="answer(response)">
-                        </st-user-settings-edit-zone>
-                   </md-dialog>`,
-            parent: angular.element(document.body),
-            targetEvent: $event,
-            locals: {
-                intensityFactor: intensityFactor,
-                sport: sport,
-                sportSettings: sportSettings
-            },
-            bindToController: true,
-            clickOutsideToClose: false,
-            escapeToClose: false,
-            fullscreen: true
-        }).then(response => {
+        this.$mdDialog.show(userSettingsEditZoneDialog($event, intensityFactor, sport, sportSettings))
+        .then((response) => {
             debugger;
             // this.zones[response.intensityFactor][response.sport] = response.settings;
             // this.parent.update({trainingZones: true});
             // this.prepareZones();
-        }, error => {});
+        }, (error) => {
+            
+        });
     }
 
 //     postZones($event){
@@ -149,19 +129,3 @@ export const UserSettingsZonesComponent: IComponentOptions = {
 // };
 
 // export default SettingsZonesComponent;
-
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
-        $mdDialog.hide();
-    };
-
-    $scope.cancel = function() {
-        console.log('cancel');
-        $mdDialog.cancel();
-    };
-
-    $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-    };
-}
-DialogController.$inject = ['$scope','$mdDialog'];

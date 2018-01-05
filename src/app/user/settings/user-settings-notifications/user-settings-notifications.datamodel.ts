@@ -1,3 +1,4 @@
+import { copy } from 'angular';
 import { IUserProfile, IUserNotifications } from "@api/user";
 
 export const groups = {
@@ -22,7 +23,7 @@ export class UserSettingsNotificationsDatamodel {
 	notifications: any;
 
 	constructor (private profile: IUserProfile) {
-		this.notifications = profile.notifications;
+		this.notifications = copy(profile.notifications);
 	}
 
 	toUserProfile () : IUserProfile {

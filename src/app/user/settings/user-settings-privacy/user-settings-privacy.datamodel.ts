@@ -1,3 +1,4 @@
+import { copy } from 'angular';
 import { IUserProfile } from "@api/user";
 
 export class UserSettingsPrivacyDatamodel {
@@ -5,7 +6,7 @@ export class UserSettingsPrivacyDatamodel {
 	groups: any[];
 
 	constructor (private profile: IUserProfile) {
-		this.groups = profile.privacy;
+		this.groups = copy(profile.privacy);
 	}
 
 	toUserProfile () : IUserProfile {

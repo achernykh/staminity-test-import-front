@@ -1,5 +1,5 @@
-import './user-settings-edit-zone.component.scss';
 import {IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
+import './user-settings-edit-zone.component.scss';
 
 export const _CalculationMethod = { 
     heartRate: [{ 
