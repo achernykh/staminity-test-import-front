@@ -187,16 +187,6 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         }
     }
 
-    delete (): void {
-        Promise.resolve(() => {})
-            .then(() => this.competition.isCompleted && this.dialogs.confirm({text: 'dialogs.deleteActualCompetition'}))
-            .then(() => this.calendarService.deleteItem('F', [this.competition.calendarItemId]))
-            .then(() => {
-                this.message.toastInfo('competitionDeleted');
-                this.onAnswer({ formMode: FormMode.Delete, item: this.competition.build() });
-            }, error => error && this.message.toastError(error));
-    }
-
     saveItems (): Promise<Array<IRevisionResponse>> {
         debugger;
         return Promise.all(<any>this.competition.items.map(i => {
@@ -222,6 +212,24 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 }
             })
         );
+    }
+
+    delete (): void {
+        if ( this.competition.view.isTrainingPlan ) {
+            this.deleteTrainingPlanItems();
+        } else {
+            this.deleteCalendarItems();
+        }
+    }
+
+    deleteCalendarItems (): void {
+        Promise.resolve(() => {})
+            .then(() => this.competition.isCompleted && this.dialogs.confirm({text: 'dialogs.deleteActualCompetition'}))
+            .then(() => this.calendarService.deleteItem('F', [this.competition.calendarItemId]))
+            .then(() => {
+                this.message.toastInfo('competitionDeleted');
+                this.onAnswer({ formMode: FormMode.Delete, item: this.competition.build() });
+            }, error => error && this.message.toastError(error));
     }
 
     deleteTrainingPlanItems (): void {
