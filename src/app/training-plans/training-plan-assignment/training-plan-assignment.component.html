@@ -1,13 +1,16 @@
 <!-- Форма просмотра имеющихся присвоений тренировочного плана -->
-<st-training-plan-assignment-list
-    ng-if="$ctrl.isListState"
-    on-form="$ctrl.isFormState = true">
+<st-training-plan-assignment-list layout="column" layout-fill
+                                  class="training-plan-assignment-list"
+                                  ng-if="$ctrl.isListState"
+                                  on-form="$ctrl.isFormState = true">
 
 </st-training-plan-assignment-list>
 
 <!-- Форма редактировани / создания присвоения-->
-<st-training-plan-assignment-form
-    ng-if="$ctrl.isFormState"
-    on-back="$ctrl.isListState = true"
-    on-cancel="">
+<st-training-plan-assignment-form layout="column" layout-fill
+                                  class="training-plan-assignment-form"
+                                  ng-if="$ctrl.isFormState"
+                                  athletes="$ctrl.athletes"
+                                  on-back="$ctrl.isListState = true"
+                                  on-cancel="">
 </st-training-plan-assignment-form>

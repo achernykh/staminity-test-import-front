@@ -2,6 +2,7 @@ import './training-plan-assignment.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import { TrainingPlan } from "@app/training-plans/training-plan/training-plan.datamodel";
 import { FormMode } from "@app/application.interface";
+import { IUserProfile } from "@api/user";
 
 /**
  * Контроллер для формы присоведения тренировочных планов
@@ -12,6 +13,7 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
 
     plan: TrainingPlan;
     state: 'form' | 'list';
+    athletes: Array<IUserProfile>;
 
     onEvent: (response: Object) => IPromise<void>;
 
@@ -35,6 +37,7 @@ export const TrainingPlanAssignmentComponent:IComponentOptions = {
     bindings: {
         plan: '<',
         state: '<',
+        athletes: '<',
         onEvent: '&'
     },
     controller: TrainingPlanAssignmentCtrl,

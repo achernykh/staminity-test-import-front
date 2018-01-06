@@ -1,11 +1,12 @@
 import { FormMode } from "../application.interface";
 import { TrainingPlan } from "./training-plan/training-plan.datamodel";
+import { SessionService } from "@app/core";
 
 export class TrainingPlanDialogService {
 
-    static $inject = ["$mdDialog"];
+    static $inject = ["$mdDialog", 'SessionService'];
 
-    constructor(private $mdDialog: any) {
+    constructor(private $mdDialog: any, private session: SessionService) {
 
     }
 
@@ -53,6 +54,7 @@ export class TrainingPlanDialogService {
                                     layout="column" layout-fill class="training-plan-assignment"
                                     state="$ctrl.state"
                                     data="$ctrl.plan"
+                                    athletes="$ctrl.athletes"
                                     on-cancel="cancel()" on-save="answer(mode,plan)">
                             </st-training-plan-assignment>
                        </md-dialog>`,
@@ -61,6 +63,7 @@ export class TrainingPlanDialogService {
             locals: {
                 plan: plan || new TrainingPlan(),
                 state,
+                athletes: this.session.getUser().connections.allAthletes.groupMembers || null
             },
             bindToController: true,
             clickOutsideToClose: false,
