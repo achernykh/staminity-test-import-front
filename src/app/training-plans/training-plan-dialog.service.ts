@@ -40,7 +40,7 @@ export class TrainingPlanDialogService {
         });
     }
 
-    assignment(env: Event, state: 'form' | 'list', plan?: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
+    assignment(env: Event, state: 'form' | 'list', plan: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
@@ -53,7 +53,7 @@ export class TrainingPlanDialogService {
                             <st-training-plan-assignment
                                     layout="column" layout-fill class="training-plan-assignment"
                                     state="$ctrl.state"
-                                    data="$ctrl.plan"
+                                    plan="$ctrl.plan"
                                     athletes="$ctrl.athletes"
                                     on-cancel="cancel()" on-save="answer(mode,plan)">
                             </st-training-plan-assignment>
@@ -61,7 +61,7 @@ export class TrainingPlanDialogService {
             parent: angular.element(document.body),
             targetEvent: env,
             locals: {
-                plan: plan || new TrainingPlan(),
+                plan: plan,
                 state,
                 athletes: this.session.getUser().connections.allAthletes.groupMembers || null
             },

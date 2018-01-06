@@ -270,7 +270,6 @@ class TrainingPlanBuilderCtrl implements IComponentController {
      * @param firstTrgDay
      */
     pasteItems (firstTrgDay: string){
-        debugger;
         if (!firstTrgDay) { return; }
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
@@ -307,13 +306,9 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         let isSelection: boolean = !!items;
         if (!isSelection) { items = [...copy(this.selectedItems)];}
 
-        this.dialogs.confirm({ text: 'dialogs.deleteSelectedItems' })
-            .then(() => this.calendarService.deleteItem('F', items.map(item => item.calendarItemId)), () => { throw null;})
-            .then(() => {
-                this.messageService.toastInfo('itemsDeleted');
-                items.map(item => this.calendar.delete(item));
-                isSelection ? this.calendar.deselect() : this.clearBuffer();
-            }, error => error && this.errorHandler(error));
+        Promise.all(items.map(item => this.trainingPlansService.deleteItem(this.currentPlan.id, item)))
+            .then(response => items.map(item => this.calendar.delete(item)))
+            .then(() => this.messageService.toastInfo('itemsDeleted'), error => error => this.errorHandler(error));
     }
 
     clearBuffer() {

@@ -1,8 +1,8 @@
 import './training-plan-assignment.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
-import { TrainingPlan } from "@app/training-plans/training-plan/training-plan.datamodel";
-import { FormMode } from "@app/application.interface";
+import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { IUserProfile } from "@api/user";
+import { TrainingPlansService } from "../training-plans.service";
 
 /**
  * Контроллер для формы присоведения тренировочных планов
@@ -16,21 +16,32 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
     athletes: Array<IUserProfile>;
 
     onEvent: (response: Object) => IPromise<void>;
+    private dataExist: boolean = false;
 
-    static $inject = [];
+    static $inject = ['TrainingPlansService'];
 
-    constructor() {
+    constructor(private trainingPlansService: TrainingPlansService) {
 
     }
 
     $onInit() {
-
+        if ( !this.plan.hasOwnProperty('assignmentList') ) {
+            this.getPlanDetails();
+        } else {
+            this.dataExist = true;
+        }
     }
 
     get isFormState (): boolean { return this.state === 'form'; }
     set isFormState (value: boolean) { this.state = 'form'; }
     get isListState (): boolean { return this.state === 'list'; }
     set isListState (value: boolean) { this.state = 'list'; }
+
+    private getPlanDetails (): void {
+        this.trainingPlansService.get(this.plan.id)
+            .then(result => this.plan = new TrainingPlan(result), error => {debugger;})
+            .then(() => this.dataExist = true);
+    }
 }
 
 export const TrainingPlanAssignmentComponent:IComponentOptions = {
@@ -38,7 +49,7 @@ export const TrainingPlanAssignmentComponent:IComponentOptions = {
         plan: '<',
         state: '<',
         athletes: '<',
-        onEvent: '&'
+        onCancel: '&'
     },
     controller: TrainingPlanAssignmentCtrl,
     template: require('./training-plan-assignment.component.html') as string

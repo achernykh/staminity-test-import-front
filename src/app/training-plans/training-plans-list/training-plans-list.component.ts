@@ -102,7 +102,7 @@ class TrainingPlansListCtrl implements IComponentController {
             .then(plan => this.update());
     }
 
-    private assignment (env: Event, plan, state: 'form' | 'list' = 'form'): void {
+    private assignment (env: Event, plan: TrainingPlan, state: 'form' | 'list' = 'form'): void {
         this.trainingPlanDialogService.assignment(env, state, plan)
             .then(response => {debugger;}, error => {debugger;});
     }

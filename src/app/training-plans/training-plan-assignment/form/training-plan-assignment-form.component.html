@@ -1,11 +1,13 @@
 <md-toolbar class="md-primary">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
-            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
             <md-icon class="material-icons md-active" aria-label="Close dialog">arrow_back</md-icon>
         </md-button>
         <h2 translate="trainingPlans.assignment.form.title"></h2>
         <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
     </div>
 </md-toolbar>
 
@@ -55,38 +57,42 @@
             <!-- Режим присвоения дат -->
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float layout="row">
-                    <label translate="trainingPlans.assignment.form.applyDate.label"></label>
+                    <label translate="trainingPlans.assignment.form.applyDateMode.label"></label>
                     <md-select flex name="type" required
-                               placeholder="{{trainingPlans.assignment.form.applyDate.placeholder}}"
-                               ng-model="$ctrl.data.applyDate"
+                               placeholder="{{trainingPlans.assignment.form.applyDateMode.placeholder}}"
+                               ng-model="$ctrl.data.applyDateMode"
                                ng-change="$ctrl.changeParam()">
                         <md-option ng-repeat="type in $ctrl.applyDateTypes track by $index"
                                    value="{{type}}">
-                            {{'trainingPlans.assignment.form.applyDate.' + type | translate}}
+                            {{'trainingPlans.assignment.form.applyDateMode.' + type | translate}}
                         </md-option>
                     </md-select>
-                    <div class="hint" translate="trainingPlans.assignment.form.applyDate.hint"></div>
-                    <div ng-messages="$ctrl.assignmentForm.applyDate.$error" role="alert">
+                    <div class="hint" translate="trainingPlans.assignment.form.applyDateMode.hint"></div>
+                    <div ng-messages="$ctrl.assignmentForm.applyDateMode.$error" role="alert">
                         <div ng-message-exp="['required']" translate="form.required"></div>
                     </div>
                 </md-input-container>
             </md-list-item>
             <!-- Дата с -->
-            <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.applyDate === 'F'">
+            <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.data.applyDateMode === 'F'">
                 <md-input-container flex="auto" class="no-message">
                     <label translate="trainingPlans.assignment.form.applyFromDate.label"></label>
                     <md-datepicker flex="auto"
-                                   ng-model="$ctrl.data.applyFromDate"
+                                   required
+                                   ng-disabled="true"
+                                   ng-model="$ctrl.applyFromDate"
                                    name="applyFromDate" md-hide-icons="calendar">
                     </md-datepicker>
                 </md-input-container>
             </md-list-item>
             <!-- Дата по -->
-            <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.applyDate === 'T'">
+            <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.data.applyDateMode === 'T'">
                 <md-input-container flex="auto" class="no-message">
                     <label translate="trainingPlans.assignment.form.applyToDate.label"></label>
                     <md-datepicker flex="auto"
-                                   ng-model="$ctrl.data.applyToDate"
+                                   required
+                                   ng-disabled="true"
+                                   ng-model="$ctrl.applyToDate"
                                    name="applyToDate" md-hide-icons="calendar">
                     </md-datepicker>
                 </md-input-container>

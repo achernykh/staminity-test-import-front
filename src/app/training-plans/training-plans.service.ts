@@ -1,7 +1,8 @@
 import { SocketService } from "../core";
 import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
-    ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest
+    ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest, ITrainingPlanAssignmentRequest,
+    ModifyTrainingPlanAssignment
 } from "../../../api/trainingPlans";
 import { IWSResponse, IRevisionResponse } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
@@ -59,6 +60,16 @@ export class TrainingPlansService {
      */
     put (plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PutTrainingPlan(plan));
+    }
+
+    /**
+     * Управление присвоением плана
+     * @param planId
+     * @param request
+     * @returns {Promise<any>}
+     */
+    assignment (planId: number, request: ITrainingPlanAssignmentRequest): Promise<IRevisionResponse> {
+        return this.socket.send(new ModifyTrainingPlanAssignment(planId, request));
     }
 
     /**

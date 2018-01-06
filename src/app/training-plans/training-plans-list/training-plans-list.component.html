@@ -7,10 +7,10 @@
                   ng-click="$ctrl.edit($event, plan)"
                   ng-repeat-start="plan in $ctrl.getTrainingPlanList() track by plan.id">
 
-        <div class="md-avatar" md-colors="{background: 'primary-600'}"
+        <div class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
              layout="row" layout-align="center center">
             <md-icon class="s24 md-light"
-                     md-svg-src="/assets/icon/{{plan.type}}.svg">
+                     md-svg-src="/assets/icon/{{::plan.type}}.svg">
             </md-icon>
             <div class="public"></div>
         </div>
@@ -18,10 +18,11 @@
         <div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
             <h3> {{ plan.name }} </h3>
             <p class="md-caption keywords">
-                <span class="keyword" ng-if="plan.distanceType" ng-bind="plan.distanceType"
-                      md-colors="{background: 'accent-100'}"></span>
-                <span class="keyword" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-200'}"
-                      ng-bind="tag"></span>
+                <span class="keyword" ng-if="plan.distanceType"
+                      md-colors="{background: 'accent-300'}">
+                    {{'competition.distanceType.' + plan.type + '.' + plan.distanceType | translate}}</span>
+                <span class="keyword" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-300'}">
+                    {{'trainingPlans.tags.' + tag | translate}}</span>
                 <span class="keyword" ng-repeat="word in plan.keywords" ng-bind="word"></span>
             </p>
         </div>

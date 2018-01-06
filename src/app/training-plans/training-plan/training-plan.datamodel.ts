@@ -1,3 +1,5 @@
+import moment from 'moment/min/moment-with-locales.js';
+import { Moment } from 'moment';
 import {
     ITrainingPlan,
     ITrainingPlanReview,
@@ -103,6 +105,24 @@ export class TrainingPlan implements ITrainingPlan {
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
         if ( !this.isFixedCalendarDates ) { this.isFixedCalendarDates = false; }
+    }
+
+    get firstItemCalendarShift (): number {
+        let firstCalendarItemDate: Moment = moment(this.firstCalendarItem.dateStart);
+        return firstCalendarItemDate.diff(moment(this.startDate), 'days');
+    }
+
+    get lastItemCalendarShift (): number {
+        let lastCalendarItemDate: Moment = moment(this.lastCalendarItem.dateStart);
+        return lastCalendarItemDate.endOf('week').diff(lastCalendarItemDate, 'days');
+    }
+
+    get firstCalendarItem (): ICalendarItem {
+        return this.calendarItems && this.calendarItems[0] || null;
+    }
+
+    get lastCalendarItem (): ICalendarItem {
+        return this.calendarItems && this.calendarItems[this.calendarItems.length - 1] || null;
     }
 
     clear (keys: Array<string> = this.keys): ITrainingPlan {
