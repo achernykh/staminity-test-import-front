@@ -4,6 +4,7 @@ import moment from 'moment/min/moment-with-locales.js';
 import {translateForm,translateGeneral} from "./app.translate";
 import { IUserProfile } from "../../api/user/user.interface";
 import AuthService from "./auth/auth.service";
+import { SocketService } from "@app/core";
 
 function configure(
 	$compileProvider: ICompileProvider,
@@ -50,7 +51,16 @@ function configure(
 					return {state: 'welcome'};
 				}
 			}
-		});
+		})
+        .state('socket', {
+            abstract: true,
+            resolve: {
+                init: ['SocketService', (socket: SocketService) => {
+                    debugger;
+                    return true; //socket.init();
+                }]
+            }
+        });
 
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
 

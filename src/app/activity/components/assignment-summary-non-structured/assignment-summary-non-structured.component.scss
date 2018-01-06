@@ -1,4 +1,10 @@
+@import '../../../../sass/color';
+
 .assignment-summary-non-structured {
+
+  .md-subheader {
+    background-color: $grey-050;
+  }
 
   &.error-block {
     position: relative;

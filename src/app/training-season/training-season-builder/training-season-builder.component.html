@@ -29,7 +29,7 @@
                 <md-menu-item>
                     <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
                                ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
-                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <userpic profile="$ctrl.currentUser" unlink="true"></userpic>
                         <span>{{$ctrl.currentUser | userName}}</span>
                     </md-button>
                 </md-menu-item>

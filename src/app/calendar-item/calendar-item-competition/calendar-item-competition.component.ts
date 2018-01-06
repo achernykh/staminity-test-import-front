@@ -12,6 +12,7 @@ import { IRevisionResponse } from "../../../../api/core/core";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
 import { TrainingPlansService } from "../../training-plans/training-plans.service";
+import ReferenceService from "../../reference/reference.service";
 
 export class CalendarItemCompetitionCtrl implements IComponentController {
 
@@ -26,10 +27,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     private competition: CalendarItemCompetition;
 
     // inject
-    static $inject = ['CompetitionConfig', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService',
-        'message', 'quillConfig', 'dialogs'];
+    static $inject = ['CompetitionConfig', 'ReferenceService', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
 
     constructor (private config: ICompetitionConfig,
+                 private referenceService: ReferenceService,
                  private calendarService: CalendarService,
                  private trainingPlansService: TrainingPlansService,
                  private calendarDialog: CalendarItemDialogService,
@@ -59,7 +60,6 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     setDate (): void {
-        debugger;
         if (this.competition.items) {
             //////this.competition.setDate();
         }
@@ -74,14 +74,16 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         this.check();
     }
 
-    setDistanceType (): void {
+    get distanceType () : any {
+        let { competitionHeader } = this.competition;
+        return competitionHeader && this.config.distanceTypes.find((t) => t.type === competitionHeader.type && t.code === competitionHeader.distanceType);
+    }
+
+    set distanceType (distanceType: any) {
         this.clearItems();
-        this.competition.setItems(this.config.distanceTypes.filter(t =>
-            t.type === this.competition.competitionHeader.type &&
-            t.code === this.competition.competitionHeader.distanceType)[0].stages);
+        this.competition.competitionHeader.distanceType = distanceType.code;
+        this.competition.setItems(distanceType.stages, this.referenceService.categories);
         this.check();
-                //[this.competition.competitionHeader.type]
-                //[this.competition.competitionHeader.distanceType]);
     }
 
     /**
@@ -126,9 +128,11 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => {
                         this.message.toastInfo('competitionCreated');
                         this.onCancel();
-                    }, error => {}
+                    },
+                    error => {}
                 );
         }
+
         if ( this.competition.view.isPut ) {
             this.calendarService.putItem(this.competition.build())
                 .then(response => this.competition.compile(response),
@@ -194,6 +198,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     saveItems (): Promise<Array<IRevisionResponse>> {
+        debugger;
         return Promise.all(<any>this.competition.items.map(i => {
                 i.item = new Activity(i.item.build(), this.options);
                 if ( this.competition.view.isPost ) {

@@ -1,4 +1,4 @@
-<md-list class="assignment-summary-non-structured md-dense slim-input bg-grey-100">
+<md-list class="assignment-summary-non-structured md-dense slim-input">
     <md-list-item>
         <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
         <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
@@ -13,7 +13,7 @@
     <md-list-item ng-if="!$ctrl.item.activity.header.sport">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
-    <md-list-item class="bg-grey-100" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured) && $ctrl.item.activity.header.sport">
+    <md-list-item class="" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured) && $ctrl.item.activity.header.sport">
         <md-table-container>
             <table md-table
                    md-row-select="$ctrl.options.rowSelection"
@@ -110,7 +110,7 @@
         </md-table-container>
     </md-list-item>
 </md-list>
-<div class="assignment-summary-non-structured md-caption error-block"
+<div class="assignment-summary-non-structured md-caption error-block bg-grey-050"
      ng-messages="$ctrl.form.$error"
      ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
     <div ng-message="required">{{'activity.error.required' | translate}}</div>
