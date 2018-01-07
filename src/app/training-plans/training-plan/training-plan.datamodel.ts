@@ -4,7 +4,7 @@ import {
     ITrainingPlan,
     ITrainingPlanReview,
     TrainingPlanSearchResultItem,
-    TrainingPlanSearchResultAuthor
+    TrainingPlanSearchResultAuthor, ITrainingPlanAssignment
 } from "../../../../api/trainingPlans/training-plans.interface";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
@@ -42,6 +42,7 @@ export class TrainingPlan implements ITrainingPlan {
     effortStat: Array<IChart>; // статистика нагрузки по плану
     reviews: Array<ITrainingPlanReview>; // массив отзывов
     calendarItems?: Array<ICalendarItem>; // массив событий календаря
+    assignmentList?: Array<ITrainingPlanAssignment>; // история присвоений плана
     startDate?: Date; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
 

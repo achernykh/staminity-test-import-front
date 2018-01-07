@@ -40,7 +40,7 @@ export class TrainingPlanDialogService {
         });
     }
 
-    assignment(env: Event, state: 'form' | 'list', plan: TrainingPlan): Promise<{mode: FormMode, plan: TrainingPlan}> {
+    assignment(env: Event, plan: TrainingPlan, state?: 'form' | 'list'): Promise<{mode: FormMode, plan: TrainingPlan}> {
 
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {

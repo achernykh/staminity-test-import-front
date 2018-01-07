@@ -44,13 +44,13 @@ const trainingPlanBuilderId: any = {
 
 const trainingPlanId: any = {
     name: 'training-plan-id',
-    url: '/training-plan/planId',
+    url: '/training-plan/?planId',
     loginRequired: false,
     authRequired: [],
     resolve: {
-        user: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
+        currentUser: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
         plan: ['$stateParams', 'TrainingPlansService', ($stateParams, trainingPlansService: TrainingPlansService) =>
-            trainingPlansService.get($stateParams.planId)]
+            trainingPlansService.get(Number($stateParams.planId))]
     },
     views: {
         "application": {

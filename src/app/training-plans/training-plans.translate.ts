@@ -77,9 +77,14 @@ export const _translateTrainingPlans = {
             label: 'Ключевые слова'
         },
         assignment: {
+            action: {
+                delete: 'Удалить присвоение',
+                post: 'Новое присвоение',
+                edit: 'Изменить',
+                apply: 'Применить план'
+            },
             form: {
                 title: 'Присвоение плана',
-                save: 'Применить',
                 applyMode: {
                     label: 'Даты плана',
                     P: 'Даты начала/окончания плана',
@@ -108,7 +113,7 @@ export const _translateTrainingPlans = {
             list: {
                 title: 'Список присвоений плана',
                 empty: 'У плана нет пирсвоений',
-                add: 'Добавить'
+                info: "Дата подключения {{createdDate | date:'short'}}, версия плана {{planRevision}}"
             }
         }
     },

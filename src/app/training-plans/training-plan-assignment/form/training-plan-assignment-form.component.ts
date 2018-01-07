@@ -5,11 +5,12 @@ import { IUserProfile } from "@api/user";
 import { ITrainingPlanAssignmentRequest } from "@api/trainingPlans";
 import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 import { TrainingPlan } from "@app/training-plans/training-plan/training-plan.datamodel";
+import { ITrainingPlanAssignment } from "../../../../../api/trainingPlans/training-plans.interface";
 
 class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
     plan: TrainingPlan;
-    data: ITrainingPlanAssignmentRequest;
+    assign: ITrainingPlanAssignment;
     athletes: Array<IUserProfile>;
     onBack: () => Promise<any>;
     onCancel: () => Promise<any>;
@@ -17,6 +18,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     // private
     private readonly applyModeTypes: Array<string> = ['P', 'I'];
     private readonly applyDateTypes: Array<string> = ['F', 'E'];
+    private data: ITrainingPlanAssignmentRequest;
     private applyFromDate: Date;
     private applyToDate: Date;
 
@@ -28,8 +30,18 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
     $onInit() {
 
-        if (!this.data) {
+        if (!this.assign) {
             this.data = Object.assign({ applyMode: 'P', applyDateMode: 'F' });
+        } else {
+            this.data = {
+                mode: 'U',
+                id: this.assign.id,
+                userId: [this.assign.user.userId],
+                applyMode: this.assign.applyMode,
+                applyDateMode: this.assign.applyDateMode,
+                firstItemDate: this.assign.firstItemDate,
+                enabledSync: this.assign.enabledSync
+            };
         }
 
         if ( this.plan.isFixedCalendarDates && !this.data.firstItemDate ) {
@@ -48,17 +60,16 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     save (): void {
         this.trainingPlansService.assignment(this.plan.id, {
             mode: 'I',
-            id: null,
-            userId: this.data.userId,
+            id: this.data.id,
+            userId: this.data.userId && [...this.data.userId].map(id => Number(id)),
             applyMode: this.data.applyMode,
             applyDateMode: this.data.applyDateMode,
             firstItemDate: this.fistItemDate,
             enabledSync: null
-        }).then(response => {debugger;}, error => {debugger;});
+        }).then(response => this.onCancel(), error => {debugger;});
     }
 
     get fistItemDate (): string {
-
         // Вариант 1. Тип Даты = План & Дата = с начала
         if ( this.data.applyMode === 'P' && this.data.applyDateMode === 'F' ) {
             return moment(this.applyFromDate).add(this.plan.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
@@ -81,7 +92,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
 export const TrainingPlanAssignmentFormComponent:IComponentOptions = {
     bindings: {
         plan: '<',
-        data: '<',
+        assign: '<',
         athletes: '<',
         onBack: '&',
         onCancel: '&'

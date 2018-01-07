@@ -19,6 +19,7 @@
                 <md-input-container class="md-block no-message" md-no-float layout="row">
                     <label translate="trainingPlans.assignment.form.athlete.label"></label>
                     <md-select flex name="type" multiple  required
+                               ng-disabled="$ctrl.assign"
                                md-selected-text="$ctrl.athleteSelectorText()"
                                placeholder="{{trainingPlans.assignment.form.athlete.placeholder}}"
                                ng-model="$ctrl.data.userId"
@@ -41,6 +42,7 @@
                     <label translate="trainingPlans.assignment.form.applyMode.label"></label>
                     <md-select flex name="type" required
                                placeholder="{{trainingPlans.assignment.form.applyMode.placeholder}}"
+                               ng-disabled="$ctrl.assign"
                                ng-model="$ctrl.data.applyMode"
                                ng-change="$ctrl.changeParam()">
                         <md-option ng-repeat="type in $ctrl.applyModeTypes track by $index"
@@ -60,6 +62,7 @@
                     <label translate="trainingPlans.assignment.form.applyDateMode.label"></label>
                     <md-select flex name="type" required
                                placeholder="{{trainingPlans.assignment.form.applyDateMode.placeholder}}"
+                               ng-disabled="$ctrl.assign"
                                ng-model="$ctrl.data.applyDateMode"
                                ng-change="$ctrl.changeParam()">
                         <md-option ng-repeat="type in $ctrl.applyDateTypes track by $index"
@@ -79,7 +82,7 @@
                     <label translate="trainingPlans.assignment.form.applyFromDate.label"></label>
                     <md-datepicker flex="auto"
                                    required
-                                   ng-disabled="true"
+                                   ng-disabled="$ctrl.assign"
                                    ng-model="$ctrl.applyFromDate"
                                    name="applyFromDate" md-hide-icons="calendar">
                     </md-datepicker>
@@ -91,7 +94,7 @@
                     <label translate="trainingPlans.assignment.form.applyToDate.label"></label>
                     <md-datepicker flex="auto"
                                    required
-                                   ng-disabled="true"
+                                   ng-disabled="$ctrl.assign"
                                    ng-model="$ctrl.applyToDate"
                                    name="applyToDate" md-hide-icons="calendar">
                     </md-datepicker>

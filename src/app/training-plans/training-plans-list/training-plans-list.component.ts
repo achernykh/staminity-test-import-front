@@ -80,6 +80,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     plan (planId: number) {
+        debugger;
         this.$state.go('training-plan-id', {planId: planId});
     }
 
@@ -102,8 +103,8 @@ class TrainingPlansListCtrl implements IComponentController {
             .then(plan => this.update());
     }
 
-    private assignment (env: Event, plan: TrainingPlan, state: 'form' | 'list' = 'form'): void {
-        this.trainingPlanDialogService.assignment(env, state, plan)
+    private assignment (env: Event, plan: TrainingPlan): void {
+        this.trainingPlanDialogService.assignment(env, plan)
             .then(response => {debugger;}, error => {debugger;});
     }
 

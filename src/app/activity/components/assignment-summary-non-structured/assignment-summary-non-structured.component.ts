@@ -299,6 +299,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.form['dateStart'].$setValidity('needPermissionForFeature',
                 !isFutureDay(this.form['dateStart'].$modelValue) ||
                 this.AuthService.isActivityPlan() ||
+                this.item.activity.view.isTrainingPlan ||
                 (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
 
                 //!this.item.isOwner || this.AuthService.isActivityPlan() ||

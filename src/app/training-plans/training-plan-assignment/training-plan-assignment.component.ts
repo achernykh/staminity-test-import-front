@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { IUserProfile } from "@api/user";
 import { TrainingPlansService } from "../training-plans.service";
+import { ITrainingPlanAssignment } from "../../../../api/trainingPlans/training-plans.interface";
 
 /**
  * Контроллер для формы присоведения тренировочных планов
@@ -17,6 +18,7 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
 
     onEvent: (response: Object) => IPromise<void>;
     private dataExist: boolean = false;
+    private assign: ITrainingPlanAssignment;
 
     static $inject = ['TrainingPlansService'];
 
@@ -29,7 +31,13 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
             this.getPlanDetails();
         } else {
             this.dataExist = true;
+            if (!this.state) { this.isListState = true; }
         }
+    }
+
+    setFormData (assign: ITrainingPlanAssignment): void {
+        this.assign = assign;
+        this.isFormState = true;
     }
 
     get isFormState (): boolean { return this.state === 'form'; }
@@ -40,7 +48,8 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
     private getPlanDetails (): void {
         this.trainingPlansService.get(this.plan.id)
             .then(result => this.plan = new TrainingPlan(result), error => {debugger;})
-            .then(() => this.dataExist = true);
+            .then(() => this.dataExist = true)
+            .then(() => !this.state && (this.plan.assignmentList.length > 0 && (this.isListState = true) || (this.isFormState = true)));
     }
 }
 

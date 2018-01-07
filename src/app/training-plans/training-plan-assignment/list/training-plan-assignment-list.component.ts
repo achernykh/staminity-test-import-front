@@ -1,27 +1,41 @@
 import './training-plan-assignment-list.component.scss';
-import {IComponentOptions, IComponentController, IPromise} from 'angular';
+import {IComponentOptions, IComponentController} from 'angular';
+import { TrainingPlan } from "../../training-plan/training-plan.datamodel";
+import { TrainingPlansService } from "../../training-plans.service";
+import { ITrainingPlanAssignment } from "@api/trainingPlans/training-plans.interface";
 
 class TrainingPlanAssignmentListCtrl implements IComponentController {
 
-    public data: any;
+    plan: TrainingPlan;
     onForm: () => Promise<any>;
-    public onEvent: (response: Object) => IPromise<void>;
-    static $inject = [];
+    public onEvent: (response: Object) => Promise<void>;
+    static $inject = ['TrainingPlansService'];
 
-    constructor() {
+    constructor(private trainingPlansService: TrainingPlansService) {
 
     }
 
     $onInit() {
 
     }
+
+    delete (assign: ITrainingPlanAssignment): void {
+        this.trainingPlansService.assignment(this.plan.id, {
+            mode: 'D',
+            id: assign.id
+        }).then(response => {debugger;}, error => {debugger;});
+    }
+
+    splice (id: number): void {
+        this.plan.assignmentList.splice(this.plan.assignmentList.findIndex(a => a.id === id),1);
+    }
 }
 
 export const TrainingPlanAssignmentListComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        plan: '<',
         onForm: '&',
-        onEvent: '&'
+        onCancel: '&'
     },
     require: {
         //component: '^component'

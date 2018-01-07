@@ -7,7 +7,8 @@
 <st-training-plan-assignment-list layout="column" layout-fill
                                   ng-if="$ctrl.dataExist && $ctrl.isListState"
                                   class="training-plan-assignment-list"
-                                  on-form="$ctrl.isFormState = true"
+                                  plan="$ctrl.plan"
+                                  on-form="$ctrl.setFormData(assign)"
                                   on-cancel="$ctrl.onCancel()">
 
 </st-training-plan-assignment-list>
@@ -17,6 +18,7 @@
                                   ng-if="$ctrl.dataExist && $ctrl.isFormState"
                                   class="training-plan-assignment-form"
                                   plan="$ctrl.plan"
+                                  assign="$ctrl.assign"
                                   athletes="$ctrl.athletes"
                                   on-back="$ctrl.isListState = true"
                                   on-cancel="$ctrl.onCancel()">
