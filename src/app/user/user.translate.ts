@@ -5,7 +5,7 @@ export const translateUser = {
             shortTitle: 'Настройки',
             personalInfo: {
                 header: 'Персональная информация',
-                hint: 'Подсказка, пояснение по блоку информации...',
+                hint: 'Настройка профиля',
                 coachProfileIncomplete: 'Ваш профиль тренера не заполнен и недоступен в поиске. Проверьте выполнение следующих условий:' +
                 '<li>Установлена фотография</li>' +
                 '<li>Указаны страна и город</li>' +
@@ -40,24 +40,25 @@ export const translateUser = {
                     header:'Контакты (доступно только вам и тренеру)',
                     extEmail: 'Дополнительный email',
                     phone: 'Телефон'
-                },
-                sportShape: {
-                    header: 'Спортивная форма',
-                    weight: 'Вес (кг)',
-                    weightErr: 'Вес должен быть в интервале от 10 до 500',
-                    height: 'Рост (см)',
-                    heightErr: 'Рост должен быть в интервале от 10 до 500',
-                    level: 'Режим занятий(час/неделю)',
-                    activityTypes: {
-                        header: 'Виды спорта:',
-                        code: []
-                    }
-                },
-                calendar: {
-                    title: 'Интерация с календарем (iCal)',
-                    hint: 'Ссылка для подписки на ваш календарь тренировок Стаминити в другом календарном приложении, поддерживающем формат iCal: Microsoft Outlook, Google Calendar, Apple iCal',
-                    empty: 'Не удалось получить ссылку на ваш календарь'
                 }
+            },
+            sportShape: {
+                header: 'Спортивная форма',
+                weight: 'Вес (кг)',
+                weightErr: 'Вес должен быть в интервале от 10 до 500',
+                height: 'Рост (см)',
+                heightErr: 'Рост должен быть в интервале от 10 до 500',
+                level: 'Режим занятий(час/неделю)',
+                activityTypes: {
+                    header: 'Виды спорта:',
+                    code: []
+                }
+            },
+            calendar: {
+                header: 'Внешние календари',
+                title: 'Интерация с календарем (iCal)',
+                hint: 'Ссылка для подписки на ваш календарь тренировок Стаминити в другом календарном приложении, поддерживающем формат iCal: Microsoft Outlook, Google Calendar, Apple iCal',
+                empty: 'Не удалось получить ссылку на ваш календарь'
             },
             privacy: {
                 header: 'Приватность',
@@ -108,6 +109,7 @@ export const translateUser = {
                 password: 'Пароль'
             },
             billing: {
+                header: 'Счета и тарифы',
                 tariffsHeader: 'Тарифные планы',
                 enableTariff: 'Подключить тариф',
                 disableTariff: 'Отключить тариф',
@@ -481,23 +483,23 @@ export const translateUser = {
                     extEmail: 'Personal email',
                     phone: 'Phone'
                 },
-                sportShape: {
-                    header: 'Fitness',
-                    weight: 'Weight (kg)',
-                    weightErr: 'Weight should be between 10 and 500',
-                    height: 'Height (sm)',
-                    heightErr: 'Height should be between 10 and 300',
-                    level: 'Avg hours/week for training',
-                    activityTypes: {
-                        header: 'Sports:',
-                        code: []
-                    }
-                },
-                calendar: {
-                    title: 'External calendar integration (iCal)',
-                    hint: 'Your Staminity activity calendar personal link for Microsoft Outlook, Google Calendar, Apple iCal and other 3rd party calendar applications.',
-                    empty: 'Your personal link is not available'
+            },
+            sportShape: {
+                header: 'Fitness',
+                weight: 'Weight (kg)',
+                weightErr: 'Weight should be between 10 and 500',
+                height: 'Height (sm)',
+                heightErr: 'Height should be between 10 and 300',
+                level: 'Avg hours/week for training',
+                activityTypes: {
+                    header: 'Sports:',
+                    code: []
                 }
+            },
+            calendar: {
+                title: 'External calendar integration (iCal)',
+                hint: 'Your Staminity activity calendar personal link for Microsoft Outlook, Google Calendar, Apple iCal and other 3rd party calendar applications.',
+                empty: 'Your personal link is not available'
             },
             privacy: {
                 header: 'Privacy',
@@ -547,6 +549,7 @@ export const translateUser = {
                 password: 'Password'
             },
             billing: {
+                header: 'Payment',
                 tariffsHeader: 'Tariffs',
                 enableTariff: 'Subscribe',
                 disableTariff: 'Unsubscribe',

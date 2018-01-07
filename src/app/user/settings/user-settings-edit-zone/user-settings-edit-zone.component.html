@@ -49,11 +49,12 @@
             </md-list-item>
             <md-divider></md-divider>
             <md-list-item>
-                <md-table-container>
+                <md-table-container class="user-settings-zones-edit__table-container">
                     <table md-table
                            md-row-select="$ctrl.options.rowSelection"
                            multiple="{{$ctrl.options.multiSelect}}"
-                           ng-model="$ctrl.selected">
+                           ng-model="$ctrl.selected"
+                           class="user-settings-zones-edit__table">
                         <thead ng-if="!$ctrl.options.decapitate" md-head>
                         <tr md-row>
                             <th md-column style="width: 10px"><span>#</span></th>
@@ -107,7 +108,7 @@
             </md-list-item>
         </form>
     </md-list>
-    <div class="md-caption error-block"
+    <div class="md-caption user-settings-zones-edit__error-block"
          ng-messages="$ctrl.zones.$error"
          ng-if="$ctrl.zones.$dirty && $ctrl.zones.$invalid">
         <div ng-message="required">{{'user.settings.zones.error.required' | translate}}</div>

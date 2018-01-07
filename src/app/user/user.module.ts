@@ -14,12 +14,14 @@ import { UserSettingsSyncComponent } from "./settings/user-settings-sync/user-se
 import { UserSettingsCalendarsComponent } from "./settings/user-settings-calendars/user-settings-calendars.component";
 import { UserSettingsMainComponent} from "./settings/user-settings-main/user-settings-main.component";
 import { UserSettingsProfileComponent } from "./settings/user-settings-profile/user-settings-profile.component";
+import { UserSettingsCoachComponent } from "./settings/user-settings-coach/user-settings-coach.component";
 import { UserSettingsPrivacyComponent } from "./settings/user-settings-privacy/user-settings-privacy.component";
 import { UserSettingsFitComponent } from "./settings/user-settings-fit/user-settings-fit.component";
 import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-settings-zones.component";
 import { UserSettingsEditZoneComponent } from "./settings/user-settings-edit-zone/user-settings-edit-zone.component";
 import { UserSettingsNotificationsComponent } from "./settings/user-settings-notifications/user-settings-notifications.component";
 import { UserSettingsService } from "./settings/user-settings.service";
+import { userSettingsProfileFilter } from "./settings/user-settings-profile/user-settings-profile.filter";
 import SyncAdaptorService from "./sync-adaptor.service";
 import userSettingsConfig from "./settings/user-settings.config";
 
@@ -36,11 +38,13 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettingsCalendars', UserSettingsCalendarsComponent)
     .component('stUserSettingsMain', UserSettingsMainComponent)
     .component('stUserSettingsProfile', UserSettingsProfileComponent)
+    .component('stUserSettingsCoach', UserSettingsCoachComponent)
     .component('stUserSettingsPrivacy', UserSettingsPrivacyComponent)
     .component('stUserSettingsFit', UserSettingsFitComponent)
     .component('stUserSettingsZones', UserSettingsZonesComponent)
     .component('stUserSettingsEditZone', UserSettingsEditZoneComponent)
     .component('stUserSettingsNotifications', UserSettingsNotificationsComponent)
+    .filter('userSettingsProfileFilter', userSettingsProfileFilter)
     .config(['$stateProvider', ($stateProvider: StateProvider) => {
         userState.map(s => $stateProvider.state(s));
     }])
