@@ -8,21 +8,21 @@
     <st-application-frame-title>
         <span class="md-title" translate="user.settings.fullTitle"></span>
         <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <span class="button" hide show-gt-sm>{{$userSettingsCtrl.owner | userName:'compact'}}</span>
-        <md-menu ng-if="$userSettingsCtrl.currentUser.public.isCoach && $userSettingsCtrl.athletes.length > 0" hide show-gt-sm>
-            <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+        <md-menu hide show-gt-sm>
+            <md-button ng-click="$mdMenu.open($event)">
+                <span>{{$userSettingsCtrl.owner | userName:'compact'}}</span>
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="athlete in $userSettingsCtrl.athletes track by athlete.userId">
-                    <md-button ui-sref="user-settings({userId: athlete.userId})" ng-disable="athlete.userId === $userSettingsCtrl.owner.userId">
+                    <md-button ui-sref="user-settings.main({userId: athlete.userId})" ng-disable="athlete.userId === $userSettingsCtrl.owner.userId">
                         <userpic profile="athlete"></userpic>
                         <span>{{athlete | userName}}</span>
                     </md-button>
                 </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
-                    <md-button ng-click="$userSettingsCtrl.setOwner($userSettingsCtrl.currentUser)" ng-disable="$userSettingsCtrl.currentUser.userId === $userSettingsCtrl.owner.userId">
+                    <md-button ui-sref="user-settings.main({userId: undefined})" ng-disable="$userSettingsCtrl.isOwnSettings()">
                         <userpic profile="$userSettingsCtrl.currentUser"></userpic>
                         <span>{{$userSettingsCtrl.currentUser | userName}}</span>
                     </md-button>

@@ -32,7 +32,7 @@ class UserSettingsCtrl implements IComponentController {
     }
 
     isOwnSettings () : boolean {
-        return !!this.$stateParams.userId;
+        return this.owner !== this.currentUser;
     }
 }
 

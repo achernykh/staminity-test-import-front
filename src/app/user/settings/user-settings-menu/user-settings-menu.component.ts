@@ -21,7 +21,7 @@ class UserSettingsMenuCtrl implements IComponentController {
 
     go (hash: string) {
         this.$location.hash(hash);
-    }
+    } 
 }
 
 export const UserSettingsMenuComponent:IComponentOptions = {

@@ -8,12 +8,14 @@ class UserSettingsBillsCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    static $inject = ['BillingService', 'dialogs', 'message'];
+    static $inject = ['BillingService', 'dialogs', 'message', 'UserService', '$scope'];
 
     constructor (
         private billingService: any,
         private dialogs: any,
         private message: any,
+        private userService: any,
+        private $scope: any,
     ) {
 
     }
@@ -27,6 +29,41 @@ class UserSettingsBillsCtrl {
         .catch((info) => {
             this.message.systemWarning(info);
         });
+    }
+    
+    hasPaidBill () { 
+        return this.owner.billing.bills.find((bill) => !!bill.receiptDate); 
+    } 
+ 
+    billsList () { 
+        return this.dialogs.billsList(this.owner) 
+        .then(() => {
+            // this.reload(); 
+        }, (error) => { 
+            if (error) {
+                // this.reload(); 
+            }
+        }); 
+    } 
+ 
+    autoPayment (isOn?: boolean) { 
+        if (typeof isOn === 'undefined') { 
+            return this.owner.billing['autoPayment']; 
+        } 
+ 
+        let userChanges = { 
+            billing: { autoPayment: isOn } 
+        }; 
+ 
+        this.userService.putProfile(userChanges) 
+        .then(() => { 
+            this.owner.billing['autoPayment'] = isOn; 
+            this.message.toastInfo('settingsSaveComplete'); 
+            this.$scope.$apply(); 
+        }) 
+        .catch((info) => { 
+            this.message.systemWarning(info); 
+        }); 
     }
 }
 

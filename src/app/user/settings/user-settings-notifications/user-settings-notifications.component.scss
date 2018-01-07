@@ -1,17 +1,12 @@
-.settings-notification {
-  md-list-item {
-    span {
-      padding-right: 4px;
-    }
+.user-settings-notifications {
+  &__list-item {
+    padding-right: 4px;
   }
 
-  .providers-icon {
+  &__providers-icon {
+    margin-right: 18px;
 
-    md-icon {
-      margin-right: 18px;
-    }
-
-    md-icon:last-child {
+    &:last-child {
       margin-right: 2px;
     }
   }
