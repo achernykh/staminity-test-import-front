@@ -1,0 +1,46 @@
+<div flex class="calendar-item-record md-whiteframe-8dp" layout="column"
+     ng-class="{'full-screen': $ctrl.fullScreenMode}">
+    <md-toolbar flex="none" class="md-hue-3">
+        <div class="md-toolbar-tools">
+            <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+                <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
+                           aria-label="User">
+                    <md-icon class="material-icons">menu</md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.mode == 'post'">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="activity.toolbar.delete"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="" ng-disabled="true">
+                            <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
+                            <span translate="activity.toolbar.settings"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="::$ctrl.currentUser.connections.hasOwnProperty('allAthletes')">
+                        <md-button ng-click="$ctrl.showSelectAthletes = true">
+                            <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
+                            <span translate="activity.toolbar.multiAthletes"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+            <h2 translate="record.toolbar.title"></h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.fullScreenMode = !$ctrl.fullScreenMode">
+                <md-icon class="material-icons">{{$ctrl.fullScreenMode ? 'fullscreen_exit':'fullscreen'}}</md-icon>
+            </md-button>
+            <!--<userpic class="border-light"
+                     profile="$ctrl.owner"
+                     is-premium="$ctrl.owner.isPremium"
+                     unlink="true">
+            </userpic>-->
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{'activity.toolbar.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
