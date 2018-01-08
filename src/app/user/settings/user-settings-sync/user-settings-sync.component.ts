@@ -171,7 +171,7 @@ class UserSettingsSyncCtrl {
                     this.toggle[adaptor.provider] = true;
                 }, (error) => {
                     this.message.toastError(error);
-                    return true;
+                    this.toggle[adaptor.provider] = false;
                 });
             } else { 
                 this.syncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password, form.startDate, "Enabled")
@@ -183,6 +183,8 @@ class UserSettingsSyncCtrl {
                     this.toggle[adaptor.provider] = false;
                 });
             }
+        }, () => {
+            this.toggle[adaptor.provider] = false;
         });
     }
 
