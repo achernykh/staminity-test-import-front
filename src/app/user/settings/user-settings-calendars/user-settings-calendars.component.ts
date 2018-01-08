@@ -11,10 +11,10 @@ class UserSettingsCalendarsCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    static $inject = [];
+    static $inject = ['DisplayService'];
 
     constructor (
-        
+        private displayService: DisplayService,
     ) {
 
     }
