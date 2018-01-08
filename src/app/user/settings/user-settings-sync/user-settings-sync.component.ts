@@ -87,7 +87,7 @@ export const syncStatus = (last, state) => {
     }
 };
 
-const syncAdaptors = [ 
+export const syncAdaptors = [ 
     { 
         provider: "garmin", 
         isOAuth: false, 

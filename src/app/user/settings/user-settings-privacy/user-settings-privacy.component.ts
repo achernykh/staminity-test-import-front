@@ -1,9 +1,10 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import UserService from "../../../core/user.service";
 import { UserSettingsPrivacyDatamodel } from './user-settings-privacy.datamodel';
 import './user-settings-privacy.component.scss';
 
-const privacyLevels = [{id: 50}, {id: 40}, {id: 10}];
+export const privacyLevels = [{id: 50}, {id: 40}, {id: 10}];
 
 class UserSettingsPrivacyCtrl {
     
@@ -20,13 +21,16 @@ class UserSettingsPrivacyCtrl {
     static $inject = ['UserService', 'dialogs', 'message'];
 
     constructor (
-        private userService: any,
+        private userService: UserService,
         private dialogs: any,
         private message: any,
     ) {
 
     }
 
+    /**
+     * Сохранить
+     */
     submit () {
         this.userService.putProfile(this.datamodel.toUserProfile())
         .then((result) => {

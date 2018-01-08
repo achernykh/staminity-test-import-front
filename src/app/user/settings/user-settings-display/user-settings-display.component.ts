@@ -2,6 +2,7 @@ import moment from 'moment/min/moment-with-locales.js';
 import * as momentTimezone from 'moment-timezone';
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import DisplayService from "../../../core/display.service";
 import './user-settings-display.component.scss';
 
 class UserSettingsDisplayCtrl {
@@ -21,7 +22,7 @@ class UserSettingsDisplayCtrl {
     static $inject = ['DisplayService', 'dialogs', 'message', '$mdDialog'];
 
     constructor (
-        private displayService: any,
+        private displayService: DisplayService,
         private dialogs: any,
         private message: any,
         private $mdDialog: any,
@@ -61,16 +62,16 @@ class UserSettingsDisplayCtrl {
         this.displayService.setFirstDayOfWeek(firstDayOfWeek);
     }
 
-    weekdays (day) {
+    weekdays (day: number) : string[] {
         return moment.weekdays(day);
     }
 
-    getTimezoneTitle () {
+    getTimezoneTitle () : string {
         let timezone = this.timezone;
         return (timezone && `(GMT${momentTimezone.tz(timezone).format('Z')}) ${timezone}`) || null;
     }
 
-    getDateFormat () {
+    getDateFormat () : string {
         return moment().format('L');
     }
 }

@@ -1,5 +1,7 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IBillingTariff } from "@api/billing";
+import BillingService from "../../../core/billing.service";
 import './user-settings-tariffs.component.scss';
 
 class UserSettingsTariffsCtrl {
@@ -11,7 +13,7 @@ class UserSettingsTariffsCtrl {
     static $inject = ['BillingService', 'dialogs', 'message', '$mdDialog'];
 
     constructor (
-        private billingService: any,
+        private billingService: BillingService,
         private dialogs: any,
         private message: any,
         private $mdDialog: any,
@@ -19,11 +21,11 @@ class UserSettingsTariffsCtrl {
         window['UserSettingsTariffsCtrl'] = this;
     }
 
-    tariffStatus (tariff) {
+    tariffStatus (tariff: IBillingTariff) {
         return this.billingService.tariffStatus(tariff);
     }
 
-    tariffIsEnabled (tariff) {
+    tariffIsEnabled (tariff: any) {
         return (isOn) => {
             if (typeof isOn === 'undefined') {
                 return tariff.isOn;
@@ -33,20 +35,20 @@ class UserSettingsTariffsCtrl {
         }
     }
 
-    selectTariff (tariff) {
+    selectTariff (tariff: any) {
         if (!tariff.isBlocked) {
             tariff.isOn? this.viewTariff(tariff) : this.enableTariff(tariff);
         }
     }
 
-    enableTariff (tariff) {
+    enableTariff (tariff: any) {
         return this.dialogs.enableTariff(tariff, this.owner)
         .catch((info) => {
             this.message.systemWarning(info);
         });
     }
 
-    disableTariff (tariff) {
+    disableTariff (tariff: any) {
         return (tariff.isAvailable && tariff.isBlocked ? (
             this.billingService.disableTariff(tariff.tariffId, this.owner.userId)
             .then((info) => {
@@ -61,7 +63,7 @@ class UserSettingsTariffsCtrl {
         });
     }
 
-    viewTariff (tariff) {
+    viewTariff (tariff: any) {
         return this.dialogs.tariffDetails(tariff, this.owner)
         .catch((info) => {
             this.message.systemWarning(info);

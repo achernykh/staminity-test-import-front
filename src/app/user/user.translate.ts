@@ -66,8 +66,6 @@ export const translateUser = {
             },
             privacy: {
                 header: 'Приватность',
-                hint: 'Ваши фамилия и имя доступны для просмотра всем пользователям. Ваши личные данные (e-mail,' +
-                ' телефон, а также вес, рост и уровень тренированности) не доступны никому, кроме Вашего тренера',
                 groups: {
                     userProfile: {
                         personal: "Профиль: персональная информация",
@@ -88,7 +86,8 @@ export const translateUser = {
                     id50: 'Я и тренер',
                     id40: 'Я, тренер и друзья',
                     id10: 'Все'
-                }
+                },
+                hint: 'Насторйки приватности'
             },
             display: {
                 header: 'Представление',
@@ -108,9 +107,10 @@ export const translateUser = {
             },
             account: {
                 header: 'Учетная запись',
-                hint: 'Пояснение, подсказка....',
+                hint: 'Ваша учётная запись',
                 email: 'Логин',
-                password: 'Пароль'
+                password: 'Пароль',
+                newPassword: 'Новый пароль'
             },
             billing: {
                 header: 'Счета и тарифы',
@@ -331,14 +331,15 @@ export const translateUser = {
             },
             zones: {
                 header: 'Тренировочные зоны',
-                hint: 'Подсказка, пояснение по блоку информации...',
-
+                hint: 'Настройки тренировочных зон и ПАНО',
                 addSport: 'Добавить спорт',
                 editZones: 'Изменить зоны',
                 deleteZones: 'Удалить зоны',
                 zoneCaption: 'Название',
                 zoneFrom: 'Начало',
                 zoneTo: 'Окончание',
+                measures: 'Показатели',
+                methods: 'Методы расчёта',
 
                 calculation: {
                     method: 'Метод расчета',
@@ -372,6 +373,7 @@ export const translateUser = {
             },
             notification: {
                 header: 'Уведомления',
+                hint: 'Настройки уведомлений',
 
                 //notificationGroup
                 user: 'Для всех пользователей',

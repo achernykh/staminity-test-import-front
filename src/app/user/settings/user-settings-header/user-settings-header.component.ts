@@ -1,5 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import UserService from "../../../core/user.service";
 import './user-settings-header.component.scss';
 
 class UserSettingsHeaderCtrl {
@@ -11,13 +12,16 @@ class UserSettingsHeaderCtrl {
     static $inject = ['UserService', 'dialogs', 'message'];
 
     constructor (
-        private userService: any,
+        private userService: UserService,
         private dialogs: any,
         private message: any,
     ) {
 
     }
 
+    /**
+     * Выбор аватара
+     */
     uploadAvatar () {
         this.dialogs.uploadPicture()
         .then(picture => this.userService.postProfileAvatar(picture))
@@ -30,6 +34,9 @@ class UserSettingsHeaderCtrl {
         });
     }
 
+    /**
+     * Выбор фона
+     */
     uploadBackground () {
         this.dialogs.uploadPicture()
         .then((picture) => this.userService.postProfileBackground(picture))

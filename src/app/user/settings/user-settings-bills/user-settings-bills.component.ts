@@ -1,5 +1,8 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IBill } from "@api/billing";
+import BillingService from "../../../core/billing.service";
+import UserService from "../../../core/user.service";
 import './user-settings-bills.component.scss';
 
 class UserSettingsBillsCtrl {
@@ -11,30 +14,46 @@ class UserSettingsBillsCtrl {
     static $inject = ['BillingService', 'dialogs', 'message', 'UserService', '$scope'];
 
     constructor (
-        private billingService: any,
+        private billingService: BillingService,
         private dialogs: any,
         private message: any,
-        private userService: any,
+        private userService: UserService,
         private $scope: any,
     ) {
 
     }
 
-    invoiceStatus (bill) {
+    /**
+     * Статус счёта
+     * @param bill: IBillingTariff
+     * @returns {string}
+     */
+    invoiceStatus (bill: IBill) : string {
         return this.billingService.billStatus(bill);
     }
 
-    viewBill (bill) {
-        return this.dialogs.billDetails(bill, this.owner)
+    /**
+     * Просмотр счёта
+     * @param bill: IBill
+     */
+    viewBill (bill: IBill) {
+        this.dialogs.billDetails(bill, this.owner)
         .catch((info) => {
             this.message.systemWarning(info);
         });
     }
     
-    hasPaidBill () { 
-        return this.owner.billing.bills.find((bill) => !!bill.receiptDate); 
+    /**
+     * Есть ли у пользователя оплаченный счёт
+     * @returns {boolean}
+     */
+    hasPaidBill () : boolean { 
+        return !!this.owner.billing.bills.find((bill) => !!bill.receiptDate); 
     } 
  
+    /**
+     * Показать полный список счетов
+     */
     billsList () { 
         return this.dialogs.billsList(this.owner) 
         .then(() => {
@@ -46,7 +65,12 @@ class UserSettingsBillsCtrl {
         }); 
     } 
  
-    autoPayment (isOn?: boolean) { 
+    /**
+     * Геттер-сеттер autoPayment
+     * @param isOn?: boolean
+     * @returns {boolean | void}
+     */
+    autoPayment (isOn?: boolean) : boolean | void { 
         if (typeof isOn === 'undefined') { 
             return this.owner.billing['autoPayment']; 
         } 
@@ -55,7 +79,7 @@ class UserSettingsBillsCtrl {
             billing: { autoPayment: isOn } 
         }; 
  
-        this.userService.putProfile(userChanges) 
+        this.userService.putProfile(userChanges as any) 
         .then(() => { 
             this.owner.billing['autoPayment'] = isOn; 
             this.message.toastInfo('settingsSaveComplete'); 

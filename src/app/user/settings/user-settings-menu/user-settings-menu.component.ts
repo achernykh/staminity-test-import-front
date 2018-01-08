@@ -15,10 +15,18 @@ class UserSettingsMenuCtrl implements IComponentController {
 
     }
 
+    /**
+     * Открыта собственная страница настроек
+     * @returns {boolean}
+     */
     isOwnSettings () : boolean {
         return this.owner.userId === this.currentUser.userId;
     }
 
+    /**
+     * Перейти к секции
+     * @param hash: string
+     */
     go (hash: string) {
         this.$location.hash(hash);
     } 
@@ -31,4 +39,4 @@ export const UserSettingsMenuComponent:IComponentOptions = {
     },
     controller: UserSettingsMenuCtrl,
     template: require('./user-settings-menu.component.html') as string
-};
+} as any;

@@ -1,6 +1,8 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController,ILocationService } from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import UserService from "../../../core/user.service";
+import DisplayService from "../../../core/display.service";
 import { UserSettingsCoachDatamodel } from './user-settings-coach.datamodel';
 import './user-settings-coach.component.scss';
 
@@ -26,8 +28,8 @@ class UserSettingsCoachCtrl {
     static $inject = ['DisplayService', 'UserService', 'dialogs', 'message', '$http'];
 
     constructor (
-        private displayService: any,
-        private userService: any,
+        private displayService: DisplayService,
+        private userService: UserService,
         private dialogs: any,
         private message: any,
         private $http: any,
@@ -35,6 +37,9 @@ class UserSettingsCoachCtrl {
 
     }
 
+    /**
+     * Сохранить 
+     */
     submit () {
         this.userService.putProfile(this.datamodel.toUserProfile())
         .then((result) => {
@@ -44,18 +49,32 @@ class UserSettingsCoachCtrl {
         });
     }
  
-    getDateFormat () { 
+    /**
+     * Формат даты
+     * @returns {string}
+     */
+    getDateFormat () : string { 
         return moment().localeData().longDateFormat('L'); 
     } 
 
-    countrySearch (query) {
+    /**
+     * Поиск страны
+     * @param query: string
+     * @returns {string[]}
+     */
+    countrySearch (query: string) : string[] {
         let countries = countriesList[this.displayService.getLocale()];
         let regexp = new RegExp(query, 'i');
 
         return query ? Object.keys(countries).filter((key) => ~countries[key].search(regexp)) : countries;
     }
 
-    citySearch (query) {
+    /**
+     * Поиск города
+     * @param query: string
+     * @returns {Promise<any>}
+     */
+    citySearch (query: string) : Promise<any> {
         let language = this.displayService.getLocale();
         let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
         let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'

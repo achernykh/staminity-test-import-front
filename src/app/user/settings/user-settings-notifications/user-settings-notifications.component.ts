@@ -1,5 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import UserService from "../../../core/user.service";
 import { UserSettingsNotificationsDatamodel, groups } from './user-settings-notifications.datamodel';
 import './user-settings-notifications.component.scss';
 
@@ -18,13 +19,16 @@ class UserSettingsNotificationsCtrl {
     static $inject = ['UserService', 'dialogs', 'message'];
 
     constructor (
-        private userService: any,
+        private userService: UserService,
         private dialogs: any,
         private message: any,
     ) {
         window['UserSettingsNotificationsCtrl'] = this;
     }
 
+    /**
+     * Сохранить
+     */
     submit () {
         this.userService.putProfile(this.datamodel.toUserProfile())
         .then((result) => {

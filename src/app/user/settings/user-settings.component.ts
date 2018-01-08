@@ -2,17 +2,19 @@ import './user-settings.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import MessageService from "../../core/message.service";
+import { SessionService } from "../../core/session/session.service";
 import AuthService from "../../auth/auth.service";
 
 class UserSettingsCtrl implements IComponentController {
 
     // inject
-    static $inject = ['$stateParams', 'message', 'SessionService'];
+    static $inject = ['$stateParams', 'message', 'SessionService', 'UserService'];
 
     constructor (
         private $stateParams: any,
         private message: MessageService,
-        private sessionService: any,
+        private sessionService: SessionService,
+        private userService: any,
     ) {
         window['UserSettingsCtrl'] = this;
     }
@@ -31,8 +33,12 @@ class UserSettingsCtrl implements IComponentController {
         return ownerId && this.athletes.find((user) => user.userId === ownerId) || this.currentUser;
     }
 
+    /**
+     * Открыта собственная страница настроек
+     * @returns {boolean}
+     */
     isOwnSettings () : boolean {
-        return this.owner !== this.currentUser;
+        return this.owner.userId !== this.currentUser.userId;
     }
 }
 
@@ -43,4 +49,4 @@ export const UserSettingsComponent: IComponentOptions = {
     controller: UserSettingsCtrl,
     controllerAs: '$userSettingsCtrl',
     template: require('./user-settings.component.html') as string
-};
+} as any;

@@ -28,8 +28,8 @@
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ng-click="$ctrl.showPasswordChange($event)">
-                    <p>Ваша учетная запись {{$ctrl.owner.personal.extEmail}} #{{$ctrl.owner.userId}}</p>
-                    <md-button class="md-secondary" ng-click="$ctrl.showChangePassword($event)">Новый пароль</md-button>
+                    <p>{{ 'user.settings.account.hint' | translate }}: {{$ctrl.owner.personal.extEmail}} #{{$ctrl.owner.userId}}</p>
+                    <md-button class="md-secondary" ng-click="$ctrl.showChangePassword($event)" translate="user.settings.account.newPassword"></md-button>
                 </md-list-item>
             </md-list>
         </md-card>
@@ -39,7 +39,7 @@
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.privacy({userId: $ctrl.owner.userId})">
-                    <p class="md-body-1">Настройки приватности</p>
+                    <p class="md-body-1" translate>user.settings.privacy.hint</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
             </md-list>
@@ -61,7 +61,7 @@
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.zones({userId: $ctrl.owner.userId})">
-                    <p class="md-body-1">Настройки тренировочных зон и ПАНО</p>
+                    <p class="md-body-1" translate>user.settings.zones.hint</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
             </md-list>
@@ -74,12 +74,12 @@
             <st-user-settings-bills owner="$ctrl.owner"></st-user-settings-bills>
         </md-card>
     </article>
-<!--     <article ng-if="$ctrl.isOwnSettings()" id="user-settings-display">
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-display">
         <h2 class="md-body-2 md-dark" translate>user.settings.display.header</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-display owner="$ctrl.owner" currentUser="$ctrl.currentUser"></st-user-settings-display>
         </md-card>
-    </article> -->
+    </article>
     <article ng-if="$ctrl.isOwnSettings()" id="user-settings-sync">
         <h2 class="md-body-2 md-dark" translate>user.settings.sync.header</h2>
         <md-card class="user-settings-main__card">
@@ -97,7 +97,7 @@
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.notifications({userId: $ctrl.owner.userId})">
-                    <p class="md-body-1" translate>Настройки уведомлений</p>
+                    <p class="md-body-1" translate>user.settings.notification.header</p>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
             </md-list>

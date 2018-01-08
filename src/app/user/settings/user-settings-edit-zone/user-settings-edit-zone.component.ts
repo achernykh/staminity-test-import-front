@@ -1,37 +1,6 @@
 import {IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
 import './user-settings-edit-zone.component.scss';
-
-export const _CalculationMethod = { 
-    heartRate: [{ 
-        type: "lactateThreshold", 
-        method: ["JoeFrielHeartRateRunning7", "JoeFrielHeartRateCycling7"], 
-    }, { 
-        type: "restingAndMax", 
-        method: ["Karvonen5"], 
-    }, { 
-        type: "max", 
-        method: ["Yansen6"], 
-    }, { 
-        type: "custom", 
-        method: ["5", "7", "9"], 
-    }], 
-    power: [{ 
-        type: "powerThreshold", 
-        method: ["AndyCoggan6"], 
-    }, { 
-        type: "custom", 
-        method: ["5", "7", "9"], 
-    }], 
-    speed: [ 
-        { 
-            type: "paceThreshold", 
-            method: ["JoeFrielSpeed7"], 
-        }, { 
-            type: "custom", 
-            method: ["5", "7", "9"], 
-        }, 
-    ], 
-}; 
+import { calculationMethods } from './user-settings-edit-zone.constants';
 
 class UserSettingsEditZoneCtrl implements IComponentController {
 
@@ -57,7 +26,7 @@ class UserSettingsEditZoneCtrl implements IComponentController {
     };
     public selected:Array<any> = [];
     private readonly measures: Array<string> = ['minValue','ATP','FTP','maxValue'];
-    private readonly calculationMethod: any = _CalculationMethod;
+    private readonly calculationMethod: any = calculationMethods;
 
     static $inject = [];
 
