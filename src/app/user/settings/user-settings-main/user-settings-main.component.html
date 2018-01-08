@@ -14,11 +14,13 @@
     <article ng-if="$ctrl.isOwnSettings()" id="user-settings-coach">
         <h2 class="md-body-2 md-dark" translate>user.settings.coach.header</h2>
         <md-card class="user-settings-main__card">
-            <md-list-item ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
-                <p class="md-body-1" translate>user.settings.coach.hint</p>
-                <md-icon class="material-icon md-secondary">keyboard_arrow_right
-                </md-icon>
-            </md-list-item>
+            <md-list>
+                <md-list-item ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
+                    <p class="md-body-1" translate>user.settings.coach.hint</p>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right
+                    </md-icon>
+                </md-list-item>
+            </md-list>
         </md-card>
     </article>
     <article ng-if="$ctrl.isOwnSettings()" id="user-settings-account">
