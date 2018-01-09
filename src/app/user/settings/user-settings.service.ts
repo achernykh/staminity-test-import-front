@@ -17,11 +17,15 @@ export class UserSettingsService {
 
     }
 
+    submitChanges () : Promise<any> {
+        return Promise.resolve();
+    }
+
     /**
      * Смена пароля
      * @returns {Promise<any>}
      */
-    changePassword (event): Promise<any> {        
+    changePassword (event) : Promise<any> {        
         return this.$mdDialog.show({
             controller: UserSettingsPasswordCtrl,
             controllerAs: '$ctrl',

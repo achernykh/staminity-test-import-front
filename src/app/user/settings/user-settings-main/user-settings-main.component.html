@@ -11,7 +11,7 @@
             </md-list-item>
         </md-card>
     </article>
-    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-coach">
+    <article ng-if="$ctrl.isOwnSettings() && $ctrl.owner.profile.isCoach" id="user-settings-coach">
         <h2 class="md-body-2 md-dark" translate>user.settings.coach.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>
