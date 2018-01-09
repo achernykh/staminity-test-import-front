@@ -100,8 +100,22 @@
                     </md-datepicker>
                 </md-input-container>
             </md-list-item>
+            <!-- Подписка на обновления -->
+            <md-list-item ng-if="$ctrl.plan.propagateMods">
+                <p class="md-caption" translate="trainingPlans.assignment.enabledSync"></p>
+                <md-switch class="md-secondary md-primary" ng-model="$ctrl.data.enabledSync"></md-switch>
+            </md-list-item>
         </md-list>
     </form>
+    <p flex="none" class="md-caption md-padding" style="color: darkred;">
+        Начало плана {{$ctrl.plan.startDate}},
+        окончание плана {{}},
+        смещение начала {{$ctrl.plan.firstItemCalendarShift}},
+        смещение окончания {{$ctrl.plan.lastItemCalendarShift}}
+    </p>
+    <p flex="none" class="md-caption md-padding" style="color: darkred;">
+        Расчетная первая дата: {{$ctrl.fistItemDate}}
+    </p>
 </md-dialog-content>
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>

@@ -17,7 +17,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
     // private
     private readonly applyModeTypes: Array<string> = ['P', 'I'];
-    private readonly applyDateTypes: Array<string> = ['F', 'E'];
+    private readonly applyDateTypes: Array<string> = ['F', 'T'];
     private data: ITrainingPlanAssignmentRequest;
     private applyFromDate: Date;
     private applyToDate: Date;
@@ -31,7 +31,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     $onInit() {
 
         if (!this.assign) {
-            this.data = Object.assign({ applyMode: 'P', applyDateMode: 'F' });
+            this.data = Object.assign({ applyMode: 'P', applyDateMode: 'F', enabledSync: this.plan.propagateMods || null });
         } else {
             this.data = {
                 mode: 'U',
@@ -76,7 +76,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
         }
         // Вариант 2. Тип Даты = План & Дата = с конца
         else if ( this.data.applyMode === 'P' && this.data.applyDateMode === 'T' ) {
-            return moment(this.applyToDate).subtract(this.plan.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return moment(this.applyToDate).subtract(this.plan.lastItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
         // Вариант 3.
         else if ( this.data.applyDateMode === 'F' ) {

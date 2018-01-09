@@ -43,12 +43,12 @@ export class TrainingPlan implements ITrainingPlan {
     reviews: Array<ITrainingPlanReview>; // массив отзывов
     calendarItems?: Array<ICalendarItem>; // массив событий календаря
     assignmentList?: Array<ITrainingPlanAssignment>; // история присвоений плана
-    startDate?: Date; // дата первой тренировки, если isFixedCalendarDates = true
+    startDate?: string; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
 
     private authorProfile: IUserProfileShort;
-
-    private keys: Array<string> = ['keys', 'revision', 'authorProfile'];
+    private _startDate: Date;
+    private keys: Array<string> = ['keys', 'revision', 'authorProfile', '_startDate'];
 
     constructor (params?: Object | ITrainingPlan | Array<any>) {
 
@@ -102,6 +102,7 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     private prepareDefaultData (): void {
+        if ( this.startDate ) { this._startDate = new Date(this.startDate); }
         if ( !this.lang ) { this.lang = 'ru'; }
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
@@ -115,7 +116,7 @@ export class TrainingPlan implements ITrainingPlan {
 
     get lastItemCalendarShift (): number {
         let lastCalendarItemDate: Moment = moment(this.lastCalendarItem.dateStart);
-        return lastCalendarItemDate.endOf('week').diff(lastCalendarItemDate, 'days');
+        return moment(lastCalendarItemDate).endOf('week').diff(lastCalendarItemDate, 'days');
     }
 
     get firstCalendarItem (): ICalendarItem {
@@ -124,6 +125,14 @@ export class TrainingPlan implements ITrainingPlan {
 
     get lastCalendarItem (): ICalendarItem {
         return this.calendarItems && this.calendarItems[this.calendarItems.length - 1] || null;
+    }
+
+    apiObject (): ITrainingPlan {
+        let plan: ITrainingPlan = Object.assign({}, this);
+        debugger;
+        if (this._startDate) { plan.startDate = moment(this.startDate).startOf('week').format('YYYY-MM-DD'); };
+        this.keys.map(k => plan.hasOwnProperty(k) && delete plan[k]);
+        return plan;
     }
 
     clear (keys: Array<string> = this.keys): ITrainingPlan {

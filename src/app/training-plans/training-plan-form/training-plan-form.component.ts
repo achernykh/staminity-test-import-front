@@ -39,7 +39,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     save () {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
-                .post(this.plan.clear())
+                .post(this.plan.apiObject())
                 .then((response: IRevisionResponse) => this.onSave({
                         mode: this.mode,
                         plan: this.plan.applyRevision(response)
@@ -49,7 +49,7 @@ class TrainingPlanFormCtrl implements IComponentController {
 
         if (this.mode === FormMode.Put) {
             this.trainingPlanService
-                .put(this.plan.clear())
+                .put(this.plan.apiObject())
                 .then((response: IRevisionResponse) => this.onSave({
                         mode: this.mode,
                         plan: this.plan.applyRevision(response)

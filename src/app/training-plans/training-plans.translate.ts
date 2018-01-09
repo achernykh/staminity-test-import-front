@@ -94,7 +94,7 @@ export const _translateTrainingPlans = {
                 applyDateMode: {
                     label: 'Режим присвоения',
                     F: 'Начиная с даты',
-                    E: 'К указанной дате',
+                    T: 'К указанной дате',
                     hint: 'План может быть присовен или к определенной дате, или от выбранной даты'
                 },
                 applyFromDate: {
