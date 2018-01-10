@@ -26,9 +26,10 @@ self.addEventListener('fetch', (event) => {
 });
 
 function initCache () {
-	return caches.open(cacheKey)
-		.then((cache) => cache.addAll(preload.split(',')))
-		.then(() => self.skipWaiting());
+  return self.skipWaiting(); 
+  // return caches.open(cacheKey) 
+  //   .then((cache) => cache.addAll(preload.split(','))) 
+  //   .then(() => self.skipWaiting()); 
 }
 
 function clearOldCaches () {
