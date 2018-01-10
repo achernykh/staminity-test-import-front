@@ -52,7 +52,7 @@ function configure($stateProvider:StateProvider,
                     (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
                         if(athlete) {
                             if (AuthService.isCoach()) {
-                                return AuthService.isMyAthlete(<IUserProfile>{userId: athlete})
+                                return AuthService.isMyAthlete(<IUserProfile>{userId: Number(athlete)})
                                     .catch((error)=>{
                                         athlete = null;
                                         message.systemWarning(error);
