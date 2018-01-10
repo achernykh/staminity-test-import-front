@@ -8,13 +8,12 @@ import AuthService from "../../auth/auth.service";
 class UserSettingsCtrl implements IComponentController {
 
     // inject
-    static $inject = ['$stateParams', 'message', 'SessionService', 'UserService'];
+    static $inject = ['$stateParams', 'message', 'SessionService'];
 
     constructor (
         private $stateParams: any,
         private message: MessageService,
-        private sessionService: SessionService,
-        private userService: any,
+        private sessionService: SessionService
     ) {
         window['UserSettingsCtrl'] = this;
     }

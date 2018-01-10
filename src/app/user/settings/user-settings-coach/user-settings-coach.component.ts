@@ -71,6 +71,15 @@ class UserSettingsCoachCtrl {
     citySearch (query: string) : Promise<any> {
         return this.userSettingsService.citySearch(query);
     }
+
+    /**
+     * Название страны
+     * @param key: string
+     * @returns {string}
+     */
+    getCountryName (key: string) : string {
+        return countriesList[this.displayService.getLocale()][key];
+    }
 }
 
 export const UserSettingsCoachComponent: IComponentOptions = {

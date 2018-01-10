@@ -42,11 +42,11 @@
                 md-selected-item="$ctrl.datamodel.country"
                 md-search-text="$ctrl.countrySearchText"
                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
-                md-item-text="$ctrl.countriesList['ru'][id]"
+                md-item-text="$ctrl.getCountryName(id)"
                 md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}"
             >
                 <md-item-template>
-                    <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
+                    <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList['ru'][id]}}</span>
                 </md-item-template>
                 <div ng-messages="$ctrl.form.country.$error" role="alert"
                      ng-if="$ctrl.form.country.$touched">

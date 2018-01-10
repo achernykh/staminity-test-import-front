@@ -17,7 +17,7 @@ export class UserSettingsService {
 
     }
 
-    submitChanges () : Promise<any> {
+    submitChanges (changes) : Promise<any> {
         return Promise.resolve();
     }
 

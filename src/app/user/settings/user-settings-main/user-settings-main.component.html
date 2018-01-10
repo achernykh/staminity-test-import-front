@@ -1,6 +1,6 @@
 <section class="user-settings__card">
     <article ng-if="$ctrl.isOwnSettings()" id="user-settings-profile">
-        <h2 class="md-body-2 md-dark" translate>user.settings.personalInfo.header</h2>
+        <h2 class="md-body-2 md-dark" translate>user.settings.profile.header</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-header owner="$ctrl.owner"></st-user-settings-header>
             <md-divider></md-divider>
@@ -10,9 +10,6 @@
                 </md-icon>
             </md-list-item>
         </md-card>
-    </article>
-    <article ng-if="$ctrl.isOwnSettings() && $ctrl.owner.profile.isCoach" id="user-settings-coach">
-        <h2 class="md-body-2 md-dark" translate>user.settings.coach.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
@@ -22,9 +19,6 @@
                 </md-list-item>
             </md-list>
         </md-card>
-    </article>
-    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-account">
-        <h2 class="md-body-2 md-dark" translate>user.settings.account.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ng-click="$ctrl.showPasswordChange($event)">
@@ -33,9 +27,6 @@
                 </md-list-item>
             </md-list>
         </md-card>
-    </article>
-    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-privacy">
-        <h2 class="md-body-2 md-dark" translate>user.settings.privacy.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.privacy({userId: $ctrl.owner.userId})">
@@ -45,8 +36,8 @@
             </md-list>
         </md-card>
     </article>
-    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-fit">
-        <h2 class="md-body-2 md-dark" translate>user.settings.sportShape.header</h2>
+    <article id="user-settings-fit">
+        <h2 ng-if="$ctrl.isOwnSettings()" class="md-body-2 md-dark" translate>user.settings.sportShape.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.fit({userId: $ctrl.owner.userId})">
@@ -55,9 +46,6 @@
                 </md-list-item>
             </md-list>
         </md-card>
-    </article>
-    <article id="user-settings-zones">
-        <h2 class="md-body-2 md-dark" translate>user.settings.zones.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ui-sref="user-settings.zones({userId: $ctrl.owner.userId})">
