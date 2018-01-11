@@ -1,5 +1,6 @@
 import {IComponentController, IComponentOptions, IPromise} from "angular";
 import {IActivityIntervalL} from "../../../../api/activity/activity.interface";
+import { CalendarItemActivityCtrl } from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import "./activity-header-splits.component.scss";
 
 class ActivityHeaderSplitsCtrl implements IComponentController {
@@ -7,6 +8,9 @@ class ActivityHeaderSplitsCtrl implements IComponentController {
     splits: IActivityIntervalL[];
     sport: string;
     onEvent: (response: Object) => IPromise<void>;
+
+    private item: CalendarItemActivityCtrl;
+
     static $inject = [];
 
     constructor() {
@@ -14,7 +18,7 @@ class ActivityHeaderSplitsCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.splits = [...this.item.activity.intervals.L];
     }
 }
 
@@ -24,7 +28,7 @@ const ActivityHeaderSplitsComponent: IComponentOptions = {
         sport: "<",
     },
     require: {
-        //component: '^component'
+        item: '^calendarItemActivity'
     },
     controller: ActivityHeaderSplitsCtrl,
     template: require("./activity-header-splits.component.html") as string,
