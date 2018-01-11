@@ -3,11 +3,8 @@ import {IAuthService} from "./auth/auth.service";
 import MessageService from "./core/message.service";
 import LoaderService from "./share/loader/loader.service";
 import { path } from "./share/utility/path";
-
-interface IStaminityState extends StateDeclaration {
-    loginRequired: boolean;
-    authRequired: any[];
-}
+import { SocketService } from "./core/socket/socket.service";
+import { IStaminityState } from "./application.interface";
 
 function run(
     $transitions: TransitionService,
@@ -18,7 +15,8 @@ function run(
     AuthService: IAuthService,
     message: MessageService,
     DisplayService: any, // not used, just force DisplayService being initialized
-    UserService: any, // not used, just force UserService being initialized
+    UserService: any, // not used, just force UserService being initialized,
+    socket: SocketService
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
@@ -50,6 +48,7 @@ function run(
 
     $transitions.onBefore({to: "*", from: "*"}, (state) => {
         const routeTo: IStaminityState = Object.assign(state.$to());
+        console.info(`app run: $transition onBefore ${routeTo.name}`);
 
         if (routeTo.loginRequired && !AuthService.isAuthenticated()) {
             message.systemWarning("forbidden_InsufficientAction");
@@ -61,11 +60,14 @@ function run(
             //message.systemWarning('forbiddenAction');
             return true; // TODO после настройки state в предсталвениях поменять на false
         }
-
         LoaderService.show();
+        //return routeTo.authRequired ? socket.init() : true;
     });
 
-    $transitions.onSuccess({ to: "*", from: "*" }, (state) => LoaderService.hide());
+    $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
+        console.info(`app run: $transition onSuccess ${state.$to().name}`);
+        LoaderService.hide();
+    });
 
     $state.defaultErrorHandler((error) => {
         console.error(error);
@@ -74,6 +76,6 @@ function run(
 }
 
 run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message",
-    "DisplayService", "UserService"];
+    "DisplayService", "UserService", 'SocketService'];
 
 export default run;

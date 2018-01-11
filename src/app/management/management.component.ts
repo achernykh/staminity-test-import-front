@@ -1,4 +1,4 @@
-import { IComponentController, IComponentOptions } from "angular";
+import { IComponentController, IComponentOptions, IScope } from "angular";
 import { IBillingTariff, IGroupManagementProfile } from "../../../api";
 import GroupService from "../core/group.service";
 import { createSelector } from "../share/utility";
@@ -45,7 +45,7 @@ class ManagementCtrl implements IComponentController {
     static $inject = ["$scope", "$mdDialog", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService", "ManagementService"];
 
     constructor(
-        private $scope: any,
+        private $scope: IScope,
         private $mdDialog: any,
         private $mdMedia: any,
         private $mdBottomSheet: any,
@@ -64,7 +64,7 @@ class ManagementCtrl implements IComponentController {
         .then((management) => {
             this.management = management;
             this.checked = [];
-            this.$scope.$asyncApply();
+            this.$scope.$applyAsync();
         }, (error) => {
             this.systemMessageService.show(error);
         });
@@ -131,6 +131,7 @@ class ManagementCtrl implements IComponentController {
      * Действие над выбранными строчками по кнопке "Тарифы"
      */
     editTariffs() {
+        debugger;
         this.managementService.editTariffs(this.membersList, this.getChecked())
         .then((result) => {
             if (result) {

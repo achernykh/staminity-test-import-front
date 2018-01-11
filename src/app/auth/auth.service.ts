@@ -185,11 +185,12 @@ export default class AuthService implements IAuthService {
     }
     /**
      * Установка нового пароля текущего пользователя
+     * @param token
      * @param password
      * @returns {Promise<any>}
      */
-    setPassword(password: string, token: string) : IHttpPromise<{}> {
-        return this.RESTService.postData(new SetPasswordRequest(token, password))
+    setPassword(password: string, token: string = this.SessionService.getToken()) : IHttpPromise<{}> {
+        return this.RESTService.postData(new SetPasswordRequest(password, token))
             .then((result) => result['data']); // Ожидаем system message
     }
 

@@ -178,7 +178,9 @@ class AnalyticsChartCtrl implements IComponentController {
         };
         this.filter.activityTypes.model.map((id) => globalParams.activityTypes.push(...getSportsByBasicId(Number(id))));
         globalParams.users = [Number(this.filter.users.model)];
-        globalParams.periods = this.filter.periods.model !== "customPeriod" ? periodByType(this.filter.periods.model) : this.filter.periods.model;
+        globalParams.periods = this.filter.periods.model !== "customPeriod" ? periodByType(this.filter.periods.model) : this.filter.periods.data.model;
+
+        debugger;
 
         this.chart.charts.map((c, i) => c.params = {
             users:

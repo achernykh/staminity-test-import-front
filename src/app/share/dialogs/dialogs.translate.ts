@@ -39,6 +39,7 @@ export let translateDialogs = {
         startClub: "Отправить запрос на вступление в клуб?",
         leaveClub: "Покинуть клуб?",
         excludeClub: "Исключить из клуба?",
+        removeAthlete: "Отключить спортсмена?",
 
         // Операции с тренировками
         deleteSelectedItems: "Удалить выбранные тренировки? Отменить операцию невозможно",

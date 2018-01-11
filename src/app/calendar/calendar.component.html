@@ -17,7 +17,7 @@
                 <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
                     <md-button ng-click="$ctrl.setOwner(athlete)"
                                ng-disable="athlete.userId === $ctrl.owner.userId">
-                        <userpic profile="athlete"></userpic>
+                        <userpic profile="athlete" unlink="true"></userpic>
                         <span>{{athlete | userName}}</span>
                     </md-button>
                 </md-menu-item>
@@ -25,7 +25,7 @@
                 <md-menu-item>
                     <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
                                ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
-                        <userpic profile="$ctrl.currentUser"></userpic>
+                        <userpic profile="$ctrl.currentUser" unlink="true"></userpic>
                         <span>{{$ctrl.currentUser | userName}}</span>
                     </md-button>
                 </md-menu-item>
@@ -119,7 +119,7 @@
     </st-application-frame-mobile-menu>
 
     <st-application-frame-left-bar>
-        <md-content class="calendar__left-bar">
+        <md-content class="calendar__left-bar" layout-fill>
             <md-subheader>
                 <span translate="calendar.templates"></span>
             </md-subheader>

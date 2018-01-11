@@ -591,11 +591,21 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
+    delete (): void {
+        if ( this.activity.view.isTemplate ) {
+            this.deleteTemplate();
+        } else if ( this.activity.view.isTrainingPlan ) {
+            this.onDeleteTrainingPlanActivity();
+        } else {
+            this.onDelete();
+        }
+    }
+
     onDelete() {
         this.dialogs.confirm({ text: this.activity.hasIntervalDetails ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
         .then((response)=> {
-            this.onAnswer({response: {type:'delete',item:this.activity.build()}});
+            this.onAnswer({formMode: FormMode.Delete,item:this.activity.build()});
             this.message.toastInfo('activityDeleted');
         }, (error) => {
             if (error) {
@@ -644,7 +654,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onDeleteTrainingPlanActivity (): void {
-
+        this.trainingPlansService.deleteItem(this.options.planId, this.activity.build(), true)
+            .then(response => {
+                this.onAnswer({formMode: FormMode.Delete, item:this.activity.build()});
+                this.message.toastInfo('activityDeleted');
+            }, error => this.message.toastError(error));
     }
 
     onSaveTemplate() {

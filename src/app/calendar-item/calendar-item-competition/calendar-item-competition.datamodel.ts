@@ -11,6 +11,7 @@ import { ActivityIntervalPW } from "../../activity/activity-datamodel/activity.i
 import { FormMode } from "../../application.interface";
 import { toDay } from "../../activity/activity.datamodel";
 import { IActivityIntervalPW } from "../../../../api/activity/activity.interface";
+import { IActivityCategory } from "../../../../api/reference/reference.interface";
 
 const sortAsc = (a: number, b: number): number => a < b ? -1: 1;
 const sortDsc = (a: number, b: number): number => a > b ? -1: 1;
@@ -69,7 +70,11 @@ export class CalendarItemCompetition extends CalendarItem {
         this.items.map(i => i.item.parentId = id);
     }
 
-    setItems(template: Array<ICompetitionStageConfig>, options: ICalendarItemDialogOptions = this.options) {
+    setItems(
+        template: Array<ICompetitionStageConfig>,
+        categories: Array<IActivityCategory>,
+        options: ICalendarItemDialogOptions = this.options): void {
+
         this.items = [];
         if (!template || template.length === 0) { return; }
         template.map((t,i) => {
@@ -93,8 +98,8 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-            //activity.header.competitionStagePosition = i;
             activity._dateStart.setSeconds(activity._dateStart.getSeconds() + i * 10);
+            activity.header.category = categories && categories.filter(c => c.activityTypeId === activity.header.sport && c.code === 'race')[0];
             this.items.push({dirty: true, item: activity});
         });
     }

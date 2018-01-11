@@ -50,6 +50,7 @@ export class Microcycle implements IMicrocycle {
     applyRevision (revision: IRevisionResponse): Microcycle {
         this.id = revision.value.id;
         this.revision = revision.value.revision;
+        this._index = Number(`${this.id}${this.revision}`);
         return this;
     }
 

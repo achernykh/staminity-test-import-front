@@ -116,10 +116,10 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
             return this.item.multiSelectionInterval.calcMeasures;
         }
 
-        let type: string = 'interval' + selection[0].substr(0,1);
+        let intervalType: string = selection[0].substr(0,1);
         let index: number = Number(selection[0].substr(1))-1;
 
-        return this.item.activity[type][index].calcMeasures;
+        return this.item.activity.intervals[intervalType][index].calcMeasures;
     }
 
     lapIndex(index: Array<string>):number {

@@ -1,6 +1,6 @@
 import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
 import {IUserProfile} from "../../../api/user/user.interface";
-import {SessionService} from "../core";
+import { SessionService, SocketService } from "../core";
 import {DisplayView} from "../core/display.constants";
 import GroupService from "../core/group.service";
 import {translateDashboard, translateDashboardClub} from "./dashboard.translate";
@@ -14,6 +14,7 @@ function configure($stateProvider: StateProvider,
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
+                init: ['SocketService', (socket: SocketService) => socket.init()],
                 view: () => new DisplayView("dashboard"),
                 coach: ["SessionService", (session: SessionService) => session.getUser()],
                 groupId: ["coach", (coach: IUserProfile) => coach.connections.allAthletes.groupId],
