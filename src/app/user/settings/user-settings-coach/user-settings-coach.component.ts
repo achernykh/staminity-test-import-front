@@ -31,7 +31,7 @@ class UserSettingsCoachCtrl {
         private message: any,
         private userSettingsService: UserSettingsService,
     ) {
-
+        window['UserSettingsCoachCtrl'] = this;
     }
 
     /**

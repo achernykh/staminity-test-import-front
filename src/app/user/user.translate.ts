@@ -3,6 +3,9 @@ export const translateUser = {
         settings: {
             fullTitle: 'Настройки пользователя',
             shortTitle: 'Настройки',
+            profile: {
+                header: 'Профиль',
+            },
             personalInfo: {
                 header: 'Персональная информация',
                 hint: 'Настройка профиля',
@@ -63,6 +66,7 @@ export const translateUser = {
             coach: {
                 header: 'Профиль тренера',
                 hint: 'Профиль тренера',
+                statusIncomplete: 'Профиль тренера не заполнен, вас нельзя найти в поиске'
             },
             privacy: {
                 header: 'Приватность',
