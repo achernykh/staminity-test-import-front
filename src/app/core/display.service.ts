@@ -91,9 +91,11 @@ export default class DisplayService {
     }
 
     private saveDisplaySettings(displayChanges: any): Promise<any> {
+        let { userId, revision, display } = this.sessionService.getUser();
         return this.userService.putProfile({ 
+            userId, revision,
             display: { 
-                ...this.sessionService.getUser().display,
+                ...display,
                 ...displayChanges,
             },
         })
