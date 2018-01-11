@@ -1,4 +1,4 @@
-<form name="$ctrl.zonesForm">
+<form name="$ctrl.form">
     <md-list class="md-dense section">
         <md-list-item ng-repeat-start="(intensityFactor,zone) in $ctrl.datamodel.trainingZones track by $index">
             <md-icon md-svg-src="/assets/icon/{{::intensityFactor}}.svg"
@@ -62,10 +62,5 @@
             </md-menu>
         </md-list-item>
         <md-divider ng-if="!$last" ng-repeat-end></md-divider>
-        <div flex layout="row" layout-align="end center">
-            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
-                {{ 'form.save' | translate }}
-            </md-button>
-        </div>
     </md-list>
 </form>

@@ -17,6 +17,7 @@ class UserSettingsPrivacyCtrl {
     // public
     datamodel: UserSettingsPrivacyDatamodel;
     privacyLevels = privacyLevels;
+    form: any;
 
     static $inject = ['UserSettingsService', 'dialogs', 'message'];
 
@@ -34,7 +35,7 @@ class UserSettingsPrivacyCtrl {
     submit () {
         this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
-
+            this.form.$setPristine(true);
         }, (error) => {
 
         });

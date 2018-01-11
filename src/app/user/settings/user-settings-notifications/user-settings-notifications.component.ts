@@ -15,6 +15,7 @@ class UserSettingsNotificationsCtrl {
     // public
     groups = groups;
     datamodel: UserSettingsNotificationsDatamodel;
+    form: any;
 
     static $inject = ['UserSettingsService', 'dialogs', 'message'];
 
@@ -32,7 +33,7 @@ class UserSettingsNotificationsCtrl {
     submit () {
         this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
-
+            this.form.$setPristine(true);
         }, (error) => {
 
         });

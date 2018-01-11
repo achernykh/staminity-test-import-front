@@ -3,7 +3,7 @@
         <md-list-item layout="row" layout-wrap>
             <userpic class="user-settings-coach__avatar size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false" profile="$ctrl.currentUser" is-premium="$ctrl.currentUser.isPremium" unlink="true"></userpic>
         </md-list-item>    
-        <md-list-item layout-padding ng-if="!$ctrl.currentUser.public.profileComplete" class="profile-incomplete bg-red-500"> 
+        <md-list-item layout-padding ng-if="!$ctrl.isProfileComplete()" class="profile-incomplete bg-red-500"> 
             <p class="md-body-1 md-light" translate="user.settings.personalInfo.coachProfileIncomplete"></p> 
         </md-list-item> 
         <md-list-item layout="row" layout-wrap>
@@ -53,6 +53,12 @@
                     <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:1, max:100}">
                     </div>
                 </div>
+            </md-input-container>
+        </md-list-item>
+        <md-list-item flex layout="row">
+            <md-input-container flex class="md-block no-message">
+                <label translate="user.settings.personalInfo.about"></label>
+                <textarea ng-model="$ctrl.datamodel.about" name="about" rows="2"></textarea>
             </md-input-container>
         </md-list-item>
         <md-list-item flex layout="row"> 

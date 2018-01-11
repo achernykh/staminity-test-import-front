@@ -5,6 +5,7 @@ import { UserSettingsService } from '../user-settings.service';
 import DisplayService from "../../../core/display.service";
 import { UserSettingsCoachDatamodel } from './user-settings-coach.datamodel';
 import { countriesList } from '../user-settings.constants';
+import { isCoachProfileComplete } from './user-settings-coach.functions';
 import './user-settings-coach.component.scss';
 
 class UserSettingsCoachCtrl {
@@ -38,7 +39,7 @@ class UserSettingsCoachCtrl {
     submit () {
         this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
-
+            this.form.$setPristine(true);
         }, (error) => {
 
         });
@@ -77,6 +78,14 @@ class UserSettingsCoachCtrl {
      */
     getCountryName (key: string) : string {
         return countriesList[this.displayService.getLocale()][key];
+    }
+
+    /**
+     * Заполнен ли профиль
+     * @returns {boolean}
+     */
+    isProfileComplete () : boolean {
+        return isCoachProfileComplete(this.currentUser);
     }
 }
 

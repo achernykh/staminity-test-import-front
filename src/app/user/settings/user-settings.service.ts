@@ -29,6 +29,10 @@ export class UserSettingsService {
         return this.userService.putProfile(changes)
         .then((userProfile) => {
             this.sessionService.updateUser(userProfile);
+            this.message.toastInfo('settingsSaveComplete');
+        })
+        .catch((error) => {
+
         });
     }
 
@@ -44,6 +48,10 @@ export class UserSettingsService {
             if (this.sessionService.isCurrentUserId(userId)) {
                 this.sessionService.setUser(userProfile);
             }
+            this.message.toastInfo('settingsSaveComplete');
+        })
+        .catch((error) => {
+
         });
     }
 

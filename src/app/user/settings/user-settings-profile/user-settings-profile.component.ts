@@ -38,7 +38,7 @@ class UserSettingsProfileCtrl {
     submit () {
         this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
-
+            this.form.$setPristine(true);
         }, (error) => {
 
         });

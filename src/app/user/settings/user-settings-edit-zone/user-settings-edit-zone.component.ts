@@ -98,8 +98,6 @@ class UserSettingsEditZoneCtrl implements IComponentController {
         return check;
     }
 
-
-
     calculateMethod(method: string, measure: {FTP?: number, minValue?:number, maxValue?: number}, factor: string):Array<any> {
 
         let zones: Array<any> = [];

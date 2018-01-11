@@ -92,7 +92,7 @@ class UserSettingsZonesCtrl {
     submit () {
         this.userSettingsService.saveZones(this.datamodel.toUserProfile())
         .then((result) => {
-
+            this.form.$setPristine(true);
         }, (error) => {
 
         });
