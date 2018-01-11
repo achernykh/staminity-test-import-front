@@ -44,7 +44,7 @@ class UserSettingsTariffsCtrl {
     enableTariff (tariff: any) {
         return this.dialogs.enableTariff(tariff, this.owner)
         .catch((info) => {
-            this.message.systemWarning(info);
+            // this.message.systemWarning(info);
         });
     }
 
@@ -59,14 +59,14 @@ class UserSettingsTariffsCtrl {
             this.dialogs.disableTariff(tariff, this.owner)
         ))
         .catch((info) => {
-            this.message.systemWarning(info);
+            // this.message.systemWarning(info);
         });
     }
 
     viewTariff (tariff: any) {
         return this.dialogs.tariffDetails(tariff, this.owner)
         .catch((info) => {
-            this.message.systemWarning(info);
+            // this.message.systemWarning(info);
         });
     }
 }

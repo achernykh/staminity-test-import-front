@@ -39,7 +39,7 @@ class UserSettingsBillsCtrl {
     viewBill (bill: IBill) {
         this.dialogs.billDetails(bill, this.owner)
         .catch((info) => {
-            this.message.systemWarning(info);
+            // this.message.systemWarning(info);
         });
     }
     
