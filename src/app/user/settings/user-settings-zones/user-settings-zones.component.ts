@@ -4,6 +4,7 @@ import { IActivityType } from "@api/activity/activity.interface";
 import { getSportBasic } from "../../../activity/activity.constants";
 import { userSettingsEditZoneDialog } from '../user-settings-edit-zone/user-settings-edit-zone.dialog';
 import { UserSettingsZonesDatamodel } from './user-settings-zones.datamodel';
+import { UserSettingsService } from "../user-settings.service";
 import './user-settings-zones.component.scss';
 
 class UserSettingsZonesCtrl {
@@ -21,10 +22,10 @@ class UserSettingsZonesCtrl {
     private readonly colors: {} = {heartRate: 0xE91E63, speed: 0x2196F3, power: 0x9C27B0};
     private readonly sportBasic: Array<IActivityType> = getSportBasic();
 
-    static $inject = ['UserService', 'dialogs', 'message', '$mdDialog'];
+    static $inject = ['UserSettingsService', 'dialogs', 'message', '$mdDialog'];
 
     constructor (
-        private userService: any,
+        private userSettingsService: UserSettingsService,
         private dialogs: any,
         private message: any,
         private $mdDialog: any
@@ -89,7 +90,7 @@ class UserSettingsZonesCtrl {
     }
 
     submit () {
-        this.userService.putProfile(this.datamodel.toUserProfile())
+        this.userSettingsService.saveZones(this.datamodel.toUserProfile())
         .then((result) => {
 
         }, (error) => {

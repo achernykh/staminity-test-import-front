@@ -1,6 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import UserService from "../../../core/user.service";
+import { UserSettingsService } from '../user-settings.service';
 import { UserSettingsFitDatamodel } from './user-settings-fit.datamodel';
 import './user-settings-fit.component.scss';
 
@@ -17,10 +17,10 @@ class UserSettingsFitCtrl {
     activities = ['run', 'swim', 'bike', 'triathlon', 'ski'];
     form: any;
 
-    static $inject = ['UserService', 'dialogs', 'message'];
+    static $inject = ['UserSettingsService', 'dialogs', 'message'];
 
     constructor (
-        private userService: UserService,
+        private userSettingsService: UserSettingsService,
         private dialogs: any,
         private message: any,
     ) {
@@ -31,7 +31,7 @@ class UserSettingsFitCtrl {
      * Сохранить 
      */
     submit () {
-        this.userService.putProfile(this.datamodel.toUserProfile())
+        this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
 
         }, (error) => {

@@ -2,7 +2,7 @@ import {IComponentOptions, IComponentController,ILocationService} from 'angular'
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { IBill } from "@api/billing";
 import BillingService from "../../../core/billing.service";
-import UserService from "../../../core/user.service";
+import { UserSettingsService } from "../user-settings.service";
 import './user-settings-bills.component.scss';
 
 class UserSettingsBillsCtrl {
@@ -11,13 +11,13 @@ class UserSettingsBillsCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    static $inject = ['BillingService', 'dialogs', 'message', 'UserService', '$scope'];
+    static $inject = ['BillingService', 'dialogs', 'message', 'UserSettingsService', '$scope'];
 
     constructor (
         private billingService: BillingService,
         private dialogs: any,
         private message: any,
-        private userService: UserService,
+        private userSettingsService: UserSettingsService,
         private $scope: any,
     ) {
 
@@ -75,11 +75,9 @@ class UserSettingsBillsCtrl {
             return this.owner.billing['autoPayment']; 
         } 
  
-        let userChanges = { 
+        this.userSettingsService.saveSettings({ 
             billing: { autoPayment: isOn } 
-        }; 
- 
-        this.userService.putProfile(userChanges as any) 
+        }) 
         .then(() => { 
             this.owner.billing['autoPayment'] = isOn; 
             this.message.toastInfo('settingsSaveComplete'); 

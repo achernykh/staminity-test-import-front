@@ -1,7 +1,6 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController,ILocationService } from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import UserService from "../../../core/user.service";
 import DisplayService from "../../../core/display.service";
 import { countriesList } from '../user-settings.constants';
 import { UserSettingsService } from '../user-settings.service';
@@ -22,11 +21,10 @@ class UserSettingsProfileCtrl {
     countriesList = countriesList;
     countrySearchText: string;
 
-    static $inject = ['DisplayService', 'UserService', 'dialogs', 'message', 'UserSettingsService'];
+    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService'];
 
     constructor (
         private displayService: DisplayService,
-        private userService: UserService,
         private dialogs: any,
         private message: any,
         private userSettingsService: UserSettingsService,
@@ -38,7 +36,7 @@ class UserSettingsProfileCtrl {
      * Сохранить
      */
     submit () {
-        this.userService.putProfile(this.datamodel.toUserProfile())
+        this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
 
         }, (error) => {

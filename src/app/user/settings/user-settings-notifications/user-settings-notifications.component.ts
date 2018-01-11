@@ -1,6 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import UserService from "../../../core/user.service";
+import { UserSettingsService } from '../user-settings.service';
 import { UserSettingsNotificationsDatamodel, groups } from './user-settings-notifications.datamodel';
 import './user-settings-notifications.component.scss';
 
@@ -16,10 +16,10 @@ class UserSettingsNotificationsCtrl {
     groups = groups;
     datamodel: UserSettingsNotificationsDatamodel;
 
-    static $inject = ['UserService', 'dialogs', 'message'];
+    static $inject = ['UserSettingsService', 'dialogs', 'message'];
 
     constructor (
-        private userService: UserService,
+        private userSettingsService: UserSettingsService,
         private dialogs: any,
         private message: any,
     ) {
@@ -30,7 +30,7 @@ class UserSettingsNotificationsCtrl {
      * Сохранить
      */
     submit () {
-        this.userService.putProfile(this.datamodel.toUserProfile())
+        this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
 
         }, (error) => {

@@ -40,63 +40,66 @@ export default class DisplayService {
     static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
 
     constructor(
-        private SessionService: SessionService,
-        private UserService: UserService,
+        private sessionService: SessionService,
+        private userService: UserService,
         private $translate: any,
         private tmhDynamicLocale: any,
         private $mdDateLocale: any,
     ) {
-        SessionService.getObservable()
+        sessionService.getObservable()
         .map(getDisplay)
         .distinctUntilChanged()
         .subscribe(this.handleChanges);
     }
 
     getLocale(): string {
-        return getLocale(this.SessionService.get());
+        return getLocale(this.sessionService.get());
     }
 
-    setLocale(locale: string) {
-        const userChanges = this.getUserChanges({ language: locale });
+    setLocale(locale: string): Promise<any> {
+        const displayChanges = { language: locale };
 
-        if (this.SessionService.getToken()) {
-            this.UserService.putProfile(userChanges as any);
-        } else {
-            this.SessionService.updateUser(userChanges as any);
-        }
+        return this.sessionService.getToken() ? (
+            this.saveDisplaySettings(displayChanges as any)
+        ) : (
+            Promise.resolve(this.sessionService.updateUser(displayChanges as any))
+        );
     }
 
     getUnits(): string {
-        return getUnits(this.SessionService.get());
+        return getUnits(this.sessionService.get());
     }
 
-    setUnits(units: string) {
-        this.UserService.putProfile(this.getUserChanges({ units }));
+    setUnits(units: string): Promise<any> {
+        return this.saveDisplaySettings({ units });
     }
 
     getTimezone(): string {
-        return getTimezone(this.SessionService.get());
+        return getTimezone(this.sessionService.get());
     }
 
-    setTimezone(timezone: string) {
-        this.UserService.putProfile(this.getUserChanges({ timezone }));
+    setTimezone(timezone: string): Promise<any> {
+        return this.saveDisplaySettings({ timezone });
     }
 
     getFirstDayOfWeek(): number {
-        return getFirstDayOfWeek(this.SessionService.get());
+        return getFirstDayOfWeek(this.sessionService.get());
     }
 
-    setFirstDayOfWeek(firstDayOfWeek: number) {
-        this.UserService.putProfile(this.getUserChanges({ firstDayOfWeek }));
+    setFirstDayOfWeek(firstDayOfWeek: number): Promise<any> {
+        return this.saveDisplaySettings({ firstDayOfWeek });
     }
 
-    private getUserChanges(displayChanges: any): any {
-        return { 
+    private saveDisplaySettings(displayChanges: any): Promise<any> {
+        return this.userService.putProfile({ 
             display: { 
-                ...this.SessionService.getUser().display,
+                ...this.sessionService.getUser().display,
                 ...displayChanges,
             },
-        };
+        })
+        .then((result) => {
+            this.sessionService.updateUser(result as any);
+        });
     }
 }
 

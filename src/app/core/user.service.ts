@@ -132,16 +132,12 @@ export default class UserService {
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
         return this.SocketService.send(new PutUserRequest(userChanges))
-        .then((result) => result.value)
-        .then(({ revision }) => {
-            let updatedUser = merge({}, userChanges, { revision });
-            if (this.SessionService.isCurrentUserId(userChanges.userId)) {
-                this.SessionService.updateUser(updatedUser);
-            }
+        .then(({ value }) => {
+            let updatedUser = merge({}, userChanges, value);
             return updatedUser;
         }, (error) => {
             if (error === 'expiredObject') {
-                this.getProfile(userChanges.userId)
+                return this.getProfile(userChanges.userId)
                 .then((user) => {
                     const {revision} = <any> user;
                     this.putProfile({ ...user, ...userChanges, revision });

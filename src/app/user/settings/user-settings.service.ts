@@ -1,11 +1,12 @@
 import { element } from 'angular';
 import DisplayService from "../../core/display.service";
+import UserService from "../../core/user.service";
 import { countriesList } from './user-settings.constants';
 import { UserSettingsPasswordCtrl } from './user-settings-password/user-settings-password.dialog';
 
 export class UserSettingsService {
 
-    static $inject = ['$http', '$mdDialog', 'message', 'AuthService', 'DisplayService'];
+    static $inject = ['$http', '$mdDialog', 'message', 'AuthService', 'DisplayService', 'UserService', 'SessionService'];
 
     constructor (
         private $http,
@@ -13,12 +14,37 @@ export class UserSettingsService {
         private message,
         private authService,
         private displayService: DisplayService,
+        private userService: UserService,
+        private sessionService,
     ) {
 
     }
 
-    submitChanges (changes) : Promise<any> {
-        return Promise.resolve();
+    /**
+     * Сохранить изменения 
+     * @param changes
+     * @returns {Promise<any>}
+     */
+    saveSettings (changes) : Promise<any> {
+        return this.userService.putProfile(changes)
+        .then((userProfile) => {
+            this.sessionService.updateUser(userProfile);
+        });
+    }
+
+    /**
+     * Сохранить изменения зон
+     * @param changes
+     * @returns {Promise<any>}
+     */
+    saveZones (changes) : Promise<any> {
+        return this.userService.putProfile(changes)
+        .then((userProfile) => {
+            let { userId, revision, trainigZones } = changes;
+            if (this.sessionService.isCurrentUserId(userId)) {
+                this.sessionService.setUser(userProfile);
+            }
+        });
     }
 
     /**
