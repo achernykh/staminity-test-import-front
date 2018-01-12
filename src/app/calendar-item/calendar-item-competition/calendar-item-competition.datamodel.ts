@@ -52,8 +52,7 @@ export class CalendarItemCompetition extends CalendarItem {
         }
 
         if (this.items && this.items.length) {
-            this.items.sort((a,b) =>
-                sortAsc(a.item._dateStart.getSeconds(),b.item._dateStart.getSeconds()));
+            this.items.sort((a,b) => sortAsc(a.item._dateStart.getSeconds(),b.item._dateStart.getSeconds()));
         }
     }
 

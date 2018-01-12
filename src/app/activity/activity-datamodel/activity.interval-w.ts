@@ -17,10 +17,11 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     }
 
     clear(keys?: Array<string>):IActivityIntervalW{
+        let interval: IActivityIntervalW = Object.assign({}, this);
         let params: Array<string> = keys || ['params', ...Object.keys(this.calcMeasures)];
         //Object.keys(this).map(k => api.indexOf(k) === -1 && delete this[k]);
-        params.map(p => delete this[p]);
-        return <IActivityIntervalW>this;
+        params.map(p => interval.hasOwnProperty(p) && delete interval[p]);
+        return interval;
     }
 
     movingDuration():number {

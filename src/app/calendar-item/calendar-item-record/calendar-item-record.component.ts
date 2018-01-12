@@ -85,7 +85,6 @@ export class CalendarItemRecordCtrl implements IComponentController {
     }
 
     onSave () {
-
         this.record.recordHeader.editParams.asyncEventsDateFrom = this.options.calendarRange.dateStart;
         this.record.recordHeader.editParams.asyncEventsDateTo = this.options.calendarRange.dateEnd;
 

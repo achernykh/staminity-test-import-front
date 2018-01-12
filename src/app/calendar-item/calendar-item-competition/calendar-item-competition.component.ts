@@ -17,6 +17,7 @@ import ReferenceService from "../../reference/reference.service";
 export class CalendarItemCompetitionCtrl implements IComponentController {
 
     // bind
+    index: number;
     item: ICalendarItem;
     options: ICalendarItemDialogOptions;
     onAnswer: (response: ICalendarItemDialogResponse) => Promise<void>;
@@ -42,6 +43,13 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     $onInit () {
         this.competition = new CalendarItemCompetition(this.item, this.options);
+    }
+
+    $onChanges (changes): void {
+        if (changes.hasOwnProperty('index') && !changes.index.isFirstChange() && this.item) {
+            debugger;
+            this.competition = new CalendarItemCompetition(this.item, this.options);
+        }
     }
 
     /**
@@ -146,7 +154,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => {
                     this.message.toastInfo('competitionModified');
                     this.onCancel();
-                });
+                }, error => this.message.toastError(error));
         }
     }
 
@@ -167,7 +175,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => {
                         this.message.toastInfo('competitionCreated');
                         this.onCancel();
-                    }, error => {}
+                    }, error => this.message.toastError(error)
                 );
         }
         if ( this.competition.view.isPut ) {
@@ -183,7 +191,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => {
                     this.message.toastInfo('competitionModified');
                     this.onCancel();
-                });
+                }, error => this.message.toastError(error));
         }
     }
 
@@ -246,6 +254,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
 export const CalendarItemCompetitionComponent: IComponentOptions = {
     bindings: {
+        index: '<',
         item: '<',
         options: '<',
         onAnswer: '&',

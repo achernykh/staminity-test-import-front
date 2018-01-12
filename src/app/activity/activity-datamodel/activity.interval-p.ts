@@ -97,11 +97,12 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @returns {IActivityIntervalP}
      */
     clear(keys: string[] = this.keys): IActivityIntervalP {
+        let interval: IActivityIntervalP = Object.assign({}, this);
         if (this.hasRecalculate) {
             ["calcMeasures"].map((key) => this.keys.splice(this.keys.indexOf(key), 1));
         }
-        keys.map((p) => delete this[p]);
-        return this as IActivityIntervalP;
+        keys.map((p) => interval.hasOwnProperty(p) && delete interval[p]);
+        return interval;
     }
 
     /**

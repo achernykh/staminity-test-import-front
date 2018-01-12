@@ -62,12 +62,12 @@
                     <!--<input type="text" name="city" ng-model="$ctrl.user.personal.country" autocomplete="off"
                             ng-disabled="false" minlength="1" maxlength="100">-->
 
-                    <!--<md-select flex class="" ng-model="$ctrl.user.personal.country" arial-label="Privacy Level">
-                        <md-option class="" ng-value="key" ng-repeat="(key,name) in $ctrl._country_list['ru']"
-                                   ng-bind="name"></md-option>
-                    </md-select>
-                    <input type="text"/>
-                </md-input-container>-->
+                <!--<md-select flex class="" ng-model="$ctrl.user.personal.country" arial-label="Privacy Level">
+                    <md-option class="" ng-value="key" ng-repeat="(key,name) in $ctrl._country_list['ru']"
+                               ng-bind="name"></md-option>
+                </md-select>
+                <input type="text"/>
+            </md-input-container>-->
                 <md-autocomplete flex="45" flex-xs="100" class="no-message" flex
                                  md-input-name="country"
                                  md-input-minlength="2"
@@ -89,7 +89,8 @@
                 <div flex="10"></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.main.city"></label>
-                    <input type="text" name="city" ng-model="$ctrl.user.personal.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
+                    <input type="text" name="city" ng-model="$ctrl.user.personal.city" autocomplete="off"
+                           ng-disabled="false" minlength="1" maxlength="100">
                     <div ng-messages="$ctrl.personalFirstForm.city.$error" role="alert">
                         <div ng-message-exp="['minlength', 'maxlength']"
                              translate="form.rangeStr" translate-values="{min:1, max:100}">
@@ -141,39 +142,85 @@
                         <md-radio-group name="sex" class="md-primary"
                                         ng-model="$ctrl.user.personal.sex"
                                         layout="row" layout-align="end center">
-                            <md-radio-button value="M"><span translate="settings.personalInfo.M"></span></md-radio-button>
-                            <md-radio-button value="F"><span translate="settings.personalInfo.W"></span></md-radio-button>
+                            <md-radio-button value="M"><span translate="settings.personalInfo.M"></span>
+                            </md-radio-button>
+                            <md-radio-button value="F"><span translate="settings.personalInfo.W"></span>
+                            </md-radio-button>
                         </md-radio-group>
                     </div>
                 </div>
 
             </md-list-item>
+            <!-- О себе -->
+            <md-subheader class="md-padding" translate="settings.personalInfo.about"></md-subheader>
             <md-list-item flex layout="row">
-                <md-input-container flex class="md-block no-message">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.user.personal.about"
+                                 placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor>
+                <!--<md-input-container flex class="md-block no-message">
                     <label translate="settings.personalInfo.about"></label>
                     <textarea ng-model="$ctrl.user.personal.about" name="about" rows="2"></textarea>
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
+            <!-- Условия -->
+            <md-subheader class="md-padding" translate="user.price"></md-subheader>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.user.personal.price"
+                                 placeholder="{{'settings.personalInfo.priceFull' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.price"></label>
-                    <textarea ng-model="$ctrl.user.personal.price" name="price" rows="2" placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
-                </md-input-container>
+                    <textarea ng-model="$ctrl.user.personal.price" name="price" rows="2"
+                              placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
+                </md-input-container>-->
             </md-list-item>
+            <!-- Контакты -->
+            <md-subheader class="md-padding" translate="user.contact"></md-subheader>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.user.personal.contact"
+                                 placeholder="{{'settings.personalInfo.contactFull' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.contact"></label>
-                    <textarea ng-model="$ctrl.user.personal.contact" name="contact" rows="2" placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
-                </md-input-container>
+                    <textarea ng-model="$ctrl.user.personal.contact" name="contact" rows="2"
+                              placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
+                </md-input-container>-->
             </md-list-item>
+            <!-- Достижения атлетов -->
+            <md-subheader class="md-padding" translate="user.athletes"></md-subheader>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.user.personal.athletes"
+                                 placeholder="{{'settings.personalInfo.athletesFull' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.athletes"></label>
-                    <textarea ng-model="$ctrl.user.personal.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
-                </md-input-container>
+                    <textarea ng-model="$ctrl.user.personal.athletes" name="athletes" rows="2"
+                              placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
+                </md-input-container>-->
             </md-list-item>
             <md-list-item ng-if="$ctrl.user.public.isCoach">
-                <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>
+                <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree?
+                    'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>
                 <md-switch class="md-secondary" ng-model="$ctrl.user.personal.isFree"></md-switch>
             </md-list-item>
         </form>
@@ -228,10 +275,13 @@
         <form name="$ctrl.personalSecondForm" flex="100">
             <md-list-item layout="row">
                 <fieldset name="activity" flex="100" style="margin: 12px 0px">
-                    <legend style="margin-bottom: 16px" translate="settings.personalInfo.sportShape.activityTypes.header"></legend>
+                    <legend style="margin-bottom: 16px"
+                            translate="settings.personalInfo.sportShape.activityTypes.header"></legend>
                     <div layout="row" layout-wrap flex>
                         <div flex="33" ng-repeat="item in $ctrl._ACTIVITY">
-                            <md-checkbox class="md-body-1 md-primary" aria-label={{::item}} ng-checked="$ctrl.isActivityChecked(item)" ng-click="$ctrl.toggleActivity(item)">
+                            <md-checkbox class="md-body-1 md-primary" aria-label={{::item}}
+                                         ng-checked="$ctrl.isActivityChecked(item)"
+                                         ng-click="$ctrl.toggleActivity(item)">
                                 {{::item}}
                             </md-checkbox>
                         </div>
@@ -239,14 +289,15 @@
                 </fieldset>
             </md-list-item>
         </form>
-            <md-divider></md-divider>
+        <md-divider></md-divider>
         <form name="$ctrl.privateSecondForm" flex="100">
             <md-subheader><span translate="settings.personalInfo.contacts.header"></span></md-subheader>
-            
+
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.contacts.extEmail"></label>
-                    <input type="email" name="extEmail" ng-model="$ctrl.user.private.extEmail" autocomplete="off" autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
+                    <input type="email" name="extEmail" ng-model="$ctrl.user.private.extEmail" autocomplete="off"
+                           autofocus ng-disabled="false" minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/">
                     <div ng-messages="$ctrl.privateSecondForm.email.$error" role="alert">
                         <div ng-message-exp="['minlength', 'maxlength']"
                              translate="form.rangeStr" translate-values="{min:1, max:100}">
@@ -256,7 +307,8 @@
                 <div flex="10"></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.contacts.phone"></label>
-                    <input type="text" name="phone" ng-model="$ctrl.user.private.phone" autocomplete="off" ng-disabled="false" minlength="5" maxlength="100">
+                    <input type="text" name="phone" ng-model="$ctrl.user.private.phone" autocomplete="off"
+                           ng-disabled="false" minlength="5" maxlength="100">
                     <div ng-messages="$ctrl.privateSecondForm.phone.$error" role="alert">
                         <div ng-message-exp="['minlength', 'maxlength']"
                              translate="form.rangeStr" translate-values="{min:1, max:100}">

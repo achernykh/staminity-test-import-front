@@ -83,9 +83,9 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.trainingPlansService.message
             .filter(message => message.value.hasOwnProperty('trainingPlanId') &&
                     message.value.trainingPlanId === this.currentPlan.id)
-            .map(message => {
+            /**.map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
-                return message;})
+                return message;})**/
             // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
@@ -94,7 +94,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                 console.info('training plan builder: async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
-                        this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
+                        this.calendar.post(message.value as ICalendarItem, message.value.parentId);
                         break;
                     }
                     case 'D': {
@@ -102,8 +102,14 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                         break;
                     }
                     case 'U': {
-                        this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
-                        this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
+                        if (!this.calendar.include(message.value.calendarItemId, message.value.revision)) {
+                            if (!message.value.parentId || message.value.calendarItemType === 'record') {
+                                this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                            }
+                            this.calendar.post(message.value as ICalendarItem, message.value.parentId);
+                        } else {
+                            console.info('training plan builder: item already exist');
+                        }
                         break;
                     }
                 }
@@ -136,7 +142,8 @@ class TrainingPlanBuilderCtrl implements IComponentController {
      * @param item
      */
     update (formMode: FormMode, item: ICalendarItem): void {
-        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision);
+        console.info('training plan builder sync update: ', item.calendarItemType, item.calendarItemId, item.revision);
+        if (item.calendarItemType === 'record' && item.recordHeader && item.recordHeader.repeat) {console.info('sync update: skip parent record'); return;}
         switch (formMode) {
             case FormMode.Post: {
                 if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
@@ -308,7 +315,10 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
         Promise.all(items.map(item => this.trainingPlansService.deleteItem(this.currentPlan.id, item)))
             .then(response => items.map(item => this.calendar.delete(item)))
-            .then(() => this.messageService.toastInfo('itemsDeleted'), error => error => this.errorHandler(error));
+            .then(() => {
+                this.messageService.toastInfo('itemsDeleted');
+                isSelection ? this.calendar.deselect() : this.clearBuffer();
+            }, error => error => this.errorHandler(error));
     }
 
     clearBuffer() {

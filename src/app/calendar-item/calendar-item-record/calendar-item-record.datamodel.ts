@@ -21,7 +21,7 @@ export class CalendarItemRecord extends CalendarItem {
         let format: string = 'YYYY-MM-DD';
 
         item.dateStart = moment(this.recordHeader.dateStart).format(format);
-        item.dateEnd = this.dateStart;
+        item.dateEnd = item.dateStart;
 
         if (!this.isRepeated) { // Без повторений
             item.recordHeader.repeat = null;
@@ -29,12 +29,20 @@ export class CalendarItemRecord extends CalendarItem {
             if (this.param.hasOwnProperty('recordHeader') &&
                 this.param.recordHeader.repeat !== item.recordHeader.repeat) {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
+                    asyncEventsDateFrom: this.options.calendarRange.dateStart,
+                    asyncEventsDateTo: this.options.calendarRange.dateEnd,
                     regenPastEvents: true,
-                    regenFutureEvents: true // изменить все будущие события
-                })  ;
+                    regenFutureEvents: true
+                });
             }
         } else { // С повторениями
             item.recordHeader.dateStart = item.dateStart;
+            item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
+                asyncEventsDateFrom: this.options.calendarRange.dateStart,
+                asyncEventsDateTo: this.options.calendarRange.dateEnd,
+                regenPastEvents: true,
+                regenFutureEvents: true
+            });
             if (item.recordHeader.repeat.endType === 'D') {
                 item.recordHeader.repeat.endOnDate = moment(this.recordHeader.repeat.endOnDate).format(format);
                 item.recordHeader.repeat.endOnCount = null;
@@ -42,11 +50,8 @@ export class CalendarItemRecord extends CalendarItem {
                 item.recordHeader.repeat.endOnDate = null;
             }
             if (this.view.isPut) {
-                item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
-                    // 2) меняется дата начала в повторе
-                    regenPastEvents: this.param.recordHeader.dateStart !== item.recordHeader.dateStart,
-                    regenFutureEvents: true // изменить все будущие события
-                });
+                // меняется дата начала в повторе
+                item.recordHeader.editParams.regenPastEvents = this.param.recordHeader.dateStart !== item.recordHeader.dateStart;
             }
         }
 

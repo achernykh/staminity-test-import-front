@@ -229,7 +229,7 @@ export class Calendar {
      */
     post (item: ICalendarItem, parentId?: number): void {
         if (this.include(item.calendarItemId, item.revision)) {
-            console.warn('post: item already exist');
+            console.info('post: item already exist');
             return;
         }
         let child: ICalendarItem;
@@ -237,31 +237,49 @@ export class Calendar {
             child = copy(item);
             item = this.searchItem(parentId);
             if (!item) { console.error('post: parent not found'); return;}
+            this.delete(item);
         }
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
         if (w !== -1 && d >= 0 && this.weeks[w]) {
             //Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
-            if (!(parentId && item.calendarItemType === 'activity')) {
-                console.info('post: item success');
+            if (!parentId || item.calendarItemType === 'record') {
+                item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                console.info('post: item success', item.calendarItemId, item.revision, item['index']);
                 this.weeks[w].subItem[d].data.calendarItems.push(item);
             } else {
-                let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
-                if (p !== -1 && this.weeks[w].subItem[d].data.calendarItems[p].calendarItems) {
+                item['index'] =  Number(`${item["index"] + 1}`);
+                //let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+                let p = item.calendarItems.findIndex(i => i.calendarItemId === child.calendarItemId);
+                if (p !== -1) {
+                    console.info('post: item with child success', item.calendarItemId, item.revision, item['index']);
+                    item.calendarItems.splice(p,1,child);
+                    this.weeks[w].subItem[d].data.calendarItems.push(item);
+                    this.$scope.$apply();
+                } else {
+                    console.error('post: child position not found');
+                }
+                /**let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+                if (p !== -1) {
                     console.info('post: child item success');
                     let parent: ICalendarItem = this.weeks[w].subItem[d].data.calendarItems[p];
                     parent['index'] ++;
                     parent.calendarItems.push(child);
-                    this.weeks[w].subItem[d].data.calendarItems.splice(p, 1, parent);
+                    //this.weeks[w].subItem[d].data.calendarItems.splice(p, 1);
+                    this.weeks[w].subItem[d].data.calendarItems.push(parent);
                     //this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.push(child);
                 } else {
                     console.error('post: child position not found');
-                }
+                }**/
             }
             this.weeks[w].changes++;
             this.$scope.$applyAsync();
         } else {
+            if (this.hasCache) {
+                this.cache.push(item);
+                console.info('post: save item to cache', item.calendarItemId, item.revision, item['index']);
+            }
             console.warn('post: position error');
         }
     }
@@ -296,7 +314,7 @@ export class Calendar {
             if (!item) { console.error('calendar datamodel: delete parent not found'); return;}
         }
         if (!item || !item.hasOwnProperty('dateStart')) {
-            console.error(`calendar datamodel: error in item ${item}`);
+            console.info(`calendar datamodel: item not found or not exist`);
             return;
         }
 
@@ -305,9 +323,9 @@ export class Calendar {
         let p = w !== -1 ? this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
         if (w !== -1 && d >= 0 && p >= 0) {
-            if (!parentId) {
+            if (!parentId || item.calendarItemType === 'record') {
                 console.info('calendar datamodel: delete item success');
-                this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
+                this.weeks[w].subItem[d].data.calendarItems.splice(p, 1);
             } else {
                 let pos: number = this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.findIndex(c => c.calendarItemId === child.calendarItemId);
                 if (pos !== -1) {
@@ -351,7 +369,8 @@ export class Calendar {
                 child = i.calendarItems.findIndex(c => c.calendarItemId === id);
             }
         })));
-        return  (include && child && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
+        console.info('calendar datamodel: search result', include, !child, week, day, pos, this.weeks[week].subItem[day].data.calendarItems[pos]);
+        return  (include && child && child !== -1 && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
                 (include && !child && this.weeks[week].subItem[day].data.calendarItems[pos]) || null;
     }
 

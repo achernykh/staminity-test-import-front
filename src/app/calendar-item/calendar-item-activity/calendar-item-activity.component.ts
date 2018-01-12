@@ -557,7 +557,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
-                        this.onAnswer({response: {type:'post', item:this.activity}});
+                        this.onAnswer({response: {formMode: FormMode.Post, item: this.activity.build()}});
                     }, error => this.message.toastError(error))
                     .then(() => this.inAction = false);
             });
@@ -567,7 +567,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
-                    this.onAnswer({response: {type:'put',item:this.activity}});
+                    this.onAnswer({response: {formMode: FormMode.Put, item: this.activity.build()}});
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
         }

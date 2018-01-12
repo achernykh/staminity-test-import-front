@@ -1,5 +1,9 @@
 @import '../../sass/color';
 
+settings-user .ql-editor {
+  padding: 12px 0px !important;
+}
+
 settings-user application-frame section.app-layer {
   @media (max-width: 600px) {
     top: 0;

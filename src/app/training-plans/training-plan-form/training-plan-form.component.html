@@ -75,12 +75,12 @@
                                 <md-icon flex="none" class="md-dark"
                                          md-svg-src="/assets/icon/competition.svg"></md-icon>
                                 <md-select flex name="distanceType" class="icon" required="{{$ctrl.plan.isPublic}}"
-                                           ng-model="$ctrl.plan.distanceType"
+                                           ng-model="$ctrl.distanceType"
                                            placeholder="{{trainingPlans.distanceType.placeholder}}"
                                            ng-change="$ctrl.changeParam()">
                                     <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
                                         filter:{type: $ctrl.plan.type}
-                                        track by $index" ng-value="type.code">
+                                        track by $index" ng-value="type">
                                         {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                                     </md-option>
                                 </md-select>

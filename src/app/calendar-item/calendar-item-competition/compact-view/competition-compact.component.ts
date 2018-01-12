@@ -4,6 +4,7 @@ import { CalendarItemCompetitionCtrl } from "../calendar-item-competition.compon
 
 const CompetitionCompactComponent:IComponentOptions = {
     bindings: {
+        index: '<',
         item: '<',
         options: '<',
         view: '<',

@@ -152,8 +152,8 @@ export class CalendarItem implements ICalendarItem {
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
-		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format();
+		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DD');
+		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DD');
 		this.userProfileOwner = userProfile || this.userProfileOwner;
 		return this;
 	}

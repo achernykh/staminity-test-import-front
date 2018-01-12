@@ -58,6 +58,15 @@ class TrainingPlanFormCtrl implements IComponentController {
         }
     }
 
+    get distanceType () : any {
+        //let { competitionHeader } = this.plan;
+        return this.plan && this.competitionConfig.distanceTypes.find((t) => t.type === this.plan.type && t.code === this.plan.distanceType);
+    }
+
+    set distanceType (distanceType: any) {
+        this.plan.distanceType = distanceType.code;
+    }
+
     get isViewMode (): boolean {
         return this.mode === FormMode.View;
     }
