@@ -151,15 +151,15 @@ export class CalendarCtrl implements IComponentController{
                 message.value.hasOwnProperty('userProfileOwner') &&
                 message.value.userProfileOwner.userId === this.owner.userId)// &&
                 //(message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
-            .map(message => {
+            /**.map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
-                return message;})
+                return message;})**/
             // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
-            .delay(500)
+            .delay(1)
             .subscribe((message) => {
-                console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
@@ -172,10 +172,19 @@ export class CalendarCtrl implements IComponentController{
                         break;
                     }
                     case 'U': {
-                        this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                        if (!this.calendar.include(message.value.calendarItemId, message.value.revision)) {
+                            if (!message.value.parentId || message.value.calendarItemType === 'record') {
+                                this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                            }
+                            this.calendar.post(message.value as ICalendarItem, message.value.parentId);
+                        } else {
+                            console.info('training plan builder: item already exist');
+                        }
+                        break;
+                        /**this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
-                        break;
+                        break;**/
                     }
                 }
             });
@@ -432,15 +441,12 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
-        debugger;
-        console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
-        let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
+        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        if (item.calendarItemType === 'record' && item.recordHeader && item.recordHeader.repeat) {console.info('sync update: skip parent record'); return;}
         switch (mode) {
             case FormMode.Post: {
                 if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
                 this.calendar.post(item);
-                //this.$scope.$applyAsync();
-                //this.$scope.$apply();
                 break;
             }
             case FormMode.Put: {

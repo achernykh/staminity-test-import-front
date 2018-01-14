@@ -69,7 +69,7 @@
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
                 <div flex="25" class="percent md-caption tight-07">
-                    <span>{{$ctrl.activity.percent / 100 | percent}}</span>
+                    <span>{{$ctrl.activity.percent / 100 | stPercent}}</span>
                 </div>
 
                 <div flex="none" layout="row" layout-align="center center"

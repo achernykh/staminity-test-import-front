@@ -7,7 +7,7 @@ import './settings-club.component.scss';
 
 class SettingsClubCtrl {
 
-	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs, message) {
+	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs, message, quillConf) {
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
 		this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -23,6 +23,7 @@ class SettingsClubCtrl {
 		this._ActionMessageService = ActionMessageService
 		this._$http = $http
 		this.message = message
+		this.quillConf = quillConf
 	}
 
 	$onInit(){
@@ -119,7 +120,7 @@ class SettingsClubCtrl {
 		return this.club.public.activityTypes.includes(activity)
 	}
 }
-SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs','message'];
+SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs','message','quillConfig'];
 
 let SettingsClubComponent = {
 	bindings: {

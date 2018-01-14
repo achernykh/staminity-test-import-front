@@ -67,9 +67,10 @@ export class CalendarItemAuth {
         return this.options.isPro;
     }
 
-    // TODO не корректная логика определения тренера
     get isMyCoach (): boolean {
-        return this.creator.userId === this.options.currentUser.userId;
+    	return this.options.hasOwnProperty('athleteList') && this.options.athleteList.length > 0 &&
+			this.options.athleteList.some(a => a.profile.userId === this.owner.userId);
+        //return this.creator.userId === this.options.currentUser.userId;
     }
 
 }
@@ -152,8 +153,8 @@ export class CalendarItem implements ICalendarItem {
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DD');
-		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DD');
+		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
+		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
 		this.userProfileOwner = userProfile || this.userProfileOwner;
 		return this;
 	}

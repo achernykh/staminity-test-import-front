@@ -29,7 +29,7 @@ export const measurePrintIntensity = [ "$filter", ($filter) =>
             if (interval.intensityLevelFrom * 100 === interval.intensityLevelTo * 100) {
                 return $filter("measureCalc")(interval.intensityLevelFrom, sport, measureCode);
             } else if (measure.isPace()) {
-                return `${$filter("measureCalc")(interval.intensityLevelTo, sport, measureCode)}-s${$filter("measureCalc")(interval.intensityLevelFrom, sport, measureCode)}`;
+                return `${$filter("measureCalc")(interval.intensityLevelTo, sport, measureCode)}-${$filter("measureCalc")(interval.intensityLevelFrom, sport, measureCode)}`;
             } else {
                 return `${$filter("measureCalc")(interval.intensityLevelFrom, sport, measureCode)}-${$filter("measureCalc")(interval.intensityLevelTo, sport, measureCode)}`;
             }

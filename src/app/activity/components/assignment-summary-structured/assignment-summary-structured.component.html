@@ -68,8 +68,8 @@
                      on-content-changed="$ctrl.onChange()"
                      placeholder="{{'activity.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConf.toolbar"
-                     ng-class="{'hide-toolbar': $ctrl.item.activity.isView}"
-                     read-only="$ctrl.item.activity.isView"
+                     ng-class="{'hide-toolbar': $ctrl.item.activity.view.isView}"
+                     read-only="$ctrl.item.activity.view.isView"
                      st-quill-post-image>
     </ng-quill-editor>
 </md-list>

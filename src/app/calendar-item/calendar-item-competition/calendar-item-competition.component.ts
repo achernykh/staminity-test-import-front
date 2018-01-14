@@ -1,5 +1,5 @@
 import "./calendar-item-competition.component.scss";
-import { IComponentOptions, IComponentController, INgModelController } from "angular";
+import { IComponentOptions, IComponentController, INgModelController,IScope } from "angular";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "../calendar-item-dialog.interface";
 import { CalendarItemCompetition } from "./calendar-item-competition.datamodel";
@@ -28,9 +28,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     private competition: CalendarItemCompetition;
 
     // inject
-    static $inject = ['CompetitionConfig', 'ReferenceService', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
+    static $inject = ['$scope','CompetitionConfig', 'ReferenceService', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
 
-    constructor (private config: ICompetitionConfig,
+    constructor (private $scope: IScope,
+                 private config: ICompetitionConfig,
                  private referenceService: ReferenceService,
                  private calendarService: CalendarService,
                  private trainingPlansService: TrainingPlansService,
@@ -47,8 +48,8 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     $onChanges (changes): void {
         if (changes.hasOwnProperty('index') && !changes.index.isFirstChange() && this.item) {
-            debugger;
             this.competition = new CalendarItemCompetition(this.item, this.options);
+            //this.$scope.$applyAsync();
         }
     }
 
@@ -123,37 +124,22 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         if ( this.competition.view.isPost ) {
             this.calendarService.postItem(this.competition.build())
                 .then(response => this.competition.compile(response),
-                    error => {
-                        this.message.toastError(error);
-                        throw new Error(error);
-                    })
+                    error => {this.message.toastError(error); throw new Error(error);})
                 .then(() => this.competition.setParentId())
-                .then(() => this.onAnswer({
-                    formMode: FormMode.Post,
-                    item: Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())})
-                }))
+                .then(() => Object.assign({}, this.competition, {items: null, calendarItems: []}))
+                .then(competition => this.onAnswer({ formMode: FormMode.Post, item: competition}))
                 .then(() => this.saveItems())
-                .then(() => {
-                        this.message.toastInfo('competitionCreated');
-                        this.onCancel();
-                    },
-                    error => {}
-                );
+                .then(() => { this.message.toastInfo('competitionCreated'); this.onCancel(); }, error => {});
         }
 
         if ( this.competition.view.isPut ) {
             this.calendarService.putItem(this.competition.build())
                 .then(response => this.competition.compile(response),
-                    error => {
-                        this.message.toastError(error);
-                        throw new Error(error);
-                    })
-                .then(() => Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
+                    error => { this.message.toastError(error); throw new Error(error);})
+                .then(() => Object.assign({}, this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
                 .then(competition => this.onAnswer({ formMode: FormMode.Put, item: competition }))
                 .then(() => this.saveItems())
-                .then(() => {
-                    this.message.toastInfo('competitionModified');
-                    this.onCancel();
+                .then(() => { this.message.toastInfo('competitionModified'); this.onCancel();
                 }, error => this.message.toastError(error));
         }
     }
@@ -162,14 +148,11 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         if ( this.competition.view.isPost ) {
             this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.competition.build())
                 .then(response => this.competition.compile(response),
-                    error => {
-                        this.message.toastError(error);
-                        throw new Error(error);
-                    })
+                    error => { this.message.toastError(error); throw new Error(error); })
                 .then(() => this.competition.setParentId())
                 .then(() => this.onAnswer({
                     formMode: FormMode.Post,
-                    item: Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())})
+                    item: Object.assign({}, this.competition, {items: null, calendarItems: [] /*calendarItems: this.competition.items.map(i => i.item.build())*/})
                 }))
                 .then(() => this.saveTrainingPlanItems())
                 .then(() => {
@@ -181,17 +164,12 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         if ( this.competition.view.isPut ) {
             this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.competition.build())
                 .then(response => this.competition.compile(response),
-                    error => {
-                        this.message.toastError(error);
-                        throw new Error(error);
-                    })
-                .then(() => Object.assign(this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
+                    error => { this.message.toastError(error); throw new Error(error); })
+                .then(() => Object.assign({}, this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
                 .then(competition => this.onAnswer({ formMode: FormMode.Put, item: competition }))
                 .then(() => this.saveTrainingPlanItems())
-                .then(() => {
-                    this.message.toastInfo('competitionModified');
-                    this.onCancel();
-                }, error => this.message.toastError(error));
+                .then(() => { this.message.toastInfo('competitionModified'); this.onCancel();},
+                    error => this.message.toastError(error));
         }
     }
 

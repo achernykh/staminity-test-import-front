@@ -89,7 +89,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
             // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
-            .delay(500)
+            .delay(1)
             .subscribe((message) => {
                 console.info('training plan builder: async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {

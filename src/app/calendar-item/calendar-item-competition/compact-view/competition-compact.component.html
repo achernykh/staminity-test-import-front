@@ -95,7 +95,7 @@
     <section ng-switch-when="calendar" class="competition-compact__calendar"
              ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
-        <header class="calendar-item-competition-header {{::$ctrl.competition.status}}"
+        <header class="calendar-item-competition-header {{$ctrl.competition.status}}"
                 ng-class="{selected: $ctrl.selected}">
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
@@ -139,20 +139,20 @@
             </section>
             <!-- Вторая строка: Описание -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
+                     ng-class="{'md-dark' : ($ctrl.competition.isComing)}"
                      class="md-caption secondary center">
                 <div flex="none" class="line-14">{{$ctrl.competition.competitionHeader.name}}</div>
             </section>
             <!-- Третья строка: Время и Расстояние -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
+                     ng-class="{'md-dark' : ($ctrl.competition.isComing)}"
                      class="md-title-small secondary center tight-10">
-                <span flex="none" ng-if="::$ctrl.competition.movingDuration">
-                    {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
+                <span flex="none" ng-if="$ctrl.competition.movingDuration">
+                    {{$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
                 </span>
                 <span>&nbsp;&nbsp;</span>
-                <div flex="none" ng-if="::$ctrl.competition.distance">
-                    {{::$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
+                <div flex="none" ng-if="$ctrl.competition.distance">
+                    {{$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
                     {{::'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}
                 </div>
             </section>
@@ -166,7 +166,7 @@
     <!-- Элемент дня дэшборда -->
     <section ng-switch-when="dashboard" class="competition-compact__dashboard" ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
-        <header class="calendar-item-competition-header {{::$ctrl.competition.status}} dashboard-view"
+        <header class="calendar-item-competition-header {{$ctrl.competition.status}} dashboard-view"
                 layout="row"
                 ng-class="{selected: $ctrl.selected, 'md-dark': $ctrl.competition.isComing}">
             <section flex="none" class="first-column" layout="column">
@@ -183,12 +183,12 @@
                     {{$ctrl.competition.competitionHeader.name}}
                 </div>
                 <div flex="none" class="md-body-2 tight-02 line-14 font-medium duration "
-                     ng-if="::(!!$ctrl.competition.movingDuration || $ctrl.competition.distance)">
-                    <span flex="none" ng-if="::$ctrl.competition.movingDuration">
-                        {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
+                     ng-if="(!!$ctrl.competition.movingDuration || $ctrl.competition.distance)">
+                    <span flex="none" ng-if="$ctrl.competition.movingDuration">
+                        {{$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
                     </span>
                     <span flex="none" ng-if="::$ctrl.competition.distance">
-                        &nbsp{{::$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
+                        &nbsp{{$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
                         {{'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}
                     </span>
                 </div>
