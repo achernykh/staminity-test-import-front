@@ -91,11 +91,10 @@
             </md-tab-body>
         </md-tab>
         <md-tab id="splits" flex layout="column"
-                ng-if="!$ctrl.item.$mdMedia('gt-md') && $ctrl.item.activity.hasActualData">
+                ng-if="!$ctrl.item.$mdMedia('gt-sm') && $ctrl.item.activity.hasIntervalDetails">
             <md-tab-label><md-icon class="material-icons">repeat</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-splits flex="auto" layout="column" layout-fill
-                                        splits="$ctrl.item.activity.intervals.L"
                                         sport="$ctrl.item.activity.header.sportBasic">
                 </activity-header-splits>
             </md-tab-body>

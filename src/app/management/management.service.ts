@@ -71,7 +71,7 @@ export class ManagementService {
     editTariffs(membersList: MembersList, members: Member[]): Promise<any> {
         const byClub = membersList.getTariffsByClub(members[0]);
         const bySelf = membersList.getTariffsNotByClub(members[0]);
-
+        debugger;
         return this.dialogs.tariffs(clubTariffs, byClub, bySelf, "dialogs.byClub")
             .then((selectedTariffs) => {
                 const addTariffs = arrays.difference(selectedTariffs, byClub);
@@ -89,7 +89,7 @@ export class ManagementService {
                 if (selectedTariffs) {
                     const memberships = [
                         ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(addToGroup),
-                        ...arrays.difference(selectedTariffs, byClub).map(membersList.getTariffGroupId).map(removeFromGroup),
+                        ...arrays.difference(byClub, selectedTariffs).map(membersList.getTariffGroupId).map(removeFromGroup),
                     ];
                     return this.groupService.putGroupMembershipBulk(membersList.groupId, memberships, members.map((member) => member.getUserId()));
                 }

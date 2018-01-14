@@ -440,6 +440,7 @@ export class ActivityIntervals {
      * @param shift
      */
     reorganisation(start: number, shift: number):void {
+
         this.P.filter(i => i.pos >= start).forEach(i => Object.assign(i, { pos: i.pos + shift })); // this.setParams(i.type, i.pos, { pos: i.pos + shift}));
         this.G.filter(g => g.fPos >= start).forEach(g => Object.assign(g, { fPos: g.fPos + shift })); //this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
 

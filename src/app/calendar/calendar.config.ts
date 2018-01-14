@@ -48,7 +48,7 @@ function configure($stateProvider:StateProvider,
                     }],**/
                 athlete: ['SessionService', '$stateParams', (SessionService: SessionService, $stateParams) =>
                     SessionService.getUser().userId !== $stateParams.userId ? $stateParams.userId : null],
-                checkPermissions: ['AuthService', 'SessionService', 'message','athlete',
+                /**checkPermissions: ['AuthService', 'SessionService', 'message','athlete',
                     (AuthService:IAuthService, SessionService: SessionService, message:MessageService, athlete:IUserProfile) => {
                         if(athlete) {
                             if (AuthService.isCoach()) {
@@ -64,7 +64,7 @@ function configure($stateProvider:StateProvider,
                                 throw 'need permissions';
                             }
                         }
-                }]
+                }]**/
             },
             views: {
                 "application": {

@@ -37,7 +37,8 @@ getEditRolesMessage.$inject = ["$translate"];
  * @returns {string}
 */
 export const getEditTariffsMessage = ($translate) => (addTariffs: ClubTariff[], removeTariffs: ClubTariff[]): string => {
-    const translateTariffCode = (tariffCode) => "«" + this.$translate.instant(`dialogs.${tariffCode}`) + "»";
+    debugger;
+    const translateTariffCode = (tariffCode) => "«" + $translate.instant(`dialogs.${tariffCode}`) + "»";
     const translateTariffCodes = (tariffCodes) => tariffCodes.map(translateTariffCode).join(", ");
 
     if (addTariffs.length && removeTariffs.length) {

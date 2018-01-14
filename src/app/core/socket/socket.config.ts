@@ -19,7 +19,7 @@ export const ConnectionSettings: IConnectionSettings = {
     delayOnReopen: 5 * 1000, // 5 sec
     delayOnResponse: 10 * 1000, // 10 sec
     delayExceptions: {
-        getActivityIntervals: 10.0 * 1000,
+        getActivityIntervals: 30.0 * 1000,
         postUserExternalAccount: 60.0 * 1000,
         putUserExternalAccountSettingSuccess: 10.0 * 1000,
         getCalendarItem: 30.0 * 1000,
