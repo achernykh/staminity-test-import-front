@@ -18,7 +18,7 @@ export interface ICompetitionConfig {
 
 export class CompetitionConfig implements CompetitionConfig {
     priorities: Array<string> = ['A','B','C'];
-    types: any = ['run', 'triathlon', 'swim', 'bike'];
+    types: any = ['run', 'triathlon', 'swim', 'bike', 'ski'];
     distanceTypes: any = [
         {
             type: 'run',
@@ -385,6 +385,61 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'custom',
             stages: [{
                 activityTypeId: 10,
+                durationMeasure: 'movingDuration',
+                distanceLength: null
+            }]
+        },
+        // ski
+        {
+            type: 'ski',
+            code: '10km',
+            stages: [{
+                activityTypeId: 18,
+                durationMeasure: 'movingDuration',
+                distanceLength: 10*1000
+            }]
+        },
+        {
+            type: 'ski',
+            code: '15km',
+            stages: [{
+                activityTypeId: 18,
+                durationMeasure: 'movingDuration',
+                distanceLength: 15*1000
+            }]
+        },
+        {
+            type: 'ski',
+            code: '30km',
+            stages: [{
+                activityTypeId: 18,
+                durationMeasure: 'movingDuration',
+                distanceLength: 30*1000
+            }]
+        },
+        {
+            type: 'ski',
+            code: '50km',
+            stages: [{
+                activityTypeId: 18,
+                durationMeasure: 'movingDuration',
+                distanceLength: 50*1000
+            }]
+        },
+        {
+            type: 'ski',
+            code: '70km',
+            stages: [{
+                activityTypeId: 18,
+                durationMeasure: 'movingDuration',
+                distanceLength: 70*1000
+            }]
+        },
+        {
+            type: 'ski',
+            code: 'custom',
+            stages: [{
+                activityTypeId: 18,
                 durationMeasure: 'movingDuration',
                 distanceLength: null
             }]

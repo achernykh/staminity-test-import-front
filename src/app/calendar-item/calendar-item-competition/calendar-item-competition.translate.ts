@@ -21,7 +21,8 @@ export const translateCompetition = {
             triathlon: "Триатлон",
             run: "Бег",
             bike: "Велоспорт",
-            swim: "Плавание"
+            swim: "Плавание",
+            ski: "Лыжи"
         },
         distanceType: {
             label: "Тип соревнования",
@@ -59,6 +60,14 @@ export const translateCompetition = {
                 '30min': "30 минут"
             },
             bike: {
+                custom: 'Другая дистанция'
+            },
+            ski: {
+                '10km': "10 км",
+                '15km': "15 км",
+                '30km': "30 км",
+                '50km': "50 км",
+                '70km': "70 км",
                 custom: 'Другая дистанция'
             }
 
