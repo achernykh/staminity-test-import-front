@@ -20,7 +20,7 @@ class TrainingPlanAssignmentListCtrl implements IComponentController {
     }
 
     delete (assign: ITrainingPlanAssignment): void {
-        this.trainingPlansService.assignment(this.plan.id, {
+        this.trainingPlansService.modifyAssignment(this.plan.id, {
             mode: 'D',
             id: assign.id
         }).then(response => {debugger;}, error => {debugger;});

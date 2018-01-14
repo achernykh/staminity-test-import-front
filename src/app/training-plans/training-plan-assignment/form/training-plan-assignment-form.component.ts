@@ -58,7 +58,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     save (): void {
-        this.trainingPlansService.assignment(this.plan.id, {
+        this.trainingPlansService.modifyAssignment(this.plan.id, {
             mode: 'I',
             id: this.data.id,
             userId: this.data.userId && [...this.data.userId].map(id => Number(id)),
