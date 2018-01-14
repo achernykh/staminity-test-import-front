@@ -4,6 +4,7 @@ import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { IUserProfile } from "@api/user";
 import { TrainingPlansService } from "../training-plans.service";
 import { ITrainingPlanAssignment } from "../../../../api/trainingPlans/training-plans.interface";
+import MessageService from "../../core/message.service";
 
 /**
  * Контроллер для формы присоведения тренировочных планов
@@ -16,13 +17,15 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
     state: 'form' | 'list';
     athletes: Array<IUserProfile>;
 
-    onEvent: (response: Object) => IPromise<void>;
+    onCancel: () => Promise<void>;
     private dataExist: boolean = false;
     private assign: ITrainingPlanAssignment;
 
-    static $inject = ['TrainingPlansService'];
+    static $inject = ['TrainingPlansService', 'message'];
 
-    constructor(private trainingPlansService: TrainingPlansService) {
+    constructor(
+        private trainingPlansService: TrainingPlansService,
+        private messageService: MessageService) {
 
     }
 
@@ -46,10 +49,18 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
     set isListState (value: boolean) { this.state = 'list'; }
 
     private getPlanDetails (): void {
+
         this.trainingPlansService.get(this.plan.id)
-            .then(result => this.plan = new TrainingPlan(result), error => {debugger;})
+            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.trainingPlansService.getAssignment(this.plan.id))
+            .then(result => this.plan.assignmentList = [...result.arrayResult], error => this.errorHandler(error))
             .then(() => this.dataExist = true)
             .then(() => !this.state && (this.plan.assignmentList.length > 0 && (this.isListState = true) || (this.isFormState = true)));
+    }
+
+    errorHandler (error: string): void {
+        this.messageService.toastError(error);
+        this.onCancel();
     }
 }
 
