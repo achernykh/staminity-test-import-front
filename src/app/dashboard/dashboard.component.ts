@@ -158,12 +158,12 @@ export class DashboardCtrl implements IComponentController {
                 console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
-                        this.onPostItem(<ICalendarItem>message.value);
+                        this.onPostItem(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
                         break;
                     }
                     case 'D': {
-                        this.onDeleteItem(<ICalendarItem>message.value);
+                        this.onDeleteItem(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
                         break;
                     }
@@ -172,7 +172,7 @@ export class DashboardCtrl implements IComponentController {
                             if (!message.value.parentId || message.value.calendarItemType === 'record') {
                                 this.onDeleteItem(this.searchItem(message.value.calendarItemId), message.value.parentId);
                             }
-                            this.onPostItem(<ICalendarItem>message.value);
+                            this.onPostItem(<ICalendarItem>message.value, message.value.parentIds);
                             this.$scope.$applyAsync();
                         } else {
                             console.info('dashboard: item already exist');
