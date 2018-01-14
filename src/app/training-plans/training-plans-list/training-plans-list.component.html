@@ -1,4 +1,4 @@
-<md-list id="training-plans-list__table" class="training-plans-list md-dense" ng-if="$ctrl.totalFound > 0">
+<md-list id="training-plans-list__table" class="training-plans-list md-dense" ng-if="$ctrl.totalFound > 0 || $ctrl.plans.list.length > 0">
     <!--<md-subheader ng-if="$ctrl.totalFound > 0">
         <span translate="trainingPlans.filterResult"></span>
         <span ng-bind="$ctrl.totalFound"></span>
@@ -29,11 +29,11 @@
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">landscape</md-icon>
         </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)" ng-if="$ctrl.authService.isCoach()">
             <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
             <span translate="trainingPlans.actions.assignment"></span>
         </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)">
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)" ng-if="$ctrl.authService.isCoach()">
             <md-icon class="material-icons">date_range</md-icon>
         </md-button>
 
@@ -45,13 +45,13 @@
             </md-button>
             <md-menu-content>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.calendar(plan.id)">
+                    <md-button ng-click="$ctrl.calendar(plan.id)" ng-if="$ctrl.authService.isCoach()">
                         <md-icon class="material-icons" md-menu-align-target>date_range</md-icon>
                         <span translate="trainingPlans.actions.calendar"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="">
+                    <md-button ng-click="" ng-if="$ctrl.authService.isCoach()">
                         <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
                         <span translate="trainingPlans.actions.appoint"></span>
                     </md-button>
@@ -75,76 +75,8 @@
     </md-list-item>
     <md-divider ng-repeat-end></md-divider>
 </md-list>
-<!--
-<md-table-container class="training-plans-list" ng-if="$ctrl.plans.list.length > 0">
-    <table id="training-plans-list__table"
-           class="md-primary animated slideInUp"
-           md-table
-           md-row-select="false"
-           ng-model="$ctrl.selected">
-        <thead md-head fix-head>
-        <tr md-row>
-            <th md-column><span>#</span></th>
-            <th md-column><span></span>Название/Автор</th>
-            <th md-column md-numeric><span>Рейтинг</span></th>
-            <th md-column md-numeric><span>Недели</span></th>
-            <th md-column md-numeric><span>Ср.Дистанция</span></th>
-            <th md-column md-numeric><span>Стоимость</span></th>
-            <th md-column md-numeric><span>Действия</span></th>
-        </tr>
-        </thead>
-        <tbody md-body class="bg-grey-050">
-        <tr md-row
-            md-select="segment"
-            md-on-select="change" md-on-deselect="change"
-            md-select-id="pos"
-            md-auto-select="false"
-            ng-click="$ctrl.edit($event, plan)"
-            ng-repeat="plan in $ctrl.plans.list track by $index">
-            <td md-cell>
-                <div class="type-icon" md-colors="{background: 'primary-700'}" layout="row"
-                     layout-align="center center">
-                    <md-icon class="s24 md-light"
-                             md-svg-src="/assets/icon/{{plan.type}}.svg">
-                    </md-icon>
-                    <div class="public"></div>
-                </div>
-            </td>
-            <td md-cell>
-                <p class="md-body-2 md-dark name">{{plan.name}}</p>
-                <p class="md-caption">
-                    <span class="keywords" ng-bind="plan.distanceType"></span>
-                    <span class="keywords" ng-repeat="tag in plan.tags" ng-bind="tag"></span>
-                    <span class="keywords" ng-repeat="word in plan.keywords" ng-bind="word"></span>
-                </p>
-            </td>
-            <td md-cell><span>{{plan.rate | number:0}}</span></td>
-            <td md-cell><span>{{plan.weekCount | number:0}}</span></td>
-            <td md-cell><span>{{plan.distance / 1000 | number:0}}</span></td>
-            <td md-cell><span>{{plan.priceIsApprox ? '~' : ''}}{{plan.price | currency:plan.currency}}</span></td>
-            <td md-cell>
-                <md-menu>
-                    <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
-                        <md-icon class="material-icons md-18"
-                                 aria-label="More">more_vert
-                        </md-icon>
-                    </md-button>
-                    <md-menu-content>
-                        <md-menu-item>
-                            <md-button ng-click="$ctrl.delete(plan.id)">
-                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                                <span translate="trainingPlans.actions.delete"></span>
-                            </md-button>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</md-table-container>
--->
-<div class="training-plans-list__create">
+
+<div class="training-plans-list__create" ng-if="$ctrl.authService.isCoach()">
     <md-button id="training-plans-list__fab"
                ng-click="$ctrl.post($event)"
                class="md-fab md-accent md-hue-2 animated bounce zoomIn">

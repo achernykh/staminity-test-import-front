@@ -313,7 +313,7 @@ export class DashboardCtrl implements IComponentController {
         let c:number = w !== -1 ? this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
 
-        if (w >= 0 && c >= 0 && d) {
+        if (w >= 0 && c >= 0 && d >= 0) {
             if (!parentId || item.calendarItemType === 'record') {
                 item['index'] = Number(`${item.calendarItemId}${item.revision}`);
                 console.info('post: item success', item.calendarItemId, item.revision, item['index']);
@@ -358,7 +358,7 @@ export class DashboardCtrl implements IComponentController {
             this.cache[w].calendar[c].subItem[d].data.calendarItems
                 .findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
-        if (w >= 0 && c >= 0 && d) {
+        if (w >= 0 && c >= 0 && d >= 0) {
             if (!parentId || item.calendarItemType === 'record') {
                 console.info('dashboard datamodel: delete item success');
                 this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);

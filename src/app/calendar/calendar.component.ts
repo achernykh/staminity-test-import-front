@@ -18,7 +18,7 @@ import { FormMode } from "../application.interface";
 import { CalendarItemDialogService } from "../calendar-item/calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialog.interface";
 import AuthService from "@app/auth/auth.service";
-import { updateIntensity } from "../activity/activity.function";
+import { updateIntensity, changeUserOwner } from "../activity/activity.function";
 import { getUser } from "../core/session/session.service";
 
 export class CalendarCtrl implements IComponentController{
@@ -322,13 +322,24 @@ export class CalendarCtrl implements IComponentController{
         if (!firstTrgDay) { return; }
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
-
+        let update: boolean = this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner);
+        let items: Array<ICalendarItem> = [];
         if (shift && this.copiedItems && this.copiedItems.length > 0) {
-            task = this.copiedItems
-                .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
-                .map(item => this.calendarService.postItem(prepareItem(item, shift)));
 
-            Promise.all(task)
+            items = [...this.copiedItems.filter(item => item.calendarItemType === 'activity' &&
+                item.activityHeader.intervals.some(interval => interval.type === 'pW'))];
+
+            /**task = this.copiedItems
+                .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
+                .map(item => this.calendarService.postItem(prepareItem(item, shift)));**/
+
+            Promise.resolve(() => {})
+                .then(() => this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner) && this.dialogs.confirm({ text: 'dialogs.updateIntensity' }))
+                .then(() => {
+                    items.map(i => updateIntensity(i, this.owner.trainingZones));
+                    items.map(i => changeUserOwner(i, this.owner));})
+                .then(() => items.map(i => this.calendarService.postItem(prepareItem(i, shift))))
+                .then(task =>  Promise.all(task))
                 .then(response => {
                     response.forEach((r,i) => {
                         if (r.type === 'revision') {
@@ -342,6 +353,21 @@ export class CalendarCtrl implements IComponentController{
                     this.message.toastInfo('itemsPasted');
                 }, (error)=> this.message.toastError(error))
                 .then(()=> this.clearBuffer());
+
+            /**Promise.all(task)
+                .then(response => {
+                    response.forEach((r,i) => {
+                        if (r.type === 'revision') {
+                            // Сохраняем данные, предварительно обновив, полученным номером и ревизией
+                            this.calendar.post(Object.assign(this.copiedItems[i], {
+                                calendarItemId: r.value.id,
+                                revision: r.value.revision
+                            }));
+                        }
+                    });
+                    this.message.toastInfo('itemsPasted');
+                }, (error)=> this.message.toastError(error))
+                .then(()=> this.clearBuffer());**/
         }
     }
 

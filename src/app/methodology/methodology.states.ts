@@ -5,7 +5,7 @@ import GroupService from "../core/group.service";
 const methodologyUser: any = {
     name: 'methodology',
     url: '/methodology?state&scheme',
-    loginRequired: false,
+    loginRequired: true,
     authRequired: [],
     reloadOnSearch: false,
     resolve: {
@@ -21,7 +21,7 @@ const methodologyUser: any = {
 const methodologyClub: any = {
     name: 'methodology-club',
     url: '/methodology/club/:uri?state&scheme',
-    loginRequired: false,
+    loginRequired: true,
     authRequired: [],
     reloadOnSearch: false,
     resolve: {
