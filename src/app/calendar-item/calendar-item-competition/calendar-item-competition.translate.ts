@@ -92,6 +92,7 @@ export const translateCompetition = {
         triathlon: "Триатлон",
         swim: "Плавание",
         bike: "Велоспорт",
+        ski: "Лыжи",
         target: "План и факт",
         stage: "Этап",
         trainersPrescription: "Установка тренера",
@@ -120,7 +121,8 @@ export const translateCompetition = {
             triathlon: "Triathlon",
             run: "Running",
             bike: "Cycling",
-            swim: "Swimming"
+            swim: "Swimming",
+            ski: "Skiing"
         },
         distanceType: {
             label: "Competition type",
@@ -159,6 +161,14 @@ export const translateCompetition = {
             },
             bike: {
                 custom: 'Other'
+            },
+            ski: {
+                '10km': "10 km",
+                '15km': "15 km",
+                '30km': "30 km",
+                '50km': "50 km",
+                '70km': "70 km",
+                custom: 'Other'
             }
 
         },
@@ -182,6 +192,7 @@ export const translateCompetition = {
         triathlon: "Triathlon",
         swim: "Swimming",
         bike: "Cycling",
+        ski: "Skiing",
         target: "Planned and actual data",
         stage: "Stage",
         trainersPrescription: "Coach prescription",

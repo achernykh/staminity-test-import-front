@@ -17,7 +17,7 @@ export const _translateTrainingPlans = {
             description: 'Описание',
             commerce: 'Условия продажи'
         },
-
+        loading: "Загрузка",
         form: {
           title: 'Тренировочный план'
         },
@@ -31,7 +31,6 @@ export const _translateTrainingPlans = {
             appoint: 'Применить к...',
             calendar: 'Ввести план'
         },
-
         // поля плана
         isPublic: {
             label: 'План на продажу'
