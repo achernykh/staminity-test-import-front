@@ -168,7 +168,6 @@ export class ActivityIntervals {
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
             // Если интревал является повторяющимся
             if (mode === 'multi' && interval.hasOwnProperty('parentGroupCode') && interval.parentGroupCode) {
-                debugger;
                 let group:ActivityIntervalG = this.G.filter(i => i.code === interval.parentGroupCode)[0];
 
                 // Если после удаления в группе остается только один сегменты, то удалем группу и оставляем только
@@ -212,7 +211,6 @@ export class ActivityIntervals {
     setParams(type: string, id: string | number, params: Object): void {
         if(!id) {return;}
         let i: number = this.find(type,id);
-        debugger;
         if(i !== -1) {
             Object.assign(this.stack[i], params);
         }
@@ -403,7 +401,6 @@ export class ActivityIntervals {
      * @returns {boolean}
      */
     decreaseGroup(segment: Array<ActivityIntervalP>, trgRepeat: number):boolean {
-        debugger;
         //1. Номер группы и начальное количество повторов
         let group: ActivityIntervalG = <ActivityIntervalG>this.stack
             .filter(i => i.type === 'G' && i['code'] === segment[0].parentGroupCode)[0];
@@ -443,8 +440,6 @@ export class ActivityIntervals {
      * @param shift
      */
     reorganisation(start: number, shift: number):void {
-        debugger;
-
         this.P.filter(i => i.pos >= start).forEach(i => Object.assign(i, { pos: i.pos + shift })); // this.setParams(i.type, i.pos, { pos: i.pos + shift}));
         this.G.filter(g => g.fPos >= start).forEach(g => Object.assign(g, { fPos: g.fPos + shift })); //this.setParams(g.type, g.code, { fPos: g.fPos + shift}));
 

@@ -100,7 +100,7 @@
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
                 <div flex="25" class="percent md-caption tight-07">
-                    <span>{{$ctrl.competition.percent / 100 | percent}}</span>
+                    <span>{{$ctrl.competition.percent / 100 | percent: $ctrl.competition.item.calendarItemId}}</span>
                 </div>
                 <div flex="none" layout="row"
                      layout-align="center center"

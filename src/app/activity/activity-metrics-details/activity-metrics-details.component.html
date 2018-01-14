@@ -88,7 +88,8 @@
 </header>
 
 <section flex="none" class="chart" ng-if="$ctrl.showChart && !$ctrl.fullScreenTable"
-         ng-switch="$ctrl.completeDetails" layout="column">
+         ng-switch="($ctrl.chartOption === 'measures' && $ctrl.completeDetails) || ($ctrl.chartOption === 'segments' && $ctrl.item.activity.hasIntervalDetails)"
+         layout="column">
     <div flex="none" class="loading-chart" ng-switch-when="false"
          layout="column" layout-align="center center">
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
