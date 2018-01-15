@@ -96,6 +96,7 @@
                             <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
                             <p translate="trainingPlans.isPublic.label"></p>
                             <md-switch class="md-primary"
+                                       ng-disabled="true"
                                        name="isPublic"
                                        ng-model="$ctrl.plan.isPublic"></md-switch>
                         </md-list-item>
@@ -107,6 +108,7 @@
                                 <p translate="trainingPlans.isFixedCalendarDates.hint"></p>
                             </div>
                             <md-switch class="md-primary"
+                                       ng-disabled="!$ctrl.isPostMode"
                                        name="isFixedCalendarDates"
                                        ng-model="$ctrl.plan.isFixedCalendarDates"></md-switch>
                         </md-list-item>
@@ -115,7 +117,7 @@
                             <md-input-container flex="auto" class="no-message">
                                 <label translate="trainingPlans.startDate.label"></label>
                                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                                <md-datepicker flex="auto"
+                                <md-datepicker flex="auto" required
                                                ng-model="$ctrl.plan._startDate"
                                                name="startDate" md-hide-icons="calendar">
                                 </md-datepicker>

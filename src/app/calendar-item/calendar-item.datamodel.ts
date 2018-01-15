@@ -164,5 +164,8 @@ export class CalendarItem implements ICalendarItem {
 		this.revision = response.value.revision;
 		this.calendarItemId = response.value.id;
 		this.index = Number(`${this.calendarItemId}${this.revision}`);
+		if (this.calendarItemType === 'activity') {
+            this.activityHeader.activityId = response.value.activityId;
+        }
 	}
 }

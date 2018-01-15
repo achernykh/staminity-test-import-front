@@ -67,10 +67,6 @@ class TrainingPlanFormCtrl implements IComponentController {
         this.plan.distanceType = distanceType.code;
     }
 
-    get isViewMode (): boolean {
-        return this.mode === FormMode.View;
-    }
-
     setChangeMode (): void {
         this.mode = FormMode.Put;
     }
@@ -94,6 +90,18 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     private exists (item, list): boolean {
         return list.indexOf(item) > -1;
+    }
+
+    get isPostMode (): boolean {
+        return this.mode === FormMode.Post;
+    }
+
+    get isViewMode (): boolean {
+        return this.mode === FormMode.View;
+    }
+
+    get isPutMode (): boolean {
+        return this.mode === FormMode.Put;
     }
 }
 
