@@ -78,9 +78,7 @@
                                            ng-model="$ctrl.distanceType"
                                            placeholder="{{trainingPlans.distanceType.placeholder}}"
                                            ng-change="$ctrl.changeParam()">
-                                    <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
-                                        filter:{type: $ctrl.plan.type}
-                                        track by $index" ng-value="type">
+                                    <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes | filter:{type: $ctrl.plan.type}" ng-value="type">
                                         {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                                     </md-option>
                                 </md-select>
