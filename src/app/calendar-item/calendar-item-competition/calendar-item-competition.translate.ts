@@ -18,6 +18,7 @@ export const translateCompetition = {
             delete: "Удалить соревнование"
         },
         types: {
+            all: 'Все',
             triathlon: "Триатлон",
             run: "Бег",
             bike: "Велоспорт",
@@ -26,6 +27,7 @@ export const translateCompetition = {
         },
         distanceType: {
             label: "Тип соревнования",
+            all: 'Все',
             run: {
                 'marathon': "Марафон",
                 'halfMarathon': "Полумарафон",

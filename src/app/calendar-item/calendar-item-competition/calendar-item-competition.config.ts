@@ -305,7 +305,6 @@ export class CompetitionConfig implements CompetitionConfig {
                 }
             ]
         },
-
         // swim
         {
             type: 'swim',
@@ -444,7 +443,6 @@ export class CompetitionConfig implements CompetitionConfig {
                 distanceLength: null
             }]
         }
-
     ];
     /**types: {
         [type: string]: {

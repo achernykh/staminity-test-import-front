@@ -53,8 +53,10 @@ class TrainingPlansListCtrl implements IComponentController {
     getTrainingPlanList(): Array<TrainingPlan> {
         return this.plans.list
             .filter(p =>
+                (!this.filter['isPublic'] || (this.filter['isPublic'] && p.isPublic)) &&
                 (!this.filter['name'] || (this.filter['name'] && p.name.indexOf(this.filter['name']) !== -1)) &&
-                (!this.filter.type || (this.filter.type && p.name.indexOf(this.filter.type) !== -1)) &&
+                (!this.filter.type || this.filter.type === 'all' || (this.filter.type && p.type.indexOf(this.filter.type) !== -1)) &&
+                (!this.filter.distanceType || this.filter.distanceType === 'all' || (this.filter.distanceType && p.distanceType.indexOf(this.filter.distanceType) !== -1)) &&
                 (!this.filter.tags || (this.filter.tags && this.filter.tags.every(t => p.tags.indexOf(t) !== -1))) &&
                 (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))));
     }

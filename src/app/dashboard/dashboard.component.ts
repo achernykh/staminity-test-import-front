@@ -172,7 +172,7 @@ export class DashboardCtrl implements IComponentController {
                             if (!message.value.parentId || message.value.calendarItemType === 'record') {
                                 this.onDeleteItem(this.searchItem(message.value.calendarItemId), message.value.parentId);
                             }
-                            this.onPostItem(<ICalendarItem>message.value, message.value.parentIds);
+                            this.onPostItem(<ICalendarItem>message.value, message.value.parentId);
                             this.$scope.$applyAsync();
                         } else {
                             console.info('dashboard: item already exist');
@@ -294,6 +294,7 @@ export class DashboardCtrl implements IComponentController {
     /**
      * Создание записи календаря
      * @param item
+     * @param parentId
      */
     onPostItem(item: ICalendarItem, parentId?: number): void {
         if (this.include(item.calendarItemId, item.revision)) {

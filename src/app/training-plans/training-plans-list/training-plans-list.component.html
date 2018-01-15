@@ -29,11 +29,11 @@
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">landscape</md-icon>
         </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)" ng-if="$ctrl.authService.isCoach()">
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
             <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
             <span translate="trainingPlans.actions.assignment"></span>
         </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)" ng-if="$ctrl.authService.isCoach()">
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)">
             <md-icon class="material-icons">date_range</md-icon>
         </md-button>
 
@@ -45,13 +45,13 @@
             </md-button>
             <md-menu-content>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.calendar(plan.id)" ng-if="$ctrl.authService.isCoach()">
+                    <md-button ng-click="$ctrl.calendar(plan.id)">
                         <md-icon class="material-icons" md-menu-align-target>date_range</md-icon>
                         <span translate="trainingPlans.actions.calendar"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="" ng-if="$ctrl.authService.isCoach()">
+                    <md-button ng-click="">
                         <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
                         <span translate="trainingPlans.actions.appoint"></span>
                     </md-button>
@@ -76,7 +76,7 @@
     <md-divider ng-repeat-end></md-divider>
 </md-list>
 
-<div class="training-plans-list__create" ng-if="$ctrl.authService.isCoach()">
+<div class="training-plans-list__create">
     <md-button id="training-plans-list__fab"
                ng-click="$ctrl.post($event)"
                class="md-fab md-accent md-hue-2 animated bounce zoomIn">
