@@ -9,7 +9,7 @@
         <!--<span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>-->
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <!--<md-truncate class="button" flex hide show-gt-sm>{{$ctrl.currentPlan.name}}</md-truncate>-->
-        <span class="button" hide show-gt-sm ng-click="$ctrl.view($ctrl.currentPlan)">{{$ctrl.currentPlan.name}}</span>
+        <span class="button" hide show-gt-sm ng-click="$ctrl.view($event, $ctrl.currentPlan)">{{$ctrl.currentPlan.name}}</span>
         <md-menu ng-if="$ctrl.trainingPlans.list.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>

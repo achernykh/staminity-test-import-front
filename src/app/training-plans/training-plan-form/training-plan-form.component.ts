@@ -32,6 +32,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     $onInit () {
+        debugger;
         this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
         this.getPlanDetails();
     }
@@ -75,7 +76,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     private getPlanDetails (): void {
-        if ( this.mode === FormMode.Post ) { return; }
+        if ( this.mode === FormMode.Post || this.plan.hasOwnProperty('calendarItems') ) { return; }
         this.trainingPlanService.get(this.plan.id)
             .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
     }
