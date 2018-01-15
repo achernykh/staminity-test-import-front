@@ -56,11 +56,11 @@ class UserSettingsBillsCtrl {
      */
     billsList () { 
         return this.dialogs.billsList(this.owner) 
-        .then(() => {
-            // this.reload(); 
+        .then((result) => {
+            this.reload(); 
         }, (error) => { 
             if (error) {
-                // this.reload(); 
+                this.reload(); 
             }
         }); 
     } 
@@ -88,6 +88,16 @@ class UserSettingsBillsCtrl {
         .catch((info) => { 
             this.message.systemWarning(info); 
         }); 
+    }
+
+    /* 
+     * Перезагрузить профиль
+     */
+    reload () {
+        this.userSettingsService.reload()
+        .then(() => {
+            this.$scope.$apply();
+        });
     }
 }
 

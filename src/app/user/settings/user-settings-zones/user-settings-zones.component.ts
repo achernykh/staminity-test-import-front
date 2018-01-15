@@ -73,7 +73,7 @@ class UserSettingsZonesCtrl {
         .then((response) => {
             this.datamodel.trainingZones[response.intensityFactor][response.sport] = response.settings;
             this.prepareZones();
-            this.form.$dirty = true;
+            this.submit();
         }, (error) => {
             
         });
@@ -81,18 +81,18 @@ class UserSettingsZonesCtrl {
 
     addSport(factor: string, sport: string) {
         this.datamodel.trainingZones[factor][sport] = this.datamodel.trainingZones[factor]['default'];
-        this.form.$dirty = true;
+        this.submit();
     }
 
     deleteSport(factor: string, sport: string) {
         delete this.datamodel.trainingZones[factor][sport];
-        this.form.$dirty = true;
+        this.submit();
     }
 
     submit () {
         this.userSettingsService.saveZones(this.datamodel.toUserProfile())
         .then((result) => {
-            this.form.$setPristine(true);
+            
         }, (error) => {
 
         });

@@ -56,6 +56,20 @@ export class UserSettingsService {
     }
 
     /**
+     * Перезагрузить профиль текущего пользователя
+     * @returns {Promise<any>}
+     */
+    reload () {
+        return this.userService.getProfile(this.sessionService.getUserId())
+        .then((userProfile) => {
+            this.sessionService.updateUser(userProfile);
+        })
+        .catch((error) => {
+
+        });
+    }
+
+    /**
      * Смена пароля
      * @returns {Promise<any>}
      */

@@ -2,6 +2,7 @@ import {IComponentOptions, IComponentController,ILocationService} from 'angular'
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { IBillingTariff } from "@api/billing";
 import BillingService from "../../../core/billing.service";
+import { UserSettingsService } from "../user-settings.service";
 import './user-settings-tariffs.component.scss';
 
 class UserSettingsTariffsCtrl {
@@ -10,13 +11,15 @@ class UserSettingsTariffsCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    static $inject = ['BillingService', 'dialogs', 'message', '$mdDialog'];
+    static $inject = ['BillingService', 'dialogs', 'message', '$mdDialog', 'UserSettingsService', '$scope'];
 
     constructor (
         private billingService: BillingService,
         private dialogs: any,
         private message: any,
         private $mdDialog: any,
+        private userSettingsService: UserSettingsService,
+        private $scope: any,
     ) {
         window['UserSettingsTariffsCtrl'] = this;
     }
@@ -43,6 +46,9 @@ class UserSettingsTariffsCtrl {
 
     enableTariff (tariff: any) {
         return this.dialogs.enableTariff(tariff, this.owner)
+        .then(() => {
+            this.reload();
+        })
         .catch((info) => {
             // this.message.systemWarning(info);
         });
@@ -58,6 +64,9 @@ class UserSettingsTariffsCtrl {
         ) : (
             this.dialogs.disableTariff(tariff, this.owner)
         ))
+        .then(() => {
+            this.reload();
+        })
         .catch((info) => {
             // this.message.systemWarning(info);
         });
@@ -65,8 +74,21 @@ class UserSettingsTariffsCtrl {
 
     viewTariff (tariff: any) {
         return this.dialogs.tariffDetails(tariff, this.owner)
+        .then(() => {
+            this.reload();
+        })
         .catch((info) => {
             // this.message.systemWarning(info);
+        });
+    }
+
+    /* 
+     * Перезагрузить профиль
+     */
+    reload () {
+        this.userSettingsService.reload()
+        .then(() => {
+            this.$scope.$apply();
         });
     }
 }
