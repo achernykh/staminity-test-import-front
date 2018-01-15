@@ -68,8 +68,7 @@
                             <md-option value="all" translate="competition.distanceType.all"></md-option>
                             <md-divider></md-divider>
                             <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
-                                       filter:{type: $ctrl.filter.type}
-                                       track by $index" ng-value="type">
+                                       filter:{type: $ctrl.filter.type}" ng-value="type">
                                 {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                             </md-option>
                         </md-select>
