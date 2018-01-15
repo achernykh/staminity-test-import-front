@@ -13,11 +13,10 @@ export const translateMethodology = {
         templates: {
             title: 'Шаблоны'
         },
-
         accessLock: {
-            trainingPlans: "Создание тренировочных планов доступно тренерам с заполненным профилем. Для заполнения необходимых полей перейдите в раздел Настройки. Узнать подробнее: (<a href='https://help.staminity.com/ru/coaches/coach-profile.html'/>)",
-            periodization: 'Управление схемами периодизации и планирование тренировочного сезона доступно на тарифных планах "Премиум" или "Тренер',
-            categories: 'Управление категориями тренировок доступно на тарифных планах "Премиум" и "Тренер',
+            trainingPlans: "Создание тренировочных планов доступно тренерам с заполненным профилем. Для заполнения необходимых полей перейдите в раздел Настройки. Узнать подробнее <a href='https://help.staminity.com/ru/coaches/coach-profile.html'>в справочной системе</a>",
+            periodization: 'Управление схемами периодизации и планирование тренировочного сезона доступно на тарифных планах "Премиум" или "Тренер"',
+            categories: 'Управление категориями тренировок доступно на тарифных планах "Премиум" и "Тренер"',
             templates: 'Управление шаблонами тренировок доступно на тарифных планах "Премиум" и "Тренер"'
         },
         // периодизация
@@ -126,6 +125,12 @@ export const translateMethodology = {
         },
         templates: {
             title: 'Activity templates'
+        },
+        accessLock: {
+            trainingPlans: "Please fill up your coach profile to create training plans. You could add necessary data in Settings. Find out more in <a href='https://help.staminity.com/ru/coaches/coach-profile.html'>Staminity Help Center</a>",
+            periodization: 'Periodisation schemes management and Training season plan creation is available only for users with Premium and Coach tariffs. You could add tariff subscription in Settings',
+            categories: 'Activity category manaagement is available only for users with Premium and Coach tariffs. You could add tariff subscription in Settings.',
+            templates: 'Activity templates manaagement is available only for users with Premium and Coach tariffs. You could add tariff subscription in Settings.'
         },
         // периодизация
         periodization: {
