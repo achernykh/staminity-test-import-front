@@ -75,7 +75,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     view (e: Event, plan: TrainingPlan) {
-        this.trainingPlanDialogService.open(e, FormMode.View, plan)
+        this.trainingPlanDialogService.open(e, FormMode.Put, plan)
             .then(() => {}, () => {});
     }
 
