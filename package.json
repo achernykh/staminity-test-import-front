@@ -112,7 +112,8 @@
     "webpack-merge": "2.0.0"
   },
   "dependencies": {
-    "@types/leaflet": "1.0.50",
+    "@types/geojson": "^1.0.2",
+    "@types/leaflet": "^1.2.5",
     "@types/moment": "^2.13.0",
     "@types/node": "^8.5.2",
     "@uirouter/angularjs": "^1.0.3",
@@ -134,7 +135,7 @@
     "angular-touch": "^1.6.4",
     "angular-translate": "^2.13.1",
     "angular-translate-loader-static-files": "^2.15.2",
-    "angular-ui-router": "^1.0.3",
+    "angular-ui-router": "^0.4.3",
     "angular-websocket": "^2.0.1",
     "angularjs-scroll-glue": "^2.2.0",
     "angularjs-toaster": "^2.1.0",

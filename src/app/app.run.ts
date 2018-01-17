@@ -47,7 +47,7 @@ function run(
     }
 
     $transitions.onBefore({to: "*", from: "*"}, (state) => {
-        const routeTo: IStaminityState = Object.assign(state.$to());
+        const routeTo = state.$to();
         console.info(`app run: $transition onBefore ${routeTo.name}`);
 
         if (routeTo.loginRequired && !AuthService.isAuthenticated()) {

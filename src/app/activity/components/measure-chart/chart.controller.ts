@@ -9,7 +9,7 @@ import { ActivityChartMode, FillType, IActivityChartSettings, IAreaSettings, IGr
 import { ChangeTracker } from "./utils/changeTracker";
 import { IActivityScales, IScaleInfo, ScaleType } from "./utils/chart.scale";
 import LabelFormatters from "./utils/labelFormatter";
-import scale = L.control.scale;
+import {scale} from 'leaflet';// L.control.scale;
 
 class ActivityChartController implements IComponentController {
 
