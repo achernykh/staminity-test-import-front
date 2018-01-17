@@ -11,8 +11,7 @@ import {
     PutGroupMembershipBulkRequest,
     PutGroupProfileRequest } from "../../../api";
 
-import { IHttpPromise } from "angular";
-import IHttpPromiseCallbackArg = angular.IHttpPromiseCallbackArg;
+import { IHttpPromise, IHttpPromiseCallbackArg } from "angular";
 import { GetGroupMembersListRequest } from "../../../api/group/group.request";
 import {SocketService} from "./index";
 import {IRESTService, PostData, PostFile} from "./rest.service";

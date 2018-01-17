@@ -1,5 +1,5 @@
 import { module } from "angular";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import { methodologyState } from "./methodology.states";
 import MethodologyComponent from "./methodology.component";
 import { supportLng } from "../core/display.constants";

@@ -1,4 +1,4 @@
-import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
+import {StateDeclaration, StateProvider, StateService} from "@uirouter/angularjs";
 import {IAuthService} from "../auth/auth.service";
 import { DefaultTemplate, DisplayView } from "../core/display.constants";
 import GroupService from "../core/group.service";

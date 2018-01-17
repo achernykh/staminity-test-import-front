@@ -1,6 +1,6 @@
 import './training-plans-list.component.scss';
 import { IComponentOptions, IComponentController, IPromise, IScope } from 'angular';
-import { StateService } from 'angular-ui-router';
+import { StateService } from '@uirouter/angularjs';
 import { TrainingPlansList } from "./training-plans-list.datamodel";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { ITrainingPlanSearchRequest, ITrainingPlanSearchResult } from "@api/trainingPlans";

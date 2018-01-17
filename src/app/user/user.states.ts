@@ -1,4 +1,4 @@
-import { StateDeclaration, Transition } from "angular-ui-router";
+import { StateDeclaration, Transition } from "@uirouter/angularjs";
 import { SessionService } from "../core/session/session.service";
 
 const userSettings: any = {

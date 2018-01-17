@@ -1,5 +1,5 @@
 import {IComponentController, IComponentOptions, ILocationService, IPromise, IScope} from "angular";
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angularjs";
 import moment from "moment/min/moment-with-locales.js";
 import "./landing-tariffs.component.scss";
 import {landingTariffsData} from "./landing-tariffs.constants";

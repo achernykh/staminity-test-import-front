@@ -1,7 +1,7 @@
 import './components.scss';
 import './notification/notification.scss';
 import { module, isObject } from 'angular';
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import moment from 'moment/min/moment-with-locales.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';

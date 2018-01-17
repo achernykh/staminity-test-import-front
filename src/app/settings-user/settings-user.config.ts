@@ -1,4 +1,4 @@
-import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
+import {StateDeclaration, StateProvider, StateService} from "@uirouter/angularjs";
 import {IUserProfile} from "../../../api";
 import {IAuthService} from "../auth/auth.service";
 import {SessionService} from "../core";

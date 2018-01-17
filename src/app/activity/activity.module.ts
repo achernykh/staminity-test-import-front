@@ -1,5 +1,5 @@
 import { module } from "angular";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import ActivityHeaderChatComponent from "./activity-header-chat/activity-header-chat.component";
 import ActivityHeaderDetailsComponent from "./activity-header-details/activity-header-details.component";
 import ActivityHeaderOverviewComponent from "./activity-header-overview/activity-header-overview.component";

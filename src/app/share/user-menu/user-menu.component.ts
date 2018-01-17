@@ -1,5 +1,5 @@
 import { IComponentController, IComponentOptions, ILocationService} from "angular";
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angularjs";
 import { Subject } from "rxjs/Rx";
 import {IUserProfile} from "../../../../api";
 import { getUser, SessionService } from "../../core";

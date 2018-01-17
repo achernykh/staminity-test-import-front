@@ -1,4 +1,4 @@
-import { StateDeclaration, StateService, TransitionService } from "angular-ui-router";
+import { StateDeclaration, StateService, TransitionService } from "@uirouter/angularjs";
 import {IAuthService} from "./auth/auth.service";
 import MessageService from "./core/message.service";
 import LoaderService from "./share/loader/loader.service";
@@ -47,7 +47,7 @@ function run(
     }
 
     $transitions.onBefore({to: "*", from: "*"}, (state) => {
-        const routeTo = state.$to();
+        const routeTo = Object.assign(state.$to()) as IStaminityState;
         console.info(`app run: $transition onBefore ${routeTo.name}`);
 
         if (routeTo.loginRequired && !AuthService.isAuthenticated()) {

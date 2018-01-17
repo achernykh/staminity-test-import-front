@@ -1,5 +1,5 @@
 import { module } from "angular";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import { supportLng } from "../core/display.constants";
 import ManagementComponent from "./management.component";
 import { membersFiltersFilter, roleMembershipFilter } from "./management.filters";

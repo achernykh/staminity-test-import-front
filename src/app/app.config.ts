@@ -1,5 +1,5 @@
 import { ICompileProvider, ILocationProvider} from 'angular';
-import {StateProvider, StateDeclaration, Transition} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, Transition} from '@uirouter/angularjs';
 import moment from 'moment/min/moment-with-locales.js';
 import {translateForm,translateGeneral} from "./app.translate";
 import { IUserProfile } from "../../api/user/user.interface";

@@ -1,6 +1,6 @@
 import { module } from "angular";
 import { supportLng } from "../core/display.constants";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import { UserSettingsComponent } from "./settings/user-settings.component";
 import { userState } from "./user.states";
 import { translateUser } from "./user.translate";

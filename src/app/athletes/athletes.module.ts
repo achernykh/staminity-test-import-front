@@ -1,5 +1,5 @@
 import { module } from "angular";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import { supportLng } from "../core/display.constants";
 import AthleteInvitationComponent from "./athlete-invitation/athlete-invitation.component";
 import { translateAthleteInvitation } from "./athlete-invitation/athlete-invitation.translate";

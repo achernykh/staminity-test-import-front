@@ -1,5 +1,5 @@
 import {ILocationService} from "angular";
-import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
+import {StateDeclaration, StateProvider, StateService} from "@uirouter/angularjs";
 import AuthService from "../auth/auth.service";
 import { DefaultTemplate, DisplayView } from "../core/display.constants";
 import UserService from "../core/user.service";

@@ -1,4 +1,4 @@
-import { StateDeclaration } from "angular-ui-router";
+import { StateDeclaration } from "@uirouter/angularjs";
 import { SessionService } from "../core/session/session.service";
 import GroupService from "../core/group.service";
 

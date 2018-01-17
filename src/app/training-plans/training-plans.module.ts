@@ -6,7 +6,7 @@ import TrainingPlansFilterComponent from "./training-plans-filter/training-plans
 import TrainingPlanFormComponent from "./training-plan-form/training-plan-form.component";
 import TrainingPlansListComponent from "./training-plans-list/training-plans-list.component";
 import TrainingPlanBuilderComponent from "./training-plan-builder/training-plan-builder.component";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import { trainingPlansState } from "./training-plans.state";
 import { TrainingPlanDialogService } from "./training-plan-dialog.service";
 import { trainingPlanConfig } from "./training-plan/training-plan.config";

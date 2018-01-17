@@ -1,5 +1,5 @@
 import * as _connection from "../env.js";
-import { StateService } from "angular-ui-router";
+import { StateService } from "@uirouter/angularjs";
 import { SessionService, IConnectionSettings, Deferred } from "../index";
 import { Observable, Subject, Subscription } from "rxjs/Rx";
 import LoaderService from "../../share/loader/loader.service";
