@@ -13,7 +13,7 @@ import Auth from './auth/auth.module';
 import Landing from './landingpage/landingpage.module';
 import SettingsUser from './settings-user/settings-user.module';
 import Calendar from './calendar/calendar.module';
-import CalendarItemMeasurement from './calendar-item/calendar-item.module';
+import { CalendarItem } from './calendar-item/calendar-item.module';
 import { ActivityModule } from './activity';
 import Profile from './profile-user/profile-user.module';
 import SettingsClub from './settings-club/settings-club.module';
@@ -55,7 +55,7 @@ const root = module('staminity.application', [
 	Landing,
 	SettingsUser,
 	Calendar,
-	CalendarItemMeasurement,
+    CalendarItem,
 	ActivityModule,
 	Profile,
 	SettingsClub,

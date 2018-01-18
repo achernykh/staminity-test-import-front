@@ -49,10 +49,10 @@ class ActivityIntervalOverviewCtrl implements IComponentController {
     private prepareTitle() {
         if (this.isSegment) {
             this.title = this.interval.hasOwnProperty("totalMeasures") &&
-                `${this.$filter("translate")("activity.split.segmentGroup", {count: this.groupInfo.repeatCount})}` ||
-                `${this.$filter("translate")("activity.split.segment")} #${this.interval.pos}`;
+                `${this.$filter["translate"]("activity.split.segmentGroup", {count: this.groupInfo.repeatCount})}` ||
+                `${this.$filter["translate"]("activity.split.segment")} #${this.interval.pos}`;
         } else {
-            this.title = `${this.$filter("translate")("activity.split.interval")}`;
+            this.title = `${this.$filter["translate"]("activity.split.interval")}`;
         }
     }
 

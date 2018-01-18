@@ -22,7 +22,7 @@ import CompetitionCompactComponent from "./calendar-item-competition/compact-vie
 import { ActivityCompactComponent } from "./calendar-item-activity/compact-view/compact-activity.component";
 import { RecordCompactComponent } from "./calendar-item-record/compact-view/record-compact.component";
 
-const CalendarItemMeasurement = module('staminity.calendar-item-measurement', [])
+export const CalendarItem = module('staminity-web.calendar-item', [])
     .component('calendarItemActivity', CalendarItemActivityComponent)
     .component('calendarItemMeasurement', CalendarItemMeasurementComponent)
     .component('calendarItemEvents', CalendarItemEventsComponent)
@@ -56,5 +56,3 @@ const CalendarItemMeasurement = module('staminity.calendar-item-measurement', []
 
     }])
     .name;
-
-export default CalendarItemMeasurement;

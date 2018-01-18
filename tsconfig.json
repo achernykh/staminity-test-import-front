@@ -1,15 +1,3 @@
-/*{
-  "compilerOptions": {
-    "target": "es5",
-    "allowJs": true,
-    "lib": ["es2015", "dom"]
-  },
-  "files": [
-    "./src/js/app.js"
-  ]
-}*/
-
-
 {
     "compilerOptions": {
         "module": "es2015",

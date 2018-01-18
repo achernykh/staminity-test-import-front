@@ -157,7 +157,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
         let editDialog = {
             modelValue: cycle.durationValue,
-            placeholder: this.$filter('translate')(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
+            placeholder: this.$filter['translate'](`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
             save: function (input) {
                 if (!Number(input.$modelValue.replace(/\,/g,'.'))) {
                     input.$invalid = true;
