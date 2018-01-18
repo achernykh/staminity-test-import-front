@@ -1,11 +1,10 @@
 import {PostData, IRESTService} from '../core/rest.service';
-import {SetPasswordRequest, InviteRequest, UserCredentials, PostInviteRequest} from '../../../api/auth/auth.request';
+import {SetPasswordRequest, InviteUserRequest, UserCredentials, PutUserInviteRequest} from '../../../api/auth/auth.request';
 import {ISessionService} from "../core/session.service";
 import {IHttpService, IHttpPromise, IHttpPromiseCallbackArg, IPromise, HttpHeaderType} from 'angular';
 import {ISocketService} from "../core/socket.service";
 import {IUserProfile} from "../../../api/user/user.interface";
 import GroupService from "../core/group.service";
-import {GetRequest} from "../../../api/calendar/calendar.request";
 
 
 export interface IAuthService {
@@ -160,11 +159,11 @@ export default class AuthService implements IAuthService {
      * @returns {Promise<any>}
      */
     inviteUsers(group: number, users: Array<Object>):Promise<any> {
-        return this.SocketService.send(new InviteRequest(group,users));
+        return this.SocketService.send(new InviteUserRequest(group,users));
     }
 
     putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any> {
-        return this.RESTService.postData(new PostData('/api/wsgate', new PostInviteRequest(credentials)))
+        return this.RESTService.postData(new PostData('/api/wsgate', new PutUserInviteRequest(credentials)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 

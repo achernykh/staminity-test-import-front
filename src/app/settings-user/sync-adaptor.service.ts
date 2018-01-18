@@ -1,4 +1,4 @@
-import { PostUserExternalAccount, PutUserExternalAccount, DeleteUserExternalAccount } from '../../../api/sync/sync.request';
+import { PostUserExternalAccountRequest, PutUserExternalAccountRequest, DeleteUserExternalAccountRequest } from '../../../api/sync/sync.request';
 import {ISocketService} from '../core/socket.service';
 
 export default class SyncAdaptorService {
@@ -16,7 +16,7 @@ export default class SyncAdaptorService {
      * @returns {Promise<any>}
      */
     delete(provider:string, deleteData: boolean = false):Promise<any> {
-        return this.SocketService.send(new DeleteUserExternalAccount(provider,deleteData));
+        return this.SocketService.send(new DeleteUserExternalAccountRequest(provider,deleteData));
     }
 
     /**
@@ -29,7 +29,7 @@ export default class SyncAdaptorService {
      * @returns {Promise<any>}
      */
     put(provider:string, username: string, password: string, startDate: Date, state: string):Promise<any> {
-        return this.SocketService.send(new PutUserExternalAccount(provider,username,password,startDate,state));
+        return this.SocketService.send(new PutUserExternalAccountRequest(provider,username,password,startDate,state));
     }
 
     /**
@@ -42,7 +42,7 @@ export default class SyncAdaptorService {
      * @returns {Promise<any>}
      */
     post(provider:string, username: string, password: string, startDate: Date):Promise<any> {
-        return this.SocketService.send(new PostUserExternalAccount(provider,username,password,startDate));
+        return this.SocketService.send(new PostUserExternalAccountRequest(provider,username,password,startDate));
     }
 
 

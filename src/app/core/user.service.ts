@@ -1,6 +1,6 @@
 import {IUserProfile} from '../../../api/user/user.interface';
-import { GetUserProfileSummaryStatistics } from '../../../api/statistics/statistics.request';
-import { GetRequest, PutRequest } from '../../../api/user/user.request';
+import { ProfileSummaryStatisticsRequest } from '../../../api/statistics/statistics.request';
+import { GetUserRequest, PutUserRequest } from '../../../api/user/user.request';
 import {ISocketService} from './socket.service';
 import {ISessionService} from './session.service';
 import {PostData, PostFile, IRESTService} from './rest.service';
@@ -36,8 +36,8 @@ export default class UserService {
      */
     getProfile(key:string|number, ws: boolean = true):Promise<IUserProfile> | Promise<ISystemMessage>{
         return ws ?
-            this.SocketService.send(new GetRequest(key)) :
-            this.RESTService.postData(new PostData('/api/wsgate', new GetRequest(key)))
+            this.SocketService.send(new GetUserRequest(key)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
@@ -47,7 +47,7 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     putProfile(profile:IUserProfile):Promise<IUserProfile> {
-        return this.SocketService.send(new PutRequest(profile))
+        return this.SocketService.send(new PutUserRequest(profile))
                 .then((result)=>{
                     let currentUser = this.SessionService.getUser();
                     if (result.value.id === currentUser.userId){
@@ -100,8 +100,8 @@ export default class UserService {
      */
     getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true):Promise<Object> {
         return ws ?
-            this.SocketService.send(new GetUserProfileSummaryStatistics(id, start, end, group, data)) :
-            this.RESTService.postData(new PostData('/api/wsgate', new GetUserProfileSummaryStatistics(id, start, end, group, data)))
+            this.SocketService.send(new ProfileSummaryStatisticsRequest(id, start, end, group, data)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new ProfileSummaryStatisticsRequest(id, start, end, group, data)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 

@@ -4,13 +4,13 @@ import {
     IBulkGroupMembership } from '../../../api/group/group.interface';
 
 import {
-    GetProfileRequest,
-    PutProfileRequest,
-    JoinRequest,
-    LeaveRequest,
-    GetMembershipRequest,
-    ProcessMembershipRequest,
-    GetMembersListRequest,
+    GetGroupProfileRequest,
+    PutGroupProfileRequest,
+    JoinGroupRequest,
+    LeaveGroupRequest,
+    GetGroupMembershipRequest,
+    ProcessGroupMembershipRequest,
+    GetGroupMembersListRequest,
     GetGroupManagementProfileRequest,
     PutGroupMembershipBulkRequest } from '../../../api/group/group.request';
 
@@ -36,8 +36,8 @@ export default class GroupService {
      */
     getProfile(id:string|number, type?:string, ws: boolean = true):Promise<IGroupProfile> {
         return ws ?
-            this.SocketService.send(new GetProfileRequest(id,type)) :
-            this.RESTService.postData(new PostData('/api/wsgate', new GetProfileRequest(id,type)))
+            this.SocketService.send(new GetGroupProfileRequest(id,type)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetGroupProfileRequest(id,type)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
@@ -47,7 +47,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     putProfile(profile:IGroupProfile):Promise<any>{
-        return this.SocketService.send(new PutProfileRequest(profile));
+        return this.SocketService.send(new PutGroupProfileRequest(profile));
     }
 
     /**
@@ -56,7 +56,7 @@ export default class GroupService {
      * @returns {Promise<any>}
      */
     join(groupId: number, userId: number = null):Promise<any>{
-        return this.SocketService.send(new JoinRequest(groupId, userId));
+        return this.SocketService.send(new JoinGroupRequest(groupId, userId));
     }
 
     /**
@@ -65,7 +65,7 @@ export default class GroupService {
      * @returns {Promise<any>}
      */
     leave(groupId: number, userId: number = null):Promise<any>{
-        return this.SocketService.send(new LeaveRequest(groupId, userId));
+        return this.SocketService.send(new LeaveGroupRequest(groupId, userId));
     }
 
     /**
@@ -75,7 +75,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     getMembershipRequests(offset:number, limit: number):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetMembershipRequest(offset, limit));
+        return this.SocketService.send(new GetGroupMembershipRequest(offset, limit));
     }
 
     /**
@@ -85,7 +85,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     processMembership(action:string, groupId?:number, requestId?:number, ):Promise<IGroupProfile> {
-        return this.SocketService.send(new ProcessMembershipRequest(action, groupId,requestId));
+        return this.SocketService.send(new ProcessGroupMembershipRequest(action, groupId,requestId));
     }
 
     /**
@@ -94,7 +94,7 @@ export default class GroupService {
      * @returns {Promise<IGroupProfile>}
      */
     getMembershipList(groupId:number):Promise<IGroupProfile> {
-        return this.SocketService.send(new GetMembersListRequest(groupId));
+        return this.SocketService.send(new GetGroupMembersListRequest(groupId));
     }
 
     /**
@@ -127,7 +127,7 @@ export default class GroupService {
         return this.RESTService.postFile(new PostFile(`/group/avatar/${groupId}`, file))
             .then((response) => response.data);
     }
-    
+
     /**
      * Аплоад фонового изоражения клуба
      * @param groupId

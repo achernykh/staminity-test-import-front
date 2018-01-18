@@ -4,8 +4,8 @@ import {
     IActivityIntervalL, IActivityInterval
 } from '../../../api/activity/activity.interface';
 import {
-    GetDetailsRequest, GetActivityGategory, GetActivityIntervals,
-    CalculateActivityRange
+    GetActivityDetailsRequest, GetActivityGategoryRequest, GetActivityIntervalsRequest,
+    CalculateActivityRangeRequest
 } from '../../../api/activity/activity.request';
 import {ISocketService} from '../core/socket.service';
 import {RESTService, GetData} from "../core/rest.service";
@@ -34,7 +34,7 @@ export default class ActivityService {
      * @returns {Promise<T>}
      */
     getDetails(id:number):Promise<IActivityDetails> {
-        return this.SocketService.send(new GetDetailsRequest(id));
+        return this.SocketService.send(new GetActivityDetailsRequest(id));
     }
 
     /**
@@ -44,7 +44,7 @@ export default class ActivityService {
      * @returns {Promise<any>}
      */
     getIntervals(id:number, types: Array<string> = ['L']):Promise<Array<IActivityIntervalW | IActivityIntervalP | IActivityIntervalG | IActivityIntervalPW | IActivityIntervalL>> {
-        return this.SocketService.send(new GetActivityIntervals(id, types))
+        return this.SocketService.send(new GetActivityIntervalsRequest(id, types))
             .then((response: {intervals: Array<any>}) => response.intervals);
     }
 
@@ -64,11 +64,11 @@ export default class ActivityService {
      * @returns {Promise<any>}
      */
     getCategory(id: number = null, onlyMine: boolean = false): Promise<any> {
-        return this.SocketService.send(new GetActivityGategory(id , onlyMine));
+        return this.SocketService.send(new GetActivityGategoryRequest(id , onlyMine));
     }
 
     calculateRange(activityId: number, start: number, end: number, type: Array<IActivityInterval>):Promise<any> {
-        return this.SocketService.send(new CalculateActivityRange(activityId, start,end, type));
+        return this.SocketService.send(new CalculateActivityRangeRequest(activityId, start,end, type));
     }
 
 }

@@ -1,6 +1,6 @@
 import { orderBy } from '../share/util.js';
 import { IGroupMembershipRequest } from '../../../api/group/group.interface';
-import { GetMembershipRequest, ProcessMembershipRequest } from '../../../api/group/group.request';
+import { GetGroupMembershipRequest, ProcessGroupMembershipRequest } from '../../../api/group/group.request';
 import { ISessionService } from './session.service';
 import { ISocketService } from './socket.service';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -14,13 +14,13 @@ const isSameRequest = (r0) => (r1) => r0.userGroupRequestId === r1.userGroupRequ
 
 const processRequest = (requests, request) => {
     let prev = requests.find(isSameRequest(request));
-    
+
     if (prev) {
         requests[requests.indexOf(prev)] = request;
     } else {
         requests.push(request);
     }
-    
+
     return requests
         .sort((a, b) => moment(requestDate(a)) >= moment(requestDate(b))? 1 : -1)
         .reverse();
@@ -37,7 +37,7 @@ export default class RequestsService {
     constructor(
         private SocketService:ISocketService,
         private SessionService:ISessionService
-    ) { 
+    ) {
         this.notifications = this.SocketService.messages
             .filter(message => message.type === 'groupMembershipRequest')
             .map(message => message.value)
@@ -59,7 +59,7 @@ export default class RequestsService {
      * @returns {Promise<any>}
      */
     getMembershipRequest (offset:number, limit: number) : Promise<any> {
-        return this.SocketService.send(new GetMembershipRequest(offset, limit));
+        return this.SocketService.send(new GetGroupMembershipRequest(offset, limit));
     }
 
     /**
@@ -68,7 +68,7 @@ export default class RequestsService {
      * @returns {Promise<any>}
      */
     processMembershipRequest (action:string, groupId?: number, requestId?:number) : Promise<any> {
-        return this.SocketService.send(new ProcessMembershipRequest(action, groupId, requestId));
+        return this.SocketService.send(new ProcessGroupMembershipRequest(action, groupId, requestId));
     }
 
     /**
