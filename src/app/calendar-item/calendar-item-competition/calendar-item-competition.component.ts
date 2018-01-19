@@ -30,13 +30,13 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     // inject
     static $inject = ['$scope','CompetitionConfig', 'ReferenceService', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
 
-    constructor (private $scope: IScope,
+    constructor (public $scope: IScope,
                  private config: ICompetitionConfig,
                  private referenceService: ReferenceService,
                  private calendarService: CalendarService,
                  private trainingPlansService: TrainingPlansService,
                  private calendarDialog: CalendarItemDialogService,
-                 private message: MessageService,
+                 public message: MessageService,
                  private quillConf: IQuillConfig,
                  private dialogs: any) {
 
