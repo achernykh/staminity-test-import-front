@@ -86,10 +86,7 @@ class UserSettingsTariffsCtrl {
      * Перезагрузить профиль
      */
     reload () {
-        this.userSettingsService.reload()
-        .then(() => {
-            this.$scope.$apply();
-        });
+        this.userSettingsService.reload(this.owner.userId);
     }
 }
 

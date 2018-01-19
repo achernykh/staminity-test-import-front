@@ -1,10 +1,14 @@
 import { element } from 'angular';
+import { Subject } from "rxjs/Rx";
+import { IUserProfile, IUserProfileShort } from "@api/user";
 import DisplayService from "../../core/display.service";
 import UserService from "../../core/user.service";
 import { countriesList } from './user-settings.constants';
 import { UserSettingsPasswordCtrl } from './user-settings-password/user-settings-password.dialog';
 
 export class UserSettingsService {
+
+    public updates = new Subject<IUserProfile | IUserProfileShort>();
 
     static $inject = ['$http', '$mdDialog', 'message', 'AuthService', 'DisplayService', 'UserService', 'SessionService'];
 
@@ -21,6 +25,14 @@ export class UserSettingsService {
     }
 
     /**
+     * Уведомление об изменении UserProfile
+     * @param userProfile: IUserProfile | IUserProfileShort
+     */
+    update (userProfile: IUserProfile | IUserProfileShort) {
+        this.updates.next(userProfile);
+    }
+
+    /**
      * Сохранить изменения 
      * @param changes
      * @returns {Promise<any>}
@@ -29,6 +41,7 @@ export class UserSettingsService {
         return this.userService.putProfile(changes)
         .then((userProfile) => {
             this.sessionService.updateUser(userProfile);
+            this.update(userProfile);
             this.message.toastInfo('settingsSaveComplete');
         })
         .catch((error) => {
@@ -48,6 +61,7 @@ export class UserSettingsService {
             if (this.sessionService.isCurrentUserId(userId)) {
                 this.sessionService.setUser(userProfile);
             }
+            this.update(userProfile);
             this.message.toastInfo('settingsSaveComplete');
         })
         .catch((error) => {
@@ -56,13 +70,14 @@ export class UserSettingsService {
     }
 
     /**
-     * Перезагрузить профиль текущего пользователя
+     * Перезагрузить профиль 
+     * @param userId?
      * @returns {Promise<any>}
      */
-    reload () {
-        return this.userService.getProfile(this.sessionService.getUserId())
+    reload (userId: number) {
+        return this.userService.getProfile(userId || this.sessionService.getUserId())
         .then((userProfile) => {
-            this.sessionService.updateUser(userProfile);
+            this.update(userProfile as any);
         })
         .catch((error) => {
 

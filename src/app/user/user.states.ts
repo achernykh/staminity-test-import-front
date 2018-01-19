@@ -11,7 +11,8 @@ const userSettings: any = {
         userId: null,
     },
     resolve: {
-        
+        userId: ["$stateParams", "SessionService", ($stateParams, sessionService) => $stateParams.userId || sessionService.getCurrentUserId()],
+        owner: ["userId", "UserService", (userId, userService) => userService.getProfile(+userId)],
     },
     views: {
         "application": {

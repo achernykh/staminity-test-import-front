@@ -7,16 +7,27 @@ import { UserSettingsService } from "./user-settings.service";
 
 class UserSettingsCtrl implements IComponentController {
 
+    // binding
+    userId: number;
+    owner: IUserProfile | IUserProfileShort;
+
     // inject
-    static $inject = ['$stateParams', 'message', 'SessionService', 'UserSettingsService'];
+    static $inject = ['$scope', '$stateParams', 'message', 'SessionService', 'UserSettingsService'];
 
     constructor (
+        private $scope: any,
         private $stateParams: any,
         private message: MessageService,
         private sessionService: SessionService,
         private userSettingsService: UserSettingsService,
     ) {
         window['UserSettingsCtrl'] = this;
+        userSettingsService.updates.subscribe((userProfile) => {
+            if (userProfile.userId === this.userId) {
+                this.owner = userProfile;
+                this.$scope.$apply();
+            }
+        });
     }
 
     get currentUser () : IUserProfile {
@@ -28,23 +39,19 @@ class UserSettingsCtrl implements IComponentController {
             this.currentUser.connections.allAthletes.groupMembers : [];
     }
 
-    get owner () : IUserProfile | IUserProfileShort {
-        const ownerId = Number(this.$stateParams.userId);
-        return ownerId && this.athletes.find((user) => user.userId === ownerId) || this.currentUser;
-    }
-
     /**
      * Открыта собственная страница настроек
      * @returns {boolean}
      */
     isOwnSettings () : boolean {
-        return this.owner.userId !== this.currentUser.userId;
+        return this.currentUser.userId === this.userId;
     }
 }
 
 export const UserSettingsComponent: IComponentOptions = {
     bindings: {
-        
+        userId: '<',
+        owner: '<',
     },
     controller: UserSettingsCtrl,
     controllerAs: '$userSettingsCtrl',
