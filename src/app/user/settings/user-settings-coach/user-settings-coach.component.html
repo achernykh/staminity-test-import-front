@@ -58,7 +58,13 @@
         <md-list-item flex layout="row">
             <md-input-container flex class="md-block no-message">
                 <label translate="user.settings.personalInfo.about"></label>
-                <textarea ng-model="$ctrl.datamodel.about" name="about" rows="2"></textarea>
+                <ng-quill-editor 
+                    ng-model="$ctrl.datamodel.about"
+                    placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                    modules="$ctrl.quillConfig.toolbarFull"
+                    st-quill-post-image
+                >
+                </ng-quill-editor>
             </md-input-container>
         </md-list-item>
         <md-list-item flex layout="row"> 
@@ -75,8 +81,14 @@
         </md-list-item> 
         <md-list-item flex layout="row"> 
             <md-input-container flex class="md-block no-message"> 
-                <label translate="user.athletes"></label> 
-                <textarea ng-model="$ctrl.datamodel.athletes" name="athletes" rows="2" placeholder="{{::'user.settings.personalInfo.athletesFull' | translate}}"></textarea> 
+                <label translate="user.athletes"></label>
+                <ng-quill-editor 
+                    ng-model="$ctrl.datamodel.athletes"
+                    placeholder="{{'user.settings.personalInfo.athletesFull' | translate}}"
+                    modules="$ctrl.quillConfig.toolbarFull"
+                    st-quill-post-image
+                >
+                </ng-quill-editor>
             </md-input-container> 
         </md-list-item> 
         <md-list-item> 
