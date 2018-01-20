@@ -1,0 +1,10 @@
+@import './color'; // цвета используемых палитр google-material
+@import './size'; // переменные для постояние стилей компоеннтов
+@import './animation'; // настройка animated.css
+@import './interactions'; // стилизация взаимодействий (курсоры, hover, ...)
+@import './font'; // кастомизация стардартных шрифтов material design
+@import './icon'; // google material icon + различные форматы и цвета
+@import "./layout"; // фикс стандартных angular material параметров, например добаление flex-2
+@import "./form"; // кастимозация типовых элементов для собственной концепции дизайна, фикс стандартных стилей
+@import './base'; // mixin transition, border-radius... + мусор, который надо чистить
+@import "./material-fix";
