@@ -82,7 +82,7 @@ export const AppMenuSettings = [
         name: "appMenu.methodology",
         link: "methodology",
         hideMobile: true,
-        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
+        //role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
     },
     {
         icon: "season",

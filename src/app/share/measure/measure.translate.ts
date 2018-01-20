@@ -59,6 +59,8 @@ export const _MEASURE_TRANSLATE = {
         percentFat: "Жир(%)",
         musculeMass: "Масса мышц(кг)",
         pulse: "Пульс покоя",
+        pulseCost: 'Пульсовая стоимость',
+        orthostaticPulse: 'Ортостатическая проба',
         sleepQuality: "Качество сна",
         sleepHours: "Часов сна",
         overallFeeling: "Общее состояние"

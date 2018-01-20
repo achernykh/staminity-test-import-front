@@ -1,4 +1,4 @@
-<md-toolbar class="md-primary">
+<md-toolbar class="md-primary" flex="none">
     <div class="md-toolbar-tools">
         <h2 flex>Уведомления</h2>
         <md-button class="md-icon-button" aria-label="More" ng-click="$ctrl.close()">
@@ -6,7 +6,7 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-list class="md-dense" flex>
+<md-list class="md-dense" flex="auto" style="overflow-y: auto">
     <md-list-item class="md-3-line" ng-class="{'read': notification.isRead}" ng-click="$ctrl.onClick($event, notification)"
                   ng-repeat="notification in $ctrl.notifications | filter track by notification.index">
         <avatar-pic type="notification.type"

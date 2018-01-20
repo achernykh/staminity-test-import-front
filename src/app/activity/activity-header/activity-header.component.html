@@ -8,7 +8,7 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.item.activity.view.isTemplate ? $ctrl.item.deleteTemplate() : $ctrl.item.onDelete()"
+                    <md-button ng-click="$ctrl.item.delete()"
                                ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.activity.auth.isCreator)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                         <span translate="measurement.toolbar.delete"></span>
@@ -116,7 +116,8 @@
                 </activity-header-chat>
             </md-tab-body>
         </md-tab>
-        <md-tab id="zones" flex layout="column" ng-if="!$ctrl.item.activity.view.isTemplate">
+        <md-tab id="zones" flex layout="column"
+                ng-if="::!($ctrl.item.activity.view.isTemplate || $ctrl.item.activity.view.isTrainingPlan)">
             <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill

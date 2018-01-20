@@ -38,6 +38,12 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
    */
   &[template=profile] {
 
+    .st-profile-template__header {
+      .info {
+        height: 100%;
+      }
+    }
+
     .st-application-frame__primary-toolbar {
       box-shadow: none;
       height: 30vh;
@@ -59,15 +65,28 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
     }
 
+    // Шаблон профиля с навигационной панелью
     &[nav-bar=true] {
+      .st-profile-template__header > .info {
+        height: calc(100% - 48px);
+        overflow: hidden;
+      }
       .st-application-frame__navbar {
-        top: calc(20vh - 48px);
+        position: absolute;
+        top: calc(30vh - 48px);
         display: inherit;
-
+        z-index: 2;
         .md-nav-bar {
-          margin-left: 0px;
+          margin-left: 0;
         }
-
+      }
+      .st-application-frame__content {
+        background-color: $grey-050;
+      }
+      @media (max-width: 959px) {
+        .st-application-frame__navbar {
+          top: calc(20vh - 48px);
+        }
       }
     }
 

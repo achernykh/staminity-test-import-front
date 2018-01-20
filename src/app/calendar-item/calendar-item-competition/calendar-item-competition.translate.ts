@@ -18,13 +18,16 @@ export const translateCompetition = {
             delete: "Удалить соревнование"
         },
         types: {
+            all: 'Все',
             triathlon: "Триатлон",
             run: "Бег",
             bike: "Велоспорт",
-            swim: "Плавание"
+            swim: "Плавание",
+            ski: "Лыжи"
         },
         distanceType: {
             label: "Тип соревнования",
+            all: 'Все',
             run: {
                 'marathon': "Марафон",
                 'halfMarathon': "Полумарафон",
@@ -60,6 +63,14 @@ export const translateCompetition = {
             },
             bike: {
                 custom: 'Другая дистанция'
+            },
+            ski: {
+                '10km': "10 км",
+                '15km': "15 км",
+                '30km': "30 км",
+                '50km': "50 км",
+                '70km': "70 км",
+                custom: 'Другая дистанция'
             }
 
         },
@@ -83,6 +94,7 @@ export const translateCompetition = {
         triathlon: "Триатлон",
         swim: "Плавание",
         bike: "Велоспорт",
+        ski: "Лыжи",
         target: "План и факт",
         stage: "Этап",
         trainersPrescription: "Установка тренера",
@@ -111,7 +123,8 @@ export const translateCompetition = {
             triathlon: "Triathlon",
             run: "Running",
             bike: "Cycling",
-            swim: "Swimming"
+            swim: "Swimming",
+            ski: "Skiing"
         },
         distanceType: {
             label: "Competition type",
@@ -150,6 +163,14 @@ export const translateCompetition = {
             },
             bike: {
                 custom: 'Other'
+            },
+            ski: {
+                '10km': "10 km",
+                '15km': "15 km",
+                '30km': "30 km",
+                '50km': "50 km",
+                '70km': "70 km",
+                custom: 'Other'
             }
 
         },
@@ -173,6 +194,7 @@ export const translateCompetition = {
         triathlon: "Triathlon",
         swim: "Swimming",
         bike: "Cycling",
+        ski: "Skiing",
         target: "Planned and actual data",
         stage: "Stage",
         trainersPrescription: "Coach prescription",

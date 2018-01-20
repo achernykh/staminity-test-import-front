@@ -89,30 +89,69 @@
                     </div>
                 </md-autocomplete>
             </md-list-item>
-
+            <!-- О себе -->
+            <md-subheader class="md-padding" translate="settings.personalInfo.about"></md-subheader>
             <md-list-item flex layout="row">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.club.public.about"
+                                 placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="settings.personalInfo.about"></label>
                     <textarea ng-model="$ctrl.club.public.about" name="about" rows="3" md-select-on-focus></textarea>
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
+            <!-- Условия -->
+            <md-subheader class="md-padding" translate="user.price"></md-subheader>
             <md-list-item flex layout="row">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.club.public.price"
+                                 placeholder="{{'settings.personalInfo.priceFull' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.price"></label>
                     <textarea ng-model="$ctrl.club.public.price" name="price" rows="2" placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
+            <!-- Контакты -->
+            <md-subheader class="md-padding" translate="user.contact"></md-subheader>
             <md-list-item flex layout="row">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.club.public.contact"
+                                 placeholder="{{'settings.personalInfo.contactFull' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.contact"></label>
                     <textarea ng-model="$ctrl.club.public.contact" name="contact" rows="2" placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
+            <!-- Достижения атлетов -->
+            <md-subheader class="md-padding" translate="user.athletes"></md-subheader>
             <md-list-item flex layout="row">
+                <ng-quill-editor ng-if="true" flex="auto"
+                                 ng-model="$ctrl.club.public.athletes"
+                                 placeholder="{{'settings.personalInfo.athletesFull' | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.changeForm()"
+                                 read-only="$ctrl.isViewMode"
+                                 st-quill-post-image>
+                </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.athletes"></label>
                     <textarea ng-model="$ctrl.club.public.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
-                </md-input-container>
+                </md-input-container>-->
             </md-list-item>
             <md-list-item>
                 <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>

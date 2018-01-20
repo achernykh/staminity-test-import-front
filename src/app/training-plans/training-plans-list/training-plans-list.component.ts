@@ -7,6 +7,7 @@ import { ITrainingPlanSearchRequest, ITrainingPlanSearchResult } from "@api/trai
 import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { FormMode } from "../../application.interface";
+import AuthService from "../../auth/auth.service";
 
 class TrainingPlansListCtrl implements IComponentController {
 
@@ -19,12 +20,13 @@ class TrainingPlansListCtrl implements IComponentController {
     private totalFound: number = null;
 
     // inject
-    static $inject = ['$scope', '$state', 'TrainingPlansService', 'TrainingPlanDialogService'];
+    static $inject = ['$scope', '$state', 'TrainingPlansService', 'TrainingPlanDialogService', 'AuthService'];
 
     constructor (private $scope: any,
                  private $state: StateService,
                  private trainingPlansService: TrainingPlansService,
-                 private trainingPlanDialogService: TrainingPlanDialogService) {
+                 private trainingPlanDialogService: TrainingPlanDialogService,
+                 private authService: AuthService) {
 
     }
 
@@ -51,8 +53,10 @@ class TrainingPlansListCtrl implements IComponentController {
     getTrainingPlanList(): Array<TrainingPlan> {
         return this.plans.list
             .filter(p =>
+                (!this.filter['isPublic'] || (this.filter['isPublic'] && p.isPublic)) &&
                 (!this.filter['name'] || (this.filter['name'] && p.name.indexOf(this.filter['name']) !== -1)) &&
-                (!this.filter.type || (this.filter.type && p.name.indexOf(this.filter.type) !== -1)) &&
+                (!this.filter.type || this.filter.type === 'all' || (this.filter.type && p.type.indexOf(this.filter.type) !== -1)) &&
+                (!this.filter.distanceType || this.filter.distanceType === 'all' || (this.filter.distanceType && p.distanceType.indexOf(this.filter.distanceType) !== -1)) &&
                 (!this.filter.tags || (this.filter.tags && this.filter.tags.every(t => p.tags.indexOf(t) !== -1))) &&
                 (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))));
     }
@@ -80,6 +84,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     plan (planId: number) {
+        debugger;
         this.$state.go('training-plan-id', {planId: planId});
     }
 
@@ -95,11 +100,15 @@ class TrainingPlansListCtrl implements IComponentController {
                 if (response.mode === FormMode.Post) {
                     this.plans.push(response.plan.prepareObjects());
                 } else if (response.mode === FormMode.Put) {
-                    debugger;
                     this.plans.put(response.plan.prepareObjects()); //plan = response.plan;
                 }
             })
             .then(plan => this.update());
+    }
+
+    private assignment (env: Event, plan: TrainingPlan): void {
+        this.trainingPlanDialogService.assignment(env, plan)
+            .then(response => {debugger;}, error => {debugger;});
     }
 
     private update (): void {

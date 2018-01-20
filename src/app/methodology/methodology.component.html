@@ -1,9 +1,10 @@
 <st-application-frame
         ng-cloak
-        class="methodology st-application-frame left-bar-show"
+        class="methodology st-application-frame"
+        ng-class="{'left-bar-show': $ctrl.checkAuth()}"
         template="application"
         navigation-bar="true"
-        left-bar="true"
+        left-bar="$ctrl.checkAuth()"
 
         nav-bar="true"
         nav-bar-state="$ctrl.currentState"
@@ -11,6 +12,7 @@
 
     <st-application-frame-title>
         <span class="md-title" translate="methodology.title"></span>
+        <span class="md-title" ng-if="$ctrl.club">{{::$ctrl.club.public.name}}</span>
     </st-application-frame-title>
 
     <st-application-frame-navbar layout="row">
@@ -31,7 +33,7 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="trainingPlans">
-        <training-plans-list
+        <training-plans-list ng-if="$ctrl.checkAuth()"
                 plans="$ctrl.plans"
                 filter="$ctrl.trainingPlansFilter"
                 update="$ctrl.trainingPlansFilterChange"
@@ -39,6 +41,13 @@
                 on-change-filter="$ctrl.saveSettings('charts')"
                 mobile-view="">
         </training-plans-list>
+        <section ng-if="!$ctrl.checkAuth()" class="methodology__access-lock"
+                 layout="column" layout-align="center center">
+            <md-icon flex="none"
+                     class="material-icons md-dark md-inactive">lock_outline</md-icon>
+            <p flex="none" class="md-body-1 md-dark center"
+               translate="methodology.accessLock.{{$ctrl.currentState}}"></p>
+        </section>
     </st-application-frame-content>
 
     <!-- Категории -->
@@ -56,13 +65,20 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="categories">
-        <categories
+        <categories ng-if="$ctrl.checkAuth()"
                 templates="$ctrl.templates"
                 categories="$ctrl.categories"
                 filter-params="$ctrl.filterParams"
                 user="$ctrl.currentUser"
                 club="$ctrl.club">
         </categories>
+        <section ng-if="!$ctrl.checkAuth()" class="methodology__access-lock"
+                 layout="column" layout-align="center center">
+            <md-icon flex="none"
+                     class="material-icons md-dark md-inactive">lock_outline</md-icon>
+            <p flex="none" class="md-body-1 md-dark center"
+               translate="methodology.accessLock.{{$ctrl.currentState}}"></p>
+        </section>
     </st-application-frame-content>
 
     <!-- Схемы периодизации -->
@@ -78,9 +94,16 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="periodization">
-        <st-periodization-scheme-list
+        <st-periodization-scheme-list ng-if="$ctrl.checkAuth()"
             scheme="$ctrl.currentPeriodizationScheme">
         </st-periodization-scheme-list>
+        <section ng-if="!$ctrl.checkAuth()" class="methodology__access-lock"
+                 layout="column" layout-align="center center">
+            <md-icon flex="none"
+                     class="material-icons md-dark md-inactive">lock_outline</md-icon>
+            <p flex="none" class="md-body-1 md-dark center"
+               translate="methodology.accessLock.{{$ctrl.currentState}}"></p>
+        </section>
     </st-application-frame-content>
 
     <!-- Шаблоны тренировок -->
@@ -129,13 +152,20 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="templates">
-        <templates
+        <templates ng-if="$ctrl.checkAuth()"
                 templates="$ctrl.templates"
                 categories="$ctrl.categories"
                 filter-params="$ctrl.filterParams"
                 user="$ctrl.currentUser"
                 club="$ctrl.club">
         </templates>
+        <section ng-if="!$ctrl.checkAuth()" class="methodology__access-lock"
+                 layout="column" layout-align="center center">
+            <md-icon flex="none"
+                     class="material-icons md-dark md-inactive">lock_outline</md-icon>
+            <p flex="none" class="md-body-1 md-dark center"
+               translate="methodology.accessLock.{{$ctrl.currentState}}"></p>
+        </section>
     </st-application-frame-content>
 
 </st-application-frame>

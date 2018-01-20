@@ -23,11 +23,12 @@ export class ActivityIntervalG extends ActivityInterval implements IActivityInte
     }
 
     clear(keys: string[] = this.keys): IActivityIntervalG {
+        let interval: IActivityIntervalG = Object.assign({}, this);
         if (this.hasRecalculate) {
             ["totalMeasures"].map((key) => this.keys.splice(this.keys.indexOf(key), 1));
         }
-        keys.map((p) => delete this[p]);
-        return this as IActivityIntervalG;
+        keys.map((p) => interval.hasOwnProperty(p) && delete interval[p]);
+        return interval;
     }
 
     /**

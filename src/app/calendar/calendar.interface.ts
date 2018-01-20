@@ -21,7 +21,7 @@ export interface ICalendarDay {
 }
 
 export interface ICalendarDayData {
-    pos: number; // позиция от первого дня плана
+    //pos: number; // позиция от первого дня плана
     title: string; // день в формате DD
     month: string; // месяц в формате MMM
     day: string; // день в формате dd

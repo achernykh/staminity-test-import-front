@@ -46,27 +46,30 @@
                                    placeholder="{{trainingPlans.name.placeholder}}"
                                    ng-model="$ctrl.filter.type"
                                    ng-change="$ctrl.change()">
-                            <md-option ng-repeat="type in $ctrl.config.types track by $index"
+                            <md-option value="all" translate="competition.types.all"></md-option>
+                            <md-divider></md-divider>
+                            <md-option ng-repeat="type in $ctrl.competitionConfig.types track by $index"
                                        value="{{type}}">
-                                {{'plan.types.' + type | translate}}
+                                {{'competition.types.' + type | translate}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </md-list-item>
                 <!-- Тип дистанции -->
-                <md-list-item>
+                <md-list-item ng-if="$ctrl.filter.type && $ctrl.filter.type !== 'all'">
                     <md-input-container class="md-block no-message" md-no-float layout="row">
                         <label translate="trainingPlans.distanceType.label"></label>
                         <md-icon flex="none" class="md-dark"
                                  md-svg-src="/assets/icon/competition.svg"></md-icon>
-                        <md-select flex name="distanceType" class="icon" required="{{$ctrl.filter.isPublic}}"
-                                   ng-model="$ctrl.filter.distanceType"
+                        <md-select flex name="distanceType" class="icon" ng-required="{{$ctrl.filter.isPublic}}"
+                                   ng-model="$ctrl.distanceType"
                                    placeholder="{{trainingPlans.distanceType.placeholder}}"
                                    ng-change="$ctrl.change()">
-                            <md-option
-                                    ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.filter.type] track by $index"
-                                    value="{{type}}">
-                                {{'plan.distanceType.' + type | translate}}
+                            <md-option value="all" translate="competition.distanceType.all"></md-option>
+                            <md-divider></md-divider>
+                            <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
+                                       filter:{type: $ctrl.filter.type}" ng-value="type">
+                                {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                             </md-option>
                         </md-select>
                     </md-input-container>

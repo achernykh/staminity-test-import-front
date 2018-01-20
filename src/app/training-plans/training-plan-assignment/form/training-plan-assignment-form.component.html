@@ -1,0 +1,128 @@
+<md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
+            <md-icon class="material-icons md-active" aria-label="Close dialog">arrow_back</md-icon>
+        </md-button>
+        <h2 translate="trainingPlans.assignment.form.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-dialog-content flex="auto" layout="column">
+    <form flex="auto" layout="column" name="$ctrl.assignmentForm">
+        <md-list class="md-dense">
+            <!-- Выбор атлета-->
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <label translate="trainingPlans.assignment.form.athlete.label"></label>
+                    <md-select flex name="type" multiple  required
+                               ng-disabled="$ctrl.assign"
+                               md-selected-text="$ctrl.athleteSelectorText()"
+                               placeholder="{{trainingPlans.assignment.form.athlete.placeholder}}"
+                               ng-model="$ctrl.data.userId"
+                               ng-change="$ctrl.changeParam()">
+                        <md-option ng-repeat="athlete in $ctrl.athletes track by athlete.userId"
+                                   value="{{athlete.userId}}">
+                            <userpic profile="athlete" unlink="true"></userpic>
+                            <span>{{athlete | userName}}</span>
+                        </md-option>
+                    </md-select>
+                    <div class="hint" translate="trainingPlans.assignment.form.athlete.hint"></div>
+                    <div ng-messages="$ctrl.assignmentForm.athlete.$error" role="alert">
+                        <div ng-message-exp="['required']" translate="form.required"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Режим присвоения плана -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <label translate="trainingPlans.assignment.form.applyMode.label"></label>
+                    <md-select flex name="type" required
+                               placeholder="{{trainingPlans.assignment.form.applyMode.placeholder}}"
+                               ng-disabled="$ctrl.assign"
+                               ng-model="$ctrl.data.applyMode"
+                               ng-change="$ctrl.changeParam()">
+                        <md-option ng-repeat="type in $ctrl.applyModeTypes track by $index"
+                                   value="{{type}}">
+                            {{'trainingPlans.assignment.form.applyMode.' + type | translate}}
+                        </md-option>
+                    </md-select>
+                    <div class="hint" translate="trainingPlans.assignment.form.applyMode.hint"></div>
+                    <div ng-messages="$ctrl.assignmentForm.applyMode.$error" role="alert">
+                        <div ng-message-exp="['required']" translate="form.required"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Режим присвоения дат -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" md-no-float layout="row">
+                    <label translate="trainingPlans.assignment.form.applyDateMode.label"></label>
+                    <md-select flex name="type" required
+                               placeholder="{{trainingPlans.assignment.form.applyDateMode.placeholder}}"
+                               ng-disabled="$ctrl.assign"
+                               ng-model="$ctrl.data.applyDateMode"
+                               ng-change="$ctrl.changeParam()">
+                        <md-option ng-repeat="type in $ctrl.applyDateTypes track by $index"
+                                   value="{{type}}">
+                            {{'trainingPlans.assignment.form.applyDateMode.' + type | translate}}
+                        </md-option>
+                    </md-select>
+                    <div class="hint" translate="trainingPlans.assignment.form.applyDateMode.hint"></div>
+                    <div ng-messages="$ctrl.assignmentForm.applyDateMode.$error" role="alert">
+                        <div ng-message-exp="['required']" translate="form.required"></div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Дата с -->
+            <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.data.applyDateMode === 'F'">
+                <md-input-container flex="auto" class="no-message">
+                    <label translate="trainingPlans.assignment.form.applyFromDate.label"></label>
+                    <md-datepicker flex="auto"
+                                   required
+                                   ng-disabled="$ctrl.assign"
+                                   ng-model="$ctrl.applyFromDate"
+                                   name="applyFromDate" md-hide-icons="calendar">
+                    </md-datepicker>
+                </md-input-container>
+            </md-list-item>
+            <!-- Дата по -->
+            <md-list-item layout="row" layout-align="start center" ng-if="$ctrl.data.applyDateMode === 'T'">
+                <md-input-container flex="auto" class="no-message">
+                    <label translate="trainingPlans.assignment.form.applyToDate.label"></label>
+                    <md-datepicker flex="auto"
+                                   required
+                                   ng-disabled="$ctrl.assign"
+                                   ng-model="$ctrl.applyToDate"
+                                   name="applyToDate" md-hide-icons="calendar">
+                    </md-datepicker>
+                </md-input-container>
+            </md-list-item>
+            <!-- Подписка на обновления -->
+            <md-list-item ng-if="$ctrl.plan.propagateMods">
+                <p class="md-caption" translate="trainingPlans.assignment.enabledSync"></p>
+                <md-switch class="md-secondary md-primary" ng-model="$ctrl.data.enabledSync"></md-switch>
+            </md-list-item>
+        </md-list>
+    </form>
+    <p flex="none" class="md-caption md-padding" style="color: darkred;">
+        Начало плана {{$ctrl.plan.startDate}},
+        окончание плана {{}},
+        смещение начала {{$ctrl.plan.firstItemCalendarShift}},
+        смещение окончания {{$ctrl.plan.lastItemCalendarShift}}
+    </p>
+    <p flex="none" class="md-caption md-padding" style="color: darkred;">
+        Расчетная первая дата: {{$ctrl.fistItemDate}}
+    </p>
+</md-dialog-content>
+<md-dialog-actions flex="none" layout="row" style="background: white">
+    <span flex></span>
+    <md-button ng-if="!$ctrl.isViewMode"
+               ng-class="{'md-warn': !$ctrl.assignmentForm.$valid}"
+               ng-disabled="!$ctrl.assignmentForm.$dirty"
+               ng-click="($ctrl.assignmentForm.$valid) ? $ctrl.save() : null">
+        <span translate="trainingPlans.assignment.form.save"></span>
+    </md-button>
+</md-dialog-actions>

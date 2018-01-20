@@ -11,6 +11,7 @@ import { IQuillConfig } from "@app/share/quill/quill.config";
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "../calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
+import { TrainingPlansService } from "../../training-plans/training-plans.service";
 
 export class CalendarItemRecordCtrl implements IComponentController {
 
@@ -19,7 +20,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     options: ICalendarItemDialogOptions;
     owner: IUserProfile;
     onAnswer: (response: ICalendarItemDialogResponse) => Promise<void>;
-    onCancel: () => IPromise<void>;
+    onCancel: () => Promise<void>;
 
     // public
     record: CalendarItemRecord;
@@ -29,13 +30,14 @@ export class CalendarItemRecordCtrl implements IComponentController {
     private recordForm: INgModelController;
 
     static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'CalendarItemDialogService',
-        'message', 'quillConfig'];
+        'TrainingPlansService', 'message', 'quillConfig'];
 
     constructor (
         private config: ICalendarItemRecordConfig,
         private session: SessionService,
         private calendarService: CalendarService,
         private calendarDialog: CalendarItemDialogService,
+        private trainingPlansService: TrainingPlansService,
         private message: MessageService,
         private quillConf: IQuillConfig
     ) {
@@ -83,36 +85,92 @@ export class CalendarItemRecordCtrl implements IComponentController {
     }
 
     onSave () {
-
         this.record.recordHeader.editParams.asyncEventsDateFrom = this.options.calendarRange.dateStart;
         this.record.recordHeader.editParams.asyncEventsDateTo = this.options.calendarRange.dateEnd;
 
         if ( this.record.view.isPost ) {
             this.calendarService.postItem(this.record.build())
-            .then(response => {
-                this.record.compile(response);// сохраняем id, revision в обьекте
-                this.message.toastInfo('recordCreated');
-                this.close();
-            }, error => this.message.toastError(error));
+                .then(response => {
+                    this.record.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('recordCreated');
+                    this.close();
+                }, error => this.message.toastError(error));
         }
         if ( this.record.view.isPut ) {
             this.calendarService.putItem(this.record.build())
-            .then((response)=> {
-                this.record.compile(response); // сохраняем id, revision в обьекте
-                this.message.toastInfo('recordUpdated');
-                this.close();
-            }, error => this.message.toastError(error));
+                .then((response)=> {
+                    this.record.compile(response); // сохраняем id, revision в обьекте
+                    this.message.toastInfo('recordUpdated');
+                    this.close();
+                }, error => this.message.toastError(error));
         }
     }
 
     onDelete(rmParams: Object) {
         this.calendarService.deleteItem('F', [this.record.calendarItemId], rmParams)
-        .then(() => {
-            this.message.toastInfo('recordDeleted');
-            this.close();
-        }, error => this.message.toastError(error));
+            .then(() => {
+                this.message.toastInfo('recordDeleted');
+                this.onAnswer({formMode: FormMode.Delete, item: this.record.build()});
+            }, error => this.message.toastError(error));
     }
 
+    deleteTrainingPlanRecord(rmParams: Object) {
+        this.trainingPlansService.deleteItem(this.options.trainingPlanOptions.planId, this.record.build(), false, rmParams)
+            .then(() => {
+                this.message.toastInfo('recordDeleted');
+                this.onAnswer({formMode: FormMode.Delete, item: this.record.build()});
+            }, error => this.message.toastError(error));
+    }
+
+    saveTrainingPlanRecord(): void {
+        //this.inAction = true;
+
+        if (this.record.view.isPost) {
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+                .then((response)=> {
+                    this.record.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('recordCreated');
+                    this.onAnswer({formMode: FormMode.Post, item: this.record.build()});
+                }, error => this.message.toastError(error));
+                //.then(() => this.inAction = false);
+        } else if (this.record.view.isPut) {
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+                .then((response)=> {
+                    this.record.compile(response);// сохраняем id, revision в обьекте
+                    this.message.toastInfo('recordUpdated');
+                    this.onAnswer({formMode: FormMode.Put, item: this.record.build()});
+                }, error => this.message.toastError(error));
+                //.then(() => this.inAction = false);
+        }
+    }
+/*
+    onEditorCreated (editor) {
+        editor.getModule('toolbar').addHandler('image', () => {
+            new Promise((resolve, reject) => {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.click();
+
+                input.onchange = () => {
+                    const file = input.files[0];
+
+                    if (/^image\//.test(file.type)) {
+                        resolve(file);
+                    } else {
+                        reject();
+                    }
+                };
+            })
+            .then((picture) => this.calendarService.postImage(picture))
+            .then((url) => {
+                const range = editor.getSelection();
+                editor.insertEmbed(range.index, 'image', url);
+            }, (error) => {
+                this.message.toastError(error);
+            });
+        });
+    }
+*/
     private close (): void {
         this.onCancel();
     }

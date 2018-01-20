@@ -29,6 +29,7 @@
     </div>
 </md-toolbar>
 <md-content flex="auto" layout="row" layout-xs="column" layout-fill="true">
+    <!-- Виды тренировок -->
     <section class="calendar-item-wizard__activity" flex="25" flex-xs="auto">
         <md-subheader flex="none">{{::'activity.toolbar.title' | translate}}</md-subheader>
         <md-list flex="auto" class="md-dense">
@@ -44,6 +45,7 @@
             </md-list-item>
         </md-list>
     </section>
+    <!-- Виды событий -->
     <section class="calendar-item-wizard__record" flex="25" flex-xs="auto">
         <md-subheader flex="none">{{::'record.toolbar.title' | translate}}</md-subheader>
         <md-list flex="auto" class="md-dense">
@@ -58,8 +60,8 @@
                 <p class="md-body-1 md-dark">{{'record.' + type | translate}}</p>
             </md-list-item>
         </md-list>
-
     </section>
+    <!-- Виды соревнований -->
     <section class="calendar-item-wizard__competition" flex="25" flex-xs="auto">
         <md-subheader flex="none">{{::'competition.toolbar.title' | translate}}</md-subheader>
         <md-list flex="auto" class="md-dense">
@@ -75,10 +77,11 @@
             </md-list-item>
         </md-list>
     </section>
+    <!-- Виды измерений -->
     <section class="calendar-item-wizard__measurement" flex="25" flex-xs="auto">
         <md-subheader flex="none">{{::'measurement.toolbar.title' | translate}}</md-subheader>
         <md-list flex="auto" class="md-dense">
-            <md-list-item ng-click="$ctrl.measurement()">
+            <md-list-item ng-click="$ctrl.measurement()" ng-disabled="$ctrl.options.trainingPlanMode">
                 <div flex="none" layout="row" layout-align="center center"
                      class="calendar-item-measurement bg-circle-32 md-avatar">
                     <md-icon flex="none" md-svg-src="/assets/icon/measurement.svg"

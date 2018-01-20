@@ -10,22 +10,24 @@ import { ICalendarItem } from "@api/calendar";
 export class Calendar {
 
     weeks: Array<ICalendarWeek> = []; //todo rename to weeks
-    pos: number = 0;
+    pos: number;
+    range: Array<number>;
 
     // private
     // todo need comment
     private date: Date;
     private readonly dateFormat: string = 'YYYY-MM-DD';
-    range: Array<number> = [0, 1];
     private currentWeek: ICalendarWeek;
 
     constructor(
         private $scope: IScope,
         private $anchorScroll: IAnchorScrollService,
-        private calendarService: CalendarService,
+        private itemService: CalendarService,
         private owner: IUserProfile,
         private cache?: Array<ICalendarItem>) {
 
+        this.pos = 0;
+        this.range = [0,1];
     }
 
     toDate (date) {
@@ -74,8 +76,8 @@ export class Calendar {
     takeWeek (date) {
         date = moment(date).startOf('week');
         let week = this.weeks.find(w => w.date.isSame(date, 'week'));
-        let calendarFirst = this.weeks[0] && moment(this.weeks[0].date);
-        let calendarLast = this.weeks[0] && moment(this.weeks[this.weeks.length - 1].date);
+        let calendarFirst: Moment = this.weeks[0] && moment(this.weeks[0].date);
+        let calendarLast: Moment = this.weeks[0] && moment(this.weeks[this.weeks.length - 1].date);
 
         if (week) {
             return Promise.resolve(week);
@@ -93,15 +95,13 @@ export class Calendar {
      * @param date
      * @param calendarItems
      */
-    dayItem (date, calendarItems):ICalendarDay {
-        //debugger;
-        //console.log('dayItem',date.utc(),date.utc().add(moment().utcOffset(),'minutes').format());
+    dayItem (date: Moment, calendarItems: Array<ICalendarItem>):ICalendarDay {
         return {
             key: date.format(this.dateFormat),
             selected: false,
             date: date.format(this.dateFormat),
             data: {
-                pos: ++this.pos,
+                //pos: ++this.pos, //> 7 ? Math.ceil(this.pos / 2) : this.pos,
                 title: date.format('DD'),
                 month: date.format('MMM'),
                 day: date.format('dd'),
@@ -154,7 +154,6 @@ export class Calendar {
                     })
                     .catch((exc) => { console.log('Calendar loading fail', exc); });
             });
-
         return items;
     }
 
@@ -211,7 +210,7 @@ export class Calendar {
                     return week;
                 }) :
 
-            this.calendarService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
+            this.itemService.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat), this.owner.userId)
                 .then(items => {
                     week.subItem = days(items);
                     week.changes++;
@@ -230,7 +229,7 @@ export class Calendar {
      */
     post (item: ICalendarItem, parentId?: number): void {
         if (this.include(item.calendarItemId, item.revision)) {
-            console.warn('post: item already exist');
+            console.info('post: item already exist');
             return;
         }
         let child: ICalendarItem;
@@ -238,32 +237,33 @@ export class Calendar {
             child = copy(item);
             item = this.searchItem(parentId);
             if (!item) { console.error('post: parent not found'); return;}
+            this.delete(item);
         }
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
         let d = moment(item.dateStart).weekday();
 
         if (w !== -1 && d >= 0 && this.weeks[w]) {
-            //Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)});
-            if (!(parentId && item.calendarItemType === 'activity')) {
-                console.info('post: item success');
+            if (!parentId || item.calendarItemType === 'record') {
+                item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                console.info('post: item success', item.calendarItemId, item.revision, item['index']);
                 this.weeks[w].subItem[d].data.calendarItems.push(item);
             } else {
-                let p = this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
-                if (p !== -1 && this.weeks[w].subItem[d].data.calendarItems[p].calendarItems) {
-                    console.info('post: child item success');
-                    let parent: ICalendarItem = this.weeks[w].subItem[d].data.calendarItems[p];
-                    parent['index'] ++;
-                    parent.calendarItems.push(child);
-                    this.weeks[w].subItem[d].data.calendarItems.splice(p, 1, parent);
-                    //this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.push(child);
-                } else {
-                    console.error('post: child position not found');
-                }
+                item['index'] =  Number(`${item["index"] + 1}`);
+                let p = item.calendarItems.findIndex(i => i.calendarItemId === child.calendarItemId);
+                p !== -1 ? item.calendarItems.splice(p,1,child) : item.calendarItems.push(child);
+                this.weeks[w].subItem[d].data.calendarItems.push(item);
+                console.info('post: item with child success', item.calendarItemId, item.revision, item['index']);
+                this.$scope.$apply();
             }
             this.weeks[w].changes++;
             this.$scope.$applyAsync();
         } else {
-            console.warn('post: position error');
+            if (this.hasCache) {
+                this.cache.push(item);
+                console.info('post: save item to cache', item.calendarItemId, item.revision, item['index']);
+            } else {
+                console.warn('post: position error');
+            }
         }
     }
 
@@ -294,7 +294,11 @@ export class Calendar {
         if (parentId && item.calendarItemType === 'activity') {
             child = copy(item);
             item = this.searchItem(parentId);
-            if (!item) { console.error('delete: parent not found'); return;}
+            if (!item) { console.error('calendar datamodel: delete parent not found'); return;}
+        }
+        if (!item || !item.hasOwnProperty('dateStart')) {
+            console.info(`calendar datamodel: item not found or not exist`);
+            return;
         }
 
         let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-WW'));
@@ -302,13 +306,13 @@ export class Calendar {
         let p = w !== -1 ? this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
         if (w !== -1 && d >= 0 && p >= 0) {
-            if (!(parentId && item.calendarItemType === 'activity')) {
-                console.info('delete: item success');
-                this.weeks[w].subItem[d].data.calendarItems.splice(p,1);
+            if (!parentId || item.calendarItemType === 'record') {
+                console.info('calendar datamodel: delete item success');
+                this.weeks[w].subItem[d].data.calendarItems.splice(p, 1);
             } else {
                 let pos: number = this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.findIndex(c => c.calendarItemId === child.calendarItemId);
                 if (pos !== -1) {
-                    console.info('delete: child item success');
+                    console.info('calendar datamodel: delete child item success');
                     this.weeks[w].subItem[d].data.calendarItems[p]['index'] ++;
                     this.weeks[w].subItem[d].data.calendarItems[p].calendarItems.splice(pos,1);
                 }
@@ -316,7 +320,7 @@ export class Calendar {
             this.weeks[w].changes++;
             this.$scope.$applyAsync();
         } else {
-            console.error('delete: item not found');
+            console.error('calendar datamodel: delete item not found');
         }
     }
 
@@ -348,7 +352,8 @@ export class Calendar {
                 child = i.calendarItems.findIndex(c => c.calendarItemId === id);
             }
         })));
-        return  (include && child && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
+        console.info('calendar datamodel: search result', include, !child, week, day, pos);
+        return  (include && child && child !== -1 && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
                 (include && !child && this.weeks[week].subItem[day].data.calendarItems[pos]) || null;
     }
 
@@ -385,7 +390,7 @@ export class Calendar {
      * @returns {number}
      */
     private getWeekSeed( w: string ): number {
-        return this.weeks.some(d => d.week === w) && this.weeks.findIndex(d => d.week === w) || null;
+        return this.weeks.some(d => d.week === w) ? this.weeks.findIndex(d => d.week === w) : -1;
     }
 
 

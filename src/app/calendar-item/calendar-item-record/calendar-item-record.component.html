@@ -9,19 +9,28 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.record.view.isPost">
+                        <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
+                        $ctrl.onDelete() :
+                        $ctrl.deleteTrainingPlanRecord()"
+                                   ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="activity.toolbar.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.onDelete({rmPastItems: false, rmFutureItems: true})" ng-disabled="$ctrl.record.view.isPost">
+                        <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
+                        $ctrl.onDelete({rmPastItems: false, rmFutureItems: true}) :
+                        $ctrl.deleteTrainingPlanRecord({rmPastItems: false, rmFutureItems: true})"
+                                   ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteFuture"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="$ctrl.record.isRepeated">
-                        <md-button ng-click="$ctrl.onDelete({rmPastItems: true, rmFutureItems: true})" ng-disabled="$ctrl.record.view.isPost">
+                        <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
+                        $ctrl.onDelete({rmPastItems: true, rmFutureItems: true}) :
+                        $ctrl.deleteTrainingPlanRecord({rmPastItems: true, rmFutureItems: true})"
+                                   ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="record.toolbar.deleteAll"></span>
                         </md-button>
@@ -84,7 +93,8 @@
                         </md-select>
                     </md-input-container>
                 </md-list-item>
-                <md-list-item layout="row" layout-align="start center">
+                <md-list-item layout="row" layout-align="start center"
+                              ng-if="!($ctrl.options.templateMode || ($ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates))">
                     <md-input-container flex="auto" class="no-message" md-no-float>
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                         <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
@@ -99,6 +109,12 @@
                             </div>
                         </div>
                     </md-input-container>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates">
+                    <md-icon class="material-icons md-dark" style="margin-right: 20px">today</md-icon>
+                    <p class="md-caption"
+                       translate="activity.dynamicDate"
+                       translate-values="{week: $ctrl.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.options.trainingPlanOptions.dayNumber + 1}"></p>
                 </md-list-item>
                 <md-list-item ng-if="!$ctrl.record.view.isView">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">repeat</md-icon>
@@ -163,6 +179,7 @@
                         <label translate="record.endType.label"></label>
                         <md-icon flex="none" class="md-dark" md-svg-src=""></md-icon>
                         <md-select flex name="endType" class="icon"
+                                   ng-disabled="$ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates"
                                    ng-model="$ctrl.record.recordHeader.repeat.endType"
                                    ng-change="">
                             <md-option ng-repeat="type in $ctrl.config.endTypes"
@@ -225,8 +242,9 @@
             ></ng-quill-editor>
         </div>
     </md-content>
-
-    <md-dialog-actions flex="none" layout="row" style="background: white">
+    <!-- Календарь -->
+    <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
                    ng-click="$ctrl.record.view.isPut = true">
@@ -237,6 +255,18 @@
                    ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
                    ng-click="($ctrl.recordForm.$valid) ? $ctrl.onSave() : null">
             <span translate="activity.save"></span>
+        </md-button>
+    </md-dialog-actions>
+    <!-- Тренировочный план -->
+    <md-dialog-actions ng-if="$ctrl.record.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
+        <span flex></span>
+        <md-button ng-if="!$ctrl.record.view.isView"
+                   type="submit"
+                   ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
+                   ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
+                   translate="activity.save"
+                   ng-click="$ctrl.recordForm.$valid ? $ctrl.saveTrainingPlanRecord() : null">
         </md-button>
     </md-dialog-actions>
 </div>

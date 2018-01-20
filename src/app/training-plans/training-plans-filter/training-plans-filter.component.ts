@@ -4,6 +4,7 @@ import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { TrainingPlanConfig } from "@app/training-plans/training-plan/training-plan.config";
+import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
 
 class TrainingPlansFilterCtrl implements IComponentController {
 
@@ -16,11 +17,12 @@ class TrainingPlansFilterCtrl implements IComponentController {
     private panel: 'plans' | 'events' | 'hide' = 'plans';
 
     // inject
-    static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig'];
+    static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig'];
 
     constructor (
         private trainingPlanDialogService: TrainingPlanDialogService,
-        private config: TrainingPlanConfig) {
+        private config: TrainingPlanConfig,
+        private competitionConfig: ICompetitionConfig) {
 
     }
 
@@ -32,6 +34,16 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
     onPost (env: Event) {
         //this.trainingPlanDialogService.post(env);
+    }
+
+    get distanceType () : any {
+        return this.filter.type && this.competitionConfig.distanceTypes
+                .find((t) => t.type === this.filter.type && t.code === this.filter.distanceType);
+    }
+
+    set distanceType (distanceType: any) {
+        distanceType.hasOwnProperty('code') ?
+            this.filter.distanceType = distanceType.code : this.filter.distanceType = distanceType;
     }
 
     private change (): void {

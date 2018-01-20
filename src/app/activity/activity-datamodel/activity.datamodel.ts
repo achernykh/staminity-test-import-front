@@ -243,7 +243,11 @@ export class Activity extends CalendarItem {
             dateEnd: this.dateEnd, // timestamp даты и времени окончания
             userProfileOwner: userProfile || this.userProfileOwner,
             userProfileCreator: this.userProfileCreator,
-            activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()})
+            //activityHeader: Object.assign(this.header.build(), {intervals: this.intervals.build()}),
+            activityHeader: Object.assign({},
+                this.header.build(),
+                {intervals: this.intervals.build()},
+                {activityId: this.header.activityId || this.activityHeader.activityId})
         };
     }
 

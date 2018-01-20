@@ -69,7 +69,7 @@
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section layout="row" layout-align="space-between center">
                 <div flex="25" class="percent md-caption tight-07">
-                    <span>{{$ctrl.activity.percent / 100 | percent}}</span>
+                    <span>{{$ctrl.activity.percent / 100 | stPercent}}</span>
                 </div>
 
                 <div flex="none" layout="row" layout-align="center center"
@@ -143,9 +143,15 @@
             <section ng-switch-when="plan">
                 <div ng-if="::($ctrl.activity.intensityMeasure && !$ctrl.activity.isStructured)"
                      class="md-caption md-dark" style="margin-top: 2px">
-                    <span>{{::$ctrl.activity.intervals.PW | measureCalcInterval:$ctrl.activity.header.sportBasic:$ctrl.activity.intensityMeasure}}</span>
-                    <span>&nbsp;</span>
-                    <span class="md-inactive">{{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
+                    <span>{{::$ctrl.activity.intervals.PW | stMeasurePrintIntensity:
+                        $ctrl.activity.header.sportBasic:
+                        $ctrl.activity.intensityMeasure:
+                        $ctrl.activity.view.isTrainingPlan}}</span>
+                    <span ng-if="$ctrl.activity.view.isTrainingPlan" translate="FTP"></span>
+                    <span ng-if="$ctrl.activity.view.isTrainingPlan">
+                        {{$ctrl.activity.intensityMeasure | translate | lowercase}}</span>
+                    <span ng-if="!$ctrl.activity.view.isTrainingPlan" class="md-inactive">
+                        {{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
                 </div>
                 <div flex ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
                      style="height: 4px"></div>

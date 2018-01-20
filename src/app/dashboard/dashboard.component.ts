@@ -12,32 +12,7 @@ import {
 import { times } from '../share/util.js';
 import {Activity} from "../activity/activity-datamodel/activity.datamodel";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
-import { FormMode } from "@app/application.interface";
-
-
-const getItemById = (cache: Array<IDashboardWeek>, id: number):ICalendarItem => {
-    let findData: boolean = false;
-    let w,d,c,i: number = 0;
-
-    for (w = 0; w < cache.length; w++) {
-        for(c = 0; c < cache[w].calendar.length; c++) {
-            for(d = 0; d < cache[w].calendar[c].subItem.length; d++) {
-                i = cache[w].calendar[c].subItem[d].data.calendarItems.findIndex(item => item.calendarItemId === id);
-                if (i !== -1) {
-                    findData = true;
-                    break;
-                }
-            }
-            if (findData) {
-                break;
-            }
-        }
-        if (findData) {
-            break;
-        }
-    }
-    return findData && cache[w].calendar[c].subItem[d].data.calendarItems[i] || null;
-};
+import { FormMode } from "../application.interface";
 
 export interface IDashboardWeek {
     sid: number;
@@ -89,7 +64,6 @@ export class DashboardCtrl implements IComponentController {
         private dialogs: any) {
 
     }
-
     toolbarDate() {
         return new Date(moment(this.currentDate).format(this.dateFormat));
     }
@@ -172,30 +146,37 @@ export class DashboardCtrl implements IComponentController {
             .filter(message => message.value.hasOwnProperty('userProfileOwner') &&
                 this.athletes.members.some(member => member.userProfile.userId === message.value.userProfileOwner.userId))// &&
                 //!message.value.parentId)
-            .map(message => {
+            /**.map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
                 return message;
-            })
+            })**/
             // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
-            .delay(500)
+            .delay(1)
             .subscribe((message) => {
+                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
-                        this.onPostItem(<ICalendarItem>message.value);
-                        this.$scope.$apply();
+                        this.onPostItem(<ICalendarItem>message.value, message.value.parentId);
+                        this.$scope.$applyAsync();
                         break;
                     }
                     case 'D': {
-                        this.onDeleteItem(<ICalendarItem>message.value);
-                        this.$scope.$apply();
+                        this.onDeleteItem(<ICalendarItem>message.value, message.value.parentId);
+                        this.$scope.$applyAsync();
                         break;
                     }
                     case 'U': {
-                        this.onDeleteItem(getItemById(this.cache, message.value.calendarItemId));
-                        this.onPostItem(<ICalendarItem>message.value);
-                        this.$scope.$apply();
+                        if (!this.include(message.value.calendarItemId, message.value.revision)) {
+                            if (!message.value.parentId || message.value.calendarItemType === 'record') {
+                                this.onDeleteItem(this.searchItem(message.value.calendarItemId), message.value.parentId);
+                            }
+                            this.onPostItem(<ICalendarItem>message.value, message.value.parentId);
+                            this.$scope.$applyAsync();
+                        } else {
+                            console.info('dashboard: item already exist');
+                        }
                         break;
                     }
                 }
@@ -211,34 +192,21 @@ export class DashboardCtrl implements IComponentController {
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
-        debugger;
-        console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
-        let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
+        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        if (item.calendarItemType === 'record' && item.recordHeader && item.recordHeader.repeat) {console.info('sync update: skip parent record'); return;}
         switch (mode) {
             case FormMode.Post: {
-                //if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
-                //this.calendar.post(item);
-                if (this.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
+                if (this.include(item.calendarItemId, item.revision)) { console.info('sync post: item already exist'); return; }
                 this.onPostItem(item);
-                //this.$scope.$apply();
-                //this.$scope.$applyAsync();
-                //this.$scope.$apply();
                 break;
             }
             case FormMode.Put: {
-                //this.calendar.delete(item);
-                //this.calendar.post(item);
-                this.onDeleteItem(getItemById(this.cache, item.calendarItemId));
+                this.onDeleteItem(item);
                 this.onPostItem(item);
-                //this.$scope.$apply();
-                //this.$scope.$applyAsync();
                 break;
             }
             case FormMode.Delete: {
-                //this.calendar.delete(item);
                 this.onDeleteItem(item);
-                //this.$scope.$apply();
-                //this.$scope.$applyAsync();
                 break;
             }
         }
@@ -326,18 +294,43 @@ export class DashboardCtrl implements IComponentController {
     /**
      * Создание записи календаря
      * @param item
+     * @param parentId
      */
     onPostItem(item: ICalendarItem, parentId?: number): void {
+        if (this.include(item.calendarItemId, item.revision)) {
+            console.info('post: item already exist');
+            return;
+        }
+        let child: ICalendarItem;
+        if (parentId && item.calendarItemType === 'activity') {
+            child = copy(item);
+            item = this.searchItem(parentId);
+            if (!item) { console.error('post: parent not found'); return;}
+            this.onDeleteItem(item);
+        }
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
         let c:number = w !== -1 ? this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
 
-        if (w >= 0 && c >= 0 && d) {
-            this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
+        if (w >= 0 && c >= 0 && d >= 0) {
+            if (!parentId || item.calendarItemType === 'record') {
+                item['index'] = Number(`${item.calendarItemId}${item.revision}`);
+                console.info('post: item success', item.calendarItemId, item.revision, item['index']);
+                this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
+            } else {
+                item['index'] =  Number(`${item["index"] + 1}`);
+                let p = item.calendarItems.findIndex(i => i.calendarItemId === child.calendarItemId);
+                p !== -1 ? item.calendarItems.splice(p,1,child) : item.calendarItems.push(child);
+                this.cache[w].calendar[c].subItem[d].data.calendarItems.push(item);
+                console.info('post: item with child success', item.calendarItemId, item.revision, item['index']);
+                this.$scope.$apply();
+            }
             this.cache[w].calendar[c].changes++;
             this.$scope.$applyAsync();
+        } else {
+            console.warn('post: position error');
         }
     }
 
@@ -346,6 +339,16 @@ export class DashboardCtrl implements IComponentController {
      * @param item
      */
     onDeleteItem(item: ICalendarItem, parentId?: number): void {
+        let child: ICalendarItem;
+        if (parentId && item.calendarItemType === 'activity') {
+            child = copy(item);
+            item = this.searchItem(parentId);
+            if (!item) { console.error('dashboard datamodel: delete parent not found'); return;}
+        }
+        if (!item || !item.hasOwnProperty('dateStart')) {
+            console.info(`dashboard datamodel: item not found or not exist`);
+            return;
+        }
 
         let id:string = moment(item.dateStart).format('GGGG-WW');
         let w:number = this.cache.findIndex(d => d.week === id);
@@ -356,10 +359,23 @@ export class DashboardCtrl implements IComponentController {
             this.cache[w].calendar[c].subItem[d].data.calendarItems
                 .findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
-        if (w >= 0 && c >= 0 && d) {
-            this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
+        if (w >= 0 && c >= 0 && d >= 0) {
+            if (!parentId || item.calendarItemType === 'record') {
+                console.info('dashboard datamodel: delete item success');
+                this.cache[w].calendar[c].subItem[d].data.calendarItems.splice(p,1);
+            } else {
+                let pos: number = this.cache[w].calendar[c].subItem[d].data.calendarItems[p].calendarItems
+                    .findIndex(c => c.calendarItemId === child.calendarItemId);
+                if (pos !== -1) {
+                    console.info('dashboard datamodel: delete child item success');
+                    this.cache[w].calendar[c].subItem[d].data.calendarItems[p]['index'] ++;
+                    this.cache[w].calendar[c].subItem[d].data.calendarItems[p].calendarItems.splice(pos,1);
+                }
+            }
             this.cache[w].calendar[c].changes++;
             this.$scope.$applyAsync();
+        } else {
+            console.error('dashboard datamodel: delete item not found');
         }
     }
 
@@ -413,7 +429,7 @@ export class DashboardCtrl implements IComponentController {
 
         Promise.all(task)
             .then(()=> this.message.toastInfo('itemsPasted'), (error)=> this.message.toastError(error))
-            .then(()=> this.clearBuffer());;
+            .then(()=> this.clearBuffer());
 
     }
 
@@ -431,6 +447,35 @@ export class DashboardCtrl implements IComponentController {
             .then(() => this.calendar.deleteItem('F', inSelection ? selected.map(item => item.calendarItemId) : items.map(item => item.calendarItemId)))
             .then(() => this.message.toastInfo('itemsDeleted'), (error) => error && this.message.toastError(error))
             .then(() => inSelection && this.clearBuffer());
+    }
+
+    /**
+     * Поиск итема по id
+     * @param id
+     * @returns {ICalendarItem|null}
+     */
+    searchItem (id: number): ICalendarItem {
+        let include: boolean = false;
+        let week: number = null;
+        let athlete: number = null;
+        let day: number = null;
+        let pos: number = null;
+        let child: number = null;
+
+        let findData: boolean = false;
+        let w,d,c,i: number = 0;
+
+        this.cache.map((w,wi) => w.calendar.map((a,ai) => a.subItem.map((d,di) => d.data.calendarItems.map((i,ii) => {
+            if (i.calendarItemId === id) {
+                include = true;
+                week = wi;
+                athlete = ai;
+                day = di;
+                pos = ii;
+            }
+        }))));
+        console.info('dashboard datamodel: search result', include, !child, week, athlete, day, pos);
+        return (include && this.cache[week].calendar[athlete].subItem[day].data.calendarItems[pos]) || null;
     }
 
     clearBuffer(){

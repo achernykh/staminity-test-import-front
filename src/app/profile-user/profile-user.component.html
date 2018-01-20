@@ -101,14 +101,50 @@
 
     <md-card class="profile-content md-body-1" layout-padding="8">
         <div class="md-caption" translate>user.about</div>
-        <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>
+        <ng-quill-editor ng-if="true" flex="auto"
+                         ng-model="$ctrl.user.personal.about"
+                         placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                         modules="$ctrl.quillConf.toolbarFull"
+                         on-content-changed="$ctrl.changeForm()"
+                         class="hide-toolbar"
+                         read-only="true"
+                         st-quill-post-image>
+        </ng-quill-editor>
+        <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.about || "Информация не указана" }}</div>-->
         <div ng-if="!!$ctrl.user.public.isCoach" >
             <div class="md-caption" translate>user.price</div>
-            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.price || "Информация не указана" }}</div>
+            <ng-quill-editor ng-if="true" flex="auto"
+                             ng-model="$ctrl.user.personal.price"
+                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             class="hide-toolbar"
+                             read-only="true"
+                             st-quill-post-image>
+            </ng-quill-editor>
+            <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.price || "Информация не указана" }}</div>-->
             <div class="md-caption" translate>user.contact</div>
-            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.contact || "Информация не указана" }}</div>
+            <ng-quill-editor ng-if="true" flex="auto"
+                             ng-model="$ctrl.user.personal.contact"
+                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             class="hide-toolbar"
+                             read-only="true"
+                             st-quill-post-image>
+            </ng-quill-editor>
+            <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.contact || "Информация не указана" }}</div>-->
             <div class="md-caption" translate>user.athletes</div>
-            <div style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>
+            <ng-quill-editor ng-if="true" flex="auto"
+                             ng-model="$ctrl.user.personal.athletes"
+                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbarFull"
+                             on-content-changed="$ctrl.changeForm()"
+                             class="hide-toolbar"
+                             read-only="true"
+                             st-quill-post-image>
+            </ng-quill-editor>
+            <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>-->
             <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</div>
         </div>
         <div ng-if="$ctrl.user.private.weight || $ctrl.user.private.height">

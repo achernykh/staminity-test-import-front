@@ -29,10 +29,13 @@ class CalendarDayCtrl {
     dynamicDates: boolean;
     trainingPlanMode: boolean;
     planId: number;
+    daySid: number;
+    weekSid: number;
     compactView: boolean;
     calendarRangeStart: number;
     calendarRangeEnd: number;
     onUpdate: (response: ICalendarItemDialogResponse) => Promise<any>;
+    onDrop: (response: ICalendarItemDialogResponse) => Promise<any>;
 
     // private
     private itemOptions: ICalendarItemDialogOptions;
@@ -91,7 +94,12 @@ class CalendarDayCtrl {
                 popupMode: true,
                 formMode: this.trainingPlanMode ? FormMode.Put : FormMode.View,
                 trainingPlanMode: this.trainingPlanMode,
-                planId: this.planId
+                trainingPlanOptions: {
+                    planId: this.planId,
+                    dayNumber: this.weekSid * 7 + this.daySid,
+                    weekNumber: this.weekSid,
+                    dynamicDates: this.dynamicDates
+                }
             };
         }
     }
@@ -123,7 +131,7 @@ class CalendarDayCtrl {
      */
     wizard (e: Event, data: ICalendarDayData): void {
         this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
-            .then(response => this.onUpdate(response),  error => { debugger; });
+            .then(response => this.onUpdate(response),  error => { });
     }
 
     /**
@@ -153,16 +161,18 @@ class CalendarDayCtrl {
                         .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
                         .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
                 } else {
-                    this.CalendarService.putItem(item)
+                    this.onDrop({formMode: FormMode.Put, item: item});
+                    /**this.CalendarService.putItem(item)
                         .then(() => this.message.toastInfo('activityMoved'))
-                        .catch(error => this.message.toastError(error));
+                        .catch(error => this.message.toastError(error));**/
                 }
                 break;
             }
             case 'copy': {
-                this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
+                this.onDrop({formMode: FormMode.Post, item: item});
+                /**this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
                     .then(() => this.message.toastInfo('activityCopied'))
-                    .catch(error => this.message.toastError(error));
+                    .catch(error => this.message.toastError(error));**/
                 break;
             }
         }
@@ -223,7 +233,12 @@ class CalendarDayCtrl {
             popupMode: true,
             formMode: mode,
             trainingPlanMode: this.trainingPlanMode,
-            planId: this.planId,
+            trainingPlanOptions: {
+                planId: this.planId,
+                dayNumber: this.weekSid * 7 + this.daySid,
+                weekNumber: this.weekSid,
+                dynamicDates: this.dynamicDates
+            },
             calendarRange: {
                 dateStart: moment().add(--this.calendarRangeStart, 'w').startOf('week').format(this.dateFormat),
                 dateEnd: moment().add(++this.calendarRangeEnd, 'w').endOf('week').format(this.dateFormat)
@@ -244,6 +259,8 @@ const CalendarDayComponent: IComponentOptions = {
         currentUser: '<',
         trainingPlanMode: '<',
         planId: '<',
+        daySid: '<',
+        weekSid: '<',
         copiedItemsLength: '<', // обьем буфера скопированных тренировок
         compactView: '<',
         update: '<',
@@ -255,6 +272,7 @@ const CalendarDayComponent: IComponentOptions = {
         onPostPlan: '&', // создание тренировочного плана на основе выдленных элементов
         onDelete: '&', // удалить
         onUpdate: '&', // Изменение / Создание / Удаление записи
+        onDrop: '&', // Завершение операции drag & drop
         onSelect: '&'
     },
     controller: CalendarDayCtrl,

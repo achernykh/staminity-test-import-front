@@ -1,8 +1,10 @@
+import moment from 'moment/min/moment-with-locales.js';
+import { Moment } from 'moment';
 import {
     ITrainingPlan,
     ITrainingPlanReview,
     TrainingPlanSearchResultItem,
-    TrainingPlanSearchResultAuthor
+    TrainingPlanSearchResultAuthor, ITrainingPlanAssignment
 } from "../../../../api/trainingPlans/training-plans.interface";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
@@ -32,6 +34,7 @@ export class TrainingPlan implements ITrainingPlan {
     currency: string;
     isFixedCalendarDates: boolean; // тренировки жестко привязаны к датам
     propagateMods: boolean; // правки плана распространяются всем приобретателям
+    subCount?: number; // кол-во подписок на realtime досылку изменений
     regularWeek?: string; // типовая неделя
     isStructured?: boolean; // имеются структурированные тренировки default = false
     weekCount: number; // кол-во тренировочных недель
@@ -39,12 +42,13 @@ export class TrainingPlan implements ITrainingPlan {
     effortStat: Array<IChart>; // статистика нагрузки по плану
     reviews: Array<ITrainingPlanReview>; // массив отзывов
     calendarItems?: Array<ICalendarItem>; // массив событий календаря
-    startDate?: Date; // дата первой тренировки, если isFixedCalendarDates = true
+    assignmentList?: Array<ITrainingPlanAssignment>; // история присвоений плана
+    startDate?: string; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
 
     private authorProfile: IUserProfileShort;
-
-    private keys: Array<string> = ['keys', 'revision', 'authorProfile'];
+    private _startDate: Date;
+    private keys: Array<string> = ['keys', 'revision', 'authorProfile', '_startDate'];
 
     constructor (params?: Object | ITrainingPlan | Array<any>) {
 
@@ -98,10 +102,37 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     private prepareDefaultData (): void {
+        if ( this.startDate ) { this._startDate = new Date(this.startDate); }
         if ( !this.lang ) { this.lang = 'ru'; }
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
         if ( !this.isFixedCalendarDates ) { this.isFixedCalendarDates = false; }
+    }
+
+    get firstItemCalendarShift (): number {
+        let firstCalendarItemDate: Moment = moment(this.firstCalendarItem.dateStart);
+        return firstCalendarItemDate.diff(moment(this.startDate), 'days');
+    }
+
+    get lastItemCalendarShift (): number {
+        let lastCalendarItemDate: Moment = moment(this.lastCalendarItem.dateStart);
+        return moment(lastCalendarItemDate).endOf('week').diff(lastCalendarItemDate, 'days');
+    }
+
+    get firstCalendarItem (): ICalendarItem {
+        return this.calendarItems && this.calendarItems[0] || null;
+    }
+
+    get lastCalendarItem (): ICalendarItem {
+        return this.calendarItems && this.calendarItems[this.calendarItems.length - 1] || null;
+    }
+
+    apiObject (): ITrainingPlan {
+        let plan: ITrainingPlan = Object.assign({}, this);
+        debugger;
+        if (this._startDate) { plan.startDate = moment(this.startDate).startOf('week').format('YYYY-MM-DD'); };
+        this.keys.map(k => plan.hasOwnProperty(k) && delete plan[k]);
+        return plan;
     }
 
     clear (keys: Array<string> = this.keys): ITrainingPlan {

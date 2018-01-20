@@ -114,6 +114,23 @@
                                min="0" max="200">
                     </md-input-container>
                 </md-list-item>
+                <md-list-item layout="row">
+                    <md-input-container flex class="no-message">
+                        <label translate="pulseCost"></label>
+                        <input type="number" name="pulseCost" autofocus autocomplete="off"
+                               ng-model="$ctrl.measurement.measurementHeader.generalMeasures.pulseCost"
+                               ng-disabled="false"
+                               min="0" max="1000">
+                    </md-input-container>
+                    <div flex="5"></div>
+                    <md-input-container flex class="no-message">
+                        <label translate="orthostaticPulse"></label>
+                        <input type="number" name="orthostaticPulse" autofocus autocomplete="off"
+                               ng-model="$ctrl.measurement.measurementHeader.generalMeasures.orthostaticPulse"
+                               ng-disabled="false"
+                               min="0" max="200">
+                    </md-input-container>
+                </md-list-item>
             </md-list>
             <md-divider></md-divider>
             <md-list id="sleep" class="md-dense section">

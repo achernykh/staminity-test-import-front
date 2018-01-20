@@ -24,6 +24,7 @@ export const translateActivity = {
           on: 'ВКЛ',
           off: 'ВЫКЛ'
       },
+      dynamicDate: 'Неделя {{week}}, день {{day}}',
       trainersPrescription: 'Установка тренера',
       descriptionPlaceholder: '...',
       assignment: {

@@ -1,5 +1,10 @@
 @import "../../sass/color";
 
+settings-club .ql-editor {
+    padding: 12px 0px !important;
+    min-height: 70px;
+}
+
 settings-club application-frame section.app-layer {
     @media (max-width: 600px) {
         top: 0;

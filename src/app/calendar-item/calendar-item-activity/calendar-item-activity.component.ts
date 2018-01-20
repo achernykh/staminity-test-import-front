@@ -169,31 +169,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     $onInit() {
-        //this.currentUser = this.SessionService.getUser();
-
         if ( this.options ) {
             ///this.mode = this.options.formMode;
             this.popup = this.options.popupMode;
             this.currentUser = this.options.currentUser;
             this.user = this.options.owner;
         }
-
-        /**if (this.mode === 'post' && !this.template) {
-            this.data = {
-                isTemplate: this.template,
-                calendarItemType: 'activity',
-                activityHeader: {
-                    activityType: this.activityType || {id: null, code: null, typeBasic: null},
-                    activityCategory: this.activityCategory || null
-                },
-                dateStart: this.date,
-                dateEnd: this.date,
-                userProfileOwner: profileShort(this.user),
-                userProfileCreator: profileShort(this.currentUser),
-                groupProfile: this.club
-            };
-        }**/
-
         this.activity = new Activity(this.data, this.options);
         this.segmentChart = this.activity.formChart();
 
@@ -203,7 +184,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
         this.types = activityTypes; // Список видов спорта
         this.structuredMode = this.activity.isStructured;
-        this.ftpMode = this.activity.view.isTemplate ? FtpState.On : FtpState.Off;
+        this.ftpMode = (this.activity.view.isTemplate || this.activity.view.isTrainingPlan) ? FtpState.On : FtpState.Off;
 
         this.prepareDetails();
         this.prepareAuth();
@@ -292,7 +273,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param e
      */
     open (e: Event): void {
-        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.View}), this.activity)
+        this.calendarDialog.activity(e, Object.assign({}, this.options,
+            {formMode: this.options.trainingPlanMode ? FormMode.Put : FormMode.View}), this.activity)
             .then(response => this.onAnswer(response));
     }
 
@@ -301,7 +283,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @param e
      */
     edit (e: Event): void {
-        this.calendarDialog.activity(e, Object.assign(this.options, {formMode: FormMode.Put}), this.activity)
+        this.calendarDialog.activity(e, Object.assign({}, this.options, {formMode: FormMode.Put}), this.activity)
             .then(response => this.onAnswer(response));
     }
 
@@ -575,7 +557,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
-                        this.onAnswer({response: {type:'post', item:this.activity}});
+                        this.onAnswer({formMode: FormMode.Post, item: this.activity.build()});
                     }, error => this.message.toastError(error))
                     .then(() => this.inAction = false);
             });
@@ -585,19 +567,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
-                    this.onAnswer({response: {type:'put',item:this.activity}});
+                    this.onAnswer({formMode: FormMode.Put, item: this.activity.build()});
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
-        }
-    }
-
-    delete (): void {
-        if ( this.activity.view.isTemplate ) {
-            this.deleteTemplate();
-        } else if ( this.activity.view.isTrainingPlan ) {
-            this.onDeleteTrainingPlanActivity();
-        } else {
-            this.onDelete();
         }
     }
 
@@ -605,7 +577,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.dialogs.confirm({ text: this.activity.hasIntervalDetails ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
         .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
         .then((response)=> {
-            this.onAnswer({formMode: FormMode.Delete,item:this.activity.build()});
+            this.onAnswer({formMode: FormMode.Delete, item: this.activity.build()});
             this.message.toastInfo('activityDeleted');
         }, (error) => {
             if (error) {
@@ -633,17 +605,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.inAction = true;
 
         if (this.activity.view.isPost) {
-            this.trainingPlansService.postItem(this.options.planId, this.activity.build(), true)
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityCreated');
                     this.onAnswer({formMode: FormMode.Post, item: this.activity.build()});
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
-        }
-
-        if (this.activity.view.isPut) {
-            this.trainingPlansService.putItem(this.options.planId, this.activity.build(), true)
+        } else if (this.activity.view.isPut) {
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
@@ -653,12 +623,26 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    onDeleteTrainingPlanActivity (): void {
-        this.trainingPlansService.deleteItem(this.options.planId, this.activity.build(), true)
-            .then(response => {
-                this.onAnswer({formMode: FormMode.Delete, item:this.activity.build()});
+    delete (): void {
+        if (this.activity.view.isTemplate) {
+            this.deleteTemplate();
+        } else if (this.activity.view.isTrainingPlan) {
+            this.deleteTrainingPlanActivity();
+        } else {
+            this.onDelete();
+        }
+    }
+
+    deleteTrainingPlanActivity (): void {
+        this.trainingPlansService.deleteItem(this.options.trainingPlanOptions.planId, this.activity.build())
+            .then((response)=> {
+                this.onAnswer({formMode: FormMode.Delete, item: this.activity.build()});
                 this.message.toastInfo('activityDeleted');
-            }, error => this.message.toastError(error));
+            }, (error) => {
+                if (error) {
+                    this.message.toastError(error);
+                }
+            });
     }
 
     onSaveTemplate() {
@@ -666,12 +650,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.onCancel();
         }
         this.activity.build();
-        //let name = this.code;
-        //let description = this.activity.intervals.PW.trainersPrescription;
-        //let { templateId, code, favourite, visible, header, groupProfile } = this.activity;
-        //let groupId = groupProfile && groupProfile.groupId;
-        //let { activityCategory, intervals } = header;
-
         if (this.activity.view.isPost) {
             this.ReferenceService.postActivityTemplate(
                 null,
