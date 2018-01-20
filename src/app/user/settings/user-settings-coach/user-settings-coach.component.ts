@@ -22,7 +22,7 @@ class UserSettingsCoachCtrl {
     countriesList = countriesList;
     countrySearchText: string;
 
-    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'quillConfig'];
+    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'quillConfig', '$scope'];
 
     constructor (
         private displayService: DisplayService,
@@ -30,6 +30,7 @@ class UserSettingsCoachCtrl {
         private message: any,
         private userSettingsService: UserSettingsService,
         private quillConfig: any,
+        private $scope: any,
     ) {
         window['UserSettingsCoachCtrl'] = this;
     }

@@ -39,9 +39,10 @@ export class UserSettingsService {
      */
     saveSettings (changes) : Promise<any> {
         return this.userService.putProfile(changes)
-        .then((userProfile) => {
-            this.sessionService.updateUser(userProfile);
-            this.update(userProfile);
+        .then((result) => {
+            const userChanges = { ...changes, ...result };
+            this.sessionService.updateUser(userChanges);
+            this.update(this.sessionService.getUser());
             this.message.toastInfo('settingsSaveComplete');
         })
         .catch((error) => {

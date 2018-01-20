@@ -25,8 +25,8 @@ class UserSettingsCtrl implements IComponentController {
         userSettingsService.updates.subscribe((userProfile) => {
             if (userProfile.userId === this.userId) {
                 this.owner = userProfile;
-                this.$scope.$apply();
             }
+            this.$scope.$apply();
         });
     }
 

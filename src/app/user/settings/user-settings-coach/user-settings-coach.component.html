@@ -70,13 +70,25 @@
         <md-list-item flex layout="row"> 
             <md-input-container flex class="md-block no-message"> 
                 <label translate="user.price"></label> 
-                <textarea ng-model="$ctrl.datamodel.price" name="price" rows="2" placeholder="{{::'user.settings.personalInfo.priceFull' | translate}}"></textarea>
+                <ng-quill-editor 
+                    ng-model="$ctrl.datamodel.price"
+                    placeholder="{{'user.settings.personalInfo.priceFull' | translate}}"
+                    modules="$ctrl.quillConfig.toolbarFull"
+                    st-quill-post-image
+                >
+                </ng-quill-editor>
             </md-input-container> 
         </md-list-item> 
         <md-list-item flex layout="row"> 
             <md-input-container flex class="md-block no-message"> 
                 <label translate="user.contact"></label> 
-                <textarea ng-model="$ctrl.datamodel.contact" name="contact" rows="2" placeholder="{{::'user.settings.personalInfo.contactFull' | translate}}"></textarea> 
+                <ng-quill-editor 
+                    ng-model="$ctrl.datamodel.contact"
+                    placeholder="{{'user.settings.personalInfo.contactFull' | translate}}"
+                    modules="$ctrl.quillConfig.toolbarFull"
+                    st-quill-post-image
+                >
+                </ng-quill-editor>
             </md-input-container> 
         </md-list-item> 
         <md-list-item flex layout="row"> 
