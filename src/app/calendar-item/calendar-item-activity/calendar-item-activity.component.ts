@@ -145,14 +145,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
         'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
 
     constructor(
-        private $scope: IScope,
+        public $scope: IScope,
         private $translate,
         private CalendarService: CalendarService,
         private UserService: UserService,
         private SessionService: SessionService,
         private ActivityService: ActivityService,
         private AuthService: IAuthService,
-        private message: IMessageService,
+        public message: IMessageService,
         private $mdMedia: any,
         private $mdDialog: any,
         private dialogs: any,
@@ -348,9 +348,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
     }
-    
+
     $onDestroy () {
-        this.destroy.next(); 
+        this.destroy.next();
         this.destroy.complete();
     }
 
@@ -739,14 +739,19 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 groupProfile: null
             }
         });
-        
+
         //return this.$mdDialog.show(templateDialog('post', template, this.options.owner));
         this.calendarDialog.activity(e, templateDialogOptions, templateToActivity(template))
             .then(() => { debugger; });
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
+
 }
 
-const CalendarItemActivityComponent: IComponentOptions = {
+export const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '<', // в режиме создания передает дату календаря
         activityType: '<', // если создание идет через wizard, то передаем тип тренировки
@@ -757,7 +762,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
-        template: '=',
+        template: '=?',
         onCancel: '&',
         onAnswer: '&'
     },

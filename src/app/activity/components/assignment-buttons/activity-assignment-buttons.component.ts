@@ -19,6 +19,10 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
     onSave(){
         this.item.options.templateMode ? this.item.onSaveTemplate() : this.item.onSave();
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
 }
 
 const ActivityAssignmentButtonsComponent:IComponentOptions = {

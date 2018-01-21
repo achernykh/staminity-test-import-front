@@ -1,4 +1,4 @@
-<md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
+<md-toolbar flex="none" class="{{$ctrl.item.activity.status}}" ng-if="!$ctrl.isIonic">
     <div class="md-toolbar-tools" ng-cloak>
         <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 6}}"
                  md-position-mode="target-right target" md-offset="0 60">

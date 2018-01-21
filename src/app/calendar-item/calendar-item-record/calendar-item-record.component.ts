@@ -29,16 +29,15 @@ export class CalendarItemRecordCtrl implements IComponentController {
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'CalendarItemDialogService',
+    static $inject = ['calendarItemRecordConfig', 'CalendarService', 'CalendarItemDialogService',
         'TrainingPlansService', 'message', 'quillConfig'];
 
     constructor (
         private config: ICalendarItemRecordConfig,
-        private session: SessionService,
         private calendarService: CalendarService,
         private calendarDialog: CalendarItemDialogService,
         private trainingPlansService: TrainingPlansService,
-        private message: MessageService,
+        public message: MessageService,
         private quillConf: IQuillConfig
     ) {
 
@@ -173,6 +172,10 @@ export class CalendarItemRecordCtrl implements IComponentController {
 */
     private close (): void {
         this.onCancel();
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 
 }

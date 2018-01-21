@@ -1,6 +1,6 @@
 <div flex class="md-whiteframe-8dp" layout="column">
     <!-- Заголовок с контекстным меню Соревнования -->
-    <md-toolbar flex="none" class="md-primary" ng-if="!$ctrl.$ionicPlatform">
+    <md-toolbar flex="none" class="md-primary" ng-if="!$ctrl.isIonic">
         <div class="md-toolbar-tools">
             <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -215,7 +215,7 @@
 
     <!-- Кнопки -->
 
-    <md-dialog-actions ng-if="!$ctrl.competition.view.isTrainingPlan"
+    <md-dialog-actions ng-if="!$ctrl.competition.view.isTrainingPlan && !$ctrl.isIonic"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.competition.view.isView" type="submit"
@@ -230,7 +230,7 @@
         </md-button>
     </md-dialog-actions>
     <!-- Тренировочный план -->
-    <md-dialog-actions ng-if="$ctrl.competition.view.isTrainingPlan"
+    <md-dialog-actions ng-if="$ctrl.competition.view.isTrainingPlan && !$ctrl.isIonic"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="!$ctrl.competition.view.isView"

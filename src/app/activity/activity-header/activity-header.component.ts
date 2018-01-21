@@ -38,9 +38,13 @@ export class ActivityHeaderCtrl implements IComponentController {
     toggleStrucuredMode() {
         this.item.structuredMode = !this.item.structuredMode;
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
 }
 
-const ActivityHeaderComponent:IComponentOptions = {
+export const ActivityHeaderComponent:IComponentOptions = {
     require: {
         item: '^calendarItemActivity'
     },

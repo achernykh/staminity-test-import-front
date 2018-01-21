@@ -8,7 +8,7 @@
             <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
                  ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
-                <md-icon class="material-icons md-light md-18" aria-label="icon"
+                <md-icon class="material-icons md-light md-24" aria-label="icon"
                          md-svg-src="{{::$ctrl.activity.header.sportUrl}}"></md-icon>
             </div>
             <div flex="auto" layout="column">
@@ -30,7 +30,7 @@
                     </div>
                 </section>
             </div>
-            <md-menu flex="none">
+            <md-menu flex="none" ng-if="!$ctrl.isIonic">
                 <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px"
                            ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons md-18">more_vert</md-icon>
@@ -58,7 +58,7 @@
                 </md-menu-content>
             </md-menu>
         </header>
-        
+
     </section>
     <!-- Элемент дня календаря -->
     <section ng-switch-when="calendar" class="activity-compact__calendar"

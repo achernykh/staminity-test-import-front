@@ -1,4 +1,51 @@
 <div class="record-compact" ng-switch="$ctrl.view">
+    <!-- Элемент списка -->
+    <section ng-switch-when="list" class="record-compact__list" ng-click="$ctrl.open($event)">
+        <header layout="row" layout-align="start center"
+                class="calendar-item-record-header {{::$ctrl.record.status}} list-view"
+                ng-class="{selected: $ctrl.selected}">
+            <div flex="none" layout="row" layout-align="center center"
+                 class="calendar-item-record-icon bg-circle-32">
+                <md-icon class="material-icons md-light md-18"
+                         md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
+            </div>
+            <div flex="auto" layout="column">
+                <section flex layout="row" layout-align="start center"
+                         class="md-title-small md-dark md-active center tight-10">
+                    <span flex="none">
+                    {{'record.' + $ctrl.record.recordHeader.type | translate}}
+                    </span>
+                </section>
+            </div>
+            <md-menu flex="none">
+                <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px"
+                           ng-click="$mdOpenMenu($event)">
+                    <md-icon class="material-icons md-18">more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.edit($event)">
+                            <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
+                            <span translate="record.action.edit"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.copy([$ctrl.item])" ng-disabled="true">
+                            <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                            <span translate="record.action.copy"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.delete()"
+                                   ng-disabled="::!($ctrl.record.auth.isCreator || $ctrl.record.auth.isOwner)">
+                            <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                            <span translate="record.action.delete"></span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </header>
+    </section>
     <!-- Элемент дня дэшборда -->
     <section ng-switch-when="dashboard" class="record-compact__dashboard" ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
@@ -25,4 +72,5 @@
                   ng-bind="$ctrl.record.recordHeader.description | htmlToPlainText"></span>
         </footer>
     </section>
+
 </div>

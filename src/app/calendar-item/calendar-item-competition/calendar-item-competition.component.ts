@@ -228,6 +228,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     private close (): void {
         this.onCancel();
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
 }
 
 export const CalendarItemCompetitionComponent: IComponentOptions = {

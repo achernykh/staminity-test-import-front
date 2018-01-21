@@ -1,6 +1,6 @@
 <div flex class="calendar-item-record md-whiteframe-8dp" layout="column"
      ng-class="{'full-screen': $ctrl.fullScreenMode}">
-    <md-toolbar flex="none" class="md-primary">
+    <md-toolbar flex="none" class="md-primary" ng-if="!$ctrl.isIonic">
         <div class="md-toolbar-tools">
             <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -220,7 +220,7 @@
         </form>
         <md-subheader><span translate="record.description"></span></md-subheader>
         <div flex="auto" class="description">
-            <ng-quill-editor 
+            <ng-quill-editor
                 ng-if="$ctrl.fullScreenMode"
                 ng-model="$ctrl.record.recordHeader.description"
                 placeholder="{{'record.descriptionPlaceholder' | translate}}"
@@ -230,7 +230,7 @@
                 read-only="$ctrl.record.view.isView"
                 st-quill-post-image
             ></ng-quill-editor>
-            <ng-quill-editor 
+            <ng-quill-editor
                 ng-if="!$ctrl.fullScreenMode"
                 ng-model="$ctrl.record.recordHeader.description"
                 placeholder="{{'record.descriptionPlaceholder' | translate}}"
@@ -243,7 +243,7 @@
         </div>
     </md-content>
     <!-- Календарь -->
-    <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan"
+    <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan && !$ctrl.isIonic"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
@@ -258,7 +258,7 @@
         </md-button>
     </md-dialog-actions>
     <!-- Тренировочный план -->
-    <md-dialog-actions ng-if="$ctrl.record.view.isTrainingPlan"
+    <md-dialog-actions ng-if="$ctrl.record.view.isTrainingPlan && !$ctrl.isIonic"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="!$ctrl.record.view.isView"
