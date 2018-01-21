@@ -56,7 +56,7 @@ class CategoriesCtrl implements IComponentController {
         const { id, code, description, groupProfile, visible } = category;
         const owner = getOwner(this.user)(category);
         const groupId = groupProfile && groupProfile.groupId;
-        const targetCategory = this.categoriesByOwner[owner][index];
+        const targetCategory = this.categoriesByOwner[owner][index - 1] || category;
         const sortOrder = targetCategory ? targetCategory.sortOrder : 999999;
 
         this.ReferenceService.putActivityCategory(id, code, description, groupId, sortOrder, visible)
