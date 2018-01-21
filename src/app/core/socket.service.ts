@@ -74,10 +74,11 @@ export class SocketService implements ISocketService {
   static $inject = ['$q', 'SessionService', 'LoaderService', 'message', '$state', '$http'];
 
   constructor(private $q: any,
-              private SessionService: ISessionService,
+              public SessionService: ISessionService,
               private loader: LoaderService,
               private message: IMessageService,
-              private $state: StateService, private $http: IHttpService) {
+              private $state: StateService,
+              private $http: IHttpService) {
 
     this.connections = new Subject();
     this.connections.subscribe(status => this.connectionStatus = !!status);
