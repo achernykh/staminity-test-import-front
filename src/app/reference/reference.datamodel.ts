@@ -49,6 +49,20 @@ export const templatesFilters = {
     isActive: ({ }: ReferenceFilterParams) =>  (template: IActivityTemplate) => template.visible,
 };
 
+export const categoriesReorder = (categories: IActivityCategory[], order: number[]): IActivityCategory[] => {
+    return categories.map((category) => ({
+        ...category,
+        sortOrder: order.indexOf(category.id)
+    }));
+};
+
+export const templatesReorder = (templates: IActivityTemplate[], order: number[]): IActivityTemplate[] => {
+    return templates.map((template) => ({
+        ...template,
+        sortOrder: order.indexOf(template.id)
+    }));
+};
+
 export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string): string => {
     const durationMeasure: string = interval.hasOwnProperty("distanceLength") ? `${interval.durationMeasure}Length` : interval.durationMeasure;
     return (interval[durationMeasure] &&
