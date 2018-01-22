@@ -48,7 +48,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        debugger;
         this.item.activity.isStructured ? this.tableOption = 'segments' : this.tableOption = 'laps';
         this.item.activity.isStructured ? this.chartOption = 'segments' : this.chartOption = 'measures';
     }
