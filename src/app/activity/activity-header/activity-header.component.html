@@ -110,7 +110,8 @@
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.header.id"
                                       social="$ctrl.item.activity.header.social"
-                                      user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
+                                      user="$ctrl.item.options.owner"
+                                      current-user="$ctrl.item.options.currentUser"
                                       coach="$ctrl.item.activity.auth.isMyCoach"
                                       on-update="$ctrl.updateComments(response)">
                 </activity-header-chat>
@@ -121,7 +122,7 @@
             <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
-                                       zones="$ctrl.item.user.trainingZones"
+                                       zones="$ctrl.item.options.owner.trainingZones"
                                        sport="$ctrl.item.activity.header.sportBasic"
                                        has-details="$ctrl.item.activity.hasIntervalDetails">
                 </activity-header-zones>
