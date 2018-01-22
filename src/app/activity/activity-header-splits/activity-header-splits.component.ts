@@ -24,7 +24,6 @@ class ActivityHeaderSplitsCtrl implements IComponentController {
 
 const ActivityHeaderSplitsComponent: IComponentOptions = {
     bindings: {
-        splits: "<",
         sport: "<",
     },
     require: {

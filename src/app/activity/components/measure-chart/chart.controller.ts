@@ -73,13 +73,13 @@ class ActivityChartController implements IComponentController {
 
     $postLink(): void {
         const self = this;
-        this.$element.ready(function() {
+        /**this.$element.ready(function() {
            setTimeout(() => {
                 self.preparePlaceholder();
                 self.prepareScales();
                 self.drawChart();
             }, 0);
-        });
+        });**/
         if (this.activityChartSettings.autoResizable) {
             this.onResize = function() { self.redraw(); };
             angular.element(this.$window).on("resize", self.onResize);
