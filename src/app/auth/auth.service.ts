@@ -80,24 +80,26 @@ export default class AuthService implements IAuthService {
     }
 
     isMyAthlete(user: IUserProfile = null) : Promise<any> {
-        if (!user) {
-            throw 'userNotFound';
+        if (!user) { return Promise.reject('userNotFound'); }
+        if (!this.SessionService.getUser().connections.hasOwnProperty('allAthletes') ||
+            this.SessionService.getUser().connections.allAthletes.groupMembers) { return Promise.reject('coachConnectionsNotFound'); }
+
+        if ( this.SessionService.getUser().connections.allAthletes.groupMembers.some(a => a.userId === user.userId) ) {
+            return Promise.resolve();
+        } else {
+            return Promise.reject('forbidden_InsufficientRights');
         }
 
-        let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
+        /**let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
         if (groupId) {
             return this.GroupService.getManagementProfile(groupId, 'coach')
                 .then((result) => {
                     let athletes: Array<any> = result.members;
                     if (!athletes || !athletes.some(member => member.userProfile.userId === user.userId)) {
-                        throw 'forbidden_InsufficientRights';
-                    } else {
-                        return true;
-                    }
+                        return Promise.reject('forbidden_InsufficientRights');
+                    } else { return Promise.resolve(); }
                 });
-        } else {
-            throw 'groupNotFound';
-        }
+        } else { return Promise.reject('groupNotFound'); }**/
     }
 
     isMyClub(uri: string) : Promise<any> {
