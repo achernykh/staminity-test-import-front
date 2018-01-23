@@ -6,7 +6,7 @@
          ng-click="$ctrl.select()">
         <span>{{$ctrl.interval.pos}}</span>
     </div>
-    <span class="md-dark" style="padding-left: 16px; padding-right: 8px; width: 60px" flex="none" ng-if="$ctrl.viewActual">
+    <span class="md-dark" style="padding-left: 16px; padding-right: 8px; width: 60px; white-space: nowrap" flex="none" ng-if="$ctrl.viewActual">
         &nbsp;{{$ctrl.group && $ctrl.viewGroup ?
             $ctrl.interval.totalMeasures.completePercent.avgValue :
             $ctrl.interval.calcMeasures.completePercent.value | percent}}
