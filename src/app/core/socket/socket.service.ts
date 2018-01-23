@@ -12,6 +12,8 @@ export class SocketService {
     // public
     connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
     messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
+    backgroundState: boolean = false; // отслеживание состояния приложения
+    internetState: boolean = false; // отслеживание состояния сети интернет
 
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
@@ -28,9 +30,9 @@ export class SocketService {
                  private session: SessionService,
                  private loader: LoaderService,
                  private $state: StateService,
-                 private messageService: MessageService) {
+                 public messageService: MessageService) {
 
-        this.connections.subscribe((status: boolean) => this.socketStarted = status);
+        this.connections.subscribe(status => this.socketStarted = status);
     }
 
     /**
@@ -45,53 +47,40 @@ export class SocketService {
             this.initRequest = new Deferred<boolean>();
             setTimeout(() => {
                 console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
+                // Если сессия открыта и это был первый запрос по сессии, то
+                // возращаем resolve по первому запросу
                 if ( this.socketStarted && this.initRequest ) {
                     this.initRequest.resolve(true);
-                } else if ( this.initRequest ) {
+                } else if ( this.initRequest ) { // если сессия не открыта за время таймаута, то возращаем reject
                     this.initRequest.reject(false);
                 }
             }, this.settings.delayOnOpen);
         }
-        this.open();
+        this.open(); // попытка открытия сессии
         return this.initRequest.promise;
-
-        /**return new Promise<boolean>((resolve, reject) => {
-            setTimeout(() => {
-                console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
-                if ( this.socketStarted ) {
-                    // Свзяь с сервером есть
-                    //this.connections.next(true);
-                    //console.log('socket: resolve true');
-                    return resolve(true);
-                } else {
-                    // Свзязи с сервером нет
-                    //this.connections.next(false);
-                    //console.log('socket: reject false');
-                    return reject(false);
-                }
-            }, this.settings.delayOnOpen);
-        });**/
     }
     /**
      * Открытие сессии
      * @param token
      */
     open (token: string = this.session.getToken()): void {
-        if ( this.socket && !this.socket.closed ) { return; }
+        if ( this.socket && !this.socket.closed ) { return; } // already open
 
         try {
             this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
             this.socket = this.ws.subscribe({
                 next: (message: IWSResponse) => {
+                    // Если сессия находится в статусе закрыта, то при первом удачном получение сообщения
+                    // переводим статус сессии в открыта
                     if ( !this.socketStarted ) {
                         this.connections.next(true);
                     }
                     if (this.initRequest) {
                         this.initRequest.resolve(true);
                     }
-                    this.messages.next(message);
-                    this.response(message);
-                    this.check();
+                    this.messages.next(message); // передаем сообщение в публичный поток
+                    this.response(message); // обрабатываем полученное сообщение
+                    this.check(); // check connection with server by heartBeat & any messages
                 },
                 error: () => this.close(),
                 complete: () => this.close()
@@ -115,11 +104,18 @@ export class SocketService {
         setTimeout(() => {
             let now = Date.now();
             if ( this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat ) {
-                this.connections.next(false);
-                this.socket.unsubscribe();
-                this.pendingSession();
+                this.reopen();
             }
         }, this.settings.delayOnHeartBeat);
+    }
+
+    /**
+     * Переотркытие сессии
+     */
+    public reopen (): void {
+        this.connections.next(false);
+        this.socket.unsubscribe();
+        this.pendingSession();
     }
 
     /**
@@ -156,6 +152,7 @@ export class SocketService {
      * Закрытие сессии
      */
     close () {
+        this.connections.next(false);
         this.ws.complete();
         this.initRequest = null;
     }
@@ -173,9 +170,10 @@ export class SocketService {
         if ( !this.socketStarted ) { // если соединение не установлено
             //return Promise.reject('internetConnectionLost');
         }
-        if ( !this.session.getToken() ) { // если пользователь не авторизован
-            return Promise.reject('userNotAuthorized');
-        }
+        // если пользователь не авторизован
+        if ( !this.session.getToken() ) { return Promise.reject('userNotAuthorized');}
+        if ( this.backgroundState ) { return Promise.reject('applicationInBackgroundMode');}
+
         request.requestId = this.requestId++;
         this.requests[request.requestId] = new Deferred<boolean>();
         /**
