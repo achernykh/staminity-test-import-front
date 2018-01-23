@@ -14,12 +14,12 @@ export class SocketService {
     messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
     backgroundState: boolean = false; // отслеживание состояния приложения
     internetState: boolean = false; // отслеживание состояния сети интернет
+    socketStarted: boolean = null; // состояние соединения с сервером
 
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
     private socket: Subscription; // переменная для подписки на ws
     private initRequest: Deferred<boolean>;// new Deferred<boolean>()
-    private socketStarted: boolean = null;
     private requests: Array<Deferred<any>> = []; // буфер запросов к серверу
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
