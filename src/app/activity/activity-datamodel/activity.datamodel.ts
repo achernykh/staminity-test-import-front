@@ -7,7 +7,6 @@ import { ActivityIntervals } from "./activity.intervals";
 import { ActivityDetails } from "./activity.details";
 import { IUserProfileShort, IUserProfile } from "../../../../api/user/user.interface";
 import { getType } from "../activity.constants";
-import { toDay } from "../activity.datamodel";
 import { IGroupProfileShort } from "../../../../api/group/group.interface";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../../reference/reference.datamodel";
@@ -16,6 +15,12 @@ import { ActivityAuth } from "./activity.auth";
 import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { ActivityAthletes } from "./activity.athletes";
 import { ActivityView } from "./activity.view";
+
+export let toDay = (date):Date => {
+    let result = new Date(date);
+    result.setHours(0, 0, 0, 0);
+    return result;
+};
 
 export class Activity extends CalendarItem {
 

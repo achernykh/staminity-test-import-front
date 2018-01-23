@@ -1,8 +1,7 @@
 import {IAttributes, IAugmentedJQuery, IDirective, IFilterService, INgModelController, IScope, merge} from "angular";
 import moment from "moment/src/moment.js";
-import {IActivityIntervalP} from "../../../../api/activity/activity.interface";
-import {Interval} from "../../activity/activity.datamodel";
 import {Measure} from "./measure.constants";
+import { IActivityIntervalP } from "../../../../api/activity/activity.interface";
 
 interface IScopeMeasureInput extends IScope {
     ftpMode: boolean;
@@ -103,7 +102,26 @@ export function MeasurementInput($filter): IDirective {
         const isFTPMeasure = false;
 
         let measure: Measure = null;
-        let initial: Interval = new Interval("P");
+        let initial: IActivityIntervalP = {
+            type: 'P',
+            actualDurationValue: null,
+            calcMeasures: null,
+            intensityDistribution: null,
+            keyInterval: null,
+            durationValue: null,
+            durationMeasure: null,
+            intensityMeasure: null,
+            intensityLevelTo: null,
+            intensityLevelFrom: null,
+            intensityByFtpTo: null,
+            intensityByFtpFrom: null,
+            intensityFtpMax: null,
+            intensityMaxZone: null,
+            movingDurationLength: null,
+            distanceLength: null,
+            movingDurationApprox: null,
+            distanceApprox: null,
+        };
         let mask: any; //функция преобразование ввода по маске
         let convert: any; //функция преобразования значения после потери фокуса
 

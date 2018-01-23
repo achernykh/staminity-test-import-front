@@ -23,6 +23,17 @@ class AuthCtrl implements IComponentController {
         private message: IMessageService, private $auth: any) {
     }
 
+    get device (): string {
+        if (window.hasOwnProperty('ionic')) {
+            return 'mobile';
+        }
+        else if (/Mobi/.test(navigator.userAgent) || /Android/i.test(navigator.userAgent)) {
+            return 'mobilebrowser';
+        } else {
+            return 'webbrowser';
+        }
+    }
+
     $onInit() {
         /**
          * Переход в компонент по ссылке /signout
@@ -53,6 +64,7 @@ class AuthCtrl implements IComponentController {
 
         // Типовая структура для создания нового пользователя
         this.credentials = {
+            device: this.device,
             public: {
                 firstName: "",
                 lastName: "",
@@ -146,6 +158,7 @@ class AuthCtrl implements IComponentController {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.$auth.link(provider, {
             internalData: {
+                device: this.device,
                 postAsExternalProvider: false,
                 provider,
                 activateCoachTrial: this.credentials["activateCoachTrial"],

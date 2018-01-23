@@ -20,7 +20,7 @@ import {
     ICalendarItemDialogResponse
 } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
-import { toDay } from "../../activity/activity.datamodel";
+import { toDay } from "../../activity/activity-datamodel/activity.datamodel";
 import { CalendarItemCompetition } from "../../calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
 
 export enum TrainingSeasonViewState {

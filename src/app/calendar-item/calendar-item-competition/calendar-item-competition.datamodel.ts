@@ -9,7 +9,7 @@ import { getType } from "../../activity/activity.constants";
 import { ActivityInterval } from "../../activity/activity-datamodel/activity.interval";
 import { ActivityIntervalPW } from "../../activity/activity-datamodel/activity.interval-pw";
 import { FormMode } from "../../application.interface";
-import { toDay } from "../../activity/activity.datamodel";
+import { toDay } from "../../activity/activity-datamodel/activity.datamodel";
 import { IActivityIntervalPW } from "../../../../api/activity/activity.interface";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 

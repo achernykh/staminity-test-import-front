@@ -20,21 +20,22 @@ interface Select {
 interface SelectionOptions<T> {
     [index: string]: any;
 }
-class ActivityHeaderDetailsCtrl implements IComponentController {
+export class ActivityHeaderDetailsCtrl implements IComponentController {
 
     hasImport: boolean;
     hasDetails: boolean;
 
+    // public
+    chartData: MeasureChartData; // класс для расчета данных для графика
+    changes: number = 0;
+
+    // private
     private item: CalendarItemActivityCtrl;
     private completeDetails: boolean = false;
-
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
-    private chartData: MeasureChartData; // класс для расчета данных для графика
-
     private readonly intervalTypes = ['P','L','U'];
     private intervals: SelectionOptions<Select> = {};
-    private changes: number = 0;
     private selectedIntervals: Array<string> = [];
 
     static $inject = [];

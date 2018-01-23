@@ -4,10 +4,10 @@ import {
     ResetPasswordRequest, PutUserInviteRequest
 } from '../../../api/';
 import {SessionService, SocketService} from "../core";
-import {PostData, IRESTService} from '../core/rest.service';
+import {PostData, RESTService} from '../core/rest.service';
 import {IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import GroupService from "../core/group.service";
-import {toDay} from "../activity/activity.datamodel";
+import {toDay} from "../activity/activity-datamodel/activity.datamodel";
 import ReferenceService from "../reference/reference.service";
 import NotificationService from "../share/notification/notification.service";
 import RequestsService from "../core/requests.service";
@@ -41,7 +41,7 @@ export default class AuthService implements IAuthService {
 
     constructor(
         private SessionService: SessionService,
-        private RESTService:IRESTService,
+        private RESTService: RESTService,
         private SocketService: SocketService,
         private GroupService:GroupService,
         private referenceService: ReferenceService,
@@ -82,7 +82,7 @@ export default class AuthService implements IAuthService {
     isMyAthlete(user: IUserProfile = null) : Promise<any> {
         if (!user) { return Promise.reject('userNotFound'); }
         if (!this.SessionService.getUser().connections.hasOwnProperty('allAthletes') ||
-            this.SessionService.getUser().connections.allAthletes.groupMembers) { return Promise.reject('coachConnectionsNotFound'); }
+            !   this.SessionService.getUser().connections.allAthletes.groupMembers) { return Promise.reject('coachConnectionsNotFound'); }
 
         if ( this.SessionService.getUser().connections.allAthletes.groupMembers.some(a => a.userId === user.userId) ) {
             return Promise.resolve();

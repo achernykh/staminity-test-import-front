@@ -1,6 +1,6 @@
 import {copy} from "angular";
 import {ICalendarItem} from "../../../../api/calendar";
-import {toDay} from "../../activity/activity.datamodel";
+import {toDay} from "../../activity/activity-datamodel/activity.datamodel";
 import {ICalendarDay, ICalendarWeek} from "../calendar.interface";
 
 interface ICalendarWeekSummary {

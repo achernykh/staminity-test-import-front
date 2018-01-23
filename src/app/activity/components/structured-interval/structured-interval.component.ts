@@ -3,7 +3,6 @@ import {IComponentOptions, IComponentController, IPromise, INgModelController} f
 import {IActivityIntervalP} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
-import {Interval} from "../../activity.datamodel";
 import {Loop, LoopMode} from "../structured-assignment/structured-assignment.component";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";
@@ -66,7 +65,7 @@ class StructuredIntervalCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.ftp = getFtpBySport(this.item.user.trainingZones, this.sport);
+        this.ftp = getFtpBySport(this.item.options.owner.trainingZones, this.sport);
         this.prepareInterval();
     }
 

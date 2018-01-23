@@ -3,7 +3,7 @@ import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {IUserProfile} from "../../../api/user/user.interface";
 import "./activity.component.scss";
 
-class ActivityCtrl implements IComponentController {
+export class ActivityCtrl implements IComponentController {
 
     item: ICalendarItem;
     athlete: IUserProfile;

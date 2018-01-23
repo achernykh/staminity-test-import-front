@@ -3,7 +3,7 @@ import {IActivityIntervalL} from "../../../../api/activity/activity.interface";
 import { CalendarItemActivityCtrl } from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import "./activity-header-splits.component.scss";
 
-class ActivityHeaderSplitsCtrl implements IComponentController {
+export class ActivityHeaderSplitsCtrl implements IComponentController {
 
     splits: IActivityIntervalL[];
     sport: string;

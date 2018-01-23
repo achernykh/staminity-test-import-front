@@ -32,7 +32,6 @@ class ApplicationMenuCtrl implements IComponentController {
         session.getObservable()
         .takeUntil(this.destroy)
         .map(getUser)
-
         .subscribe((profile) => this.user = angular.copy(profile));
 
         session.getObservable()

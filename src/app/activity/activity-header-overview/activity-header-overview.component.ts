@@ -6,7 +6,7 @@ import {ActivityIntervalPW} from "../activity-datamodel/activity.interval-pw";
 import {ActivityIntervalW} from "../activity-datamodel/activity.interval-w";
 import { IActivityIntervalPW, ICalcMeasures } from "../../../../api/activity/activity.interface";
 
-class ActivityHeaderOverviewCtrl implements IComponentController {
+export class ActivityHeaderOverviewCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
     public mode: string;

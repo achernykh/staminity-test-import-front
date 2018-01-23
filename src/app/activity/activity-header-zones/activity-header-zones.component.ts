@@ -4,7 +4,7 @@ import {Activity} from "../activity-datamodel/activity.datamodel";
 import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 
-class ActivityHeaderZonesCtrl implements IComponentController {
+export class ActivityHeaderZonesCtrl implements IComponentController {
 
     public zones: any;
     public sport: string;

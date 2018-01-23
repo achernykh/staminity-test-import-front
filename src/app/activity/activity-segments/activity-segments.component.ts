@@ -1,7 +1,6 @@
 import './activity-segments.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {Interval} from "../activity.datamodel";
 import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";

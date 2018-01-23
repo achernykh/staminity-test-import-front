@@ -13,7 +13,7 @@ export class SocketService {
     connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
     messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
     backgroundState: boolean = false; // отслеживание состояния приложения
-    internetState: boolean = false; // отслеживание состояния сети интернет
+    internetState: boolean = navigator.onLine; // отслеживание состояния сети интернет
     socketStarted: boolean = null; // состояние соединения с сервером
 
     // private

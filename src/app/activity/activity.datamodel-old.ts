@@ -29,6 +29,7 @@ import {ActivityDetails, IRoute} from "./activity-datamodel/activity.details";
 import {ActivityIntervalL} from "./activity-datamodel/activity.interval-l";
 import {ActivityIntervalU} from "./activity-datamodel/activity.interval-u";
 import {ActivityIntervalG} from "./activity-datamodel/activity.interval-g";
+import {toDay} from './activity-datamodel/activity.datamodel';
 
 export enum ActivityStatus {
 
@@ -133,12 +134,6 @@ export class Interval implements IActivityInterval {
 		}
 	}
 }
-
-export let toDay = (date):Date => {
-	let result = new Date(date);
-	result.setHours(0, 0, 0, 0);
-	return result;
-};
 
 /**
  *
