@@ -18,12 +18,12 @@ class StructuredGroupCtrl implements IComponentController {
 
     }
 
-    height(): number {
-        return this.box.height * (this.loop.length - 1);
+    height(): string {
+        return `${this.box.height * (this.loop.length - 1)}px`;
     }
 
-    top(): number {
-        return (this.loop.start - this.hiddenPos - 1) * this.box.height + this.box.top;
+    top(): string {
+        return `${(this.loop.start - this.hiddenPos - 1) * this.box.height + this.box.top}px`;
     }
 
     changeMode() {
