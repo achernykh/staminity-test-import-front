@@ -166,9 +166,22 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(changes.mode && !changes.mode.isFirstChange()) {
             this.changeMode(changes.mode);
         }
+        //this.$onInit(); // test, like on calendar-activity.component in ionic
+        this.prepareActivity();
     }
 
+
     $onInit() {
+        this.prepareActivity();
+        this.prepareDetails();
+        this.prepareAuth();
+        this.prepareAthletesList();
+        this.prepareCategories();
+        this.prepareTemplates();
+        this.prepareTabPosition();
+    }
+
+    prepareActivity (): void {
         if ( this.options ) {
             ///this.mode = this.options.formMode;
             this.popup = this.options.popupMode;
@@ -186,12 +199,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.structuredMode = this.activity.isStructured;
         this.ftpMode = (this.activity.view.isTemplate || this.activity.view.isTrainingPlan) ? FtpState.On : FtpState.Off;
 
-        this.prepareDetails();
-        this.prepareAuth();
-        this.prepareAthletesList();
-        this.prepareCategories();
-        this.prepareTemplates();
-        this.prepareTabPosition();
     }
 
     prepareDetails(){

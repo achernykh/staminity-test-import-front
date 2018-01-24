@@ -91,7 +91,7 @@ class AuthCtrl implements IComponentController {
      */
     signin(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
-        this.AuthService.signIn({email: credentials.email, password: credentials.password})
+        this.AuthService.signIn({device: this.device, email: credentials.email, password: credentials.password})
             .finally(() => this.enabled = true)
             .then((profile: IUserProfile) => {
                 this.redirect("calendar", {uri: profile.public.uri});

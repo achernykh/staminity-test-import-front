@@ -34,13 +34,19 @@
   }
 
   &__list {
-    border-radius: 3px;
-    margin: 0px 4px 8px 4px;
+    height: 60px; // important for virtual scroll size
+    //margin: 0px 4px 8px 4px;
     min-width: 200px;
-    padding-bottom: 0px;
+    //padding-bottom: 0px;
     .calendar-item-activity-icon {
       margin-right: 16px;
     }
+    .calendar-item-activity-header {
+      height: 100%;
+      border-radius: 3px;
+      margin: 0;
+    }
+
   }
 
   &__dashboard {

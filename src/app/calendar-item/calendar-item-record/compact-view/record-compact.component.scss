@@ -48,13 +48,19 @@
   }
 
   &__list, &__table {
-    border-radius: 3px;
-    margin: 0px 4px 8px 4px;
+    //border-radius: 3px;
+    //margin: 0px 4px 8px 4px;
     min-width: 200px;
-    padding-bottom: 0px;
+    //padding-bottom: 0px;
+    height: 60px;
 
     .calendar-item-record-icon {
       margin-right: 16px;
+    }
+    .calendar-item-activity-header {
+      height: 100%;
+      border-radius: 3px;
+      margin: 0;
     }
     .name {
       text-align: left;
