@@ -6,7 +6,7 @@ import { CalendarItemDialogService } from "../../calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../../calendar-item-dialog.interface";
 import { ICompetitionConfig } from "../calendar-item-competition.config";
 
-class CompetitionSingleStageCtrl implements IComponentController {
+export class CompetitionSingleStageCtrl implements IComponentController {
 
     // bind
     type: string;
