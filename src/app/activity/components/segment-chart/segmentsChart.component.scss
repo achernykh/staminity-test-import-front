@@ -45,6 +45,7 @@ activity-segment-chart {
         border-radius: 3px;
         box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.24), 0 0 16px 0 rgba(0, 0, 0, 0.18);
         pointer-events: none;
+        z-index: 1;
     }
 
     .tooltip {

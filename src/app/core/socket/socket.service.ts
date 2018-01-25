@@ -144,7 +144,7 @@ export class SocketService {
         } else if ( message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken' ) {
             this.close();
             this.messageService.toastInfo(message.errorMessage);
-            this.$state.go('signin');
+            this.$state.go('signin'); // need check for mobile app
         }
     }
 
