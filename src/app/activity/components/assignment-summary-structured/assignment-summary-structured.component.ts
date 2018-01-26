@@ -4,6 +4,7 @@ import {
     HeaderStructuredTab,
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import "./assignment-summary-structured.component.scss";
+import { IQuillConfig } from "@app/share/quill/quill.config";
 
 class AssignmentSummaryStructuredCtrl implements IComponentController {
 
@@ -21,9 +22,9 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
         },
     };
 
-    static $inject = [];
+    static $inject = ['quillConfig'];
 
-    constructor() {
+    constructor(private quillConf: IQuillConfig) {
 
     }
 

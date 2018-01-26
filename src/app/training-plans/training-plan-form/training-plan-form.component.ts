@@ -7,6 +7,7 @@ import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import { TrainingPlanConfig } from "../training-plan/training-plan.config";
 import { IQuillConfig } from "../../share/quill/quill.config";
+import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
@@ -20,16 +21,18 @@ class TrainingPlanFormCtrl implements IComponentController {
     private planForm: INgModelController;
 
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig'];
+    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
 
     constructor (private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
                  private message: MessageService,
-                 private quillConf: IQuillConfig) {
+                 private quillConf: IQuillConfig,
+                 private competitionConfig: ICompetitionConfig) {
 
     }
 
     $onInit () {
+        debugger;
         this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
         this.getPlanDetails();
     }
@@ -37,7 +40,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     save () {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
-                .post(this.plan.clear())
+                .post(this.plan.apiObject())
                 .then((response: IRevisionResponse) => this.onSave({
                         mode: this.mode,
                         plan: this.plan.applyRevision(response)
@@ -47,13 +50,21 @@ class TrainingPlanFormCtrl implements IComponentController {
 
         if (this.mode === FormMode.Put) {
             this.trainingPlanService
-                .put(this.plan.clear())
+                .put(this.plan.apiObject())
                 .then((response: IRevisionResponse) => this.onSave({
                         mode: this.mode,
                         plan: this.plan.applyRevision(response)
                     }),
                     (error) => this.message.toastInfo(error));
         }
+    }
+
+    get distanceType () : any {
+        return this.plan && this.competitionConfig.distanceTypes.find((t) => t.type === this.plan.type && t.code === this.plan.distanceType);
+    }
+
+    set distanceType (distanceType: any) {
+        this.plan.distanceType = distanceType.code;
     }
 
     get isViewMode (): boolean {
@@ -65,7 +76,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     private getPlanDetails (): void {
-        if ( this.mode === FormMode.Post ) { return; }
+        if ( this.mode === FormMode.Post || this.plan.hasOwnProperty('calendarItems') ) { return; }
         this.trainingPlanService.get(this.plan.id)
             .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
     }

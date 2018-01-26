@@ -167,6 +167,7 @@
                             on-delete="$ctrl.deleteItems(items)"
                             on-post-plan=""
                             on-update="$ctrl.update(formMode, item)"
+                            on-drop="$ctrl.dropItems(formMode, item)"
                             on-select="day.selected = !day.selected; $ctrl.selectItems()">
                     </calendar-day>
 
@@ -194,7 +195,7 @@
                 </div>
                 <!-- grid-week: end -->
 
-                <div class="scroll__bottom-pad" style="height:100%"></div>
+                <div class="scroll__bottom-pad" style="margin-bottom:100%"></div>
 
             </section>
             <!-- grid-weekdays: end -->

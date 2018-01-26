@@ -56,9 +56,9 @@
                                            placeholder="{{trainingPlans.name.placeholder}}"
                                            ng-model="$ctrl.plan.type"
                                            ng-change="$ctrl.changeParam()">
-                                    <md-option ng-repeat="type in $ctrl.config.types track by $index"
+                                    <md-option ng-repeat="type in $ctrl.competitionConfig.types track by $index"
                                                value="{{type}}">
-                                        {{'plan.types.' + type | translate}}
+                                        {{'competition.types.' + type | translate}}
                                     </md-option>
                                 </md-select>
                                 <div ng-messages="$ctrl.planForm.type.$error" role="alert">
@@ -75,13 +75,13 @@
                                 <md-icon flex="none" class="md-dark"
                                          md-svg-src="/assets/icon/competition.svg"></md-icon>
                                 <md-select flex name="distanceType" class="icon" required="{{$ctrl.plan.isPublic}}"
-                                           ng-model="$ctrl.plan.distanceType"
+                                           ng-model="$ctrl.distanceType"
                                            placeholder="{{trainingPlans.distanceType.placeholder}}"
                                            ng-change="$ctrl.changeParam()">
-                                    <md-option
-                                            ng-repeat="type in $ctrl.config.distanceTypes[$ctrl.plan.type] track by $index"
-                                            value="{{type}}">
-                                        {{'plan.distanceType.' + type | translate}}
+                                    <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
+                                        filter:{type: $ctrl.plan.type}
+                                        track by $index" ng-value="type">
+                                        {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                                     </md-option>
                                 </md-select>
                                 <div ng-messages="$ctrl.planForm.distanceType.$error" role="alert">
@@ -116,7 +116,7 @@
                                 <label translate="trainingPlans.startDate.label"></label>
                                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                                 <md-datepicker flex="auto"
-                                               ng-model="$ctrl.plan.startDate"
+                                               ng-model="$ctrl.plan._startDate"
                                                name="startDate" md-hide-icons="calendar">
                                 </md-datepicker>
                             </md-input-container>
@@ -236,7 +236,8 @@
                                      modules="$ctrl.quillConf.toolbarFull"
                                      on-content-changed="$ctrl.changeForm()"
                                      ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                                     read-only="$ctrl.isViewMode">
+                                     read-only="$ctrl.isViewMode"
+                                     st-quill-post-image>
                     </ng-quill-editor>
                 </md-tab-body>
             </md-tab>

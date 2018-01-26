@@ -99,7 +99,7 @@
         </header>
         <section ng-switch="$ctrl.isStructured" class="description">
         <span class="md-caption md-dark md-inactive"
-              ng-switch-when="false">{{ $ctrl.description }}</span>
+              ng-switch-when="false">{{ $ctrl.description | htmlToPlainText}}</span>
             <calendar-activity-chart ng-switch-when="true"
                                      ng-if="::$ctrl.segmentChart"
                                      data="::$ctrl.segmentChart"
@@ -140,7 +140,7 @@
                      ng-bind="$ctrl.template.activityCategory | categoryCode">
             </span>-->
             <span class="md-caption md-dark"
-                  ng-switch-when="false" ng-bind="$ctrl.description"></span>
+                  ng-switch-when="false" ng-bind="$ctrl.description | htmlToPlainText"></span>
                 <calendar-activity-chart ng-switch-when="true"
                                          ng-if="::$ctrl.segmentChart"
                                          data="::$ctrl.segmentChart"

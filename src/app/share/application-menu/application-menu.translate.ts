@@ -1,5 +1,9 @@
 export const _application_menu = {
     ru: {
+        clubProfile: 'Профиль',
+        clubManagement: 'Спортсмены',
+        clubDashboard: 'Дэшборд',
+        clubMethodology: 'Методология',
         calendar: 'Календарь',
         search: 'Поиск',
         reference: 'Шаблоны и категории',

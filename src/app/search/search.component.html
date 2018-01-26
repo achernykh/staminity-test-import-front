@@ -72,7 +72,7 @@
                         </td>
                         <td md-cell>{{user.private.country}}</td>
                         <td md-cell>{{user.private.city}}</td>
-                        <td md-cell><p class="about">{{user.private.about}}</p></td>
+                        <td md-cell><p class="about">{{user.private.about | htmlToPlainText}}</p></td>
                     </tr>
                     </tbody>
                 </table>
@@ -105,7 +105,7 @@
                             <userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>
                         </md-card-header>
                         <md-card-content flex class="md-body-1 md-dark" layout="column">
-                            <p flex="auto">{{user.private.about}}</p>
+                            <p flex="auto">{{user.private.about | htmlToPlainText}}</p>
                         </md-card-content>
                         <md-card-actions flex="none" layout="row" layout-align="start center">
                             <md-button class="md-primary    " ng-click="$ctrl.onDetails(user.public.uri)">Профиль</md-button>
@@ -155,7 +155,7 @@
                             <!--<userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>-->
                         </md-card-header>
                         <md-card-content flex class="md-body-1 md-dark" layout="column">
-                            <p flex="auto">{{club.about}}</p>
+                            <p flex="auto">{{club.about | htmlToPlainText}}</p>
                         </md-card-content>
                         <md-card-actions flex="none" layout="row" layout-align="start center">
                             <md-button class="md-primary    " ng-click="$ctrl.onDetails(club.groupUri)">Профиль</md-button>

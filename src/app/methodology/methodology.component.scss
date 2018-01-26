@@ -25,6 +25,19 @@
 
   }
 
+  &__access-lock {
+    min-height: calc(100vh - 64px - 48px);
+    md-icon {
+      font-size: 96px;
+      height: 96px;
+      width: 96px;
+      margin: 0;
+    }
+    p {
+      max-width: 340px;
+    }
+  }
+
   .template-count {
     border-radius: 8px;
     line-height: 16px;

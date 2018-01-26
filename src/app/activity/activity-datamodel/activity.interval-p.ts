@@ -97,11 +97,12 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @returns {IActivityIntervalP}
      */
     clear(keys: string[] = this.keys): IActivityIntervalP {
+        let interval: IActivityIntervalP = Object.assign({}, this);
         if (this.hasRecalculate) {
             ["calcMeasures"].map((key) => this.keys.splice(this.keys.indexOf(key), 1));
         }
-        keys.map((p) => delete this[p]);
-        return this as IActivityIntervalP;
+        keys.map((p) => interval.hasOwnProperty(p) && delete interval[p]);
+        return interval;
     }
 
     /**
@@ -333,15 +334,16 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      * @returns {IActivityIntervalPW}
      */
     toTemplate(): IActivityIntervalP | IActivityIntervalPW {
-        this.intensityLevelFrom = null;
-        this.intensityLevelTo = null;
-        this.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;
-        this.intensityByFtpTo = Math.ceil(this.intensityByFtpTo * 100) / 100;
-        if (this.hasOwnProperty("calcMeasures")) {
-            delete this.calcMeasures;
-        }
 
-        return this;
+        let interval: IActivityIntervalPW = Object.assign({}, this);
+        interval.intensityLevelFrom = null;
+        interval.intensityLevelTo = null;
+        interval.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;
+        interval.intensityByFtpTo = Math.ceil(this.intensityByFtpTo * 100) / 100;
+
+        this.keys.map(k => interval.hasOwnProperty(k) && delete interval[k]);
+
+        return interval;
     }
 
 }

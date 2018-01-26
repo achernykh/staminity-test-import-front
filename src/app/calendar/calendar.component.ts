@@ -18,7 +18,7 @@ import { FormMode } from "../application.interface";
 import { CalendarItemDialogService } from "../calendar-item/calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialog.interface";
 import AuthService from "@app/auth/auth.service";
-import { updateIntensity } from "../activity/activity.function";
+import { updateIntensity, changeUserOwner } from "../activity/activity.function";
 import { getUser } from "../core/session/session.service";
 
 export class CalendarCtrl implements IComponentController{
@@ -151,15 +151,15 @@ export class CalendarCtrl implements IComponentController{
                 message.value.hasOwnProperty('userProfileOwner') &&
                 message.value.userProfileOwner.userId === this.owner.userId)// &&
                 //(message.value.calendarItemType !== 'activity' || message.value.calendarItemType === 'activity' && !message.value.parentId))
-            .map(message => {
+            /**.map(message => {
                 message.value['index'] = Number(`${message.value.calendarItemId}${message.value.revision}`);
-                return message;})
+                return message;})**/
             // ассинхронное сообщение зачастую обрабатывается быстрее, чем получение синхронного ответа через bind
             // в случае с соревнования это критично, так как в ассинхронном ответе не полностью передается структура
             // обьекта
-            .delay(500)
+            .delay(1)
             .subscribe((message) => {
-                console.warn('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
                 switch (message.action) {
                     case 'I': {
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
@@ -172,10 +172,19 @@ export class CalendarCtrl implements IComponentController{
                         break;
                     }
                     case 'U': {
-                        this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                        if (!this.calendar.include(message.value.calendarItemId, message.value.revision)) {
+                            if (!message.value.parentId || message.value.calendarItemType === 'record') {
+                                this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                            }
+                            this.calendar.post(message.value as ICalendarItem, message.value.parentId);
+                        } else {
+                            console.info('training plan builder: item already exist');
+                        }
+                        break;
+                        /**this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
                         this.calendar.post(<ICalendarItem>message.value, message.value.parentId);
                         this.$scope.$applyAsync();
-                        break;
+                        break;**/
                     }
                 }
             });
@@ -220,7 +229,6 @@ export class CalendarCtrl implements IComponentController{
             popupMode: true,
             formMode: mode,
             trainingPlanMode: false,
-            planId: null,
             calendarRange: {
                 dateStart: moment().add(--this.calendar.range[0], 'w').startOf('week').format(this.dateFormat),
                 dateEnd: moment().add(++this.calendar.range[1], 'w').endOf('week').format(this.dateFormat)
@@ -314,13 +322,24 @@ export class CalendarCtrl implements IComponentController{
         if (!firstTrgDay) { return; }
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
-
+        let update: boolean = this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner);
+        let items: Array<ICalendarItem> = [];
         if (shift && this.copiedItems && this.copiedItems.length > 0) {
-            task = this.copiedItems
-                .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
-                .map(item => this.calendarService.postItem(prepareItem(item, shift)));
 
-            Promise.all(task)
+            items = [...this.copiedItems.filter(item => item.calendarItemType === 'activity' &&
+                item.activityHeader.intervals.some(interval => interval.type === 'pW'))];
+
+            /**task = this.copiedItems
+                .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
+                .map(item => this.calendarService.postItem(prepareItem(item, shift)));**/
+
+            Promise.resolve(() => {})
+                .then(() => this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner) && this.dialogs.confirm({ text: 'dialogs.updateIntensity' }))
+                .then(() => {
+                    items.map(i => updateIntensity(i, this.owner.trainingZones));
+                    items.map(i => changeUserOwner(i, this.owner));})
+                .then(() => items.map(i => this.calendarService.postItem(prepareItem(i, shift))))
+                .then(task =>  Promise.all(task))
                 .then(response => {
                     response.forEach((r,i) => {
                         if (r.type === 'revision') {
@@ -334,6 +353,21 @@ export class CalendarCtrl implements IComponentController{
                     this.message.toastInfo('itemsPasted');
                 }, (error)=> this.message.toastError(error))
                 .then(()=> this.clearBuffer());
+
+            /**Promise.all(task)
+                .then(response => {
+                    response.forEach((r,i) => {
+                        if (r.type === 'revision') {
+                            // Сохраняем данные, предварительно обновив, полученным номером и ревизией
+                            this.calendar.post(Object.assign(this.copiedItems[i], {
+                                calendarItemId: r.value.id,
+                                revision: r.value.revision
+                            }));
+                        }
+                    });
+                    this.message.toastInfo('itemsPasted');
+                }, (error)=> this.message.toastError(error))
+                .then(()=> this.clearBuffer());**/
         }
     }
 
@@ -411,6 +445,21 @@ export class CalendarCtrl implements IComponentController{
             .then((item: ICalendarItem) => this.calendar.post(item));
     }
 
+    put (item: ICalendarItem): void {
+        this.calendarService.putItem(item)
+            .then(response => response && Object.assign(item, {
+                index: Number(`${response.value.id}${response.value.revision}`),
+                calendarItemId: response.value.id,
+                revision: response.value.revision,
+                activityHeader: Object.assign(item.activityHeader, {
+                    activityId: response.value.activityId
+                })}))
+            .then((item: ICalendarItem) => {
+                this.calendar.delete(this.calendar.searchItem(item.calendarItemId));
+                this.calendar.post(item);
+            });
+    }
+
     /**
      * Обновление данных календаря по синхронным ответам от бэка
      * Вызов приходит из calendar-day
@@ -418,15 +467,12 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
-        debugger;
-        console.warn('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
-        let FormMode = { Post: 0, Put: 1, View: 2, Delete: 3 }; // TODO не работает enum
+        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        if (item.calendarItemType === 'record' && item.recordHeader && item.recordHeader.repeat) {console.info('sync update: skip parent record'); return;}
         switch (mode) {
             case FormMode.Post: {
                 if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('sync post: item already exist'); return; }
                 this.calendar.post(item);
-                //this.$scope.$applyAsync();
-                //this.$scope.$apply();
                 break;
             }
             case FormMode.Put: {
@@ -439,6 +485,20 @@ export class CalendarCtrl implements IComponentController{
                 break;
             }
         }
+    }
+
+    dropItems (mode: FormMode, item: ICalendarItem): void {
+        switch (mode) {
+            case FormMode.Post: {
+                this.post(item);
+                break;
+            }
+            case FormMode.Put: {
+                this.put(item);
+                break;
+            }
+        }
+        this.update(mode, item);
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {

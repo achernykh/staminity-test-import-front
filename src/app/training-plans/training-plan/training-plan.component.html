@@ -8,25 +8,29 @@
         right-bar-show="$ctrl.rightBarShow" ng-switch="$ctrl.currentState">
 
     <st-application-frame-profile>
-        <section class="st-profile-template__header" layout="column" layout-align="center center">
-            <userpic class="border-light"
-                     ng-class="{'size-60': $ctrl.$mdMedia('(max-width: 959px)'), 'size-114': $ctrl.$mdMedia('(min-width: 960px)')}"
-                     profile="$ctrl.user"></userpic>
-            <p class="title"
-               ng-class="{'md-display-1': $ctrl.$mdMedia('(max-width: 959px)'), 'md-display-3': $ctrl.$mdMedia('(min-width: 960px)')}">Alexander Chernykh</p>
-            <p class="description"
-               ng-class="{'md-caption': $ctrl.$mdMedia('(max-width: 959px)'), 'md-body-2': $ctrl.$mdMedia('(min-width: 960px)')}">Some text some text some text some text some text some text some text some text some text some text some text some text</p>
+        <section class="st-profile-template__header" layout="column" layout-align="space-between center">
+            <section class="info" flex="auto" layout="column" layout-align="center center">
+                <userpic class="border-light"
+                         ng-class="{'size-60': $ctrl.$mdMedia('(max-width: 959px)'), 'size-60': $ctrl.$mdMedia('(min-width: 960px)')}"
+                         profile="$ctrl.user"></userpic>
+                <p class="title"
+                   ng-class="{'md-display-1': $ctrl.$mdMedia('(max-width: 959px)'), 'md-display-1': $ctrl.$mdMedia('(min-width: 960px)')}">Alexander Chernykh</p>
+                <p class="description"
+                   ng-class="{'md-caption': $ctrl.$mdMedia('(max-width: 959px)'), 'md-body-2 line-16': $ctrl.$mdMedia('(min-width: 960px)')}">Some text some text some text some text some text some text some text some text some text some text some text some text</p>
+            </section>
+            <section flex="none" layout="row" layout-align="center center">
+                <md-nav-bar flex="none"
+                            class="st-application-frame__navbar"
+                            md-no-ink-bar="false"
+                            md-selected-nav-item="'First'"
+                            nav-bar-aria-label="navigation links">
+                    <md-nav-item  ng-repeat="state in ['First', 'Second', 'Third'] track by $index"
+                                  md-nav-click="$ctrl.currentState = state" name="{{::state}}">
+                        <span translate="methodology.{{::state}}"></span>
+                    </md-nav-item>
+                </md-nav-bar>
+            </section>
         </section>
-
-        <md-nav-bar class="st-application-frame__navbar"
-                    md-no-ink-bar="false"
-                    md-selected-nav-item="'First'"
-                    nav-bar-aria-label="navigation links">
-            <md-nav-item  ng-repeat="state in ['First', 'Second', 'Third'] track by $index"
-                          md-nav-click="$ctrl.currentState = state" name="{{::state}}">
-                <span translate="methodology.{{::state}}"></span>
-            </md-nav-item>
-        </md-nav-bar>
 
     </st-application-frame-profile>
 

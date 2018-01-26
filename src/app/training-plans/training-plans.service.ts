@@ -1,10 +1,12 @@
 import { SocketService } from "../core";
 import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
-    ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest
+    ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest, ITrainingPlanAssignmentRequest,
+    ModifyTrainingPlanAssignment, ITrainingPlanAssignment, GetTrainingPlanAssignment, ITrainingPlanAssignmentResponse
 } from "../../../api/trainingPlans";
 import { IWSResponse, IRevisionResponse } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
+import { Observable } from "rxjs";
 
 /**
  * Сервис для работы с данными Долгосрочного плана
@@ -16,10 +18,12 @@ import { ICalendarItem } from "@api/calendar";
  */
 export class TrainingPlansService {
 
+    message: Observable<any>;
+
     static $inject = [ 'SocketService' ];
 
     constructor (private socket: SocketService) {
-
+        this.message = this.socket.messages.filter(message => message.type === 'trainingPlanItem').share();
     }
 
     /**
@@ -56,6 +60,25 @@ export class TrainingPlansService {
      */
     put (plan: ITrainingPlan): Promise<IRevisionResponse> {
         return this.socket.send(new PutTrainingPlan(plan));
+    }
+
+    /**
+     * Получение списка присовений плана
+     * @param planId
+     * @returns {Promise<any>}
+     */
+    getAssignment (planId: number): Promise<ITrainingPlanAssignmentResponse> {
+        return this.socket.send(new GetTrainingPlanAssignment(planId));
+    }
+
+    /**
+     * Управление присвоением плана
+     * @param planId
+     * @param request
+     * @returns {Promise<any>}
+     */
+    modifyAssignment (planId: number, request: ITrainingPlanAssignmentRequest): Promise<IRevisionResponse> {
+        return this.socket.send(new ModifyTrainingPlanAssignment(planId, request));
     }
 
     /**
@@ -96,7 +119,7 @@ export class TrainingPlansService {
      * @param isSample
      * @returns {Promise<any>}
      */
-    deleteItem (planId: number, item: ICalendarItem, isSample: boolean = false): Promise<IWSResponse> {
-        return this.socket.send(new ModifyTrainingPlanItem('D', planId, item, isSample));
+    deleteItem (planId: number, item: ICalendarItem, isSample: boolean = false, rmParams?: any): Promise<IWSResponse> {
+        return this.socket.send(new ModifyTrainingPlanItem('D', planId, item, isSample, rmParams));
     }
 }

@@ -43,19 +43,25 @@
                   ng-click="$ctrl.transitionToState('club', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">account_circle</md-icon>
-        <p class="md-body-2" translate>Профиль</p>
+        <p class="md-body-2" translate="appMenu.clubProfile"></p>
     </md-list-item>
     <md-list-item class="menu-coach"
                   ng-click="$ctrl.transitionToState('management', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">people</md-icon>
-        <p class="md-body-2" translate>Члены клуба</p>
+        <p class="md-body-2" translate="appMenu.clubManagement"></p>
     </md-list-item>
     <md-list-item class="menu-coach"
                   ng-click="$ctrl.transitionToState('dashboard/club', club.groupUri)"
                   ng-if="showClubMenu">
         <md-icon class="material-icon">developer_board</md-icon>
-        <p class="md-body-2" translate>Дэшборд</p>
+        <p class="md-body-2" translate="appMenu.clubDashboard"></p>
+    </md-list-item>
+    <md-list-item class="menu-coach"
+                  ng-click="$ctrl.transitionToState('methodology-club', club.groupUri)"
+                  ng-if="showClubMenu">
+        <md-icon class="material-icon" md-svg-src="/assets/icon/methodology.svg"></md-icon>
+        <p class="md-body-2" translate="appMenu.clubMethodology"></p>
     </md-list-item>
     <md-divider ng-repeat-end ng-if="!showClubMenu"></md-divider>
 </md-list>

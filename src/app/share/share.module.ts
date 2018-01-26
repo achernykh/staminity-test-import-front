@@ -52,9 +52,11 @@ import ApplicationProfileTemplateComponent from "./application-frame/profile-tem
 import { shareStates } from "./share.states";
 import { htmlToPlainText } from "./text/plain-text.filter";
 import { quillConfig } from "./quill/quill.config";
+import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
+import { measurePrintIntensity } from "./measure//measure-print-intensity.filter";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -231,9 +233,16 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
         };
     }])
     .filter("percent", ["$filter", ($filter) => {
-        return (value, decimal = 0) => {
+        return (value, id, decimal = 0, percent: boolean = true) => {
             if (value) {
-                return $filter('number')(value*100,decimal)+'%';
+                return `${$filter('number')(value*100,decimal)}${percent?'%':''}`;
+            }
+        };
+    }])
+    .filter("stPercent", ["$filter", ($filter) => {
+        return (value, decimal = 0, percent: boolean = true) => {
+            if (value) {
+                return `${$filter('number')(value*100,decimal)}${percent ? '%': ''}`; //$filter('number')(value*100,decimal) + percent ? '%': '';
             }
         };
     }])
@@ -297,6 +306,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('stApplicationFrame', ApplicationFrameComponent)
     .component('stApplicationUserToolbar', ApplicationUserToolbarComponent)
     .filter('htmlToPlainText', htmlToPlainText)
+    .filter('stMeasurePrintIntensity', measurePrintIntensity)
     .component('staminityBackground',BackgroundComponent)
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
@@ -317,6 +327,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
+    .directive('stQuillPostImage', stQuillPostImage) 
     .filter('truncate', truncate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
     .constant('quillConfig', quillConfig)

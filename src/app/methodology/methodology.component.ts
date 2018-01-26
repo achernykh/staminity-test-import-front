@@ -13,6 +13,7 @@ import { IActivityType } from "../../../api/activity/activity.interface";
 import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
 import { PeriodizationService } from "./periodization/periodization.service";
 import { IPeriodizationScheme } from "@api/seasonPlanning";
+import AuthService from "../auth/auth.service";
 
 class MethodologyCtrl implements IComponentController {
 
@@ -26,8 +27,8 @@ class MethodologyCtrl implements IComponentController {
 
     // private
     private leftBarShow: boolean = true;
-    private navBarStates: Array<string> = ['periodization', 'categories', 'templates'];
-    private currentState: string = 'periodization';
+    private navBarStates: Array<string> = ['trainingPlans','periodization', 'categories', 'templates'];
+    private currentState: string = 'trainingPlans';
     private activityTypes: Array<IActivityType> = activityTypes;
     private trainingPlansFilter: ITrainingPlanSearchRequest;
     private trainingPlansFilterChange: number = 0;
@@ -40,20 +41,20 @@ class MethodologyCtrl implements IComponentController {
     private currentPeriodizationScheme: IPeriodizationScheme;
     private destroy: Subject<void> = new Subject<void>();
 
-    static $inject = ['$scope', '$stateParams', '$location', 'ReferenceService', 'PeriodizationService'];
+    static $inject = ['$scope', '$stateParams', '$location', 'ReferenceService', 'PeriodizationService', 'AuthService'];
 
     constructor (private $scope,
                  private $stateParams: any,
                  private $location: ILocationService,
                  private referenceService: ReferenceService,
-                 private periodizationService: PeriodizationService) {
+                 private periodizationService: PeriodizationService,
+                 private authService: AuthService) {
 
     }
 
     $onInit (): void {
         this.filterParams.club = this.club;
-        this.setState(this.$stateParams.hasOwnProperty('state') &&
-            this.$stateParams.state ? this.$stateParams.state : this.currentState);
+        this.prepareStates();
         this.getCategories();
         this.getTemplates();
         this.getSchemes();
@@ -68,6 +69,30 @@ class MethodologyCtrl implements IComponentController {
     $onDestroy (): void {
         this.destroy.next();
         this.destroy.complete();
+    }
+
+    checkAuth (): boolean {
+        switch (this.currentState) {
+            case 'trainingPlans': {
+                return this.currentUser.public.isCoach && this.currentUser.public.profileComplete;
+            }
+            case 'periodization': case 'categories': case 'templates': {
+                return this.authService.isAuthorized(['ActivitiesPlan_User', 'ActivitiesPlan_Athletes'], false);
+            }
+            default: {
+                return true;
+            }
+        }
+    }
+
+    private prepareStates(): void {
+        if (this.club) {
+            this.navBarStates = ['categories', 'templates'];
+            this.currentState = 'categories';
+        } else {
+            this.setState(this.$stateParams.hasOwnProperty('state') &&
+                this.$stateParams.state ? this.$stateParams.state : this.currentState);
+        }
     }
 
     private getSchemes (): void {

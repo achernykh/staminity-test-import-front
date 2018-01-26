@@ -37,6 +37,8 @@ class CalendarTotalCtrl implements IComponentController {
     week: ICalendarWeek;
     selected: boolean;
     dynamicDates: boolean;
+    trainingPlanMode: boolean;
+    planId: number;
     compactView: boolean;
     onSelect: () => Promise<any>;
 
@@ -65,8 +67,10 @@ class CalendarTotalCtrl implements IComponentController {
 
     $onInit(): void {
         this.title = moment(this.week.week,'YYYY-WW').week();
-        this.trainingSeasonService.getUserWeekData(this.owner.userId, moment(this.week.week,'YYYY-WW').format('YYYY.WW'))
-            .then(result => this.periodizationData = result.arrayResult[0]);
+        if (!this.trainingPlanMode) {
+            this.trainingSeasonService.getUserWeekData(this.owner.userId, moment(this.week.week,'YYYY-WW').format('YYYY.WW'))
+                .then(result => this.periodizationData = result.arrayResult[0]);
+        }
     }
 
     onToggle() {
@@ -98,6 +102,8 @@ const CalendarTotalComponent: IComponentOptions =  {
         selected: '<',
         accent: '<',//,
         dynamicDates: '<',
+        trainingPlanMode: '<',
+        planId: '<',
         owner: '<',
         compactView: '<',
         copiedItemsLength: '<', // обьем буфера скопированных тренировок

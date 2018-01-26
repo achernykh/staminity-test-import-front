@@ -67,8 +67,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             owner: this.owner,
             popupMode: true,
             formMode: FormMode.View,
-            trainingPlanMode: false,
-            planId: null
+            trainingPlanMode: false
         };
 
         this.prepareAthletesList();

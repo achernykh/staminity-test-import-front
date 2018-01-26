@@ -9,7 +9,9 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.delete()" ng-disabled="$ctrl.competition.view.isPost">
+                        <md-button ng-click="$ctrl.competition.view.isTrainingPlan ?
+                       $ctrl.deleteTrainingPlanItems() : $ctrl.delete()"
+                                   ng-disabled="$ctrl.competition.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="activity.toolbar.delete"></span>
                         </md-button>
@@ -141,7 +143,9 @@
                     </md-input-container>
                 </md-list-item>
                 <!-- Дата -->
-                <md-list-item layout="row" layout-align="start center">
+                <md-list-item layout="row" layout-align="start center"
+                              ng-if="!($ctrl.options.templateMode ||
+                              ($ctrl.competition.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates))">
                     <md-input-container flex="auto" class="no-message">
                         <label translate="competition.startDate.label"></label>
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
@@ -153,6 +157,12 @@
                                        md-hide-icons="calendar">
                         </md-datepicker>
                     </md-input-container>
+                </md-list-item>
+                <md-list-item ng-if="$ctrl.competition.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates">
+                    <md-icon class="material-icons md-dark" style="margin-right: 20px">today</md-icon>
+                    <p class="md-caption"
+                       translate="activity.dynamicDate"
+                       translate-values="{week: $ctrl.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.options.trainingPlanOptions.dayNumber + 1}"></p>
                 </md-list-item>
             </md-list>
         </form>
@@ -188,7 +198,8 @@
                              modules="$ctrl.quillConf.toolbarFull"
                              on-content-changed="$ctrl.setDirty()"
                              ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
-                             read-only="$ctrl.competition.view.isView">
+                             read-only="$ctrl.competition.view.isView"
+                             st-quill-post-image>
             </ng-quill-editor>
             <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
@@ -196,14 +207,16 @@
                              modules="$ctrl.quillConf.toolbar"
                              on-content-changed="$ctrl.setDirty()"
                              ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
-                             read-only="$ctrl.competition.view.isView">
+                             read-only="$ctrl.competition.view.isView"
+                             st-quill-post-image>
             </ng-quill-editor>
         </md-list>
     </md-content>
 
     <!-- Кнопки -->
 
-    <md-dialog-actions flex="none" layout="row" style="background: white">
+    <md-dialog-actions ng-if="!$ctrl.competition.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.competition.view.isView" type="submit"
                    ng-click="$ctrl.competition.view.isPut = true">
@@ -214,6 +227,17 @@
                    ng-disabled="$ctrl.competition.view.isPut && !$ctrl.form.$dirty"
                    ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
             <span translate="activity.save"></span>
+        </md-button>
+    </md-dialog-actions>
+    <!-- Тренировочный план -->
+    <md-dialog-actions ng-if="$ctrl.competition.view.isTrainingPlan"
+                       flex="none" layout="row" style="background: white">
+        <span flex></span>
+        <md-button ng-if="!$ctrl.competition.view.isView"
+                   type="submit"
+                   ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
+                   translate="activity.save"
+                   ng-click="$ctrl.saveTrainingPlanCompetition()">
         </md-button>
     </md-dialog-actions>
 

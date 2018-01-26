@@ -48,7 +48,7 @@
         <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
         <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
     </div>
-    <md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.header.sport">
+    <!--<md-list-item style="margin-top: 16px; margin-bottom: 40px" ng-if="$ctrl.item.activity.header.sport">
         <md-input-container flex class="md-block no-message">
             <md-icon class="material-icons md-dark">event_note</md-icon>
             <label translate="Установка тренера" class="icon"></label>
@@ -58,5 +58,18 @@
                       class="icon" name="trainersPrescription"
                       rows="1"></textarea>
         </md-input-container>
-    </md-list-item>
+    </md-list-item>-->
+</md-list>
+<md-list class="md-dense" ng-if="$ctrl.item.activity.header.sport">
+    <md-subheader>
+        <span translate="activity.trainersPrescription"></span>
+    </md-subheader>
+    <ng-quill-editor ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
+                     on-content-changed="$ctrl.onChange()"
+                     placeholder="{{'activity.descriptionPlaceholder' | translate}}"
+                     modules="$ctrl.quillConf.toolbar"
+                     ng-class="{'hide-toolbar': $ctrl.item.activity.view.isView}"
+                     read-only="$ctrl.item.activity.view.isView"
+                     st-quill-post-image>
+    </ng-quill-editor>
 </md-list>

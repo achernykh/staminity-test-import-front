@@ -78,14 +78,4 @@ export class CalendarService {
     search (request: ISearchCalendarItemsParams): Promise<ISearchCalendarItemsResult> {
         return this.SocketService.send(new SearchCalendarItem(request));
     }
-
-    /**
-     * Загрузка картинки
-     * @param image
-     * @returns {Promise<string>}
-     */
-    postImage(image: any):Promise<string> {
-        return this.RESTService.postFile(new PostFile(`/calendarItem/recordImage/1`, image))
-            .then((response: any) => `${response.fileName}`);
-    }
 }

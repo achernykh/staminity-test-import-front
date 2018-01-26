@@ -41,8 +41,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
             owner: this.owner,
             popupMode: true,
             formMode: FormMode.View,
-            trainingPlanMode: false,
-            planId: null
+            trainingPlanMode: false
         };
     }
 
@@ -116,14 +115,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
             let pos = copy(i);
 
             while (
-            pos >= 1 &&
-            this.cycles.grid[pos] &&
-            this.cycles.grid[pos].mesocycle &&
-            this.cycles.grid[pos].mesocycle.hasOwnProperty('id') &&
-            this.cycles.grid[pos].mesocycle.id &&
-            this.cycles.grid[pos - 1].mesocycle &&
-            this.cycles.grid[pos - 1].mesocycle.hasOwnProperty('id') &&
-            this.cycles.grid[pos].mesocycle.id === this.cycles.grid[pos - 1].mesocycle.id) {
+                pos >= 1 &&
+                this.cycles.grid[pos] &&
+                this.cycles.grid[pos].mesocycle &&
+                this.cycles.grid[pos].mesocycle.hasOwnProperty('id') &&
+                this.cycles.grid[pos].mesocycle.id &&
+                this.cycles.grid[pos - 1].mesocycle &&
+                this.cycles.grid[pos - 1].mesocycle.hasOwnProperty('id') &&
+                this.cycles.grid[pos].mesocycle.id === this.cycles.grid[pos - 1].mesocycle.id) {
 
                 weekNumber++;
                 pos--;
@@ -144,9 +143,9 @@ class TrainingSeasonDataCtrl implements IComponentController {
     getWeekCount (pos: number): number {
         let count: number = 1;
         while (pos !== 0 && this.cycles.grid[pos].mesocycle.id &&
-        this.cycles.grid[pos].mesocycle.id === this.cycles.grid[pos - 1].mesocycle.id) {
-            count++;
-            pos--;
+            this.cycles.grid[pos].mesocycle.id === this.cycles.grid[pos - 1].mesocycle.id) {
+                count++;
+                pos--;
         }
         return count;
     }

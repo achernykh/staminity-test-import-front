@@ -8,7 +8,8 @@
                      placeholder="{{'record.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConfig.toolbar"
                      class="hide-toolbar md-body-1"
-                     read-only="true">
+                     read-only="true"
+                     st-quill-post-image>
     </ng-quill-editor>
     <div ng-if="$ctrl.scheme.isSystem" class="md-body-1 md-padding">{{$ctrl.scheme | schemeDescription}}</div>
     <section ng-if="!$ctrl.scheme.mesocycles || $ctrl.scheme.mesocycles.length === 0"

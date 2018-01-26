@@ -52,8 +52,7 @@ export class CalendarItemCompetition extends CalendarItem {
         }
 
         if (this.items && this.items.length) {
-            this.items.sort((a,b) =>
-                sortAsc(a.item._dateStart.getSeconds(),b.item._dateStart.getSeconds()));
+            this.items.sort((a,b) => sortAsc(a.item._dateStart.getSeconds(),b.item._dateStart.getSeconds()));
         }
     }
 
@@ -107,23 +106,25 @@ export class CalendarItemCompetition extends CalendarItem {
     build (): ICalendarItem {
         super.package();
         let item: ICalendarItem = Object.assign({}, this);
-        this.items.map(i => {
-            let pW: IActivityIntervalPW = i.item.intervals.PW;
-            if (pW && pW.distanceLength && pW.durationValue === 0) {
-                pW.durationValue = pW.distanceLength;
-                pW.durationMeasure = 'distance';
-            }
-            if (pW && pW.distanceLength && pW.durationValue !== pW.distanceLength) {
-                pW.durationMeasure = 'movingDuration';
-            }
-            if (pW && pW.movingDurationLength && pW.durationValue === 0) {
-                pW.durationValue = pW.movingDurationLength;
-                pW.durationMeasure = 'movingDuration';
-            }
-            if (pW && pW.movingDurationLength && pW.durationValue !== pW.movingDurationLength) {
-                pW.durationMeasure = 'distance';
-            }
-        });
+        if (this.items && this.items.length > 0) {
+            this.items.map(i => {
+                let pW: IActivityIntervalPW = i.item.intervals.PW;
+                if (pW && pW.distanceLength && pW.durationValue === 0) {
+                    pW.durationValue = pW.distanceLength;
+                    pW.durationMeasure = 'distance';
+                }
+                if (pW && pW.distanceLength && pW.durationValue !== pW.distanceLength) {
+                    pW.durationMeasure = 'movingDuration';
+                }
+                if (pW && pW.movingDurationLength && pW.durationValue === 0) {
+                    pW.durationValue = pW.movingDurationLength;
+                    pW.durationMeasure = 'movingDuration';
+                }
+                if (pW && pW.movingDurationLength && pW.durationValue !== pW.movingDurationLength) {
+                    pW.durationMeasure = 'distance';
+                }
+            });
+        }
         //item.calendarItems = this.items.map(i => new Activity(i.item, this.options));
         ['item', 'items', 'calendarItems', 'options', 'statusLimit', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
             .map(k => item.hasOwnProperty(k) && delete item[k]);

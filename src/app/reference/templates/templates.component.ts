@@ -51,7 +51,6 @@ class TemplatesCtrl implements IComponentController {
 			popupMode: true,
 			formMode: FormMode.Post,
 			trainingPlanMode: false,
-			planId: null,
 			templateMode: true,
 			templateOptions: {
 				templateId: null,

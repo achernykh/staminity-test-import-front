@@ -10,18 +10,18 @@ export class CalendarItemRecord extends CalendarItem {
     recordHeader: IRecordHeader;
     isRepeated: boolean = false;
 
-    constructor (private param: ICalendarItem, options?: ICalendarItemDialogOptions) {
+    constructor (private param: ICalendarItem, private options?: ICalendarItemDialogOptions) {
         super(param, options);
         this.prepareDefaultType();
     }
 
     build (): ICalendarItem {
         super.package();
-        let item: ICalendarItem = this;
+        let item: ICalendarItem = Object.assign({}, this);
         let format: string = 'YYYY-MM-DD';
 
         item.dateStart = moment(this.recordHeader.dateStart).format(format);
-        item.dateEnd = this.dateStart;
+        item.dateEnd = item.dateStart;
 
         if (!this.isRepeated) { // Без повторений
             item.recordHeader.repeat = null;
@@ -29,12 +29,20 @@ export class CalendarItemRecord extends CalendarItem {
             if (this.param.hasOwnProperty('recordHeader') &&
                 this.param.recordHeader.repeat !== item.recordHeader.repeat) {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
+                    asyncEventsDateFrom: this.options.calendarRange.dateStart,
+                    asyncEventsDateTo: this.options.calendarRange.dateEnd,
                     regenPastEvents: true,
-                    regenFutureEvents: true // изменить все будущие события
-                })  ;
+                    regenFutureEvents: true
+                });
             }
         } else { // С повторениями
             item.recordHeader.dateStart = item.dateStart;
+            item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
+                asyncEventsDateFrom: this.options.calendarRange.dateStart,
+                asyncEventsDateTo: this.options.calendarRange.dateEnd,
+                regenPastEvents: true,
+                regenFutureEvents: true
+            });
             if (item.recordHeader.repeat.endType === 'D') {
                 item.recordHeader.repeat.endOnDate = moment(this.recordHeader.repeat.endOnDate).format(format);
                 item.recordHeader.repeat.endOnCount = null;
@@ -42,15 +50,12 @@ export class CalendarItemRecord extends CalendarItem {
                 item.recordHeader.repeat.endOnDate = null;
             }
             if (this.view.isPut) {
-                item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
-                    // 2) меняется дата начала в повторе
-                    regenPastEvents: this.param.recordHeader.dateStart !== item.recordHeader.dateStart,
-                    regenFutureEvents: true // изменить все будущие события
-                });
+                // меняется дата начала в повторе
+                item.recordHeader.editParams.regenPastEvents = this.param.recordHeader.dateStart !== item.recordHeader.dateStart;
             }
         }
 
-        ['param', 'isRepeated', 'user', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
+        ['index', 'options', 'param', 'isRepeated', 'user', 'athletes', 'auth', 'view','_dateStart','_dateEnd']
             .map(k => item.hasOwnProperty(k) && delete item[k]);
         return item;
     }
@@ -64,6 +69,10 @@ export class CalendarItemRecord extends CalendarItem {
                 description: null
             };
             this.recordHeader.repeat.endOnDate = moment(this.dateStart).add('days', 2);
+            if (this.options.trainingPlanMode && this.options.trainingPlanOptions.dynamicDates) {
+                this.recordHeader.repeat.endType = 'C';
+                this.recordHeader.repeat.endOnCount = 3;
+            }
         } else {
             this.isRepeated = !!this.recordHeader.repeat;
         }

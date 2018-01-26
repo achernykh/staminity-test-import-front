@@ -5,7 +5,7 @@ const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
 const whitelist = ['https://'];
-const blacklist = ['/sw.js', 'favicon.ico?'];
+const blacklist = ['/sw.js', 'favicon.ico?', 'https://www.google-analytics.com', 'https://mc.yandex.ru'];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);
@@ -26,9 +26,10 @@ self.addEventListener('fetch', (event) => {
 });
 
 function initCache () {
-	return caches.open(cacheKey)
-		.then((cache) => cache.addAll(preload.split(',')))
-		.then(() => self.skipWaiting());
+  return self.skipWaiting(); 
+  // return caches.open(cacheKey) 
+  //   .then((cache) => cache.addAll(preload.split(','))) 
+  //   .then(() => self.skipWaiting()); 
 }
 
 function clearOldCaches () {

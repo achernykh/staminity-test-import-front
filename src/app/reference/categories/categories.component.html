@@ -59,7 +59,7 @@
 		</md-list>
 	</section>
 
-	<section ng-if="$ctrl.categoriesByOwner.system.length" class="categories__section">
+	<section ng-if="$ctrl.categoriesByOwner.system.length && !$ctrl.club.groupId" class="categories__section">
 		<!--<div class="md-body-2 md-padding categories__subheader">{{ 'reference.categories.system' | translate }}</div>-->
 		<md-subheader class="md-primary"><span translate="reference.categories.system"></span></md-subheader>
 		<md-list

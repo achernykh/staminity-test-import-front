@@ -35,6 +35,9 @@ export const _translateActivity = {
             sentiment_neutral: "Нормальное",
             sentiment_dissatisfied: "Плохое",
             sentiment_very_dissatisfied: "Ужасное",
+        },
+        templateSelector: {
+            toolbar: "Назад"
         }
 
     },
@@ -74,6 +77,9 @@ export const _translateActivity = {
             sentiment_neutral: "Normal",
             sentiment_dissatisfied: "Bad",
             sentiment_very_dissatisfied: "Very bad",
+        },
+        templateSelector: {
+            toolbar: "Back"
         }
     }
 };

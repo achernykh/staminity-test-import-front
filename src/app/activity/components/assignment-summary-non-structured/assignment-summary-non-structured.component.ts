@@ -105,7 +105,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.percentComplete[key] = this.calcPercent(key) || null;
         });
         this.prepareValues();
-        this.ftpMode = this.item.options.templateMode ? FtpState.On : FtpState.Off;
+        this.ftpMode = (this.item.options.templateMode || this.item.activity.view.isTrainingPlan) ? FtpState.On : FtpState.Off;
         this.validateForm();
 
     }
@@ -299,6 +299,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.form['dateStart'].$setValidity('needPermissionForFeature',
                 !isFutureDay(this.form['dateStart'].$modelValue) ||
                 this.AuthService.isActivityPlan() ||
+                this.item.activity.view.isTrainingPlan ||
                 (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
 
                 //!this.item.isOwner || this.AuthService.isActivityPlan() ||
