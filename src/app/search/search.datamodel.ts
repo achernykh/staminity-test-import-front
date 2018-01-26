@@ -1,17 +1,22 @@
 import { SearchResultByUser } from "@api/search/search.interface";
 
 export class SearchModule {
+    usp: SearchPanel<SearchResultByUser, UserSearchFilter>;
+
     constructor () {
         let CoachSearchPanel: SearchPanel<CollectionItemDataInterfaceCoach, CoachSearchFilter>;
-        let ClubSearchPanel: SearchPanel<CollectionItemDataInterfaceCoach, ClubSearchFilter>;
-        let UserSearchPanel: SearchPanel<SearchResultByUser, UserSearchFilter>;
+        //let ClubSearchPanel: SearchPanel<CollectionItemDataInterfaceCoach, ClubSearchFilter>;
 
-        UserSearchPanel.init({param1: "value1"});
+        //UserSearchPanel.init({param1: "value1"});
 
-        console.log(UserSearchPanel.getList());
+        //console.log(UserSearchPanel.getList());
         console.log(CoachSearchPanel.getList());
     }
 
+    lala(): void {
+        this.usp.init({});
+        this.usp.filterData.nameSubstring = "lala";
+    }
 }
 
 class SearchPanel<T, F extends CollectionFilter> implements Collection<T, F> {
@@ -61,7 +66,7 @@ class SearchPanel<T, F extends CollectionFilter> implements Collection<T, F> {
     }
 
     setFilterParameter (parameterName: string, parameterValue: any): F {
-        return this.filterData;
+        return this.filterData.params;
     };
 }
 
@@ -76,6 +81,8 @@ export interface CollectionItemDataInterfaceClub {
 
 export interface UserSearchFilter extends CollectionFilter {
     nameSubstring: string;
+
+    setNameSubstring(str: string) : ClubSearchFilter;
 }
 
 export interface CoachSearchFilter extends CollectionFilter {
@@ -158,4 +165,7 @@ export interface Collection<T, F extends CollectionFilter> {
      */
     getNextBackendData(): void;
 
+    setFilterParameter(parameterName: string, parameterValue: any): F;
+
+    getFilterParams(): any;
 }
