@@ -1,6 +1,7 @@
 import "./training-season-builder.component.scss";
 import moment from 'moment/src/moment.js';
 import { IComponentOptions, IComponentController, IScope, ILocationService } from "angular";
+import {Subject} from "rxjs/Rx";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import { ICalendarItem } from "@api/calendar";
@@ -43,6 +44,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private athletes: Array<IUserProfileShort>;
     private itemOptions: ICalendarItemDialogOptions;
     private recalculate: number = 0;
+    private destroy: Subject<any> = new Subject();
 
     // inject
     static $inject = ['$scope', '$location', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
@@ -74,6 +76,27 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         this.trainingSeasonService.get({userId: Number(this.$stateParams.userId) || this.currentUser.userId})
             .then(response => this.seasons = response.arrayResult)
             .then(() => this.prepareState());
+    }
+
+    $onDestroy() {
+        this.destroy.next();
+        this.destroy.complete();
+    }
+
+    private subscribeOnCompetitionUpdates (): void {
+        this.destroy.complete();
+        this.calendarService.item$
+            .takeUntil(this.destroy)
+            .filter(message =>
+                message.value.hasOwnProperty('parentId') &&
+                message.value.hasOwnProperty('userProfileOwner') &&
+                message.value.userProfileOwner.userId === this.owner.userId)
+            .delay(1)
+            .subscribe((message) => {
+                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                this.data.setCompetitionUpdate(message.action, message.value, message.value.parentId);
+                this.$scope.$applyAsync();
+            });
     }
 
     private prepareState (): void {
@@ -218,7 +241,8 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         this.trainingSeasonService.getItems(this.season.id)
             .then(result => this.setSeasonData(result.arrayResult), error => {})
             .then(() => this.calendarService.search({userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
-            .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult));
+            .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult))
+            .then(() => this.subscribeOnCompetitionUpdates());
             //.then(() => this.state = TrainingSeasonViewState.Builder);
     }
 

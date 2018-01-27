@@ -3,7 +3,7 @@ import { IComponentController, IPromise, element } from 'angular';
 import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
 import { IActivityTemplate } from "../../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
-import { getType, activityTypes } from "../../activity/activity.constants";
+import { getType, activityTypes, getBasicSport } from "../../activity/activity.constants";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IActivityInterval } from "../../../../api/activity/activity.interface";
 
@@ -48,7 +48,7 @@ export function templateToActivity (template: IActivityTemplate) : ICalendarItem
 		userProfileOwner: userProfileCreator,
 		activityHeader: {
 			activityCategory,
-			activityType: getType(activityTypeId) || activityTypes[0],
+			activityType: getBasicSport(getType(activityTypeId).code) || activityTypes[0],
 			intervals: content || []
 		}
 	};

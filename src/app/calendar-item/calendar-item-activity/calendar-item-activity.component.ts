@@ -17,7 +17,7 @@ import {SessionService} from "../../core";
 import {nameFromInterval} from "../../reference/reference.datamodel";
 import { Activity } from "../../activity/activity-datamodel/activity.datamodel";
 import {CalendarCtrl} from "../../calendar/calendar.component";
-import {activityTypes, getType} from "../../activity/activity.constants";
+import { activityTypes, getType, getBasicSport } from "../../activity/activity.constants";
 import {IAuthService} from "../../auth/auth.service";
 import ReferenceService from "../../reference/reference.service";
 import {
@@ -313,7 +313,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     updateFilterParams(): void {
         this.filterParams = {
             club: null,
-            activityType: this.activity.header.activityType,
+            activityType: getBasicSport(this.activity.header.activityType.typeBasic),
             category: this.activity.header.activityCategory
         };
 

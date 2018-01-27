@@ -148,7 +148,7 @@ export default class UserService {
                 this.getProfile(userChanges.userId)
                 .then((user) => {
                     const {revision} = <any> user;
-                    this.putProfile({ ...user, ...userChanges, revision });
+                    this.putProfile(Object.assign({ ...user, ...userChanges, revision }, {connections: this.SessionService.getUser().connections}));
                 });
             }
         });

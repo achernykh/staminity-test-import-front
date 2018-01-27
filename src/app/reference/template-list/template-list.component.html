@@ -9,7 +9,7 @@
                         ng-model="$ctrl.filterParams.activityType"
                         ng-change="$ctrl.updateFilterParams()">
                     <md-option
-                            ng-repeat="activityType in $ctrl.activityTypes track by activityType.id"
+                            ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true, enabled: true} track by activityType.id"
                             ng-value="activityType">
                         {{ 'sport.' + activityType.code | translate }}
                     </md-option>

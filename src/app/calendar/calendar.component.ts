@@ -332,9 +332,9 @@ export class CalendarCtrl implements IComponentController{
             /**task = this.copiedItems
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
                 .map(item => this.calendarService.postItem(prepareItem(item, shift)));**/
-
+            debugger;
             Promise.resolve(() => {})
-                .then(() => this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner) && this.dialogs.confirm({ text: 'dialogs.updateIntensity' }))
+                .then(() => this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner.userId) && this.dialogs.confirm({ text: 'dialogs.updateIntensity' }))
                 .then(() => {
                     items.map(i => updateIntensity(i, this.owner.trainingZones));
                     items.map(i => changeUserOwner(i, this.owner));})

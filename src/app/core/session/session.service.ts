@@ -65,6 +65,7 @@ export class SessionService {
     }
 
     setUser (userProfile: Object) {
+        console.info('session service: set user', userProfile);
         if (!userProfile['userId'] || this.isCurrentUserId(userProfile['userId'])) {
             this.refresh({ userProfile: { ...userProfile } });
         }
