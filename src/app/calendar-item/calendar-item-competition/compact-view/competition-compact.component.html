@@ -20,9 +20,8 @@
                          ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
                          class="md-title-small md-active center tight-10">
                     <span flex="none" ng-if="$ctrl.competition.movingDuration">
-                    {{$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
+                    {{$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}&nbsp;
                     </span>
-                    <span>&nbsp;&nbsp;</span>
                     <div flex="none" ng-if="$ctrl.competition.distance">
                         {{$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
                         {{'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}

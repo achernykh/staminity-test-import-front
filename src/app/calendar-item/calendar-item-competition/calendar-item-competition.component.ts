@@ -48,9 +48,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     $onChanges (changes): void {
         if (changes.hasOwnProperty('index') && !changes.index.isFirstChange() && this.item) {
-            debugger;
             this.competition = new CalendarItemCompetition(this.item, this.options);
-            //this.$scope.$applyAsync();
         }
     }
 

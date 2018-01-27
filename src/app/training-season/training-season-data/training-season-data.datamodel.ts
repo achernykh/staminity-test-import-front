@@ -30,31 +30,6 @@ export class TrainingSeasonData {
         this.grid.map(m => m.update());
     }
 
-    setCompetitionUpdate (action: string, item: ICalendarItem, parentId: number): void {
-        let ind: number = this.competitions.findIndex(c => c.calendarItemId === parentId);
-        if ( ind === -1 ) { return; }
-        let parent: ICalendarItem = this.competitions[ind];
-        let childInd: number = parent.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
-
-        switch ( action ) {
-            case 'I': {
-                parent.calendarItems.push(item);
-                break;
-            }
-            case 'U': {
-                parent.calendarItems.splice(childInd, 1, item);
-                break;
-            }
-            case 'D': {
-                parent.calendarItems.splice(childInd, 1);
-                break;
-            }
-        }
-        parent['index'] ++;
-        this.competitions.splice(ind, 1, parent);
-        this.setCompetitions(this.competitions);
-    }
-
     private prepare (): void {
         let start: Moment = moment(this.season.dateStart).startOf('week');
         let end: Moment = moment(this.season.dateEnd).endOf('week');

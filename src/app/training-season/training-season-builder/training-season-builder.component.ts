@@ -91,11 +91,11 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
                 message.value.hasOwnProperty('parentId') &&
                 message.value.hasOwnProperty('userProfileOwner') &&
                 message.value.userProfileOwner.userId === this.owner.userId)
-            .delay(1)
+            .delay(100)
             .subscribe((message) => {
                 console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
-                this.data.setCompetitionUpdate(message.action, message.value, message.value.parentId);
-                this.$scope.$applyAsync();
+                this.setCompetitionUpdate(message.action, message.value, message.value.parentId);
+                //this.$scope.$applyAsync();
             });
     }
 
@@ -200,6 +200,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
             .then(() => this.calendarService.search({ userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
             .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult))
+            .then(() => this.subscribeOnCompetitionUpdates())
             .then(() => this.update());
     }
 
@@ -218,7 +219,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     private prepareCompetitions (items: Array<ICalendarItem>): Array<ICalendarItem> {
         items = items
-            .map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}))
+            .map(i => Object.assign(i, {index: i['index'] || Number(`${i.calendarItemId}${i.revision}`)}))
             .sort((a,b) => moment(a.dateStart).isAfter(moment(b.dateStart)));
 
         if (this.isBuilderState) {
@@ -229,6 +230,37 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             items.sort((a,b) => moment(a.dateStart).isBefore(moment(b.dateStart)));
         }
         return items;
+    }
+
+    /**
+     * Обновление соревнований по ассинхронным событиям, в которых передается изменение этапов
+     * @param action
+     * @param item
+     * @param parentId
+     */
+    setCompetitionUpdate (action: string, item: ICalendarItem, parentId: number): void {
+        let ind: number = this.competitions.findIndex(c => c.calendarItemId === parentId);
+        if ( ind === -1 ) { return; }
+        let parent: ICalendarItem = this.competitions[ind];
+        let childInd: number = parent.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+
+        switch ( action ) {
+            case 'I': {
+                parent.calendarItems.push(item);
+                break;
+            }
+            case 'U': {
+                parent.calendarItems.splice(childInd, 1, item);
+                break;
+            }
+            case 'D': {
+                parent.calendarItems.splice(childInd, 1);
+                break;
+            }
+        }
+        parent['index'] ++;
+        this.competitions.splice(ind, 1, parent);
+        this.setCompetitionList(this.competitions);
     }
 
     /**

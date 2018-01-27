@@ -121,10 +121,10 @@ export class CalendarCtrl implements IComponentController{
     /**
      * Установка владельца
      * После смены владельца выполняется переустановка данных календаря
-     * @param user
+     * @param userId
      */
-    setOwner (user: IUserProfile | IUserProfileShort): void {
-        this.owner = user;
+    setOwner (userId: number): void {
+        this.owner = this.athletes.filter(a => a.userId === userId)[0];
         this.$location.search('userId', this.owner.userId);
         this.setData();
     }
@@ -133,7 +133,7 @@ export class CalendarCtrl implements IComponentController{
         this.prepareAthletesList();
         if (this.$stateParams.userId && this.athletes &&
             this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
-            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
+            this.setOwner(Number(this.$stateParams.userId));
         }
         this.setData();
         this.copyPasteKeyboardListener();
@@ -142,7 +142,7 @@ export class CalendarCtrl implements IComponentController{
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe(profile => {
-                this.currentUser = angular.copy(profile);
+                this.currentUser = copy(profile);
                 this.prepareAthletesList();
             });
 
