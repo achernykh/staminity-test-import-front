@@ -48,6 +48,15 @@ const userSettingsCoach: any = {
     template: require('./settings/user-settings-coach/user-settings-coach.template.html') as string
 };
 
+const userSettingsAgent: any = {
+    name: 'user-settings.agent',
+    url: '/user-settings/agent?userId',
+    loginRequired: false,
+    authRequired: [],
+    reloadOnSearch: false,
+    template: require('./settings/user-settings-agent/user-settings-agent.template.html') as string
+};
+
 const userSettingsFit: any = {
     name: 'user-settings.fit',
     url: '/user-settings/fit?userId',
@@ -89,6 +98,7 @@ export const userState: Array<StateDeclaration> = [
     userSettingsMain,
     userSettingsProfile,
     userSettingsCoach,
+    userSettingsAgent,
     userSettingsFit,
     userSettingsPrivacy,
     userSettingsZones,

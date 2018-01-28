@@ -10,12 +10,28 @@
                 </md-icon>
             </md-list-item>
         </md-card>
-        <md-card class="user-settings-main__card" ng-if="$ctrl.owner.public.isCoach">
+        <md-card class="user-settings-main__card">
             <md-list>
-                <md-list-item ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
+                <st-user-settings-is-coach owner="$ctrl.owner"></st-user-settings-is-coach>
+                <md-divider ng-if="$ctrl.owner.public.isCoach"></md-divider>
+                <md-list-item ng-if="$ctrl.owner.public.isCoach" ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
                     <div layout="column">
                         <div class="md-body-1" translate>user.settings.coach.hint</div>
                         <div class="md-body-2" ng-if="!$ctrl.isCoachProfileComplete()" translate>user.settings.coach.statusIncomplete</div>
+                    </div>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right
+                    </md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <md-card class="user-settings-main__card">
+            <md-list>
+                <st-user-settings-is-agent owner="$ctrl.owner"></st-user-settings-is-agent>
+                <md-divider></md-divider>
+                <md-list-item ng-if="$ctrl.owner.public.isCoach" ui-sref="user-settings.agent({userId: $ctrl.owner.userId})">
+                    <div layout="column">
+                        <div class="md-body-1" translate>user.settings.agent.profile</div>
+                        <div class="md-body-2" ng-if="!$ctrl.isAgentProfileComplete()" translate>user.settings.agent.statusIncomplete</div>
                     </div>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right
                     </md-icon>

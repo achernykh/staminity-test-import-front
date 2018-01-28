@@ -8,6 +8,8 @@ import { translateUser } from "./user.translate";
 import { userAvatarUrl } from "./filters/user-avatar-url.filter";
 import { UserSettingsMenuComponent } from "./settings/user-settings-menu/user-settings-menu.component"; 
 import { UserSettingsHeaderComponent } from "./settings/user-settings-header/user-settings-header.component"; 
+import { UserSettingsIsCoachComponent } from "./settings/user-settings-is-coach/user-settings-is-coach.component"; 
+import { UserSettingsIsAgentComponent } from "./settings/user-settings-is-agent/user-settings-is-agent.component"; 
 import { UserSettingsTariffsComponent } from "./settings/user-settings-tariffs/user-settings-tariffs.component"; 
 import { UserSettingsBillsComponent } from "./settings/user-settings-bills/user-settings-bills.component"; 
 import { UserSettingsDisplayComponent } from "./settings/user-settings-display/user-settings-display.component"; 
@@ -16,6 +18,7 @@ import { UserSettingsCalendarsComponent } from "./settings/user-settings-calenda
 import { UserSettingsMainComponent} from "./settings/user-settings-main/user-settings-main.component"; 
 import { UserSettingsProfileComponent } from "./settings/user-settings-profile/user-settings-profile.component"; 
 import { UserSettingsCoachComponent } from "./settings/user-settings-coach/user-settings-coach.component"; 
+import { UserSettingsAgentComponent } from "./settings/user-settings-agent/user-settings-agent.component"; 
 import { UserSettingsPrivacyComponent } from "./settings/user-settings-privacy/user-settings-privacy.component"; 
 import { UserSettingsFitComponent } from "./settings/user-settings-fit/user-settings-fit.component"; 
 import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-settings-zones.component"; 
@@ -32,6 +35,8 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettings', UserSettingsComponent)
     .component('stUserSettingsMenu', UserSettingsMenuComponent)
     .component('stUserSettingsHeader', UserSettingsHeaderComponent)
+    .component('stUserSettingsIsCoach', UserSettingsIsCoachComponent)
+    .component('stUserSettingsIsAgent', UserSettingsIsAgentComponent)
     .component('stUserSettingsTariffs', UserSettingsTariffsComponent)
     .component('stUserSettingsBills', UserSettingsBillsComponent)
     .component('stUserSettingsDisplay', UserSettingsDisplayComponent)
@@ -40,6 +45,7 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettingsMain', UserSettingsMainComponent)
     .component('stUserSettingsProfile', UserSettingsProfileComponent)
     .component('stUserSettingsCoach', UserSettingsCoachComponent)
+    .component('stUserSettingsAgent', UserSettingsAgentComponent)
     .component('stUserSettingsPrivacy', UserSettingsPrivacyComponent)
     .component('stUserSettingsFit', UserSettingsFitComponent)
     .component('stUserSettingsZones', UserSettingsZonesComponent)

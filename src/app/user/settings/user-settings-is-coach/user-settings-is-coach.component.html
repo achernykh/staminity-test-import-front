@@ -1,0 +1,16 @@
+<md-list class="md-dense">
+    <md-list-item class="md-2-line"> 
+        <div class="md-list-item-text"> 
+            <h3>{{ 'user.settings.coach.isCoach' | translate }}</h3>
+            <p>isCoachStatus</p>
+        </div> 
+        <p class="md-secondary">
+            <md-switch
+                ng-model="$ctrl.isCoach"
+                ng-model-options="{getterSetter: true}"
+                ng-disabled="!$ctrl.isAvailable"
+            >
+            </md-switch>
+        </p> 
+    </md-list-item>
+</md-list>

@@ -1,0 +1,16 @@
+<md-list class="md-dense">
+    <md-list-item class="md-2-line"> 
+        <div class="md-list-item-text"> 
+            <h3>{{ 'user.settings.agent.iWant' | translate }}</h3>
+            <p>isAgentStatus</p>
+        </div> 
+        <p class="md-secondary">
+            <md-switch
+                ng-model="$ctrl.isAgent"
+                ng-model-options="{getterSetter: true}"
+                ng-disabled="!$ctrl.isAvailable"
+            >
+            </md-switch>
+        </p> 
+    </md-list-item>
+</md-list>

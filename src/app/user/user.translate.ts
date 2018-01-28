@@ -43,7 +43,7 @@ export const translateUser = {
                     header:'Контакты (доступно только вам и тренеру)',
                     extEmail: 'Дополнительный email',
                     phone: 'Телефон'
-                }
+                },
             },
             sportShape: {
                 header: 'Спортивная форма',
@@ -66,7 +66,13 @@ export const translateUser = {
             coach: {
                 header: 'Профиль тренера',
                 hint: 'Профиль тренера',
-                statusIncomplete: 'Профиль тренера не заполнен, вас нельзя найти в поиске'
+                statusIncomplete: 'Профиль тренера не заполнен, вас нельзя найти в поиске',
+                isCoach: 'Я - тренер',
+            },
+            agent: {
+                iWant: "Я хочу продавать тренировочные планы",
+                profile: "Профиль продавца планов",
+                statusIncomplete: "Продажа тренировочных планов невозможна, не заполнен профиль",
             },
             privacy: {
                 header: 'Приватность',
