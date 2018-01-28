@@ -101,8 +101,8 @@
         <span class="md-caption md-dark md-inactive"
               ng-switch-when="false">{{ $ctrl.description | htmlToPlainText}}</span>
             <calendar-activity-chart ng-switch-when="true"
-                                     ng-if="::$ctrl.segmentChart"
-                                     data="::$ctrl.segmentChart"
+                                     ng-if="$ctrl.segmentChart"
+                                     data="$ctrl.segmentChart"
                                      status="'template'">
             </calendar-activity-chart>
         </section>
@@ -130,9 +130,28 @@
                 </section>
             </div>
             <div flex="none">
-                <md-button class="menu md-icon-button" aria-label="More Event">
+                <md-menu flex="none">
+                    <md-button class="md-icon-button" style="margin: 0" ng-click="$mdOpenMenu($event)">
+                        <md-icon class="material-icons md-18">more_vert</md-icon>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.copy($ctrl.template)">
+                                <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
+                                Скопировать
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="$ctrl.delete($ctrl.template)">
+                                <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                                Удалить
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <!--<md-button class="menu md-icon-button" aria-label="More Event" style="margin: 0" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons md-24">more_vert</md-icon>
-                </md-button>
+                </md-button>-->
             </div>
         </header>
         <section ng-switch="$ctrl.isStructured" class="description">
@@ -142,8 +161,8 @@
             <span class="md-caption md-dark"
                   ng-switch-when="false" ng-bind="$ctrl.description | htmlToPlainText"></span>
                 <calendar-activity-chart ng-switch-when="true"
-                                         ng-if="::$ctrl.segmentChart"
-                                         data="::$ctrl.segmentChart"
+                                         ng-if="$ctrl.segmentChart"
+                                         data="$ctrl.segmentChart"
                                          status="'template'">
                 </calendar-activity-chart>
         </section>

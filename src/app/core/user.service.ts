@@ -139,7 +139,7 @@ export default class UserService {
             let updatedUser = merge({}, userChanges, { revision });
             if (this.SessionService.isCurrentUserId(userChanges.userId)) {
                 needRefresh ?
-                    this.SessionService.setUser(updatedUser):
+                    this.SessionService.setUser(Object.assign({...updatedUser}, {connections: this.SessionService.getUser().connections})) :
                     this.SessionService.updateUser(updatedUser);
             }
             return updatedUser;
@@ -214,7 +214,7 @@ export default class UserService {
         if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
             if(message.groupCode === 'allAthletes'){
                 this.getTrainingZones(message.userProfile.userId)
-                    .then(result => Object.assign(message.userProfile, {trainingZones: result[0]}))
+                    .then(result => Object.assign(message.userProfile, result[0]))
                     .then(profile => {
                         group.groupMembers.push(profile);
                         connections[message.groupCode] = group;

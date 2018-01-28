@@ -1,7 +1,7 @@
 import "./training-season-builder.component.scss";
 import moment from 'moment/src/moment.js';
 import { IComponentOptions, IComponentController, IScope, ILocationService } from "angular";
-import {Subject} from "rxjs/Rx";
+import {Subject, Subscription} from "rxjs/Rx";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import { ICalendarItem } from "@api/calendar";
@@ -16,13 +16,8 @@ import {
     IMicrocycle
 } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { profileShort } from "../../core/user.function";
-import {
-    ICalendarItemDialogOptions,
-    ICalendarItemDialogResponse
-} from "../../calendar-item/calendar-item-dialog.interface";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
-import { toDay } from "../../activity/activity.datamodel";
-import { CalendarItemCompetition } from "../../calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
 
 export enum TrainingSeasonViewState {
     List,
@@ -45,6 +40,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private itemOptions: ICalendarItemDialogOptions;
     private recalculate: number = 0;
     private destroy: Subject<any> = new Subject();
+    private competitionSub: Subscription;
 
     // inject
     static $inject = ['$scope', '$location', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
@@ -84,9 +80,12 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     }
 
     private subscribeOnCompetitionUpdates (): void {
-        this.destroy.complete();
-        this.calendarService.item$
-            .takeUntil(this.destroy)
+
+        console.debug('training season builder: new subscribe');
+        if (this.competitionSub) { this.competitionSub.unsubscribe(); }
+
+        this.competitionSub = this.calendarService.item$
+            //.takeUntil(this.destroy)
             .filter(message =>
                 message.value.hasOwnProperty('parentId') &&
                 message.value.hasOwnProperty('userProfileOwner') &&
@@ -139,7 +138,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      */
     postCompetition (event: Event): void {
         this.calendarItemDialog.competition(event, Object.assign(this.itemOptions, {formMode: FormMode.Post}))
-            .then(response => this.setCompetitionList([...this.competitions, response.item]), () => {});
+            .then(response => { debugger; this.setCompetitionList([...this.competitions, response.item]); }, () => {});
     }
 
     spliceCompetitionData (id: number, item?: ICalendarItem): void {
@@ -273,8 +272,8 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         this.trainingSeasonService.getItems(this.season.id)
             .then(result => this.setSeasonData(result.arrayResult), error => {})
             .then(() => this.calendarService.search({userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
-            .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult))
-            .then(() => this.subscribeOnCompetitionUpdates());
+            .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult));
+            //.then(() => this.subscribeOnCompetitionUpdates());
             //.then(() => this.state = TrainingSeasonViewState.Builder);
     }
 

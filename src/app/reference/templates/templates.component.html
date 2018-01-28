@@ -9,13 +9,14 @@
 			dnd-horizontal-list="true"
 			class="templates__items">
 			<activity-template
-				ng-repeat="template in $ctrl.templatesByOwner.user track by template.id"
+				ng-repeat="template in $ctrl.templatesByOwner.user track by template.index"
                 view="'card'"
 				current-user="$ctrl.user"
 				dnd-draggable="template"
 				dnd-type="'user-template'"
 				draggable="true"
 				template="template"
+                revision="template.revision"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
 				on-delete="$ctrl.deleteTemplate(template)">
@@ -31,12 +32,13 @@
 			dnd-horizontal-list="true"
 			class="templates__items">
 			<activity-template
-				ng-repeat="template in $ctrl.templatesByOwner.coach track by template.id"
+				ng-repeat="template in $ctrl.templatesByOwner.coach track by template.index"
 				view="'card'"
 				dnd-draggable="template"
 				dnd-type="'coach-template'"
 				draggable="true"
 				template="template"
+                revision="template.revision"
 				current-user="$ctrl.user"
                 view="'compact-list'"
 				on-copy="$ctrl.copyTemplate(template)"
@@ -54,12 +56,13 @@
 			dnd-horizontal-list="true"
 			class="templates__items">
 			<activity-template
-				ng-repeat="template in $ctrl.templatesByOwner.club track by template.id"
+				ng-repeat="template in $ctrl.templatesByOwner.club track by template.index"
 				view="'card'"
 				dnd-draggable="template"
 				dnd-type="'club-template'"
 				draggable="true"
 				template="template"
+                revision="template.revision"
 				current-user="$ctrl.user"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"
@@ -76,12 +79,13 @@
 			dnd-horizontal-list="true"
 			class="templates__items">
 			<activity-template
-				ng-repeat="template in $ctrl.templatesByOwner.system track by template.id" 
+				ng-repeat="template in $ctrl.templatesByOwner.system track by template.index"
 				dnd-draggable="template"
 				dnd-type="'system-template'"
 				draggable="true"
 				view="'card'"
 				template="template"
+                revision="template.revision"
 				current-user="$ctrl.user"
 				on-copy="$ctrl.copyTemplate(template)"
 				on-select="$ctrl.openTemplate(template)"

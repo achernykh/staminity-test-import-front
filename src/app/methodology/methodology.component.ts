@@ -118,7 +118,7 @@ class MethodologyCtrl implements IComponentController {
         this.referenceService.templatesChanges
             .takeUntil(this.destroy)
             .subscribe((templates) => {
-                this.templates = templates;
+                this.templates = templates.map(t => Object.assign(t, {index: Number(`${t.id}${t.revision}`)}));
                 this.updateFilterParams();
                 this.$scope.$apply();
             });
