@@ -85,7 +85,7 @@
                                    placeholder="{{competition.type.placeholder}}"
                                    ng-model="$ctrl.competition.competitionHeader.type"
                                    ng-change="$ctrl.setType()"
-                                   ng-disabled="$ctrl.competition.view.isView || $ctrl.competition.isCompleted">
+                                   ng-disabled="!$ctrl.competition.view.isPost || $ctrl.competition.isCompleted">
                             <md-option ng-repeat="type in $ctrl.config.types track by $index" ng-value="type">
                                 {{'competition.types.' + type | translate}}
                             </md-option>
@@ -107,7 +107,7 @@
                                    required name="distanceType"
                                    ng-model="$ctrl.distanceType"
                                    placeholder="{{competition.distanceType.placeholder}}"
-                                   ng-disabled="$ctrl.competition.view.isView || $ctrl.competition.isCompleted">
+                                   ng-disabled="!$ctrl.competition.view.isPost || $ctrl.competition.isCompleted">
                             <md-option ng-repeat="type in $ctrl.config.distanceTypes |
                                     filter:{type: $ctrl.competition.competitionHeader.type}" ng-value="type">
                                 {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
