@@ -12,6 +12,9 @@
 </md-toolbar>
 
 <md-dialog-content flex="auto" layout="column">
+    <div class="md-body-1 md-padding"
+         translate="trainingPlans.assignment.info"
+         translate-values="{planStartDate: $ctrl.plan.startDate, itemFirstDate: $ctrl.data.firstItemDate, itemLastDate: null, planEndDate: $ctrl.plan.endDate}"></div>
     <form flex="auto" layout="column" name="$ctrl.assignmentForm">
         <md-list class="md-dense">
             <!-- Выбор атлета-->
@@ -86,6 +89,10 @@
                                    ng-model="$ctrl.applyFromDate"
                                    name="applyFromDate" md-hide-icons="calendar">
                     </md-datepicker>
+                    <div class="hint"
+                         ng-if="$ctrl.plan.isFixedCalendarDates && !$ctrl.isStartDate($ctrl.applyFromDate)"
+                         translate="trainingPlans.assignment.fixedPlanInOtherDays">
+                    </div>
                 </md-input-container>
             </md-list-item>
             <!-- Дата по -->
@@ -101,9 +108,13 @@
                 </md-input-container>
             </md-list-item>
             <!-- Подписка на обновления -->
-            <md-list-item ng-if="$ctrl.plan.propagateMods">
+            <md-list-item ng-if="$ctrl.plan.propagateMods && $ctrl.isStartDate($ctrl.applyFromDate)">
                 <p class="md-caption" translate="trainingPlans.assignment.enabledSync"></p>
                 <md-switch class="md-secondary md-primary" ng-model="$ctrl.data.enabledSync"></md-switch>
+            </md-list-item>
+            <!-- Сообщение, что план с обновлением при присвоение в отличные от плана дни присваивается без обновления -->
+            <md-list-item ng-if="$ctrl.plan.propagateMods && !$ctrl.isStartDate($ctrl.applyFromDate)">
+                <p class="md-caption" translate="trainingPlans.assignment.enabledSyncDisabled"></p>
             </md-list-item>
         </md-list>
     </form>

@@ -31,7 +31,11 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     $onInit() {
 
         if (!this.assign) {
-            this.data = Object.assign({ applyMode: 'P', applyDateMode: 'F', enabledSync: this.plan.propagateMods || null });
+            this.data = Object.assign({
+                applyMode: 'P',
+                applyDateMode: 'F',
+                enabledSync: this.plan.propagateMods || null
+            });
         } else {
             this.data = {
                 mode: 'U',
@@ -50,6 +54,10 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
     }
 
+    isStartDate (date: Date): boolean {
+        return this.data.applyDateMode === 'F' && moment(this.plan.startDate).isSameOrAfter(moment(date), 'day');
+    }
+
     athleteSelectorText(): string {
         return this.data && this.data.hasOwnProperty('userId') && this.data.userId &&
             this.data.userId.map(u =>
@@ -65,7 +73,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
             applyMode: this.data.applyMode,
             applyDateMode: this.data.applyDateMode,
             firstItemDate: this.fistItemDate,
-            enabledSync: null
+            enabledSync: this.data.enabledSync
         }).then(response => this.onCancel(), error => {debugger;});
     }
 

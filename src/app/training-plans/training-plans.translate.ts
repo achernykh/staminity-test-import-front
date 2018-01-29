@@ -76,6 +76,7 @@ export const _translateTrainingPlans = {
             label: 'Ключевые слова'
         },
         assignment: {
+            info: '... {{planStartDate}} ... {{endStartDate}} ... {{itemFirstDate}} ... {{itemLastDate}}',
             action: {
                 delete: 'Удалить присвоение',
                 post: 'Новое присвоение',
