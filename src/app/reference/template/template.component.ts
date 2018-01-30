@@ -15,12 +15,14 @@ import { IUserProfile } from "../../../../api/user/user.interface";
 import { profileShort } from "../../core/user.function";
 import ReferenceService from "../reference.service";
 import MessageService from "../../core/message.service";
+import { IGroupProfileShort } from "../../../../api/group/group.interface";
 
 
 class TemplateCtrl implements IComponentController {
 
-	private template: IActivityTemplate;
+	template: IActivityTemplate;
 	currentUser: IUserProfile;
+	club: IGroupProfileShort;
 	private onDelete: () => any;
 	private onSelect: () => any;
 	private onCopy: () => any;
@@ -49,7 +51,7 @@ class TemplateCtrl implements IComponentController {
 			currentUser: this.currentUser,
 			owner: this.currentUser,
 			popupMode: true,
-			formMode: FormMode.Put,
+			formMode: (this.template.groupProfile && this.club) || !this.template.groupProfile ? FormMode.Put : FormMode.View,
 			trainingPlanMode: false,
 			templateMode: true,
 			templateOptions: {
@@ -86,7 +88,7 @@ class TemplateCtrl implements IComponentController {
         let activityCategoryId = activityCategory && activityCategory.id;
 
         this.referenceService.postActivityTemplate(
-            null, activityCategoryId, groupId, code, description, favourite, content
+            null, activityCategoryId, groupId, `${code}(2)`, description, favourite, content
         )
             .catch((info) => {
                 this.messageService.systemWarning(info);
@@ -128,6 +130,7 @@ const TemplateComponent: IComponentOptions = {
 	bindings: {
 		template: '<',
         revision: '<',
+		club: '<',
         view: '<',
 		currentUser: '<',
         isMobileLayout: '<',

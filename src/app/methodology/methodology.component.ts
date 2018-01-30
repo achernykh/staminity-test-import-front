@@ -118,7 +118,7 @@ class MethodologyCtrl implements IComponentController {
         this.referenceService.templatesChanges
             .takeUntil(this.destroy)
             .subscribe((templates) => {
-                this.templates = templates.map(t => Object.assign(t, {index: Number(`${t.id}${t.revision}`)}));
+                this.templates = templates;
                 this.updateFilterParams();
                 this.$scope.$apply();
             });
@@ -171,7 +171,7 @@ class MethodologyCtrl implements IComponentController {
     }
 
     templatesCountByCategory (category: IActivityCategory): number {
-        return this.templates.filter(t => t.activityCategory.id === category.id).length;
+        return this.templates.filter(t => t.activityCategory.id === category.id && ((this.club && t.groupProfile && t.groupProfile.groupId === this.club.groupId) || !this.club)).length;
     }
 
 }

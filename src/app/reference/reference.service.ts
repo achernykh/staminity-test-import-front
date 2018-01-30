@@ -15,16 +15,20 @@ export default class ReferenceService {
 	public categories: Array<IActivityCategory> = [];
 	public categoriesChanges = new Subject<IActivityCategory[]>();
 
+	private setIndex = (obj: IActivityCategory | IActivityTemplate): IActivityCategory | IActivityTemplate => {
+		return Object.assign({}, obj, {index: Number(`${obj.id}${obj.revision}`)});
+	}
+
 	private categoriesReducers = {
-		"I": (category: IActivityCategory) => [...this.categories, category],
-		"U": (category: IActivityCategory) => this.categories.map((c) => c.id === category.id? category : c),
+		"I": (category: IActivityCategory) => [...this.categories, this.setIndex(category)],
+		"U": (category: IActivityCategory) => this.categories.map((c) => c.id === category.id? this.setIndex(category) : c),
 		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
 	};
 
 	public resetCategories = () => {
 		this.getActivityCategories(undefined, false, true)
 			.then((categories) => {
-				this.categories = categories;
+				this.categories = categories.map(c => this.setIndex(c)) as Array<IActivityCategory>;
 				this.categoriesChanges.next(this.categories);
 			});
 	}
@@ -32,15 +36,15 @@ export default class ReferenceService {
 	public templates: Array<IActivityTemplate> = [];
 	public templatesChanges = new Subject<IActivityTemplate[]> ();
 	private templatesReducers = {
-		"I": (template: IActivityTemplate) => [...this.templates, template],
-		"U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id? template : t),
+		"I": (template: IActivityTemplate) => [...this.templates, this.setIndex(template)],
+		"U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id? this.setIndex(template) : t),
 		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
 	};
 
 	public resetTemplates = () => {
 		this.getActivityTemplates(undefined, undefined, false, false)
 			.then((templates) => {
-				this.templates = templates;
+				this.templates = templates.map(c => this.setIndex(c)) as Array<IActivityTemplate>;
 				this.templatesChanges.next(this.templates);
 			});
 	}

@@ -5,6 +5,7 @@ import {
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import {FtpState} from "../assignment/assignment.component";
 import "./activity-assignment-header.component.scss";
+import { IActivityCategory } from "../../../../../api/reference/reference.interface";
 
 class ActivityAssignmentHeaderCtrl implements IComponentController {
 
@@ -22,6 +23,11 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
 
     $onInit() {
 
+    }
+
+    private filterActivityType (category: IActivityCategory, itemBasicCode: string) {
+        debugger;
+        return category.visible && category.activityType.code === itemBasicCode;
     }
 
     private changeParam() {

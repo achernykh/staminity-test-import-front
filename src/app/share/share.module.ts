@@ -84,7 +84,7 @@ const _userName = () => (user, options) => maybe(user) (prop('public')) (
  * compact: Имя и первую букву Фамилии
  * full: Имя и Фамилию
  */
-const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'full'): string => {
+const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
     if (
         !profile ||
         !profile.hasOwnProperty('public') ||
@@ -98,6 +98,9 @@ const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'sho
         }
         case 'compact': {
             return `${profile.public.firstName} ${profile.public.lastName[0]}.`;
+        }
+        case 'compact-first': {
+            return `${profile.public.lastName} ${profile.public.firstName[0]}.`;
         }
         default: {
             return `${profile.public.firstName} ${profile.public.lastName}`;

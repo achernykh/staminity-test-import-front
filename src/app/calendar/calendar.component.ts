@@ -242,7 +242,7 @@ export class CalendarCtrl implements IComponentController{
      */
     onPostItem(item: ICalendarItem): void {
         if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('async post: item already exist'); return; };
-        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-ww'));
         let d = moment(item.dateStart).weekday();
 
         if (w !== -1 && d >= 0 && this.calendar.weeks[w]) {
@@ -258,7 +258,7 @@ export class CalendarCtrl implements IComponentController{
     onDeleteItem(item): void {
         if (!this.calendar.include(item.calendarItemId, item.revision)) { console.warn('item not found'); return; }
 
-        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-ww'));
         let d = moment(item.dateStart).weekday();
 
         if (!this.calendar.weeks[w]) {

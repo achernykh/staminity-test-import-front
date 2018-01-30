@@ -7,7 +7,9 @@
 	<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.activityTypeCode }}.svg" class="reference__sport-icon-circled category__sport-icon"></md-icon>
 	<div flex>
 		<h3 class="category__label-code">{{ $ctrl.category | categoryCode }}</h3>
-		<div ng-if="$ctrl.category.userProfileCreator" class="category__label-author">Автор: {{ $ctrl.category.userProfileCreator | userName }}</div>
+		<div ng-if="$ctrl.category.userProfileCreator && $ctrl.category.userProfileCreator.userId !== 1" class="category__label-author"
+			 translate="{{($ctrl.club && $ctrl.category.groupProfile) || !$ctrl.category.groupProfile ? 'reference.templates.authorInfo' : 'reference.templates.clubInfo'}}"
+			 translate-values="{club: $ctrl.category.groupProfile.public.name, author: $ctrl.category.userProfileCreator}"></div>
 		<div class="category__label-description">{{ $ctrl.category.description | truncate }}</div>
 	</div>
 	<md-switch

@@ -60,7 +60,10 @@ export class CalendarItemCompetition extends CalendarItem {
         if (this.items) {
             this.items.forEach((s,i) => this.items[i] = {
                 dirty: true,
-                item: Object.assign(s.item, {_dateStart: date, _dateEnd: date})
+                item: Object.assign(s.item, {
+                    _dateStart: date.setSeconds(date.getSeconds() + i * 10),
+                    _dateEnd: date.setSeconds(date.getSeconds() + i * 10)
+                })
             });
         }
     }
