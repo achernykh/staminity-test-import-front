@@ -57,6 +57,7 @@ import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
 import { measurePrintIntensity } from "./measure//measure-print-intensity.filter";
+import { stringToDate } from "./date/stringToDate.filter";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -332,6 +333,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .directive('stQuillPostImage', stQuillPostImage) 
     .filter('truncate', truncate)
+    .filter('stringToDate', stringToDate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
     .constant('quillConfig', quillConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])
