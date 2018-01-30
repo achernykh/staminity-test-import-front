@@ -72,6 +72,8 @@ export const en = {
             trainerPrescription: "Coach prescription",
             task: "Task",
             confirmDelete: "Delete template?",
+            clubInfo: 'Club:"{{club}}", Author:{{author | userName:"compact-first"}}',
+            authorInfo: 'Author:{{author | userName:"compact-first"}}'
         },
         categories: {
             singular: "Category",
