@@ -57,12 +57,13 @@ export class CalendarItemCompetition extends CalendarItem {
     }
 
     setDate (date: Date): void {
+        console.debug('setDate', date.getSeconds(), this._dateStart.getSeconds(), date.getTime() + 10000);
         if (this.items) {
             this.items.forEach((s,i) => this.items[i] = {
                 dirty: true,
                 item: Object.assign(s.item, {
-                    _dateStart: date.setSeconds(date.getSeconds() + i * 10),
-                    _dateEnd: date.setSeconds(date.getSeconds() + i * 10)
+                    _dateStart: new Date(date.getTime() + i * 10 * 1000),
+                    _dateEnd: new Date(date.getTime() + i * 10 * 1000)
                 })
             });
         }
