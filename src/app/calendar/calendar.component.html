@@ -23,7 +23,7 @@
                 </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser.userId)"
                                ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
                         <userpic profile="$ctrl.currentUser" unlink="true"></userpic>
                         <span>{{$ctrl.currentUser | userName}}</span>
@@ -96,7 +96,7 @@
                 </md-button>
                 <md-menu-content>
                     <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
-                        <md-button ng-click="$ctrl.setOwner(athlete)"
+                        <md-button ng-click="$ctrl.setOwner(athlete.userId)"
                                    ng-disable="athlete.userId === $ctrl.owner.userId">
                             <userpic profile="athlete"></userpic>
                             <span>{{athlete | userName}}</span>
@@ -104,7 +104,7 @@
                     </md-menu-item>
                     <md-divider></md-divider>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser.userId)"
                                    ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
                             <userpic profile="$ctrl.currentUser"></userpic>
                             <span>{{$ctrl.currentUser | userName}}</span>
