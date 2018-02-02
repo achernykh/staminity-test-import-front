@@ -22,7 +22,7 @@
             </div>
         </md-input-container>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.options.templateMode">
+    <md-list-item ng-if="$ctrl.item.activity.categoriesList.length > 0 || $ctrl.item.activity.view.isTemplate">
         <md-input-container class="md-block no-message" md-no-float layout="row">
             <md-icon class="material-icons md-dark" ng-click="$ctrl.link('https://help.staminity.com/ru/basics/activity-categories.html')" style="cursor: pointer">tune</md-icon>
             <md-select

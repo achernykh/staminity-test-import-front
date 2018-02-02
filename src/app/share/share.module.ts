@@ -55,7 +55,10 @@ import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
-import { measurePrintIntensity } from "./measure//measure-print-intensity.filter";
+import { measurePrintIntensity } from "./measure/measure-print-intensity.filter";
+import { measureSaveFilter } from './measure/measure-save.filter';
+import { measureEditFilter } from './measure/measure-edit.filter';
+import { measureCalcIntervalFilter } from './measure/measure-calc-interval.filter';
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -205,23 +208,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("ageGroup", () => ageGroup)
     .filter("requestType", () => (request) => requestType(request) + ".action")
     .filter("measureCalc", () => measureValue)
-    .filter("measureCalcInterval", ["$filter", ($filter) => {
-        return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart: boolean = false, units: string = "metric") => {
-            if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
-                return null;
-            }
-
-            const measure: Measure = new Measure(name, sport, input.intensityLevelFrom);
-
-            if (input.intensityLevelFrom === input.intensityLevelTo) {
-                return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
-            } else if (measure.isPace()) {
-                return $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
-            } else {
-                return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units);
-            }
-        };
-    }])
+    .filter("measureCalcInterval", ["$filter", measureCalcIntervalFilter])
     .filter("measureUnit", () => measureUnit)
     .filter("duration", duration)
     .filter("percentByTotal", ["$filter", ($filter) => {
