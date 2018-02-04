@@ -262,13 +262,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareTemplates(): void {
-        this.templates = this.ReferenceService.templates;
+        this.templates = this.ReferenceService.templates || [];
         this.activity.header.template = this.templates &&
             this.templates.filter(t => t.id === this.activity.header.templateId)[0] || null;
+
         this.ReferenceService.templatesChanges
             .takeUntil(this.destroy)
             .subscribe((templates) => {
-                this.templates = templates;
+                this.templates = templates || [];
                 this.updateFilterParams();
                 this.$scope.$apply();
             });
