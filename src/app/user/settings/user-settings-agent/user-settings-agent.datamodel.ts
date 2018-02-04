@@ -1,48 +1,74 @@
 import { IUserProfile } from "@api/user";
+import { IAgentProfile } from "@api/agent";
 
-export class UserSettingsCoachDatamodel {
+export class UserSettingsAgentDatamodel {
+
+	isActive?: boolean;
+	isCompleted?: boolean; 
+	revision?: number;
+	isIndividual: boolean;
+	residentCountry: string;
+	companyDetails: {
+		monetaAccount: string;
+		companyName: string;
+		companyINN: string;
+		companyKPP: string;
+		сompanyFormChecked: boolean;
+	};
+
+	constructor (private profile: IAgentProfile) {
+		this.isActive = profile.isActive;
+		this.isCompleted = profile.isCompleted;
+		this.revision = profile.revision;
+		this.isIndividual = profile.isIndividual;
+		this.residentCountry = profile.residentCountry;
+		this.companyDetails = {
+			...profile.companyDetails,
+		};
+	}
+
+	toAgentProfile () : IAgentProfile {
+		return {
+			isActive: this.isActive,
+			isCompleted: this.isCompleted,
+			revision: this.revision,
+			isIndividual: this.isIndividual,
+			residentCountry: this.residentCountry,
+			companyDetails: {
+				...this.companyDetails,
+			},
+		} as any;
+	}
+}
+
+export class UserSettingsAgentOwnerDatamodel {
 
 	firstName: string;
 	lastName: string;
-	about: string;
-	country: string;
-	city: string;
-	price: string;
-	contact: string;
-	athletes: string;
-	isFree: boolean;
+	email: string;
+	phone: string;
 
 	constructor (private profile: IUserProfile) {
 		this.firstName = profile.public.firstName;
 		this.lastName = profile.public.lastName;
-		this.about = profile.personal['about'];
-		this.country = profile.personal['country'];
-		this.city = profile.personal['city'];
-		this.price = profile.personal['price'];
-		this.contact = profile.personal['contact'];
-		this.athletes = profile.personal['athletes'];
-		this.isFree = profile.personal['isFree'];
+		this.email = profile.personal.extEmail;
+		this.phone = profile.personal.phone;
 	}
 
 	toUserProfile () : IUserProfile {
 		return {
 			userId: this.profile.userId,
-    		revision: this.profile.revision,
-		    public: {
+			revision: this.profile.revision,
+			public: {
 				...this.profile.public,
 				firstName: this.firstName,
 				lastName: this.lastName,
-		    },
-		    personal: {
-		    	...this.profile.personal,
-		    	about: this.about,
-		    	country: this.country,
-		    	city: this.city,
-		        price: this.price,
-		        contact: this.contact,
-		        athletes: this.athletes,
-		        isFree: this.isFree,
-		    },
+			},
+			personal: {
+				...this.profile.personal,
+				extEmail: this.email,
+				phone: this.phone,
+			},
 		} as any;
 	}
 }

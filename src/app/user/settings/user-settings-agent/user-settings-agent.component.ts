@@ -1,58 +1,65 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController,ILocationService } from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IAgentProfile } from "@api/agent";
 import { UserSettingsService } from '../user-settings.service';
+import { AgentService } from '../agent.service';
 import DisplayService from "../../../core/display.service";
-import { UserSettingsCoachDatamodel } from './user-settings-agent.datamodel';
+import { UserSettingsAgentDatamodel, UserSettingsAgentOwnerDatamodel } from './user-settings-agent.datamodel';
 import { countriesList } from '../user-settings.constants';
 import './user-settings-agent.component.scss';
 
 class UserSettingsAgentCtrl {
     
     // bind
-    currentUser: IUserProfile;    
+    currentUser: IUserProfile; 
+    set agentProfile (profile: IAgentProfile) {
+        this.datamodel = new UserSettingsAgentDatamodel(profile);
+    };
     set owner (profile: IUserProfile) {
-        this.datamodel = new UserSettingsCoachDatamodel(profile);
+        this.ownerDatamodel = new UserSettingsAgentOwnerDatamodel(profile);
     };
 
     // public
-    datamodel: UserSettingsCoachDatamodel;
+    datamodel: UserSettingsAgentDatamodel;
+    ownerDatamodel: UserSettingsAgentOwnerDatamodel;
     form: any;
     countriesList = countriesList;
     countrySearchText: string;
+    agree: boolean;
 
-    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'quillConfig', '$scope'];
+    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'AgentService', 'quillConfig', '$scope'];
 
     constructor (
         private displayService: DisplayService,
         private dialogs: any,
         private message: any,
         private userSettingsService: UserSettingsService,
+        private agentService: AgentService,
         private quillConfig: any,
         private $scope: any,
     ) {
-        window['UserSettingsCoachCtrl'] = this;
+        window['UserSettingsAgentCtrl'] = this;
     }
 
     /**
      * Сохранить 
      */
     submit () {
-        this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
-        .then((result) => {
-            this.form.$setPristine(true);
-        }, (error) => {
+        if (this.datamodel.isIndividual) {
+            this.userSettingsService.saveSettings(this.ownerDatamodel.toUserProfile());
+        }
 
-        });
+        this.agentService.putAgentProfile(this.datamodel.toAgentProfile())
+        .then(() => { 
+            this.form.$setPristine(true);
+            this.message.toastInfo('settingsSaveComplete'); 
+            this.$scope.$apply(); 
+        })
+        .catch((info) => { 
+            this.message.systemWarning(info); 
+        }); 
     }
- 
-    /**
-     * Формат даты
-     * @returns {string}
-     */
-    getDateFormat () : string { 
-        return moment().localeData().longDateFormat('L'); 
-    } 
 
     /**
      * Поиск страны
@@ -61,15 +68,6 @@ class UserSettingsAgentCtrl {
      */
     countrySearch (query: string) : string[] {
         return this.userSettingsService.countrySearch(query);
-    }
-
-    /**
-     * Поиск города
-     * @param query: string
-     * @returns {Promise<any>}
-     */
-    citySearch (query: string) : Promise<any> {
-        return this.userSettingsService.citySearch(query);
     }
 
     /**
@@ -86,6 +84,7 @@ export const UserSettingsAgentComponent: IComponentOptions = {
     bindings: {
         owner: '<',
         currentUser: '<',
+        agentProfile: '<'
     },
     controller: UserSettingsAgentCtrl,
     template: require('./user-settings-agent.component.html') as string

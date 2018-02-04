@@ -1,30 +1,5 @@
-<md-list class="md-dense section">
+<md-list class="md-dense section user-settings-agent">
     <form name="$ctrl.form">
-        <md-list-item layout="row" layout-wrap>
-            <userpic class="user-settings-coach__avatar size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false" profile="$ctrl.currentUser" is-premium="$ctrl.currentUser.isPremium" unlink="true"></userpic>
-        </md-list-item>    
-        <md-list-item layout-padding ng-if="!$ctrl.isProfileComplete()" class="profile-incomplete bg-red-500"> 
-            <p class="md-body-1 md-light" translate="user.settings.personalInfo.coachProfileIncomplete"></p> 
-        </md-list-item> 
-        <md-list-item layout="row" layout-wrap>
-            <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="user.settings.personalInfo.main.firstName"></label>
-                <input type="text" name="firstName" ng-model="$ctrl.datamodel.firstName" required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
-                <div ng-messages="$ctrl.form.firstName.$error" role="alert">
-                    <div ng-message-exp="['required']" translate="form.required"></div>
-                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
-                </div>
-            </md-input-container>
-            <div flex="10" show hide-xs></div>
-            <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="user.settings.personalInfo.main.lastName"></label>
-                <input type="text" name="lastName" ng-model="$ctrl.datamodel.lastName" autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
-                <div ng-messages="$ctrl.form.lastName.$error" role="alert">
-                    <div ng-message-exp="['required']" translate="form.required"></div>
-                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
-                </div>
-            </md-input-container>
-        </md-list-item>
         <md-list-item layout="row" layout-wrap>
             <md-autocomplete 
                 flex="45" flex-xs="100" class="no-message" flex
@@ -32,7 +7,7 @@
                 md-input-minlength="2"
                 md-input-maxlength="18"
                 md-no-cache="$ctrl.noCache"
-                md-selected-item="$ctrl.datamodel.country"
+                md-selected-item="$ctrl.datamodel.residentCountry"
                 md-search-text="$ctrl.countrySearchText"
                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
                 md-item-text="$ctrl.getCountryName(id)"
@@ -45,74 +20,73 @@
                      ng-if="$ctrl.form.country.$touched">
                 </div>
             </md-autocomplete>
-            <div flex="10"></div>
+            <div flex="55" flex-xs="0"></div>
+        </md-list-item>
+        <md-list-item layout="row" layout-wrap layout-align="start center">
+            <div flex="none" class="md-caption" translate="user.settings.agent.isIndividual"></div>
+            <div flex="auto" style="margin-left: 20px">
+                <md-radio-group name="isIndividual" class="md-primary" ng-model="$ctrl.datamodel.isIndividual" layout="row" layout-align="end center">
+                    <md-radio-button ng-value="true"><span translate="user.settings.agent.individual"></span></md-radio-button>
+                    <md-radio-button ng-value="false"><span translate="user.settings.agent.notIndividual"></span></md-radio-button>
+                </md-radio-group>
+            </div>
+        </md-list-item>
+        <md-list-item ng-if="$ctrl.datamodel.isIndividual" layout="row" layout-wrap>
             <md-input-container flex="45" flex-xs="100" class="no-message">
-                <label translate="user.settings.personalInfo.main.city"></label>
-                <input type="text" name="city" ng-model="$ctrl.datamodel.city" autocomplete="off" ng-disabled="false" minlength="1" maxlength="100">
-                <div ng-messages="$ctrl.form.city.$error" role="alert">
-                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:1, max:100}">
-                    </div>
+                <label translate="user.settings.personalInfo.main.firstName"></label>
+                <input type="text" name="firstName" ng-model="$ctrl.ownerDatamodel.firstName" required autocomplete="off" autofocus ng-disabled="false" minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.form.firstName.$error" role="alert">
+                    <div ng-message-exp="['required']" translate="form.required"></div>
+                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
+                </div>
+            </md-input-container>
+            <div flex="10" show hide-xs></div>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.personalInfo.main.lastName"></label>
+                <input type="text" name="lastName" ng-model="$ctrl.ownerDatamodel.lastName" autocomplete="off" ng-disabled="false" required minlength="2" maxlength="100">
+                <div ng-messages="$ctrl.form.lastName.$error" role="alert">
+                    <div ng-message-exp="['required']" translate="form.required"></div>
+                    <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
                 </div>
             </md-input-container>
         </md-list-item>
-        <md-list-item flex layout="row">
-            <md-input-container flex class="md-block no-message">
-                <label translate="user.settings.personalInfo.about"></label>
-                <ng-quill-editor 
-                    ng-model="$ctrl.datamodel.about"
-                    placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                    modules="$ctrl.quillConfig.toolbarFull"
-                    st-quill-post-image
-                    class="user-settings-coach__rich-editor"
-                >
-                </ng-quill-editor>
+        <md-list-item ng-if="$ctrl.datamodel.isIndividual" layout="row" layout-wrap>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.personalInfo.contacts.extEmail"></label>
+                <input type="text" name="email" ng-model="$ctrl.ownerDatamodel.email" autocomplete="off">
+            </md-input-container>
+            <div flex="10" show hide-xs></div>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.personalInfo.contacts.phone"></label>
+                <input type="text" name="phone" ng-model="$ctrl.ownerDatamodel.phone" autocomplete="off">
             </md-input-container>
         </md-list-item>
-        <md-list-item flex layout="row"> 
-            <md-input-container flex class="md-block no-message"> 
-                <label translate="user.price"></label> 
-                <ng-quill-editor 
-                    ng-model="$ctrl.datamodel.price"
-                    placeholder="{{'user.settings.personalInfo.priceFull' | translate}}"
-                    modules="$ctrl.quillConfig.toolbarFull"
-                    st-quill-post-image
-                    class="user-settings-coach__rich-editor"
-                >
-                </ng-quill-editor>
-            </md-input-container> 
-        </md-list-item> 
-        <md-list-item flex layout="row"> 
-            <md-input-container flex class="md-block no-message"> 
-                <label translate="user.contact"></label> 
-                <ng-quill-editor 
-                    ng-model="$ctrl.datamodel.contact"
-                    placeholder="{{'user.settings.personalInfo.contactFull' | translate}}"
-                    modules="$ctrl.quillConfig.toolbarFull"
-                    st-quill-post-image
-                    class="user-settings-coach__rich-editor"
-                >
-                </ng-quill-editor>
-            </md-input-container> 
-        </md-list-item> 
-        <md-list-item flex layout="row"> 
-            <md-input-container flex class="md-block no-message"> 
-                <label translate="user.athletes"></label>
-                <ng-quill-editor 
-                    ng-model="$ctrl.datamodel.athletes"
-                    placeholder="{{'user.settings.personalInfo.athletesFull' | translate}}"
-                    modules="$ctrl.quillConfig.toolbarFull"
-                    st-quill-post-image
-                    class="user-settings-coach__rich-editor"
-                >
-                </ng-quill-editor>
-            </md-input-container> 
-        </md-list-item> 
-        <md-list-item> 
-            <p>{{'user.settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.datamodel.isFree? 'user.settings.personalInfo.isFreeTrue' : 'user.settings.personalInfo.isFreeFalse' | translate}}</p> 
-            <md-switch class="md-secondary" ng-model="$ctrl.datamodel.isFree"></md-switch> 
-        </md-list-item> 
+        <md-list-item ng-if="!$ctrl.datamodel.isIndividual" layout="row" layout-wrap class="user-settings-agent__no-before">
+            <md-input-container class="no-message">
+                <label translate="user.settings.agent.companyName"></label>
+                <input type="text" name="name" ng-model="$ctrl.datamodel.companyDetails.companyName" autocomplete="off">
+            </md-input-container>
+        </md-list-item>
+        <md-list-item ng-if="!$ctrl.datamodel.isIndividual" layout="row" layout-wrap>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.agent.inn"></label>
+                <input type="text" name="inn" ng-model="$ctrl.datamodel.companyDetails.companyINN" autocomplete="off">
+            </md-input-container>
+            <div flex="10" show hide-xs></div>
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.agent.kpp"></label>
+                <input type="text" name="kpp" ng-model="$ctrl.datamodel.companyDetails.companyKPP" autocomplete="off">
+            </md-input-container>
+        </md-list-item>
+        <md-list-item layout="row">
+            <md-checkbox class="md-body-1 md-primary" ng-model="$ctrl.agree"></md-checkbox>
+            {{ 'user.settings.agent.agree' | translate }}
+        </md-list-item>
+        <md-list-item ng-if="!$ctrl.datamodel.isIndividual && !$ctrl.datamodel.isComplete" layout="row">
+            <p translate="user.settings.agent.notIndividualMessage" style="color:red"></p> 
+        </md-list-item>
         <div flex layout="row" layout-align="end center">
-            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+            <md-button class="md-accent" ng-disabled="!$ctrl.agree" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
                 {{ 'form.save' | translate }}
             </md-button>
         </div>

@@ -10,6 +10,7 @@ class UserSettingsMainCtrl {
     // bind
     owner: IUserProfile;
     currentUser: IUserProfile;
+    agentProfile: any;
 
     static $inject = ['UserService', 'dialogs', 'message', 'UserSettingsService'];
 
@@ -43,7 +44,7 @@ class UserSettingsMainCtrl {
      * @returns {boolean}
      */
     isCoachProfileComplete () : boolean {
-        return isCoachProfileComplete(this.currentUser);
+        return this.currentUser.public.profileComplete;
     }
 }
 
@@ -51,6 +52,7 @@ export const UserSettingsMainComponent: IComponentOptions = {
     bindings: {
         owner: '<',
         currentUser: '<',
+        agentProfile: '<',
     },
     controller: UserSettingsMainCtrl,
     template: require('./user-settings-main.component.html') as string

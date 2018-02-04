@@ -87,7 +87,7 @@ class UserSettingsCoachCtrl {
      * @returns {boolean}
      */
     isProfileComplete () : boolean {
-        return isCoachProfileComplete(this.currentUser);
+        return this.currentUser.public.profileComplete;
     }
 }
 

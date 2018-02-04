@@ -25,6 +25,7 @@ import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-
 import { UserSettingsEditZoneComponent } from "./settings/user-settings-edit-zone/user-settings-edit-zone.component"; 
 import { UserSettingsNotificationsComponent } from "./settings/user-settings-notifications/user-settings-notifications.component"; 
 import { UserSettingsService } from "./settings/user-settings.service"; 
+import { AgentService } from "./settings/agent.service"; 
 import { userSettingsProfileFilter } from "./settings/user-settings-profile/user-settings-profile.filter"; 
 import SyncAdaptorService from "./sync-adaptor.service"; 
 import userSettingsConfig from "./settings/user-settings.config"; 
@@ -32,6 +33,7 @@ import userSettingsConfig from "./settings/user-settings.config";
 export const User = module('staminity.user', [satellizer])
     .service("SyncAdaptorService", SyncAdaptorService)
     .service("UserSettingsService", UserSettingsService)
+    .service("AgentService", AgentService)
     .component('stUserSettings', UserSettingsComponent)
     .component('stUserSettingsMenu', UserSettingsMenuComponent)
     .component('stUserSettingsHeader', UserSettingsHeaderComponent)

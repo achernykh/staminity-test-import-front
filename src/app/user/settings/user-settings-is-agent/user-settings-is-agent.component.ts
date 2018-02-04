@@ -1,7 +1,7 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController,ILocationService } from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import { UserSettingsService } from '../user-settings.service';
+import { AgentService } from '../agent.service';
 import DisplayService from "../../../core/display.service";
 import './user-settings-is-agent.component.scss';
 
@@ -10,17 +10,18 @@ class UserSettingsIsAgentCtrl {
     // bind
     currentUser: IUserProfile;
     owner: IUserProfile;
+    agentProfile: any;
 
-    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', '$scope'];
+    static $inject = ['DisplayService', 'dialogs', 'message', 'AgentService', '$scope'];
 
     constructor (
         private displayService: DisplayService,
         private dialogs: any,
         private message: any,
-        private userSettingsService: UserSettingsService,
+        private agentService: AgentService,
         private $scope: any,
     ) {
-        window['UserSettingsIsCoachCtrl'] = this;
+        window['UserSettingsIsAgentCtrl'] = this;
     }
 
     get isAvailable () : boolean {
@@ -34,32 +35,20 @@ class UserSettingsIsAgentCtrl {
      */
     isAgent (value?: boolean) : boolean | void { 
         if (typeof value === 'undefined') { 
-            return this.owner.public['isAgent']; 
+            return this.agentProfile.isActive; 
         } 
  
-        this.userSettingsService.saveSettings({ 
-            userId: this.owner.userId,
-            revision: this.owner.revision,
-            public: { 
-                ...this.owner.public,
-                isAgent: value,
-            },
+        this.agentService.putAgentProfile({
+            ...this.agentProfile,
+            isActive: value,
         }) 
         .then(() => { 
-            this.owner.public['isAgent'] = value; 
             this.message.toastInfo('settingsSaveComplete'); 
             this.$scope.$apply(); 
-        }) 
+        })
         .catch((info) => { 
             this.message.systemWarning(info); 
         }); 
-    }
-
-    /* 
-     * Перезагрузить профиль
-     */
-    reload () {
-        this.userSettingsService.reload(this.owner.userId); 
     }
 }
 
@@ -67,6 +56,7 @@ export const UserSettingsIsAgentComponent: IComponentOptions = {
     bindings: {
         owner: '<',
         currentUser: '<',
+        agentProfile: '<',
     },
     controller: UserSettingsIsAgentCtrl,
     template: require('./user-settings-is-agent.component.html') as string

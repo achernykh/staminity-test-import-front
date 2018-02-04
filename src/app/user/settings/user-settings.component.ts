@@ -4,15 +4,17 @@ import { IUserProfile, IUserProfileShort } from "@api/user";
 import MessageService from "../../core/message.service";
 import { SessionService } from "../../core/session/session.service";
 import { UserSettingsService } from "./user-settings.service";
+import { AgentService } from "./agent.service";
 
 class UserSettingsCtrl implements IComponentController {
 
     // binding
     userId: number;
     owner: IUserProfile | IUserProfileShort;
+    agentProfile: any;
 
     // inject
-    static $inject = ['$scope', '$stateParams', 'message', 'SessionService', 'UserSettingsService'];
+    static $inject = ['$scope', '$stateParams', 'message', 'SessionService', 'UserSettingsService', 'AgentService'];
 
     constructor (
         private $scope: any,
@@ -20,12 +22,17 @@ class UserSettingsCtrl implements IComponentController {
         private message: MessageService,
         private sessionService: SessionService,
         private userSettingsService: UserSettingsService,
+        private agentService: AgentService,
     ) {
         window['UserSettingsCtrl'] = this;
         userSettingsService.updates.subscribe((userProfile) => {
             if (userProfile.userId === this.userId) {
                 this.owner = userProfile;
             }
+            this.$scope.$apply();
+        });
+        agentService.updates.subscribe((agentProfile) => {
+            this.agentProfile = agentProfile;
             this.$scope.$apply();
         });
     }
@@ -52,6 +59,7 @@ export const UserSettingsComponent: IComponentOptions = {
     bindings: {
         userId: '<',
         owner: '<',
+        agentProfile: '<',
     },
     controller: UserSettingsCtrl,
     controllerAs: '$userSettingsCtrl',

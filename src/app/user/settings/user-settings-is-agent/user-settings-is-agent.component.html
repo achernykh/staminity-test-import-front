@@ -2,7 +2,6 @@
     <md-list-item class="md-2-line"> 
         <div class="md-list-item-text"> 
             <h3>{{ 'user.settings.agent.iWant' | translate }}</h3>
-            <p>isAgentStatus</p>
         </div> 
         <p class="md-secondary">
             <md-switch
@@ -12,5 +11,16 @@
             >
             </md-switch>
         </p> 
+    </md-list-item>
+    <md-divider ng-if="$ctrl.agentProfile.isActive"></md-divider>
+    <md-list-item ng-if="$ctrl.agentProfile.isActive" ui-sref="user-settings.agent({userId: $ctrl.owner.userId})">
+        <div layout="column">
+            <div class="md-body-1" translate>user.settings.agent.profile</div>
+            <div class="md-body-2" ng-if="$ctrl.agentProfile.isComplete" translate style="color:#38761d">user.settings.agent.complete</div>
+            <div class="md-body-2" ng-if="!$ctrl.agentProfile.isComplete && $ctrl.agentProfile.isIndividual" translate style="color:red">user.settings.agent.incompleteIndividual</div>
+            <div class="md-body-2" ng-if="!$ctrl.agentProfile.isComplete && !$ctrl.agentProfile.isIndividual" translate style="color:gray">user.settings.agent.incompleteNotIndividual</div>
+        </div>
+        <md-icon class="material-icon md-secondary">keyboard_arrow_right
+        </md-icon>
     </md-list-item>
 </md-list>
