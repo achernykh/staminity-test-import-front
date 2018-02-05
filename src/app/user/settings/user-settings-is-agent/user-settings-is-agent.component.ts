@@ -25,11 +25,19 @@ class UserSettingsIsAgentCtrl {
     }
 
     /**
+     * Есть опубликованные планы
+     * @returns {boolean}
+     */
+    hasPublishedPlans () : boolean {
+        return false;
+    }
+
+    /**
      * Неактивность переключателя
      * @returns {boolean}
      */
     isDisabled () : boolean {
-        return this.owner.public && (this.agentProfile.isActive || this.isCoachTariffEnabled());
+        return this.owner.public.isCoach && this.agentProfile.isActive && this.hasPublishedPlans();
     }
 
     /**

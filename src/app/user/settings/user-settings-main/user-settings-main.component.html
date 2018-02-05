@@ -13,7 +13,7 @@
         <md-card class="user-settings-main__card">
             <st-user-settings-is-coach owner="$ctrl.owner" agent-profile="$ctrl.agentProfile"></st-user-settings-is-coach>
         </md-card>
-        <md-card class="user-settings-main__card">
+        <md-card ng-if="$ctrl.owner.public.isCoach" class="user-settings-main__card">
             <st-user-settings-is-agent owner="$ctrl.owner" agent-profile="$ctrl.agentProfile"></st-user-settings-is-agent>
         </md-card>
         <md-card class="user-settings-main__card">

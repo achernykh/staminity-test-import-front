@@ -51,7 +51,7 @@ class UserSettingsIsCoachCtrl {
      * @returns {boolean}
      */
     isDisabled () : boolean {
-        return this.owner.public && (this.agentProfile.isActive || this.isCoachTariffEnabled());
+        return this.owner.public.isCoach && (this.agentProfile.isActive || this.isCoachTariffEnabled());
     }
 
     /**
@@ -94,7 +94,7 @@ class UserSettingsIsCoachCtrl {
      * @returns {boolean}
      */
     isCoachProfileComplete () : boolean {
-        return this.currentUser.public.profileComplete;
+        return this.owner.public.profileComplete;
     }
 }
 
