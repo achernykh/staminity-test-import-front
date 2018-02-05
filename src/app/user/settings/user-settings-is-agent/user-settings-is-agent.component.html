@@ -5,9 +5,10 @@
         </div> 
         <p class="md-secondary">
             <md-switch
+                ng-if="$ctrl.owner.public.isCoach"
                 ng-model="$ctrl.isAgent"
                 ng-model-options="{getterSetter: true}"
-                ng-disabled="!$ctrl.isAvailable"
+                ng-disabled="$ctrl.isDisabled()"
             >
             </md-switch>
         </p> 

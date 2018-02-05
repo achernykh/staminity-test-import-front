@@ -2,7 +2,6 @@ import {IComponentOptions, IComponentController,ILocationService} from 'angular'
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import UserService from "../../../core/user.service";
 import { UserSettingsService } from "../user-settings.service";
-import { isCoachProfileComplete } from '../user-settings-coach/user-settings-coach.functions';
 import './user-settings-main.component.scss';
 
 class UserSettingsMainCtrl {
@@ -37,14 +36,6 @@ class UserSettingsMainCtrl {
      */
     showChangePassword (event) {
         this.userSettingsService.changePassword(event);
-    }
-
-    /**
-     * Заполнен ли профиль тренера
-     * @returns {boolean}
-     */
-    isCoachProfileComplete () : boolean {
-        return this.currentUser.public.profileComplete;
     }
 }
 

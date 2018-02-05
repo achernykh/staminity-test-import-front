@@ -24,8 +24,12 @@ class UserSettingsIsAgentCtrl {
         window['UserSettingsIsAgentCtrl'] = this;
     }
 
-    get isAvailable () : boolean {
-        return true;
+    /**
+     * Неактивность переключателя
+     * @returns {boolean}
+     */
+    isDisabled () : boolean {
+        return this.owner.public && (this.agentProfile.isActive || this.isCoachTariffEnabled());
     }
 
     /**
