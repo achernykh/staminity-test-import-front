@@ -7,6 +7,7 @@ export class UserSettingsAgentDatamodel {
 	isCompleted?: boolean; 
 	revision?: number;
 	isIndividual: boolean;
+	agrApproved: boolean;
 	residentCountry: string;
 	companyDetails: {
 		monetaAccount: string;
@@ -22,6 +23,7 @@ export class UserSettingsAgentDatamodel {
 		this.revision = profile.revision;
 		this.isIndividual = profile.isIndividual;
 		this.residentCountry = profile.residentCountry;
+		this.agrApproved = profile.agrApproved;
 		this.companyDetails = {
 			...profile.companyDetails,
 		};
@@ -34,6 +36,7 @@ export class UserSettingsAgentDatamodel {
 			revision: this.revision,
 			isIndividual: this.isIndividual,
 			residentCountry: this.residentCountry,
+			agrApproved: this.agrApproved,
 			companyDetails: {
 				...this.companyDetails,
 			},
@@ -51,7 +54,7 @@ export class UserSettingsAgentOwnerDatamodel {
 	constructor (private profile: IUserProfile) {
 		this.firstName = profile.public.firstName;
 		this.lastName = profile.public.lastName;
-		this.email = profile.personal.extEmail;
+		this.email = profile['email'];
 		this.phone = profile.personal.phone;
 	}
 
@@ -66,7 +69,6 @@ export class UserSettingsAgentOwnerDatamodel {
 			},
 			personal: {
 				...this.profile.personal,
-				extEmail: this.email,
 				phone: this.phone,
 			},
 		} as any;

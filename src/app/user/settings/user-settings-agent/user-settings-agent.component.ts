@@ -26,7 +26,6 @@ class UserSettingsAgentCtrl {
     form: any;
     countriesList = countriesList;
     countrySearchText: string;
-    agree: boolean;
 
     static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'AgentService', 'quillConfig', '$scope'];
 
@@ -40,6 +39,10 @@ class UserSettingsAgentCtrl {
         private $scope: any,
     ) {
         window['UserSettingsAgentCtrl'] = this;
+    }
+
+    canSubmit () : boolean {
+        return this.form.$valid;
     }
 
     /**
