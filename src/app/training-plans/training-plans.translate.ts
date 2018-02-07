@@ -24,6 +24,7 @@ export const _translateTrainingPlans = {
 
         // действия
         actions: {
+            list: 'Перейти в список планов',
             delete: 'Удалить',
             create: 'Создать',
             edit: 'Изменить',

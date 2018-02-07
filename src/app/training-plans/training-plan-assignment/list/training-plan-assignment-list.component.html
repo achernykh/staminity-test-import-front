@@ -32,6 +32,13 @@
                 </md-button>
                 <md-menu-content>
                     <md-menu-item>
+                        <md-button ng-click="$ctrl.onCancel();$ctrl.$state.go('calendar', {userId: assign.user.userId})">
+                            <md-icon class="material-icons" md-menu-align-target>today</md-icon>
+                            <span translate="trainingPlans.assignment.action.calendar"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
+                    <md-menu-item>
                         <md-button ng-click="$ctrl.delete(assign)">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
                             <span translate="trainingPlans.assignment.action.delete"></span>

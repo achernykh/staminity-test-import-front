@@ -43,8 +43,8 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
                 applyDateMode: this.assign.applyDateMode,
                 firstItemDate: this.assign.firstItemDate,
                 enabledSync: this.assign.enabledSync,
-                applyFromDate: this.data.applyFromDate,
-                applyToDate: this.data.applyToDate
+                applyFromDate: this.assign.applyFromDate,
+                applyToDate: this.assign.applyToDate
             };
         }
 
@@ -81,7 +81,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
     private onlyFirstPlanDaysPredicate (date: Date): boolean {
         //console.debug('check calendar date', date.getDay(), new Date(this.plan.startDate).getDay());
-        return date.getDay() === new Date(this.plan.startDate).getDay();
+        return this.data.applyMode === 'I' || date.getDay() === new Date(this.plan.startDate).getDay();
     };
 
     get fistItemDate (): string {
