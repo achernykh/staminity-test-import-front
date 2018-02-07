@@ -17,9 +17,9 @@
     <md-list-item ng-if="$ctrl.agentProfile.isActive" ui-sref="user-settings.agent({userId: $ctrl.owner.userId})">
         <div layout="column">
             <div class="md-body-1" translate>user.settings.agent.profile</div>
-            <div class="md-body-2" ng-if="$ctrl.agentProfile.isComplete" translate style="color:#38761d">user.settings.agent.complete</div>
-            <div class="md-body-2" ng-if="!$ctrl.agentProfile.isComplete && ($ctrl.agentProfile.isIndividual || $ctrl.agentProfile.isIndividual === null)" translate style="color:red">user.settings.agent.incompleteIndividual</div>
-            <div class="md-body-2" ng-if="!$ctrl.agentProfile.isComplete && $ctrl.agentProfile.isIndividual === false" translate style="color:gray">user.settings.agent.incompleteNotIndividual</div>
+            <div class="md-body-2" ng-if="$ctrl.agentProfile.isCompleted" translate style="color:#38761d">user.settings.agent.complete</div>
+            <div class="md-body-2" ng-if="!$ctrl.agentProfile.isCompleted && ($ctrl.agentProfile.isIndividual || $ctrl.agentProfile.isIndividual === null)" translate style="color:red">user.settings.agent.incompleteIndividual</div>
+            <div class="md-body-2" ng-if="!$ctrl.agentProfile.isCompleted && $ctrl.agentProfile.isIndividual === false" translate style="color:gray">user.settings.agent.incompleteNotIndividual</div>
         </div>
         <md-icon class="material-icon md-secondary">keyboard_arrow_right
         </md-icon>
