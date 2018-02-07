@@ -40,6 +40,8 @@ export default class UserService {
             .subscribe((userId) => {
                 this.getProfile(userId)
                 .then((userProfile) => {
+                    this.SessionService.getUser().userId ?
+                    this.SessionService.setUser(Object.assign({...userProfile}, {connections: this.SessionService.getUser().connections})) :
                     this.SessionService.updateUser(userProfile);
                 });
             });

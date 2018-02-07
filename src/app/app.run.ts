@@ -1,10 +1,12 @@
 import { StateDeclaration, StateService, TransitionService } from "angular-ui-router";
-import {IAuthService} from "./auth/auth.service";
+import { IAuthService, default as AuthService } from "./auth/auth.service";
 import MessageService from "./core/message.service";
 import LoaderService from "./share/loader/loader.service";
 import { path } from "./share/utility/path";
 import { SocketService } from "./core/socket/socket.service";
 import { IStaminityState } from "./application.interface";
+import DisplayService from "./core/display.service";
+import UserService from "./core/user.service";
 
 function run(
     $transitions: TransitionService,
@@ -12,10 +14,10 @@ function run(
     $translate,
     $mdToast,
     LoaderService: LoaderService,
-    AuthService: IAuthService,
+    AuthService: AuthService,
     message: MessageService,
-    DisplayService: any, // not used, just force DisplayService being initialized
-    UserService: any, // not used, just force UserService being initialized,
+    DisplayService: DisplayService, // not used, just force DisplayService being initialized
+    UserService: UserService, // not used, just force UserService being initialized,
     socket: SocketService
 ) {
     //window.navigator['standalone'] = true;

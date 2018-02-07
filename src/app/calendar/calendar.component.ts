@@ -20,6 +20,7 @@ import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialo
 import AuthService from "@app/auth/auth.service";
 import { updateIntensity, changeUserOwner } from "../activity/activity.function";
 import { getUser } from "../core/session/session.service";
+import UserService from "../core/user.service";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -33,7 +34,7 @@ export class CalendarCtrl implements IComponentController{
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
         'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService', 'AuthService',
-        'SessionService'];
+        'SessionService', 'UserService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
     private selectedItems: Array<ICalendarItem> = []; // буфер выделенных записей
@@ -64,7 +65,8 @@ export class CalendarCtrl implements IComponentController{
         private dialogs: any,
         private display: DisplayService,
         private auth: AuthService,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private userService: UserService
     ) {
 
     }
@@ -126,7 +128,20 @@ export class CalendarCtrl implements IComponentController{
     setOwner (userId: number): void {
         this.owner = this.athletes.filter(a => a.userId === userId)[0];
         this.$location.search('userId', this.owner.userId);
-        this.setData();
+        Promise.resolve(() => {})
+            .then(() => !this.owner.hasOwnProperty('trainingZone') && this.completeTrainingZones(this.owner.userId))
+            .then(() => this.setData(), error => this.message.toastError(error));
+    }
+
+    private completeTrainingZones(userId: number): Promise<any> {
+        return this.userService.getTrainingZones(userId)
+            .then(response => {
+                if (Array.isArray(response) && response[0].hasOwnProperty('trainingZones')) {
+                    this.owner.trainingZones = response[0].trainingZones;
+                } else {
+                    throw new Error('errorResponseTrainingZones');
+                }
+            });
     }
 
     $onInit() {
