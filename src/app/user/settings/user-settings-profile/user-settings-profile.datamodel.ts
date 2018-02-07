@@ -1,4 +1,5 @@
 import { IUserProfile } from "@api/user";
+import { path } from '../../../share/utility/path';
 
 export class UserSettingsProfileDatamodel {
 
@@ -17,13 +18,13 @@ export class UserSettingsProfileDatamodel {
 		this.firstName = profile.public.firstName;
 		this.lastName = profile.public.lastName;
 		this.uri = profile.public.uri;
-		this.about = profile.personal['about'];
-		this.country = profile.personal['country'];
-		this.city = profile.personal['city'];
-		this.dateOfBirth = profile.personal.birthday;
-		this.sex = profile.personal.sex;
-		this.email = profile.personal.extEmail;
-		this.phone = profile.personal.phone;
+		this.about = path(['personal', 'about']) (profile);
+		this.country = path(['personal', 'country']) (profile);
+		this.city = path(['personal', 'city']) (profile);
+		this.dateOfBirth = path(['personal', 'birthday']) (profile);
+		this.sex = path(['personal', 'sex']) (profile);
+		this.email = path(['personal', 'extEmail']) (profile);
+		this.phone = path(['personal', 'phone']) (profile);
 	}
 
 	toUserProfile () : IUserProfile {

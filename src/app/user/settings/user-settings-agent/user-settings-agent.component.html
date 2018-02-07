@@ -1,40 +1,35 @@
 <md-list class="md-dense section user-settings-agent">
     <form name="$ctrl.form">
-        <md-list-item layout="row" layout-wrap>
-            <md-autocomplete 
-                flex="45" flex-xs="100" class="no-message" flex
-                md-input-name="country"
-                md-input-minlength="2"
-                md-input-maxlength="18"
-                md-no-cache="$ctrl.noCache"
-                md-selected-item="$ctrl.datamodel.residentCountry"
-                md-search-text="$ctrl.countrySearchText"
-                md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
-                md-item-text="$ctrl.getCountryName(id)"
-                md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}"
-            >
-                <md-item-template>
-                    <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList['ru'][id]}}</span>
-                </md-item-template>
-                <div ng-messages="$ctrl.form.country.$error" role="alert"
-                     ng-if="$ctrl.form.country.$touched">
+        <md-list-item layout="row" layout-wrap class="user-settings-agent__no-before">
+            <md-input-container class="no-message">
+                <md-autocomplete flex="45" flex-xs="100" flex md-input-name="country" md-input-minlength="2" md-input-maxlength="18" md-no-cache="$ctrl.noCache" md-selected-item="$ctrl.datamodel.residentCountry" md-search-text="$ctrl.countrySearchText" md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)" md-item-text="$ctrl.getCountryName(id)" md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}" required class="no-message user-settings-agent__country">
+                    <md-item-template>
+                        <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList['ru'][id]}}</span>
+                    </md-item-template>
+                </md-autocomplete>
+                <div ng-messages="$ctrl.form.country.$error" role="alert">
+                    <div ng-message-exp="['required']" translate="form.required"></div>
                 </div>
-            </md-autocomplete>
-            <div flex="55" flex-xs="0"></div>
+            </md-input-container>
         </md-list-item>
         <md-list-item layout="row" layout-wrap layout-align="start center">
-            <div flex="none" class="md-caption" translate="user.settings.agent.isIndividual"></div>
-            <div flex="auto" style="margin-left: 20px">
-                <md-radio-group name="isIndividual" class="md-primary" ng-model="$ctrl.datamodel.isIndividual" layout="row" layout-align="end center">
-                    <md-radio-button ng-value="true"><span translate="user.settings.agent.individual"></span></md-radio-button>
-                    <md-radio-button ng-value="false"><span translate="user.settings.agent.notIndividual"></span></md-radio-button>
-                </md-radio-group>
-            </div>
+            <md-input-container class="no-message">
+                <div flex="none" class="md-caption" translate="user.settings.agent.isIndividual"></div>
+                <div flex="auto" style="margin-left: 20px">
+                    <md-radio-group name="isIndividual" class="md-primary" ng-model="$ctrl.datamodel.isIndividual" layout="row" layout-align="end center" required>
+                        <md-radio-button ng-value="true"><span translate="user.settings.agent.individual"></span></md-radio-button>
+                        <md-radio-button ng-value="false"><span translate="user.settings.agent.notIndividual"></span></md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div ng-messages="$ctrl.form.isIndividual.$error" role="alert">
+                    <div ng-message-exp="['required']" translate="form.required"></div>
+                </div>
+            </md-input-container>
         </md-list-item>
 
         <div ng-if="$ctrl.datamodel.residentCountry && $ctrl.datamodel.residentCountry !== 'RU'">
             <md-list-item layout="row">
-                <p translate="user.settings.agent.noResidentRUS" style="color:red"></p> 
+                <p translate="user.settings.agent.noResidentRUS" style="color:red; padding: 20px 0;"></p> 
             </md-list-item>
         </div>
 
@@ -52,24 +47,24 @@
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="user.settings.agent.inn"></label>
-                    <input type="text" name="inn" ng-model="$ctrl.datamodel.companyDetails.companyINN" autocomplete="off" required minlength="2" maxlength="100">
+                    <input type="text" name="inn" ng-model="$ctrl.datamodel.companyDetails.companyINN" autocomplete="off" required ng-pattern="/^(([0-9]{10})|([0-9]{12}))$/">
                     <div ng-messages="$ctrl.form.inn.$error" role="alert">
                         <div ng-message-exp="['required']" translate="form.required"></div>
-                        <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
+                        <div ng-message-exp="['pattern']" translate="user.settings.agent.innMessage"></div>
                     </div>
                 </md-input-container>
                 <div flex="10" show hide-xs></div>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="user.settings.agent.kpp"></label>
-                    <input type="text" name="kpp" ng-model="$ctrl.datamodel.companyDetails.companyKPP" autocomplete="off" required minlength="2" maxlength="100">
+                    <input type="text" name="kpp" ng-model="$ctrl.datamodel.companyDetails.companyKPP" autocomplete="off" required ng-pattern="/^[0-9]{9}$/">
                     <div ng-messages="$ctrl.form.kpp.$error" role="alert">
                         <div ng-message-exp="['required']" translate="form.required"></div>
-                        <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}"></div>
+                        <div ng-message-exp="['pattern']" translate="user.settings.agent.kppMessage"></div>
                     </div>
                 </md-input-container>
             </md-list-item>
             <md-list-item layout="row">
-                <p translate="user.settings.agent.noIndividualRUS" style="color:red"></p> 
+                <p translate="user.settings.agent.noIndividualRUS" style="color:red; padding: 20px 0;"></p> 
             </md-list-item>
         </div>
 

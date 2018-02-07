@@ -1,7 +1,11 @@
+import { path } from '../../../share/utility/path';
+
+console.log('path', path);
+
 export const userSettingsProfileFilter = () => (user) => {
 	return [
-		user.personal.country, 
-		user.personal.city, 
+		path(['personal', 'country']) (user), 
+		path(['personal', 'city']) (user), 
 		'e-mail: ' + user.email
 	].filter((x) => x).join(', ');
 };
