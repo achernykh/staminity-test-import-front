@@ -1,6 +1,7 @@
 import './user-settings.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction } from "@api/agent";
 import MessageService from "../../core/message.service";
 import { SessionService } from "../../core/session/session.service";
 import { UserSettingsService } from "./user-settings.service";
@@ -11,7 +12,8 @@ class UserSettingsCtrl implements IComponentController {
     // binding
     userId: number;
     owner: IUserProfile | IUserProfileShort;
-    agentProfile: any;
+    agentProfile: IAgentProfile;
+    agentEnvironment: IAgentEnvironment;
 
     // inject
     static $inject = ['$scope', '$stateParams', 'message', 'SessionService', 'UserSettingsService', 'AgentService'];
@@ -60,6 +62,7 @@ export const UserSettingsComponent: IComponentOptions = {
         userId: '<',
         owner: '<',
         agentProfile: '<',
+        agentEnvironment: '<',
     },
     controller: UserSettingsCtrl,
     controllerAs: '$userSettingsCtrl',

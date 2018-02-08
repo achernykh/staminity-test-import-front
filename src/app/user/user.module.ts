@@ -19,6 +19,10 @@ import { UserSettingsMainComponent} from "./settings/user-settings-main/user-set
 import { UserSettingsProfileComponent } from "./settings/user-settings-profile/user-settings-profile.component"; 
 import { UserSettingsCoachComponent } from "./settings/user-settings-coach/user-settings-coach.component"; 
 import { UserSettingsAgentComponent } from "./settings/user-settings-agent/user-settings-agent.component"; 
+import { UserSettingsCardsComponent } from "./settings/user-settings-cards/user-settings-cards.component"; 
+import { UserSettingsSalesComponent } from "./settings/user-settings-sales/user-settings-sales.component"; 
+import { UserSettingsBalanceComponent } from "./settings/user-settings-balance/user-settings-balance.component"; 
+import { UserSettingsWithdrawalComponent } from "./settings/user-settings-withdrawal/user-settings-withdrawal.component"; 
 import { UserSettingsPrivacyComponent } from "./settings/user-settings-privacy/user-settings-privacy.component"; 
 import { UserSettingsFitComponent } from "./settings/user-settings-fit/user-settings-fit.component"; 
 import { UserSettingsZonesComponent } from "./settings/user-settings-zones/user-settings-zones.component"; 
@@ -46,8 +50,12 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettingsCalendars', UserSettingsCalendarsComponent)
     .component('stUserSettingsMain', UserSettingsMainComponent)
     .component('stUserSettingsProfile', UserSettingsProfileComponent)
-    .component('stUserSettingsCoach', UserSettingsCoachComponent)
+    .component('stUserSettingsCoach', UserSettingsCoachComponent)   
     .component('stUserSettingsAgent', UserSettingsAgentComponent)
+    .component('stUserSettingsCards', UserSettingsCardsComponent)
+    .component('stUserSettingsSales', UserSettingsSalesComponent)
+    .component('stUserSettingsWithdrawal', UserSettingsWithdrawalComponent)
+    .component('stUserSettingsBalance', UserSettingsBalanceComponent)
     .component('stUserSettingsPrivacy', UserSettingsPrivacyComponent)
     .component('stUserSettingsFit', UserSettingsFitComponent)
     .component('stUserSettingsZones', UserSettingsZonesComponent)

@@ -14,6 +14,7 @@ const userSettings: any = {
         userId: ["$stateParams", "SessionService", ($stateParams, sessionService) => $stateParams.userId || sessionService.getCurrentUserId()],
         owner: ["userId", "UserService", (userId, userService) => userService.getProfile(+userId)],
         agentProfile: ["AgentService", (agentService) => agentService.getAgentProfile()],
+        agentEnvironment: ["AgentService", (agentService) => agentService.getAgentEnvironment()],
     },
     views: {
         "application": {
@@ -58,6 +59,42 @@ const userSettingsAgent: any = {
     template: require('./settings/user-settings-agent/user-settings-agent.template.html') as string
 };
 
+const userSettingsCards: any = {
+    name: 'user-settings.cards',
+    url: '/user-settings/cards?userId',
+    loginRequired: false,
+    authRequired: [],
+    reloadOnSearch: false,
+    resolve: {
+        extAccounts: ["AgentService", (agentService) => agentService.getAgentExtAccounts()],
+    },
+    template: require('./settings/user-settings-cards/user-settings-cards.template.html') as string
+};
+
+const userSettingsSales: any = {
+    name: 'user-settings.sales',
+    url: '/user-settings/sales?userId',
+    loginRequired: false,
+    authRequired: [],
+    reloadOnSearch: false,
+    resolve: {
+        transactions: ["AgentService", (agentService) => agentService.GetAgentAccountTransactions()],
+    },
+    template: require('./settings/user-settings-sales/user-settings-sales.template.html') as string
+};
+
+const userSettingsWithdrawal: any = {
+    name: 'user-settings.withdrawal',
+    url: '/user-settings/withdrawal?userId',
+    loginRequired: false,
+    authRequired: [],
+    reloadOnSearch: false,
+    resolve: {
+        withdrawals: ["AgentService", (agentService) => agentService.getAgentWithdrawals()],
+    },
+    template: require('./settings/user-settings-withdrawal/user-settings-withdrawal.template.html') as string
+};
+
 const userSettingsFit: any = {
     name: 'user-settings.fit',
     url: '/user-settings/fit?userId',
@@ -100,6 +137,9 @@ export const userState: Array<StateDeclaration> = [
     userSettingsProfile,
     userSettingsCoach,
     userSettingsAgent,
+    userSettingsCards,
+    userSettingsSales,
+    userSettingsWithdrawal,
     userSettingsFit,
     userSettingsPrivacy,
     userSettingsZones,

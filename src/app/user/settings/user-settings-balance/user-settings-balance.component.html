@@ -1,0 +1,12 @@
+<md-list>
+    <md-list-item>
+        <div layout="column">
+            <div class="md-body-2" translate translate-values="{currency:$ctrl.account.currency}">user.settings.agent.balance.label</div>
+            <div class="md-body-1" translate translate-values="{currency:$ctrl.account.currency}">user.settings.agent.balance.conditions</div>
+        </div>
+        <md-button class="md-secondary" ng-click="$ctrl.withdraw($event)" style="text-transform: none; font-weight: normal;">
+            {{'user.settings.agent.balance.withdraw' | translate}}
+            <span style="font-weight: bold; color: black;">{{$ctrl.account.balance}} {{$ctrl.account.currency}}</span>
+        </md-button>
+    </md-list-item>
+</md-list>
