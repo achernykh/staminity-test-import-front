@@ -1,10 +1,10 @@
 <md-list>
     <md-list-item class="md-2-line"> 
         <div class="md-list-item-text"> 
-            <h3>{{ 'user.settings.coach.isCoach' | translate }}</h3>
-            <p>{{ 'user.settings.coach.status.' + $ctrl.getStatus() | translate }}</p>
+            <div class="md-body-2">{{'user.settings.coach.isCoach' | translate}}</div>
+            <div class="md-body-1">{{'user.settings.coach.status.' + $ctrl.getStatus() | translate}}</div>
         </div> 
-        <p class="md-secondary">
+        <div class="md-secondary">
             <md-switch
                 ng-if="$ctrl.owner.connections.Athletes"
                 ng-model="$ctrl.isCoach"
@@ -12,13 +12,13 @@
                 ng-disabled="$ctrl.isDisabled()"
             >
             </md-switch>
-        </p> 
+        </div> 
     </md-list-item>
     <md-divider ng-if="$ctrl.owner.public.isCoach"></md-divider>
     <md-list-item ng-if="$ctrl.owner.public.isCoach" ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
         <div layout="column">
-            <div class="md-body-1" translate>user.settings.coach.hint</div>
-            <div class="md-body-2" ng-if="!$ctrl.isCoachProfileComplete()" translate style="color:red">user.settings.coach.statusIncomplete</div>
+            <div class="md-body-2" translate>user.settings.coach.hint</div>
+            <div class="md-body-1" ng-if="!$ctrl.isCoachProfileComplete()" translate style="color:red">user.settings.coach.statusIncomplete</div>
         </div>
         <md-icon class="material-icon md-secondary">keyboard_arrow_right
         </md-icon>
