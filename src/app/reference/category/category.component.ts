@@ -47,6 +47,7 @@ class CategoryCtrl implements IComponentController {
 const CategoryComponent: IComponentOptions = {
     bindings: {
         category: "<",
+        club: '<'
     },
     controller: CategoryCtrl,
     template: require("./category.component.html") as string,

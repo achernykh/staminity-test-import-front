@@ -9,7 +9,7 @@
                         ng-model="$ctrl.filterParams.activityType"
                         ng-change="$ctrl.updateFilterParams()">
                     <md-option
-                            ng-repeat="activityType in $ctrl.activityTypes track by activityType.id"
+                            ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true, enabled: true} track by activityType.id"
                             ng-value="activityType">
                         {{ 'sport.' + activityType.code | translate }}
                     </md-option>
@@ -51,6 +51,7 @@
                        dnd-callback="$ctrl.dropTemplate(template, operation, $index, date, index)"
                        draggable="true"
                        template="template"
+                       revision="template.revision"
                        current-user="$ctrl.currentUser"
                        view="'compact-list'"
                        is-mobile-layout="true"

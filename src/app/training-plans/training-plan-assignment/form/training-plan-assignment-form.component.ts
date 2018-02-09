@@ -6,6 +6,7 @@ import { ITrainingPlanAssignmentRequest } from "@api/trainingPlans";
 import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 import { TrainingPlan } from "@app/training-plans/training-plan/training-plan.datamodel";
 import { ITrainingPlanAssignment } from "../../../../../api/trainingPlans/training-plans.interface";
+import MessageService from "../../../core/message.service";
 
 class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
@@ -19,19 +20,20 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     private readonly applyModeTypes: Array<string> = ['P', 'I'];
     private readonly applyDateTypes: Array<string> = ['F', 'T'];
     private data: ITrainingPlanAssignmentRequest;
-    private applyFromDate: Date;
-    private applyToDate: Date;
 
-    static $inject = ['TrainingPlansService'];
+    static $inject = ['$scope', 'TrainingPlansService', 'message'];
 
-    constructor(private trainingPlansService: TrainingPlansService) {
-
+    constructor(private $scope: any, private trainingPlansService: TrainingPlansService, private message: MessageService) {
+        $scope.onlyFirstPlanDaysPredicate = (date: Date) => this.onlyFirstPlanDaysPredicate(date);
     }
 
     $onInit() {
-
         if (!this.assign) {
-            this.data = Object.assign({ applyMode: 'P', applyDateMode: 'F', enabledSync: this.plan.propagateMods || null });
+            this.data = Object.assign({
+                applyMode: 'P',
+                applyDateMode: 'F',
+                enabledSync: this.plan.propagateMods || null
+            });
         } else {
             this.data = {
                 mode: 'U',
@@ -40,14 +42,20 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
                 applyMode: this.assign.applyMode,
                 applyDateMode: this.assign.applyDateMode,
                 firstItemDate: this.assign.firstItemDate,
-                enabledSync: this.assign.enabledSync
+                enabledSync: this.assign.enabledSync,
+                applyFromDate: this.data.applyFromDate,
+                applyToDate: this.data.applyToDate
             };
         }
 
         if ( this.plan.isFixedCalendarDates && !this.data.firstItemDate ) {
-            this.applyFromDate = new Date(moment(this.plan.startDate).format('YYYY-MM-DD'));
+            this.data.applyFromDate = new Date(moment(this.plan.startDate).format('YYYY-MM-DD'));
         }
 
+    }
+
+    isStartDate (date: Date): boolean {
+        return this.data.applyDateMode === 'F' && moment(this.plan.startDate).isSameOrAfter(moment(date), 'day');
     }
 
     athleteSelectorText(): string {
@@ -65,26 +73,32 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
             applyMode: this.data.applyMode,
             applyDateMode: this.data.applyDateMode,
             firstItemDate: this.fistItemDate,
-            enabledSync: null
-        }).then(response => this.onCancel(), error => {debugger;});
+            enabledSync: this.data.enabledSync,
+            applyFromDate: this.data.applyFromDate,
+            applyToDate: this.data.applyToDate
+        }).then(response => this.onCancel(), error => this.message.toastError(error));
     }
+
+    private onlyFirstPlanDaysPredicate (date: Date): boolean {
+        return date.getDay() === new Date(this.plan.startDate).getDate();
+    };
 
     get fistItemDate (): string {
         // Вариант 1. Тип Даты = План & Дата = с начала
         if ( this.data.applyMode === 'P' && this.data.applyDateMode === 'F' ) {
-            return moment(this.applyFromDate).add(this.plan.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return moment(this.data.applyFromDate).add(this.plan.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
         // Вариант 2. Тип Даты = План & Дата = с конца
         else if ( this.data.applyMode === 'P' && this.data.applyDateMode === 'T' ) {
-            return moment(this.applyToDate).subtract(this.plan.lastItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return moment(this.data.applyToDate).subtract(this.plan.lastItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
         // Вариант 3.
         else if ( this.data.applyDateMode === 'F' ) {
-            return moment(this.applyFromDate).format('YYYY-MM-DD');
+            return moment(this.data.applyFromDate).format('YYYY-MM-DD');
         }
         // Вариант 4.
         else if ( this.data.applyDateMode === 'T' ) {
-            return moment(this.applyToDate).format('YYYY-MM-DD');
+            return moment(this.data.applyToDate).format('YYYY-MM-DD');
         }
     }
 }

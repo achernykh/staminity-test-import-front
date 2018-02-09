@@ -168,7 +168,7 @@
                 </md-input-container>-->
             </md-list-item>
             <!-- Условия -->
-            <md-subheader class="md-padding" translate="user.price"></md-subheader>
+            <md-subheader class="md-padding" translate="user.price" ng-if="$ctrl.user.public.isCoach"></md-subheader>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.user.personal.price"
@@ -185,7 +185,7 @@
                 </md-input-container>-->
             </md-list-item>
             <!-- Контакты -->
-            <md-subheader class="md-padding" translate="user.contact"></md-subheader>
+            <md-subheader class="md-padding" translate="user.contact" ng-if="$ctrl.user.public.isCoach"></md-subheader>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.user.personal.contact"
@@ -202,7 +202,7 @@
                 </md-input-container>-->
             </md-list-item>
             <!-- Достижения атлетов -->
-            <md-subheader class="md-padding" translate="user.athletes"></md-subheader>
+            <md-subheader class="md-padding" translate="user.athletes" ng-if="$ctrl.user.public.isCoach"></md-subheader>
             <md-list-item flex layout="row" ng-if="$ctrl.user.public.isCoach">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.user.personal.athletes"

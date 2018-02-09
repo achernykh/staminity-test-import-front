@@ -2,7 +2,7 @@
     <!-- Элемент списка -->
     <section ng-switch-when="list" class="competition-compact__list" ng-click="$ctrl.open($event)">
         <header layout="row" layout-align="start center"
-                class="calendar-item-competition-header {{::$ctrl.competition.status}} list-view"
+                class="calendar-item-competition-header {{$ctrl.competition.status}} list-view"
                 ng-class="{selected: $ctrl.selected}">
             <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.competition.competitionHeader.type}} bg-circle-32"
@@ -19,13 +19,12 @@
                 <section flex layout="row" layout-align="start center"
                          ng-class="::{'md-dark' : ($ctrl.competition.isComing)}"
                          class="md-title-small md-active center tight-10">
-                    <span flex="none" ng-if="::$ctrl.competition.movingDuration">
-                    {{::$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}
+                    <span flex="none" ng-if="$ctrl.competition.movingDuration">
+                    {{$ctrl.competition.movingDuration | measureCalc:$ctrl.competition.sportBasic:'movingDuration'}}&nbsp;
                     </span>
-                    <span>&nbsp;&nbsp;</span>
-                    <div flex="none" ng-if="::$ctrl.competition.distance">
-                        {{::$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
-                        {{::'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}
+                    <div flex="none" ng-if="$ctrl.competition.distance">
+                        {{$ctrl.competition.distance | measureCalc:$ctrl.competition.sportBasic:'distance'}}
+                        {{'distance' | measureUnit:$ctrl.competition.sportBasic | translate}}
                     </div>
                 </section>
             </div>

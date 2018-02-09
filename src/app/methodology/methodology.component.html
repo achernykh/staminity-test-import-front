@@ -54,7 +54,7 @@
     <st-application-frame-left-bar ng-if="$ctrl.currentState === 'categories'">
         <section class="methodology__left-bar">
             <md-list class="md-dense">
-                <md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{enabled: true} track by activity.id"
+                <md-list-item ng-repeat="activity in $ctrl.activityTypes | filter:{isBasic: true, enabled: true} track by activity.id"
                               ng-click="$ctrl.filterParams.activityType = activity; $ctrl.updateFilterParams()"
                               ng-class="{'active': $ctrl.filterParams.activityType.id === activity.id}">
                     <md-icon md-svg-src="assets/icon/{{activity.code}}.svg" class="md-dark md-active"></md-icon>
@@ -118,7 +118,7 @@
                             ng-model="$ctrl.filterParams.activityType"
                             ng-change="$ctrl.updateFilterParams()">
                         <md-option
-                                ng-repeat="activityType in $ctrl.activityTypes track by activityType.id"
+                                ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true, enabled: true} track by activityType.id"
                                 ng-value="activityType">
                             {{ 'sport.' + activityType.code | translate }}
                         </md-option>

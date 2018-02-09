@@ -40,6 +40,8 @@ export default class UserService {
             .subscribe((userId) => {
                 this.getProfile(userId)
                 .then((userProfile) => {
+                    this.SessionService.getUser().userId ?
+                    this.SessionService.setUser(Object.assign({...userProfile}, {connections: this.SessionService.getUser().connections})) :
                     this.SessionService.updateUser(userProfile);
                 });
             });
@@ -139,7 +141,7 @@ export default class UserService {
             let updatedUser = merge({}, userChanges, { revision });
             if (this.SessionService.isCurrentUserId(userChanges.userId)) {
                 needRefresh ?
-                    this.SessionService.setUser(updatedUser):
+                    this.SessionService.setUser(Object.assign({...updatedUser}, {connections: this.SessionService.getUser().connections})) :
                     this.SessionService.updateUser(updatedUser);
             }
             return updatedUser;
@@ -148,7 +150,7 @@ export default class UserService {
                 this.getProfile(userChanges.userId)
                 .then((user) => {
                     const {revision} = <any> user;
-                    this.putProfile({ ...user, ...userChanges, revision });
+                    this.putProfile(Object.assign({ ...user, ...userChanges, revision }, {connections: this.SessionService.getUser().connections}));
                 });
             }
         });
@@ -214,7 +216,7 @@ export default class UserService {
         if(message.action === 'I' && group.hasOwnProperty('groupMembers')){
             if(message.groupCode === 'allAthletes'){
                 this.getTrainingZones(message.userProfile.userId)
-                    .then(result => Object.assign(message.userProfile, {trainingZones: result[0]}))
+                    .then(result => Object.assign(message.userProfile, result[0]))
                     .then(profile => {
                         group.groupMembers.push(profile);
                         connections[message.groupCode] = group;

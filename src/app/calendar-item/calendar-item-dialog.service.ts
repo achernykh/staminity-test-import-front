@@ -3,6 +3,8 @@ import { profileShort } from "../core/user.function";
 import { ICalendarItem } from "../../../api/calendar/calendar.interface";
 import AuthService from "../auth/auth.service";
 import { IUserProfile } from "../../../api/user/user.interface";
+import UserService from "../core/user.service";
+import MessageService from "../core/message.service";
 
 export class CalendarItemDialogService {
 
@@ -22,10 +24,11 @@ export class CalendarItemDialogService {
     };
 
     // inject
-    static $inject = ['$mdDialog', 'AuthService'];
+    static $inject = ['$mdDialog', 'AuthService', 'UserService', 'message'];
 
     constructor (private $mdDialog: any,
-                 private auth: AuthService) {}
+                 private auth: AuthService,
+                 private userService: UserService, private message: MessageService) {}
 
     /**
      * Диалог создания новой записи календаря
@@ -74,6 +77,12 @@ export class CalendarItemDialogService {
               options: ICalendarItemDialogOptions,
               item: ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
+                  return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
+        //return Promise.resolve(() => {})
+            //.then(() => false && this.completeTrainingZones(options))
+            //.then((updOptions) => this.$mdDialog.show(this.activityDialogOptions(env,updOptions || options,item)) , error => this.message.toastError(error));
+
+               /**
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="post-activity" aria-label="Activity">
                             <calendar-item-activity layout="row" class="calendar-item-activity"
@@ -90,7 +99,7 @@ export class CalendarItemDialogService {
                     athleteList: this.getAthleteList(options.currentUser, options.owner)
                 })
             }
-        }));
+        }));**/
     }
 
     /**
@@ -147,7 +156,7 @@ export class CalendarItemDialogService {
                 item: item,
                 options: options,
                 calendarRange: [null, null]//this.calendar.calendarRange
-            }
+            },
         }));
     }
 
@@ -181,6 +190,17 @@ export class CalendarItemDialogService {
                 })
             }
         }));
+    }
+
+    private completeTrainingZones(options: ICalendarItemDialogOptions): Promise<any> {
+        return this.userService.getTrainingZones(options.owner.userId)
+            .then(response => {
+                if (Array.isArray(response) && response[0].hasOwnProperty('trainingZones')) {
+                    options.owner.trainingZones = response[0].trainingZones;
+                } else {
+                    throw new Error('errorResponseTrainingZones');
+                }
+            });
     }
 
     /**
@@ -223,6 +243,26 @@ export class CalendarItemDialogService {
             userProfileCreator: profileShort(options.currentUser),
             groupProfile: options.groupCreator
         };
+    }
+
+    private activityDialogOptions (env: Event, options: ICalendarItemDialogOptions, item: ICalendarItem): any {
+        return Object.assign(this.defaultDialogOptions, {
+            template: `<md-dialog id="post-activity" aria-label="Activity">
+                            <calendar-item-activity layout="row" class="calendar-item-activity"
+                                    data="$ctrl.item"
+                                    options="$ctrl.options"
+                                    on-cancel="cancel()" on-answer="answer(formMode, item)">
+                            </calendar-item-activity>
+                       </md-dialog>`,
+            targetEvent: env,
+            locals: {
+                item: item,
+                options: Object.assign(options, {
+                    isPro: this.isPro,
+                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                })
+            }
+        });
     }
 
     /**

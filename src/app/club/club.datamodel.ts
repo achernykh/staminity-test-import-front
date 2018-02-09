@@ -1,6 +1,6 @@
 import { IGroupProfile } from "../../../api/group/group.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
-import { path } from "../share/utility";
+import { path } from "../share/utility/path";
 
 export const isMember = (user: IUserProfile, club: IGroupProfile): boolean => path([
     "groupMembers", (members) => members.find((member) => member.userId === user.userId),

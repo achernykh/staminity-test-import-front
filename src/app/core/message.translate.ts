@@ -300,6 +300,10 @@ export const _translateMessage = {
 			title: "",
 			text: "Операция невозможна, запись создана другим пользователем"
 		},
+		errorResponseTrainingZones: {
+			title: '',
+			text: 'Ошибка получения тренировочных зон ученика. Обновите окно браузера и попробуйте еще раз'
+		},
 
 		// -------- CalendarItem actiions: copy, paste, cut, drag&drop --------
 		calendarItemCopy: { //

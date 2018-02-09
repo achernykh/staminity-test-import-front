@@ -47,6 +47,17 @@ activity-template {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
+  .club-info {
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      line-height: 14px;
+      max-height: 14px;
+    }
+  }
   .description {
     span {
       overflow: hidden;

@@ -41,7 +41,7 @@
 							class="category-dialog__select-activity-type"
 						>
 							<md-option 
-								ng-repeat="activityType in $ctrl.activityTypes"
+								ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true, enabled: true}"
 								ng-value="activityType"
 							>
 								{{ 'sport.' + activityType.code | translate }}

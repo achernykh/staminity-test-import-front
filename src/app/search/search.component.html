@@ -96,6 +96,7 @@
                                 <div class="md-caption md-dark" ng-if="user.private.country">
                                     <span>{{user.private.country}}</span>
                                     <span ng-if="user.private.city">,&nbsp{{user.private.city}}</span>
+                                    <span>,&nbspАтлетов:&nbsp{{user.athleteCount}}</span>
                                 </div>
                                 <div class="md-caption md-dark">
                                     <span ng-repeat-start="sport in user.private.activity" translate="sport.{{sport}}"></span>

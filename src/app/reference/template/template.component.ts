@@ -13,12 +13,16 @@ import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-di
 import { templateToActivity } from "../template-dialog/template.dialog";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { profileShort } from "../../core/user.function";
+import ReferenceService from "../reference.service";
+import MessageService from "../../core/message.service";
+import { IGroupProfileShort } from "../../../../api/group/group.interface";
 
 
 class TemplateCtrl implements IComponentController {
 
-	private template: IActivityTemplate;
+	template: IActivityTemplate;
 	currentUser: IUserProfile;
+	club: IGroupProfileShort;
 	private onDelete: () => any;
 	private onSelect: () => any;
 	private onCopy: () => any;
@@ -26,25 +30,28 @@ class TemplateCtrl implements IComponentController {
 	private segmentChart: any;
 	private dialogOptions: ICalendarItemDialogOptions;
 
-	static $inject = ['$scope', '$filter', '$mdDialog', 'CalendarItemDialogService'];
+	static $inject = ['$scope', '$filter', '$mdDialog', 'CalendarItemDialogService',
+        'ReferenceService', 'message', 'dialogs'];
 
 	constructor (
 		private $scope, 
 		private $filter, 
-		private $mdDialog, private calendarItemDialog: CalendarItemDialogService) {
+		private $mdDialog,
+        private calendarItemDialog: CalendarItemDialogService,
+        private referenceService: ReferenceService,
+        private messageService: MessageService,
+        private dialogs: any) {
 
 	}
 
 	$onInit (): void {
-	    this.segmentChart = this.isStructured ?
-            getIntervalsChartData(<Array<IActivityIntervalP>>this.template.content.filter(i => i.type === 'P')) :
-            null;
+        this.prepareChart();
 
 		this.dialogOptions = {
 			currentUser: this.currentUser,
 			owner: this.currentUser,
 			popupMode: true,
-			formMode: FormMode.Put,
+			formMode: (this.template.groupProfile && this.club) || !this.template.groupProfile ? FormMode.Put : FormMode.View,
 			trainingPlanMode: false,
 			templateMode: true,
 			templateOptions: {
@@ -57,10 +64,48 @@ class TemplateCtrl implements IComponentController {
 		};
     }
 
+    private prepareChart (): void {
+        this.segmentChart = this.isStructured ?
+            getIntervalsChartData(<Array<IActivityIntervalP>>this.template.content.filter(i => i.type === 'P')) :
+            null;
+    }
+
+    $onChanges (changes): void {
+	    if (changes.hasOwnProperty('revision') && !changes.revision.isFirstChange && this.template) {
+	        debugger;
+            this.prepareChart();
+        }
+    }
+
     open (e: Event): void {
     	this.calendarItemDialog.activity(e, this.dialogOptions, templateToActivity(this.template))
 			.then(response => {debugger;});
 	}
+
+    copy (template: IActivityTemplate) {
+        let { id, activityCategory, code, description, groupProfile, favourite, content } = template;
+        let groupId = groupProfile && groupProfile.groupId;
+        let activityCategoryId = activityCategory && activityCategory.id;
+
+        this.referenceService.postActivityTemplate(
+            null, activityCategoryId, groupId, `${code}(2)`, description, favourite, content
+        )
+            .catch((info) => {
+                this.messageService.systemWarning(info);
+                throw info;
+            });
+    }
+
+    delete (template: IActivityTemplate) {
+        let { id } = template;
+        return this.dialogs.confirm({ text: 'reference.templates.confirmDelete' })
+            .then(() => this.referenceService.deleteActivityTemplate(id))
+            .catch((error) => {
+                if (error) {
+                    this.messageService.systemWarning(error);
+                }
+            });
+    }
 
 	get isStructured (): boolean {
 	    return this.template.content.some(i => i.type === 'P');
@@ -84,6 +129,8 @@ class TemplateCtrl implements IComponentController {
 const TemplateComponent: IComponentOptions = {
 	bindings: {
 		template: '<',
+        revision: '<',
+		club: '<',
         view: '<',
 		currentUser: '<',
         isMobileLayout: '<',

@@ -76,6 +76,7 @@ export const _translateTrainingPlans = {
             label: 'Ключевые слова'
         },
         assignment: {
+            info: "... {{planStartDate | stringToDate | date:'longDate'}} ... {{planEndDate | date:'longDate'}} ... {{itemFirstDate | stringToDate | date:'longDate'}} ... {{itemLastDate | stringToDate | date:'longDate'}}",
             action: {
                 delete: 'Удалить присвоение',
                 post: 'Новое присвоение',
@@ -112,7 +113,7 @@ export const _translateTrainingPlans = {
             list: {
                 title: 'Список присвоений плана',
                 empty: 'У плана нет пирсвоений',
-                info: "Дата подключения {{createdDate | date:'short'}}, версия плана {{planRevision}}"
+                info: "Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{planRevision}}"
             }
         }
     },

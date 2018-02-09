@@ -1,6 +1,7 @@
 import "./training-season-builder.component.scss";
 import moment from 'moment/src/moment.js';
 import { IComponentOptions, IComponentController, IScope, ILocationService } from "angular";
+import {Subject, Subscription} from "rxjs/Rx";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import { ICalendarItem } from "@api/calendar";
@@ -15,13 +16,8 @@ import {
     IMicrocycle
 } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { profileShort } from "../../core/user.function";
-import {
-    ICalendarItemDialogOptions,
-    ICalendarItemDialogResponse
-} from "../../calendar-item/calendar-item-dialog.interface";
+import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
-import { toDay } from "../../activity/activity-datamodel/activity.datamodel";
-import { CalendarItemCompetition } from "../../calendar-item/calendar-item-competition/calendar-item-competition.datamodel";
 
 export enum TrainingSeasonViewState {
     List,
@@ -43,6 +39,8 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     private athletes: Array<IUserProfileShort>;
     private itemOptions: ICalendarItemDialogOptions;
     private recalculate: number = 0;
+    private destroy: Subject<any> = new Subject();
+    private competitionSub: Subscription;
 
     // inject
     static $inject = ['$scope', '$location', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
@@ -74,6 +72,30 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
         this.trainingSeasonService.get({userId: Number(this.$stateParams.userId) || this.currentUser.userId})
             .then(response => this.seasons = response.arrayResult)
             .then(() => this.prepareState());
+    }
+
+    $onDestroy() {
+        this.destroy.next();
+        this.destroy.complete();
+    }
+
+    private subscribeOnCompetitionUpdates (): void {
+
+        console.debug('training season builder: new subscribe');
+        if (this.competitionSub) { this.competitionSub.unsubscribe(); }
+
+        this.competitionSub = this.calendarService.item$
+            //.takeUntil(this.destroy)
+            .filter(message =>
+                message.value.hasOwnProperty('parentId') &&
+                message.value.hasOwnProperty('userProfileOwner') &&
+                message.value.userProfileOwner.userId === this.owner.userId)
+            .delay(100)
+            .subscribe((message) => {
+                console.info('async update', message.value.calendarItemType, message.value.calendarItemId, message.value.revision);
+                this.setCompetitionUpdate(message.action, message.value, message.value.parentId);
+                //this.$scope.$applyAsync();
+            });
     }
 
     private prepareState (): void {
@@ -116,7 +138,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
      */
     postCompetition (event: Event): void {
         this.calendarItemDialog.competition(event, Object.assign(this.itemOptions, {formMode: FormMode.Post}))
-            .then(response => this.setCompetitionList([...this.competitions, response.item]), () => {});
+            .then(response => { debugger; this.setCompetitionList([...this.competitions, response.item]); }, () => {});
     }
 
     spliceCompetitionData (id: number, item?: ICalendarItem): void {
@@ -177,6 +199,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(response => this.seasons = response.arrayResult, error => this.messageService.toastInfo(error))
             .then(() => this.calendarService.search({ userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
             .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult))
+            .then(() => this.subscribeOnCompetitionUpdates())
             .then(() => this.update());
     }
 
@@ -195,7 +218,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     private prepareCompetitions (items: Array<ICalendarItem>): Array<ICalendarItem> {
         items = items
-            .map(i => Object.assign(i, {index: Number(`${i.calendarItemId}${i.revision}`)}))
+            .map(i => Object.assign(i, {index: i['index'] || Number(`${i.calendarItemId}${i.revision}`)}))
             .sort((a,b) => moment(a.dateStart).isAfter(moment(b.dateStart)));
 
         if (this.isBuilderState) {
@@ -209,6 +232,37 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
     }
 
     /**
+     * Обновление соревнований по ассинхронным событиям, в которых передается изменение этапов
+     * @param action
+     * @param item
+     * @param parentId
+     */
+    setCompetitionUpdate (action: string, item: ICalendarItem, parentId: number): void {
+        let ind: number = this.competitions.findIndex(c => c.calendarItemId === parentId);
+        if ( ind === -1 ) { return; }
+        let parent: ICalendarItem = this.competitions[ind];
+        let childInd: number = parent.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId);
+
+        switch ( action ) {
+            case 'I': {
+                parent.calendarItems.push(item);
+                break;
+            }
+            case 'U': {
+                parent.calendarItems.splice(childInd, 1, item);
+                break;
+            }
+            case 'D': {
+                parent.calendarItems.splice(childInd, 1);
+                break;
+            }
+        }
+        parent['index'] ++;
+        this.competitions.splice(ind, 1, parent);
+        this.setCompetitionList(this.competitions);
+    }
+
+    /**
      * Подготовка данных
      * 1. Получаем микроциклы и устанвливаем их
      * 2. Получаем перечень соревнований и устанавливаем их
@@ -219,6 +273,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
             .then(result => this.setSeasonData(result.arrayResult), error => {})
             .then(() => this.calendarService.search({userIdOwner: this.owner.userId, calendarItemTypes: ['competition']}))
             .then(response => response.arrayResult && this.setCompetitionList(response.arrayResult));
+            //.then(() => this.subscribeOnCompetitionUpdates());
             //.then(() => this.state = TrainingSeasonViewState.Builder);
     }
 

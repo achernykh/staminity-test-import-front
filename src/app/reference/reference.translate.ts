@@ -2,6 +2,10 @@ export const ru = {
     reference: {
         fullTitle: "Шаблоны и категории пользователя",
         shortTitle: "Шаблоны и категории пользователя",
+        action: {
+            copy: 'Скопировать',
+            delete: 'Удалить'
+        },
         club: {
             fullTitle: "Шаблоны и категории клуба",
             shortTitle: "Шаблоны и категории клуба",
@@ -23,6 +27,8 @@ export const ru = {
             trainerPrescription: "Установка тренера",
             task: "Задание",
             confirmDelete: "Удалить шаблон?",
+            clubInfo: 'Клуб:"{{club}}", Автор:{{author | userName:"compact-first"}}',
+            authorInfo: 'Автор:{{author | userName:"compact-first"}}'
         },
         categories: {
             singular: "Категория",
@@ -66,6 +72,8 @@ export const en = {
             trainerPrescription: "Coach prescription",
             task: "Task",
             confirmDelete: "Delete template?",
+            clubInfo: 'Club:"{{club}}", Author:{{author | userName:"compact-first"}}',
+            authorInfo: 'Author:{{author | userName:"compact-first"}}'
         },
         categories: {
             singular: "Category",

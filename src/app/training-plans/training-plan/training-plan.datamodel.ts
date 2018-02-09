@@ -109,6 +109,10 @@ export class TrainingPlan implements ITrainingPlan {
         if ( !this.isFixedCalendarDates ) { this.isFixedCalendarDates = false; }
     }
 
+    get endDate (): Date {
+        return new Date(moment(this.lastCalendarItem.dateStart).endOf('week'));
+    }
+
     get firstItemCalendarShift (): number {
         let firstCalendarItemDate: Moment = moment(this.firstCalendarItem.dateStart);
         return firstCalendarItemDate.diff(moment(this.startDate), 'days');
@@ -130,7 +134,7 @@ export class TrainingPlan implements ITrainingPlan {
     apiObject (): ITrainingPlan {
         let plan: ITrainingPlan = Object.assign({}, this);
         debugger;
-        if (this._startDate) { plan.startDate = moment(this.startDate).startOf('week').format('YYYY-MM-DD'); };
+        if (this._startDate) { plan.startDate = moment(this._startDate).startOf('week').format('YYYY-MM-DD'); };
         this.keys.map(k => plan.hasOwnProperty(k) && delete plan[k]);
         return plan;
     }

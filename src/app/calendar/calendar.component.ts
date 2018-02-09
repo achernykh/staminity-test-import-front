@@ -20,6 +20,7 @@ import { ICalendarItemDialogOptions } from "../calendar-item/calendar-item-dialo
 import AuthService from "@app/auth/auth.service";
 import { updateIntensity, changeUserOwner } from "../activity/activity.function";
 import { getUser } from "../core/session/session.service";
+import UserService from "../core/user.service";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -33,7 +34,7 @@ export class CalendarCtrl implements IComponentController{
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
         'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService', 'AuthService',
-        'SessionService'];
+        'SessionService', 'UserService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
     private selectedItems: Array<ICalendarItem> = []; // буфер выделенных записей
@@ -64,7 +65,8 @@ export class CalendarCtrl implements IComponentController{
         private dialogs: any,
         private display: DisplayService,
         private auth: AuthService,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private userService: UserService
     ) {
 
     }
@@ -121,19 +123,32 @@ export class CalendarCtrl implements IComponentController{
     /**
      * Установка владельца
      * После смены владельца выполняется переустановка данных календаря
-     * @param user
+     * @param userId
      */
-    setOwner (user: IUserProfile | IUserProfileShort): void {
-        this.owner = user;
+    setOwner (userId: number): void {
+        this.owner = this.athletes.filter(a => a.userId === userId)[0];
         this.$location.search('userId', this.owner.userId);
-        this.setData();
+        Promise.resolve(() => {})
+            .then(() => !this.owner.hasOwnProperty('trainingZone') && this.completeTrainingZones(this.owner.userId))
+            .then(() => this.setData(), error => this.message.toastError(error));
+    }
+
+    private completeTrainingZones(userId: number): Promise<any> {
+        return this.userService.getTrainingZones(userId)
+            .then(response => {
+                if (Array.isArray(response) && response[0].hasOwnProperty('trainingZones')) {
+                    this.owner.trainingZones = response[0].trainingZones;
+                } else {
+                    throw new Error('errorResponseTrainingZones');
+                }
+            });
     }
 
     $onInit() {
         this.prepareAthletesList();
         if (this.$stateParams.userId && this.athletes &&
             this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
-            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
+            this.setOwner(Number(this.$stateParams.userId));
         }
         this.setData();
         this.copyPasteKeyboardListener();
@@ -142,7 +157,7 @@ export class CalendarCtrl implements IComponentController{
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe(profile => {
-                this.currentUser = angular.copy(profile);
+                this.currentUser = copy(profile);
                 this.prepareAthletesList();
             });
 
@@ -242,7 +257,7 @@ export class CalendarCtrl implements IComponentController{
      */
     onPostItem(item: ICalendarItem): void {
         if (this.calendar.include(item.calendarItemId, item.revision)) { console.warn('async post: item already exist'); return; };
-        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-ww'));
         let d = moment(item.dateStart).weekday();
 
         if (w !== -1 && d >= 0 && this.calendar.weeks[w]) {
@@ -258,7 +273,7 @@ export class CalendarCtrl implements IComponentController{
     onDeleteItem(item): void {
         if (!this.calendar.include(item.calendarItemId, item.revision)) { console.warn('item not found'); return; }
 
-        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-WW'));
+        let w = this.getDayIndex(moment(item.dateStart).format('GGGG-ww'));
         let d = moment(item.dateStart).weekday();
 
         if (!this.calendar.weeks[w]) {
@@ -332,9 +347,9 @@ export class CalendarCtrl implements IComponentController{
             /**task = this.copiedItems
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
                 .map(item => this.calendarService.postItem(prepareItem(item, shift)));**/
-
+            debugger;
             Promise.resolve(() => {})
-                .then(() => this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner) && this.dialogs.confirm({ text: 'dialogs.updateIntensity' }))
+                .then(() => this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner.userId) && this.dialogs.confirm({ text: 'dialogs.updateIntensity' }))
                 .then(() => {
                     items.map(i => updateIntensity(i, this.owner.trainingZones));
                     items.map(i => changeUserOwner(i, this.owner));})

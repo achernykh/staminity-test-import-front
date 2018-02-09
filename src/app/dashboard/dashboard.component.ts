@@ -241,7 +241,7 @@ export class DashboardCtrl implements IComponentController {
                 .then((response:Array<ICalendarItem>) => {
                     this.cache.push({
                         sid: this.currentWeek,
-                        week: moment(start).format('GGGG-WW'),
+                        week: moment(start).format('GGGG-ww'),
                         calendar: this.athletes.members.map(athlete => ({
                             profile: athlete.userProfile,
                             subItem: times(7).map(i => ({
@@ -309,7 +309,7 @@ export class DashboardCtrl implements IComponentController {
             this.onDeleteItem(item);
         }
 
-        let id:string = moment(item.dateStart).format('GGGG-WW');
+        let id:string = moment(item.dateStart).format('GGGG-ww');
         let w:number = this.cache.findIndex(d => d.week === id);
         let c:number = w !== -1 ? this.cache[w].calendar.findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;
         let d:number = moment(item.dateStart).weekday();
@@ -350,7 +350,7 @@ export class DashboardCtrl implements IComponentController {
             return;
         }
 
-        let id:string = moment(item.dateStart).format('GGGG-WW');
+        let id:string = moment(item.dateStart).format('GGGG-ww');
         let w:number = this.cache.findIndex(d => d.week === id);
         let c:number = w !== -1 ? this.cache[w].calendar
                 .findIndex(c => c.profile.userId === item.userProfileOwner.userId) : null;

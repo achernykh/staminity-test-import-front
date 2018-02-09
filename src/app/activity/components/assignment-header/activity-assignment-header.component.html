@@ -7,9 +7,13 @@
                        ng-model-options="{ getterSetter: true }"
                        ng-change="$ctrl.changeParam()"
                        ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-                <md-option ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
-                           value="{{type.id}}">
-                    {{'sport.'+type.code | translate}}
+                <md-option ng-if="!$ctrl.item.options.templateMode"
+                           ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
+                           value="{{type.id}}">{{'sport.'+type.code | translate}}
+                </md-option>
+                <md-option ng-if="$ctrl.item.options.templateMode"
+                           ng-repeat="type in $ctrl.item.types | filter:{isBasic: true, enabled: true} track by type.id"
+                           value="{{type.id}}">{{'sport.'+type.code | translate}}
                 </md-option>
             </md-select>
             <div ng-messages="$ctrl.form.sport.$error" role="alert">
@@ -40,7 +44,7 @@
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
                         label="{{ 'reference.categories.' + owner | translate }}">
                     <md-option
-                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | filter:{activityTypeId: $ctrl.item.activity.header.sport, visible: true}:true track by category.id"
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | activityTypeExistInBasicType:$ctrl.item.activity.header.sportBasic track by category.id"
                             ng-value="category">
                         {{ category | categoryCode }}
                     </md-option>

@@ -171,7 +171,7 @@ class MethodologyCtrl implements IComponentController {
     }
 
     templatesCountByCategory (category: IActivityCategory): number {
-        return this.templates.filter(t => t.activityCategory.id === category.id).length;
+        return this.templates.filter(t => t.activityCategory.id === category.id && ((this.club && t.groupProfile && t.groupProfile.groupId === this.club.groupId) || !this.club)).length;
     }
 
 }

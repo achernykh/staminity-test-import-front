@@ -1,7 +1,7 @@
 import './components.scss';
 import './notification/notification.scss';
 import { module, isObject } from 'angular';
-import { StateProvider } from "@uirouter/angularjs";
+import { StateProvider } from "angular-ui-router";
 import moment from 'moment/min/moment-with-locales.js';
 import  { ageGroup } from '../../../api/user/user.interface';
 import  { requestType } from '../../../api/group/group.interface';
@@ -40,6 +40,7 @@ import { translateNotification } from './notification/notification.translate';
 import { memorize, maybe, prop } from "./util.js";
 import {calcTimezoneTime} from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
+import {Ng1StateDeclaration} from "angular-ui-router/lib/index";
 import {_translate_PageNotFound} from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
 import {translateHeader} from "./header/header.translate";
@@ -55,7 +56,8 @@ import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
-import { measurePrintIntensity } from "./measure/measure-print-intensity.filter";
+import { measurePrintIntensity } from "./measure//measure-print-intensity.filter";
+import { stringToDate } from "./date/stringToDate.filter";
 import { measureSaveFilter } from './measure/measure-save.filter';
 import { measureEditFilter } from './measure/measure-edit.filter';
 import { measureCalcIntervalFilter } from './measure/measure-calc-interval.filter';
@@ -87,7 +89,7 @@ const _userName = () => (user, options) => maybe(user) (prop('public')) (
  * compact: Имя и первую букву Фамилии
  * full: Имя и Фамилию
  */
-const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'full'): string => {
+const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
     if (
         !profile ||
         !profile.hasOwnProperty('public') ||
@@ -101,6 +103,9 @@ const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'sho
         }
         case 'compact': {
             return `${profile.public.firstName} ${profile.public.lastName[0]}.`;
+        }
+        case 'compact-first': {
+            return `${profile.public.lastName} ${profile.public.firstName[0]}.`;
         }
         default: {
             return `${profile.public.firstName} ${profile.public.lastName}`;
@@ -209,7 +214,23 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("ageGroup", () => ageGroup)
     .filter("requestType", () => (request) => requestType(request) + ".action")
     .filter("measureCalc", () => measureValue)
-    .filter("measureCalcInterval", ["$filter", measureCalcIntervalFilter])
+    .filter("measureCalcInterval", ["$filter", ($filter) => {
+        return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart: boolean = false, units: string = "metric") => {
+            if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
+                return null;
+            }
+
+            const measure: Measure = new Measure(name, sport, input.intensityLevelFrom);
+
+            if (input.intensityLevelFrom === input.intensityLevelTo) {
+                return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
+            } else if (measure.isPace()) {
+                return $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
+            } else {
+                return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units);
+            }
+        };
+    }])
     .filter("measureUnit", () => measureUnit)
     .filter("duration", duration)
     .filter("percentByTotal", ["$filter", ($filter) => {
@@ -317,6 +338,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .directive('stQuillPostImage', stQuillPostImage) 
     .filter('truncate', truncate)
+    .filter('stringToDate', stringToDate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
     .constant('quillConfig', quillConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])

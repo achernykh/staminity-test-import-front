@@ -81,6 +81,7 @@
                 <st-competition-compact ng-repeat-end layout="column" flex="none"
                                         class="competition-compact"
                                         view="'list'"
+                                        index="item.index"
                                         item="item"
                                         on-answer="$ctrl.updateCompetition(formMode, item)"
                                         options="$ctrl.itemOptions">
