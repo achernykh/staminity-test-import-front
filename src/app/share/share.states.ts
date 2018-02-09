@@ -1,4 +1,4 @@
-import { StateDeclaration } from "@uirouter/angularjs";
+import { StateDeclaration } from "angular-ui-router";
 import { SessionService } from "../core/session/session.service";
 
 const notFound: any = {

@@ -116,7 +116,7 @@ export class SocketService {
     public reopen (): void {
         this.connections.next(false);
         this.socket.unsubscribe();
-        this.pendingSession();
+        this.init().then(() => {}, () => this.pendingSession());
     }
 
     /**
@@ -153,10 +153,15 @@ export class SocketService {
      * Закрытие сессии
      */
     close () {
+        console.debug('socket service: close');
         this.connections.next(false);
         this.ws.complete();
         this.initRequest = null;
-        if (this.pendingIntervalLink) { clearTimeout(this.pendingIntervalLink); }
+        this.lastMessageTimestamp = null;
+        if (this.pendingIntervalLink) {
+            console.debug('socket service: stop pending');
+            clearTimeout(this.pendingIntervalLink);
+        }
     }
 
     /**
