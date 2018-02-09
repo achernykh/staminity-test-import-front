@@ -24,7 +24,7 @@ export interface IAuthService {
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPlanAthletes(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
-    signIn(request:Object):IPromise<void>;
+    signIn(request:Object): Promise<any>;
     signUp(request:Object):IHttpPromise<{}>;
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
@@ -137,7 +137,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
      */
-    signIn(request) : IPromise<void> {
+    signIn(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/signin', request))
             .then((response: IHttpPromiseCallbackArg<any>) => {
                 if(response.data.hasOwnProperty('userProfile') && response.data.hasOwnProperty('token')) {

@@ -59,6 +59,7 @@ import { measurePrintIntensity } from "./measure/measure-print-intensity.filter"
 import { measureSaveFilter } from './measure/measure-save.filter';
 import { measureEditFilter } from './measure/measure-edit.filter';
 import { measureCalcIntervalFilter } from './measure/measure-calc-interval.filter';
+import { QuillHtmlViewerComponent } from './quill/quill-html-viewer.component';
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -309,6 +310,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('notificationList', NotificationListComponent)
     .component('pageNotFound', PageNotFoundComponent)
     .component('universalChart', UniversalChartComponent)
+    .component('stQuillHtmlViewer', QuillHtmlViewerComponent)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])

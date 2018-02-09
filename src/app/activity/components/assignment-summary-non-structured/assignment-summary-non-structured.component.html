@@ -123,12 +123,14 @@
     <md-subheader>
         <span translate="activity.trainersPrescription"></span>
     </md-subheader>
-    <ng-quill-editor ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
+    <st-quill-html-viewer ng-if="$ctrl.item.activity.view.isView"
+                          data="$ctrl.item.activity.intervals.PW.trainersPrescription">
+    </st-quill-html-viewer>
+    <ng-quill-editor ng-if="!$ctrl.item.activity.view.isView"
+                     ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
                      on-content-changed="$ctrl.changeParam()"
                      placeholder="{{'activity.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConf.toolbar"
-                     ng-class="{'hide-toolbar': $ctrl.item.activity.view.isView}"
-                     read-only="$ctrl.item.activity.view.isView"
                      st-quill-post-image>
     </ng-quill-editor>
 </md-list>

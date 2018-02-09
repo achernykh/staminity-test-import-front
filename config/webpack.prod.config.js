@@ -105,12 +105,6 @@ module.exports = {
     devServer: {
         contentBase: contentBase[ENV],
         stats: 'minimal',
-        stats: {
-         colors: true,
-         modules: false,
-         cached: false,
-         chunk: false
-         },
         historyApiFallback: true
     }
 };

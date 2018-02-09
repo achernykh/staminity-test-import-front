@@ -12,7 +12,7 @@
             $ctrl.interval.calcMeasures.completePercent.value | percent}}
     </span>
 
-    <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
+    <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
     <md-menu flex="none" ng-if="!$ctrl.item.activity.view.isView">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -20,7 +20,7 @@
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.durationMeasure track by $index">
                 <md-button ng-click="$ctrl.changeDurationType(measure)">
-                    <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                    <md-icon class="md-dark" md-svg-src="assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
             </md-menu-item>
@@ -54,7 +54,7 @@
     </span>
 
     <span flex="auto"></span>
-    <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
+    <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
     <md-menu flex="none" ng-if="!$ctrl.item.activity.view.isView">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -62,7 +62,7 @@
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.intensityMeasure[$ctrl.sport] track by $index">
                 <md-button ng-click="$ctrl.changeIntensityMeasure(measure)">
-                    <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                    <md-icon class="md-dark" md-svg-src="assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
             </md-menu-item>
