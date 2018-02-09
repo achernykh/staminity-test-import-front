@@ -1,0 +1,17 @@
+<html>
+<body>
+	<form action="https://demo.moneta.ru/secureCardData.htm" method="GET">
+	<input type="hidden" name="publicId" value="a743f28a-8698-43f8-9326-5c40e4edf5d4"/>
+	<input type="hidden" name="MNT_ID" value="64994513"/>
+	<input type="hidden" name="MNT_TRANSACTION_ID" value="BIND_CARD.<userId текущего пользователя>"/>
+	<input type="hidden" name="redirectUrl" value="<текущий адрес бэка>/bindCard/moneta"/>
+	<input type="hidden" name="MNT_SIGNATURE" value="IAgentEnvironment.bindCardSignature"/>
+	<input type="hidden" name="secure[CARDNUMBER]" value="required"/>
+	<input type="hidden" name="secure[CARDEXPIRATION]" value="required"/>
+	<input type="hidden" name="secure[CARDCVV2]" value="required"/>
+	<input type="hidden" name="formTarget" value="_top"/>
+	<input type="hidden" name="MNT_DESCRIPTION" value="<описание ЗАПОЛНИТЬ>"/>
+	<input type="submit" name="process"/>
+</form>
+</body>
+</html>

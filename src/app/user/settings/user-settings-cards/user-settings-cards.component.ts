@@ -17,6 +17,7 @@ class UserSettingsCardsCtrl {
 
     // public
     form: any;
+    currencies = ['RUB', 'USD'];
 
     static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'AgentService', 'quillConfig', '$scope'];
 
@@ -30,6 +31,78 @@ class UserSettingsCardsCtrl {
         private $scope: any,
     ) {
         window['UserSettingsCardsCtrl'] = this;
+    }
+
+    /**
+     * Обновить список
+     * @returns {Promise<any>}
+     */
+    reload(): Promise<any> {
+        return this.agentService.getAgentExtAccounts()
+        .then((extAccounts) => {
+            this.extAccounts = extAccounts;
+            this.$scope.$apply();
+        });
+    }
+
+    /**
+     * Еслть ли счета/карты в данной валюте
+     * @param {currency: string}
+     * @returns {boolean}
+     */
+    hasAccounts(currency: string): boolean {
+        return !!this.extAccounts.find((account) => account.currency === currency);
+    }
+
+    /**
+     * Счета/карты в данной валюте
+     * @param {currency: string}
+     * @returns {Array<IAgentExtAccount>}
+     */
+    getAccounts(currency: string): Array<IAgentExtAccount> {
+        return this.extAccounts.filter((account) => account.currency === currency);
+    }
+
+    /**
+     * Добавить счет/карту
+     * @param {currency: string}
+     * @returns {Promise<any>}
+     */
+    addAccount(currency: string): Promise<any> {
+        return this.dialogs.confirm({
+            title: "user.settings.agent.cards.addCard",
+            text: "user.settings.agent.cards.addCardMessage",
+        })
+        .then(() => this.agentService.addCard())
+        .then(() => {
+            this.reload();
+        });
+    }
+
+    /**
+     * Удалить счет/карту
+     * @param {account: IAgentExtAccount}
+     * @returns {Promise<any>}
+     */
+    removeAccount(account: IAgentExtAccount): Promise<any> {
+        return this.dialogs.confirm()
+        .then(() => this.agentService.deleteAgentExtAccount(account))
+        .then(() => {
+            this.reload();
+        });
+    }
+
+    /**
+     * Установить аккаунт по умолчанию
+     * @param {account: IAgentExtAccount}
+     * @returns {Promise<any>}
+     */
+    setDefaultAccount(account: IAgentExtAccount): Promise<any> {
+        return this.dialogs.confirm()
+        .then(() => this.agentService.putAgentExtAccount({ ...account, isDefault: true }))
+        .then(() => {
+            this.reload();
+        });
     }
 }
 

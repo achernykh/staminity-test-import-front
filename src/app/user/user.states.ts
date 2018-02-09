@@ -68,7 +68,10 @@ const userSettingsCards: any = {
     resolve: {
         extAccounts: ["AgentService", (agentService) => agentService.getAgentExtAccounts()],
     },
-    template: require('./settings/user-settings-cards/user-settings-cards.template.html') as string
+    template: require('./settings/user-settings-cards/user-settings-cards.template.html') as string,
+    controller: ['$scope', 'extAccounts', ($scope, extAccounts) => {
+        $scope.extAccounts = extAccounts;
+    }],
 };
 
 const userSettingsSales: any = {
@@ -78,9 +81,12 @@ const userSettingsSales: any = {
     authRequired: [],
     reloadOnSearch: false,
     resolve: {
-        transactions: ["AgentService", (agentService) => agentService.GetAgentAccountTransactions()],
+        transactions: ["AgentService", (agentService) => agentService.getAgentAccountTransactions()],
     },
-    template: require('./settings/user-settings-sales/user-settings-sales.template.html') as string
+    template: require('./settings/user-settings-sales/user-settings-sales.template.html') as string,
+    controller: ['$scope', 'transactions', ($scope, transactions) => {
+        $scope.transactions = transactions;
+    }],
 };
 
 const userSettingsWithdrawal: any = {
@@ -92,7 +98,10 @@ const userSettingsWithdrawal: any = {
     resolve: {
         withdrawals: ["AgentService", (agentService) => agentService.getAgentWithdrawals()],
     },
-    template: require('./settings/user-settings-withdrawal/user-settings-withdrawal.template.html') as string
+    template: require('./settings/user-settings-withdrawal/user-settings-withdrawal.template.html') as string,
+    controller: ['$scope', 'withdrawals', ($scope, withdrawals) => {
+        $scope.withdrawals = withdrawals;
+    }],
 };
 
 const userSettingsFit: any = {

@@ -31,7 +31,6 @@ export default class DialogsService {
     }
     
     confirm (messages, value = null) {
-        debugger;
         return this.$mdDialog.show({
             controller: ConfirmDialogController,
             locals: { messages, value },

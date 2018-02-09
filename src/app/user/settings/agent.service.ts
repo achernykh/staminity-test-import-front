@@ -16,12 +16,13 @@ export class AgentService {
 
     public updates = new Subject<IAgentProfile>();
 
-    static $inject = ['SocketService', '$mdDialog', 'message'];
+    static $inject = ['SocketService', '$mdDialog', 'message', 'dialogs'];
 
     constructor (
         private SocketService,
         private $mdDialog,
         private message,
+        private dialogs,
     ) {
 
     }
@@ -30,7 +31,7 @@ export class AgentService {
      * Запрос профиля продавца ТП
      * @returns {Promise<IAgentProfile>}
      */
-    getAgentProfile() : Promise<IAgentProfile> {
+    getAgentProfile(): Promise<IAgentProfile> {
         return this.SocketService.send(new GetAgentProfile());
     }
 
@@ -39,7 +40,7 @@ export class AgentService {
      * @param {profile: IAgentProfile}
      * @returns {Promise<any>}
      */
-    putAgentProfile(profile: IAgentProfile) : Promise<any> {
+    putAgentProfile(profile: IAgentProfile): Promise<any> {
         return this.SocketService.send(new PutAgentProfile(profile))
         .then(() => {
             this.getAgentProfile()
@@ -53,7 +54,7 @@ export class AgentService {
      * Запрос IAgentEnvironment
      * @returns {Promise<any>}
      */
-    getAgentEnvironment() : Promise<any> {
+    getAgentEnvironment(): Promise<any> {
         return this.SocketService.send(new GetAgentEnvironment());
     }
 
@@ -65,8 +66,9 @@ export class AgentService {
      * @param {ascOrder: boolean}
      * @returns {Promise<Array<IAgentWithdrawal>>}
      */
-    getAgentWithdrawals(limit: number = 0, offset: number = 0, orderBy: string = '', ascOrder: boolean = false) : Promise<Array<IAgentWithdrawal>> {
-        return this.SocketService.send(new GetAgentWithdrawals(limit, offset, orderBy, ascOrder));
+    getAgentWithdrawals(limit: number = 0, offset: number = 0, orderBy: string = '', ascOrder: boolean = false): Promise<Array<IAgentWithdrawal>> {
+        return this.SocketService.send(new GetAgentWithdrawals(limit, offset, orderBy, ascOrder))
+        .then((response) => response.arrayResult);
     }
 
     /**
@@ -74,7 +76,7 @@ export class AgentService {
      * @param {request: IAgentWithdrawal}
      * @returns {Promise<any>}
      */
-    postAgentWithdrawal(request: IAgentWithdrawal) : Promise<any> {
+    postAgentWithdrawal(request: IAgentWithdrawal): Promise<any> {
         return this.SocketService.send(new PostAgentWithdrawal(request));
     }
 
@@ -91,8 +93,9 @@ export class AgentService {
      * Список доступных средств вывода
      * @returns {Promise<Array<IAgentExtAccount>>}
      */
-    getAgentExtAccounts() : Promise<Array<IAgentExtAccount>> {
-        return this.SocketService.send(new GetAgentExtAccounts());
+    getAgentExtAccounts(): Promise<Array<IAgentExtAccount>> {
+        return this.SocketService.send(new GetAgentExtAccounts())
+        .then((response) => response.arrayResult);
     }
 
     /**
@@ -100,7 +103,7 @@ export class AgentService {
      * @param {request: IAgentExtAccount}
      * @returns {Promise<any>}
      */
-    putAgentExtAccount(request: IAgentExtAccount) : Promise<any> {
+    putAgentExtAccount(request: IAgentExtAccount): Promise<any> {
         return this.SocketService.send(new PutAgentExtAccount(request));
     }
 
@@ -109,7 +112,7 @@ export class AgentService {
      * @param {request: IAgentExtAccount}
      * @returns {Promise<any>}
      */
-    deleteAgentExtAccount(request: IAgentExtAccount) : Promise<any> {
+    deleteAgentExtAccount(request: IAgentExtAccount): Promise<any> {
         return this.SocketService.send(new DeleteAgentExtAccount(request));
     }
 
@@ -118,7 +121,18 @@ export class AgentService {
      * @param {request: IAgentExtAccount}
      * @returns {Promise<Array<IAgentAccountTransaction>>}
      */
-    GetAgentAccountTransactions() : Promise<Array<IAgentAccountTransaction>> {
-        return this.SocketService.send(new GetAgentAccountTransactions());
+    getAgentAccountTransactions(): Promise<Array<IAgentAccountTransaction>> {
+        return this.SocketService.send(new GetAgentAccountTransactions())
+        .then((response) => response.arrayResult);
+    }
+
+    /**
+     * Добавление карты
+     * @returns {Promise<any>}
+     */
+    addCard(): Promise<any> {
+        const html = require('./add-card.template.html') as string;
+        const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+        return this.dialogs.iframe(dataUrl, "user.settings.agent.cards.addCard");
     }
 }

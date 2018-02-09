@@ -1,12 +1,12 @@
 <md-card class="user-settings__card">
   <h3 class="md-title user-settings__card-title">
       <a ui-sref="user-settings.main({userId: $ctrl.owner.userId})"><md-icon class="material-icon md-secondary">arrow_back</md-icon></a>
-      {{ 'user.settings.agent.cardsHeader' | translate }}
+      {{ 'user.settings.agent.cards.header' | translate }}
   </h3>
   <st-user-settings-cards 
     owner="$userSettingsCtrl.owner"
     current-user="$userSettingsCtrl.currentUser"
     agent-profile="$userSettingsCtrl.agentProfile"
-    ext-accounts="$ctrl.extAccounts"
+    ext-accounts="extAccounts"
   ></st-user-settings-cards>
 </md-card>
