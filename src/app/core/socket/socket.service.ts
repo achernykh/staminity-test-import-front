@@ -23,6 +23,7 @@ export class SocketService {
     private requests: Array<Deferred<any>> = []; // буфер запросов к серверу
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
+    private pendingIntervalLink: any; //
 
     static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService', '$state', 'message'];
 
@@ -122,8 +123,8 @@ export class SocketService {
      * Режим восстановления сессии
      */
     private pendingSession (): void {
-        let interval = setInterval(() => {
-            this.init().then(() => clearTimeout(interval), () => console.info('reopen session failed'));
+        this.pendingIntervalLink = setInterval(() => {
+            this.init().then(() => clearTimeout(this.pendingIntervalLink), () => console.info('reopen session failed'));
         }, this.settings.delayOnReopen);
     }
 
@@ -155,6 +156,7 @@ export class SocketService {
         this.connections.next(false);
         this.ws.complete();
         this.initRequest = null;
+        if (this.pendingIntervalLink) { clearTimeout(this.pendingIntervalLink); }
     }
 
     /**

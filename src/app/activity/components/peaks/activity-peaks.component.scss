@@ -5,8 +5,17 @@
     font-size: 12px;
   }
   md-list-item.peaks {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-flow: row wrap;
+    &:before {
+      display: none;
+    }
     .peak {
-      width: 100%;
+      margin: 4px;
+      flex: 0 1 calc(33% - 8px);
     }
     button {
       width: 100%;
@@ -20,21 +29,10 @@
       text-transform: none;
       font-weight: normal;
     }
-
     button span:last-child {
       text-transform: none;
       color: rgba(0,0,0,0.34);
     }
-  }
-  md-list-item.peaks {
-    display: grid;
-    grid-template-columns: repeat(3, 32.6%);
-    grid-column-gap: 4px;
-
-    &:before {
-      display: none;
-    }
-
   }
   md-divider {
     margin: 4px 16px;

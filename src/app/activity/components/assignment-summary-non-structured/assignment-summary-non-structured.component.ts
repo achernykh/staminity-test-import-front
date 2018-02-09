@@ -9,7 +9,6 @@ import moment from 'moment/src/moment.js';
 import {FtpState} from "../assignment/assignment.component";
 import {IAuthService} from "../../../auth/auth.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
-import { parseHrefLinks } from "../../../../../../src/app/share/quill/parseHrefLinks.filter";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 

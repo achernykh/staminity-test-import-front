@@ -103,7 +103,7 @@ class ActivitySegmentsCtrl implements IComponentController {
      */
     addInterval(scenarioType: string = 'default') {
         let sport: string = this.item.activity.header.sportBasic;
-        let ftp:{[measure: string] : number} = getFtpBySport(this.item.user.trainingZones, sport);
+        let ftp:{[measure: string] : number} = getFtpBySport(this.item.options.owner.trainingZones, sport);
         let interval: ActivityIntervalP;
         let pos: number = null;
         let scenario: any = getSegmentTemplates();
