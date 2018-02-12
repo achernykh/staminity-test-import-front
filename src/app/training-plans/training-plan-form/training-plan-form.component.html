@@ -117,8 +117,12 @@
                                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
                                 <md-datepicker flex="auto" required
                                                ng-model="$ctrl.plan._startDate"
+                                               ng-disabled="$ctrl.plan.hasAssignment"
                                                name="startDate" md-hide-icons="calendar">
                                 </md-datepicker>
+                                <div class="hint" style="margin-left: 44px" ng-if="$ctrl.plan.hasAssignment"
+                                     translate="trainingPlans.info.disableEditAssignPlan">
+                                </div>
                             </md-input-container>
                         </md-list-item>
                         <!-- Транслирование изменений плана -->
@@ -130,8 +134,12 @@
                             </div>
                             <md-switch class="md-primary"
                                        name="propagateMods"
+                                       ng-disabled="$ctrl.plan.hasAssignment"
                                        ng-model="$ctrl.plan.propagateMods"></md-switch>
                         </md-list-item>
+                        <div class="hint" style="margin-left: 60px" ng-if="$ctrl.plan.hasAssignment"
+                             translate="trainingPlans.info.disableEditAssignPlan">
+                        </div>
                         <!-- Характеристики плана -->
                         <md-list-item class="tags-wrapper">
                             <md-icon flex="none" class="md-dark dense" md-svg-src="/assets/icon/tags.svg"></md-icon>

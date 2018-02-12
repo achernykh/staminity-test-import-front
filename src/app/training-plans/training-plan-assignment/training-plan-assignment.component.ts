@@ -52,10 +52,16 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
 
         this.trainingPlansService.get(this.plan.id)
             .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.plan.calendarItems.length === 0 && this.closeHandler('planDontHaveItemsForAssignment'))
             .then(() => this.trainingPlansService.getAssignment(this.plan.id))
             .then(result => this.plan.assignmentList = [...result.arrayResult], error => this.errorHandler(error))
             .then(() => this.dataExist = true)
             .then(() => !this.state && (this.plan.assignmentList.length > 0 && (this.isListState = true) || (this.isFormState = true)));
+    }
+
+    closeHandler (message: string): void {
+        this.onCancel();
+        this.dialogs.info();
     }
 
     errorHandler (error: string): void {

@@ -24,6 +24,8 @@
                 <h3 class="md-body-2">{{ assign.user | userName }}</h3>
                 <p translate="trainingPlans.assignment.list.info" translate-values="{{assign}}"></p>
             </div>
+            <md-icon class="material-icons md-secondary md-dark"
+                     ng-bind="assign.enabledSync ? 'sync' : 'sync_disabled'"></md-icon>
             <md-menu class="md-secondary">
                 <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
                     <md-icon class="material-icons md-18"
