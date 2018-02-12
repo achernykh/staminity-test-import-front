@@ -1,5 +1,4 @@
 import { IComponentController, IComponentOptions, IScope } from "angular";
-
 import "./loader.component.scss";
 import LoaderService from "./loader.service";
 
@@ -12,6 +11,10 @@ class LoaderController implements IComponentController {
     constructor(private loaderService: LoaderService, private $scope: IScope) {
         this.loaderService.showRequested$.subscribe(() => this.show());
         this.loaderService.hideRequested$.subscribe(() => this.hide());
+    }
+
+    $onInit(): void {
+
     }
 
     private show() {
@@ -31,10 +34,8 @@ class LoaderController implements IComponentController {
 }
 
 const LoaderComponent: IComponentOptions = {
-
     controller: LoaderController,
     template: require("./loader.component.html") as string,
-
 };
 
 export default LoaderComponent;

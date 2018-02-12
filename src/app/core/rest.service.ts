@@ -116,7 +116,7 @@ export class RESTService implements IRESTService {
         //this.SessionService = SessionService;
     }
 
-    postData(request: IPostDataRequest): IHttpPromise<{}> {
+    postData(request: IPostDataRequest): IHttpPromise<any> {
         this.loader.show();
 
         const token: string = this.SessionService.getToken();

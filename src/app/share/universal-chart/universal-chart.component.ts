@@ -1,5 +1,5 @@
 import './universal-chart.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IWindowService, copy} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IWindowService, copy, element} from 'angular';
 import {UChartFactory} from './lib/UChart/UChartFactory.js';
 
 class UniversalChartCtrl implements IComponentController {
@@ -13,7 +13,7 @@ class UniversalChartCtrl implements IComponentController {
 
     static $inject = ['$element','$window'];
 
-    constructor(private $element: any, private $window: IWindowService) {
+    constructor(private $element: JQueryStatic, private $window: IWindowService) {
 
     }
 
@@ -30,13 +30,14 @@ class UniversalChartCtrl implements IComponentController {
 
     $postLink():void {
         let self = this;
-        this.$element.ready(() => self.redraw());
+        element(this.$element).ready(() => self.redraw());
 
         this.onResize = () => {
             this.chart.remove();
             this.redraw();
         };
-        angular.element(this.$element).on('resize', this.onResize);
+        element(this.$element).resize(() => {this.chart.remove();this.redraw();});
+        //element(this.$element).on("resize", this.onResize);
         //angular.element(this.$window).on('resize', this.onResize);
     }
 

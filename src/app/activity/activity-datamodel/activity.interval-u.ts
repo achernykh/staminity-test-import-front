@@ -7,6 +7,6 @@ export class ActivityIntervalU extends ActivityInterval implements IActivityInte
 
     constructor(type: string, params: any) {
         super(type, params);
-        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
+        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure() as ICalcMeasures;
     }
 }

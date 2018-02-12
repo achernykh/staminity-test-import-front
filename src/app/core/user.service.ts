@@ -1,4 +1,3 @@
-import {merge} from "angular";
 import {
     IUserProfile, IUserConnections, ITrainingZonesType,
     GetSummaryStatisticsRequest,
@@ -9,7 +8,7 @@ import {
 } from '../../../api';
 import {SocketService, SessionService, getUser, getCurrentUserId} from './index';
 import {PostData, PostFile, RESTService} from './rest.service';
-import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
+import { IHttpPromise, IHttpPromiseCallbackArg, IPromise, merge, copy } from 'angular';
 import {Observable} from "rxjs";
 import ReferenceService from "../reference/reference.service";
 
@@ -39,9 +38,7 @@ export default class UserService {
             .filter((userId) => userId && this.SessionService.isCurrentUserId(userId))
             .subscribe((userId) => {
                 this.getProfile(userId)
-                .then((userProfile) => {
-                    this.SessionService.updateUser(userProfile);
-                });
+                .then(userProfile => this.SessionService.updateUser(userProfile));
             });
 
         // Подписываемся на обновление состава групп текущего пользователя и на обновления состава системных функций
@@ -111,12 +108,12 @@ export default class UserService {
      * @param ws - true = request for ws, false = request for rest
      * @returns {Promise<T>}
      */
-    getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
-        return ws ? (
-            this.SocketService.send(new GetUserRequest(key))
-        ) :
+    getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage | null> {
+        return this.SocketService.send(new GetUserRequest(key));
+        /**return ws ?
+            this.SocketService.send(new GetUserRequest(key)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
-            .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+                .then((response: IHttpPromiseCallbackArg<any>) => {return Promise.resolve(response.data as IUserProfile);}, () => {return Promise.reject(null)});**/
         /*
         .then((user) => {
             if (this.SessionService.isCurrentUserId(user.userId)) {
@@ -146,10 +143,10 @@ export default class UserService {
         }, (error) => {
             if (error === 'expiredObject') {
                 this.getProfile(userChanges.userId)
-                .then((user) => {
-                    const {revision} = <any> user;
-                    this.putProfile({ ...user, ...userChanges, revision });
-                });
+                    .then((user:IUserProfile) => {
+                        const {revision} = user;
+                        return this.putProfile({ ...user, ...userChanges, revision });
+                    });
             }
         });
     }
@@ -191,13 +188,14 @@ export default class UserService {
      * @param end
      * @param group
      * @param data
+     * @param ws
      * @returns {Promise<TResult>}
      */
-    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> {
+    getSummaryStatistics(id: number, start?: string, end?: string, group?: string, data?: Array<string>, ws:boolean = true) : Promise<any> | IPromise<any> {
         return ws ?
             this.SocketService.send(new GetSummaryStatisticsRequest(id, start, end, group, data)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetSummaryStatisticsRequest(id, start, end, group, data)))
-                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+                .then(response => response.data);
     }
 
     /**

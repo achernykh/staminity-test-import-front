@@ -15,7 +15,7 @@ export class ActivityMeasure implements IActivityMeasure {
     }
 }
 
-export class ActivityIntervalCalcMeasure implements ICalcMeasures {
+export class ActivityIntervalCalcMeasure  {
 
     params: string[] = [
         "heartRate", "heartRateDistancePeaks", "speed", "speedDistancePeaks", "duration", "movingDuration",

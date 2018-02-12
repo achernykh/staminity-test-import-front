@@ -2,7 +2,7 @@ import './calendar.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { Subject } from 'rxjs/Subject';
 import { times } from '../share/util.js';
-import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IDocumentService, copy} from 'angular';
+import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IDocumentService, copy, element} from 'angular';
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
 import {SessionService} from "../core";
@@ -142,7 +142,7 @@ export class CalendarCtrl implements IComponentController{
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe(profile => {
-                this.currentUser = angular.copy(profile);
+                this.currentUser = copy(profile);
                 this.prepareAthletesList();
             });
 
@@ -388,7 +388,7 @@ export class CalendarCtrl implements IComponentController{
                                 on-cancel="cancel()" on-save="answer(chart, update)">
                         </training-plan-form>
                    </md-dialog>`,
-            parent: angular.element(document.body),
+            parent: element(document.body),
             targetEvent: env,
             locals: {
                 plan: new TrainingPlan({

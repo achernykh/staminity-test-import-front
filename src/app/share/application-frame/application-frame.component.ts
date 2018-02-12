@@ -1,5 +1,5 @@
 import './application-frame.component.scss';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope, copy} from 'angular';
 import { SessionService, getUser, SocketService } from "../../core";
 import { Subject } from "rxjs/Rx";
 import { IUserProfile, IGroupMembershipRequest, Notification } from "../../../../api";
@@ -45,7 +45,7 @@ class ApplicationFrameCtrl implements IComponentController {
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
-            .subscribe((userProfile) => this.user = angular.copy(userProfile));
+            .subscribe((userProfile) => this.user = copy(userProfile));
 
         socket.connections
             .takeUntil(this.destroy)

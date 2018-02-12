@@ -146,7 +146,7 @@
     "localforage": "^1.5.0",
     "lodash": "^4.17.4",
     "material-design-icons": "^3.0.1",
-    "moment": "2.18.1",
+    "moment": "^2.18.1",
     "moment-timezone": "0.5.11",
     "ng-cache-loader": "0.0.22",
     "ng-jsoneditor": "^1.0.0",

@@ -36,7 +36,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @description Подготовка данных модели
      */
     prepareData(): void {
-        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
+        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure() as ICalcMeasures;
         this.durationValue = this.durationValue || 0;
         this.movingDurationLength = this.movingDurationLength || 0;
         this.distanceLength = this.distanceLength || 0;

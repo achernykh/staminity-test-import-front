@@ -79,7 +79,7 @@ export class ActivityIntervals {
     add(
         intervals: Array<IActivityIntervals | ActivityIntervalP | ActivityIntervalG | ActivityIntervalPW | ActivityIntervalW> = [],
         mode: 'insert' | 'update' = 'insert'): void {
-        intervals.forEach(i => {
+        intervals.forEach((i: any) => {
             if(mode === 'insert') { // режим добавления
                 if(typeof i === 'object') {
                     this.stack.push(ActivityIntervalFactory(i['type'], i));

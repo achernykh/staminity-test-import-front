@@ -1,3 +1,4 @@
+import { element } from 'angular';
 import { ICalendarItemDialogOptions, ICalendarItemDialogResponse } from "./calendar-item-dialog.interface";
 import { profileShort } from "../core/user.function";
 import { ICalendarItem } from "../../../api/calendar/calendar.interface";
@@ -14,7 +15,7 @@ export class CalendarItemDialogService {
             $scope.answer = (formMode, item) => $mdDialog.hide({ formMode: formMode, item: item });
         }],
         controllerAs: '$ctrl',
-        parent: angular.element(document.body),
+        parent: element(document.body),
         bindToController: true,
         clickOutsideToClose: false,
         escapeToClose: true,

@@ -1,6 +1,6 @@
 import './notification-list.component.scss';
 import * as moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise, IScope} from 'angular';
+import {IComponentOptions, IComponentController, IPromise, IScope, copy} from 'angular';
 import {Subject} from "rxjs/Rx";
 import NotificationService from "./notification.service";
 import {CalendarService} from "../../calendar/calendar.service";
@@ -70,7 +70,7 @@ class NotificationListCtrl implements IComponentController {
         this.session.getObservable()
         .takeUntil(this.destroy)
         .map(getUser)
-        .subscribe((profile) => this.currentUser = angular.copy(profile));
+        .subscribe((profile) => this.currentUser = copy(profile));
 
         this.activityDialogOptions = {
             currentUser: this.currentUser,

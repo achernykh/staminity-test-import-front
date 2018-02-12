@@ -1,6 +1,6 @@
-import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
+import {IComponentController, IComponentOptions, IPromise, IScope, copy} from "angular";
 import {Subject} from "rxjs/Rx";
-import {IGroupManagementProfileMember} from "../../../../api";
+import {IUserProfileShort} from "../../../../api";
 import { getUser, SessionService} from "../../core";
 import GroupService from "../../core/group.service";
 import MessageService from "../../core/message.service";
@@ -11,7 +11,7 @@ class AthleteSelectorCtrl implements IComponentController {
     data: any;
     onAnswer: (response: {uri: string}) => IPromise<void>;
     onCancel: (response: Object) => IPromise<void>;
-    private athletes: IGroupManagementProfileMember[];
+    private athletes: IUserProfileShort[];
     private destroy = new Subject();
 
     static $inject = ["SessionService", "GroupService", "message", "$scope"];
@@ -26,7 +26,7 @@ class AthleteSelectorCtrl implements IComponentController {
         .takeUntil(this.destroy)
         .map(getUser)
         .subscribe((profile) => {
-            this.athletes = angular.copy(profile.connections.allAthletes.groupMembers);
+            this.athletes = copy(profile.connections.allAthletes.groupMembers);
         });
     }
 

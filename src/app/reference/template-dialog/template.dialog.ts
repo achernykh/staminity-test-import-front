@@ -19,6 +19,8 @@ class TemplateDialogCtrl implements IComponentController {
 		$scope.cancel = () => $mdDialog.cancel();
 		$scope.answer = (answer) => $mdDialog.hide(answer);
 	}
+
+	$onInit(): void {}
 }
 
 const defaultParams = {

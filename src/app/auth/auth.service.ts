@@ -31,7 +31,7 @@ export interface IAuthService {
     resetPassword(email: string):IHttpPromise<{}>;
     setPassword(password:string,token:string):IHttpPromise<{}>;
     inviteUsers(group: number, users: Array<Object>):Promise<any>;
-    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any>;
+    putInvite(credentials: UserCredentials):IPromise<any>;
 }
 
 export default class AuthService implements IAuthService {
@@ -206,7 +206,7 @@ export default class AuthService implements IAuthService {
         return this.SocketService.send(new InviteUserRequest(group,users));
     }
 
-    putInvite(credentials: UserCredentials) : Promise<any> {
+    putInvite(credentials: UserCredentials) : IPromise<any> {
         return this.RESTService.postData(new PostData('/api/wsgate', new PutUserInviteRequest(credentials)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }

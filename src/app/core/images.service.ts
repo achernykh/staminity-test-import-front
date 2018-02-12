@@ -1,3 +1,4 @@
+import { IPromise } from 'angular';
 import { content } from "./env.js";
 import { IRESTService, PostFile } from "./rest.service";
 
@@ -15,7 +16,7 @@ export class ImagesService {
      * @param image
      * @returns {Promise<string>}
      */
-    postImage (image: any) : Promise<string> {
+    postImage (image: any) : IPromise<any> {
         return this.RESTService.postFile(new PostFile(`/imageStore/contentImage/1`, image))
         .then((response: any) => {
             const url = response.fileName;

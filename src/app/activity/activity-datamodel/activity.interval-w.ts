@@ -1,4 +1,4 @@
-import {IActivityIntervalW, ICalcMeasures, IActivityIntervalPW} from "../../../../api/activity/activity.interface";
+import {IActivityIntervalW, ICalcMeasures, IActivityIntervalP} from "../../../../api/activity/activity.interface";
 import {ActivityInterval} from "./activity.interval";
 import {ActivityIntervalCalcMeasure} from "./activity.models";
 
@@ -9,7 +9,7 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
 
     constructor(type: string, params: any) {
         super(type, params);
-        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure();
+        this.calcMeasures = this.calcMeasures || new ActivityIntervalCalcMeasure() as ICalcMeasures;
     }
 
     update(params: Object) {
@@ -46,11 +46,7 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
     }
 
     // TODO надо продумать алгоритм перевода фактических итогов плановый интервал
-    toTemplate(): IActivityIntervalPW {
-        return Object.assign(this.clear(), {
-            type: 'pW'
-        }, {
-
-        });
+    toTemplate() {
+        return Object.assign(this.clear(), { type: 'pW' }, {});
     }
 }

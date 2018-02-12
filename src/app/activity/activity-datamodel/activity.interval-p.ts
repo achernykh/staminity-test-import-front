@@ -335,7 +335,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
      */
     toTemplate(): IActivityIntervalP | IActivityIntervalPW {
 
-        let interval: IActivityIntervalPW = Object.assign({}, this);
+        let interval: IActivityIntervalP | IActivityIntervalPW = Object.assign({}, this);
         interval.intensityLevelFrom = null;
         interval.intensityLevelTo = null;
         interval.intensityByFtpFrom = Math.ceil(this.intensityByFtpFrom * 100) / 100;

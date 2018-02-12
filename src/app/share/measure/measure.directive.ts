@@ -91,9 +91,9 @@ const convertFromFTP = (interval: boolean, initial: {}, value: any, ftp: number)
  * @returns {{require: string, link: (($scope:IScope, $element:IAugmentedJQuery, $attrs:IAttributes, $ctrl:INgModelController)=>undefined)}}
  * @constructor
  */
-export function MeasurementInput($filter): IDirective {
+export const MeasurementInput = ($filter) => {
 
-    function link($scope: IScopeMeasureInput, $element: IAugmentedJQuery, $attrs: IAttributes, $ctrl: INgModelController) {
+    function link($scope, $element, $attrs, $ctrl) {
 
         const FTPMeasures: string[] = ["heartRate", "speed", "power"];
         const interval = $scope.interval;
@@ -454,6 +454,6 @@ export function MeasurementInput($filter): IDirective {
             measure: "=",
         },
     };
-}
+};
 
 const maskFunction = (type, interval) => "to" + type[0].toUpperCase() + type.slice(1) + (interval ? "Interval" : "");

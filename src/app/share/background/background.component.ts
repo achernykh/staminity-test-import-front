@@ -12,6 +12,10 @@ class BackgroundCtrl implements IComponentController {
         this.socket.connections.subscribe((status) => this.internetStatus = !!status || !this.auth.isAuthenticated());
     }
 
+    $onInit(): void {
+
+    }
+
 }
 
 const BackgroundComponent: IComponentOptions = {

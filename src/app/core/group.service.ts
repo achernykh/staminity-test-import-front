@@ -11,7 +11,7 @@ import {
     PutGroupMembershipBulkRequest,
     PutGroupProfileRequest } from "../../../api";
 
-import { IHttpPromise, IHttpPromiseCallbackArg } from "angular";
+import { IHttpPromise, IHttpPromiseCallbackArg, IPromise } from "angular";
 import { GetGroupMembersListRequest } from "../../../api/group/group.request";
 import {SocketService} from "./index";
 import {IRESTService, PostData, PostFile} from "./rest.service";
@@ -29,9 +29,10 @@ export default class GroupService {
      * Запрос профиля группы
      * @param id
      * @param uri
+     * @param ws
      * @returns {Promise<IGroupProfile>}
      */
-    getProfile(id: string|number, type?: string, ws: boolean = true): Promise<IGroupProfile> {
+    getProfile(id: string|number, type?: string, ws: boolean = true): Promise<IGroupProfile> | IPromise<any> {
         return ws ?
             this.SocketService.send(new GetGroupProfileRequest(id, type)) :
             this.RESTService.postData(new PostData("/api/wsgate", new GetGroupProfileRequest(id, type)))

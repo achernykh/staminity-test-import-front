@@ -214,8 +214,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then(() => this.prepareTabPosition());
 
                 this.ActivityService.getDetails(this.data.activityHeader.activityId)
-                    .then((response:IActivityDetails) =>
-                            this.activity.details = new ActivityDetails(response),
+                    .then(response => this.activity.details = new ActivityDetails(response),
                         error => this.message.toastError('errorCompleteDetails'))
                     .then(() => this.isLoadingDetails = false);
             }

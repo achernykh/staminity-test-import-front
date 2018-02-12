@@ -6,6 +6,7 @@ import {
 } from "../../../api";
 import {SocketService} from "../core";
 import {GetData, PostData, RESTService} from "../core/rest.service";
+import {IPromise} from 'angular';
 
 export default class ActivityService {
 
@@ -27,14 +28,14 @@ export default class ActivityService {
 
     /**
      * Обновляем данные пользователя
-     * @param profile - может содержать частичные данные профиля, по секциям
+     * @param id - может содержать частичные данные профиля, по секциям
      * @param ws - протокол запроса, true - websocket, false - http
      * @returns {Promise<T>}
      */
     getDetails(id: number, ws: boolean = false): Promise<IActivityDetails> {
-        return ws ?
-            this.SocketService.send(new GetActivityDetailsRequest(id)) :
-            this.RESTService.postData(new GetData(`/activity/${id}/full`, null));
+        //return ws ?
+            return this.SocketService.send(new GetActivityDetailsRequest(id)); // :
+            //this.RESTService.postData(new GetData(`/activity/${id}/full`, null)).then(response => response.data);
     }
 
     /**
