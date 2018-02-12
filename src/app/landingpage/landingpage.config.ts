@@ -9,7 +9,7 @@ function configure($stateProvider: StateProvider,
 
     $stateProvider
         .state("welcome", {
-            url: "/welcome",
+            url: "/",
             loginRequired: false,
             authRequired: null,
             resolve: {

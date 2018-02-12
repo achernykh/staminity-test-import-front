@@ -69,7 +69,7 @@ export default class AuthService implements IAuthService {
      * @returns {boolean}
      */
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
-        let userRoles = this.SessionService.getPermissions();
+        let userRoles = this.SessionService.getPermissions() || [];
         return  strict ?
             authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
             authorizedRoles.some(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));

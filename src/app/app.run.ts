@@ -67,7 +67,7 @@ function run(
     });
 
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
-        console.info(`app run: $transition onSuccess ${state.$to().name}`);
+        console.info(`app run: $transition onSuccess ${state.$to().name} ${window.location.origin}`);
         LoaderService.hide();
     });
 
