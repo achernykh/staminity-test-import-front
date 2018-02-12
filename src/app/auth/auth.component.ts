@@ -20,7 +20,8 @@ class AuthCtrl implements IComponentController {
         private $state: StateService,
         private $stateParams: any,
         private $location: ILocationService,
-        private message: IMessageService, private $auth: any) {
+        private message: IMessageService,
+        private $auth: any) {
     }
 
     $onInit() {
