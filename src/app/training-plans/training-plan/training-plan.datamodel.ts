@@ -119,7 +119,8 @@ export class TrainingPlan implements ITrainingPlan {
 
     get firstItemCalendarShift (): number {
         let firstCalendarItemDate: Moment = moment(this.firstCalendarItem.dateStart);
-        return firstCalendarItemDate.diff(moment(this.startDate), 'days');
+        let startDate = this.isFixedCalendarDates ? moment(this.startDate) : moment(firstCalendarItemDate).startOf('week');
+        return firstCalendarItemDate.diff(startDate, 'days');
     }
 
     get lastItemCalendarShift (): number {
@@ -139,6 +140,10 @@ export class TrainingPlan implements ITrainingPlan {
         return this.assignmentList && this.assignmentList.length > 0;
     }
 
+    get hasCalendarItems (): boolean {
+        return this.calendarItems && this.calendarItems.length > 0;
+    }
+
     /**
      * Расчет даты первого элемента календаря для набора параметров присвоения
      * @param applyMode
@@ -148,22 +153,20 @@ export class TrainingPlan implements ITrainingPlan {
      * @returns {any}
      */
     fistItemAssignmentDate (applyMode: 'P' | 'I', applyDateMode: 'F' | 'T', applyFromDate: Date, applyToDate: Date): string {
+        let dateForm: Moment = moment(applyFromDate).utc().add(moment().utcOffset(),'minutes');
+        let dateTo: Moment = moment(applyToDate).utc().add(moment().utcOffset(),'minutes');
         // Вариант 1. Тип Даты = План & Дата = с начала
         if ( applyMode === 'P' && applyDateMode === 'F' ) {
-            return moment(applyFromDate).add(this.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return moment(dateForm).add(this.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
         // Вариант 2. Тип Даты = План & Дата = с конца
         else if ( applyMode === 'P' && applyDateMode === 'T' ) {
-            return moment(applyToDate).subtract(this.lastItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return moment(dateTo).subtract(this.lastItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
         // Вариант 3.
-        else if ( applyDateMode === 'F' ) {
-            return moment(applyFromDate).format('YYYY-MM-DD');
-        }
+        else if ( applyDateMode === 'F' ) { return moment(dateForm).format('YYYY-MM-DD'); }
         // Вариант 4.
-        else if ( applyDateMode === 'T' ) {
-            return moment(applyToDate).format('YYYY-MM-DD');
-        }
+        else if ( applyDateMode === 'T' ) { return moment(dateTo).format('YYYY-MM-DD'); }
     }
 
     /**
@@ -182,7 +185,7 @@ export class TrainingPlan implements ITrainingPlan {
             firstItemDate: new Date(firstDate),
             lastPlanDate: moment(this.endDate).add(shift, 'days').toDate(),
             lastItemDate: moment(this.lastCalendarItem.dateStart).add(shift, 'days').toDate()
-        }
+        };
     }
 
     isAfterPlanDates (date: Date, mode: 'F' | 'T'): boolean {

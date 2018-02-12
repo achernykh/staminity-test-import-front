@@ -14,6 +14,13 @@
 <md-dialog-content flex="auto" layout="column">
     <form flex="auto" layout="column" name="$ctrl.assignmentForm">
         <md-list class="md-dense">
+            <!--
+            <md-list-item>
+                <p translate="trainingPlans.assignment.form.multiplyAthletes"></p>
+                <md-switch class="md-primary"
+                           name="multiple"
+                           ng-model="$ctrl.multiplyAthletes"></md-switch>
+            </md-list-item> -->
             <!-- Выбор атлета-->
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float layout="row">
@@ -117,7 +124,7 @@
                 <md-switch class="md-secondary md-primary" ng-model="$ctrl.data.enabledSync"></md-switch>
             </md-list-item>
             <!-- Сообщение, что план с обновлением при присвоение в отличные от плана дни присваивается без обновления -->
-            <md-list-item ng-if="!$ctrl.plan.isEnablePropagateMods($ctrl.data.applyDateMode === 'F' ?
+            <md-list-item ng-if="$ctrl.plan.propagateMods && !$ctrl.plan.isEnablePropagateMods($ctrl.data.applyDateMode === 'F' ?
                 $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)">
                 <p class="md-caption" translate="trainingPlans.assignment.enabledSyncDisabled"></p>
             </md-list-item>
@@ -135,7 +142,7 @@
     <p flex="none" class="md-caption md-padding" style="color: darkred;">{{$ctrl.plan.assignmentInfo($ctrl.data.applyMode, $ctrl.data.applyDateMode, $ctrl.data.applyFromDate, $ctrl.data.applyToDate) | json}}
     </p>
     <p flex="none" class="md-caption md-padding" style="color: darkred;">
-        Расчетная первая дата: {{$ctrl.fistItemDate}}
+        {{$ctrl.data.applyFromDate}} {{$ctrl.data.applyToDate}}
     </p>
 </md-dialog-content>
 <md-dialog-actions flex="none" layout="row" style="background: white">

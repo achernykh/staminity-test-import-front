@@ -25,6 +25,7 @@
                 <p translate="trainingPlans.assignment.list.info" translate-values="{{assign}}"></p>
             </div>
             <md-icon class="material-icons md-secondary md-dark"
+                     ng-if="$ctrl.plan.propagateMods"
                      ng-bind="assign.enabledSync ? 'sync' : 'sync_disabled'"></md-icon>
             <md-menu class="md-secondary">
                 <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">

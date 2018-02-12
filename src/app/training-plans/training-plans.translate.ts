@@ -82,7 +82,8 @@ export const _translateTrainingPlans = {
                 delete: 'Удалить присвоение',
                 post: 'Новое присвоение',
                 edit: 'Изменить',
-                apply: 'Применить план'
+                apply: 'Применить план',
+                close: 'Закрыть'
             },
             form: {
                 title: 'Присвоение плана',

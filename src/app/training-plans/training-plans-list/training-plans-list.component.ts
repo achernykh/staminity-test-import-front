@@ -80,7 +80,7 @@ class TrainingPlansListCtrl implements IComponentController {
     delete (planId: number) {
 
         this.dialogs.confirm({ text: 'dialogs.deleteTrainingPlan' })
-            .then(() => this.trainingPlansService.delete(planId), () => { throw null})
+            .then(() => this.trainingPlansService.delete(planId), () => { throw null;})
             .then(
                 () => {
                     this.message.toastInfo('trainingPlanDeleted');

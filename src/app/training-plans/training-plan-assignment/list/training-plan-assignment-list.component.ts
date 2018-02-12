@@ -28,7 +28,7 @@ class TrainingPlanAssignmentListCtrl implements IComponentController {
     delete (assign: ITrainingPlanAssignment): void {
 
         this.dialogs.confirm({ text: 'dialogs.deleteSelectedAssignment' })
-            .then(() => this.trainingPlansService.modifyAssignment(this.plan.id, { mode: 'D', id: assign.id }), () => { throw null})
+            .then(() => this.trainingPlansService.modifyAssignment(this.plan.id, { mode: 'D', id: assign.id }), () => { throw null;})
             .then(
                 () => {
                     this.message.toastInfo('assignmentDeleted');
