@@ -1,4 +1,4 @@
-var build = '447';
+var build = '448';
 var version = '2.1.0';
 var protocol = {
   ws: 'wss://',
