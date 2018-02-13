@@ -137,12 +137,12 @@
             <md-list-item ng-if="$ctrl.plan.propagateMods && !$ctrl.plan.isEnablePropagateMods($ctrl.data.applyDateMode === 'F' ?
                 $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)">
                 <p class="md-caption" translate="trainingPlans.assignment.enabledSyncDisabled"></p>
-            </md-list-item>
+            </md-list-item><!--
             <md-list-item ng-if="$ctrl.plan.isFixedCalendarDates &&
                 $ctrl.plan.isAfterPlanDates($ctrl.data.applyDateMode === 'F' ?
                 $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)">
                 <p class="md-caption" translate="trainingPlans.assignment.assignDateIsAfterPlan"></p>
-            </md-list-item>
+            </md-list-item>-->
         </md-list>
     </form>
     <div flex="auto" ng-if="$ctrl.data.applyFromDate || $ctrl.data.applyToDate"
