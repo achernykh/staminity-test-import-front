@@ -2,6 +2,10 @@ export const _translate = {
     ru: {
         fullTitle: 'Настройки пользователя',
         shortTitle: 'Настройки',
+        actions: {
+            edit: 'Изменить',
+            resetPass: 'Новый пароль'
+        },
         personalInfo: {
             header: 'Персональная информация',
             hint: 'Подсказка, пояснение по блоку информации...',
@@ -18,6 +22,7 @@ export const _translate = {
                 lastName: 'Фамилия',
                 sex: 'Пол',
                 birthday: 'День рождения',
+                birthdayLabel: 'День рождения в формате ',
                 country: 'Страна',
                 city: 'Город',
                 uri: 'Ваш профиль: staminity.com/user/'
@@ -104,7 +109,8 @@ export const _translate = {
             header: 'Учетная запись',
             hint: 'Пояснение, подсказка....',
             email: 'Логин',
-            password: 'Пароль'
+            password: 'Пароль',
+            info: 'Ваша учетная запись'
         },
         billing: {
             tariffsHeader: 'Тарифные планы',
@@ -326,6 +332,7 @@ export const _translate = {
             header: 'Тренировочные зоны',
             hint: 'Подсказка, пояснение по блоку информации...',
 
+            measures: 'Показатели',
             addSport: 'Добавить спорт',
             editZones: 'Изменить зоны',
             deleteZones: 'Удалить зоны',

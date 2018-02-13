@@ -31,7 +31,9 @@
                             <button ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
                         </userpic>
                         <div flex=none hide show-gt-xs>
-                            <md-button ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+                            <md-button ng-if="$ctrl.isOwnSettings()"
+                                       ng-click="$ctrl.uploadBackground()"
+                                       class="flat">{{'settings.actions.edit' | translate}}</md-button>
                         </div>
                         <md-fab-speed-dial ng-cloak class="animated bounceIn" md-theme="default">
                             <md-fab-trigger>

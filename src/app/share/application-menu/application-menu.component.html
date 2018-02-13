@@ -68,17 +68,17 @@
 
 <md-list ng-init="showCoachMenu = true" ng-if="$ctrl.AuthService.isCoach()">
     <md-list-item>
-        <p class="md-body-2" style="opacity: 0.87" translate>Спортсмены</p>
+        <p class="md-body-2" style="opacity: 0.87" translate>{{'appMenu.athletes'}}</p>
         <md-icon class="md-secondary material-icon" class="" ng-click="showCoachMenu = !showCoachMenu"
                  ng-bind="showCoachMenu ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
     </md-list-item>
     <md-list-item class="menu-coach" ng-click="$ctrl.transitionToState('athletes')" ng-if="showCoachMenu">
         <md-icon class="material-icon" ng-click="">people</md-icon>
-        <p class="md-body-2">Управление спортсменами</p>
+        <p class="md-body-2" translate="appMenu.athletesManagement"></p>
     </md-list-item>
     <md-list-item class="menu-coach" ng-click="$ctrl.transitionToState('dashboard')" ng-if="showCoachMenu">
         <md-icon class="material-icon">developer_board</md-icon>
-        <p class="md-body-2">Дэшборд</p>
+        <p class="md-body-2" translate="appMenu.athletesDashboard"></p>
     </md-list-item>
     <md-divider ng-if="!showCoachMenu"></md-divider>
 </md-list>
@@ -100,7 +100,7 @@
     <md-divider></md-divider>
     <md-list-item>
         <md-icon class="material-icon">memory</md-icon>
-        <p class="md-body-2" style="opacity: 0.87">2017 Стаминити, {{::$ctrl.env.version}}#{{::$ctrl.env.build}}</p>
+        <p class="md-body-2" style="opacity: 0.87">2017 {{'appMenu.staminity' | translate}}, {{::$ctrl.env.version}}#{{::$ctrl.env.build}}</p>
     </md-list-item>
 </md-list>
 

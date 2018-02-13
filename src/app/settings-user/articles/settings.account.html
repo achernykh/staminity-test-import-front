@@ -5,8 +5,9 @@
     <form name="$ctrl.accountForm">
         <md-list class="md-dense section">
             <md-list-item ng-click="$ctrl.showPasswordChange($event)">
-                <p>Ваш учетная запись {{$ctrl.user.personal.extEmail}} #{{$ctrl.user.userId}}</p>
-                <md-button class="md-secondary" ng-click="$ctrl.showPasswordChange($event)">Новый пароль</md-button><!--
+                <p>{{::'settings.account.info' | translate}} {{$ctrl.user.personal.extEmail}} #{{$ctrl.user.userId}}</p>
+                <md-button class="md-secondary" ng-click="$ctrl.showPasswordChange($event)">
+                    {{::'settings.actions.resetPass' | translate}}</md-button><!--
                 <md-input-container md-no-float class="md-block no-message">
                     <md-icon class="material-icons">person</md-icon>
                     <input ng-model="$ctrl.provider.login" type="text" autocomplete="off"
