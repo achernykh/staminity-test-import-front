@@ -1,4 +1,5 @@
 import './training-plan-form.component.scss';
+import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
 import MessageService from "@app/core/message.service";
 import { FormMode } from "../../application.interface";
@@ -21,18 +22,20 @@ class TrainingPlanFormCtrl implements IComponentController {
     private planForm: INgModelController;
 
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
+    static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
 
-    constructor (private trainingPlanService: TrainingPlansService,
+    constructor (private $scope,
+                 private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
                  private message: MessageService,
                  private quillConf: IQuillConfig,
                  private competitionConfig: ICompetitionConfig) {
 
+        $scope.onlyFirstPlanDaysPredicate = (date: Date) => this.onlyFirstPlanDaysPredicate(date);
+
     }
 
     $onInit () {
-        debugger;
         this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
         this.getPlanDetails();
     }
@@ -70,6 +73,10 @@ class TrainingPlanFormCtrl implements IComponentController {
     setChangeMode (): void {
         this.mode = FormMode.Put;
     }
+
+    private onlyFirstPlanDaysPredicate (date: Date): boolean {
+        return date.getDay() === moment().startOf('week').toDate().getDay();
+    };
 
     private getPlanDetails (): void {
         if ( this.mode === FormMode.Post || this.plan.hasOwnProperty('calendarItems') ) { return; }

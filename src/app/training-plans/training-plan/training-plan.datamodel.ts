@@ -102,7 +102,9 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     private prepareDefaultData (): void {
-        if ( this.startDate ) { this._startDate = new Date(this.startDate); }
+        if ( this.startDate ) {
+            this._startDate = this.startDate && new Date(this.startDate) || new Date(moment().startOf('week').toDate());
+        }
         if ( !this.lang ) { this.lang = 'ru'; }
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
@@ -186,6 +188,10 @@ export class TrainingPlan implements ITrainingPlan {
             lastPlanDate: moment(this.endDate).add(shift, 'days').toDate(),
             lastItemDate: moment(this.lastCalendarItem.dateStart).add(shift, 'days').toDate()
         };
+    }
+
+    isDatesBeforeToday (date: Date, mode: 'F' | 'T'): boolean {
+        return moment(date).isBefore(moment(), 'day');
     }
 
     isAfterPlanDates (date: Date, mode: 'F' | 'T'): boolean {

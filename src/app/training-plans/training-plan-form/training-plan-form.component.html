@@ -118,7 +118,9 @@
                                 <md-datepicker flex="auto" required
                                                ng-model="$ctrl.plan._startDate"
                                                ng-disabled="$ctrl.plan.hasAssignment"
-                                               name="startDate" md-hide-icons="calendar">
+                                               name="startDate"
+                                               md-hide-icons="calendar"
+                                               md-date-filter="onlyFirstPlanDaysPredicate">
                                 </md-datepicker>
                                 <div class="hint" style="margin-left: 44px" ng-if="$ctrl.plan.hasAssignment"
                                      translate="trainingPlans.info.disableEditAssignPlan">

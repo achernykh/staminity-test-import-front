@@ -12,7 +12,7 @@
 </md-toolbar>
 
 <md-dialog-content flex="auto" layout="column">
-    <form flex="auto" layout="column" name="$ctrl.assignmentForm">
+    <form flex="none" layout="column" name="$ctrl.assignmentForm">
         <md-list class="md-dense">
             <!--
             <md-list-item>
@@ -99,6 +99,11 @@
                          ng-if="$ctrl.plan.isFixedCalendarDates && !$ctrl.plan.isSamePlanDates($ctrl.data.applyFromDate, 'F')"
                          translate="trainingPlans.assignment.fixedPlanInOtherDays">
                     </div>
+                    <div class="hint"
+                         ng-if="$ctrl.plan.isDatesBeforeToday($ctrl.data.applyDateMode === 'F' ?
+                                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)"
+                         translate="trainingPlans.assignment.assignDatesBeforeToday">
+                    </div>
                 </md-input-container>
             </md-list-item>
             <!-- Дата по -->
@@ -114,6 +119,11 @@
                     <div class="hint"
                          ng-if="$ctrl.plan.isFixedCalendarDates && !$ctrl.plan.isSamePlanDates($ctrl.data.applyToDate, 'T')"
                          translate="trainingPlans.assignment.fixedPlanInOtherDays">
+                    </div>
+                    <div class="hint"
+                         ng-if="$ctrl.plan.isDatesBeforeToday($ctrl.data.applyDateMode === 'F' ?
+                                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)"
+                         translate="trainingPlans.assignment.assignDatesBeforeToday">
                     </div>
                 </md-input-container>
             </md-list-item>
@@ -135,15 +145,10 @@
             </md-list-item>
         </md-list>
     </form>
-    <div flex="none" ng-if="$ctrl.data.applyFromDate || $ctrl.data.applyToDate"
+    <div flex="auto" ng-if="$ctrl.data.applyFromDate || $ctrl.data.applyToDate"
          class="md-body-1 md-padding"
          translate="trainingPlans.assignment.info"
          translate-values="$ctrl.plan.assignmentInfo($ctrl.data.applyMode, $ctrl.data.applyDateMode, $ctrl.data.applyFromDate, $ctrl.data.applyToDate)"></div>
-    <p flex="none" class="md-caption md-padding" style="color: darkred;">{{$ctrl.plan.assignmentInfo($ctrl.data.applyMode, $ctrl.data.applyDateMode, $ctrl.data.applyFromDate, $ctrl.data.applyToDate) | json}}
-    </p>
-    <p flex="none" class="md-caption md-padding" style="color: darkred;">
-        {{$ctrl.data.applyFromDate}} {{$ctrl.data.applyToDate}}
-    </p>
 </md-dialog-content>
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>
