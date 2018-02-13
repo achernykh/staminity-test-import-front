@@ -557,6 +557,18 @@ export const _translateMessage = {
         recordDeleted: {
             title: '',
             text: 'Событие удалено'
+        },
+        trainingPlanDeleted: {
+            title: '',
+            text: 'Тренировочный план удален'
+        },
+        forbidden_PlanHasAssignmentsOrPurchases: {
+            title: '',
+            text: 'Тренировочный план удалить нельзя, есть присвоения или покупки плана'
+        },
+        assignmentDeleted: {
+            title: '',
+            text: 'Присвоение удалено'
         }
 
     },
@@ -1116,7 +1128,15 @@ export const _translateMessage = {
         recordDeleted: {
             title: '',
             text: 'Event deleted'
+        },
+        trainingPlanDeleted: {
+            title: '',
+            text: 'Training plan deleted'
+        },
+        forbidden_PlanHasAssignmentsOrPurchases: {
+            title: '',
+            text: 'Training plan cannot be deleted. It has assignments or purchases'
         }
 
-    }
+}
 };
