@@ -30,7 +30,8 @@ export const _translateTrainingPlans = {
             edit: 'Изменить',
             save: 'Сохранить',
             appoint: 'Применить к...',
-            calendar: 'Ввести план'
+            calendar: 'Ввести план',
+            assignment: 'Присвоения'
         },
         // поля плана
         isPublic: {
@@ -83,7 +84,8 @@ export const _translateTrainingPlans = {
                 post: 'Новое присвоение',
                 edit: 'Изменить',
                 apply: 'Применить план',
-                close: 'Закрыть'
+                close: 'Закрыть',
+                calendar: 'Открыть календарь'
             },
             form: {
                 title: 'Присвоение плана',
@@ -111,14 +113,23 @@ export const _translateTrainingPlans = {
                     label: '',
                     placeholder: ''
                 },
-                save: "Присвоить"
+                save: "Присвоить",
+                new: "Добавить присвоение",
+                athlete: {
+                    label: "Спортсмен",
+                    hint: ""
+                }
             },
             list: {
                 title: 'Список присвоений плана',
-                empty: 'У плана нет пирсвоений',
+                empty: 'У плана нет присвоений',
                 info: "Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{planRevision}}"
-            }
-        }
+            },
+            enabledSyncDisabled: "Обновления плана не будут переданы спортсменам",
+            fixedPlanInOtherDays: "Даты присвоения отличаются от дат плана",
+            assignDateIsAfterPlan: "В плане есть тренировки в прошлом. При присвоении они не будут созданы в календаре спортсмена"
+        },
+        planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения"
     },
     en: {
 

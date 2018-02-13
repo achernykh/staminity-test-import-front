@@ -557,6 +557,10 @@ export const _translateMessage = {
         recordDeleted: {
             title: '',
             text: 'Событие удалено'
+        },
+        trainingPlanDeleted: {
+            title: '',
+            text: 'Тренировочный план удален'
         }
 
     },
@@ -1116,7 +1120,10 @@ export const _translateMessage = {
         recordDeleted: {
             title: '',
             text: 'Event deleted'
+        },
+        trainingPlanDeleted: {
+            title: '',
+            text: 'Training plan deleted'
         }
-
     }
 };

@@ -55,7 +55,10 @@ export let translateDialogs = {
         // окно загрузки профиля
         upload: "Загрузить",
         choose: "Выбрать...",
-        uploadFile: "Загрузка файлов"
+        uploadFile: "Загрузка файлов",
+        // план
+        deleteTrainingPlan: "Вы хотите удалить тренировочный план? Эту операцию отменить невозможно",
+        deleteSelectedAssignment: "Удалить присвоение плана? Все невыполненные тренировки будут удалены из календаря спортсмена"
 
     },
     en: {
@@ -113,6 +116,10 @@ export let translateDialogs = {
         // окно загрузки профиля
         upload: "Upload",
         choose: "Choose...",
-        uploadFile: "Upload file"
+        uploadFile: "Upload file",
+
+        // план
+        deleteTrainingPlan: "Do you want to delete training plan? This operation cannot be undone",
+        deleteSelectedAssignment: "Delete training plan assignment? All incompleted activities will be deleted from athlete's calendar"
     },
 };
