@@ -29,8 +29,8 @@ export const _translateTrainingPlans = {
             create: 'Создать',
             edit: 'Изменить',
             save: 'Сохранить',
-            appoint: 'Применить к...',
-            calendar: 'Ввести план',
+            appoint: 'Присвоить...',
+            calendar: 'Запланировать тренировки',
             assignment: 'Присвоения'
         },
         // поля плана
@@ -47,12 +47,12 @@ export const _translateTrainingPlans = {
             label: 'Тип соревнований'
         },
         isFixedCalendarDates: {
-            label: 'Привязан к календарным датам',
-            hint: 'Включите, чтобы при планировании использовать конкретные даты. Если хотите создать универсальный план, который можно применить в любые даты, оставьте выключенным'
+            label: 'Фиксированные даты',
+            hint: 'Включите, чтобы при планировании использовать конкретные календарные даты'
         },
         propagateMods: {
             label: 'Обновляемый план',
-            hint: 'В обновляемом плане все изменения транслируются спортсменам даже после применения плана. Если план не обновляемый, у спортсмена в календаре будет версия плана, существовавшая на момент присвоения.'
+            hint: 'В обновляемом плане все изменения плана могут быть переданы спортсменам даже после присвоения'
         },
         startDate: {
             label: 'Начальная дата плана'
@@ -132,6 +132,136 @@ export const _translateTrainingPlans = {
         planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения"
     },
     en: {
+        builder: {
+            fullTitle: 'Training plan',
+            shortTitle: 'Plan',
+        },
+        search: {
+            fullTitle: 'Training plan search',
+            shortTitle: 'Plan search',
+        },
+        filter: 'Filter',
+        filterResult: 'Found {{total}} plan(s)',
 
+        // табс
+        tabs: {
+            general: 'General',
+            description: 'Description',
+            commerce: 'Selling conditions'
+        },
+        loading: "Loading",
+        form: {
+            title: 'Training plan'
+        },
+
+        // действия
+        actions: {
+            list: 'Training plan list',
+            delete: 'Delete',
+            create: 'Create',
+            edit: 'Edit',
+            save: 'Save',
+            appoint: 'Assignments',
+            calendar: 'Create plan items',
+            assignment: 'Assignments'
+        },
+        // поля плана
+        isPublic: {
+            label: 'For sale'
+        },
+        name: {
+            label: 'Name'
+        },
+        type: {
+            label: 'Activity type'
+        },
+        distanceType: {
+            label: 'Distance type'
+        },
+        isFixedCalendarDates: {
+            label: 'Fixed dates',
+            hint: 'If enabled, you will plan on particular calendar dates. If disabled, you will plan on relative dates'
+        },
+        propagateMods: {
+            label: 'Dynamic plan',
+            hint: 'If enabled, all plan changes could be transferred to all assigned athletes'
+        },
+        startDate: {
+            label: 'Start date'
+        },
+        endDate: {
+            label: 'End date'
+        },
+        tags: {
+            label: 'Tags',
+            beginner: 'Beginner',
+            advanced: 'Advanced',
+            pro: 'Pro',
+            powerMeter: 'Power meter',
+            hrBelt: 'HR belt',
+            weightLoss: 'Weight loss',
+            fitness: 'Fitness',
+            health: 'Health',
+        },
+        description: {
+            label: 'Description'
+        },
+        keywords: {
+            label: 'Keywords'
+        },
+        assignment: {
+            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. \n" +
+            "Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
+            action: {
+                delete: 'Remove assignment',
+                post: 'New assignment',
+                edit: 'Edit',
+                apply: 'Assign',
+                close: 'Close',
+                calendar: 'Open calendar'
+            },
+            form: {
+                title: 'Assignment',
+                applyMode: {
+                    label: 'Plan dates',
+                    P: 'Plan start/end dates',
+                    I: 'First item / last item dates',
+                    hint: 'Assignment dates could be calculated from plan dates or from item dates'
+                },
+                applyDateMode: {
+                    label: 'Assignment mode',
+                    F: 'From date',
+                    T: 'To date',
+                    hint: ''
+                },
+                applyFromDate: {
+                    label: 'Start date',
+                    placeholder: 'Select assignment start date'
+                },
+                applyToDate: {
+                    label: 'End date',
+                    placeholder: 'Select assignment end date'
+                },
+                firstItemDate: {
+                    label: '',
+                    placeholder: ''
+                },
+                save: "Assign",
+                new: "New assignment",
+                athlete: {
+                    label: "Athlete",
+                    hint: ""
+                }
+            },
+            list: {
+                title: 'Assignment list',
+                empty: 'Training plan has no assignments',
+                info: "Assignment created {{createdDate | date:'shortDate'}}, plan version: {{planRevision}}"
+            },
+            enabledSyncDisabled: "Plan changes will not be transferred to athletes",
+            fixedPlanInOtherDays: "Attention! Assignment dates differ from plan dates",
+            assignDateIsAfterPlan: "Plan has several items in the past. They will not be created in athlete's calendar"
+        },
+        planDontHaveItemsForAssignment: "Plan has no items and cannot be assigned"
     }
 };
