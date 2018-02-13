@@ -90,24 +90,24 @@ export const _translateTrainingPlans = {
             form: {
                 title: 'Присвоение плана',
                 applyMode: {
-                    label: 'Даты плана',
+                    label: 'Режим присвоения',
                     P: 'Даты начала/окончания плана',
                     I: 'Даты первой/последней записи',
-                    hint: 'Начало/окончание плана могут быть рассчитаны как от начала календарных дней, так и от первой/последней записи'
+                    hint: 'Даты присвоения могут быть рассчитаны от дат плана или от дат записей плана'
                 },
                 applyDateMode: {
-                    label: 'Режим присвоения',
-                    F: 'Начиная с даты',
-                    T: 'К указанной дате',
-                    hint: 'План может быть присвоен или с выбранной даты или до определенной даты'
+                    label: 'Тип даты',
+                    F: 'Дата начала',
+                    T: 'Дата окончания',
+                    hint: 'План может быть присвоен или с выбранной даты или к указанной дате'
                 },
                 applyFromDate: {
                     label: 'Дата начала',
-                    placeholder: 'Укажите дату начала плана'
+                    placeholder: 'Укажите дату начала'
                 },
                 applyToDate: {
                     label: 'Дата окончания',
-                    placeholder: 'Укажите дату окончания плана'
+                    placeholder: 'Укажите дату окончания'
                 },
                 firstItemDate: {
                     label: '',
@@ -118,18 +118,22 @@ export const _translateTrainingPlans = {
                 athlete: {
                     label: "Спортсмен",
                     hint: ""
-                }
+                },
+                enabledSync: "Синхронизировать изменения плана"
             },
             list: {
                 title: 'Список присвоений плана',
                 empty: 'У плана нет присвоений',
                 info: "Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{planRevision}}"
             },
-            enabledSyncDisabled: "Обновления плана не будут переданы спортсменам",
+            enabledSyncDisabled: "Изменения плана не будут переданы спортсменам",
             fixedPlanInOtherDays: "Даты присвоения отличаются от дат плана",
-            assignDateIsAfterPlan: "В плане есть тренировки в прошлом. При присвоении они не будут созданы в календаре спортсмена"
+            assignDatesBeforeToday: "В плане есть тренировки в прошлом. При присвоении они не будут созданы в календаре спортсмена"
         },
-        planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения"
+        planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения",
+        info: {
+            disableEditAssignPlan: ""
+        }
     },
     en: {
         builder: {
@@ -223,16 +227,16 @@ export const _translateTrainingPlans = {
             form: {
                 title: 'Assignment',
                 applyMode: {
-                    label: 'Plan dates',
-                    P: 'Plan start/end dates',
+                    label: 'Assignment mode',
+                    P: 'Plan start / end dates',
                     I: 'First item / last item dates',
                     hint: 'Assignment dates could be calculated from plan dates or from item dates'
                 },
                 applyDateMode: {
-                    label: 'Assignment mode',
-                    F: 'From date',
-                    T: 'To date',
-                    hint: ''
+                    label: 'Date',
+                    F: 'Start date',
+                    T: 'End date',
+                    hint: 'Training plan '
                 },
                 applyFromDate: {
                     label: 'Start date',
@@ -251,7 +255,8 @@ export const _translateTrainingPlans = {
                 athlete: {
                     label: "Athlete",
                     hint: ""
-                }
+                },
+                enabledSync: "Sync changes"
             },
             list: {
                 title: 'Assignment list',
@@ -260,7 +265,7 @@ export const _translateTrainingPlans = {
             },
             enabledSyncDisabled: "Plan changes will not be transferred to athletes",
             fixedPlanInOtherDays: "Attention! Assignment dates differ from plan dates",
-            assignDateIsAfterPlan: "Plan has several items in the past. They will not be created in athlete's calendar"
+            assignDatesBeforeToday: "Plan has several items in the past. They will not be created in athlete's calendar"
         },
         planDontHaveItemsForAssignment: "Plan has no items and cannot be assigned"
     }
