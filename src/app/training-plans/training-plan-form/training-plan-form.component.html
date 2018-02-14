@@ -1,26 +1,44 @@
-<md-toolbar flex="none" class="md-primary">
-    <div class="md-toolbar-tools">
-        <h2 class="">{{::'trainingPlans.form.title' | translate}}</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
-            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
-            <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
-        </md-button>
-    </div>
-    <div class="avatar-block" ng-if="false">
-        <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
-                 profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
-            <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">
-                Edit
-            </button>
-        </userpic>
-        <div flex=none hide show-gt-xs>
-            <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+<!-- Загрузка данных -->
+<section layout="column" layout-align="center center" layout-fill ng-if="!$ctrl.dataLoading">
+    <md-toolbar class="md-default">
+        <div class="md-toolbar-tools">
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
         </div>
+    </md-toolbar>
+    <div flex="auto" layout="column" layout-align="center center">
+        <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+        <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
     </div>
-</md-toolbar>
-<md-dialog-content flex="auto" layout="column">
-    <form flex="auto" layout="column" name="$ctrl.planForm">
+</section>
+<!-- Отображение данных -->
+<section layout="column" layout-align="center center" layout-fill ng-if="$ctrl.dataLoading">
+    <md-toolbar flex="none" class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2 class="">{{::'trainingPlans.form.title' | translate}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+        <div class="avatar-block" ng-if="false">
+            <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
+                     profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
+                <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">
+                    Edit
+                </button>
+            </userpic>
+            <div flex=none hide show-gt-xs>
+                <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto" layout="column" style="width: 100%">
+        <form flex="auto" layout="column" name="$ctrl.planForm">
         <md-tabs flex="auto" layout-fill md-stretch-tabs="always" ng-cloak class="md-primary">
             <md-tab id="general" flex="auto" layout="column">
                 <md-tab-label><span translate="trainingPlans.tabs.general"></span></md-tab-label>
@@ -259,17 +277,18 @@
             </md-tab>
         </md-tabs>
     </form>
-</md-dialog-content>
-<md-dialog-actions flex="none" layout="row" style="background: white">
-    <span flex></span>
-    <md-button ng-if="$ctrl.isViewMode"
-               ng-click="$ctrl.setChangeMode()">
-        <span translate="trainingPlans.actions.edit"></span>
-    </md-button>
-    <md-button ng-if="!$ctrl.isViewMode"
-               ng-class="{'md-warn': !$ctrl.planForm.$valid}"
-               ng-disabled="!$ctrl.planForm.$dirty"
-               ng-click="($ctrl.planForm.$valid) ? $ctrl.save() : null">
-        <span translate="trainingPlans.actions.save"></span>
-    </md-button>
-</md-dialog-actions>
+    </md-dialog-content>
+    <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+        <span flex></span>
+        <md-button ng-if="$ctrl.isViewMode"
+                   ng-click="$ctrl.setChangeMode()">
+            <span translate="trainingPlans.actions.edit"></span>
+        </md-button>
+        <md-button ng-if="!$ctrl.isViewMode"
+                   ng-class="{'md-warn': !$ctrl.planForm.$valid}"
+                   ng-disabled="!$ctrl.planForm.$dirty"
+                   ng-click="($ctrl.planForm.$valid) ? $ctrl.save() : null">
+            <span translate="trainingPlans.actions.save"></span>
+        </md-button>
+    </md-dialog-actions>
+</section>

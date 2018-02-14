@@ -102,9 +102,8 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     private prepareDefaultData (): void {
-        if ( this.startDate ) {
-            this._startDate = this.startDate && new Date(this.startDate) || new Date(moment().startOf('week').toDate());
-        }
+        this._startDate = (this.startDate && new Date(this.startDate)) ||
+            (this.isFixedCalendarDates && new Date(moment().startOf('week').toDate())) || null;
         if ( !this.lang ) { this.lang = 'ru'; }
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
@@ -112,7 +111,8 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get firstDate (): Date {
-        return this._startDate || new Date(moment(this.firstCalendarItem.dateStart).startOf('week'));
+        return this.isFixedCalendarDates && this._startDate ||
+            new Date(moment(this.firstCalendarItem.dateStart).startOf('week'));
     }
 
     get endDate (): Date {
@@ -128,6 +128,10 @@ export class TrainingPlan implements ITrainingPlan {
     get lastItemCalendarShift (): number {
         let lastCalendarItemDate: Moment = moment(this.lastCalendarItem.dateStart);
         return moment(lastCalendarItemDate).endOf('week').diff(lastCalendarItemDate, 'days');
+    }
+
+    get firstLastItemCalendarShift (): number {
+        return moment(this.lastCalendarItem.dateStart).diff(moment(this.firstCalendarItem.dateStart), 'days');
     }
 
     get firstCalendarItem (): ICalendarItem {
@@ -154,21 +158,29 @@ export class TrainingPlan implements ITrainingPlan {
      * @param applyToDate
      * @returns {any}
      */
-    fistItemAssignmentDate (applyMode: 'P' | 'I', applyDateMode: 'F' | 'T', applyFromDate: Date, applyToDate: Date): string {
+    fistItemAssignmentDate (applyMode: 'P' | 'I',
+                            applyDateMode: 'F' | 'T',
+                            applyFromDate: Date,
+                            applyToDate: Date): string {
+
         let dateForm: Moment = moment(applyFromDate).utc().add(moment().utcOffset(),'minutes');
         let dateTo: Moment = moment(applyToDate).utc().add(moment().utcOffset(),'minutes');
         // Вариант 1. Тип Даты = План & Дата = с начала
         if ( applyMode === 'P' && applyDateMode === 'F' ) {
-            return moment(dateForm).add(this.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return dateForm.add(this.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
         // Вариант 2. Тип Даты = План & Дата = с конца
         else if ( applyMode === 'P' && applyDateMode === 'T' ) {
-            return moment(dateTo).subtract(this.lastItemCalendarShift, 'days').format('YYYY-MM-DD');
+            return dateTo.subtract(this.lastItemCalendarShift + this.firstLastItemCalendarShift, 'days').format('YYYY-MM-DD');
         }
-        // Вариант 3.
-        else if ( applyDateMode === 'F' ) { return moment(dateForm).format('YYYY-MM-DD'); }
-        // Вариант 4.
-        else if ( applyDateMode === 'T' ) { return moment(dateTo).format('YYYY-MM-DD'); }
+        // Вариант 3. Тип даты = Итем + Дата = с начала
+        else if ( applyMode === 'I' && applyDateMode === 'F' ) {
+            return dateForm.format('YYYY-MM-DD');
+        }
+        // Вариант 4. Тип даты = Итем + Дата = с конца
+        else if ( applyMode === 'I' && applyDateMode === 'T' ) {
+            return dateTo.subtract(this.firstLastItemCalendarShift, 'days').format('YYYY-MM-DD');
+        }
     }
 
     /**

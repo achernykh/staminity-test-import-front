@@ -16,10 +16,12 @@ class TrainingPlanFormCtrl implements IComponentController {
     data: TrainingPlan;
     mode: FormMode;
     onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
+    onCancel: () => Promise<any>;
 
     // private
     private plan: TrainingPlan;
     private planForm: INgModelController;
+    private dataLoading: boolean = false;
 
     //inject
     static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
@@ -36,8 +38,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     $onInit () {
-        this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
-        this.getPlanDetails();
+        this.mode !== FormMode.Post ? this.getPlanDetails() : this.dataLoading = true;
     }
 
     save () {
@@ -79,9 +80,17 @@ class TrainingPlanFormCtrl implements IComponentController {
     };
 
     private getPlanDetails (): void {
-        if ( this.mode === FormMode.Post || this.plan.hasOwnProperty('calendarItems') ) { return; }
-        this.trainingPlanService.get(this.plan.id)
-            .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
+        //if ( this.mode === FormMode.Post /**|| this.plan.hasOwnProperty('calendarItems')**/ ) { return; }
+        this.trainingPlanService.get(this.data.id)
+            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.trainingPlanService.getAssignment(this.plan.id))
+            .then(result => this.plan.assignmentList = [...result.arrayResult], error => this.errorHandler(error))
+            .then(() => this.dataLoading = true);
+    }
+
+    errorHandler (error: string): void {
+        this.message.toastError(error);
+        this.onCancel();
     }
 
     private toggle (item, list): void {

@@ -162,7 +162,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                 break;
             }
             case FormMode.Put: {
-                this.calendar.delete(item);
+                this.calendar.delete(this.calendar.searchItem(item.calendarItemId));
                 this.calendar.post(item);
                 break;
             }

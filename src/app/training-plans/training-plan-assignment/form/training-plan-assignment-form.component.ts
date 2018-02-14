@@ -33,7 +33,9 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
             this.data = Object.assign({
                 applyMode: 'P',
                 applyDateMode: 'F',
-                enabledSync: this.plan.propagateMods || null
+                enabledSync: this.plan.propagateMods || null,
+                applyFromDate: null,
+                applyToDate: null
             });
         } else {
             this.data = {
