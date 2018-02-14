@@ -24,6 +24,8 @@ export const _application_menu = {
         clubManagement: 'Club members',
         clubDashboard: 'Club dashboard',
         clubMethodology: 'Club methodology',
+        athletesManagement: 'My athletes',
+        athletesDashboard: 'My dashboard',
         calendar: 'Calendar',
         search: 'Search',
         reference: 'Templates & Categories',
@@ -34,6 +36,7 @@ export const _application_menu = {
         groups: 'Groups',
         athletes: 'Athletes',
         methodology: 'Methodology',
-        admin: 'Admin panel'
+        admin: 'Admin panel',
+        staminity: 'Staminity'
     }
 };
