@@ -78,7 +78,8 @@ export const _translateTrainingPlans = {
             label: 'Ключевые слова'
         },
         assignment: {
-            info: "Дата начала плана: {{firstPlanDate | date:'longDate'}}, дата первой записи: {{firstItemDate | date:'longDate'}}. Дата окончания плана:  {{lastPlanDate | date:'longDate'}}, дата последней записи: {{lastItemDate | date:'longDate'}}",
+            info: "Дата начала плана: {{firstPlanDate | date:'longDate'}}, дата первой записи: {{firstItemDate | date:'longDate'}} </br>" +
+            "Дата окончания плана:  {{lastPlanDate | date:'longDate'}}, дата последней записи: {{lastItemDate | date:'longDate'}}",
             action: {
                 delete: 'Удалить присвоение',
                 post: 'Новое присвоение',
@@ -214,7 +215,7 @@ export const _translateTrainingPlans = {
             label: 'Keywords'
         },
         assignment: {
-            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. \n" +
+            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. </br>" +
             "Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
             action: {
                 delete: 'Remove assignment',
