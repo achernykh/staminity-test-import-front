@@ -46,8 +46,8 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
                 applyDateMode: this.assign.applyDateMode,
                 firstItemDate: this.assign.firstItemDate,
                 enabledSync: this.assign.enabledSync,
-                applyFromDate: this.assign.applyFromDate,
-                applyToDate: this.assign.applyToDate
+                applyFromDate: this.assign.applyFromDate || null,
+                applyToDate: this.assign.applyToDate || null
             };
         }
 
@@ -73,8 +73,8 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
             applyDateMode: this.data.applyDateMode,
             firstItemDate: this.plan.fistItemAssignmentDate(this.data.applyMode, this.data.applyDateMode, this.data.applyFromDate, this.data.applyToDate),
             enabledSync: this.enabledSync,
-            applyFromDate: moment(this.data.applyFromDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss'),
-            applyToDate: moment(this.data.applyToDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss'),
+            applyFromDate: this.data.applyFromDate && moment(this.data.applyFromDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
+            applyToDate: this.data.applyFromDate && moment(this.data.applyToDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
         }).then(response => this.onCancel(), error => this.message.toastError(error));
     }
 
