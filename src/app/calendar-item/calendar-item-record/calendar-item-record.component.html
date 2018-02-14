@@ -116,14 +116,19 @@
                        translate="activity.dynamicDate"
                        translate-values="{week: $ctrl.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.options.trainingPlanOptions.dayNumber + 1}"></p>
                 </md-list-item>
+                <!-- Переключатель повторения события -->
                 <md-list-item ng-if="!$ctrl.record.view.isView">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">repeat</md-icon>
                     <p translate="record.isRepeated"></p>
                     <md-switch class="md-secondary md-primary"
                                ng-model="$ctrl.record.isRepeated"
                                ng-change="$ctrl.changeRepeatMode()"
+                               ng-disabled="$ctrl.record.planItemId"
                                md-invert>
                 </md-list-item>
+                <div class="hint" style="margin-left: 60px" ng-if="$ctrl.record.planItemId"
+                     translate="record.disableEditPlanItem">
+                </div>
                 <md-list-item ng-if="$ctrl.record.isRepeated" class="margin-top-8">
                     <md-input-container class="md-block no-message" layout="row">
                         <label translate="record.period.label"></label>

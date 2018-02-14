@@ -8,6 +8,7 @@ import { TrainingPlansService } from "@app/training-plans/training-plans.service
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { FormMode } from "../../application.interface";
 import AuthService from "../../auth/auth.service";
+import MessageService from "../../core/message.service";
 
 class TrainingPlansListCtrl implements IComponentController {
 
@@ -20,13 +21,16 @@ class TrainingPlansListCtrl implements IComponentController {
     private totalFound: number = null;
 
     // inject
-    static $inject = ['$scope', '$state', 'TrainingPlansService', 'TrainingPlanDialogService', 'AuthService'];
+    static $inject = ['$scope', '$state', 'TrainingPlansService', 'TrainingPlanDialogService', 'AuthService',
+        'dialogs', 'message'];
 
     constructor (private $scope: any,
                  private $state: StateService,
                  private trainingPlansService: TrainingPlansService,
                  private trainingPlanDialogService: TrainingPlanDialogService,
-                 private authService: AuthService) {
+                 private authService: AuthService,
+                 private dialogs: any,
+                 private message: MessageService) {
 
     }
 
@@ -74,8 +78,15 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     delete (planId: number) {
-        this.trainingPlansService.delete(planId)
-            .then(() => this.plans.delete(planId), error => {debugger;})
+
+        this.dialogs.confirm({ text: 'dialogs.deleteTrainingPlan' })
+            .then(() => this.trainingPlansService.delete(planId), () => { throw null;})
+            .then(
+                () => {
+                    this.message.toastInfo('trainingPlanDeleted');
+                    this.plans.delete(planId);
+                },
+                error => error && this.errorHandler(error))
             .then(() => this.update());
     }
 
@@ -113,6 +124,16 @@ class TrainingPlansListCtrl implements IComponentController {
 
     private update (): void {
         this.$scope.$applyAsync();
+    }
+
+    /**
+     * Обработчик ответа с ошибкой
+     * Выводим тост и реджектим цепочку прописов
+     * @param error
+     */
+    private errorHandler (error: string): Promise<any> {
+        this.message.toastError(error);
+        throw new Error();
     }
 
 }

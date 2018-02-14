@@ -18,7 +18,7 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
     athletes: Array<IUserProfile>;
 
     onCancel: () => Promise<void>;
-    private dataExist: boolean = false;
+    private dataLoading: boolean = false;
     private assign: ITrainingPlanAssignment;
 
     static $inject = ['TrainingPlansService', 'message'];
@@ -30,12 +30,13 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
     }
 
     $onInit() {
-        if ( !this.plan.hasOwnProperty('assignmentList') ) {
+        this.getPlanDetails();
+        /**if ( !this.plan.hasOwnProperty('assignmentList') ) {
             this.getPlanDetails();
         } else {
-            this.dataExist = true;
+            this.dataLoading = true;
             if (!this.state) { this.isListState = true; }
-        }
+        }**/
     }
 
     setFormData (assign: ITrainingPlanAssignment): void {
@@ -54,7 +55,7 @@ class TrainingPlanAssignmentCtrl implements IComponentController {
             .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
             .then(() => this.trainingPlansService.getAssignment(this.plan.id))
             .then(result => this.plan.assignmentList = [...result.arrayResult], error => this.errorHandler(error))
-            .then(() => this.dataExist = true)
+            .then(() => this.dataLoading = true)
             .then(() => !this.state && (this.plan.assignmentList.length > 0 && (this.isListState = true) || (this.isFormState = true)));
     }
 

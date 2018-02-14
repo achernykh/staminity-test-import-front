@@ -58,7 +58,8 @@ export const _translateRecord = {
             label: 'Количество повторов'
         },
         description: 'Описание',
-        descriptionPlaceholder: '...'
+        descriptionPlaceholder: '...',
+        disableEditPlanItem: "Повторы недоступны, событие создано из плана"
 
     },
     en: {
@@ -120,6 +121,7 @@ export const _translateRecord = {
             label: 'Number of repeats'
         },
         description: 'Description',
-        descriptionPlaceholder: '...'
+        descriptionPlaceholder: '...',
+        disableEditPlanItem: "Event from training plan cannot be repeated"
     }
 };

@@ -1,6 +1,7 @@
 import './training-plan-builder.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import {IComponentOptions, IComponentController,IScope,IAnchorScrollService, copy, ILocationService} from 'angular';
+import { StateService } from 'angular-ui-router';
 import { Subject } from 'rxjs/Subject';
 import { Calendar } from "../../calendar/calendar.datamodel";
 import { CalendarService } from "../../calendar/calendar.service";
@@ -38,12 +39,13 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     private calendar: Calendar;
     private isCompactView: boolean = false;
     private destroy: Subject<any> = new Subject();
-    static $inject = ['$scope', '$mdMedia', '$stateParams', '$location', '$anchorScroll', 'TrainingPlansService',
+    static $inject = ['$scope', '$mdMedia', '$state', '$stateParams', '$location', '$anchorScroll', 'TrainingPlansService',
         'TrainingPlanDialogService', 'CalendarService', 'SessionService', 'AuthService', 'message','dialogs'];
 
     constructor(
         private $scope: IScope,
         private $mdMedia: any,
+        private $state: StateService,
         private $stateParams: any,
         private $location: ILocationService,
         private $anchorScroll: IAnchorScrollService,
@@ -76,7 +78,16 @@ class TrainingPlanBuilderCtrl implements IComponentController {
 
     view (e: Event, plan: TrainingPlan) {
         this.trainingPlanDialogService.open(e, FormMode.Put, plan)
-            .then(() => {}, () => {});
+            .then(
+                (response) => {
+                    if (response.mode === FormMode.Put) {
+                        this.currentPlan = new TrainingPlan(response.plan);
+                    }
+                    if (response.mode === FormMode.Put &&
+                        moment(response.plan['_startDate']).startOf('week').format('YYYY-MM-DD') !== plan.startDate ) {
+                        this.setTrainingPlan(plan.id);
+                    }
+                }, () => {});
     }
 
     private subscribeAsyncMessages(): void {
@@ -151,7 +162,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                 break;
             }
             case FormMode.Put: {
-                this.calendar.delete(item);
+                this.calendar.delete(this.calendar.searchItem(item.calendarItemId));
                 this.calendar.post(item);
                 break;
             }
@@ -301,6 +312,11 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                 }, (error)=> this.messageService.toastError(error))
                 .then(()=> this.clearBuffer());
         }
+    }
+
+    private assignment (env: Event, plan: TrainingPlan): void {
+        this.trainingPlanDialogService.assignment(env, plan)
+            .then(response => {debugger;}, error => {debugger;});
     }
 
     /**

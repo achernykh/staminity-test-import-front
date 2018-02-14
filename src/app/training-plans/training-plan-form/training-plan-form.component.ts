@@ -1,4 +1,5 @@
 import './training-plan-form.component.scss';
+import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
 import MessageService from "@app/core/message.service";
 import { FormMode } from "../../application.interface";
@@ -15,26 +16,29 @@ class TrainingPlanFormCtrl implements IComponentController {
     data: TrainingPlan;
     mode: FormMode;
     onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
+    onCancel: () => Promise<any>;
 
     // private
     private plan: TrainingPlan;
     private planForm: INgModelController;
+    private dataLoading: boolean = false;
 
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
+    static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
 
-    constructor (private trainingPlanService: TrainingPlansService,
+    constructor (private $scope,
+                 private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
                  private message: MessageService,
                  private quillConf: IQuillConfig,
                  private competitionConfig: ICompetitionConfig) {
 
+        $scope.onlyFirstPlanDaysPredicate = (date: Date) => this.onlyFirstPlanDaysPredicate(date);
+
     }
 
     $onInit () {
-        debugger;
-        this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
-        this.getPlanDetails();
+        this.mode !== FormMode.Post ? this.getPlanDetails() : this.dataLoading = true;
     }
 
     save () {
@@ -71,10 +75,22 @@ class TrainingPlanFormCtrl implements IComponentController {
         this.mode = FormMode.Put;
     }
 
+    private onlyFirstPlanDaysPredicate (date: Date): boolean {
+        return date.getDay() === moment().startOf('week').toDate().getDay();
+    };
+
     private getPlanDetails (): void {
-        if ( this.mode === FormMode.Post || this.plan.hasOwnProperty('calendarItems') ) { return; }
-        this.trainingPlanService.get(this.plan.id)
-            .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
+        //if ( this.mode === FormMode.Post /**|| this.plan.hasOwnProperty('calendarItems')**/ ) { return; }
+        this.trainingPlanService.get(this.data.id)
+            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.trainingPlanService.getAssignment(this.plan.id))
+            .then(result => this.plan.assignmentList = [...result.arrayResult], error => this.errorHandler(error))
+            .then(() => this.dataLoading = true);
+    }
+
+    errorHandler (error: string): void {
+        this.message.toastError(error);
+        this.onCancel();
     }
 
     private toggle (item, list): void {

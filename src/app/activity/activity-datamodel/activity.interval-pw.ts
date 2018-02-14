@@ -161,7 +161,7 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         }
         if (update.distanceApprox) {
             const step: number = update.distanceLength > 100 * 100 ? 10 : 1;
-            update.distanceLength = Math.ceil(update.distanceLength / (100 * step)) * 100 * step;
+            update.distanceLength = Math.ceil(update.distanceLength / (50 * step)) * 50 * step;
         }
 
         Object.assign(this, update);

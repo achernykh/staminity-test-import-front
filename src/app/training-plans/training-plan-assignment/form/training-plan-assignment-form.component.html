@@ -12,11 +12,15 @@
 </md-toolbar>
 
 <md-dialog-content flex="auto" layout="column">
-    <div class="md-body-1 md-padding"
-         translate="trainingPlans.assignment.info"
-         translate-values="{planStartDate: $ctrl.plan.startDate, planEndDate: $ctrl.plan.endDate, itemFirstDate: $ctrl.plan.firstCalendarItem.dateStart, itemLastDate: $ctrl.plan.lastCalendarItem.dateStart}"></div>
-    <form flex="auto" layout="column" name="$ctrl.assignmentForm">
+    <form flex="none" layout="column" name="$ctrl.assignmentForm">
         <md-list class="md-dense">
+            <!--
+            <md-list-item>
+                <p translate="trainingPlans.assignment.form.multiplyAthletes"></p>
+                <md-switch class="md-primary"
+                           name="multiple"
+                           ng-model="$ctrl.multiplyAthletes"></md-switch>
+            </md-list-item> -->
             <!-- Выбор атлета-->
             <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float layout="row">
@@ -92,8 +96,13 @@
                                    md-date-filter="onlyFirstPlanDaysPredicate">
                     </md-datepicker>
                     <div class="hint"
-                         ng-if="$ctrl.plan.isFixedCalendarDates && !$ctrl.isStartDate($ctrl.data.applyFromDate)"
+                         ng-if="$ctrl.plan.isFixedCalendarDates && !$ctrl.plan.isSamePlanDates($ctrl.data.applyFromDate, 'F')"
                          translate="trainingPlans.assignment.fixedPlanInOtherDays">
+                    </div>
+                    <div class="hint"
+                         ng-if="$ctrl.plan.isDatesBeforeToday($ctrl.data.applyDateMode === 'F' ?
+                                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)"
+                         translate="trainingPlans.assignment.assignDatesBeforeToday">
                     </div>
                 </md-input-container>
             </md-list-item>
@@ -107,28 +116,39 @@
                                    ng-model="$ctrl.data.applyToDate"
                                    name="applyToDate" md-hide-icons="calendar">
                     </md-datepicker>
+                    <div class="hint"
+                         ng-if="$ctrl.plan.isFixedCalendarDates && !$ctrl.plan.isSamePlanDates($ctrl.data.applyToDate, 'T')"
+                         translate="trainingPlans.assignment.fixedPlanInOtherDays">
+                    </div>
+                    <div class="hint"
+                         ng-if="$ctrl.plan.isDatesBeforeToday($ctrl.data.applyDateMode === 'F' ?
+                                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)"
+                         translate="trainingPlans.assignment.assignDatesBeforeToday">
+                    </div>
                 </md-input-container>
             </md-list-item>
             <!-- Подписка на обновления -->
-            <md-list-item ng-if="$ctrl.plan.propagateMods && $ctrl.isStartDate($ctrl.data.applyFromDate)">
+            <md-list-item ng-if="$ctrl.plan.isEnablePropagateMods($ctrl.data.applyDateMode === 'F' ?
+                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)">
                 <p class="md-caption" translate="trainingPlans.assignment.enabledSync"></p>
                 <md-switch class="md-secondary md-primary" ng-model="$ctrl.data.enabledSync"></md-switch>
             </md-list-item>
             <!-- Сообщение, что план с обновлением при присвоение в отличные от плана дни присваивается без обновления -->
-            <md-list-item ng-if="$ctrl.plan.propagateMods && !$ctrl.isStartDate($ctrl.data.applyFromDate)">
+            <md-list-item ng-if="$ctrl.plan.propagateMods && !$ctrl.plan.isEnablePropagateMods($ctrl.data.applyDateMode === 'F' ?
+                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)">
                 <p class="md-caption" translate="trainingPlans.assignment.enabledSyncDisabled"></p>
-            </md-list-item>
+            </md-list-item><!--
+            <md-list-item ng-if="$ctrl.plan.isFixedCalendarDates &&
+                $ctrl.plan.isAfterPlanDates($ctrl.data.applyDateMode === 'F' ?
+                $ctrl.data.applyFromDate : $ctrl.data.applyToDate, $ctrl.data.applyDateMode)">
+                <p class="md-caption" translate="trainingPlans.assignment.assignDateIsAfterPlan"></p>
+            </md-list-item>-->
         </md-list>
     </form>
-    <p flex="none" class="md-caption md-padding" style="color: darkred;">
-        Начало плана {{$ctrl.plan.startDate}},
-        окончание плана {{}},
-        смещение начала {{$ctrl.plan.firstItemCalendarShift}},
-        смещение окончания {{$ctrl.plan.lastItemCalendarShift}}
-    </p>
-    <p flex="none" class="md-caption md-padding" style="color: darkred;">
-        Расчетная первая дата: {{$ctrl.fistItemDate}}
-    </p>
+    <div flex="auto" ng-if="$ctrl.data.applyFromDate || $ctrl.data.applyToDate"
+         class="md-body-1 md-padding"
+         translate="trainingPlans.assignment.info"
+         translate-values="$ctrl.plan.assignmentInfo($ctrl.data.applyMode, $ctrl.data.applyDateMode, $ctrl.data.applyFromDate, $ctrl.data.applyToDate)"></div>
 </md-dialog-content>
 <md-dialog-actions flex="none" layout="row" style="background: white">
     <span flex></span>

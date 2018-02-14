@@ -15,6 +15,13 @@
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.$state.go('methodology', {state: 'trainingPlans'})">
+                        <md-icon class="material-icons">'list'</md-icon>
+                        <span translate="trainingPlans.actions.list"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
                 <md-menu-item ng-repeat="plan in $ctrl.trainingPlans.list track by plan.id">
                     <md-button ng-click="$ctrl.setTrainingPlan(plan.id)"
                                ng-disable="plan.id === $ctrl.currentPlan.id">
@@ -49,7 +56,11 @@
             </md-button> -->
             <section flex="none" layout="row" layout-align="start center"
                      class="calendar-operations" hide show-gt-md>
-                <!--<span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>-->
+                <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, $ctrl.currentPlan)">
+                    <md-tooltip ng-bind-template="{{'trainingPlans.actions.assignment' | translate}}"></md-tooltip>
+                    <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
+                </md-button>
+                <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
                 <md-button flex="none" ng-click="$ctrl.copyItems()" class="md-icon-button" aria-label="Copy"
                            ng-disabled="$ctrl.selectedItems.length === 0">
                     <md-tooltip ng-bind-template="{{'calendar.action.copy' | translate}} {{'M-C' | keyboardShortcut}}"></md-tooltip>
