@@ -38,7 +38,13 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     $onInit () {
-        this.mode !== FormMode.Post ? this.getPlanDetails() : this.dataLoading = true;
+
+        if (this.mode === FormMode.Post) {
+            this.plan = new TrainingPlan();
+            this.dataLoading = true;
+        } else {
+            this.getPlanDetails();
+        }
     }
 
     save () {
