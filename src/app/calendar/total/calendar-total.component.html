@@ -7,7 +7,7 @@
          ng-mouseover="$ctrl.showMenu = true" ng-mouseleave="$ctrl.showMenu = false">
 
     <div flex="none" class="md-caption font-medium" style="min-width: 24px">
-        Неделя {{$ctrl.dynamicDates ? $ctrl.week.sid + 1 : $ctrl.title}}
+        {{'calendar.week' | translate}} {{$ctrl.dynamicDates ? $ctrl.week.sid + 1 : $ctrl.title}}
     </div>
     <div flex="auto" layout="row" layout-align="end center">
 
@@ -19,21 +19,26 @@
                 <md-menu-item>
                     <md-button ng-click="$ctrl.onToggle()">
                         <md-icon class="material-icons" md-menu-align-target>{{!$ctrl.selected ? 'checkbox' : 'checkbox_outline_box'}}</md-icon>
-                        {{!$ctrl.selected ? 'Выделить' : 'Снять выделение'}}
+                        <span translate="{{!$ctrl.selected ? 'calendar.action.select' : 'calendar.action.deselect'}}"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.onDelete({items: $ctrl.items})">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                        Удалить</md-button></md-menu-item>
+                        <span translate="calendar.action.delete"></span>
+                    </md-button>
+                </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.onCopy({items: $ctrl.items})">
                         <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-                        Скопировать</md-button></md-menu-item>
+                        <span translate="calendar.action.copy"></span>
+                    </md-button>
+                </md-menu-item>
                 <md-menu-item ng-if="$ctrl.copiedItemsLength > 0">
                     <md-button ng-click="$ctrl.onPaste({date: $ctrl.week.subItem[0].date})">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
-                        Вставить<span ng-if="$ctrl.copiedItemsLength > 0">&nbsp;({{$ctrl.copiedItemsLength}})</span>
+                        <span translate="calendar.action.paste"></span>
+                        <span ng-if="$ctrl.copiedItemsLength > 0">&nbsp;({{$ctrl.copiedItemsLength}})</span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>

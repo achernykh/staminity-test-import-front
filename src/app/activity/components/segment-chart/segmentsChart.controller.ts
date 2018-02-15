@@ -378,23 +378,23 @@ class SegmentChartController implements IComponentController {
                 const intervalId = d3.select(this).attr("data-interval-id");
                 const interval = self.intervals[intervalId];
                 self.$tooltip.select(".index").text(parseInt(intervalId) + 1);
-                self.$tooltip.selectAll(".duration").attr("class", "duration " + interval.durationMeasure);
-                self.$tooltip.selectAll(".intensivity").attr("class", "intensivity " + interval.intensityMeasure);
+                self.$tooltip.selectAll("p.duration").attr("class", "duration " + interval.durationMeasure);
+                self.$tooltip.selectAll("p.intensivity").attr("class", "intensivity " + interval.intensityMeasure);
                 // update plan info
                 const plan = self.$tooltip.select(".plan");
                 const domain = interval.durationMeasure;
-                plan.select(".duration").text(
+                plan.select("span.duration").text(
                     interval.plan[domain].duration > 0 ?
-                    (LabelFormatters[domain].formatter(interval.plan[domain].duration) + LabelFormatters[domain].label) : "-");
-                plan.select(".intensivity").text(interval.plan.intensityByFtp > 0 ?
-                    (interval.plan.intensityByFtp.toFixed(0) + " %") : "-");
+                    (LabelFormatters[domain].formatter(interval.plan[domain].duration)) : "-");
+                plan.select("span.intensivity").text(interval.plan.intensityByFtp > 0 ?
+                    (interval.plan.intensityByFtp.toFixed(0)) : "-");
                 // update fact info if presented
                 if (self.actualFtp) {
                     const fact = self.$tooltip.select(".fact");
-                    fact.select(".duration").text(interval.fact[domain].duration > 0 ?
-                        (LabelFormatters[domain].formatter(interval.fact[domain].duration) + LabelFormatters[domain].label) : "-");
-                    fact.select(".intensivity").text(interval.fact.intensityByFtp > 0 ?
-                        (LabelFormatters.ftp.formatter(interval.fact.intensityByFtp) + LabelFormatters.ftp.label) : "-");
+                    fact.select("span.duration").text(interval.fact[domain].duration > 0 ?
+                        (LabelFormatters[domain].formatter(interval.fact[domain].duration)) : "-");
+                    fact.select("span.intensivity").text(interval.fact.intensityByFtp > 0 ?
+                        (LabelFormatters.ftp.formatter(interval.fact.intensityByFtp)) : "-");
                 }
             }).on("mouseover.tooltip", function() {
                 d3.selectAll(".tooltip_line").style("display", "block");

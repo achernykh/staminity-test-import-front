@@ -42,13 +42,13 @@
                             <md-icon class="material-icons" md-menu-align-target aria-label="checkbox"
                                      ng-bind="!$ctrl.selected ? 'checkbox' : 'checkbox_outline_box'">
                             </md-icon>
-                            <span ng-bind="!$ctrl.selected ? 'Выделить' : 'Снять выделение'"></span>
+                            <span translate="{{!$ctrl.selected ? 'calendar.action.select' : 'calendar.action.deselect'}}"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.onDelete({items:$ctrl.data.calendarItems})">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                            Удалить
+                            <span translate="calendar.action.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
@@ -56,23 +56,22 @@
                                    aria-label="copy">
                             <md-icon class="material-icons" md-menu-align-target aria-label="copy">content_copy
                             </md-icon>
-                            <span>Скопировать</span>
+                            <span translate="calendar.action.copy"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="$ctrl.copiedItemsLength > 0">
                         <md-button ng-click="$ctrl.onPaste({date: $ctrl.data.date})" aria-label="paste">
-                            <md-icon class="material-icons" md-menu-align-target aria-label="paste">content_paste
-                            </md-icon>
-                            Вставить ({{$ctrl.copiedItemsLength}})
+                            <md-icon class="material-icons" md-menu-align-target aria-label="paste">content_paste</md-icon>
+                            <span translate="calendar.action.paste"></span>
+                            <span ng-if="$ctrl.copiedItemsLength > 0">&nbsp;({{$ctrl.copiedItemsLength}})</span>
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
+                    <!--<md-menu-item ng-if="$ctrl.calendar.buffer.length > 0">
                         <md-button ng-click="$ctrl.calendar.onPostPlan($event)" aria-label="plan">
-                            <md-icon class="material-icons" md-menu-align-target aria-label="plan">content_paste
-                            </md-icon>
+                            <md-icon class="material-icons" md-menu-align-target aria-label="plan">content_paste</md-icon>
                             Создать тренировочный план ({{$ctrl.calendar.buffer.length}})
                         </md-button>
-                    </md-menu-item>
+                    </md-menu-item>-->
                 </md-menu-content>
             </md-menu>
         </div>

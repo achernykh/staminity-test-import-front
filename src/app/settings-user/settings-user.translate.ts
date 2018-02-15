@@ -2,6 +2,10 @@ export const _translate = {
     ru: {
         fullTitle: 'Настройки пользователя',
         shortTitle: 'Настройки',
+        actions: {
+            edit: 'Изменить',
+            resetPass: 'Новый пароль'
+        },
         personalInfo: {
             header: 'Персональная информация',
             hint: 'Подсказка, пояснение по блоку информации...',
@@ -18,6 +22,7 @@ export const _translate = {
                 lastName: 'Фамилия',
                 sex: 'Пол',
                 birthday: 'День рождения',
+                birthdayLabel: 'День рождения в формате ',
                 country: 'Страна',
                 city: 'Город',
                 uri: 'Ваш профиль: staminity.com/user/'
@@ -104,7 +109,8 @@ export const _translate = {
             header: 'Учетная запись',
             hint: 'Пояснение, подсказка....',
             email: 'Логин',
-            password: 'Пароль'
+            password: 'Пароль',
+            info: 'Ваша учетная запись'
         },
         billing: {
             tariffsHeader: 'Тарифные планы',
@@ -325,7 +331,7 @@ export const _translate = {
         zones: {
             header: 'Тренировочные зоны',
             hint: 'Подсказка, пояснение по блоку информации...',
-
+            measures: 'Показатели',
             addSport: 'Добавить спорт',
             editZones: 'Изменить зоны',
             deleteZones: 'Удалить зоны',
@@ -428,6 +434,10 @@ export const _translate = {
     en: {
         fullTitle: 'User settings',
         shortTitle: 'settings',
+        actions: {
+            edit: 'Edit',
+            resetPass: 'New password'
+        },
         personalInfo: {
             header: 'Personal info',
             hint: '',
@@ -444,6 +454,7 @@ export const _translate = {
                 lastName: 'Last name',
                 sex: 'Sex',
                 birthday: 'Birthday',
+                birthdayLabel: 'Set birthday as ',
                 country: 'Country',
                 city: 'City',
                 uri: 'Your profile: staminity.com/user/'
@@ -529,7 +540,8 @@ export const _translate = {
             header: 'Account',
             hint: 'Account',
             email: 'E-mail',
-            password: 'Password'
+            password: 'Password',
+            info: 'Your account'
         },
         billing: {
             tariffsHeader: 'Tariffs',
@@ -743,7 +755,7 @@ You will lost your tariff functions from [{{validThrough}}], after the end of pr
         zones: {
             header: 'Training zones',
             hint: 'Training zones',
-
+            measures: 'Measures',
             addSport: 'Add activity type',
             editZones: 'Change zones',
             deleteZones: 'Delete zones',
@@ -752,7 +764,7 @@ You will lost your tariff functions from [{{validThrough}}], after the end of pr
             zoneTo: 'To',
 
             calculation: {
-                method: 'Method',
+                method: 'Calculation method',
                 choose: 'Choose available method',
                 lactateThreshold: 'FTP',
                 restingAndMax: 'Min and max',

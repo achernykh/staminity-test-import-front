@@ -90,10 +90,12 @@ const MeasureMainButtonComponent: IComponentOptions = {
     controller: MeasureMainButtonCtrl,
     template: `
         <md-list class="md-dense">
-            <md-list-item>
-                <p class="md-caption" style="color: #455A64">Основные показатели</p>
-                <md-icon ng-click="$ctrl.link('https://help.staminity.com/ru/basics/measures.html')" class="material-icon md-secondary">help_outline</md-icon>
-            </md-list-item>
+             <md-subheader>
+                <div layout="row">
+                    <span flex translate="activity.details.measures.general" style="line-height: 40px"></span>
+                     <md-icon flex-none ng-click="$ctrl.link('https://help.staminity.com/ru/basics/measures.html')" class="material-icon md-secondary">help_outline</md-icon>
+                </div>
+            </md-subheader>
             <div layout="row" ng-repeat-start="data in $ctrl.$scope.data" ng-if="$ctrl.check(data)" style="padding: 0px 16px 8px 16px">
                 <div flex="33" ng-repeat="m in data.measure">
                     <div ng-if="$ctrl.calcMeasures.hasOwnProperty(m) && $ctrl.calcMeasures[m].hasOwnProperty('value')"

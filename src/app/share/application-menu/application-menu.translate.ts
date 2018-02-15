@@ -4,6 +4,8 @@ export const _application_menu = {
         clubManagement: 'Члены клуба',
         clubDashboard: 'Дэшборд клуба',
         clubMethodology: 'Методология клуба',
+        athletesManagement: 'Управление спортсменами',
+        athletesDashboard: 'Дэшборд',
         calendar: 'Календарь',
         search: 'Поиск',
         reference: 'Шаблоны и категории',
@@ -14,13 +16,16 @@ export const _application_menu = {
         groups: 'Группы',
         athletes: 'Спортсмены',
         methodology: 'Методология',
-        admin: 'Панель администрирования'
+        admin: 'Панель администрирования',
+        staminity: 'Стаминити'
     },
     en: {
         clubProfile: 'Club profile',
         clubManagement: 'Club members',
         clubDashboard: 'Club dashboard',
         clubMethodology: 'Club methodology',
+        athletesManagement: 'My athletes',
+        athletesDashboard: 'My dashboard',
         calendar: 'Calendar',
         search: 'Search',
         reference: 'Templates & Categories',
@@ -31,6 +36,7 @@ export const _application_menu = {
         groups: 'Groups',
         athletes: 'Athletes',
         methodology: 'Methodology',
-        admin: 'Admin panel'
+        admin: 'Admin panel',
+        staminity: 'Staminity'
     }
 };

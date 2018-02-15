@@ -2,18 +2,49 @@ export const translateActivity = {
   ru: {
       title: 'Тренировка',
       action: {
-          open: 'Открыть',
+          save: 'Сохранить',
+          toTemplate: 'В Шаблон',
           edit: 'Изменить',
+          reset: 'Отменить',
           delete: 'Удалить',
+          open: 'Открыть',
           copy: 'Скопировать',
           select: 'Выделить',
-          close: 'Закрыть'
+          close: 'Закрыть',
+          settings: 'Настройки',
+          addAthletes: 'Добавить атлета',
       },
-      save: 'Сохранить',
-      toTemplate: 'В Шаблон',
-      edit: 'Изменить',
-      reset: 'Отменить',
-      delete: 'Удалить',
+      details: {
+          measures: {
+            title: 'Показатели мин/сред/макс',
+            general: 'Основные показатели',
+            code: 'Показатель(ед.изм)',
+            unit: 'Ед.изм',
+            min: 'Мин',
+            avg: 'Сред',
+            max: 'Макс'
+          },
+          peaks: {
+              title: 'Пики'
+          },
+          map: {
+              title: "Маршрут",
+          },
+          table: {
+              laps: "Отрезки",
+              segments: "Сегменты",
+          },
+          chart: {
+              title: 'График',
+              measures: "График: Показатели",
+              segments: "График: Сегменты",
+
+          },
+      },
+      athleteSelector: {
+          title: "Выберите атлета",
+          recalculate: "Пересчитать от ПАНО",
+      },
       plan: 'План',
       actual: 'Факт',
       measureUnitFull: 'Показатель(ед.изм)',
@@ -35,6 +66,7 @@ export const translateActivity = {
       },
       segments: {
           total: 'Итоги:',
+          result: 'Результат %',
           group: 'Группы',
           key: 'Ключевой',
           add: {
@@ -52,13 +84,16 @@ export const translateActivity = {
           }
       },
       template: {
-          title: 'Выберите шаблон',
+          title: 'Шаблон',
+          placeholder: 'Выберите шаблон',
           enable: 'Есть шаблоны',
           empty: 'Шаблонов нет',
           favorite: 'Избранный',
-          namePlaceholder: 'Укажите название шаблона'
+          namePlaceholder: 'Укажите название шаблона',
+          code: 'Шаблон {{code}}'
       },
       split: {
+          all: 'Вся тренировка',
           segment: 'Сегмент',
           segmentGroup: 'Серия сегментов x{{count}}',
           interval: 'Отрезок'
@@ -79,18 +114,49 @@ export const translateActivity = {
     en: {
         title: 'Activity',
         action: {
-            open: 'Open',
+            save: 'Save',
+            toTemplate: 'Save as template',
             edit: 'Edit',
+            reset: 'Cancel',
+            open: 'Open',
             delete: 'Delete',
             copy: 'Copy',
             select: 'Select',
-            close: 'Close'
+            close: 'Close',
+            settings: 'Settings',
+            addAthletes: 'Add athletes',
         },
-        save: 'Save',
-        toTemplate: 'Save as template',
-        edit: 'Edit',
-        reset: 'Cancel',
-        delete: 'Delete',
+        details: {
+            measures: {
+                title: 'Measures min/avg/max',
+                general: 'General measures',
+                code: 'Measure(unit)',
+                unit: 'Unit',
+                min: 'Min',
+                avg: 'Avg',
+                max: 'Max'
+            },
+            peaks: {
+                title: 'Peaks'
+            },
+            map: {
+                title: "Map",
+            },
+            table: {
+                laps: "Laps",
+                segments: "Segments",
+            },
+            chart: {
+                title: 'Chart',
+                measures: "Measures chart",
+                segments: "Segments chart",
+
+            },
+        },
+        athleteSelector: {
+            title: "Select athlete",
+            recalculate: "Recalculate from FTP",
+        },
         plan: 'Planned',
         actual: 'Completed',
         measureUnitFull: 'Unit',
@@ -111,6 +177,7 @@ export const translateActivity = {
         },
         segments: {
             total: 'Total:',
+            result: 'Complete %',
             group: 'Group',
             key: 'Key',
             add: {
@@ -128,13 +195,15 @@ export const translateActivity = {
             }
         },
         template: {
-            title: 'Choose template',
+            title: 'Template',
+            placeholder: 'Choose template',
             enable: 'Templates available',
             empty: 'Templates not available',
             favorite: 'Favorite',
             namePlaceholder: 'Name required'
         },
         split: {
+            all: 'Activity',
             segment: 'Segment',
             segmentGroup: 'Segment group x{{count}}',
             interval: 'Interval'

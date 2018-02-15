@@ -10,9 +10,13 @@ export const _translate = {
             paste: 'Вставить',
             delete: 'Удалить',
             post: 'Создать',
-            detail: 'Подробно'
+            detail: 'Подробно',
+            select: 'Выделить',
+            deselect: 'Снять выделение'
         },
-        templates: "Шаблоны"
+        templates: "Шаблоны",
+        week: 'Неделя',
+        totals: 'Итоги'
     },
     en: {
         fullTitle: 'Calendar',
@@ -25,8 +29,12 @@ export const _translate = {
             paste: 'Paste',
             delete: 'Delete',
             post: 'Create',
-            detail: 'Details'
+            detail: 'Details',
+            select: 'Select',
+            deselect: 'Deselect'
         },
-        templates: "Templates"
+        templates: "Templates",
+        week: 'Week',
+        totals: 'Summary'
     }
 };

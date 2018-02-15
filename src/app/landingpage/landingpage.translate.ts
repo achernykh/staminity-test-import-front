@@ -2,8 +2,8 @@ export let _translate = {
     ru: {
         // Стартовая страница
 
-        fullTitle: "Сервис для работы с тренером и календарь тренировок Staminity | Стаминити",
-        shortTitle: "Сервис для работы с тренером и календарь тренировок Staminity | Стаминити",
+        fullTitle: "Приложение для работы с тренером и календарь тренировок Staminity | Стаминити",
+        shortTitle: "Приложение для работы с тренером и календарь тренировок Staminity | Стаминити",
         description: "Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов",
         keywords: "программа для работы с тренером, приложение для работы с тренером, приложение для тренера, программа для тренера, работа с тренером, занятия с тренером, бег, триатлон, плавание, календарь тренировок, тренировочный календарь, работа с учениками, Стаминити, Staminity, дистанционная работа с тренером",
         nav: {
@@ -17,7 +17,7 @@ export let _translate = {
         },
         welcome: {
             promo: "β-версия",
-            description: "Приложение для работы с тренером и календарь тренировок",
+            description: "Тренируйся грамотно и достигай своих целей",
             title1: "ПЛАН ТВОИХ ПОБЕД",
             title2: "ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ",
             button: "Старт",
@@ -42,13 +42,13 @@ export let _translate = {
             subtitle: "",
             desktop: {
                 title: "С компьютера",
-                description: "Все возможности Стаминити доступны через браузер на компьютере. Подключайтесь с помощью Google Chrome, Opera, Firefox или Safari.<br>" +
+                description: "Работайте через Google Chrome, Opera, Firefox или Safari.<br>" +
                 "Пока не поддерживаем Internet explorer и Edge",
             },
             mobile: {
                 title: "Со смартфона",
-                description: 'Если компьютер далеко, заходите к нам через браузер смартфона и планшета, работайте в <a flex href="https://help.staminity.com/ru/basics/staminity-for-mobile.html">специальной версии сайта для мобильных устройств</a><br>' +
-                "Мобильные приложения для IOS и Android в разработке, об их выпуске мы сообщим отдельно",
+                description: 'Для браузера смартфона и планшета создана <a flex href="https://help.staminity.com/ru/basics/staminity-for-mobile.html">специальная версия сайта для мобильных устройств</a><br>' +
+                "Доступны бета-версии приложений для IOS и Android",
             },
         },
         scheme: {
@@ -56,18 +56,15 @@ export let _translate = {
             subtitle: "",
             step1 : {
                 title: "Запланировать",
-                description: "Получайте задание от тренера на каждую тренировку или планируйте самостоятельно. <br/>" +
-                "Ваш календарь тренировок покажет не только выполненные задания, но и созданный план",
+                description: "Получайте задание от тренера на каждую тренировку или планируйте самостоятельно",
             },
             step2 : {
                 title: "Выполнить",
-                description: "Тренируйтесь в спортивных часах или со смартфоном, а мы загрузим ваши тренировки и сопоставим их с планом. <br/>" +
-                "Уже работает автоматическая загрузка из Garmin Connect и Strava, скоро появится прямая загрузка из Polar и Suunto",
+                description: "Тренируйтесь в спортивных часах или со смартфоном, а мы загрузим ваши тренировки и сопоставим их с планом",
             },
             step3 : {
                 title: "Проанализировать",
-                description: "Анализируйте вместе с тренером как прошла тренировка в целом или отдельные рабочие отрезки. <br/>" +
-                "Уже доступен детальный анализ одной тренировки, скоро появится анализ показателей в динамике по выбранным занятиям",
+                description: "Анализируйте вместе с тренером как прошла тренировка в целом или отдельные рабочие отрезки"
             },
         },
         features: {
@@ -79,21 +76,21 @@ export let _translate = {
                 title2: "Тренируйтесь",
                 text2: "Выполняйте задания и анализируйте их. Записанные треки тренировок попадут в ваш тренировочный дневник и будут сопоставлены с планом",
                 title3: "Общайтесь",
-                text3: "Общайтесь с тренером, обсуждайте детали задания, отчитывайтесь о выполнении. А скоро появятся комментарии друзей и подписчиков",
+                text3: "Общайтесь с тренером, обсуждайте детали задания, отчитывайтесь о выполнении",
                 carousel1: {
                     title: "Тренировочный календарь",
-                    description: "Тренировочный календарь покажет расписание тренировок на неделю. <br/>" +
+                    description: "Тренировочный календарь покажет расписание тренировок на неделю. <br/> <br/>" +
                     "Он поможет оценить план и итоги недели, а также статус выполнения каждой тренировки",
                 },
                 carousel2: {
                     title: "План и факт по тренировке",
-                    description: "Обзор тренировки поможет оценить корректность выполнения плана с учетом установки тренера и сравнения плановых показателей с фактом. <br/>" +
-                    "В чате с тренером, доступным в каждой тренировке, наставник увидит ваш отчет и ответит на вопросы по заданию",
+                    description: "Обзор тренировки покажет корректность выполнения плана <br/> <br/>" +
+                    "В чате с тренером наставник увидит ваш отчет и ответит на вопросы по заданию",
                 },
                 carousel3: {
                     title: "Aнализ выполненной тренировки",
-                    description: "Проанализировать выполненную тренировку помогут интерактивный график, карта и панель кругов, расчетные показатели и пики, время в зонах. <br/>" +
-                    "Если нужны детали, поможет подробный график в масштабе и рассчитанные показатели и пики по любому произвольному отрезку тренировки",
+                    description: "Все, что нужно, для анализа выполнения задания на тренировку.  <br/> <br/>" +
+                    "График интенсивности, рассчитанные показатели и пиковые значения по всей тренировке, любому кругу, сегменту и произвольному отрезку",
                 },
             },
             coaches: {
@@ -107,9 +104,7 @@ export let _translate = {
                 text3: "Узнавайте о выполнении спортсменами заданий, получайте подробную информацию по ним. Мы рассчитаем процент выполнения и основные показатели по отдельным сегментам и в целом по тренировке",
                 carousel1: {
                     title: "Дэшборд тренера – недельный обзор по ученикам",
-                    description: "Для тренера доступен не только календарь спортсмена, но и сводный дэшборд. <br/>" +
-                    "Он покажет тренировочную неделю по всем ученикам, поможет запланировать тренировки и проанализировать их выполнение. " +
-                    "Из дэшборда можно перейти в календарь спортсмена, в настройки его тренировочных зон и порогов.",
+                    description: "Дэшборд тренера покажет тренировочную неделю по всем ученикам, поможет запланировать тренировки и проанализировать их выполнение",
                 },
                 /*
                 carousel1: {
@@ -140,7 +135,7 @@ export let _translate = {
 
                 carousel1: {
                     title: "Управление клубом",
-                    description: "Руководитель клуба может управлять составом клуба, назначать тренеров и распределять спортсменов между ними. <br/>" +
+                    description: "Руководитель клуба может управлять составом клуба, назначать тренеров и распределять спортсменов между ними. <br/><br/>" +
                     "В больших клубах можно назначить администраторов и делегировать им принятие новых членов в клуб и управление их ролями",
                 },
                 /*
@@ -163,7 +158,7 @@ export let _translate = {
         footer: {
             block1 : {
                 title: "Приложение",
-                link1: '<a flex href="#howitworks" class="md-body md-light">Как это работает</a>',
+                link1: '<a flex href="https://help.staminity.com/ru/about/staminity.html" target="_blank" class="md-body md-light">Обзор функций</a>',
                 link2: '<a flex href="#athletes" class="md-body md-light">Для спортсменов</a>',
                 link3: '<a flex href="#coaches" class="md-body md-light">Для тренеров</a>',
                 link4: '<a flex href="#clubs" class="md-body md-light">Для клубов</a>',
@@ -227,14 +222,14 @@ export let _translate = {
                 func7: "+ Планирование своих тренировок",
                 func8: "+ Детальный анализ тренировок",
                 func9: "+ Управление своими шаблонами и категориями тренировок",
-                func10: "<i>+ (СКОРО) Отчетность и анализ по процессу тренировок</i>",
+                func10: "+ Отчетность и анализ по процессу тренировок",
                 func11: "Дневник тренировок учеников",
                 func12: "Планирование тренировок и общение с учениками",
                 func13: "Детальный анализ выполненных тренировок",
                 func14: "Управление шаблонами и категориями тренировок",
                 func15: "Сводный дэшборд",
-                func16: "<i>(СКОРО) Отчетность и анализ по процессу тренировок учеников</i>",
-                func17: "<i>(СКОРО) Тренировочные планы</i>",
+                func16: "Отчетность и анализ по процессу тренировок учеников",
+                func17: "Тренировочные планы",
                 func18: "<strong>Функции тренера в рамках клуба</strong>",
                 func19: "+ Подключение дополнительных тренеров",
                 func20: "+ Назначение тренеров для учеников клуба",
@@ -246,15 +241,15 @@ export let _translate = {
             byMonth: "/мес",
             byYear: "/год",
 
-            coachAthletes: "{{athlete | currency}}/мес за ученика. \n" +
+            coachAthletes: "{{athlete | number:0}} {{'rub' | translate}}/мес за ученика. \n" +
             "{{minAthletes}} ученик включен в абонентскую плату. \n" +
             "Оплачивается не более {{maxAthletes}} учеников, с {{maxAthletes + 1}} - бесплатно",
 
-            clubAthletes: "{{athlete | currency}}/мес за ученика клуба.  \n" +
+            clubAthletes: "{{athlete | number:0}} {{'rub' | translate}}/мес за ученика клуба.  \n" +
             "{{minAthletes}} ученик для каждого тренера клуба не оплачивается. \n" +
             "Оплачивается не более {{maxAthletes}} учеников на каждого тренера.",
 
-            clubCoaches: "{{coach | currency}}/мес за тренера клуба.  \n" +
+            clubCoaches: "{{coach | number:0}} {{'rub' | translate}}/мес за тренера клуба.  \n" +
             "{{minCoaches}} тренер включен в абонентскую плату. \n",
 
             calc: {
@@ -288,7 +283,7 @@ export let _translate = {
         },
         welcome: {
             promo: "β-version",
-            description: "Workout log and online training application",
+            description: "Train smart and achieve your goals",
             title1: "ПЛАН ТВОИХ ПОБЕД",
             title2: "ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ",
             button: "Start",
@@ -313,13 +308,13 @@ export let _translate = {
             subtitle: "",
             desktop: {
                 title: "From your desktop",
-                description: "Full version is avalable from your desktop browser. Connect to Staminity with Google Chrome, Opera, Firefox или Safari. <br>" +
+                description: "Connect to Staminity from Google Chrome, Opera, Firefox or Safari. <br>" +
                 "Internet explorer and Edge are not supported right now",
             },
             mobile: {
                 title: "From smartphone",
-                description: "Use your smartphone or tablet browser to get Staminity for mobile special edition. <br>" +
-                "IOS and Android mobile applications are under development and coming soon...",
+                description: "Staminity for mobile is available from your smartphone or tablet browser. <br>" +
+                "Staminity for Android (beta) is available in Google play. Join our <a flex href=\"https://help.staminity.com/ru/beta-ios.html\">beta program</a> to get Staminity for IOS",
             },
         },
         scheme: {
@@ -327,18 +322,14 @@ export let _translate = {
             subtitle: "",
             step1 : {
                 title: "Plan",
-                description: "Get plan for every workout from your coach or create it by yourself. <br/>" +
-                "Planned and completed workouts will be shown in your calendar",
+                description: "Get plan for every workout from your coach or create it by yourself",
             },
             step2 : {
-                title: "Train",
-                description: "Record your workouts with your favorite sport watch or application and they will be uploaded automatically and matched with plan. <br/>" +
-                "Auto sync from Garmin Connect and Strava is available now, others coming soon. To upload activities from others, just connect them to Strava.",
-            },
+                title: "Complete",
+                description: "Record your workouts with your favorite sport watch or application and they will be uploaded automatically and matched with plan"            },
             step3 : {
                 title: "Analyze",
-                description: "Analyze your workouts with your coach. Review the metrics for whole activity or single segment, go deep by select any section to gain understanding of your performance. <br/>" +
-                "Deep analysis of single workout is available now, other reports and analytics coming soon",
+                description: "Analyze your workouts with your coach. Review the metrics for whole activity or single segment, go deep by select any section to gain understanding of your performance"
             },
         },
         features: {
@@ -353,20 +344,20 @@ export let _translate = {
                 text3: "Chat with coach, discuss workouts details, write short workout review. Comments from your friends and subsrcibers are coming soon",
                 carousel1: {
                     title: "Workout calendar",
-                    description: "Workout calendar shows training plan and completed workouts, events, measurements and races. <br/>" +
+                    description: "Workout calendar shows training plan and completed workouts, events, measurements and competitions. <br/><br/>" +
                     "It helps to understand the status for every workout, calculate week totals and week status",
                 },
                 carousel2: {
                     title: "Plan and fact",
-                    description: "Workout summary helps you to estimate the plan completeness, compare the workout goal with actual performance and key metrics.<br/>" +
+                    description: "Workout summary helps you to estimate the plan completeness, compare the workout goal with actual performance and key metrics.<br/><br/>" +
                     "Your coach will receive your workout report and answer to your questions in Chat, available for every workout",
                 },
                 carousel3: {
-                    title: "Deep analysis",
-                    description: "There is a set of capabilities to help to deeply analyse the workout. These are interactive chart, the set of calculated metrics, " +
-                    "laps and segments sheet, calculated time in zones sheet for every intensity metric, time and distance peeks <br/>" +
-                    "Need more details about any special workout segment? Just select it on chart and we zoom the chart and calculate metrics and peaks",
+                    title: "Deep analysis of completed workout",
+                    description: "All what you need to analyze any completed workout. <br/><br/> " +
+                    "Interactive charts, calculated metrics and peaks, time in zones for whole activity, every lap, segment and any selected interval",
                 },
+
             },
             coaches: {
                 title: "For coaches",
@@ -380,8 +371,7 @@ export let _translate = {
                 text3: "Get detailed info about every completed workout. We calculate the percent of completeness and necessary metrics for whole activity, every lap and selected segment.",
                 carousel1: {
                     title: "Coach dashboard – week review for all connected athletes",
-                    description: "Dashbord is available only for coaches. <br/>" +
-                    "It shows training week for all connected athletes, helps to plan and analyze workouts. From dashbord coach could get an access to athlete's calendar, change athlete's zones and FTP settings.",
+                    description: "It shows training week for all connected athletes, helps to plan and analyze workouts",
                 },
                 /*
                  carousel1: {
@@ -435,7 +425,7 @@ export let _translate = {
         footer: {
             block1 : {
                 title: "Staminity",
-                link1: '<a flex href="#howitworks" class="md-body md-light">How it works</a>',
+                link1: '<a flex href="https://help.staminity.com/en/about/staminity.html" target="_blank" class="md-body md-light">Features</a>',
                 link2: '<a flex href="#athletes" class="md-body md-light">For athletes</a>',
                 link3: '<a flex href="#coaches" class="md-body md-light">For coaches</a>',
                 link4: '<a flex href="#clubs" class="md-body md-light">For clubs</a>',
@@ -500,34 +490,34 @@ export let _translate = {
                 func7: "+ Plan your workouts",
                 func8: "+ Analyze workouts in details",
                 func9: "+ Manage categories and workout templates",
-                func10: "<i>+ (SOON) Repors and analytics</i>",
+                func10: "+ Repors and analytics",
                 func11: "Workout log for every athlete",
                 func12: "Plan workouts and chat with athletes",
                 func13: "Analyze athlete's workouts in details",
                 func14: "Manage categories and workout templates",
                 func15: "Coach dashboard",
-                func16: "<i>(SOON) Reports and analytics for coach</i>",
-                func17: "<i>(СКОРО) Manage training plans </i>",
+                func16: "Reports and analytics for coach",
+                func17: "Create and manage training plans",
                 func18: "<strong>All Coach functions for club athletes +:</strong>",
                 func19: "+ Connect additional coaches",
                 func20: "+ Assign coaches to club athletes",
                 func21: "+ Manage club categories and workout templates",
                 func22: "+ Club dashboard",
                 func23: "<i>+ (SOON) Reports and analytics for club</i>",
-                func24: "<i>+ (СКОРО) Manage training plans</i>",
+                func24: "<i>+ (SOON) Manage training plans</i>",
             },
             byMonth: "/ month",
             byYear: "/year",
 
-            coachAthletes: "{{athlete | currency}}/month per athlete. \n" +
+            coachAthletes: "{{athlete | number:0}} {{'rub' | translate}}/month per athlete. \n" +
             "{{minAthletes}} athletes included in subscription fee. \n" +
             "Pay maximum for {{maxAthletes}} athletes, {{maxAthletes + 1}}-th and above are free",
 
-            clubAthletes: "{{athlete | currency}}/month per club athlete.  \n" +
+            clubAthletes: "{{athlete | number:0}} {{'rub' | translate}}/month per club athlete.  \n" +
             "{{minAthletes}} free athlete for every club coach included. \n" +
             "Pay maximum for {{maxAthletes}} athletes for every club coach",
 
-            clubCoaches: "{{coach | currency}}/month per club coach.  \n" +
+            clubCoaches: "{{coach | number:0}} {{'rub' | translate}}/month per club coach.  \n" +
             "{{minCoaches}} club coach included in subscription fee. \n",
 
             calc: {
@@ -543,5 +533,5 @@ export let _translate = {
             },
         },
 
-    },
+    }
 };

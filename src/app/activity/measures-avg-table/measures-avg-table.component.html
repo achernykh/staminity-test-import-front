@@ -1,5 +1,5 @@
 <md-table-container>
-    <md-subheader>Показатели мин/сред/макс</md-subheader>
+    <md-subheader><span translate="activity.details.measures.title"></span></md-subheader>
     <md-list-item>
         <table md-table
                md-row-select="$ctrl.options.rowSelection"
@@ -7,21 +7,24 @@
                ng-model="$ctrl.selected">
             <thead ng-if="!$ctrl.options.decapitate" md-head>
             <tr md-row>
-                <th md-column><span>#</span></th>
-                <th md-column hide-xs><span>Показатель(ед.изм)</span></th>
-                <th md-column hide-gt-xs><span>Ед.изм</span></th>
-                <th md-column md-numeric><span>Мин</span></th>
-                <th md-column md-numeric><span>Сред</span></th>
-                <th md-column md-numeric><span>Макс</span></th>
+                <th md-column hide-xs><span translate="activity.details.measures.code"></span></th>
+                <th md-column hide-gt-xs><span translate="activity.details.measures.unit"></span></th>
+                <th md-column md-numeric><span translate="activity.details.measures.min"></span></th>
+                <th md-column md-numeric><span translate="activity.details.measures.avg"></span></th>
+                <th md-column md-numeric><span translate="activity.details.measures.max"></span></th>
             </tr>
             </thead>
             <tbody md-body>
             <tr md-row ng-repeat="measure in $ctrl.calcMeasures | toArray | filter:search track by measure.$key">
-                <td md-cell><md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon></td>
-                <td md-cell hide-xs class="md-caption md-dark md-inactive" style="font-size: 12px">
-                    {{measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})</td>
-                <td md-cell hide-gt-xs class="md-caption md-dark md-inactive">
-                    {{measure.$key | measureUnit:$ctrl.sport | translate}}</td>
+                <td md-cell>
+                    <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="dark-active"></md-icon>
+                    <span hide-xs class="md-caption md-dark md-inactive" style="font-size: 12px">
+                        {{measure.$key | translate}}&nbsp({{measure.$key | measureUnit:$ctrl.sport | translate}})
+                    </span>
+                    <span hide-gt-xs class="md-caption md-dark md-inactive">
+                        {{measure.$key | measureUnit:$ctrl.sport | translate}}
+                    </span>
+                </td>
                 <td md-cell class="md-body-2 md-dark" style="font-size: 14px">{{measure.minValue | measureCalc:$ctrl.sport:measure.$key}}</td>
                 <td md-cell class="md-body-2 md-dark" style="font-size: 14px">{{measure.avgValue | measureCalc:$ctrl.sport:measure.$key}}</td>
                 <td md-cell class="md-body-2 md-dark" style="font-size: 14px">{{measure.maxValue | measureCalc:$ctrl.sport:measure.$key}}</td>

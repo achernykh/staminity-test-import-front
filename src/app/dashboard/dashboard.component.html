@@ -5,7 +5,9 @@
             <md-menu-bar>
                 <md-menu>
                     <button ng-click="$mdMenu.open()">
-                        <span class="md-caption">{{$ctrl.athletes.members.length}} атлетов</span>
+                        <span class="md-caption">
+                            {{$ctrl.athletes.members.length}} {{'dashboard.athletes' | translate}}
+                        </span>
                         <div ng-if="$ctrl.athletes.members.length > $ctrl.viewAthletes.length" style="display: inline-block">
                             <md-icon class="material-icons md-light md-inactive">visibility_off</md-icon>
                             <span class="md-caption">{{$ctrl.athletes.members.length-$ctrl.viewAthletes.length}}</span>
@@ -29,7 +31,8 @@
                        ng-click="$ctrl.changeOrder(false)">
                 <md-icon class="material-icons md-18" aria-label="Back">arrow_downward</md-icon>
             </md-button>
-            <span class="md-caption">Неделя с {{$ctrl.toolbarDate() | date:'longDate'}}</span>
+            <span class="md-caption" translate="dashboard.week"
+                  translate-values="{date: $ctrl.toolbarDate()}"></span>
             <md-button class="md-icon-button md-primary" aria-label="Settings" style="margin: 0px"
                        ng-click="$ctrl.prev()">
                 <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
@@ -41,9 +44,9 @@
         </section>
         <section id="dashboard" class="content animated zoomIn">
             <md-toolbar class="dashboard-header md-caption md-dark md-whiteframe-1dp bg-grey-300" hide show-gt-sm>
-                <div class="athlete">Атлет</div>
+                <div class="athlete" translate="dashboard.athlete"></div>
                 <div class="day" style="text-transform: capitalize" ng-repeat="day in $ctrl.weekdayNames">{{day}}</div>
-                <div class="total" hide show-gt-md>Итоги</div>
+                <div class="total" hide show-gt-md translate="dashboard.summary"></div>
             </md-toolbar>
             <section class="dashboard-grid bg-grey-200">
                 <div class="dashboard-week"

@@ -5,7 +5,7 @@
     </section>
     <md-list class="md-dense section">
         <form name="$ctrl.publicForm">
-            <md-subheader>Основная информация</md-subheader>
+            <md-subheader><span translate="settings.personalInfo.header"></span></md-subheader>
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="settings.personalInfo.main.firstName"></label>
@@ -127,7 +127,7 @@
             </md-list-item>
             <md-list-item layout="row" layout-wrap layout-align="start center">
                 <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label>День рождения в формате {{::$ctrl.getDateFormat()}}</label>
+                    <label>{{'settings.personalInfo.main.birthdayLabel' | translate}} {{::$ctrl.getDateFormat()}}</label>
                     <md-datepicker ng-model="$ctrl.user.personal.birthday"
                                    md-hide-icons="calendar"
                                    name="birthday"></md-datepicker>
