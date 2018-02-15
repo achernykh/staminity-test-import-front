@@ -17,7 +17,7 @@ export let _translate = {
         },
         welcome: {
             promo: "β-версия",
-            description: "Приложение для работы с тренером и календарь тренировок",
+            description: "Тренируйся грамотно и достигай своих целей",
             title1: "ПЛАН ТВОИХ ПОБЕД",
             title2: "ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ",
             button: "Старт",
@@ -158,7 +158,7 @@ export let _translate = {
         footer: {
             block1 : {
                 title: "Приложение",
-                link1: '<a flex href="#howitworks" class="md-body md-light">Как это работает</a>',
+                link1: '<a flex href="https://help.staminity.com/ru/about/staminity.html" target="_blank" class="md-body md-light">Обзор функций</a>',
                 link2: '<a flex href="#athletes" class="md-body md-light">Для спортсменов</a>',
                 link3: '<a flex href="#coaches" class="md-body md-light">Для тренеров</a>',
                 link4: '<a flex href="#clubs" class="md-body md-light">Для клубов</a>',
@@ -283,7 +283,7 @@ export let _translate = {
         },
         welcome: {
             promo: "β-version",
-            description: "Workout log and online training application",
+            description: "Train smart and achieve your goals",
             title1: "ПЛАН ТВОИХ ПОБЕД",
             title2: "ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ",
             button: "Start",
@@ -314,7 +314,7 @@ export let _translate = {
             mobile: {
                 title: "From smartphone",
                 description: "Staminity for mobile is available from your smartphone or tablet browser. <br>" +
-                "Staminity for Android (beta) is available in Google play. Join our<a flex href=\"https://help.staminity.com/ru/beta-ios.html\">beta program</a> to get Staminity for IOS",
+                "Staminity for Android (beta) is available in Google play. Join our <a flex href=\"https://help.staminity.com/ru/beta-ios.html\">beta program</a> to get Staminity for IOS",
             },
         },
         scheme: {
@@ -425,7 +425,7 @@ export let _translate = {
         footer: {
             block1 : {
                 title: "Staminity",
-                link1: '<a flex href="#howitworks" class="md-body md-light">How it works</a>',
+                link1: '<a flex href="https://help.staminity.com/en/about/staminity.html" target="_blank" class="md-body md-light">Features</a>',
                 link2: '<a flex href="#athletes" class="md-body md-light">For athletes</a>',
                 link3: '<a flex href="#coaches" class="md-body md-light">For coaches</a>',
                 link4: '<a flex href="#clubs" class="md-body md-light">For clubs</a>',
@@ -504,7 +504,7 @@ export let _translate = {
                 func21: "+ Manage club categories and workout templates",
                 func22: "+ Club dashboard",
                 func23: "<i>+ (SOON) Reports and analytics for club</i>",
-                func24: "<i>+ (СКОРО) Manage training plans</i>",
+                func24: "<i>+ (SOON) Manage training plans</i>",
             },
             byMonth: "/ month",
             byYear: "/year",
