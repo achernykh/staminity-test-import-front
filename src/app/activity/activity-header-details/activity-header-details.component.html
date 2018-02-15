@@ -21,7 +21,7 @@
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.header.sportBasic"
                            select="$ctrl.item.selectionTimestamp"
-                           on-selected="$ctrl.onSelectionRange(select)">График...
+                           on-selected="$ctrl.onSelectionRange(select)">{{'activity.details.chart.title' | translate}}...
     </activity-metrics-char>
 </section>
 <md-divider></md-divider>
@@ -32,9 +32,10 @@
         <md-list-item style="padding-top: 0px">
             <md-input-container class="md-block no-message" md-no-float layout="row">
                 <md-icon class="material-icons">format_list_numbered</md-icon>
-                <md-select flex name="sport" class="icon" multiple="true" placeholder="Вся тренировка"
+                <md-select flex name="sport" class="icon" multiple="true" placeholder="{{'activity.split.all' | translate}}"
                            ng-model="$ctrl.selectedIntervals" ng-change="$ctrl.changeSelect()">
-                    <md-optgroup label="Сегменты" ng-if="$ctrl.item.activity.intervals.P.length > 0">
+                    <md-optgroup label="{{'activity.details.table.laps' | translate}}"
+                                 ng-if="$ctrl.item.activity.intervals.P.length > 0">
                         <md-option ng-repeat="interval in $ctrl.intervals | toArray | filter:{type: 'P'} track by interval.$key"
                                    value="{{interval.$key}}">
                             <span>{{interval.$key}}</span>
@@ -43,7 +44,7 @@
                             <span>{{'distance' | measureUnit:$ctrl.item.activity.header.sportBasic | translate}})</span>
                         </md-option>
                     </md-optgroup>
-                    <md-optgroup label="Круги">
+                    <md-optgroup label="{{'activity.details.table.segments' | translate}}">
                         <md-option ng-repeat="interval in $ctrl.intervals | toArray | filter:{type: 'L'} track by interval.$key"
                                    value="{{interval.$key}}">
                             <span>{{interval.$key}}</span>

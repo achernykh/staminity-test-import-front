@@ -44,8 +44,8 @@ export const landingTariffsData = [
                     year: 250,
                 },
                 en: {
-                    month: 5,
-                    year: 50,
+                    month: 300,
+                    year: 250,
                 },
             },
             variable: null,

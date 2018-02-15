@@ -11,19 +11,19 @@
                     <md-button ng-click="$ctrl.item.delete()"
                                ng-disabled="!(!$ctrl.item.activity.view.isPost && $ctrl.item.activity.auth.isCreator)">
                         <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                        <span translate="measurement.toolbar.delete"></span>
+                        <span translate="activity.action.delete"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="" ng-disabled="true">
                         <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
-                        <span translate="measurement.toolbar.settings"></span>
+                        <span translate="activity.action.settings"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="::($ctrl.item.currentUser.connections.hasOwnProperty('allAthletes') && $ctrl.item.activity.view.isPost)">
                     <md-button ng-click="$ctrl.item.showSelectAthletes = true">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
-                        <span translate="Добавить спортсмена"></span>
+                        <span translate="activity.action.addAthletes"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="false">
@@ -34,7 +34,7 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.toolbar.template' : 'activity.toolbar.title'}}"></h2>
+        <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.template.title' : 'activity.title'}}"></h2>
         <span flex flex-order="3"></span>
         <userpic flex-order="4" class="border-light"
                  profile="$ctrl.item.activity.athletes.first()"
@@ -43,12 +43,12 @@
         <div class="multi-athletes" ng-if="$ctrl.item.activity.athletes.multi()"></div>
         <md-button flex-order="5" class="md-icon-button" hide-gt-sm
                    ng-click="$ctrl.item.onCancel()">
-            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-tooltip md-direction="left">{{'activity.action.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
         <md-button flex-order="{{$ctrl.item.activity.view.isPopup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
                    ng-click="$ctrl.item.onCancel()">
-            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-tooltip md-direction="left">{{'activity.action.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
     </div>

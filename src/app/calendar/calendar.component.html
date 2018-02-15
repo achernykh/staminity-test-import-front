@@ -134,7 +134,7 @@
             <!-- weekdays panel: start -->
             <md-toolbar md-theme="grey" class="calendar__days-header md-default" hide show-gt-sm>
                 <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption md-dark font-medium">{{::day}}</div>
-                <div hide show-gt-md class="total md-caption md-dark font-medium">Итоги</div>
+                <div hide show-gt-md class="total md-caption md-dark font-medium" translate="calendar.totals"></div>
             </md-toolbar>
             <!-- grid: start -->
             <section class="calendar__grid"

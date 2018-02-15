@@ -21,9 +21,7 @@
                    ng-model="$ctrl.selected">
                 <thead ng-if="!$ctrl.options.decapitate" md-head>
                 <tr md-row>
-                    <th md-column><span></span></th>
-                    <th md-column hide><span translate="activity.measureUnitFull"></span></th>
-                    <th md-column show style="min-width: 50px"><span translate="activity.measureUnitShort"></span></th>
+                    <th md-column style="min-width: 70px"><span translate="activity.measureUnitShort"></span></th>
                     <th md-column md-numeric style="min-width: 65px"><span translate="activity.plan"></span></th>
                     <th md-column md-numeric
                         ng-if="!($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)"
@@ -39,13 +37,10 @@
                 <tr md-row ng-if="$ctrl.showRow(measure.$key)"
                     ng-repeat="measure in $ctrl.plan | toArray | filter:search | orderBy:order track by measure.$key">
                     <td md-cell>
-                        <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>
-                    </td>
-                    <td md-cell show>
+                        <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>&nbsp;
                         <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)" translate="activity.percentFTP"></span>
                         <span ng-if="!($ctrl.isFTP() && $ctrl.isInterval(measure.$key))">{{measure.$key | measureUnit:$ctrl.sport | translate}}</span>
                     </td>
-
                     <td md-cell>
                         <md-input-container>
                             <input ng-if="$ctrl.isInterval(measure.$key)"

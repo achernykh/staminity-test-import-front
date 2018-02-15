@@ -31,7 +31,7 @@
 <md-content flex="auto" layout="row" layout-xs="column" layout-fill="true">
     <!-- Виды тренировок -->
     <section class="calendar-item-wizard__activity" flex="25" flex-xs="auto">
-        <md-subheader flex="none">{{::'activity.toolbar.title' | translate}}</md-subheader>
+        <md-subheader flex="none">{{::'activity.title' | translate}}</md-subheader>
         <md-list flex="auto" class="md-dense">
             <md-list-item ng-repeat="type in $ctrl.activityTypes track by type.id"
                           ng-click="$ctrl.activity(type)">

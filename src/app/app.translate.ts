@@ -7,12 +7,11 @@ export const translateGeneral = {
         day: "По дням",
         month: "По месяцам",
         quarter: "По кварталам",
-        duration: "Время",
-        distance: "Расстояние",
         updateToast: {
             message: "Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity",
             action: "ПЕРЕЗАГРУЗИТЬ",
         },
+        rub: 'руб.'
     },
     en: {
         staminity: "Staminity",
@@ -22,12 +21,11 @@ export const translateGeneral = {
         day: "Day",
         month: "Month",
         quarter: "Quarter",
-        duration: "Время",
-        distance: "Расстояние",
         updateToast: {
             message: "Staminity update is available. Please refresh the browser page",
             action: "REFRESH",
         },
+        rub: 'RUB'
     },
 };
 
