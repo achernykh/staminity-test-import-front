@@ -124,7 +124,7 @@ export const _translateTrainingPlans = {
             list: {
                 title: 'Список присвоений плана',
                 empty: 'У плана нет присвоений',
-                info: "Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{planRevision}}"
+                info: "Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{version}}"
             },
             enabledSync: "Транслировать изменения плана",
             enabledSyncDisabled: "Трансляция изменений плана невозможна",
@@ -261,7 +261,7 @@ export const _translateTrainingPlans = {
             list: {
                 title: 'Assignment list',
                 empty: 'Training plan has no assignments',
-                info: "Assignment created {{createdDate | date:'shortDate'}}, plan version: {{planRevision}}"
+                info: "Assignment created {{createdDate | date:'shortDate'}}, plan version: {{version}}"
             },
             enabledSync: "Transmit changes",
             enabledSyncDisabled: "Plan changes cannot be transmitted to athletes",
