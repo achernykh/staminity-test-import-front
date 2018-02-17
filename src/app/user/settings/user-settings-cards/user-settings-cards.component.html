@@ -3,23 +3,23 @@
     <md-list-item>
         <div class="md-body-2">{{currency}} ({{'user.settings.agent.currency.' + currency | translate}})</div>
     </md-list-item>
-    <md-list-item ng-if="!$ctrl.$ctrl.hasAccounts(currency)">
+    <md-list-item ng-if="!$ctrl.hasAccounts(currency)">
         <div class="md-body-1" translate>user.settings.agent.cards.none</div>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.$ctrl.hasAccounts(currency)" layout="row" layout-wrap>
-        <div flex="60"></div>
+    <md-list-item ng-if="$ctrl.hasAccounts(currency)" layout="row" layout-wrap>
+        <div flex="50"></div>
         <div flex="20" class="md-body-1" translate>user.settings.agent.cards.isDefault</div>
         <div flex="20"></div>
     </md-list-item>
     <md-list-item ng-repeat="account in $ctrl.getAccounts(currency) track by account.id" layout="row" layout-wrap>
-        <div class="md-body-1" flex="60" translate translate-values="{code:account.code}">user.settings.agent.cards.card</div>
+        <div class="md-body-1" flex="50" translate translate-values="{identityString:account.identityString, expireDate:account.expireDate}">user.settings.agent.cards.card</div>
         <md-button ng-if="!account.isDefault" flex="20" class="md-icon-button" ng-click="$ctrl.setDefaultAccount(account)">
             <md-icon class="material-icons">radio_button_unchecked</md-icon>
         </md-button>
         <md-button ng-if="account.isDefault" flex="20" class="md-icon-button" ng-disabled="true">
             <md-icon class="material-icons">radio_button_checked</md-icon>
         </md-button>
-        <md-button ng-click="$ctrl.removeAccount(account)" flex="20">{{'user.settings.agent.cards.remove'| translate}}</md-button>
+        <md-button ng-click="$ctrl.removeAccount(account)" flex="20">{{'user.settings.agent.cards.removeCard'| translate}}</md-button>
     </md-list-item>
     <md-list-item ng-repeat-end layout="row" layout-wrap>
         <div flex></div>

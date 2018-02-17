@@ -66,8 +66,8 @@
                 <md-list-item ui-sref="user-settings.cards({userId: $ctrl.owner.userId})">
                     <div layout="column">
                         <div class="md-body-2" translate>user.settings.agent.cards.label</div>
-                        <div class="md-body-1" ng-if="$ctrl.hasCard" translate translate-values="{card:'XXXX9999'}">user.settings.agent.cards.default</div>
-                        <div class="md-body-1" ng-if="!$ctrl.hasCard" translate style="color: red;">user.settings.agent.cards.none</div>
+                        <div class="md-body-1" ng-if="$ctrl.getAccount()" translate translate-values="{card:$ctrl.getAccount().identityString}">user.settings.agent.cards.default</div>
+                        <div class="md-body-1" ng-if="!$ctrl.getAccount()" translate style="color: red;">user.settings.agent.cards.none</div>
                     </div>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
@@ -86,7 +86,7 @@
             </md-list>
         </md-card>
         <md-card ng-repeat="account in $ctrl.agentEnvironment.accounts" class="user-settings-main__card">
-            <st-user-settings-tariffs owner="$ctrl.owner" account="account"></st-user-settings-tariffs>
+            <st-user-settings-balance owner="$ctrl.owner" account="account"></st-user-settings-balance>
         </md-card>
         <md-card ng-if="!$ctrl.agentEnvironment.accounts.length" class="user-settings-main__card">
             <md-list>
@@ -106,7 +106,7 @@
                 <md-list-item ui-sref="user-settings.withdrawal({userId: $ctrl.owner.userId})">
                     <div layout="column">
                         <div class="md-body-2" translate>user.settings.agent.withdrawals.label</div>
-                        <div class="md-body-1" ng-if="$ctrl.agentEnvironment.lastWithdrawal" translate translate-values="{date:'03.09.2011', amount:'50.99', currency:'USD'}">user.settings.agent.withdrawals.last</div>
+                        <div class="md-body-1" ng-if="$ctrl.agentEnvironment.lastWithdrawal" translate translate-values="{date:($ctrl.agentEnvironment.lastWithdrawal.created|date:'shortDate'), amount:$ctrl.agentEnvironment.lastWithdrawal.requestedAmount, currency:$ctrl.agentEnvironment.lastWithdrawal.account.currency}">user.settings.agent.withdrawals.last</div>
                         <div class="md-body-1" ng-if="!$ctrl.agentEnvironment.lastWithdrawal" translate>user.settings.agent.withdrawals.none</div>
                     </div>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>

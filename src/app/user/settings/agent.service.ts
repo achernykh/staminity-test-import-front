@@ -7,6 +7,8 @@ import {
     GetAgentAccountTransactions,
     IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction,
 } from "../../../../api/agent";
+import { server, protocol } from "../../core/env.js";
+import { replace } from "../../share/utility/replace";
 import DisplayService from "../../core/display.service";
 import UserService from "../../core/user.service";
 import { countriesList } from './user-settings.constants';
@@ -130,8 +132,15 @@ export class AgentService {
      * Добавление карты
      * @returns {Promise<any>}
      */
-    addCard(): Promise<any> {
-        const html = require('./add-card.template.html') as string;
+    addCard(userId: number, bindCardSignature: string): Promise<any> {
+        const template = require('./add-card.template.html') as string;
+        const html = replace(template, { 
+            "#USER_ID#": userId,
+            "#BASE_URL#": protocol.rest + server,
+            "#CARD_SIGNATURE#": bindCardSignature,
+            "#DESCRIPTION#": '',
+        });
+        console.log(html);
         const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
         return this.dialogs.iframe(dataUrl, "user.settings.agent.cards.addCard");
     }

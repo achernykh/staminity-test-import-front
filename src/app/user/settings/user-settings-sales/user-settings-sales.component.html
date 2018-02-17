@@ -1,9 +1,10 @@
 <md-list class="md-dense section user-settings-sales">
     <md-list-item ng-repeat="transaction in $ctrl.transactions" layout="row" layout-wrap>
-        <div class="md-body-1">{{transaction.product.name || transaction.product.externalId}}, {{transaction.product.externalRevision}}</div>
-        <div class="md-body-1">{{transaction.operDate}}</div>
-        <div class="md-body-1">{{transaction.grossAmount}} {{transaction.account.currency}}</div>
-        <md-button class="user-settings-sales__username" ui-sref="user({uri: transaction.buyerProfile.public.uri})">
+        <div class="md-body-1" flex="30">{{transaction.product.name || transaction.product.externalId}}, {{transaction.product.externalRevision}}</div>
+        <div class="md-body-1" flex="20">{{transaction.operDate | date:'shortDate'}}</div>
+        <div class="md-body-1" flex="20">{{transaction.grossAmount}} {{transaction.account.currency}}</div>
+        <div flex></div>
+        <md-button class="user-settings-sales__username" ui-sref="user({uri: transaction.buyerProfile.public.uri})" flex="20">
             <userpic profile="transaction.buyerProfile" is-premium=transaction.buyerProfile | isPremium"></userpic>
             {{ transaction.buyerProfile | username }}
         </md-button>

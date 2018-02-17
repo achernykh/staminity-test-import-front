@@ -1,7 +1,7 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController,ILocationService } from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import { IAgentProfile, IAgentExtAccount } from "@api/agent";
+import { IAgentProfile, IAgentExtAccount, IAgentEnvironment } from "@api/agent";
 import { UserSettingsService } from '../user-settings.service';
 import { AgentService } from '../agent.service';
 import DisplayService from "../../../core/display.service";
@@ -14,6 +14,7 @@ class UserSettingsCardsCtrl {
     agentProfile: IAgentProfile;
     owner: IUserProfile;
     extAccounts: Array<IAgentExtAccount>;
+    agentEnvironment: IAgentEnvironment;
 
     // public
     form: any;
@@ -73,7 +74,7 @@ class UserSettingsCardsCtrl {
             title: "user.settings.agent.cards.addCard",
             text: "user.settings.agent.cards.addCardMessage",
         })
-        .then(() => this.agentService.addCard())
+        .then(() => this.agentService.addCard(this.currentUser.userId, this.agentEnvironment.bindCardSignature))
         .then(() => {
             this.reload();
         });
@@ -112,6 +113,7 @@ export const UserSettingsCardsComponent: IComponentOptions = {
         currentUser: '<',
         agentProfile: '<',
         extAccounts: '<',
+        agentEnvironment: '<',
     },
     controller: UserSettingsCardsCtrl,
     template: require('./user-settings-cards.component.html') as string

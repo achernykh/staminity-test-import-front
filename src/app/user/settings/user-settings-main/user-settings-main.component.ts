@@ -1,5 +1,6 @@
 import {IComponentOptions, IComponentController,ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction } from "@api/agent";
 import UserService from "../../../core/user.service";
 import { UserSettingsService } from "../user-settings.service";
 import './user-settings-main.component.scss';
@@ -9,7 +10,8 @@ class UserSettingsMainCtrl {
     // bind
     owner: IUserProfile;
     currentUser: IUserProfile;
-    agentProfile: any;
+    agentProfile: IAgentProfile;
+    agentEnvironment: IAgentEnvironment;
 
     static $inject = ['UserService', 'dialogs', 'message', 'UserSettingsService'];
 
@@ -20,6 +22,16 @@ class UserSettingsMainCtrl {
         private userSettingsService: UserSettingsService,
     ) {
         window['UserSettingsMainCtrl'] = this;
+    }
+
+    /**
+     * Дафолтная карта/счёт
+     * @returns {boolean}
+     */
+    getAccount () : IAgentExtAccount {
+        return this.agentEnvironment.accounts
+        .map((account) => account['defExtAccount'])
+        .find((account) => !!account);
     }
 
     /**
@@ -44,6 +56,7 @@ export const UserSettingsMainComponent: IComponentOptions = {
         owner: '<',
         currentUser: '<',
         agentProfile: '<',
+        agentEnvironment: '<',
     },
     controller: UserSettingsMainCtrl,
     template: require('./user-settings-main.component.html') as string
