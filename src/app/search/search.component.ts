@@ -8,14 +8,17 @@ import MessageService from "../core/message.service";
 import "./search.component.scss";
 import {SearchService} from "./search.service";
 
-class SearchCtrl implements IComponentController {
+export class SearchCtrl implements IComponentController {
 
     data: any;
+    limit: number = 100;
+    offset: number = 0;
     readonly method: SearchMethod = "byParams";
 
     params: SearchParams = {objectType: "user"};
+    dataLoading: boolean = true;
     type: string[] = ["user", "coach", "club"]; //,'club','group'];
-    result: Array<SearchResultByUser | SearchResultByGroup>;
+    result: Array<SearchResultByUser | SearchResultByGroup> = [];
     order: string = "name";
 
     options: Object = {
@@ -32,10 +35,10 @@ class SearchCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
     static $inject = ["$scope", "$stateParams", "$location", "search", "message"];
 
-    constructor(private $scope: IScope,
+    constructor(public $scope: IScope,
                 private $stateParams: any,
                 private $location: ILocationService,
-                private search: SearchService,
+                public searchService: SearchService,
                 private message: MessageService) {
 
     }
@@ -45,7 +48,7 @@ class SearchCtrl implements IComponentController {
         const urlSearch = this.$location.search();
         if (urlSearch && urlSearch.hasOwnProperty("objectType") && urlSearch.objectType) {
             this.params = urlSearch;
-            this.onSearch(this.params);
+            this.search(this.params);
         }
         this.updateUrl(this.params);
     }
@@ -66,8 +69,8 @@ class SearchCtrl implements IComponentController {
         }
     }
 
-    onSearch(params: SearchParams) {
-        this.search.request(this.method, params)
+    search(params: SearchParams = this.params) {
+        this.searchService.request(this.method, params, this.limit, this.offset)
             .then((result) => this.result = result)
             .then(() => !this.$scope.$$phase && this.$scope.$apply())
             .then(() => this.message.toastInfo("searchResult", {count: this.result.length}));
