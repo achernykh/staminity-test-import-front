@@ -1,4 +1,11 @@
-<md-content flex="auto" layout="column">
+<div ng-if="$ctrl.item.activity.isCompleted && !$ctrl.item.activity.hasIntervalDetails"
+     class="screen-center-block"
+     style="background-color: white; opacity: 0.5; position: absolute; z-index: 100">
+    <div>
+        <img src="/assets/icon/ripple.svg" width="60" height="60"/>
+    </div>
+</div>
+<md-content flex="auto" layout="column" ng-if="!$ctrl.item.activity.isCompleted || ($ctrl.item.activity.isCompleted && $ctrl.item.activity.hasIntervalDetails)">
     <md-list flex="none" class="md-dense slim-input bg-grey-100" layout="column">
         <md-list-item flex="none">
             <div class="md-caption" style="color: #455A64" ng-if="!$ctrl.item.activity.isCompleted">
@@ -32,7 +39,7 @@
                             activity-header="$ctrl.intervals.stack"
                             actual-ftp="::$ctrl.item.activity.isCompleted"
                             plan-ftp="true"
-                            duration-measure="movingDuration"
+                            duration-measure="'movingDuration'"
                             view="'mobile'"
                             change="$ctrl.item.changeStructuredAssignment"
                             on-select="$ctrl.onChartSelection(segmentId)">
@@ -102,5 +109,5 @@
                            on-change="$ctrl.update(reason)">
     </structured-assignment>
 </md-content>
-<activity-assignment-buttons></activity-assignment-buttons>
+<activity-assignment-buttons ng-if="!$ctrl.isIonic"></activity-assignment-buttons>
 </form>

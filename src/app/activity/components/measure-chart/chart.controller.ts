@@ -35,6 +35,7 @@ class ActivityChartController implements IComponentController {
     private zoomDispatch: Dispatch<EventTarget>;
     private height: number;
     private width: number;
+    private isReady: boolean;
 
     private $placeholder: any;
     private $interactiveArea: any;
@@ -73,13 +74,14 @@ class ActivityChartController implements IComponentController {
 
     $postLink(): void {
         const self = this;
-        /**this.$element.ready(function() {
+        this.$element.ready(function() {
            setTimeout(() => {
+                self.isReady = true;
                 self.preparePlaceholder();
                 self.prepareScales();
                 self.drawChart();
-            }, 0);
-        });**/
+            }, 500);
+        });
         if (this.activityChartSettings.autoResizable) {
             this.onResize = function() { self.redraw(); };
             angular.element(this.$window).on("resize", self.onResize);
@@ -107,7 +109,12 @@ class ActivityChartController implements IComponentController {
             return;
         }
         this.prepareData();
-        this.redraw();
+        if (this.isReady) {
+            this.cleanupPlaceholder();
+            this.preparePlaceholder();
+            this.prepareScales();
+            this.drawChart();
+        }
     }
 
     $onDestroy(): void {
@@ -274,6 +281,11 @@ class ActivityChartController implements IComponentController {
         scaleInfo.scale.domain(domain);
         scaleInfo.min = min;
         scaleInfo.max = max;
+    }
+
+    private cleanupPlaceholder(): void {
+        this.$interactiveArea.remove();
+        this.$placeholder.remove();
     }
 
     private drawChart(): void {

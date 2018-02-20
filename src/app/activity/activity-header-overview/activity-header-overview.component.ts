@@ -28,6 +28,10 @@ export class ActivityHeaderOverviewCtrl implements IComponentController {
         this.intervalW = this.item.activity.intervals.W;
     }
 
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
+
     onChangeForm( plan: IActivityIntervalPW ,actual: ICalcMeasures, form: INgModelController) {
 
     }

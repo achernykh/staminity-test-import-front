@@ -54,7 +54,6 @@
         <form flex="none" ng-if="!$ctrl.isViewMode" layout="column"
               name="$ctrl.form">
             <md-list flex="none" class="md-dense bg-grey-050">
-                <!--<md-subheader><span translate="competition.about"></span></md-subheader> -->
                 <!-- Название соревнования -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
@@ -168,7 +167,7 @@
         </form>
         <!-- Задание -->
         <md-list flex="none" class="md-dense" ng-if="$ctrl.competition.items.length > 0">
-            <md-subheader><span translate="competition.target"></span></md-subheader>
+            <md-subheader class="md-no-sticky"><span translate="competition.target"></span></md-subheader>
             <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
                 <div ng-message-exp="['needDuration']" translate="competition.needDuration">
                 </div>
@@ -191,7 +190,7 @@
 
         <!-- Описание -->
         <md-list flex="none" class="md-dense description" ng-if="$ctrl.competition.items.length > 0">
-            <md-subheader><span translate="competition.trainersPrescription"></span></md-subheader>
+            <md-subheader class="md-no-sticky"><span translate="competition.trainersPrescription"></span></md-subheader>
             <ng-quill-editor ng-if="$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
                              placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"

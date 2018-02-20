@@ -173,6 +173,10 @@ class ActivitySegmentsCtrl implements IComponentController {
         this.item.ftpMode = mode;
     }
 
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
+
 }
 
 const ActivitySegmentsComponent:IComponentOptions = {

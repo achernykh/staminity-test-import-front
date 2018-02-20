@@ -167,7 +167,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.changeMode(changes.mode);
         }
         //this.$onInit(); // test, like on calendar-activity.component in ionic
-        //this.prepareActivity();
+        this.prepareActivity();
     }
 
 
