@@ -10,7 +10,7 @@ import { FormMode } from "../../application.interface";
 const _FEELING: Array<string> = [ 'sentiment_very_satisfied', 'sentiment_satisfied', 'sentiment_neutral',
     'sentiment_dissatisfied', 'sentiment_very_dissatisfied' ];
 
-class CalendarItemMeasurementCtrl {
+export class CalendarItemMeasurementCtrl {
 
     // bind
     data: ICalendarItem;
@@ -28,7 +28,7 @@ class CalendarItemMeasurementCtrl {
 
     constructor (private CalendarService: CalendarService,
                  private SessionService: SessionService,
-                 private message: IMessageService) {
+                 public message: IMessageService) {
     }
 
     $onInit () {
@@ -60,6 +60,10 @@ class CalendarItemMeasurementCtrl {
                 this.message.toastInfo('measurementDeleted');
                 this.onAnswer({ formMode: FormMode.Delete, item: this.measurement });
             }, error => this.message.toastError(error));
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 }
 
