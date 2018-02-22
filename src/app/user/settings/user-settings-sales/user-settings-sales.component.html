@@ -1,6 +1,6 @@
 <md-list class="md-dense section user-settings-sales">
     <md-list-item ng-repeat="transaction in $ctrl.transactions" layout="row" layout-wrap>
-        <div class="md-body-1" flex="30">{{transaction.product.name || transaction.product.externalId}}, {{transaction.product.externalRevision}}</div>
+        <div class="md-body-1 user-settings-sales__cell-with-overflow" flex="30">{{transaction.product.name || transaction.product.externalId}} {{transaction.product.externalRevision}}</div>
         <div class="md-body-1" flex="20">{{transaction.operDate | date:'shortDate'}}</div>
         <div class="md-body-1" flex="20">{{transaction.grossAmount}} {{transaction.account.currency}}</div>
         <div flex></div>
@@ -9,7 +9,7 @@
             {{ transaction.buyerProfile | username }}
         </md-button>
     </md-list-item>
-    <md-list-item ng-if="!$ctrl.transactions.length">
+    <md-list-item ng-if="!$ctrl.transactions.length">Сумма
         <div class="md-body-1" translate>user.settings.agent.sales.none</div>
     </md-list-item>
     <md-list-item>

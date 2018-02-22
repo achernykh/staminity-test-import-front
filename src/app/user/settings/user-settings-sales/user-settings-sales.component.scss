@@ -1,3 +1,7 @@
 .user-settings-sales {
-
+	&__cell-with-overflow {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		padding-right: 10px;
+	}
 }

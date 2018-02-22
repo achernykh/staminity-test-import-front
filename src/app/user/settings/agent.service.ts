@@ -68,7 +68,7 @@ export class AgentService {
      * @param {ascOrder: boolean}
      * @returns {Promise<Array<IAgentWithdrawal>>}
      */
-    getAgentWithdrawals(limit: number = 0, offset: number = 0, orderBy: string = '', ascOrder: boolean = false): Promise<Array<IAgentWithdrawal>> {
+    getAgentWithdrawals(limit: number = 100, offset: number = 0, orderBy: string = '', ascOrder: boolean = false): Promise<Array<IAgentWithdrawal>> {
         return this.SocketService.send(new GetAgentWithdrawals(limit, offset, orderBy, ascOrder))
         .then((response) => response.arrayResult);
     }

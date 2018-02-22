@@ -8,12 +8,12 @@
         <div flex="15" class="md-body-2" translate>user.settings.agent.withdrawals.executed</div>
     </md-list-item>
     <md-list-item ng-repeat="withdrawal in $ctrl.withdrawals" layout="row" layout-wrap>
-        <div flex="15" class="md-body-1">{{withdrawal.requestedAmount}} {{withdrawal.execAmountSourceCcy}}</div>
-        <div flex="15" class="md-body-1">{{withdrawal.execAmount}} {{withdrawal.execAmountSourceCcy}}</div>
-        <div flex="20" class="md-body-1">{{withdrawal.account.code}}</div>
+        <div flex="15" class="md-body-1">{{withdrawal.requestedAmount}} {{withdrawal.account.currency}}</div>
+        <div flex="15" class="md-body-1">{{withdrawal.execAmount && (withdrawal.execAmount + ' ' + withdrawal.extAccount.currency)}}</div>
+        <div flex="20" class="md-body-1 user-settings-withdrawal__cell-with-overflow">{{withdrawal.extAccount.identityString}}</div>
         <div flex="20" class="md-body-1">{{'user.settings.agent.withdrawals.states.' + withdrawal.state | translate}}</div>
-        <div flex="15" class="md-body-1">{{withdrawal.created}}</div>
-        <div flex="15" class="md-body-1">{{withdrawal.executed}}</div>
+        <div flex="15" class="md-body-1">{{withdrawal.created | date:'shortDate'}}</div>
+        <div flex="15" class="md-body-1">{{withdrawal.executed | date:'shortDate'}}</div>
     </md-list-item>
     <md-list-item ng-if="!$ctrl.withdrawals.length">
         <div class="md-body-1" translate>user.settings.agent.withdrawals.none</div>
