@@ -25,16 +25,6 @@ class UserSettingsMainCtrl {
     }
 
     /**
-     * Дафолтная карта/счёт
-     * @returns {boolean}
-     */
-    getAccount () : IAgentExtAccount {
-        return this.agentEnvironment.accounts
-        .map((account) => account['defExtAccount'])
-        .find((account) => !!account);
-    }
-
-    /**
      * Открыта собственная страница настроек
      * @returns {boolean}
      */

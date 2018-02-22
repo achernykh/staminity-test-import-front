@@ -85,7 +85,7 @@ export const translateUser = {
                 cards: {
                     label: "Карты и счета",
                     header: "Карты и счета для вывода средств от продажи планов",
-                    default: "Привязана карта {{card}}",
+                    has: "Есть привязанные карты/счета",
                     none: "Нет привязанных карт",
                     card: "{{identityString}}, до {{expireDate}}",
                     addCard: "Добавить новую карту",

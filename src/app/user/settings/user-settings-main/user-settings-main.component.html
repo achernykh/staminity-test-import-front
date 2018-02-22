@@ -66,8 +66,8 @@
                 <md-list-item ui-sref="user-settings.cards({userId: $ctrl.owner.userId})">
                     <div layout="column">
                         <div class="md-body-2" translate>user.settings.agent.cards.label</div>
-                        <div class="md-body-1" ng-if="$ctrl.getAccount()" translate translate-values="{card:$ctrl.getAccount().identityString}">user.settings.agent.cards.default</div>
-                        <div class="md-body-1" ng-if="!$ctrl.getAccount()" translate style="color: red;">user.settings.agent.cards.none</div>
+                        <div class="md-body-1" ng-if="$ctrl.agentEnvironment.externalAccounts.length" translate>user.settings.agent.cards.has</div>
+                        <div class="md-body-1" ng-if="!$ctrl.agentEnvironment.externalAccounts.length" translate style="color: red;">user.settings.agent.cards.none</div>
                     </div>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>
