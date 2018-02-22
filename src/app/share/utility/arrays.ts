@@ -29,6 +29,22 @@ export const reverse = (xs: any[]) => xs.reverse();
 export const orderBy = (f) => (xs) => xs.sort((x0, x1) => f(x0) >= f(x1) ? 1 : -1);
 
 /**
+ * Группировка
+ * @param f: (A) => string
+ * @param xs: Array<A>
+ * @returns { [string]: Array<A> }
+ */
+export const groupBy = (f) => (xs) => xs.reduce((acc, x) => {
+	const key = f(x);
+	if (acc[key]) {
+		acc[key].push(x);
+	} else {
+		acc[key] = [x];
+	}
+	return acc;
+}, {});
+
+/**
  * Содержит ли
  * @param xs: Array<A>
  * @param x: A
@@ -61,3 +77,10 @@ export const difference = (xs: any[], ys: any[]): any[] => xs.filter((x) => !inc
 export const allEqual = (xs: any[], isEqual: (x: any, y: any) => boolean): boolean => {
     return !xs.length || xs.every((x) => isEqual(x, xs[0]));
 };
+
+/**
+ * Сумма
+ * @param xs: Array<number>
+ * @returns {number}
+ */
+export const sum = (xs: any[]): number => xs.reduce((s, x) => s + x, 0);

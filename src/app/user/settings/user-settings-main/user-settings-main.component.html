@@ -78,8 +78,7 @@
                 <md-list-item ui-sref="user-settings.sales({userId: $ctrl.owner.userId})">
                     <div layout="column">
                         <div class="md-body-2" translate>user.settings.agent.sales.label</div>
-                        <div class="md-body-1" ng-if="$ctrl.hasSales" translate translate-values="{count:1, currencies:'1500 RUB, 50.99 USD'}">user.settings.agent.sales.summary</div>
-                        <div class="md-body-1" ng-if="!$ctrl.hasSales" translate>user.settings.agent.sales.none</div>
+                        <div class="md-body-1">{{$ctrl.agentEnvironment | agentEnvironmentSalesTotal}}</div>
                     </div>
                     <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
                 </md-list-item>

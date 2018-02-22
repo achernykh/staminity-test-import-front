@@ -6,6 +6,7 @@ import { UserSettingsComponent } from "./settings/user-settings.component";
 import { userState } from "./user.states";
 import { translateUser } from "./user.translate";
 import { userAvatarUrl } from "./filters/user-avatar-url.filter";
+import { agentEnvironmentSalesTotal } from "./filters/agent-environment-sales-total.filter";
 import { UserSettingsMenuComponent } from "./settings/user-settings-menu/user-settings-menu.component"; 
 import { UserSettingsHeaderComponent } from "./settings/user-settings-header/user-settings-header.component"; 
 import { UserSettingsIsCoachComponent } from "./settings/user-settings-is-coach/user-settings-is-coach.component"; 
@@ -62,6 +63,7 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettingsEditZone', UserSettingsEditZoneComponent)
     .component('stUserSettingsNotifications', UserSettingsNotificationsComponent)
     .filter('userSettingsProfileFilter', userSettingsProfileFilter)
+    .filter('agentEnvironmentSalesTotal', agentEnvironmentSalesTotal)
     .config(['$stateProvider', ($stateProvider: StateProvider) => {
         userState.map(s => $stateProvider.state(s));
     }])

@@ -96,7 +96,7 @@ export const translateUser = {
                 sales: {
                     label: "Продажи тренировоных планов",
                     header: "Продажи тренировочных планов",
-                    summary: "Всего продано {{count}} планов на {{currencies}}",
+                    summary: "Всего продано {{count}} планов на {{amounts}}",
                     none: "Покупок тренировочных планов не было",
                     total: "Итого",
                 },
