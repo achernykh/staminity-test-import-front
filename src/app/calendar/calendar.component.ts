@@ -126,7 +126,9 @@ export class CalendarCtrl implements IComponentController{
      * @param userId
      */
     setOwner (userId: number): void {
-        this.owner = this.athletes.filter(a => a.userId === userId)[0];
+        this.owner = this.currentUser.userId === userId ?
+            this.currentUser :
+            this.athletes.filter(a => a.userId === userId)[0];
         this.$location.search('userId', this.owner.userId);
         Promise.resolve(() => {})
             .then(() => !this.owner.hasOwnProperty('trainingZone') && this.completeTrainingZones(this.owner.userId))
