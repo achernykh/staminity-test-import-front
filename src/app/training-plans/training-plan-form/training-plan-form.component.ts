@@ -24,14 +24,16 @@ class TrainingPlanFormCtrl implements IComponentController {
     private dataLoading: boolean = false;
 
     //inject
-    static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
+    static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig',
+        'CompetitionConfig', 'dialogs'];
 
     constructor (private $scope,
                  private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
                  private message: MessageService,
                  private quillConf: IQuillConfig,
-                 private competitionConfig: ICompetitionConfig) {
+                 private competitionConfig: ICompetitionConfig,
+                 private dialogs) {
 
         $scope.onlyFirstPlanDaysPredicate = (date: Date) => this.onlyFirstPlanDaysPredicate(date);
 
@@ -47,7 +49,7 @@ class TrainingPlanFormCtrl implements IComponentController {
         }
     }
 
-    save () {
+    save (): void {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
                 .post(this.plan.apiObject())
@@ -67,6 +69,23 @@ class TrainingPlanFormCtrl implements IComponentController {
                     }),
                     (error) => this.message.toastInfo(error));
         }
+    }
+
+    publish (): void {
+        this.trainingPlanService.publish(this.plan.id, null)
+            .then(response => {
+                this.message.toastInfo('');
+            }, error => this.message.toastInfo(error));
+    }
+
+    setAvatar (): void {
+        this.dialogs.uploadPicture()
+            .then();
+    }
+
+    setBackground (): void {
+        this.dialogs.uploadPicture()
+            .then();
     }
 
     get distanceType () : any {

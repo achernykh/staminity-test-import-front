@@ -389,4 +389,30 @@ md-pagination-wrapper {
   height: 36px;
   margin-right: 20px;
   border-radius: 18px;
+
+  &.size-60 {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    border: 1px solid white;
+    background: orangered;
+    margin: 0;
+
+    .edit-button {
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 30px;
+    }
+  }
+
+  .edit-button {
+    cursor: pointer;
+    text-align: center;
+    background: black;
+    color: white;
+    top: -1px;
+    position: relative;
+  }
 }
+
