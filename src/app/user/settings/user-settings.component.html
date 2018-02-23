@@ -1,9 +1,9 @@
 <st-application-frame 
     class="st-application-frame user-settings"
-    ng-class="{'left-bar-show': true}"
+    ng-class="{'left-bar-show': !$userSettingsCtrl.isMobileLayout()}"
     template="application"
     navigation-bar="false"
-    left-bar="true"
+    left-bar="!$userSettingsCtrl.isMobileLayout()"
 >
     <st-application-frame-title>
         <span class="md-title" translate="user.settings.fullTitle"></span>
@@ -39,7 +39,7 @@
     <st-application-frame-mobile-menu>
     </st-application-frame-mobile-menu>
     <st-application-frame-left-bar>
-        <st-user-settings-menu owner="$userSettingsCtrl.owner" current-user="$userSettingsCtrl.currentUser" class="user-settings__left-bar">
+        <st-user-settings-menu hide show-gt-sm owner="$userSettingsCtrl.owner" current-user="$userSettingsCtrl.currentUser" class="user-settings__left-bar">
         </st-user-settings-menu>
     </st-application-frame-left-bar>
     <st-application-frame-content>

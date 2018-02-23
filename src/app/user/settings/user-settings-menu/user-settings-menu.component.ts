@@ -9,9 +9,12 @@ class UserSettingsMenuCtrl implements IComponentController {
     currentUser: IUserProfile;
    
     // inject
-    static $inject = ['$location'];
+    static $inject = ['$location', '$state'];
 
-    constructor (private $location: ILocationService) {
+    constructor (
+        private $location: ILocationService,
+        private $state: any,
+    ) {
 
     }
 
@@ -28,7 +31,8 @@ class UserSettingsMenuCtrl implements IComponentController {
      * @param hash: string
      */
     go (hash: string) {
-        this.$location.hash(hash);
+        this.$state.go('user-settings.main', { userId: this.owner.userId, '#': hash });
+        // this.$location.hash(hash);
     } 
 }
 

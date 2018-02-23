@@ -2,7 +2,7 @@
     <md-list-item>
         <div layout="column">
             <div class="md-body-2" translate translate-values="{currency:$ctrl.account.currency}">user.settings.agent.balance.label</div>
-            <div class="md-body-1" translate translate-values="{currency:$ctrl.account.currency}">user.settings.agent.balance.conditions</div>
+            <div class="md-body-1" translate translate-values="{currency:$ctrl.account.currency, withdrawLimit:$ctrl.account.defExtAccount.limits.withdrawLimit||'0', noCommissionLimit:$ctrl.account.defExtAccount.limits.noCommissionLimit||'0'}">user.settings.agent.balance.conditions</div>
         </div>
         <md-button class="md-secondary" ng-click="$ctrl.withdraw($event)" style="text-transform: none; font-weight: normal;">
             {{'user.settings.agent.balance.withdraw' | translate}}

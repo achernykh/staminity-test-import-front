@@ -1,7 +1,7 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController,ILocationService } from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
-import { IAgentProfile, IAgentExtAccount } from "@api/agent";
+import { IAgentProfile, IAgentAccount } from "@api/agent";
 import { AgentService } from '../agent.service';
 import DisplayService from "../../../core/display.service";
 import './user-settings-balance.component.scss';
@@ -12,7 +12,7 @@ class UserSettingsBalanceCtrl {
     currentUser: IUserProfile;
     owner: IUserProfile;
     agentProfile: IAgentProfile;
-    account: IAgentExtAccount;
+    account: IAgentAccount;
 
     static $inject = ['DisplayService', 'dialogs', 'message', 'AgentService', '$scope'];
 
@@ -27,7 +27,9 @@ class UserSettingsBalanceCtrl {
     }
 
     withdraw ($event) {
-
+        this.agentService.postAgentWithdrawal({
+          account: this.account,
+        } as any);
     }
 }
 

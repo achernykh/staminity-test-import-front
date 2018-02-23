@@ -50,7 +50,8 @@ class ApplicationFrameCtrl implements IComponentController {
         socket.connections
             .takeUntil(this.destroy)
             .subscribe(status => this.connectionStatus = !!status);
-
+            
+        window['ApplicationFrameCtrl'] = this;
     }
 
     $onInit() {

@@ -1,5 +1,5 @@
-<md-dialog class="iframe-dialog">
-    <md-toolbar ng-if="$ctrl.title" style="background-color: white; color: black">
+<md-dialog class="iframe-dialog" style>
+    <md-toolbar ng-if="$ctrl.title">
         <div class="md-toolbar-tools">
             <h2>{{$ctrl.title | translate}}</h2>
             <span flex></span>
@@ -9,7 +9,7 @@
         </div>
     </md-toolbar>
     <md-dialog-content>
-        <iframe ng-attr-src="{{$ctrl.trust($ctrl.url)}}" sandbox="allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts" seamless="seamless" height="560px" scrolling="auto" align="middle">
+        <iframe ng-attr-src="{{$ctrl.trust($ctrl.url)}}" sandbox="allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts" seamless="seamless" height="560px" width="960" scrolling="auto" align="middle">
         </iframe> 
     </md-dialog-content>
 </md-dialog>

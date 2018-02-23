@@ -49,7 +49,10 @@ export class AgentService {
             .then((agentProfile) => {
                 this.updates.next(agentProfile);
             });
-        });
+        })
+        .catch((info) => { 
+           this.message.systemWarning(info); 
+       }); 
     }
 
     /**
@@ -79,7 +82,10 @@ export class AgentService {
      * @returns {Promise<any>}
      */
     postAgentWithdrawal(request: IAgentWithdrawal): Promise<any> {
-        return this.SocketService.send(new PostAgentWithdrawal(request));
+        return this.SocketService.send(new PostAgentWithdrawal(request))
+       .catch((info) => { 
+           this.message.systemWarning(info); 
+       }); 
     }
 
     // /**
@@ -106,7 +112,10 @@ export class AgentService {
      * @returns {Promise<any>}
      */
     putAgentExtAccount(request: IAgentExtAccount): Promise<any> {
-        return this.SocketService.send(new PutAgentExtAccount(request));
+        return this.SocketService.send(new PutAgentExtAccount(request))
+       .catch((info) => { 
+           this.message.systemWarning(info); 
+       }); 
     }
 
     /**
@@ -115,7 +124,10 @@ export class AgentService {
      * @returns {Promise<any>}
      */
     deleteAgentExtAccount(request: IAgentExtAccount): Promise<any> {
-        return this.SocketService.send(new DeleteAgentExtAccount(request));
+        return this.SocketService.send(new DeleteAgentExtAccount(request))
+       .catch((info) => { 
+           this.message.systemWarning(info); 
+       }); 
     }
 
     /**

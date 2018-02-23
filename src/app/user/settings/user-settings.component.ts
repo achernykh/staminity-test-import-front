@@ -16,11 +16,12 @@ class UserSettingsCtrl implements IComponentController {
     agentEnvironment: IAgentEnvironment;
 
     // inject
-    static $inject = ['$scope', '$stateParams', 'message', 'SessionService', 'UserSettingsService', 'AgentService'];
+    static $inject = ['$scope', '$stateParams', '$mdMedia', 'message', 'SessionService', 'UserSettingsService', 'AgentService'];
 
     constructor (
         private $scope: any,
         private $stateParams: any,
+        private $mdMedia: any,
         private message: MessageService,
         private sessionService: SessionService,
         private userSettingsService: UserSettingsService,
@@ -54,6 +55,14 @@ class UserSettingsCtrl implements IComponentController {
      */
     isOwnSettings () : boolean {
         return this.currentUser.userId === this.userId;
+    }
+
+    /**
+     * Мобильная вёрстка
+     * @returns {boolean}
+     */
+    isMobileLayout(): boolean {
+        return this.$mdMedia(`(max-width: 959px)`);
     }
 }
 

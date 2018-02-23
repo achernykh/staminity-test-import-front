@@ -120,7 +120,7 @@ export const translateUser = {
                 },
                 balance: {
                     label: 'Доступный баланс, {{currency}}',
-                    conditions: "Комиссия за вывод до 50 {{currency}} - 2.8% минимум 1.5 {{currency}}",
+                    conditions: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2.8%, минимум {{withdrawLimit}} {{currency}}",
                     withdraw: "Вывести",
                 },
                 iWant: "Я хочу продавать тренировочные планы",
