@@ -77,7 +77,7 @@ export const translateUser = {
                 },
             },
             agent: {
-                header: "Продажа тренировоных планов",
+                header: "Продажа тренировочных планов",
                 currency: {
                     RUB: "Рубли РФ",
                     USD: "Доллары США",
@@ -90,11 +90,11 @@ export const translateUser = {
                     card: "{{identityString}}, до {{expireDate}}",
                     addCard: "Добавить новую карту",
                     removeCard: "Удалить",
-                    isDefault: "По умолчанию",
+                    isDefault: "По-умолчанию",
                     addCardMessage: "Для привязки карты с нее будет списана сумма в пределах одного рубля. Данная сумма не будет возвращена на карту.",
                 },
                 sales: {
-                    label: "Продажи тренировоных планов",
+                    label: "Продажи тренировочных планов",
                     header: "Продажи тренировочных планов",
                     summary: "Всего продано {{count}} планов на {{amounts}}",
                     none: "Покупок тренировочных планов не было",
@@ -126,21 +126,21 @@ export const translateUser = {
                     withdrawZeroAmount: "Ваш баланс пуст",
                     withdrawNotAvaliable: "Минимальная сумма для вывода - {{withdrawLimit}} {{currency}}",
                     withdrawWithCommission: {
-                        RUB: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2.8%",
-                        USD: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2.8%",
-                        EUR: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2.8%",
+                        RUB: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 1.5% минимум 60 RUB",
+                        USD: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2% + 0.5 USD",
+                        EUR: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2% + 0.3 EUR",
                     },
                     withdrawNoCommission: "Вывести без комиссии",
                     withdrawConfirmationHeader: "Вы уверены?",
                     withdrawWithCommissionConfirmation: {
-                        RUB: "Вывести с комиссией",
-                        USD: "Вывести с комиссией",
-                        EUR: "Вывести с комиссией",
+                        RUB: "Вывести с комиссией? Комиссия 1.5% минимум 60 RUB будет удержана при перечислении",
+                        USD: "Вывести с комиссией? Комиссия 2% + 0.5 USD будет удержана при перечислении",
+                        EUR: "Вывести с комиссией? Комиссия 2% + 0.3 EUR будет удержана при перечислении",
                     },
                     withdrawNoCommissionConfirmation: {
-                        RUB: "Вывести без комиссии",
-                        USD: "Вывести без комиссии",
-                        EUR: "Вывести без комиссии",
+                        RUB: "Вывести без комиссии (рубли)",
+                        USD: "Вывести без комиссии (доллары)",
+                        EUR: "Вывести без комиссии (евро)",
                     },
                 },
                 iWant: "Я хочу продавать тренировочные планы",
@@ -150,7 +150,7 @@ export const translateUser = {
                 incompleteNotIndividual: "Продажа тренировочных планов невозможна, заполните и отправьте анкету",
                 isIndividual: "Физическое лицо",
                 individual: "Да",
-                notIndividual: "Нет, я ИП или представитель юридического лица.",
+                notIndividual: "Нет, я ИП или представитель юридического лица",
                 agree: "Подтверждаю... соглашаюсь...",
                 email: "E-mail",
                 companyName: "Полное наименование компании / ИП",
@@ -185,7 +185,7 @@ export const translateUser = {
                     id40: 'Я, тренер и друзья',
                     id10: 'Все'
                 },
-                hint: 'Насторйки приватности'
+                hint: 'Настройки приватности'
             },
             display: {
                 header: 'Представление',
