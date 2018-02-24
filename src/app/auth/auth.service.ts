@@ -139,24 +139,31 @@ export default class AuthService implements IAuthService {
      */
     signIn(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/signin', request))
-            .then((response: IHttpPromiseCallbackArg<any>) => {
+            .then((response: IHttpPromiseCallbackArg<any>) =>
+                response.data.hasOwnProperty('userProfile') &&
+                response.data.hasOwnProperty('token') &&
+                this.signedIn(response.data));
+            /*.then(profile => )
                 if(response.data.hasOwnProperty('userProfile') && response.data.hasOwnProperty('token')) {
                     this.signedIn(response.data);
                     return response.data['userProfile'];
-                } else {
-                    throw new Error('dataError');
-                }
-            });
+                } else { throw new Error('dataError');}})
+            .then(() => this.signedIn());*/
     }
 
-    signedIn(sessionData: any) {
+    signedIn(sessionData: any): Promise<any> {
         this.SessionService.set(sessionData);
-        this.SocketService.open(sessionData['token']);
-        this.referenceService.resetCategories();
-        this.referenceService.resetTemplates();
-        this.notificationService.resetNotifications();
-        this.requestService.resetRequests();
-        this.userService.resetConnections();
+        return this.SocketService.init()
+            .then( _ => {
+                this.referenceService.resetCategories();
+                this.referenceService.resetTemplates();
+                this.notificationService.resetNotifications();
+                this.requestService.resetRequests();
+                this.userService.resetConnections();
+            }, _ => {
+                throw new Error('auth signin: ws connections disable');
+            })
+            .then( _ => this.SessionService.getUser());
     }
 
     signOut() {

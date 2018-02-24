@@ -28,7 +28,7 @@ export class SocketService {
     static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService', '$state', 'message'];
 
     constructor (private settings: IConnectionSettings,
-                 private session: SessionService,
+                 public session: SessionService,
                  private loader: LoaderService,
                  private $state: StateService,
                  public messageService: MessageService) {
@@ -42,12 +42,11 @@ export class SocketService {
      * @returns {Promise<boolean>}
      */
     init (): Promise<boolean> {
-        console.info(`socket service: init start`);
         if ( this.socketStarted ) { return Promise.resolve(true);}
         if (!this.initRequest) {
             this.initRequest = new Deferred<boolean>();
             setTimeout(() => {
-                console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
+                //console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
                 // Если сессия открыта и это был первый запрос по сессии, то
                 // возращаем resolve по первому запросу
                 if ( this.socketStarted && this.initRequest ) {
@@ -66,7 +65,6 @@ export class SocketService {
      */
     open (token: string = this.session.getToken()): void {
         if ( this.socket && !this.socket.closed ) { return; } // already open
-
         try {
             this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
             this.socket = this.ws.subscribe({
@@ -74,6 +72,7 @@ export class SocketService {
                     // Если сессия находится в статусе закрыта, то при первом удачном получение сообщения
                     // переводим статус сессии в открыта
                     if ( !this.socketStarted ) {
+                        console.debug('socket service: connection open');
                         this.connections.next(true);
                     }
                     if (this.initRequest) {
@@ -115,7 +114,7 @@ export class SocketService {
      */
     public reopen (): void {
         this.connections.next(false);
-        this.socket.unsubscribe();
+        if (this.socket) { this.socket.unsubscribe(); }
         this.init().then(() => {}, () => this.pendingSession());
     }
 
@@ -155,7 +154,7 @@ export class SocketService {
     close () {
         console.debug('socket service: close');
         this.connections.next(false);
-        this.ws.complete();
+        if (this.ws) { this.ws.complete(); }
         this.initRequest = null;
         this.lastMessageTimestamp = null;
         if (this.pendingIntervalLink) {
