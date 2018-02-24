@@ -145,15 +145,7 @@ export class AgentService {
      * @returns {Promise<any>}
      */
     addCard(userId: number, bindCardSignature: string): Promise<any> {
-        const template = require('./add-card.template.html') as string;
-        const html = replace(template, { 
-            "#USER_ID#": userId,
-            "#BASE_URL#": protocol.rest + server,
-            "#CARD_SIGNATURE#": bindCardSignature,
-            "#DESCRIPTION#": '',
-        });
-        console.log(html);
-        const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-        return this.dialogs.iframe(dataUrl, "user.settings.agent.cards.addCard");
+        const url = `https://demo.moneta.ru/secureCardData.htm?publicId=a743f28a-8698-43f8-9326-5c40e4edf5d4&MNT_ID=64994513&MNT_TRANSACTION_ID=BIND_CARD.${userId}&redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap&MNT_SIGNATURE=${bindCardSignature}&secure%5BCARDNUMBER%5D=required&secure%5BCARDEXPIRATION%5D=required&secure%5BCARDCVV2%5D=required&formTarget=_top&MNT_DESCRIPTION=&process=Submit`;
+        return this.dialogs.iframe(url, "user.settings.agent.cards.addCard");
     }
 }

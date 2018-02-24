@@ -29,7 +29,12 @@ const userSettingsMain: any = {
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
-    template: require('./settings/user-settings-main/user-settings-main.template.html') as string
+    template: require('./settings/user-settings-main/user-settings-main.template.html') as string,
+    onEnter: ['$state', '$anchorScroll', ($state, $anchorScroll) => {
+        setTimeout(() => {
+            $anchorScroll();
+        }, 100);
+    }],
 };
 
 const userSettingsProfile: any = {

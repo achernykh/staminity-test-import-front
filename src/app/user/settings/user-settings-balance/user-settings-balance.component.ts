@@ -27,9 +27,17 @@ class UserSettingsBalanceCtrl {
     }
 
     withdraw ($event) {
-        this.agentService.postAgentWithdrawal({
-          account: this.account,
-        } as any);
+        const noCommissionLimit = this.account['defExtAccount'].limits && this.account['defExtAccount'].limits.noCommissionLimit;
+        return this.dialogs.confirm({
+            title: "user.settings.agent.balance.withdrawConfirmationHeader",
+            text: this.account.balance < noCommissionLimit ? 
+                "user.settings.agent.balance.withdrawWithCommissionConfirmation" : 
+                "user.settings.agent.balance.withdrawNoCommissionConfirmation",
+        })
+        .then(() => this.agentService.postAgentWithdrawal({
+            account: this.account,
+        } as any));
+        ;
     }
 }
 

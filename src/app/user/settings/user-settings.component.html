@@ -6,12 +6,13 @@
     left-bar="!$userSettingsCtrl.isMobileLayout()"
 >
     <st-application-frame-title>
-        <span class="md-title" translate="user.settings.fullTitle"></span>
+        <span class="md-title">{{$userSettingsCtrl.isMobileLayout()?'user.settings.shortTitle':'user.settings.fullTitle' | translate}}</span>
         <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <md-menu hide show-gt-sm>
-            <md-button ng-click="$mdMenu.open($event)">
-                <span>{{$userSettingsCtrl.owner | userName:'compact'}}</span>
-                <md-icon class="material-icons">arrow_drop_down</md-icon>
+        <md-menu>
+            <md-button ng-click="$mdMenu.open($event)" ng-class="{'md-icon-button':$userSettingsCtrl.isMobileLayout()}">
+                <span ng-if="!$userSettingsCtrl.isMobileLayout()">{{$userSettingsCtrl.owner | userName:'compact'}}</span>
+                <md-icon ng-if="!$userSettingsCtrl.isMobileLayout()" class="material-icons">arrow_drop_down</md-icon>
+                <md-icon ng-if="$userSettingsCtrl.isMobileLayout()" class="material-icons">person_add</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="athlete in $userSettingsCtrl.athletes track by athlete.userId">
@@ -39,7 +40,7 @@
     <st-application-frame-mobile-menu>
     </st-application-frame-mobile-menu>
     <st-application-frame-left-bar>
-        <st-user-settings-menu hide show-gt-sm owner="$userSettingsCtrl.owner" current-user="$userSettingsCtrl.currentUser" class="user-settings__left-bar">
+        <st-user-settings-menu hide show-gt-sm owner="$userSettingsCtrl.owner" current-user="$userSettingsCtrl.currentUser" agent-profile="$userSettingsCtrl.agentProfile" class="user-settings__left-bar">
         </st-user-settings-menu>
     </st-application-frame-left-bar>
     <st-application-frame-content>

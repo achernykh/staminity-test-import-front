@@ -1,5 +1,5 @@
 <md-list class="md-dense section user-settings-withdrawal">
-    <md-list-item layout="row" layout-wrap>
+    <md-list-item ng-if="$ctrl.withdrawals.length" layout="row" layout-wrap>
         <div flex="15" class="md-body-2" translate>user.settings.agent.withdrawals.requestedAmount</div>
         <div flex="15" class="md-body-2" translate>user.settings.agent.withdrawals.execAmount</div>
         <div flex="20" class="md-body-2" translate>user.settings.agent.withdrawals.account</div>

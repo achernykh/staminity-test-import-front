@@ -19,7 +19,7 @@
         <md-card class="user-settings-main__card">
             <md-list>
                 <md-list-item ng-click="$ctrl.showPasswordChange($event)">
-                    <p class="md-body-2">{{ 'user.settings.account.hint' | translate }}: {{$ctrl.owner.personal.extEmail}} #{{$ctrl.owner.userId}}</p>
+                    <p class="md-body-2">{{ 'user.settings.account.hint' | translate }}: {{$ctrl.owner.email}} #{{$ctrl.owner.userId}}</p>
                     <md-button class="md-secondary" ng-click="$ctrl.showChangePassword($event)" translate="user.settings.account.newPassword"></md-button>
                 </md-list-item>
             </md-list>
@@ -59,7 +59,7 @@
             <st-user-settings-bills owner="$ctrl.owner"></st-user-settings-bills>
         </md-card>
     </article>
-    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-agent">
+    <article ng-if="$ctrl.isOwnSettings() && $ctrl.agentProfile.isActive" id="user-settings-agent">
         <h2 class="md-body-2 md-dark" translate>user.settings.agent.header</h2>
         <md-card class="user-settings-main__card">
             <md-list>

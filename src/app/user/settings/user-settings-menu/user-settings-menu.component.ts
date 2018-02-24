@@ -1,5 +1,6 @@
 import {IComponentOptions, IComponentController, ILocationService} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IAgentProfile, IAgentEnvironment } from "@api/agent";
 import './user-settings-menu.component.scss';
 
 class UserSettingsMenuCtrl implements IComponentController {
@@ -7,6 +8,7 @@ class UserSettingsMenuCtrl implements IComponentController {
     // bind
     owner: IUserProfile;
     currentUser: IUserProfile;
+    agentProfile: IAgentProfile;
    
     // inject
     static $inject = ['$location', '$state'];
@@ -32,7 +34,6 @@ class UserSettingsMenuCtrl implements IComponentController {
      */
     go (hash: string) {
         this.$state.go('user-settings.main', { userId: this.owner.userId, '#': hash });
-        // this.$location.hash(hash);
     } 
 }
 
@@ -40,6 +41,7 @@ export const UserSettingsMenuComponent:IComponentOptions = {
     bindings: {
         owner: '<',
         currentUser: '<',
+        agentProfile: '<',
     },
     controller: UserSettingsMenuCtrl,
     template: require('./user-settings-menu.component.html') as string

@@ -11,7 +11,7 @@
         <md-icon class="material-icons">payment</md-icon>
         <p class="md-caption" translate>user.settings.billing.header</p>
     </md-list-item>
-    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-agent')">
+    <md-list-item ng-if="$ctrl.isOwnSettings() && $ctrl.agentProfile.isActive" ng-click="$ctrl.go('user-settings-agent')">
         <md-icon class="material-icons">attach_money</md-icon>
         <p class="md-caption" translate>user.settings.agent.header</p>
     </md-list-item>
