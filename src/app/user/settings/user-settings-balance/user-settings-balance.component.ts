@@ -31,8 +31,8 @@ class UserSettingsBalanceCtrl {
         return this.dialogs.confirm({
             title: "user.settings.agent.balance.withdrawConfirmationHeader",
             text: this.account.balance < noCommissionLimit ? 
-                "user.settings.agent.balance.withdrawWithCommissionConfirmation" : 
-                "user.settings.agent.balance.withdrawNoCommissionConfirmation",
+                "user.settings.agent.balance.withdrawWithCommissionConfirmation." + this.account.currency : 
+                "user.settings.agent.balance.withdrawNoCommissionConfirmation." + this.account.currency,
         })
         .then(() => this.agentService.postAgentWithdrawal({
             account: this.account,

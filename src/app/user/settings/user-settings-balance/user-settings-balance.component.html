@@ -6,7 +6,7 @@
                 !$ctrl.account.defExtAccount ? 'user.settings.agent.balance.withdrawNoExtAccount' :
                 !$ctrl.account.balance ? 'user.settings.agent.balance.withdrawZeroAmount' :
                 $ctrl.account.balance<$ctrl.account.defExtAccount.limits.withdrawLimit ? 'user.settings.agent.balance.withdrawNotAvaliable' : 
-                $ctrl.account.balance<$ctrl.account.defExtAccount.limits.noCommissionLimit ? 'user.settings.agent.balance.withdrawWithCommission' :
+                $ctrl.account.balance<$ctrl.account.defExtAccount.limits.noCommissionLimit ? 'user.settings.agent.balance.withdrawWithCommission.' + $ctrl.account.currency :
                 'user.settings.agent.balance.withdrawNoCommission'
             }}" translate-values="{currency:$ctrl.account.currency, withdrawLimit:$ctrl.account.defExtAccount.limits.withdrawLimit||'0', noCommissionLimit:$ctrl.account.defExtAccount.limits.noCommissionLimit||'0'}"></div>
         </div>
