@@ -72,7 +72,7 @@
         <!-- Режим просмотра -->
         <md-list ng-if="$ctrl.record.view.isView">
             <md-list-item>
-                <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
+                <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
                 <p flex class="md-caption" ng-if="$ctrl.record.view.isView">{{::'record.' + $ctrl.record.recordHeader.type | translate}}</p>
             </md-list-item>
             <md-list-item>
@@ -85,7 +85,7 @@
             <md-list flex="none" class="md-dense slim-input bg-grey-050">
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
-                        <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
+                        <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
                         <md-select flex ng-model="$ctrl.record.recordHeader.type" class="icon">
                             <md-option ng-repeat="type in $ctrl.config.types track by $index"
                                        value="{{type}}">{{'record.' + type | translate}}
