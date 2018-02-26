@@ -1,4 +1,4 @@
-import { IComponentController, IComponentOptions} from "angular";
+import { IComponentController, IComponentOptions, ILocationService} from "angular";
 import {StateService} from "angular-ui-router";
 import { Observable } from "rxjs/Observable";
 import {IUserProfile} from "../../../../api";
@@ -15,13 +15,14 @@ class LandingPageCtrl implements IComponentController {
         club: ["lp-club-01.png"],
     };
 
-    static $inject = ["AuthService", "$state", "SessionService", "DisplayService", '$mdMedia'];
+    static $inject = ["AuthService", "$state", "SessionService", "DisplayService", '$mdMedia', '$location'];
 
     constructor(private AuthService: IAuthService,
                 private $state: StateService,
                 private SessionService: SessionService,
                 private display: DisplayService,
-                private $mdMedia: any) {
+                private $mdMedia: any,
+                private $location: ILocationService) {
 
     }
 
@@ -33,7 +34,7 @@ class LandingPageCtrl implements IComponentController {
         if (this.AuthService.isAuthenticated()) {
             this.$state.go(this.$mdMedia('gt-sm') ? "initialisation" : "calendar");
         } else {
-            this.$state.go("signup");
+            this.$state.go("signup", {...this.$location.search()});
         }
     }
 
