@@ -48,7 +48,6 @@
                 activatePremiumTrial: null,
                 activateCoachTrial: null,
                 activateClubTrial: null,
-                search: null,
             },
             resolve: {
                 view: () => new DisplayView("signup"),

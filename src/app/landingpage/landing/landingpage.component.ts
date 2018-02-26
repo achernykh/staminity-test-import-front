@@ -6,6 +6,7 @@ import {IAuthService} from "../../auth/auth.service";
 import {SessionService} from "../../core";
 import DisplayService from "../../core/display.service";
 import "./landingpage.component.scss";
+import { saveUtmParams } from "../../share/location/utm.functions";
 
 class LandingPageCtrl implements IComponentController {
 
@@ -24,6 +25,7 @@ class LandingPageCtrl implements IComponentController {
                 private $mdMedia: any,
                 private $location: ILocationService) {
 
+        saveUtmParams($location.search());
     }
 
     get user(): IUserProfile {
@@ -34,7 +36,7 @@ class LandingPageCtrl implements IComponentController {
         if (this.AuthService.isAuthenticated()) {
             this.$state.go(this.$mdMedia('gt-sm') ? "initialisation" : "calendar");
         } else {
-            this.$state.go("signup", {search: this.$location.search()});
+            this.$state.go("signup");
         }
     }
 

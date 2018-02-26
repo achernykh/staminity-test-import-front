@@ -179,13 +179,7 @@ class AuthCtrl implements IComponentController {
     }
 
     private getUtmParams (): Object {
-        let utm: Object = {};
-        let params = Object.assign({},
-            this.$stateParams.hasOwnProperty('search') && this.$stateParams.search && this.$stateParams.search || {},
-            this.$location.search());
-        let keys: Array<string> = Object.keys(params).filter(k => k.indexOf('utm') !== -1) || [];
-        keys.map(k => utm[k] = params[k]);
-        return utm;
+        return JSON.parse(window.sessionStorage.getItem('utm')) || {};
     }
 
 }
