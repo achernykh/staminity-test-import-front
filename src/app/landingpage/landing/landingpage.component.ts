@@ -34,7 +34,7 @@ class LandingPageCtrl implements IComponentController {
         if (this.AuthService.isAuthenticated()) {
             this.$state.go(this.$mdMedia('gt-sm') ? "initialisation" : "calendar");
         } else {
-            this.$state.go("signup", {...this.$location.search()});
+            this.$state.go("signup", {search: this.$location.search()});
         }
     }
 

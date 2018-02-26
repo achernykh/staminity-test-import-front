@@ -95,7 +95,7 @@ class AuthCtrl implements IComponentController {
      */
     signup(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
-        this.AuthService.signUp(Object.assign({}, credentials, {...this.getUtmParams()}))
+        this.AuthService.signUp(Object.assign({}, credentials, {utm: {...this.getUtmParams()}}))
             .finally(() => this.enabled = true)
             .then((message) => {
                 this.showConfirm = true;
@@ -179,14 +179,13 @@ class AuthCtrl implements IComponentController {
     }
 
     private getUtmParams (): Object {
-        let params = Object.assign({}, this.$stateParams, this.$location.search());
-        return {
-            utm_source: params.hasOwnProperty('utm_source') && params.utm_source || null,
-            utm_medium: params.hasOwnProperty('utm_medium') && params.utm_medium || null,
-            utm_campaign: params.hasOwnProperty('utm_campaign') && params.utm_campaign || null,
-            utm_content: params.hasOwnProperty('utm_content') && params.utm_content || null,
-            utm_term: params.hasOwnProperty('utm_term') && params.utm_term || null,
-        }
+        let utm: Object = {};
+        let params = Object.assign({},
+            this.$stateParams.hasOwnProperty('search') && this.$stateParams.search && this.$stateParams.search || {},
+            this.$location.search());
+        let keys: Array<string> = Object.keys(params).filter(k => k.indexOf('utm') !== -1) || [];
+        keys.map(k => utm[k] = params[k]);
+        return utm;
     }
 
 }

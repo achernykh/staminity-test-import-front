@@ -48,11 +48,7 @@
                 activatePremiumTrial: null,
                 activateCoachTrial: null,
                 activateClubTrial: null,
-                utm_source: null,
-                utm_medium: null,
-                utm_campaign: null,
-                utm_content: null,
-                utm_term: null
+                search: null,
             },
             resolve: {
                 view: () => new DisplayView("signup"),
