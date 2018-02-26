@@ -280,6 +280,7 @@
                             <section flex="auto" layout="row" layout-align="top space-between">
                                 <section class="st-avatar size-60 border-light"
                                          flex="none"
+                                         ng-style="$ctrl.plan.iconStyle"
                                          ng-mouseover="show=true"
                                          ng-mouseleave="show=false">
                                     <div flex="none"
@@ -348,6 +349,12 @@
                             </md-list-item>
                             <p class="hint md-caption md-dark" style="padding: 0 16px">Описания условий по комиссиям и сборам</p>
                             <!-- -->
+                            <md-list-item>
+                                <md-icon flex="none" class="material-icons md-dark dense" ng-bind="'copyright'"></md-icon>
+                                <p translate="trainingPlans.version"></p>
+                                <md-button class="md-primary md-secondary"
+                                           translate="trainingPlans.actions.publish"></md-button>
+                            </md-list-item>
                         </md-list>
                         <md-subheader>Описание плана</md-subheader>
                         <p class="hint md-caption md-dark" style="padding: 0 16px">Рекомендация к описанию плана</p>

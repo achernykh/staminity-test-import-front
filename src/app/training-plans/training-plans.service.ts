@@ -1,13 +1,15 @@
+import { IHttpPromise } from 'angular';
 import { SocketService } from "../core";
 import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
     ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest, ITrainingPlanAssignmentRequest,
     ModifyTrainingPlanAssignment, ITrainingPlanAssignment, GetTrainingPlanAssignment, ITrainingPlanAssignmentResponse,
-    PublishTrainingPlan
+    PublishTrainingPlan, GetTrainingPlanStore
 } from "../../../api/trainingPlans";
 import { IWSResponse, IRevisionResponse, ISystemMessage } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
 import { Observable } from "rxjs";
+import { RESTService, PostFile } from "../core/rest.service";
 
 /**
  * Сервис для работы с данными Долгосрочного плана
@@ -21,9 +23,10 @@ export class TrainingPlansService {
 
     message: Observable<any>;
 
-    static $inject = [ 'SocketService' ];
+    static $inject = [ 'SocketService', 'RESTService' ];
 
-    constructor (private socket: SocketService) {
+    constructor (private socket: SocketService,
+                 private RESTService: RESTService) {
         this.message = this.socket.messages.filter(message => message.type === 'trainingPlanItem').share();
     }
 
@@ -34,6 +37,15 @@ export class TrainingPlansService {
      */
     search (request: ITrainingPlanSearchRequest): Promise<ITrainingPlanSearchResult> {
         return this.socket.send(new SearchTrainingPlan(request));
+    }
+
+    /**
+     * Поиск долгосрочных планов
+     * @param request
+     * @returns {Promise<any>}
+     */
+    store (request: ITrainingPlanSearchRequest): Promise<ITrainingPlanSearchResult> {
+        return this.socket.send(new GetTrainingPlanStore(request));
     }
 
     /**
@@ -132,5 +144,25 @@ export class TrainingPlansService {
      */
     publish (planId: number, version: number): Promise<ISystemMessage> {
         return this.socket.send(new PublishTrainingPlan(planId, version));
+    }
+
+    /**
+     * Аплоад аватара клуба
+     * @param groupId
+     * @param file
+     * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
+     */
+    setAvatar(planId: number, file: any): IHttpPromise<any> {
+        return this.RESTService.postFile(new PostFile(`/plan/icon/${planId}`, file));
+    }
+
+    /**
+     * Аплоад фонового изоражения клуба
+     * @param groupId
+     * @param file
+     * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
+     */
+    setBackground(planId: number, file: any): IHttpPromise<any> {
+        return this.RESTService.postFile(new PostFile(`/plan/background/${planId}`, file));
     }
 }

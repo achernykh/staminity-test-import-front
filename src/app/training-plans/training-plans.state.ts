@@ -2,14 +2,14 @@ import { StateDeclaration } from "angular-ui-router";
 import { SessionService } from "../core";
 import { TrainingPlansService } from "./training-plans.service";
 
-const trainingPlanSearch: any = {
-    name: 'training-plans-search',
-    url: '/training-plans/search',
+const trainingPlanStore: any = {
+    name: 'training-plans-store',
+    url: '/training-plans/store',
     loginRequired: false,
     authRequired: [],
     views: {
         "application": {
-            component: 'trainingPlansSearch'
+            component: 'trainingPlansStore'
         }
     }
 };
@@ -60,4 +60,4 @@ const trainingPlanId: any = {
 };
 
 export const trainingPlansState: Array<StateDeclaration> =
-    [trainingPlanSearch, trainingPlanBuilder, trainingPlanBuilderId, trainingPlanId];
+    [trainingPlanStore, trainingPlanBuilder, trainingPlanBuilderId, trainingPlanId];

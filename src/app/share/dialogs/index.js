@@ -14,6 +14,7 @@ export default class DialogsService {
     
     uploadPicture () {
         return this.$mdDialog.show({
+            multiple: true,
             controller: UploadPictureDialogController,
             template: require('./upload.html'),
             parent: angular.element(document.body),

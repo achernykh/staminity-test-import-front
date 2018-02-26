@@ -67,7 +67,7 @@ export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
 export const fromNow = () => (date) => moment.utc(date).fromNow(true);
 
 
-const image = () => (sub: string, url:string = 'default.jpg') : string => {
+export const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };
 

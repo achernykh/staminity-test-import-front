@@ -10,6 +10,7 @@ import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfileShort } from "../../../../api/user/user.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
+import { image } from "../../share/share.module";
 
 export class TrainingPlan implements ITrainingPlan {
 
@@ -238,6 +239,19 @@ export class TrainingPlan implements ITrainingPlan {
     clear (keys: Array<string> = this.keys): ITrainingPlan {
         keys.map(p => delete this[p]);
         return <ITrainingPlan>this;
+    }
+
+    get iconPath(): string {
+        return image()('/plan/icon/', this.icon);
+    }
+
+    get iconStyle(): Object {
+        return {
+            'background-image': `url(${this.iconPath})`,
+            'background-size': 'cover',
+            'position': 'relative',
+            'cursor': 'pointer'
+        }
     }
 
 }

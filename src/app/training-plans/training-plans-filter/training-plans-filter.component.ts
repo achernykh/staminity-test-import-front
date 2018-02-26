@@ -10,6 +10,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
     // bind
     filter: ITrainingPlanSearchRequest;
+    view: string;
     onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => IPromise<void>;
 
     // public
@@ -64,10 +65,15 @@ class TrainingPlansFilterCtrl implements IComponentController {
         return list.indexOf(item) > -1;
     }
 
+    get isSeacrh(): boolean {
+        return this.view === 'search';
+    }
+
 }
 
 const TrainingPlansFilterComponent: IComponentOptions = {
     bindings: {
+        view: '=',
         filter: '<',
         onHide: '&',
         onChangeFilter: '&'

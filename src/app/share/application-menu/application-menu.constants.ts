@@ -70,10 +70,9 @@ export const AppMenuSettings = [
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {
-        icon: "show_chart",
+        icon: "local_grocery_store",
         name: "appMenu.plan",
-        link: "training-plans-search",
-        state: 'soon',
+        link: "training-plans-store",
         hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },

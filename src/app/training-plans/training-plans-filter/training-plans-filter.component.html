@@ -15,7 +15,7 @@
             <md-list class="md-dense" flex>
                 <md-subheader><span translate="trainingPlans.filter"></span></md-subheader>
                 <!-- Платный план -->
-                <md-list-item>
+                <md-list-item ng-if="$ctrl.isSearch">
                     <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
                     <p translate="trainingPlans.isPublic.label"></p>
                     <md-switch class="md-primary"

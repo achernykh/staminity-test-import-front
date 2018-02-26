@@ -1,6 +1,8 @@
 <st-application-frame
         class="st-application-frame"
-        has-nav-bar="true"
+        template="application"
+        navigation-bar="false"
+        left-bar="true"
 
         left-bar-hide-type="'collapsed'"
         left-bar-show="$ctrl.leftBarShow"
@@ -11,16 +13,7 @@
     </st-application-frame-title>
 
     <st-application-frame-toolbar>
-        <md-button ng-click="$ctrl.toCurrentWeek()" class="md-icon-button" aria-label="Settings" ng-init="today = 0">
-            <md-icon class="material-icons" aria-label="Back">today</md-icon>
-        </md-button>
-        <span translate class="md-body-1">calendar.today</span>
-        <md-button ng-click="$ctrl.view.compact = !$ctrl.view.compact" class="md-icon-button" aria-label="Settings">
-            <md-icon class="material-icons" aria-label="View Size">view_comfy</md-icon>
-        </md-button>
-        <span class="md-body-1" translate>
-                {{$ctrl.view.compact ? 'calendar.compact' : 'calendar.details'}}
-        </span>
+
     </st-application-frame-toolbar>
 
     <st-application-frame-navbar layout="row">
@@ -51,11 +44,10 @@
 
     <st-application-frame-left-bar>
         <training-plans-filter class="training-plans-search__filter"
-                               charts="$ctrl.charts"
-                               filter="$ctrl.filter"
+                               view="search"
+                               filter="$ctrl.searchParams"
                                on-hide="$ctrl.toggleLeftBar()"
-                               on-change-filter="$ctrl.changeGlobalFilter()"
-                               on-change-charts="$ctrl.saveSettings('charts')">
+                               on-change-filter="$ctrl.changeGlobalFilter()">
         </training-plans-filter>
     </st-application-frame-left-bar>
 

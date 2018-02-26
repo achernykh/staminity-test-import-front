@@ -7,7 +7,9 @@
                   ng-click="$ctrl.edit($event, plan)"
                   ng-repeat-start="plan in $ctrl.getTrainingPlanList() track by plan.id">
 
-        <div class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
+        <img ng-if="plan.icon"ng-src="{{'/plan/icon/' | image:plan.icon }}" class="md-avatar" alt="avatar" />
+
+        <div  ng-if="!plan.icon" class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
              layout="row" layout-align="center center">
             <md-icon class="s24 md-light"
                      md-svg-src="/assets/icon/{{::plan.type}}.svg">

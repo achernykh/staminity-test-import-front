@@ -4,9 +4,9 @@ export const _translateTrainingPlans = {
             fullTitle: 'Тренировочный план',
             shortTitle: 'План',
         },
-        search: {
-            fullTitle: 'Поиск тренировочных планов',
-            shortTitle: 'Поиск планов',
+        store: {
+            fullTitle: 'Магазин тренировочных планов',
+            shortTitle: 'Магазин планов',
         },
         filter: 'Фильтр',
         filterResult: 'Найдено планов {{total}}',
@@ -141,7 +141,7 @@ export const _translateTrainingPlans = {
             fullTitle: 'Training plan',
             shortTitle: 'Plan',
         },
-        search: {
+        store: {
             fullTitle: 'Training plan search',
             shortTitle: 'Plan search',
         },

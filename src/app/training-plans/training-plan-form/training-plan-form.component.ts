@@ -80,12 +80,20 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     setAvatar (): void {
         this.dialogs.uploadPicture()
-            .then();
+            .then(picture => this.trainingPlanService.setAvatar(this.plan.id, picture))
+            .then(response => response.icon && (this.plan.icon = response.icon),
+                error => this.message.toastError(error))
+            .then(_ => this.message.toastInfo('updateAvatar'))
+            .then(_ => this.$scope.$applyAsync());
     }
 
     setBackground (): void {
         this.dialogs.uploadPicture()
-            .then();
+            .then(picture => this.trainingPlanService.setBackground(this.plan.id, picture))
+            .then(response => response.background && (this.plan.background = response.background),
+                error => this.message.toastError(error))
+            .then(_ => this.message.toastInfo('updateAvatar'))
+            .then(_ => this.$scope.$applyAsync());
     }
 
     get distanceType () : any {
