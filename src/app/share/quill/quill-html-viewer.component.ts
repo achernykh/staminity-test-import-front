@@ -9,7 +9,7 @@ class QuillHtmlViewerCtrl implements IComponentController {
     static $inject = ['$sce'];
     constructor(private $sce: any) {}
     $onInit(): void {
-        this.trustHTML = this.$sce.trustAsHtml(this.data.replace(this.findHref, '<$1 onclick="window.open(\'$3\',\'_system\', \'location=yes, closebuttoncaption=Done\')" $5$6>'));
+        this.trustHTML = this.data && this.$sce.trustAsHtml(this.data.replace(this.findHref, '<$1 onclick="window.open(\'$3\',\'_system\', \'location=yes, closebuttoncaption=Done\')" $5$6>'));
     }
 }
 

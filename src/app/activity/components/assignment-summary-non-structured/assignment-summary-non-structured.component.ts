@@ -254,6 +254,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     changeParam() {
+        //console.debug('activity assignment quill change text ', this.item.activity.intervals.PW.trainersPrescription);
         setTimeout(()=>{
             this.clearTemplate();
             this.validateForm();

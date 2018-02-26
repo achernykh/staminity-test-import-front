@@ -124,10 +124,10 @@
         <span translate="activity.trainersPrescription"></span>
     </md-subheader>
     <st-quill-html-viewer ng-if="$ctrl.item.activity.view.isView"
-                          data="$ctrl.item.activity.intervals.PW.trainersPrescription">
+                          data="$ctrl.plan.trainersPrescription">
     </st-quill-html-viewer>
     <ng-quill-editor ng-if="!$ctrl.item.activity.view.isView"
-                     ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
+                     ng-model="$ctrl.plan.trainersPrescription"
                      on-content-changed="$ctrl.changeParam()"
                      placeholder="{{'activity.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConf.toolbar"

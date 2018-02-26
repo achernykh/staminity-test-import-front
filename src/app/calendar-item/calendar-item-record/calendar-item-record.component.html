@@ -243,7 +243,7 @@
         </div>
     </md-content>
     <!-- Календарь -->
-    <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan && !$ctrl.isIonic"
+    <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
@@ -258,7 +258,7 @@
         </md-button>
     </md-dialog-actions>
     <!-- Тренировочный план -->
-    <md-dialog-actions ng-if="$ctrl.record.view.isTrainingPlan && !$ctrl.isIonic"
+    <md-dialog-actions ng-if="$ctrl.record.view.isTrainingPlan"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="!$ctrl.record.view.isView"

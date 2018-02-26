@@ -188,7 +188,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.currentUser = this.options.currentUser;
             this.user = this.options.owner;
         }
-        this.activity = new Activity(this.data, this.options);
+        this.activity = new Activity(this.activity || this.data, this.options);
         this.segmentChart = this.activity.formChart();
 
         if (this.activity.bottomPanel === 'data') {

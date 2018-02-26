@@ -34,7 +34,7 @@ export class Activity extends CalendarItem {
     //athletes: ActivityAthletes; // класс для работы с переченем пользователей для планирования
     //auth: ActivityAuth; // класс для работы с полномочиями
 
-    categoriesList: Array<IActivityCategory> = [];
+    categoriesList: Array<IActivityCategory>;
     categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 
     // private

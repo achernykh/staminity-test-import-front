@@ -75,7 +75,7 @@ export class CalendarItemDialogService {
      */
     activity (env: Event,
               options: ICalendarItemDialogOptions,
-              item: ICalendarItem = this.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+              item: ICalendarItem = CalendarItemDialogService.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
                   return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
         //return Promise.resolve(() => {})
@@ -111,7 +111,7 @@ export class CalendarItemDialogService {
      */
     measurement (env: Event,
                  options: ICalendarItemDialogOptions,
-                 item: ICalendarItem = this.measurementFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+                 item: ICalendarItem = CalendarItemDialogService.measurementFromOptions(options)): Promise<ICalendarItemDialogResponse> {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
                 template: `<md-dialog id="post-measurement" aria-label="Measurement">
                                 <calendar-item-measurement
@@ -139,7 +139,7 @@ export class CalendarItemDialogService {
      */
     record (env: Event,
             options: ICalendarItemDialogOptions,
-            item: ICalendarItem = this.recordFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+            item: ICalendarItem = CalendarItemDialogService.recordFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-record" aria-label="Record">
@@ -169,7 +169,7 @@ export class CalendarItemDialogService {
      */
     competition (env: Event,
                  options: ICalendarItemDialogOptions,
-                 item: ICalendarItem = this.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+                 item: ICalendarItem = CalendarItemDialogService.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
@@ -227,7 +227,7 @@ export class CalendarItemDialogService {
      * @param options
      * @returns {ICalendarItem}
      */
-    private activityFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+    public static activityFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
         return {
             calendarItemId: null,
             calendarItemType: 'activity',
@@ -270,7 +270,7 @@ export class CalendarItemDialogService {
      * @param options
      * @returns {ICalendarItem}
      */
-    private measurementFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+    public static measurementFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
         return {
             calendarItemId: null,
             calendarItemType: 'measurement',
@@ -289,7 +289,7 @@ export class CalendarItemDialogService {
      * @param options
      * @returns {ICalendarItem}
      */
-    private recordFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+    public static recordFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
         return {
             calendarItemId: null,
             calendarItemType: 'record',
@@ -307,7 +307,7 @@ export class CalendarItemDialogService {
      * @param options
      * @returns {ICalendarItem}
      */
-    private competitionFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
+    public static competitionFromOptions (options: ICalendarItemDialogOptions): ICalendarItem {
         return {
             calendarItemId: null,
             calendarItemType: 'competition',

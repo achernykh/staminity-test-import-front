@@ -10,7 +10,7 @@
                ng-click="$ctrl.item.activity.view.isPut = true"
                translate="activity.edit">
     </md-button>
-    <md-button ng-if="!$ctrl.item.activity.view.isView"
+    <md-button ng-if="!$ctrl.item.activity.view.isView && !$ctrl.item.isIonic"
                ng-click="$ctrl.item.onReset($ctrl.item.activity.view.isPost ? 'post' : 'view' )"
                translate="activity.reset">
     </md-button>

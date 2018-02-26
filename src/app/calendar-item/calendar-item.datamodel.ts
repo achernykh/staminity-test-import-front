@@ -77,8 +77,10 @@ export class CalendarItemAuth {
 
 export class CalendarItemView {
 
-	constructor(private options: ICalendarItemDialogOptions) {
+	options: ICalendarItemDialogOptions;
 
+	constructor(options: ICalendarItemDialogOptions) {
+		this.options = Object.assign({}, options);
 	}
 
 	get isPopup (): boolean {

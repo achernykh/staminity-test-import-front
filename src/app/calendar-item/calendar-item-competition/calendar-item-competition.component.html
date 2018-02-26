@@ -214,7 +214,7 @@
 
     <!-- Кнопки -->
 
-    <md-dialog-actions ng-if="!$ctrl.competition.view.isTrainingPlan && !$ctrl.isIonic"
+    <md-dialog-actions ng-if="!$ctrl.competition.view.isTrainingPlan"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="$ctrl.competition.view.isView" type="submit"
@@ -229,7 +229,7 @@
         </md-button>
     </md-dialog-actions>
     <!-- Тренировочный план -->
-    <md-dialog-actions ng-if="$ctrl.competition.view.isTrainingPlan && !$ctrl.isIonic"
+    <md-dialog-actions ng-if="$ctrl.competition.view.isTrainingPlan"
                        flex="none" layout="row" style="background: white">
         <span flex></span>
         <md-button ng-if="!$ctrl.competition.view.isView"
