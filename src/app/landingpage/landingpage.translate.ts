@@ -185,8 +185,8 @@ export let _translate = {
                 link1: '<a flex href="#" class="md-body md-light disable">Наша команда</a>',
                 link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">Написать письмо</a>',
             },
-            copyright1: "Cделано с",
-            copyright2: "| © 2017 staminity.com Все права защищены",
+            copyright1: 'Cделано с',
+            copyright2: '| © 2018 ООО "Стаминити" ИНН 9715304797 КПП 771501001. Все права защищены',
         },
         tariffs: {
             title: "Сколько стоит Стаминити?",
@@ -453,7 +453,7 @@ export let _translate = {
                 link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">E-mail us</a>',
             },
             copyright1: "Made with",
-            copyright2: "| © 2017 staminity.com All Rights Reserved",
+            copyright2: "| © 2018 LLC Staminity INN 9715304797 KPP 771501001. All rights reserved",
         },
         tariffs: {
             title: "Find a plan that’s right for you",
