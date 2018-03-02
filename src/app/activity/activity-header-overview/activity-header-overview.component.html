@@ -11,7 +11,9 @@
                          on-change="$ctrl.onChangeForm(plan,actual,form)">
     </activity-assignment>
 
-    <activity-assignment-buttons flex="none"></activity-assignment-buttons>
+    <activity-assignment-buttons
+            is-form-valid="$ctrl.item.assignmentForm.$valid"
+            flex="none"/>
 </form>
 
 

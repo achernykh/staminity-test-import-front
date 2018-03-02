@@ -168,7 +168,7 @@
         </md-button>
         <md-button ng-if="!$ctrl.measurement.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.measurementForm.$valid}"
-                   ng-disabled="$ctrl.mode === 'put' && !$ctrl.measurementForm.$dirty"
+                   ng-disabled="($ctrl.mode === 'put' && !$ctrl.measurementForm.$dirty) || $ctrl.inAction"
                    ng-click="($ctrl.measurementForm.$valid) ? $ctrl.save() : null">
             <span translate="measurement.action.save"></span>
         </md-button>

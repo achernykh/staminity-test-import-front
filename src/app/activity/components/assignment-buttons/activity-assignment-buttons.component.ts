@@ -28,6 +28,7 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
 const ActivityAssignmentButtonsComponent:IComponentOptions = {
     bindings: {
         data: '<',
+        isFormValid: '<',
         onEvent: '&'
     },
     require: {

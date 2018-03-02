@@ -223,8 +223,8 @@
         </md-button>
         <md-button ng-if="!$ctrl.competition.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.form.$valid}"
-                   ng-disabled="$ctrl.competition.view.isPut && !$ctrl.form.$dirty"
-                   ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
+                   ng-disabled="($ctrl.competition.view.isPut && !$ctrl.form.$dirty) || $ctrl.inAction"
+                   ng-click="$ctrl.save()">
             <span translate="activity.save"></span>
         </md-button>
     </md-dialog-actions>

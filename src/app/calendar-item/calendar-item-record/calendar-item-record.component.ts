@@ -28,6 +28,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
+    private inAction: boolean = false;
 
     static $inject = ['calendarItemRecordConfig', 'CalendarService', 'CalendarItemDialogService',
         'TrainingPlansService', 'message', 'quillConfig'];
@@ -84,6 +85,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     }
 
     onSave () {
+        this.inAction = true;
         this.record.recordHeader.editParams.asyncEventsDateFrom = this.options.calendarRange.dateStart;
         this.record.recordHeader.editParams.asyncEventsDateTo = this.options.calendarRange.dateEnd;
 
@@ -93,7 +95,8 @@ export class CalendarItemRecordCtrl implements IComponentController {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
                     this.onAnswer({ formMode: FormMode.Delete, item: this.record });
-                }, error => this.message.toastError(error));
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
         }
         if ( this.record.view.isPut ) {
             this.calendarService.putItem(this.record.build())
@@ -101,7 +104,8 @@ export class CalendarItemRecordCtrl implements IComponentController {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
                     this.onAnswer({ formMode: FormMode.Delete, item: this.record });
-                }, error => this.message.toastError(error));
+                }, error => this.message.toastError(error)).
+            then(() => this.inAction = false);
         }
     }
 
