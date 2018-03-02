@@ -27,7 +27,7 @@ class TrainingPlanStoreItemCtrl implements IComponentController {
 
     private getPlanDetails (): void {
         //if ( this.mode === FormMode.Post /**|| this.plan.hasOwnProperty('calendarItems')**/ ) { return; }
-        this.trainingPlanService.get(this.data.id)
+        this.trainingPlanService.getStoreItem(this.data.id)
             .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
             .then(() => this.dataLoading = true);
     }

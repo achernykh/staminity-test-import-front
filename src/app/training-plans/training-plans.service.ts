@@ -4,7 +4,7 @@ import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
     ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest, ITrainingPlanAssignmentRequest,
     ModifyTrainingPlanAssignment, ITrainingPlanAssignment, GetTrainingPlanAssignment, ITrainingPlanAssignmentResponse,
-    PublishTrainingPlan, GetTrainingPlanStore
+    PublishTrainingPlan, GetTrainingPlanStore, GetTrainingPlanStoreItem, UnpublishTrainingPlan
 } from "../../../api/trainingPlans";
 import { IWSResponse, IRevisionResponse, ISystemMessage } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
@@ -55,6 +55,15 @@ export class TrainingPlansService {
      */
     get (planId: number): Promise<ITrainingPlan> {
         return this.socket.send(new GetTrainingPlan(planId));
+    }
+
+    /**
+     * Карточка плана из магазина
+     * @param planId
+     * @returns {Promise<any>}
+     */
+    getStoreItem (planId: number): Promise<ITrainingPlan> {
+        return this.socket.send(new GetTrainingPlanStoreItem(planId));
     }
 
     /**
@@ -144,6 +153,16 @@ export class TrainingPlansService {
      */
     publish (planId: number, version: number): Promise<ISystemMessage> {
         return this.socket.send(new PublishTrainingPlan(planId, version));
+    }
+
+    /**
+     * Изьятие публикации версии плана из магазина
+     * @param planId
+     * @param version
+     * @returns {Promise<any>}
+     */
+    unpublish (planId: number): Promise<ISystemMessage> {
+        return this.socket.send(new UnpublishTrainingPlan(planId));
     }
 
     /**
