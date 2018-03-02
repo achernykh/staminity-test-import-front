@@ -245,12 +245,26 @@ export class TrainingPlan implements ITrainingPlan {
         return image()('/plan/icon/', this.icon);
     }
 
+    get backgroundPath(): string {
+        return image()('/plan/background/', this.background);
+    }
+
     get iconStyle(): Object {
         return {
             'background-image': `url(${this.iconPath})`,
+            'background-position': 'center',
             'background-size': 'cover',
             'position': 'relative',
             'cursor': 'pointer'
+        }
+    }
+
+    get backgroundStyle(): Object {
+        return {
+            'background-image': `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url(${this.backgroundPath})`,
+            'background-size': 'cover',
+            'background-position': 'center',
+            'position': 'relative'
         }
     }
 

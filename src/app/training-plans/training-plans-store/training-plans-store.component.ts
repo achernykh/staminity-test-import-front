@@ -23,7 +23,7 @@ class TrainingPlansStoreCtrl implements IComponentController {
     // private
     private user: IUserProfile;
     private plans: TrainingPlansList;
-    private searchParams: ITrainingPlanSearchRequest;
+    private searchParams: ITrainingPlanSearchRequest = {};
     private destroy: Subject<any> = new Subject();
     static $inject = ['$location', "SessionService", "TrainingPlansService"];
 
@@ -36,17 +36,6 @@ class TrainingPlansStoreCtrl implements IComponentController {
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe((userProfile) => this.user = userProfile);
-    }
-
-    $onInit() {
-        Object.assign(this.searchParams, {...this.$location.search()});
-        this.trainingPlansService.store(this.searchParams)
-            .then(result => {debugger;}, error => {debugger;});
-
-    }
-
-    prepareList(result: ITrainingPlanSearchResult) {
-        this.plans = new TrainingPlansList(result.items);
     }
 
 }

@@ -12,6 +12,11 @@ export const UserMenuSettings = [
         link: "settings/user"
     },
     {
+        icon: 'shopping_cart',
+        name: 'userMenu.cart',
+        link: 'cart'
+    },
+    {
         icon: "help",
         name: "userMenu.help",
         link: "https://help.staminity.com/ru/"
@@ -47,6 +52,13 @@ export const AppMenuSettings = [
         link: 'search',
         hideMobile: false
     },
+    {
+        icon: "shopping_cart",
+        name: "appMenu.plan",
+        link: "training-plans-store",
+        hideMobile: true
+        //role: [_UserRoles.user, _UserRoles.coach]
+    },
     /**{
         icon: 'import_contacts',
         name: 'appMenu.reference',
@@ -67,13 +79,6 @@ export const AppMenuSettings = [
         link: "analytics",
         hideMobile: true
         //state: 'soon'
-        //role: [_UserRoles.user, _UserRoles.coach]
-    },
-    {
-        icon: "local_grocery_store",
-        name: "appMenu.plan",
-        link: "training-plans-store",
-        hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     {

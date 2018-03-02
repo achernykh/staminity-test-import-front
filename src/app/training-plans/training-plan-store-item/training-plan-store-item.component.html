@@ -1,0 +1,106 @@
+<!-- Загрузка данных -->
+<section layout="column" layout-align="center center" layout-fill ng-if="!$ctrl.dataLoading">
+    <md-toolbar class="md-default">
+        <div class="md-toolbar-tools">
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div flex="auto" layout="column" layout-align="center center">
+        <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+        <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
+    </div>
+</section>
+<!-- Отображение данных -->
+<section layout="column" layout-align="start center" layout-fill
+         ng-if="$ctrl.dataLoading">
+    <md-toolbar flex="none" class="md-primary">
+        <div class="md-toolbar-tools">
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+        <div class="avatar-block" ng-if="false">
+            <userpic class="size-60 border-light" ng-mouseover="show=true" ng-mouseleave="show=false"
+                     profile="$ctrl.user" is-premium="$ctrl.user.isPremium" unlink="true">
+                <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button"
+                        class="edit-user-avatar">
+                    Edit
+                </button>
+            </userpic>
+            <div flex=none hide show-gt-xs>
+                <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+            </div>
+        </div>
+    </md-toolbar>
+    <section class="training-plan-store-item__landing">
+        <section flex="auto" layout="column" layout-align="space-between stretch"
+                 class="background md-padding" ng-style="$ctrl.plan.backgroundStyle">
+            <section flex="none" layout="row" layout-align="center center">
+                <section class="st-avatar size-60 border-light"
+                         flex="none"
+                         ng-style="$ctrl.plan.iconStyle">
+                </section>
+            </section>
+            <div flex="none" layout="column" layout-align="center center">
+                <div class="md-title md-light" ng-bind="$ctrl.plan.name"></div>
+                <div class="md-caption md-light">{{$ctrl.plan.authorProfile | userName}}</div>
+            </div>
+        </section>
+        <md-tabs flex="none" layout-fill md-stretch-tabs="always" ng-cloak class="md-primary">
+            <md-tab id="overview" flex="auto" layout="column">
+                <md-tab-label>
+                    <span translate="trainingPlans.store.overview"></span>
+                </md-tab-label>
+                <md-tab-body layout="column" layout-fill>
+                    <section class="charts md-padding" layout-gt-sm="row" layout="column">
+                        <div flex-gt-sm="auto" flex="none" class="chart"></div>
+                        <div flex-gt-sm="5"></div>
+                        <div flex-gt-sm="auto" flex="none" class="chart"></div>
+                    </section>
+                    <p class="md-body-2 md-dark text-caption" translate="trainingPlans.tags"></p>
+                    <div class="md-caption tags text-block">
+                        <span class="tag" ng-if="$ctrl.plan.distanceType" md-colors="{background: 'accent-300'}">
+                            {{'competition.distanceType.' + $ctrl.plan.type + '.' + $ctrl.plan.distanceType | translate}}</span>
+                        <span class="tag" ng-repeat="tag in $ctrl.plan.tags" md-colors="{background: 'primary-300'}">
+                            {{'trainingPlans.tags.' + tag | translate}}</span>
+                        <span class="tag" ng-repeat="word in $ctrl.plan.keywords" ng-bind="word"></span>
+                    </div>
+                    <p class="md-body-2 md-dark text-caption" translate="trainingPlans.reqularWeek"></p>
+                    <div class="md-caption text-block" ng-bind="$ctrl.plan.regularWeek"></div>
+                    <p class="md-body-2 md-dark text-caption" translate="trainingPlans.description"></p>
+                    <div class="md-padding md-caption text-block" ng-bind-html="$ctrl.plan.description"></div>
+                </md-tab-body>
+            </md-tab>
+            <md-tab id="review" flex="auto" layout="column">
+                <md-tab-label>
+                    <span translate="trainingPlans.store.review"></span>
+                </md-tab-label>
+            </md-tab>
+            <md-tab id="samples" flex="auto" layout="column">
+                <md-tab-label>
+                    <span translate="trainingPlans.store.samples"></span>
+                </md-tab-label>
+            </md-tab>
+            <md-tab id="author" flex="auto" layout="column">
+                <md-tab-label>
+                    <span translate="trainingPlans.store.author"></span>
+                </md-tab-label>
+            </md-tab>
+
+        </md-tabs>
+    </section>
+    <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+        <span flex></span>
+        <md-button ng-class="{'md-warn': !$ctrl.planForm.$valid}"
+                   ng-disabled="!$ctrl.planForm.$dirty"
+                   ng-click="($ctrl.planForm.$valid) ? $ctrl.publish() : null">
+            <span translate="trainingPlans.actions.buy"></span>
+        </md-button>
+    </md-dialog-actions>
+</section>

@@ -62,7 +62,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     private exists (item, list): boolean {
-        return list.indexOf(item) > -1;
+        return list && list.indexOf(item) > -1;
     }
 
     get isSeacrh(): boolean {

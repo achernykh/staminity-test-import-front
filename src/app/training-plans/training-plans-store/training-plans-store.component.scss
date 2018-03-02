@@ -1,9 +1,12 @@
 .training-plans-store {
 
+  &__content {
+  }
+
   &__application {
     width: 100%;
     position: absolute;
-    top: 64px;
+    top: 0;
     height: calc(100vh - 64px);
 
     @media (max-width: 959px) {

@@ -31,7 +31,11 @@ export const _translateTrainingPlans = {
             save: 'Сохранить',
             appoint: 'Присвоить...',
             calendar: 'Запланировать тренировки',
-            assignment: 'Присвоения'
+            assignment: 'Присвоения',
+            publish: 'Опубликовать',
+            unpublish: 'Отменить',
+            setIcon: 'Изменить',
+            setBackground: 'Установить фон'
         },
         // поля плана
         isPublic: {

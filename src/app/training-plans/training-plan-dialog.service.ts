@@ -40,6 +40,34 @@ export class TrainingPlanDialogService {
         });
     }
 
+    store(env: Event, plan?: TrainingPlan): Promise<any> {
+        return this.$mdDialog.show({
+            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
+                $scope.hide = () => $mdDialog.hide();
+                $scope.cancel = () => $mdDialog.cancel();
+                $scope.answer = (mode, plan) => $mdDialog.hide({mode, plan});
+            }],
+            controllerAs: "$ctrl",
+            template: `<md-dialog id="training-plan-store-item" aria-label="Training Plan Store Item">
+                            <st-training-plan-store-item
+                                    layout="column" layout-fill class="training-plan-store-item"
+                                    data="$ctrl.plan"
+                                    on-cancel="cancel()" on-save="answer(mode,plan)"/>
+                       </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: env,
+            locals: {
+                plan: plan || new TrainingPlan(),
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true,
+        });
+    }
+
+
+
     assignment(env: Event, plan: TrainingPlan, state?: 'form' | 'list'): Promise<{mode: FormMode, plan: TrainingPlan}> {
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {

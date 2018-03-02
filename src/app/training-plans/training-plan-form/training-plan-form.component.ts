@@ -21,6 +21,7 @@ class TrainingPlanFormCtrl implements IComponentController {
     // private
     private plan: TrainingPlan;
     private planForm: INgModelController;
+    private commerceForm: INgModelController;
     private dataLoading: boolean = false;
 
     //inject
@@ -49,7 +50,17 @@ class TrainingPlanFormCtrl implements IComponentController {
         }
     }
 
+    get isFormDirty (): boolean {
+        return this.planForm.$dirty || (this.plan.isPublic && this.commerceForm.$dirty);
+    }
+
+    get isFormValid (): boolean {
+        return this.planForm.$valid && (!this.plan.isPublic || (this.plan.isPublic && this.commerceForm.$valid));
+    }
+
     save (): void {
+        if (!this.planForm.$valid || !this.commerceForm.$valid) { return; }
+
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
                 .post(this.plan.apiObject())
@@ -72,6 +83,8 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     publish (): void {
+        if (!this.commerceForm.$valid) { return; }
+
         this.trainingPlanService.publish(this.plan.id, null)
             .then(response => {
                 this.message.toastInfo('');
@@ -84,6 +97,7 @@ class TrainingPlanFormCtrl implements IComponentController {
             .then(response => response.icon && (this.plan.icon = response.icon),
                 error => this.message.toastError(error))
             .then(_ => this.message.toastInfo('updateAvatar'))
+            .then(_ => this.commerceForm.$setDirty())
             .then(_ => this.$scope.$applyAsync());
     }
 
@@ -93,6 +107,7 @@ class TrainingPlanFormCtrl implements IComponentController {
             .then(response => response.background && (this.plan.background = response.background),
                 error => this.message.toastError(error))
             .then(_ => this.message.toastInfo('updateAvatar'))
+            .then(_ => this.commerceForm.$setDirty())
             .then(_ => this.$scope.$applyAsync());
     }
 

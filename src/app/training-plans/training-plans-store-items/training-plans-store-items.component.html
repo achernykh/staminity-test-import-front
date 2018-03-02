@@ -1,0 +1,70 @@
+<!-- Выполняется поиск -->
+<section class="training-plans-store-items__loading"
+         ng-if="$ctrl.isLoadingState"
+         layout-fill layout="column" layout-align="center center">
+    <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.emptyList"></p>
+</section>
+
+<!-- Данных нет -->
+<section class="training-plans-store-items__empty"
+         ng-if="$ctrl.isEmptyState"
+         layout-fill layout="column" layout-align="center center">
+    <md-icon flex="none" class="material-icons md-dark md-inactive" ng-bind="'hourglass_empty'"></md-icon>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.emptyList"></p>
+</section>
+
+<!-- Данные есть, вид таблица -->
+<md-table-container class="training-plans-store-items__data" ng-if="$ctrl.isDataState">
+    <table md-table>
+        <thead md-head>
+        <tr md-row>
+            <th md-column class="info"><span translate="trainingPlans.store.info"></span></th>
+            <th md-column class="weeks" md-numeric><span translate="trainingPlans.store.rate"></span></th>
+            <th md-column class="weeks" md-numeric><span translate="trainingPlans.store.weeks"></span></th>
+            <th md-column class="hours" md-numeric><span translate="trainingPlans.store.hours"></span></th>
+            <th md-column class="price" md-numeric><span translate="trainingPlans.store.price"></span></th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-repeat="plan in $ctrl.plans.list track by plan.id"
+            ng-click="$ctrl.open($event, plan)">
+            <td md-cell class="info md-body-2">
+                <div layout="row" layot-align="start top" class="md-padding">
+                    <img flex="none" ng-src="{{'/plan/icon/' | image:plan.icon }}" class="st-avatar" alt="avatar"/>
+                    <div flex="auto">
+                        <div class="md-body-2 md-dark" ng-bind="plan.name"></div>
+                        <div class="md-body-1 md-dark">{{plan.authorProfile | userName}}</div>
+                        <div class="md-caption tags">
+                            <span class="tag" ng-if="plan.distanceType" md-colors="{background: 'accent-300'}">
+                            {{'competition.distanceType.' + plan.type + '.' + plan.distanceType | translate}}</span>
+                            <span class="tag" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-300'}">
+                            {{'trainingPlans.tags.' + tag | translate}}</span>
+                            <span class="tag" ng-repeat="word in plan.keywords" ng-bind="word"></span>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td md-cell class="rate">
+                <span ng-bind="plan.rate"></span>
+            </td>
+            <td md-cell class="weeks">
+                <span ng-bind="plan.weekCount"></span>
+            </td>
+            <td md-cell class="hours">
+                <span ng-bind="plan.hours"></span>
+            </td>
+            <td md-cell class="price">
+                <md-button class="md-primary md-secondary"
+                           style="border: 1px solid; border-radius: 5px"
+                           md-colors="{'border-color': 'primary'}">
+                    <span ng-bind="plan.currency"></span>
+                    <span ng-bind="plan.price"></span>
+                </md-button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>
+
+<!-- Даннве есть, вид плитка -->

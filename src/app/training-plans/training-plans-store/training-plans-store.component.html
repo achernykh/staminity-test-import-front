@@ -1,12 +1,12 @@
 <st-application-frame
-        class="st-application-frame"
-        template="application"
-        navigation-bar="false"
-        left-bar="true"
+    class="st-application-frame"
+    template="application"
+    navigation-bar="false"
+    left-bar="true"
 
-        left-bar-hide-type="'collapsed'"
-        left-bar-show="$ctrl.leftBarShow"
-        right-bar-show="$ctrl.rightBarShow">
+    left-bar-hide-type="'collapsed'"
+    left-bar-show="$ctrl.leftBarShow"
+    right-bar-show="$ctrl.rightBarShow">
 
     <st-application-frame-title>
         <span>Тренировочные планы</span>
@@ -16,38 +16,15 @@
 
     </st-application-frame-toolbar>
 
-    <st-application-frame-navbar layout="row">
-        <md-nav-item md-nav-click="goto('page1')" name="page1">
-            Page One
-        </md-nav-item>
-        <md-nav-item md-nav-click="goto('page2')" name="page2">
-            Page Two
-        </md-nav-item>
-        <md-nav-item md-nav-click="goto('page3')" name="page3">
-            Page Three
-        </md-nav-item>
-    </st-application-frame-navbar>
-
     <st-application-frame-content>
-        <section flex="auto" class="training-plans-search__plans-section">
-            <section class="training-plans-search__area">
-                <training-plans-list
-                        plans="$ctrl.plans"
-                        filter="$ctrl.filter"
-                        filter-changes="$ctrl.filterChanges"
-                        on-change-filter="$ctrl.saveSettings('charts')"
-                        mobile-view="">
-                </training-plans-list>
-            </section>
+        <section flex="auto" class="training-plans-store__content">
+            <st-training-plans-store-items search-params="$ctrl.searchParams"/>
         </section>
     </st-application-frame-content>
 
     <st-application-frame-left-bar>
         <training-plans-filter class="training-plans-search__filter"
-                               view="search"
-                               filter="$ctrl.searchParams"
-                               on-hide="$ctrl.toggleLeftBar()"
-                               on-change-filter="$ctrl.changeGlobalFilter()">
+                               view="search">
         </training-plans-filter>
     </st-application-frame-left-bar>
 

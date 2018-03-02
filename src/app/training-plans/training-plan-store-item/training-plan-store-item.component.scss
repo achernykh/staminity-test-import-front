@@ -1,0 +1,70 @@
+md-dialog#training-plan-store-item{
+
+  @media (min-width: 960px) {
+    min-width: 640px;
+    max-width: 640px;
+    min-height: 90vh;
+    height: 100%;
+  }
+
+}
+
+.training-plan-store-item {
+
+  md-toolbar {
+    background: none;
+  }
+
+
+
+  &__landing {
+    width: 100%;
+    position: fixed;
+
+    .background {
+      padding-top: 64px;
+      padding-bottom: 64px;
+      //height: 200px;
+      background: grey;
+    }
+
+    md-tabs {
+      position: relative;
+      top: -48px;
+      min-height: calc(100vh - 10vh - 220px) !important;
+
+      md-tabs-wrapper {
+        background-color: transparent;
+      }
+
+    }
+
+    .charts {
+
+      .chart {
+        background-color: lightgray;
+        min-height: 140px;
+      }
+
+    }
+
+    .text-caption {
+      padding: 0 16px !important;
+      margin: 8px 0 !important;
+    }
+
+    .text-block {
+      padding: 0 16px !important;
+      margin: 8px 0 16px 0 !important;
+    }
+
+  }
+
+  md-dialog-actions {
+    background: white;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
+
+}
