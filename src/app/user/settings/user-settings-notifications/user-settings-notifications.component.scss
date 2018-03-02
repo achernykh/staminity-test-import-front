@@ -1,0 +1,14 @@
+.user-settings-notifications {
+  &__list-item {
+    padding-right: 4px;
+  }
+
+  &__providers-icon {
+    margin-right: 18px;
+
+    &:last-child {
+      margin-right: 2px;
+    }
+  }
+
+}

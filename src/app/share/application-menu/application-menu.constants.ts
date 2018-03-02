@@ -9,7 +9,7 @@ export const UserMenuSettings = [
     {
         icon: "settings",
         name: "userMenu.settings",
-        link: "settings/user"
+        link: "user-settings.main"
     },
     {
         icon: 'shopping_cart',

@@ -11,7 +11,6 @@ import Core from './core/core.module';
 import Share from './share/share.module';
 import Auth from './auth/auth.module';
 import Landing from './landingpage/landingpage.module';
-import SettingsUser from './settings-user/settings-user.module';
 import Calendar from './calendar/calendar.module';
 import CalendarItemMeasurement from './calendar-item/calendar-item.module';
 import { ActivityModule } from './activity';
@@ -53,7 +52,6 @@ const root = module('staminity.application', [
 	Share,
 	Auth,
 	Landing,
-	SettingsUser,
 	Calendar,
 	CalendarItemMeasurement,
 	ActivityModule,

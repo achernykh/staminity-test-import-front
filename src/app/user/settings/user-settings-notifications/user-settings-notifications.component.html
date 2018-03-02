@@ -1,0 +1,28 @@
+<form name="$ctrl.form">
+    <div ng-repeat="group in $ctrl.groups">
+        <md-subheader class="md-no-sticky" ng-repeat-start="(subGroupName, subGroup) in group">
+            <div layout="row" layout-align="space-between center">
+                <span flex="none" translate>{{::'user.settings.notification.' + subGroupName}}</span>
+                <div flex="none">
+                    <md-icon class="material-icons user-settings-notifications__providers-icon">laptop</md-icon>
+                    <md-icon class="material-icons user-settings-notifications__providers-icon">email</md-icon>
+                    <md-icon class="material-icons user-settings-notifications__providers-icon">smartphone</md-icon>
+                </div>
+            </div>
+        </md-subheader>
+        <md-list class="md-dense section">
+            <md-list-item layout="row" ng-repeat="settingsName in subGroup" ng-init="settings=$ctrl.datamodel.notifications[settingsName]">
+                <p translate="{{::'user.settings.notification.' + settingsName}}"></p>
+                <md-checkbox class="md-primary md-secondary" ng-model="settings[0]" aria-label="email"></md-checkbox>
+                <md-checkbox class="md-primary md-secondary" ng-model="settings[1]" aria-label="phone"></md-checkbox>
+                <md-checkbox class="md-primary md-secondary" ng-model="settings[2]" aria-label="web"></md-checkbox>
+            </md-list-item>
+        </md-list>
+        <md-divider ng-repeat-end></md-divider>
+    </div>
+    <div flex layout="row" layout-align="end center">
+        <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+            {{ 'form.save' | translate }}
+        </md-button>
+    </div>
+</form>

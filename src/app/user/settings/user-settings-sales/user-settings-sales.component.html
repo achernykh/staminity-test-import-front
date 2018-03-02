@@ -1,0 +1,22 @@
+<md-list class="md-dense section user-settings-sales">
+    <md-list-item ng-repeat="transaction in $ctrl.transactions" layout="row" layout-wrap>
+        <div class="md-body-1 user-settings-sales__cell-with-overflow" flex="30">{{transaction.product.name || transaction.product.externalId}} {{transaction.product.externalRevision}}</div>
+        <div class="md-body-1" flex="20">{{transaction.operDate | date:'shortDate'}}</div>
+        <div class="md-body-1" flex="20">{{transaction.grossAmount}} {{transaction.account.currency}}</div>
+        <div flex></div>
+        <md-button class="user-settings-sales__username" ui-sref="user({uri: transaction.buyerProfile.public.uri})" flex="20">
+            <userpic profile="transaction.buyerProfile" is-premium=transaction.buyerProfile | isPremium"></userpic>
+            {{ transaction.buyerProfile | username }}
+        </md-button>
+    </md-list-item>
+    <md-list-item ng-if="!$ctrl.transactions.length">
+        <div class="md-body-1" translate>user.settings.agent.sales.none</div>
+    </md-list-item>
+    <md-list-item>
+        <div class="md-body-2" translate>user.settings.agent.sales.total</div>
+    </md-list-item>
+    <md-list-item ng-repeat="currency in $ctrl.currencies" layout="row" layout-wrap>
+        <div class="md-body-2" flex="50">{{'user.settings.agent.currency.' + currency | translate}}</div>
+        <div class="md-body-2" flex="50">{{$ctrl.getTotal(currency)}} {{currency}}</div>
+    </md-list-item>
+</md-list>

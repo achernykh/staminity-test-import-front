@@ -38,6 +38,7 @@ export const translateForm = {
         save: "Сохранить",
         invalidDate: "Некорректный формат даты",
         delete: "Удалить",
+        edit: 'Изменить'
     },
     en: {
         required: "Mandatory field",
@@ -47,5 +48,6 @@ export const translateForm = {
         save: "Save",
         invalidDate: "Incorrect date format",
         delete: "Delete",
+        edit: 'Edit'
     },
 };

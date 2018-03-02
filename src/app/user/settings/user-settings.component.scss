@@ -16,28 +16,19 @@ $menu-width: 220px;
 
 .user-settings {
 
-  &__content {
+  &__card {
     max-width: 640px;
     margin: auto;
 
     @media (max-width: 959px) {
+      max-width: auto;
       width: 100%;
       margin: 8px;
     }
-    
-    .first-level-section {
-      .title {
-        margin: 16px 8px;
-      }
-    }
+  }
 
-    .second-level-section {
-      .content {
-        margin: 0;
-        min-height: calc(100vh - 64px);
-      }
-    }
-    
+  &__card-title {
+    margin: 10px;
   }
 
 }

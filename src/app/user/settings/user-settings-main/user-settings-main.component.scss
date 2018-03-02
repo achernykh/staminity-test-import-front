@@ -1,0 +1,9 @@
+.user-settings-main__card {
+	width: 680px;
+	margin: 16px 0;
+
+    @media (max-width: 959px) {
+      width: auto;
+      margin: 8px;
+    }
+}

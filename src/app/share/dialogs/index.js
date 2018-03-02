@@ -473,7 +473,7 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
 
     this.countsText = () => {
         return this.counts()
-            .map(fee => $translate.instant(`settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
+            .map(fee => $translate.instant(`user.settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
             .join(', ');
     };
 
