@@ -35,7 +35,7 @@ class UserSettingsTariffsCtrl {
             }
 
             return tariff.isOn? this.disableTariff(tariff) : this.enableTariff(tariff);
-        }
+        };
     }
 
     selectTariff (tariff: any) {

@@ -131,7 +131,7 @@ export class UserSettingsService {
     citySearch (query: string) : Promise<any> {
         let language = this.displayService.getLocale();
         let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
-        let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
+        let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM';
         let request = {
             method: 'GET',
             url: `${api}?input=${query}&types=(cities)&language=${language}&key=${key}`,

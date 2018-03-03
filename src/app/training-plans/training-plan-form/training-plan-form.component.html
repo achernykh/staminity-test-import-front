@@ -198,21 +198,7 @@
                         </md-list>
                         </form>
                     </md-tab-body>
-                </md-tab><!--
-                <md-tab id="description" flex="auto" layout="column">
-                    <md-tab-label><span translate="trainingPlans.tabs.description"></span></md-tab-label>
-                    <md-tab-body layout="column" layout-fill>
-                        <ng-quill-editor ng-if="true" flex="auto"
-                                         ng-model="$ctrl.plan.description"
-                                         placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                                         modules="$ctrl.quillConf.toolbarFull"
-                                         on-content-changed="$ctrl.changeForm()"
-                                         ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                                         read-only="$ctrl.isViewMode"
-                                         st-quill-post-image>
-                        </ng-quill-editor>
-                    </md-tab-body>
-                </md-tab>-->
+                </md-tab>
                 <md-tab id="commerce" flex="auto" layout="column" ng-if="$ctrl.plan.isPublic">
                     <md-tab-label><span translate="trainingPlans.tabs.commerce"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
@@ -300,7 +286,7 @@
                                                   name="regularWeek"
                                                   type="text"
                                                   rows="1"
-                                                  md-select-on-focus
+                                                  max-rows="3"
                                                   placeholder="{{trainingPlans.regularWeek.placeholder}}"
                                                   ng-model="$ctrl.plan.regularWeek"></textarea>
                                         <div ng-messages="$ctrl.commerceForm.regularWeek.$error" role="alert">
@@ -350,18 +336,37 @@
                                                translate="trainingPlans.actions.publish"></md-button>
                                 </md-list-item>
                             </md-list>
-                            <md-subheader><span translate="trainingPlans.description"></span></md-subheader>
-                            <p class="hint md-caption md-dark" style="padding: 0 16px" translate="trainingPlans.descriptionStoryline"></p>
-                            <ng-quill-editor ng-if="true" flex="auto" class="md-padding"
-                                             ng-model="$ctrl.plan.description"
-                                             placeholder="{{'record.descriptionPlaceholder' | translate}}"
-                                             modules="$ctrl.quillConf.toolbarFull"
-                                             on-content-changed="$ctrl.changeForm()"
-                                             ng-class="{'hide-toolbar': $ctrl.isViewMode}"
-                                             read-only="$ctrl.isViewMode"
-                                             st-quill-post-image>
-                            </ng-quill-editor>
                         </form>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab id="description" flex="auto" layout="column" ng-if="$ctrl.plan.isPublic">
+                    <md-tab-label><span translate="trainingPlans.tabs.description"></span></md-tab-label>
+                    <p class="hint md-caption md-dark" style="padding: 0 16px" translate="trainingPlans.descriptionStoryline"></p>
+                    <md-tab-body layout="column" layout-fill>
+                        <ng-quill-editor ng-if="true" flex="auto" class="md-padding"
+                                         ng-model="$ctrl.plan.description"
+                                         placeholder="{{'record.descriptionPlaceholder' | translate}}"
+                                         modules="$ctrl.quillConf.toolbarFull"
+                                         on-content-changed="$ctrl.changeForm()"
+                                         ng-class="{'hide-toolbar': $ctrl.isViewMode}"
+                                         read-only="$ctrl.isViewMode"
+                                         st-quill-post-image>
+                        </ng-quill-editor>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab id="samples" flex="auto" layout="column" ng-if="$ctrl.plan.isPublic">
+                    <md-tab-label><span translate="trainingPlans.tabs.samples"></span></md-tab-label>
+                    <md-tab-body layout="column" layout-fill>
+                        <section ng-if="$ctrl.plan.samples.length === 0"
+                                 layout="column" layout-fill layout-align="center stretch">
+                            <div flex="none" class="tutorial">
+
+                            </div>
+                            <p flex="none">Text</p>
+                        </section>
+                        <st-calendar-item-list class="calendar-item-list"
+                                               data="$ctrl.plan.samples">
+                        </st-calendar-item-list>
                     </md-tab-body>
                 </md-tab>
             </md-tabs>

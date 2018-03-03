@@ -15,7 +15,8 @@ export const _translateTrainingPlans = {
         tabs: {
             general: 'Основные параметры',
             description: 'Описание',
-            commerce: 'Условия продажи'
+            commerce: 'Магазин',
+            samples: 'Примеры'
         },
         loading: "Загрузка",
         form: {

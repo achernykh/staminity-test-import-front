@@ -119,7 +119,7 @@ export class TrainingPlansService {
      * @param isSample
      * @returns {Promise<any>}
      */
-    postItem (planId: number, item: ICalendarItem, isSample: boolean = false): Promise<IRevisionResponse> {
+    postItem (planId: number, item: ICalendarItem, isSample): Promise<IRevisionResponse> {
         return this.socket.send(new ModifyTrainingPlanItem('I', planId, item, isSample));
     }
 

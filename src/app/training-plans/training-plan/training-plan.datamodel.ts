@@ -256,7 +256,7 @@ export class TrainingPlan implements ITrainingPlan {
             'background-size': 'cover',
             'position': 'relative',
             'cursor': 'pointer'
-        }
+        };
     }
 
     get backgroundStyle(): Object {
@@ -265,7 +265,7 @@ export class TrainingPlan implements ITrainingPlan {
             'background-size': 'cover',
             'background-position': 'center',
             'position': 'relative'
-        }
+        };
     }
 
 }

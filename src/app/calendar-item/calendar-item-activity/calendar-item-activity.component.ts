@@ -601,11 +601,17 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 });
     }
 
+    setSample (value: boolean): void {
+        this.activity.isSample = value;
+        this.activity.view.isPut = true;
+        this.onSaveTrainingPlanActivity();
+    }
+
     onSaveTrainingPlanActivity(): void {
         this.inAction = true;
 
         if (this.activity.view.isPost) {
-            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.activity.build(), this.activity.isSample)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityCreated');
@@ -613,7 +619,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
         } else if (this.activity.view.isPut) {
-            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), this.activity.isSample)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');

@@ -13,6 +13,8 @@ export const translateActivity = {
           close: 'Закрыть',
           settings: 'Настройки',
           addAthletes: 'Добавить атлета',
+          setSample: 'Сделать примером',
+          unsetSample: 'Убрать из примеров'
       },
       details: {
           measures: {

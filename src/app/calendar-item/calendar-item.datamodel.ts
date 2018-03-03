@@ -128,6 +128,7 @@ export class CalendarItem implements ICalendarItem {
 	public userProfileCreator: IUserProfileShort;
 	public _dateStart: Date;
 	public _dateEnd: Date;
+	public isSample: boolean;
 	public index: number; // index for ng-repeat in calendar-day component
 
 	view: CalendarItemView;

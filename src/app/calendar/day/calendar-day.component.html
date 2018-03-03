@@ -123,68 +123,6 @@
                     </div>
                 </div>
             </calendar-measurement>
-            <calendar-event ng-switch-when="event" class="md-whiteframe-1dp"
-                            layout="column" flex="auto"
-                            dnd-draggable="item"
-                            dnd-type="'itemType'"
-                            dnd-effect-allowed="copyMove"
-                            dnd-callback="$ctrl.onDropEvent(item, operation, $index, date, index)">
-                <header ng-click="$ctrl.open($event,item.calendarItemType, item)">
-                    <div layout="row" layout-align="space-between center">
-                        <div flex="25" hide show-gt-sm></div>
-                        <section flex="none" layout="row" layout-align="center center"
-                                 class="icon bg-circle-32 bg-grey-500">
-                            <md-icon class="md-light"
-                                     md-svg-src="/assets/icon/{{item.eventHeader.eventType}}.svg"></md-icon>
-                        </section>
-                        <div hide show-xs show-sm flex class="md-caption" translate>
-                            {{::'event.'+item.eventHeader.eventType}}
-                        </div>
-                        <md-menu flex="none" flex-gt-sm="25">
-                            <md-button class="md-icon-button" aria-label="More Event"
-                                       style="margin-right: 0px"
-                                       ng-click="$mdOpenMenu($event)">
-                                <md-icon class="material-icons md-18">more_vert</md-icon>
-                            </md-button>
-                            <md-menu-content>
-                                <md-menu-item>
-                                    <md-button ng-click="$ctrl.open($event,item.calendarItemType, item)">
-                                        <md-icon class="material-icons" md-menu-align-target>edit</md-icon>
-                                        Изменить
-                                    </md-button>
-                                </md-menu-item>
-                                <md-menu-item>
-                                    <md-button ng-click="$ctrl.calendar.onCopy([item])">
-                                        <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-                                        Скопировать
-                                    </md-button>
-                                </md-menu-item>
-                                <md-menu-item>
-                                    <md-button ng-click="$ctrl.onDelete()" ng-disabled="::!$ctrl.isCreator">
-                                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                                        Удалить
-                                    </md-button>
-                                </md-menu-item>
-                            </md-menu-content>
-                        </md-menu>
-                    </div>
-                    <div hide show-gt-sm flex layout="row" layout-align="center center"
-                         class="md-caption dark center line-14" style="margin-top: 8px">
-                        <div flex="none" translate>{{::'event.'+item.eventHeader.eventType}}</div>
-                    </div>
-                </header>
-                <footer ng-if="::(item.eventHeader.target.length>0)" hide show-gt-md>
-                    <div flex="none" class="md-caption secondary dark" style="font-size: 12px"
-                         hm-read-more
-                         hm-text="{{::item.eventHeader.target}}"
-                         hm-limit="50"
-                         hm-more-text="more"
-                         hm-less-text="less"
-                         hm-dots-class="read-more-dots"
-                         hm-link-class="read-more-links">
-                    </div>
-                </footer>
-            </calendar-event>
             <st-competition-compact ng-switch-when="competition"
                                     layout="column" flex="auto"
                                     view="$ctrl.viewLayout"

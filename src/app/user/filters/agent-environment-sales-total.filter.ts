@@ -8,7 +8,7 @@ export const agentEnvironmentSalesTotal = ['$translate', ($translate) => (agentE
 		const amounts = Object.keys(byCurrency)
 			.map((currency) => sum(byCurrency[currency].map((account) => account.inTranAmount)) + ' ' + currency)
 			.join(', ');
-		return $translate.instant('user.settings.agent.sales.summary', { count, amounts })
+		return $translate.instant('user.settings.agent.sales.summary', { count, amounts });
 	} else {
 		return $translate.instant('user.settings.agent.sales.none');
 	}
