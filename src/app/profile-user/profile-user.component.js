@@ -3,11 +3,14 @@ import moment from 'moment/src/moment.js';
 import { id, pipe, groupBy, log, map, entries, fold, filter } from '../share/util.js';
 import './profile-user.component.scss';
 import { saveUtmParams } from "../share/location/utm.functions";
+import { profileShort } from '../core/user.function';
+import { InitiatorType } from '../../../api/notification';
 
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService, RequestsService, $location) {
+    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService,
+                 RequestsService, $location, ChatDialog) {
         'ngInject';
         this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
@@ -17,6 +20,7 @@ class ProfileCtrl {
         this.GroupService = GroupService;
         this.message = SystemMessageService;
         this.RequestsService = RequestsService;
+        this.chatDialog = ChatDialog;
 
         saveUtmParams($location.search());
     }
@@ -80,10 +84,22 @@ class ProfileCtrl {
     openMenu ($mdOpenMenu, event) {
         $mdOpenMenu(event)
     }
+
+    chat (e) {
+        let room = {
+            type: InitiatorType.user,
+            companion: profileShort(this.user)
+        };
+        let options = {
+            view: 'slim',
+            hideBackButton: true,
+        }
+        this.chatDialog.open(e, options, room).then(_ => {});
+    }
 };
 
 ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService',
-    'SystemMessageService','RequestsService','$location'];
+    'SystemMessageService','RequestsService','$location', 'ChatDialog'];
 
 const ProfileComponent = {
     bindings: {

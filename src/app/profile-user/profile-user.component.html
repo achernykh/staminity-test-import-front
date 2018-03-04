@@ -73,6 +73,12 @@
                     </md-menu-content>
                 </md-menu>
             </span>
+            <span>
+                <md-button ng-click="$ctrl.chat($event)"
+                           class="md-primary md-dark-theme" style="text-transform: none;">
+                    <span translate="user.action.message"></span>
+                </md-button>
+            </span>
             <span ng-if="false">
                 <md-menu>
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)" style="color: white; border:1px solid rgba(255, 255, 255, 0.7); background-color: rgba(0, 0, 0, 0.12);">

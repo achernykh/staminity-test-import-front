@@ -1,0 +1,12 @@
+<st-chat-list flex="none" ng-if="!$ctrl.isRoomState" class="chat-list"
+              on-select-room="$ctrl.room = room"
+              on-close="$ctrl.onClose()">
+
+</st-chat-list>
+
+<st-chat-room flex="none" layout="column" layout-fill="true"
+              ng-if="$ctrl.isRoomState" class="chat-room"
+              room="$ctrl.room"
+              on-back="$ctrl.room = null"
+              on-close="$ctrl.onClose()">
+</st-chat-room>

@@ -1,0 +1,13 @@
+<userpic flex="none" flex-order="{{::!$ctrl.message.isMe ? 1:3}}"
+         profile="$ctrl.message.author" is-premium="$ctrl.message.author.isPremium"></userpic>
+<div flex flex-order="2"
+     ng-class="{'bg-blue-grey-100': $ctrl.message.isMe, 'bg-grey-200': !$ctrl.message.isMe}"
+     class="bubble md-caption md-dark" layout="column">
+    <div style="white-space: pre-wrap;" flex>{{$ctrl.message.text}}</div>
+    <div flex="none" class="md-inactive"
+         style="font-size: 9px; text-align: right; margin-top: 4px">
+        {{::$ctrl.message.date()}}
+    </div>
+</div>
+<div flex="none" flex-order="{{::$ctrl.message.isMe ? 1:3}}" style="width: 32px">
+</div>

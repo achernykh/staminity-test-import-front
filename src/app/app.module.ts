@@ -28,6 +28,7 @@ import Analytics from "./analytics/analytics.module";
 import { Methodology } from './methodology/methodology.module';
 import { TrainingSeason } from './training-season';
 import { User } from './user';
+import { Chat } from './chat';
 
 const root = module('staminity.application', [
 	'pascalprecht.translate', // translate
@@ -70,6 +71,7 @@ const root = module('staminity.application', [
 	Methodology,
 	TrainingSeason,
 	User,
+    Chat,
 ])
 	.component('staminityApplication', AppComponent)
 	.config(configure)

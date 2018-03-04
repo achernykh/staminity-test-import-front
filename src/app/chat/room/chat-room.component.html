@@ -1,0 +1,35 @@
+<md-toolbar class="md-primary">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="$ctrl.onBack()" ng-if="!$ctrl.chatForm.options.hideBackButton">
+            <md-icon class="material-icons md-active" aria-label="Close dialog">arrow_back</md-icon>
+        </md-button>
+        <h2 ng-bind="$ctrl.room.code"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onClose()">
+            <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-dialog-content flex="auto" layout="column" class="md-padding bg-grey-100" scroll-glue>
+    <st-chat-message ng-repeat="message in $ctrl.messages | orderBy:'+ts' track by $index"
+                     class="chat-message"
+                     layout="row" message="message">
+    </st-chat-message>
+</md-dialog-content>
+
+<md-dialog-actions flex="none" layout="row" style="background: white">
+    <form flex name="$ctrl.form" layout="row" layout-align="center center" ng-submit="$ctrl.post()">
+        <md-input-container flex class="md-block no-message">
+        <textarea ng-model="$ctrl.input" max-rows="5"
+                  name="input" rows="1"></textarea>
+        </md-input-container>
+        <md-button type="submit" flex="none" class="md-icon-button"
+                   ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.input.length > 0))">
+            <md-icon class="material-icons">send</md-icon>
+        </md-button>
+    </form>
+</md-dialog-actions>
+
+<!--<div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack>
+</div>-->

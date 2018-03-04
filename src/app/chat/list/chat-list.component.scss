@@ -1,0 +1,13 @@
+.chat-list {
+
+  .message {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    line-height: 14px !important;
+    height: 42px;
+    display: block;
+    word-wrap: break-word;
+  }
+
+}

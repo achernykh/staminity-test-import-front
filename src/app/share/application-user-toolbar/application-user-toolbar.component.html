@@ -5,6 +5,12 @@
     <md-button ng-if="!$ctrl.application.connectionStatus" flex="none">
         <md-icon calss="material-icons animated fadeIn">signal_wifi_off</md-icon>
     </md-button>
+
+    <md-button class="md-icon-button badge1" aria-label="Messages"
+               ng-click="$ctrl.chat()" data-badge="{{$ctrl.application.notification}}" style="min-width:40px">
+        <md-icon calss="material-icons" ng-bind="true ? 'chat_bubble_outline' : 'chat_bubble'"></md-icon>
+    </md-button>
+
     <md-button ng-if="$ctrl.application.notification > 0 && $ctrl.connectionStatus" flex="none"
                class="md-icon-button badge1" aria-label="Notification"
                ng-click="toggleRight()" data-badge="{{$ctrl.application.notification}}" style="min-width:40px">
