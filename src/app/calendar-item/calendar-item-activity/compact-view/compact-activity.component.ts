@@ -7,6 +7,7 @@ export const ActivityCompactComponent: IComponentOptions = {
         view: '<',
         selected: '<',
         data: '<',
+        id: '<',
         options: '<',
         onCancel: '&',
         onAnswer: '&'

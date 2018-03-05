@@ -73,6 +73,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
     data: any;
+    id: number;
     options: ICalendarItemDialogOptions;
     activityType: IActivityType;
     activityCategory: IActivityCategory;
@@ -166,8 +167,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(changes.mode && !changes.mode.isFirstChange()) {
             this.changeMode(changes.mode);
         }
-        //this.$onInit(); // test, like on calendar-activity.component in ionic
-        this.prepareActivity();
+        if (changes.id && !changes.id.isFirstChange() && this.id) {
+            this.$onInit();
+        }
+        ; // test, like on calendar-activity.component in ionic
+        //this.prepareActivity();
     }
 
 
@@ -188,7 +192,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.currentUser = this.options.currentUser;
             this.user = this.options.owner;
         }
-        this.activity = new Activity(this.activity || this.data, this.options);
+        this.activity = new Activity(this.data, this.options);
         this.segmentChart = this.activity.formChart();
 
         if (this.activity.bottomPanel === 'data') {
@@ -763,6 +767,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 export const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '<', // в режиме создания передает дату календаря
+        id: '<',
         activityType: '<', // если создание идет через wizard, то передаем тип тренировки
         activityCategory: '<',
         club: '<',
