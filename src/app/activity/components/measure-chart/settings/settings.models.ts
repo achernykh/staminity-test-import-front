@@ -99,6 +99,8 @@ export interface IActivityChartSettings {
     pace: IMetricArea;
     power: IMetricArea;
     altitude: IMetricArea;
+    cadence: IMetricArea;
+    strokeCount: IMetricArea;
     elapsedDuration: IDomainMeasure;
     movingDuration: IDomainMeasure;
     duration: IDomainMeasure;

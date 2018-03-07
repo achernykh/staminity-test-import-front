@@ -45,6 +45,54 @@ const DefaultChartSettings: IActivityChartSettings = {
             hideOnWidth: 0,
         },
     },
+    cadence: {
+        order: 4,
+        flippedChart: false,
+        zoomOffset: 5,
+        area: {
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "rgba(233,30,99,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 },
+            ],
+        },
+        marker: {
+            color: "#c2185b",
+            radius: 4,
+        },
+        axis: {
+            color: "#e91e63",
+            tickMinStep: 5,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0,
+        },
+    },
+    strokeCount: {
+        order: 5,
+        flippedChart: false,
+        zoomOffset: 5,
+        area: {
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "rgba(233,30,99,1)", opacity: 1 },
+                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 },
+            ],
+        },
+        marker: {
+            color: "#c2185b",
+            radius: 4,
+        },
+        axis: {
+            color: "#e91e63",
+            tickMinStep: 5,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0,
+        },
+    },
     speed: {
         order: 2,
         flippedChart: false,
@@ -102,6 +150,7 @@ const DefaultChartSettings: IActivityChartSettings = {
             fillType: FillType.Gradient,
             gradient: [
                 { offset: "0%", color: "rgba(156,39,176,1)", opacity: 1 },
+                //{ offset: "80%", color: "rgba(156,39,176,1)", opacity: 0 },
                 { offset: "100%", color: "rgba(156,39,176,0)", opacity: 0 },
             ],
         },
@@ -118,7 +167,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
     },
     altitude: {
-        order: 4,
+        order: 6,
         flippedChart: false,
         zoomOffset: 0,
         area: {

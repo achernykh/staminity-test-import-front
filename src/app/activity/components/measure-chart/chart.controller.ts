@@ -223,6 +223,8 @@ class ActivityChartController implements IComponentController {
             speed: this.getScale("speed", ScaleType.Y),
             power: this.getScale("power", ScaleType.Y),
             heartRate: this.getScale("heartRate", ScaleType.Y),
+            cadence: this.getScale("cadence", ScaleType.Y),
+            strokeCount: this.getScale("strokeCount", ScaleType.Y),
             altitude: this.getScale("altitude", ScaleType.Y),
         };
     }
@@ -319,6 +321,7 @@ class ActivityChartController implements IComponentController {
         const rangeScale = this.scales[metric].scale;
         const fillColor = this.getFillColor(this.activityChartSettings[metric].area);
         const bottomRange = this.height;
+
         const areaFunction = d3.area()
             .defined(this.isDataDefined)
             //.interpolate('monotone')
@@ -326,6 +329,15 @@ class ActivityChartController implements IComponentController {
             .y0(function() { return bottomRange; })
             .y1(function(d) { return rangeScale(d[metric]); })
             .curve(d3.curveBasis);
+
+        const lineFunction = d3.line()
+            .defined(this.isDataDefined)
+            //.interpolate('monotone')
+            .x(function(d) { return domainScale(d[domainMetric]); })
+            .y(function(d) { return rangeScale(d[metric]); })
+            //.y1(function(d) { return rangeScale(d[metric]); })
+            .curve(d3.curveBasis);
+
         const initArea = d3.area()
             .defined(this.isDataDefined)
             //.interpolate('monotone')
@@ -334,11 +346,28 @@ class ActivityChartController implements IComponentController {
             .y1(function() { return bottomRange; })
             .curve(d3.curveBasis);
 
+        const initLine = d3.line()
+            .defined(this.isDataDefined)
+            //.interpolate('monotone')
+            .x(function(d) { return domainScale(d[domainMetric]); })
+            .y(function(d) { return rangeScale(d[metric]); })
+            //.y1(function() { return bottomRange; })
+            .curve(d3.curveBasis);
+
         const metricChart = this.$interactiveArea
             .append("path")
                 .attr("clip-path", "url(" + this.absUrl + "#clip)")
                 .attr("d", initArea)
                 .attr("fill", fillColor);
+
+        const metricLine = this.$interactiveArea
+            .append("path")
+                .attr("clip-path", "url(" + this.absUrl + "#clip)")
+                .attr("d", initLine)
+                .attr("fill", 'none')
+                .attr('stroke', 'rgb(100, 181, 246)')
+                .attr('stroke-width', 2);
+
         metricChart
             .transition()
                 .on("start", function() { state.inTransition++; })
@@ -347,6 +376,16 @@ class ActivityChartController implements IComponentController {
                 .duration(this.activityChartSettings.animation.duration)
                 .ease(this.activityChartSettings.animation.ease)
                 .attr("d", areaFunction);
+
+        metricLine
+            .transition()
+            .on("start", function() { state.inTransition++; })
+            .on("end", function() { state.inTransition--; })
+            .delay(order * this.activityChartSettings.animation.delayByOrder)
+            .duration(this.activityChartSettings.animation.duration)
+            .ease(this.activityChartSettings.animation.ease)
+            .attr("d", lineFunction);
+
         const zoomDuration = this.activityChartSettings.animation.zoomDuration;
         // setup zoom event
         this.zoomDispatch.on("zoom." + metric, function() {
@@ -354,6 +393,11 @@ class ActivityChartController implements IComponentController {
                 .transition()
                 .duration(zoomDuration)
                 .attr("d", areaFunction);
+
+            metricLine
+                .transition()
+                .duration(zoomDuration)
+                .attr("d", lineFunction);
         });
     }
 

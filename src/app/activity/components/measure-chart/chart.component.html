@@ -14,6 +14,12 @@
                 <p class="power" ng-if="$ctrl.measures.hasOwnProperty('power')">
                         <span class="value"></span>
                         <span class="unit">{{'power' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="cadence" ng-if="$ctrl.measures.hasOwnProperty('cadence')">
+                    <span class="value"></span>
+                    <span class="unit">{{'cadence' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="strokeCount" ng-if="$ctrl.measures.hasOwnProperty('strokeCount')">
+                    <span class="value"></span>
+                    <span class="unit">{{'strokeCount' | measureUnit:$ctrl.sport | translate}}</span></p>
                 <p class="altitude" ng-if="$ctrl.measures.hasOwnProperty('altitude')">
                         <span class="value"></span>
                         <span class="unit">{{'altitude' | measureUnit:$ctrl.sport | translate}}</span></p>

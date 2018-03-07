@@ -183,6 +183,10 @@ export const _measurement = {
         unit: 'kkal',
         fixed: 0
     },
+    strokeCount: {
+        unit: 'none',
+        fixed: 0
+    },
     adjustedSpeed: {
         unit: 'mps',
         fixed: 0
@@ -445,10 +449,21 @@ export const measureValue = (input: number, sport: string, measure: string, char
     }
 };
 
-export const measureUnit = (measure, sport = 'default', units = 'metric') => {
-    let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
-        (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
-    return (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
+export const measureUnit = (measure, sport = 'default', units = 'metric'): string => {
+    let unit: string;
+    try {
+        unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) &&
+            _activity_measurement_view[sport][measure].unit) ||
+            (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) ||
+            _measurement[measure].unit;
+
+        unit = (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
+
+    } catch (e) {
+        console.error('measureUnit error', e, measure, sport, units);
+    }
+
+    return unit;
 };
 
 
