@@ -1,0 +1,64 @@
+.training-plan {
+  &__loading {
+    height: 100vh;
+  }
+  &__data {
+    background-color: white;
+    md-toolbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      .menu, .button-action {
+        display: none;
+      }
+
+      &.background {
+        background-color: rgba(white,0.0);
+        color: white;
+      }
+      &.solid {
+        background-color: rgba(white,0.9);
+        color: black;
+
+        .menu, .button-action {
+          display: block;
+        }
+
+      }
+    }
+    .landing-block {
+      padding: 64px 128px;
+      width: 100%;
+      @media (max-width: 960px) {
+        padding: 8px;
+      }
+
+    }
+    .info {
+      max-width: 960px;
+    }
+    .general {
+      height: 50vh;
+      background-color: lightblue;
+      padding: 32px 128px;
+      .name, .weekCount {
+        margin: 0;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+    }
+    .details {
+      .item {
+        height: 80px;
+        margin-bottom: 32px;
+      }
+      p {
+        margin-left: 32px;
+      }
+    }
+    .description {
+      font-size: 16px;
+    }
+  }
+}

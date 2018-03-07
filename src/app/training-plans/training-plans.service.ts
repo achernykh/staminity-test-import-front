@@ -1,4 +1,4 @@
-import { IHttpPromise } from 'angular';
+import { IHttpPromise, IHttpPromiseCallbackArg } from 'angular';
 import { SocketService } from "../core";
 import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
@@ -9,7 +9,7 @@ import {
 import { IWSResponse, IRevisionResponse, ISystemMessage } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
 import { Observable } from "rxjs";
-import { RESTService, PostFile } from "../core/rest.service";
+import { RESTService, PostFile, PostData } from "../core/rest.service";
 
 /**
  * Сервис для работы с данными Долгосрочного плана
@@ -60,10 +60,14 @@ export class TrainingPlansService {
     /**
      * Карточка плана из магазина
      * @param planId
+     * @param ws
      * @returns {Promise<any>}
      */
-    getStoreItem (planId: number): Promise<ITrainingPlan> {
-        return this.socket.send(new GetTrainingPlanStoreItem(planId));
+    getStoreItem (planId: number, ws: boolean = true): Promise<ITrainingPlan> {
+        return ws ?
+            this.socket.send(new GetTrainingPlanStoreItem(planId)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetTrainingPlanStoreItem(planId)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     /**

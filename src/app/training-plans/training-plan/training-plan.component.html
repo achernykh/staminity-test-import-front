@@ -1,4 +1,103 @@
-<st-application-frame
+<section class="training-plan__loading" layout="column" layout-align="center center" ng-if="!$ctrl.dataLoading">
+    <md-progress-circular flex="none" class="md-primary" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
+</section>
+<section class="training-plan__data" ng-if="$ctrl.dataLoading"
+         layout="column" layout-align="start center">
+    <md-toolbar id="toolbar" class="background" flex="none">
+        <div class="md-toolbar-tools">
+            <md-button class="menu md-icon-button md-primary" aria-label="PlanMenu"
+                       ng-click="$ctrl.toggleSlide('planMenu')">
+                <md-icon class="material-icons md-dark" size="24">menu</md-icon>
+            </md-button>
+            <div flex></div>
+            <md-button flex="none" class="button-action md-accent md-hue-3 md-raised">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</md-button>
+        </div>
+    </md-toolbar>
+    <!-- Картинка с основными параметрами-->
+    <section class="landing-block general" ng-style="$ctrl.plan.backgroundStyle"
+             flex="none" layout="column" layout-align="space-between center">
+        <div flex="none" layout="row" layout-align="center center" class="md-padding">
+            <div class="st-avatar size-60 border-light md-padding"
+                     flex="none"
+                     ng-style="$ctrl.plan.iconStyle">
+            </div>
+        </div>
+        <div flex="none" class="author md-body-1 md-light" ng-bind="$ctrl.plan.authorProfile | userName"></div>
+        <div flex="none" class="catalog md-body-1 md-light">
+            <span ng-bind="$ctrl.plan.type"></span>&nbsp;|&nbsp;
+            <span ng-bind="$ctrl.plan.distanceType"></span>&nbsp;|&nbsp;
+            <span>Уровень продвинутый</span>;
+        </div>
+        <div flex></div>
+        <h2 flex="none" class="name md-title md-light center">Тренировочный план</h2>
+        <h1 flex="none" class="name md-display-3 md-light font-black center md-padding" ng-bind="$ctrl.plan.name"></h1>
+        <h2 flex="none" class="weekCount md-body-1 md-light center">Недель подготовки {{$ctrl.plan.weekCount}}</h2>
+        <div flex></div>
+        <md-button flex="none" class="md-accent md-hue-3 md-raised">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</md-button>
+    </section>
+    <!-- Что включено в план? -->
+    <section class="landing-block details info" flex="none">
+        <h2 flex="none" class="name md-display-1 md-dark font-black center">Что включено в план?</h2>
+        <div class="item" layout="row">
+            <md-icon flex="none" md-svg-src="/assets/landing/agreement.svg" class="s64"></md-icon>
+            <p flex class="md-subhead md-dark">Этот план предназначен для … атлета, с опытом выступлений… с текущими результатами не ниже чем … на .. и на...</p>
+        </div>
+        <div class="item" layout="row">
+            <md-icon flex="none" md-svg-src="/assets/landing/timeline.svg"  class="s64"></md-icon>
+            <p flex class="md-subhead md-dark">Тут про даты</p>
+        </div>
+        <div class="item" layout="row">
+            <md-icon flex="none" md-svg-src="/assets/landing/abc.svg" class="s64"></md-icon>
+            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.regularWeek"></p>
+        </div>
+        <div class="item" layout="row">
+            <md-icon flex="none" md-svg-src="/assets/landing/meeting.svg" class="s64"></md-icon>
+            <p flex class="md-subhead md-dark">Тут про наличие очных тренировок и в каком формате</p>
+        </div>
+        <div class="item" layout="row">
+            <md-icon flex="none" md-svg-src="/assets/landing/lecture.svg" class="s64"></md-icon>
+            <p flex class="md-subhead md-dark">Тут про возможность консультаций и их формат</p>
+        </div>
+        <div class="item" layout="row">
+            <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
+            <p flex class="md-subhead md-dark">Тут про наличие структурированных тренировок и их возможности для атлета (выгрузка в тренажеры, часы и пр)</p>
+        </div>
+    </section>
+    <section class="landing-block info" flex="none">
+        <h2 flex="none" class="name md-display-1 md-dark font-black center">График нагрузки</h2>
+        <universal-chart flex="auto"
+                         data="$ctrl.durationChart"
+                         filter="true"
+                         update="$ctrl.updateCount ">
+        </universal-chart>
+    </section>
+    <section id="samples" class="landing-block info" flex="none">
+        <h2 flex="none" class="name md-display-1 md-dark font-black center">Примеры тренировок</h2>
+        <st-calendar-item-list class="calendar-item-list"
+                               data="$ctrl.plan.samples">
+        </st-calendar-item-list>
+    </section>
+    <section id="description" class="landing-block info" flex="none">
+        <h2 flex="none" class="name md-display-1 md-dark font-black center">Дополнительная информаци от автора</h2>
+        <div class="md-padding md-subhead md-dark" ng-bind-html="$ctrl.plan.description"></div>
+    </section>
+</section>
+
+<md-sidenav id="planMenu" class="md-sidenav-left md-whiteframe-z2 st-fixed"
+            md-component-id="planMenu">
+    <md-toolbar flex="none" class="md-primary">
+        <div class="md-toolbar-tools">
+            <h2 class="">{{::'trainingPlans.form.title' | translate}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+</md-sidenav>
+<!--<st-application-frame
         class="st-application-frame"
         template="profile"
         nav-bar="true"
@@ -60,4 +159,4 @@
         </section>
     </st-application-frame-content>
 
-</st-application-frame>
+</st-application-frame>-->

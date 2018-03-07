@@ -333,7 +333,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @description Подготовка перечня атлетов достунпых для планирования
      */
     prepareAthletesList() {
-        if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
+        if( this.currentUser.connections && this.currentUser.connections.hasOwnProperty('allAthletes') &&
+            this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));

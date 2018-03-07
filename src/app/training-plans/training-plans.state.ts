@@ -49,8 +49,7 @@ const trainingPlanId: any = {
     authRequired: [],
     resolve: {
         currentUser: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
-        plan: ['$stateParams', 'TrainingPlansService', ($stateParams, trainingPlansService: TrainingPlansService) =>
-            trainingPlansService.get(Number($stateParams.planId))]
+        planId: ['$stateParams', ($stateParams) => $stateParams.planId]
     },
     views: {
         "application": {

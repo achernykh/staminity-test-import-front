@@ -11,6 +11,7 @@ import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfileShort } from "../../../../api/user/user.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
 import { image } from "../../share/share.module";
+import { TrainingPlanConfig } from "./training-plan.config";
 
 export class TrainingPlan implements ITrainingPlan {
 
@@ -40,7 +41,10 @@ export class TrainingPlan implements ITrainingPlan {
     isStructured?: boolean; // имеются структурированные тренировки default = false
     weekCount: number; // кол-во тренировочных недель
     samples: Array<ICalendarItem>; // примеры тренировок
-    effortStat: Array<IChart>; // статистика нагрузки по плану
+    effortStat: {
+        metricsByDistance: Array<Array<any>>;
+        metricsByDuration: Array<Array<any>>;
+    };//Array<IChart>; // статистика нагрузки по плану
     reviews: Array<ITrainingPlanReview>; // массив отзывов
     calendarItems?: Array<ICalendarItem>; // массив событий календаря
     assignmentList?: Array<ITrainingPlanAssignment>; // история присвоений плана
@@ -51,7 +55,7 @@ export class TrainingPlan implements ITrainingPlan {
     private _startDate: Date;
     private keys: Array<string> = ['keys', 'revision', 'authorProfile', '_startDate'];
 
-    constructor (params?: Object | ITrainingPlan | Array<any>) {
+    constructor (params?: Object | ITrainingPlan | Array<any>, private config?: TrainingPlanConfig) {
 
         if ( Array.isArray(params) ) {
             Object.keys(new TrainingPlanSearchResultItem()).map((k: string, i: number) => this[k] = params[i]);
@@ -261,11 +265,15 @@ export class TrainingPlan implements ITrainingPlan {
 
     get backgroundStyle(): Object {
         return {
-            'background-image': `linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url(${this.backgroundPath})`,
+            'background-image': `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.7)), url(${this.backgroundPath})`,
             'background-size': 'cover',
             'background-position': 'center',
             'position': 'relative'
         };
+    }
+
+    get durationChart(): IChart {
+        return this.config && this.effortStat && Object.assign({}, this.config.durationChart, {metrics: this.effortStat.metricsByDuration}) || null;
     }
 
 }

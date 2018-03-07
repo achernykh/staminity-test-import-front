@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController} from 'angular';
 import MessageService from "@app/core/message.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
+import { TrainingPlanConfig } from "../training-plan/training-plan.config";
 
 class TrainingPlanStoreItemCtrl implements IComponentController {
 
@@ -15,9 +16,12 @@ class TrainingPlanStoreItemCtrl implements IComponentController {
     private plan: TrainingPlan;
     private dataLoading: boolean = false;
 
-    static $inject = ['TrainingPlansService', 'message'];
+    static $inject = ['TrainingPlansService', 'trainingPlanConfig', 'message'];
 
-    constructor(private trainingPlanService: TrainingPlansService, private message: MessageService) {
+    constructor(
+        private trainingPlanService: TrainingPlansService,
+        private trainingPlanConfig: TrainingPlanConfig,
+        private message: MessageService) {
 
     }
 
@@ -26,9 +30,8 @@ class TrainingPlanStoreItemCtrl implements IComponentController {
     }
 
     private getPlanDetails (): void {
-        //if ( this.mode === FormMode.Post /**|| this.plan.hasOwnProperty('calendarItems')**/ ) { return; }
         this.trainingPlanService.getStoreItem(this.data.id)
-            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(result => this.plan = new TrainingPlan(result, this.trainingPlanConfig), error => this.errorHandler(error))
             .then(() => this.dataLoading = true);
     }
 

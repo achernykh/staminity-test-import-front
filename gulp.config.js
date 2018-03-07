@@ -90,7 +90,14 @@ const backend = {
         server: 'app.staminity.com',
         content: 'https://app.staminity.com',
         frontend: 'https://staminity.com/'
-    }
+    },
+    glastic: {
+        protocol_ws: 'ws://',
+        protocol_rest: 'http://',
+        server: 'node51397-env-7312598.mircloud.ru:11123',
+        content: 'http://testapp.staminity.com:8080',
+        frontend: 'http://node51402-env-1004830.mircloud.ru:11159/'
+    },
 };
 
 module.exports = {
