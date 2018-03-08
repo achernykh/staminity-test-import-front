@@ -23,6 +23,8 @@ export interface IAreaSettings {
     fillType: FillType;
     gradient?: IGradientPoint[];
     solidColor?: string;
+    lineColor?: string;
+    lineWidth?: number;
 }
 
 export interface ISelectIntervalArea {
@@ -100,7 +102,7 @@ export interface IActivityChartSettings {
     power: IMetricArea;
     altitude: IMetricArea;
     cadence: IMetricArea;
-    strokeCount: IMetricArea;
+    strokes: IMetricArea;
     elapsedDuration: IDomainMeasure;
     movingDuration: IDomainMeasure;
     duration: IDomainMeasure;

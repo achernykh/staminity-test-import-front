@@ -19,6 +19,7 @@ class ActivityChartController implements IComponentController {
     private data;
     private select;
     private x: string;
+    private smooth: number;
     private changeMeasure: string = null;
     private sport: string;
     private autoZoom: boolean;
@@ -57,8 +58,8 @@ class ActivityChartController implements IComponentController {
         private activityChartSettings: IActivityChartSettings,
         private $mdMedia: any) {
 
-        this.activityChartSettings.minAspectRation = (this.$mdMedia("gt-md") && 0.20)
-            || (this.$mdMedia("gt-lg") && 0.10)
+        this.activityChartSettings.minAspectRation = (this.$mdMedia("gt-md") && 0.25)
+            || (this.$mdMedia("gt-lg") && 0.15)
             || this.activityChartSettings.minAspectRation;
         this.state = { inTransition: 0, inSelection: false };
         this.changeTracker = new ChangeTracker();
@@ -162,7 +163,7 @@ class ActivityChartController implements IComponentController {
     }
 
     private prepareData(): void {
-        this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select);
+        this.chartData = new ActivityChartDatamodel(this.measures, this.data, this.x, this.select, this.smooth);
         this.currentMode = this.x === "elapsedDuration" ? ActivityChartMode.elapsedDuration : ActivityChartMode.distance;
         this.supportedMetrics = this.chartData.supportedMetrics();
     }
@@ -224,7 +225,7 @@ class ActivityChartController implements IComponentController {
             power: this.getScale("power", ScaleType.Y),
             heartRate: this.getScale("heartRate", ScaleType.Y),
             cadence: this.getScale("cadence", ScaleType.Y),
-            strokeCount: this.getScale("strokeCount", ScaleType.Y),
+            strokes: this.getScale("strokes", ScaleType.Y),
             altitude: this.getScale("altitude", ScaleType.Y),
         };
     }
@@ -320,7 +321,10 @@ class ActivityChartController implements IComponentController {
         const domainScale = this.scales[domainMetric].scale;
         const rangeScale = this.scales[metric].scale;
         const fillColor = this.getFillColor(this.activityChartSettings[metric].area);
+        const lineColor = this.activityChartSettings[metric].area.lineColor;
+        const lineWidth = this.activityChartSettings[metric].area.lineWidth;
         const bottomRange = this.height;
+        const data = this.chartData;
 
         const areaFunction = d3.area()
             .defined(this.isDataDefined)
@@ -356,17 +360,15 @@ class ActivityChartController implements IComponentController {
 
         const metricChart = this.$interactiveArea
             .append("path")
-                .attr("clip-path", "url(" + this.absUrl + "#clip)")
                 .attr("d", initArea)
                 .attr("fill", fillColor);
 
         const metricLine = this.$interactiveArea
             .append("path")
-                .attr("clip-path", "url(" + this.absUrl + "#clip)")
                 .attr("d", initLine)
                 .attr("fill", 'none')
-                .attr('stroke', 'rgb(100, 181, 246)')
-                .attr('stroke-width', 2);
+                .attr('stroke', lineColor)
+                .attr('stroke-width', lineWidth);
 
         metricChart
             .transition()
@@ -939,7 +941,7 @@ class ActivityChartController implements IComponentController {
         //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
 
-         return i !== 0 && (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
+         return i !== 0 && this.chartData.getData(i - 1) && (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
             (d.duration > this.chartData.getData(i - 1).duration);
     }
 

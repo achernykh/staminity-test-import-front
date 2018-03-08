@@ -17,9 +17,9 @@
                 <p class="cadence" ng-if="$ctrl.measures.hasOwnProperty('cadence')">
                     <span class="value"></span>
                     <span class="unit">{{'cadence' | measureUnit:$ctrl.sport | translate}}</span></p>
-                <p class="strokeCount" ng-if="$ctrl.measures.hasOwnProperty('strokeCount')">
+                <p class="strokes" ng-if="$ctrl.measures.hasOwnProperty('strokes')">
                     <span class="value"></span>
-                    <span class="unit">{{'strokeCount' | measureUnit:$ctrl.sport | translate}}</span></p>
+                    <span class="unit">{{'strokes' | measureUnit:$ctrl.sport | translate}}</span></p>
                 <p class="altitude" ng-if="$ctrl.measures.hasOwnProperty('altitude')">
                         <span class="value"></span>
                         <span class="unit">{{'altitude' | measureUnit:$ctrl.sport | translate}}</span></p>

@@ -44,9 +44,12 @@
         </md-menu-content>
     </md-menu>
     <div flex="auto" layout="row" layout-align="start center" ng-if="$ctrl.chartOption === 'measures'">
-        <md-switch flex="none" ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1">
+        <md-switch flex="none" ng-model="$ctrl.autoZoom" class="md-primary md-hue-1" aria-label="Switch 1" style="margin-left: 16px">
             <span class="md-caption">Autozoom: {{ $ctrl.autoZoom }}</span>
         </md-switch>
+        <md-slider flex="none" style="margin-left: 16px; min-width: 50px" class="md-primary"
+                   min="1" max="30" ng-model="$ctrl.smooth" aria-label="smooth">
+        </md-slider>
         <md-button flex="none" class="md-icon-button" ng-click="$ctrl.zoomIn = $ctrl.zoomIn+1" ng-if="!$ctrl.autoZoom">
             <md-icon class="material-icons">zoom_in</md-icon>
         </md-button>
@@ -100,6 +103,7 @@
                            measures="$ctrl.chartData.measures"
                            data="$ctrl.chartData.data"
                            x="$ctrl.chartX"
+                           smooth="$ctrl.smooth"
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.header.sportBasic"

@@ -20,7 +20,7 @@ export interface IActivityScales {
     speed: IScaleInfo;
     power: IScaleInfo;
     cadence: IScaleInfo;
-    strokeCount: IScaleInfo;
+    strokes: IScaleInfo;
     heartRate: IScaleInfo;
     altitude: IScaleInfo;
 }

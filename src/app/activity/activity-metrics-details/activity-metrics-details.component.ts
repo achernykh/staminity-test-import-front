@@ -21,6 +21,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private zoomIn: number = 0;
     private zoomOut: number = 0;
     private autoZoom: boolean = true;
+    private smooth: number;
 
     private chartOptions: Array<string> = ['measures','segments'];
     private chartOption: 'measures' | 'segments';
@@ -48,7 +49,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.smooth = this.item.activity.header.sportBasic === 'swim' ? 1 : 10;
         this.item.activity.isStructured ? this.tableOption = 'segments' : this.tableOption = 'laps';
         this.item.activity.isStructured ? this.chartOption = 'segments' : this.chartOption = 'measures';
     }

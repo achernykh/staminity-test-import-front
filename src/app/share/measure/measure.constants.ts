@@ -183,8 +183,8 @@ export const _measurement = {
         unit: 'kkal',
         fixed: 0
     },
-    strokeCount: {
-        unit: 'none',
+    strokes: {
+        unit: 'spl',
         fixed: 0
     },
     adjustedSpeed: {

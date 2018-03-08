@@ -120,6 +120,11 @@ md-icon {
 			fill: #2196F3 !important;
 		}
 	}
+	&.fill-measure.cadence, &.fill-measure.strokes {
+		svg {
+			fill: #FFB74D !important;
+		}
+	}
 	&.md-dark {
 		svg {
 			fill: rgba(0, 0, 0, 0.70) !important;
