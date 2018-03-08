@@ -38,7 +38,7 @@
     </section>
     <!-- Что включено в план? -->
     <section class="landing-block details info" flex="none">
-        <h2 flex="none" class="name md-display-1 md-dark font-black center">Что включено в план?</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Что включено в план?</h2>
         <div class="item" layout="row">
             <md-icon flex="none" md-svg-src="/assets/landing/agreement.svg" class="s64"></md-icon>
             <p flex class="md-subhead md-dark">Этот план предназначен для … атлета, с опытом выступлений… с текущими результатами не ниже чем … на .. и на...</p>
@@ -65,7 +65,7 @@
         </div>
     </section>
     <section class="landing-block info" flex="none">
-        <h2 flex="none" class="name md-display-1 md-dark font-black center">График нагрузки</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">График нагрузки</h2>
         <universal-chart flex="auto"
                          data="$ctrl.durationChart"
                          filter="true"
@@ -73,14 +73,14 @@
         </universal-chart>
     </section>
     <section id="samples" class="landing-block info" flex="none">
-        <h2 flex="none" class="name md-display-1 md-dark font-black center">Примеры тренировок</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Примеры тренировок</h2>
         <st-calendar-item-list class="calendar-item-list"
                                data="$ctrl.plan.samples">
         </st-calendar-item-list>
     </section>
     <section id="description" class="landing-block info" flex="none">
         <h2 flex="none" class="name md-display-1 md-dark font-black center">Дополнительная информаци от автора</h2>
-        <div class="md-padding md-subhead md-dark" ng-bind-html="$ctrl.plan.description"></div>
+        <div class="md-padding md-subhead md-dark quill quill-data" ng-bind-html="$ctrl.plan.description"></div>
     </section>
 </section>
 

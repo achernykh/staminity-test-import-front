@@ -34,13 +34,13 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 body {
-	@media (max-width: 960px) {
+	/*@media (max-width: 960px) {
 		position: fixed;
 		left: 0;
 		right: 0;
 		top: 0;
 		bottom: 0;
-	}
+	}*/
 }
 
 .app-layer {
@@ -117,7 +117,7 @@ section.margin {
 	}
 }
 
-ng-quill-editor {
+ng-quill-editor, .quill {
 	display: block;
 	font-family: Roboto !important;
 
@@ -144,8 +144,10 @@ ng-quill-editor {
 		border-bottom: 1px solid #ccc !important;
 	}
 
-	.ql-snow .ql-editor img {
+	.ql-snow .ql-editor img, &.quill-data img {
 		//width: 100% !important;
+		max-width: 100%;
+		height: auto;
 	}
 
 	.ql-editor .ql-video {
@@ -153,7 +155,7 @@ ng-quill-editor {
 	}
 
 	.ql-editor ol, .ql-editor ul {
-		padding-left: 0px !important;
+		padding-left: 0 !important;
 	}
 
 	.ql-snow .ql-editor p {
@@ -163,6 +165,10 @@ ng-quill-editor {
 		-webkit-margin-end: 0;
 	}
 
+}
+
+iframe {
+	border: none;
 }
 
 
