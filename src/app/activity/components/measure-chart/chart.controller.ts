@@ -327,7 +327,7 @@ class ActivityChartController implements IComponentController {
         const data = this.chartData;
 
         const areaFunction = d3.area()
-            .defined(this.isDataDefined)
+            .defined((d,i) => this.isDataDefined(d,i,metric))
             //.interpolate('monotone')
             .x(function(d) { return domainScale(d[domainMetric]); })
             .y0(function() { return bottomRange; })
@@ -335,7 +335,7 @@ class ActivityChartController implements IComponentController {
             .curve(d3.curveBasis);
 
         const lineFunction = d3.line()
-            .defined(this.isDataDefined)
+            .defined((d,i) => this.isDataDefined(d,i,metric))
             //.interpolate('monotone')
             .x(function(d) { return domainScale(d[domainMetric]); })
             .y(function(d) { return rangeScale(d[metric]); })
@@ -343,7 +343,7 @@ class ActivityChartController implements IComponentController {
             .curve(d3.curveBasis);
 
         const initArea = d3.area()
-            .defined(this.isDataDefined)
+            .defined((d,i) => this.isDataDefined(d,i,metric))
             //.interpolate('monotone')
             .x(function(d) { return domainScale(d[domainMetric]); })
             .y0(function() { return bottomRange; })
@@ -351,7 +351,7 @@ class ActivityChartController implements IComponentController {
             .curve(d3.curveBasis);
 
         const initLine = d3.line()
-            .defined(this.isDataDefined)
+            .defined((d,i) => this.isDataDefined(d,i,metric))
             //.interpolate('monotone')
             .x(function(d) { return domainScale(d[domainMetric]); })
             .y(function(d) { return rangeScale(d[metric]); })
@@ -930,7 +930,7 @@ class ActivityChartController implements IComponentController {
         return tickVals;
     }
 
-    private isDataDefined = (d: any, i: number) => {
+    private isDataDefined = (d: any, i: number, param?: string) => {
         // функция для фильтрации пропущенных участков
         // todo переопределить желаемым условием. Например:
         //return (i % 200 < 150);
@@ -941,7 +941,11 @@ class ActivityChartController implements IComponentController {
         //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
 
-         return i !== 0 && this.chartData.getData(i - 1) && (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
+        //console.debug('data:', i, d && d.elapsedDuration, i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).elapsedDuration, d.power, d.speed, d.cadence, d.heartRate);
+
+        if (param && !d[param]) { return false;}
+
+        return i !== 0 && this.chartData.getData(i - 1) && (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
             (d.duration > this.chartData.getData(i - 1).duration);
     }
 
