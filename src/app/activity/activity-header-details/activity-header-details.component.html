@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<section flex="none" class="chart" ng-if="!$ctrl.item.$mdMedia('gt-sm')"
+<section flex="none" class="chart" ng-if="!$ctrl.item.$mdMedia('gt-sm') || $ctrl.item.isIonic"
          ng-switch="$ctrl.completeDetails" layout="column" style="margin-top: 8px; margin-right: 8px; height: 30vh">
 
     <div flex="none" class="loading-chart" ng-switch-when="false"

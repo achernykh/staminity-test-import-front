@@ -34,7 +34,7 @@
     </md-list>
     <!-- Показываем график сегментов если 1) мобильный вид 2) если десктоп и нет детальных данных -->
     <activity-segment-chart flex="none"
-                            ng-if="!$ctrl.item.$mdMedia('gt-sm') || ($ctrl.item.$mdMedia('gt-sm') && !$ctrl.item.activity.hasActualData)"
+                            ng-if="!$ctrl.item.$mdMedia('gt-sm') || $ctrl.item.isIonic || ($ctrl.item.$mdMedia('gt-sm') && !$ctrl.item.activity.hasActualData)"
                             style="margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
                             actual-ftp="::$ctrl.item.activity.isCompleted"
