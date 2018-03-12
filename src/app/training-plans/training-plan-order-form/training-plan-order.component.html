@@ -1,0 +1,100 @@
+<md-toolbar flex="none" class="md-default">
+    <div class="md-toolbar-tools">
+        <h2 class="" translate="trainingPlans.store.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
+    <div flex></div>
+    <md-icon flex="none" md-svg-src="/assets/landing/checklist.svg" class="s64" style="margin-top: 16px"></md-icon>
+    <div flex="none" class="md-padding">
+        <p>
+            <span class="md-body-2" translate="trainingPlans.store.name"></span>
+            <span class="md-body-1" ng-bind="$ctrl.plan.name"></span>
+        </p>
+        <p>
+            <span class="md-body-2" translate="trainingPlans.store.author"></span>
+            <span class="md-body-1" ng-bind-template="$ctrl.plan.authorProfile | userName"></span>
+        </p>
+        <div layout="row" layout-align="start center">
+            <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+                         class="md-primary md-secondary"
+                         ng-disabled="!$ctrl.enabled"
+                         style="margin-bottom: 0">
+            </md-checkbox>
+            <p class="md-body-1 md-dark" translate>auth.confirmation</p>
+        </div>
+    </div>
+    <div flex></div>
+    <div ng-if="!$ctrl.user.userId" class="md-title md-padding center" translate="trainingPlans.order.needAccount"></div>
+    <div ng-if="!$ctrl.user.userId" class="signup md-padding bg-grey-100" style="border-top: 1px solid lightgrey"
+         layout="row" layout-align="space-between start">
+        <div flex class="signup-email" layout="column">
+            <md-input-container flex="none" md-no-float class="no-message">
+                <input maxlength="30" ng-model="$ctrl.credentials.public.firstName" name="name"
+                       required ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                       autocomplete="off"
+                       placeholder="{{'auth.firstName' | translate }}">
+                <div ng-messages="$ctrl.signupForm.name.$error">
+                    <div ng-message="required" translate>auth.required</div>
+                    <div ng-message="md-maxlength"
+                         translate translate-value-field="{{'auth.firstName' | translate}}">auth.err30
+                    </div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="none" md-no-float class="no-message">
+                <input maxlength="30" ng-model="$ctrl.credentials.public.lastName" name="surname"
+                       required ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                       autocomplete="off"
+                       placeholder="{{ 'auth.lastName' | translate }}">
+                <div ng-messages="$ctrl.signupForm.surname.$error">
+                    <div ng-message="required" translate>auth.required</div>
+                    <div ng-message="md-maxlength" translate>auth.err30</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="none" md-no-float class="no-message">
+                <input required type="email" name="email" ng-model="$ctrl.credentials.email" minlength="5"
+                       maxlength="100"
+                       ng-pattern="/^.+@.+\..+$/"
+                       autocomplete="off"
+                       ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                       placeholder="{{ 'auth.email' | translate }}">
+                <div ng-messages="!$ctrl.signupForm.email.$valid" role="alert">
+                    <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
+                        auth.errMail
+                    </div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="none" md-no-float class="no-message">
+                <input required type="password" name="password" ng-model="$ctrl.credentials.password" minlength="8"
+                       ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                       ng-pattern="$ctrl.passwordStrength"
+                       placeholder="{{ 'auth.pass' | translate }}">
+                <div ng-messages="$ctrl.signupForm.password.$error" role="alert">
+                    <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
+                </div>
+            </md-input-container>
+
+        </div>
+        <div flex="5"></div>
+        <div flex class="signup-social" layout="column" layout-align="start stretch">
+            <md-button ng-repeat="provider in ['facebook','google','vkontakte']"
+                       ng-class="{'disabled md-dark': !$ctrl.confirmation, 'md-light': $ctrl.confirmation}"
+                       ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                       class="social-button {{::provider}}">
+                <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
+                <span class="md-body-2" translate="Вход через"></span>&nbsp;<span translate="{{::provider}}"></span>
+            </md-button>
+        </div>
+    </div>
+</md-dialog-content>
+<md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+    <span flex></span>
+    <md-button ng-click="$ctrl.pay()" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation">
+        <span translate="trainingPlans.actions.next"></span>
+    </md-button>
+</md-dialog-actions>

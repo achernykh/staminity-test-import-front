@@ -6,6 +6,7 @@ import { TrainingPlansService } from "../training-plans.service";
 import { TrainingPlanConfig } from "./training-plan.config";
 import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
+import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 
 class TrainingPlanCtrl implements IComponentController {
 
@@ -19,12 +20,14 @@ class TrainingPlanCtrl implements IComponentController {
     private toolbar: JQuery;
     private durationChart: IChart;
 
-    static $inject = ['$mdSidenav', '$document', 'TrainingPlansService', 'trainingPlanConfig', 'message'];
+    static $inject = ['$mdSidenav', '$document', 'TrainingPlansService',
+        'TrainingPlanDialogService', 'trainingPlanConfig', 'message'];
 
     constructor(
         private $mdSidenav,
         private $document,
         private trainingPlanService: TrainingPlansService,
+        private trainingPlanDialog: TrainingPlanDialogService,
         private trainingPlanConfig: TrainingPlanConfig,
         private message: MessageService) {
 
@@ -40,6 +43,10 @@ class TrainingPlanCtrl implements IComponentController {
             .then(() => this.dataLoading = true)
             .then(() => this.subscribeOnScroll())
             .then(() => this.prepareChart());
+    }
+
+    order (e: Event): void {
+        this.trainingPlanDialog.order(e, this.plan).then(_ => {});
     }
 
     prepareChart () {

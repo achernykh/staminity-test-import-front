@@ -28,6 +28,9 @@
                 <span class="keyword" ng-repeat="word in plan.keywords" ng-bind="word"></span>
             </p>
         </div>
+        <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.publish($event, plan)">
+            <md-icon class="material-icons">publish</md-icon>
+        </md-button>
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">landscape</md-icon>
         </md-button>

@@ -1,5 +1,6 @@
- import moment from 'moment/min/moment-with-locales.js';
+import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
+import './moneta.scss';
 import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
 
 

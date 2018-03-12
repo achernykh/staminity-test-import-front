@@ -34,7 +34,7 @@
         <h1 flex="none" class="name md-display-3 md-light font-black center md-padding" ng-bind="$ctrl.plan.name"></h1>
         <h2 flex="none" class="weekCount md-body-1 md-light center">Недель подготовки {{$ctrl.plan.weekCount}}</h2>
         <div flex></div>
-        <md-button flex="none" class="md-accent md-hue-3 md-raised">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</md-button>
+        <md-button flex="none" class="md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</md-button>
     </section>
     <!-- Что включено в план? -->
     <section class="landing-block details info" flex="none">

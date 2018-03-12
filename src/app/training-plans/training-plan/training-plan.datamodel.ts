@@ -4,7 +4,7 @@ import {
     ITrainingPlan,
     ITrainingPlanReview,
     TrainingPlanSearchResultItem,
-    TrainingPlanSearchResultAuthor, ITrainingPlanAssignment
+    TrainingPlanSearchResultAuthor, ITrainingPlanAssignment, IMonetaAssistantFormData
 } from "../../../../api/trainingPlans/training-plans.interface";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
@@ -50,6 +50,8 @@ export class TrainingPlan implements ITrainingPlan {
     assignmentList?: Array<ITrainingPlanAssignment>; // история присвоений плана
     startDate?: string; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
+    product?: IMonetaAssistantFormData; // объект доступен покупателю плана. Используется для формирования ссылки к Moneta.Assistant
+
 
     private authorProfile: IUserProfileShort;
     private _startDate: Date;

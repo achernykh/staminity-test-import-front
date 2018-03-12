@@ -73,6 +73,10 @@ class TrainingPlansListCtrl implements IComponentController {
         this.open(env, FormMode.View, plan);
     }
 
+    publish (env: Event, plan: TrainingPlan) {
+        this.trainingPlanDialogService.publish(env, plan).then(_ => {});
+    }
+
     edit (env: Event, plan) {
         this.open(env, FormMode.Put, plan);
     }

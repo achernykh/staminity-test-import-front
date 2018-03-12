@@ -278,7 +278,58 @@
                                     </div>
                                 </md-list-item>
                                 <p class="hint md-caption md-dark" style="padding: 0 16px" translate="trainingPlans.commerceConditions"></p>
-                                <!-- -->
+                                <md-subheader><span translate="trainingPlans.planDescriptionInfo"></span></md-subheader>
+                                <!-- Услуги по консультации (hasConsultations) -->
+                                <md-list-item>
+                                    <p translate="trainingPlans.hasConsultations.label"></p>
+                                    <md-switch class="md-primary"
+                                               name="hasConsultations"
+                                               ng-model="$ctrl.plan.customData.hasConsultations">
+                                    </md-switch>
+                                </md-list-item>
+                                <md-list-item ng-if="$ctrl.plan.customData.hasConsultations">
+                                    <md-input-container class="md-block no-message" layout="row">
+                                        <label translate="trainingPlans.consultationsDescription.label"></label>
+                                        <textarea flex="auto"
+                                                  name="consultationsDescription"
+                                                  type="text"
+                                                  rows="1"
+                                                  max-rows="3"
+                                                  placeholder="{{trainingPlans.consultationsDescription.placeholder}}"
+                                                  ng-model="$ctrl.plan.customData.consultationsDescription"></textarea>
+                                        <div ng-messages="$ctrl.commerceForm.consultationsDescription.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
+                                <!-- Оффлайн тренировки (hasOfflineTraining) -->
+                                <md-list-item>
+                                    <p translate="trainingPlans.hasOfflineTraining.label"></p>
+                                    <md-switch class="md-primary"
+                                               name="hasOfflineTraining"
+                                               ng-model="$ctrl.plan.customData.hasOfflineTraining">
+                                    </md-switch>
+                                </md-list-item>
+                                <md-list-item ng-if="$ctrl.plan.customData.hasOfflineTraining">
+                                    <md-input-container class="md-block no-message" layout="row">
+                                        <label translate="trainingPlans.offlineTrainingDescription.label"></label>
+                                        <textarea flex="auto"
+                                                  name="offlineTrainingDescription"
+                                                  type="text"
+                                                  rows="1"
+                                                  max-rows="3"
+                                                  placeholder="{{trainingPlans.offlineTrainingDescription.placeholder}}"
+                                                  ng-model="$ctrl.plan.customData.offlineTrainingDescription"></textarea>
+                                        <div ng-messages="$ctrl.commerceForm.offlineTrainingDescription.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
+                                <!-- Описание типовой недели -->
                                 <md-list-item>
                                     <md-input-container class="md-block no-message" layout="row">
                                         <label translate="trainingPlans.regularWeek.label"></label>
@@ -299,24 +350,7 @@
                                         </div>
                                     </md-input-container>
                                 </md-list-item>
-                                <md-list-item ng-if="$ctrl.plan.isPublic">
-                                    <md-input-container class="md-block no-message" layout="row">
-                                        <label translate="trainingPlans.weekCount.label"></label>
-                                        <input flex="auto"
-                                               name="weekCount"
-                                               type="number"
-                                               placeholder="{{trainingPlans.weekCount.placeholder}}"
-                                               ng-model="$ctrl.plan.weekCount">
-                                        <div ng-messages="$ctrl.commerceForm.weekCount.$error" role="alert">
-                                            <div ng-message-exp="['required']"
-                                                 translate="form.required">
-                                            </div>
-                                            <div ng-message-exp="['minlength', 'maxlength']"
-                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
-                                            </div>
-                                        </div>
-                                    </md-input-container>
-                                </md-list-item>
+                                <!-- Кнопки опубликовать -->
                                 <md-list-item>
                                     <md-icon flex="none" class="material-icons md-dark dense"
                                              ng-bind="'copyright'"></md-icon>

@@ -25,7 +25,7 @@ export interface IAuthService {
     isActivityPlanAthletes(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object):IPromise<void>;
-    signUp(request:Object):IHttpPromise<{}>;
+    signUp(request:Object):Promise<any>;
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
     resetPassword(email: string):IHttpPromise<{}>;
@@ -126,7 +126,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    signUp(request) : IHttpPromise<{}> {
+    signUp(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/signup', request));
     }
 

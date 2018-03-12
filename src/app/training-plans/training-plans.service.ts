@@ -4,7 +4,8 @@ import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
     ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest, ITrainingPlanAssignmentRequest,
     ModifyTrainingPlanAssignment, ITrainingPlanAssignment, GetTrainingPlanAssignment, ITrainingPlanAssignmentResponse,
-    PublishTrainingPlan, GetTrainingPlanStore, GetTrainingPlanStoreItem, UnpublishTrainingPlan
+    PublishTrainingPlan, GetTrainingPlanStore, GetTrainingPlanStoreItem, UnpublishTrainingPlan,
+    GetTrainingPlanStoreItemAsGuest
 } from "../../../api/trainingPlans";
 import { IWSResponse, IRevisionResponse, ISystemMessage } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
@@ -68,6 +69,17 @@ export class TrainingPlansService {
             this.socket.send(new GetTrainingPlanStoreItem(planId)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetTrainingPlanStoreItem(planId)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
+    }
+
+    /**
+     * Получение плана для гостя перед покупкой
+     * @param planId
+     * @param email
+     * @returns {IPromise<TResult>}
+     */
+    getStoreItemAsGuest (planId: number, email: string): Promise<ITrainingPlan> {
+        return this.RESTService.postData(new PostData('/api/wsgate', new GetTrainingPlanStoreItemAsGuest(planId, email)))
+            .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     /**

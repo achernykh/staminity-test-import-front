@@ -4,6 +4,7 @@ import MessageService from "@app/core/message.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import { TrainingPlanConfig } from "../training-plan/training-plan.config";
+import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 
 class TrainingPlanStoreItemCtrl implements IComponentController {
 
@@ -16,7 +17,7 @@ class TrainingPlanStoreItemCtrl implements IComponentController {
     private plan: TrainingPlan;
     private dataLoading: boolean = false;
 
-    static $inject = ['TrainingPlansService', 'trainingPlanConfig', 'message'];
+    static $inject = ['TrainingPlansService', 'TrainingPlanDialogService', 'trainingPlanConfig', 'message'];
 
     constructor(
         private trainingPlanService: TrainingPlansService,

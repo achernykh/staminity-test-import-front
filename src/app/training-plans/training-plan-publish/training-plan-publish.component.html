@@ -1,0 +1,35 @@
+<md-toolbar flex="none" class="md-default">
+    <div class="md-toolbar-tools">
+        <h2 class="" translate="trainingPlans.publish.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-dialog-content flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
+    <div flex></div>
+    <md-icon flex="none" md-svg-src="/assets/landing/rocket-launch.svg" class="s96" style="margin-top: 16px"></md-icon>
+    <div flex="none" class="md-padding">
+        <p>
+            <span class="md-body-2" translate="trainingPlans.publish.name"></span>
+            <span class="md-body-1" ng-bind="$ctrl.plan.name"></span>
+        </p>
+    </div>
+    <div flex></div>
+</md-dialog-content>
+<md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+    <span flex></span>
+    <md-button class="md-warn md-secondary"
+               ng-disabled="!$ctrl.commerceForm.$dirty"
+               ng-click="$ctrl.unpublish()"
+               md-colors="{'border-color': 'warn'}"
+               translate="trainingPlans.actions.unpublish"></md-button>
+    <md-button class="md-primary md-secondary"
+               ng-class="{'md-warn': !$ctrl.commerceForm.$valid}"
+               ng-disabled="!$ctrl.commerceForm.$dirty"
+               ng-click="$ctrl.publish()"
+               md-colors="{'border-color': 'primary'}"
+               translate="trainingPlans.actions.publish"></md-button>
+</md-dialog-actions>

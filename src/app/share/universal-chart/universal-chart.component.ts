@@ -65,7 +65,6 @@ class UniversalChartCtrl implements IComponentController {
     }
 
     prepareMetrics(): void {
-        debugger;
         if (!this.filter) { return; }
         this.data.metrics = this.data.metrics.map((m) => {
             const metric: any[] = [];
