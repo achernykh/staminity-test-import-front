@@ -703,6 +703,17 @@ function IframeController ($scope, $mdDialog, $sce, url, title) {
     this.url = url;
     this.title = title;
 
+    const listener = (event) => {
+        console.debug(event);
+    };
+
+    console.debug('iframe controller');
+    if (window.addEventListener) {
+        window.addEventListener("message", listener, false);
+    } else {
+        window.attachEvent("onmessage", listener);
+    }
+
     this.close = () => { 
         $mdDialog.hide(); 
     };
@@ -710,8 +721,6 @@ function IframeController ($scope, $mdDialog, $sce, url, title) {
     this.trust = (url) => {
         return $sce.trustAsResourceUrl(url);
     };
-
-    console.log('IframeController', this);
 }
 
 IframeController.$inject = ['$scope','$mdDialog', '$sce', 'url', 'title'];

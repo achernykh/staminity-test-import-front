@@ -2,7 +2,7 @@ import './training-plan-publish.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
-import MessageService from "@app/core";
+import MessageService from "@app/core/message.service";
 
 class TrainingPlanPublishCtrl implements IComponentController {
 

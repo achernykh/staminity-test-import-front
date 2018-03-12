@@ -11,7 +11,9 @@
                 <md-icon class="material-icons md-dark" size="24">menu</md-icon>
             </md-button>
             <div flex></div>
-            <md-button flex="none" class="button-action md-accent md-hue-3 md-raised">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</md-button>
+            <md-button flex="none" class="button-action md-accent md-hue-3 md-raised">
+                <span class="">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</span>
+            </md-button>
         </div>
     </md-toolbar>
     <!-- Картинка с основными параметрами-->
@@ -34,32 +36,34 @@
         <h1 flex="none" class="name md-display-3 md-light font-black center md-padding" ng-bind="$ctrl.plan.name"></h1>
         <h2 flex="none" class="weekCount md-body-1 md-light center">Недель подготовки {{$ctrl.plan.weekCount}}</h2>
         <div flex></div>
-        <md-button flex="none" class="md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</md-button>
+        <md-button flex="none" class="md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
+            <span class="md-title md-light">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</span>
+        </md-button>
     </section>
     <!-- Что включено в план? -->
     <section class="landing-block details info" flex="none">
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Что включено в план?</h2>
-        <div class="item" layout="row">
+        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.targetAudience">
             <md-icon flex="none" md-svg-src="/assets/landing/agreement.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">Этот план предназначен для … атлета, с опытом выступлений… с текущими результатами не ниже чем … на .. и на...</p>
+            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.targetAudience"></p>
         </div>
-        <div class="item" layout="row">
+        <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/timeline.svg"  class="s64"></md-icon>
             <p flex class="md-subhead md-dark">Тут про даты</p>
         </div>
-        <div class="item" layout="row">
+        <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/abc.svg" class="s64"></md-icon>
             <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.regularWeek"></p>
         </div>
-        <div class="item" layout="row">
+        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasOfflineTraining">
             <md-icon flex="none" md-svg-src="/assets/landing/meeting.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">Тут про наличие очных тренировок и в каком формате</p>
+            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.offlineTrainingDescription"></p>
         </div>
-        <div class="item" layout="row">
+        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasConsultations">
             <md-icon flex="none" md-svg-src="/assets/landing/lecture.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">Тут про возможность консультаций и их формат</p>
+            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.consultationsDescription"></p>
         </div>
-        <div class="item" layout="row">
+        <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
             <p flex class="md-subhead md-dark">Тут про наличие структурированных тренировок и их возможности для атлета (выгрузка в тренажеры, часы и пр)</p>
         </div>
@@ -71,6 +75,25 @@
                          filter="true"
                          update="$ctrl.updateCount ">
         </universal-chart>
+    </section>
+    <section class="landing-block info" flex="none">
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Как это работает?</h2>
+        <div layout-gt-sm="row" layout-align-gt-sm="space-between center">
+            <div flex="45">
+                <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
+            </div>
+            <div flex="10"></div>
+            <ul flex="45">
+                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
+                    Пока не поддерживаем Internet explorer и Edge</li>
+                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
+                    Пока не поддерживаем Internet explorer и Edge</li>
+                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
+                    Пока не поддерживаем Internet explorer и Edge</li>
+                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
+                    Пока не поддерживаем Internet explorer и Edge</li>
+            </ul>
+        </div>
     </section>
     <section id="samples" class="landing-block info" flex="none">
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Примеры тренировок</h2>

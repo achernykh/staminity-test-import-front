@@ -279,6 +279,24 @@
                                 </md-list-item>
                                 <p class="hint md-caption md-dark" style="padding: 0 16px" translate="trainingPlans.commerceConditions"></p>
                                 <md-subheader><span translate="trainingPlans.planDescriptionInfo"></span></md-subheader>
+                                <!-- Целевая аудитория -->
+                                <md-list-item>
+                                    <md-input-container class="md-block no-message" layout="row">
+                                        <label translate="trainingPlans.targetAudience.label"></label>
+                                        <textarea flex="auto" required
+                                                  name="targetAudience"
+                                                  type="text"
+                                                  rows="1"
+                                                  max-rows="3"
+                                                  placeholder="{{trainingPlans.targetAudience.placeholder}}"
+                                                  ng-model="$ctrl.plan.customData.targetAudience"></textarea>
+                                        <div ng-messages="$ctrl.commerceForm.targetAudience.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
                                 <!-- Услуги по консультации (hasConsultations) -->
                                 <md-list-item>
                                     <p translate="trainingPlans.hasConsultations.label"></p>
@@ -290,7 +308,7 @@
                                 <md-list-item ng-if="$ctrl.plan.customData.hasConsultations">
                                     <md-input-container class="md-block no-message" layout="row">
                                         <label translate="trainingPlans.consultationsDescription.label"></label>
-                                        <textarea flex="auto"
+                                        <textarea flex="auto" required
                                                   name="consultationsDescription"
                                                   type="text"
                                                   rows="1"
@@ -315,7 +333,7 @@
                                 <md-list-item ng-if="$ctrl.plan.customData.hasOfflineTraining">
                                     <md-input-container class="md-block no-message" layout="row">
                                         <label translate="trainingPlans.offlineTrainingDescription.label"></label>
-                                        <textarea flex="auto"
+                                        <textarea flex="auto" required
                                                   name="offlineTrainingDescription"
                                                   type="text"
                                                   rows="1"
