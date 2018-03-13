@@ -42,14 +42,25 @@
     </section>
     <!-- Что включено в план? -->
     <section class="landing-block details info" flex="none">
-        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Что включено в план?</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.description"></h2>
         <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.targetAudience">
             <md-icon flex="none" md-svg-src="/assets/landing/agreement.svg" class="s64"></md-icon>
             <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.targetAudience"></p>
         </div>
         <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/timeline.svg"  class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">Тут про даты</p>
+            <p flex class="md-subhead md-dark">
+                <span ng-if="$ctrl.plan.isFixedCalendarDates"
+                      translate="trainingPlans.landing.fixCalendarDates"
+                      translate-values="{weekCount: $ctrl.plan.weekCount}"></span>
+                <span ng-if="!$ctrl.plan.isFixedCalendarDates"
+                      translate="trainingPlans.landing.flexCalendarDates"
+                      translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
+                </span>
+                <span>.&nbsp;</span>
+                <span translate="trainingPlans.landing.assignOpportunities"></span>
+            </p>
         </div>
         <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/abc.svg" class="s64"></md-icon>
@@ -63,13 +74,30 @@
             <md-icon flex="none" md-svg-src="/assets/landing/lecture.svg" class="s64"></md-icon>
             <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.consultationsDescription"></p>
         </div>
-        <div class="item" layout="row" layout-align="start start">
+        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasStructuredActivity">
             <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">Тут про наличие структурированных тренировок и их возможности для атлета (выгрузка в тренажеры, часы и пр)</p>
+            <p flex class="md-subhead md-dark" >
+                <span ng-bind="$ctrl.plan.customData.structuredActivityDescription"></span>
+                <span>.&nbsp;</span>
+                <span translate="trainingPlans.landing.structuredActivityOpportunities"></span>
+            </p>
+        </div>
+        <div class="item" layout="row" layout-align="start start"
+             ng-if="$ctrl.plan.needHrBelt || $ctrl.plan.needPowerMeter">
+            <md-icon flex="none" md-svg-src="/assets/landing/server.svg" class="s64"></md-icon>
+            <p flex class="md-subhead md-dark">
+                <span ng-if="$ctrl.plan.needHrBelt"
+                      translate="trainingPlans.landing.needHeartRateBelt"></span>
+                <span ng-if="$ctrl.plan.needPowerMeter"
+                      translate="trainingPlans.landing.needPowermeter"></span>
+                <span>.&nbsp;</span>
+                <span translate="trainingPlans.landing.syncDescription"></span>
+            </p>
         </div>
     </section>
     <section class="landing-block info" flex="none">
-        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">График нагрузки</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.chart"></h2>
         <universal-chart flex="auto"
                          data="$ctrl.durationChart"
                          filter="true"
@@ -77,32 +105,26 @@
         </universal-chart>
     </section>
     <section class="landing-block info" flex="none">
-        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Как это работает?</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.howItWorks"></h2>
         <div layout-gt-sm="row" layout-align-gt-sm="space-between center">
             <div flex="45">
                 <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
             </div>
             <div flex="10"></div>
-            <ul flex="45">
-                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
-                    Пока не поддерживаем Internet explorer и Edge</li>
-                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
-                    Пока не поддерживаем Internet explorer и Edge</li>
-                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
-                    Пока не поддерживаем Internet explorer и Edge</li>
-                <li>аботайте через Google Chrome, Opera, Firefox или Safari.
-                    Пока не поддерживаем Internet explorer и Edge</li>
-            </ul>
+            <ul flex="45" translate="trainingPlans.landing.howItWorksDescription"></ul>
         </div>
     </section>
     <section id="samples" class="landing-block info" flex="none">
-        <h2 flex="none" class="block-title md-display-1 md-dark font-black center">Примеры тренировок</h2>
+        <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.samples"></h2>
         <st-calendar-item-list class="calendar-item-list"
                                data="$ctrl.plan.samples">
         </st-calendar-item-list>
     </section>
     <section id="description" class="landing-block info" flex="none">
-        <h2 flex="none" class="name md-display-1 md-dark font-black center">Дополнительная информаци от автора</h2>
+        <h2 flex="none" class="name md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.extDescription"></h2>
         <div class="md-padding md-subhead md-dark quill quill-data" ng-bind-html="$ctrl.plan.description"></div>
     </section>
 </section>

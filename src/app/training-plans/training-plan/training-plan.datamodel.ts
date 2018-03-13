@@ -277,5 +277,12 @@ export class TrainingPlan implements ITrainingPlan {
     get durationChart(): IChart {
         return this.config && this.effortStat && Object.assign({}, this.config.durationChart, {metrics: this.effortStat.metricsByDuration}) || null;
     }
+    get needHrBelt(): boolean {
+        return this.tags && this.tags.some(t => t === 'hrBelt');
+    }
+
+    get needPowerMeter(): boolean {
+        return this.tags && this.tags.some(t => t === 'powerMeter');
+    }
 
 }

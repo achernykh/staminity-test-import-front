@@ -347,6 +347,31 @@
                                         </div>
                                     </md-input-container>
                                 </md-list-item>
+                                <!-- Наличие структурированных тренировок (hasStructuredActivity) -->
+                                <md-list-item>
+                                    <p translate="trainingPlans.hasStructuredActivity.label"></p>
+                                    <md-switch class="md-primary"
+                                               name="hasOfflineTraining"
+                                               ng-model="$ctrl.plan.customData.hasStructuredActivity">
+                                    </md-switch>
+                                </md-list-item>
+                                <md-list-item ng-if="$ctrl.plan.customData.hasStructuredActivity">
+                                    <md-input-container class="md-block no-message" layout="row">
+                                        <label translate="trainingPlans.structuredActivityDescription.label"></label>
+                                        <textarea flex="auto"
+                                                  name="structuredActivityDescription"
+                                                  type="text"
+                                                  rows="1"
+                                                  max-rows="3"
+                                                  placeholder="{{trainingPlans.structuredActivityDescription.placeholder}}"
+                                                  ng-model="$ctrl.plan.customData.structuredActivityDescription"></textarea>
+                                        <div ng-messages="$ctrl.commerceForm.structuredActivityDescription.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
                                 <!-- Описание типовой недели -->
                                 <md-list-item>
                                     <md-input-container class="md-block no-message" layout="row">
