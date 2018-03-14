@@ -1,13 +1,15 @@
 import {
     DeleteUserExternalAccountRequest, PostUserExternalAccountRequest,
     PutUserExternalAccountRequest } from "../../../api";
-import { SocketService} from "../core";
+import { SocketService, RESTService, PostData } from "../core";
 
 export default class SyncAdaptorService {
 
-    static $inject = ["SocketService"];
+    static $inject = ["SocketService", "RESTService"];
 
-    constructor(private SocketService: SocketService) {
+    constructor(
+        private SocketService: SocketService,
+        private RESTService: RESTService) {
 
     }
 
@@ -31,7 +33,11 @@ export default class SyncAdaptorService {
      * @returns {Promise<any>}
      */
     put(provider: string, username: string, password: string, startDate: Date, state: string): Promise<any> {
-        return this.SocketService.send(new PutUserExternalAccountRequest(provider, username, password, startDate, state));
+        return this.RESTService.postData(
+                new PostData('/api/wsgate',
+                new PutUserExternalAccountRequest(provider, username, password, startDate, state)))
+            .then(response => response.data);
+        //return this.SocketService.send(new PutUserExternalAccountRequest(provider, username, password, startDate, state));
     }
 
     /**
@@ -44,7 +50,11 @@ export default class SyncAdaptorService {
      * @returns {Promise<any>}
      */
     post(provider: string, username: string, password: string, startDate: Date): Promise<any> {
-        return this.SocketService.send(new PostUserExternalAccountRequest(provider, username, password, startDate));
+        return this.RESTService.postData(
+            new PostData('/api/wsgate',
+                new PostUserExternalAccountRequest(provider, username, password, startDate)))
+            .then(response => response.data);
+        //return this.SocketService.send(new PostUserExternalAccountRequest(provider, username, password, startDate));
     }
 
 }

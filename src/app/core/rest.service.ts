@@ -132,7 +132,7 @@ export class RESTService implements IRESTService {
             .then((response: any) => {
                 console.log("REST Service => postData success=", response);
                 if (response.data.hasOwnProperty("errorMessage")) {
-                    throw response.data;
+                    throw response.data.errorMessage;
                 } else {
                     return response.data;
                 }

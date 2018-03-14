@@ -292,7 +292,8 @@ class SettingsUserCtrl {
                         //adaptor.status.switch = true;
                     });
 
-        } else if(toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
+        }
+        else if(toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
             // Подключение стравы
             this.$auth.link(adaptor.provider,{
                 internalData: {
