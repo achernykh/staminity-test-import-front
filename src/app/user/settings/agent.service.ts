@@ -144,8 +144,18 @@ export class AgentService {
      * Добавление карты
      * @returns {Promise<any>}
      */
-    addCard(userId: number, bindCardSignature: string): Promise<any> {
-        const url = `https://demo.moneta.ru/secureCardData.widget?publicId=a743f28a-8698-43f8-9326-5c40e4edf5d4&MNT_ID=64994513&MNT_TRANSACTION_ID=BIND_CARD.${userId}&redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap&MNT_SIGNATURE=${bindCardSignature}&secure%5BCARDNUMBER%5D=required&secure%5BCARDEXPIRATION%5D=required&secure%5BCARDCVV2%5D=required&formTarget=_top&MNT_DESCRIPTION=&process=Submit`;
+    addCard(userId: number, agentEnvironment: IAgentEnvironment): Promise<any> {
+        const url = 'https://demo.moneta.ru/secureCardData.widget?' + [
+            'publicId=a743f28a-8698-43f8-9326-5c40e4edf5d4',
+            'MNT_ID=64994513',
+            `MNT_TRANSACTION_ID=${agentEnvironment.MNT_TRANSACTION_ID}`,
+            `redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap`,
+            `MNT_SIGNATURE=${agentEnvironment.bindCardSignature}&secure%5BCARDNUMBER%5D=required&secure%5BCARDEXPIRATION%5D=required`, 
+            'secure%5BCARDCVV2%5D=required', 
+            'formTarget=_top', 
+            'MNT_DESCRIPTION=', 
+            'process=Submit'
+        ].join('&');
         return this.dialogs.iframe(url, "user.settings.agent.cards.addCard");
     }
 }
