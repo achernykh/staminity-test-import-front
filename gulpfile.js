@@ -150,7 +150,7 @@ gulp.task('templates', function() {
 // This task is used for building production ready
 gulp.task('build', function() {
     'use strict';
-    let html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico"])
+    let html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico", "build/moneta/**"])
         .pipe(gulp.dest('./dist/'));
 
     let css = gulp.src('build/css/*.css')
@@ -325,8 +325,8 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
-        assets: [trg+'/assets/**']
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html', trg+'/moneta/**',],
+        assets: [trg+'/assets/**', trg+'/moneta/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);

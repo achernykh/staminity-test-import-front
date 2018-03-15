@@ -1,11 +1,11 @@
 import { element } from 'angular';
 import { Subject } from "rxjs/Rx";
 import { 
-    GetAgentEnvironment, GetAgentProfile, PutAgentProfile, 
+    GetAgentEnvironment, GetAgentProfile, PutAgentProfile, GetMonetaBindCardData,
     GetAgentWithdrawals, PostAgentWithdrawal, //CancelAgentWithdrawal,
     GetAgentExtAccounts, PutAgentExtAccount, DeleteAgentExtAccount,
     GetAgentAccountTransactions,
-    IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction,
+    IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction, IMonetaBindCardData,
 } from "../../../../api/agent";
 import { server, protocol } from "../../core/env.js";
 import { replace } from "../../share/utility/replace";
@@ -141,25 +141,35 @@ export class AgentService {
     }
 
     /**
+     * Запрос MonetaBindCardData
+     * @param {request: IAgentExtAccount}
+     * @returns {Promise<IMonetaBindCardData>}
+     */
+    getMonetaBindCardData(): Promise<IMonetaBindCardData> {
+        return this.SocketService.send(new GetMonetaBindCardData());
+    }
+
+    /**
      * Добавление карты
      * @returns {Promise<any>}
      */
     addCard(userId: number, agentEnvironment: IAgentEnvironment): Promise<any> {
-        const url = 'https://demo.moneta.ru/secureCardData.widget?' + [
-            'publicId=a743f28a-8698-43f8-9326-5c40e4edf5d4',
-            'MNT_ID=64994513',
-            `MNT_TRANSACTION_ID=${agentEnvironment.MNT_TRANSACTION_ID}`,
-            `redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap`,
-            `MNT_SIGNATURE=${agentEnvironment.bindCardSignature}`, 
-            'secure%5BCARDNUMBER%5D=required',
-            'secure%5BCARDEXPIRATION%5D=required',
-            'secure%5BCARDCVV2%5D=required', 
-            'formTarget=_top', 
-            'MNT_DESCRIPTION=', 
-            'process=Submit'
-        ].join('&');
-
-        return new Promise((resolve, reject) => {
+        return this.getMonetaBindCardData()
+        .then((monetaBindCardData) => new Promise((resolve, reject) => {
+            const url = 'https://demo.moneta.ru/secureCardData.widget?' + [
+                'publicId=a743f28a-8698-43f8-9326-5c40e4edf5d4',
+                'MNT_ID=64994513',
+                `MNT_TRANSACTION_ID=${monetaBindCardData.MNT_TRANSACTION_ID}`,
+                `redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap`,
+                `MNT_SIGNATURE=${monetaBindCardData.bindCardSignature}`, 
+                'secure%5BCARDNUMBER%5D=required',
+                'secure%5BCARDEXPIRATION%5D=required',
+                'secure%5BCARDCVV2%5D=required', 
+                'formTarget=_top', 
+                'MNT_DESCRIPTION=', 
+                'process=Submit'
+            ].join('&');
+        
             localStorage.setItem('moneta-result', '');
 
             const handler = (event) => {
@@ -186,6 +196,6 @@ export class AgentService {
                 window.removeEventListener('storage', handler, false);
                 reject('close');
             });
-        });
+        }));
     }
 }

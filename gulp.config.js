@@ -96,7 +96,7 @@ const backend = {
 module.exports = {
     gulp: './gulp.config.js',
     src: {
-        other: [src + 'browserconfig.xml', src + 'favicon.ico', src + 'manifest.json'],
+        other: [src + 'browserconfig.xml', src + 'favicon.ico', src + 'manifest.json', src + 'moneta/*.html'],
         jsLibs: jsLibs,
         babel: { 
             cache: {}, 
@@ -106,7 +106,7 @@ module.exports = {
         app: src + 'js/app.js',
         jsApp: [src + 'js/**/*.js', src + 'js/**/*.ts' ],
         cssLibs: cssLibs,
-        assets: src + 'assets/**/*.*',
+        assets: [src + 'assets/**/*.*', src + 'moneta/*.html'],
         sass: src + 'sass/app.scss',
         sassFiles: [src + 'sass/app.scss' , src + 'js/**/*.scss', src + 'js/**/**/*.scss', src + 'sass/*.scss'],
         templates: [src + 'js/**/*.html', src + 'js/**/**/*.html', src + 'js/**/**/**/*.html']
