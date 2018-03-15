@@ -156,6 +156,34 @@ export class AgentService {
             'MNT_DESCRIPTION=', 
             'process=Submit'
         ].join('&');
-        return this.dialogs.iframe(url, "user.settings.agent.cards.addCard");
+
+        return new Promise((resolve, reject) => {
+            localStorage.setItem('moneta-result', '');
+
+            const handler = (event) => {
+                const result = localStorage.getItem('moneta-result');
+                if (result === 'success') {
+                    this.$mdDialog.hide(); 
+                    resolve();
+                } else if (result === 'fail') {
+                    reject();
+                    this.$mdDialog.hide(); 
+                } else if (result === 'inprogress') {
+                    resolve();
+                    this.$mdDialog.hide(); 
+                } else if (result === 'return') {
+                    reject('return');
+                    this.$mdDialog.hide(); 
+                }
+            };
+
+            this.dialogs.iframe(url, "user.settings.agent.cards.addCard")
+            .catch(() => {
+                window.removeEventListener('storage', handler, false);
+            }, () => {
+                window.removeEventListener('storage', handler, false);
+                reject('close');
+            });
+        });
     }
 }

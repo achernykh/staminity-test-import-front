@@ -700,19 +700,6 @@ function IframeController ($scope, $mdDialog, $sce, url, title) {
     this.url = url;
     this.title = title;
 
-    localStorage.setItem('dialog-result', '');
-    const handler = (event) => {
-        const result = localStorage.getItem('dialog-result');
-        if (result === 'success') {
-            $mdDialog.hide(); 
-            window.removeEventListener('storage', handler, false);
-        } else if (result === 'failure') {
-            $mdDialog.cancel();
-            window.removeEventListener('storage', handler, false);
-        }
-    };
-    window.addEventListener('storage', handler, false);
-
     this.close = () => { 
         $mdDialog.hide(); 
     };
