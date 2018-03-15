@@ -169,7 +169,7 @@ export class AgentService {
                 'MNT_DESCRIPTION=', 
                 'process=Submit'
             ].join('&');
-        
+
             localStorage.setItem('moneta-result', '');
 
             const handler = (event) => {
@@ -188,6 +188,8 @@ export class AgentService {
                     this.$mdDialog.hide(); 
                 }
             };
+
+            window.addEventListener('storage', handler, false);
 
             this.dialogs.iframe(url, "user.settings.agent.cards.addCard")
             .catch(() => {
