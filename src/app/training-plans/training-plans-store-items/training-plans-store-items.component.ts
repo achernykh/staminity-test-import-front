@@ -53,7 +53,8 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     open (e: Event, item: TrainingPlan): void {
-        this.trainginPlanDialogs.store(e, item).then(_ => {},);
+        window.open(`${window.location.protocol}//${window.location.host}/training-plan/?planId=${item.id}`);
+        //this.trainginPlanDialogs.store(e, item).then(_ => {},);
     }
 
     get isLoadingState (): boolean {

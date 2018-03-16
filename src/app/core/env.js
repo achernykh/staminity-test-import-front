@@ -1,4 +1,4 @@
-var build = '470';
+var build = '471';
 var version = '2.1.5';
 var protocol = {
   ws: 'wss://',
@@ -6,7 +6,7 @@ var protocol = {
 };
 var server = 'testapp.staminity.com:8080';
 var content = 'https://testapp.staminity.com:8080';
-var frontend = 'http://dev1.staminity.com/';
+var frontend = 'https://dev2.staminity.com/';
 
 
 module.exports = {

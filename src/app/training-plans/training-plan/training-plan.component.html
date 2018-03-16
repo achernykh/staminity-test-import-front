@@ -37,7 +37,8 @@
         <h2 flex="none" class="weekCount md-body-1 md-light center">Недель подготовки {{$ctrl.plan.weekCount}}</h2>
         <div flex></div>
         <md-button flex="none" class="md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
-            <span class="md-title md-light">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</span>
+            <span ng-if="$ctrl.plan.price" class="md-title md-light">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</span>
+            <span ng-if="!$ctrl.plan.price" class="md-title md-light" translate="trainingPlans.landing.free"></span>
         </md-button>
     </section>
     <!-- Что включено в план? -->
@@ -108,11 +109,10 @@
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.howItWorks"></h2>
         <div layout-gt-sm="row" layout-align-gt-sm="space-between center">
-            <div flex="45">
+            <div flex="50">
                 <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
             </div>
-            <div flex="10"></div>
-            <ul flex="45" translate="trainingPlans.landing.howItWorksDescription"></ul>
+            <ul flex="50" translate="trainingPlans.landing.howItWorksDescription"></ul>
         </div>
     </section>
     <section id="samples" class="landing-block info" flex="none">

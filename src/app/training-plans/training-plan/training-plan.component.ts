@@ -46,7 +46,12 @@ class TrainingPlanCtrl implements IComponentController {
     }
 
     order (e: Event): void {
-        this.trainingPlanDialog.order(e, this.plan).then(_ => {});
+        if (this.plan.price) {
+            this.trainingPlanDialog.order(e, this.plan).then(_ => {});
+        } else {
+            this.trainingPlanService.getFree(Number(this.planId))
+                .then(_ => this.message.toastInfo('trainingPlanGetSuccess'), e => this.message.toastError(e));
+        }
     }
 
     prepareChart () {
