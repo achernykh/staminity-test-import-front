@@ -395,15 +395,22 @@ md-pagination-wrapper {
     height: 60px;
     border-radius: 30px;
     border: 1px solid white;
-    background: orangered;
+    background: lightgrey;
     margin: 0;
-
     .edit-button {
       width: 60px;
       height: 60px;
       line-height: 60px;
       border-radius: 30px;
     }
+  }
+  &.size-120 {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    border: 1px solid white;
+    background: lightgrey;
+    margin: 0;
   }
 
   .edit-button {

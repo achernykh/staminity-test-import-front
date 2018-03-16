@@ -28,8 +28,8 @@ class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     $onInit () {
-        this.filter.keywords = [];
-        this.filter.tags = [];
+        this.filter.keywords = this.filter.keywords || [];
+        this.filter.tags = this.filter.tags || [];
         this.onChangeFilter({filter: this.filter});
     }
 
@@ -59,6 +59,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
         else {
             list.push(item);
         }
+        this.onChangeFilter({filter: this.filter});
     }
 
     private exists (item, list): boolean {

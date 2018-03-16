@@ -4,10 +4,10 @@
         <span ng-bind="$ctrl.totalFound"></span>
     </md-subheader>-->
     <md-list-item class="md-2-line"
-                  ng-click="$ctrl.edit($event, plan)"
+                  ng-click="$ctrl.action($event, plan)"
                   ng-repeat-start="plan in $ctrl.getTrainingPlanList() track by plan.id">
 
-        <img ng-if="plan.icon"ng-src="{{'/plan/icon/' | image:plan.icon }}" class="md-avatar" alt="avatar" />
+        <img ng-if="plan.icon" ng-src="{{'/plan/icon/' | image:plan.icon }}" class="md-avatar" alt="avatar" />
 
         <div  ng-if="!plan.icon" class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
              layout="row" layout-align="center center">
@@ -38,11 +38,11 @@
             <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
             <span translate="trainingPlans.actions.assignment"></span>
         </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)">
+        <md-button class="md-secondary md-icon-button" ng-if="!$ctrl.customer" ng-click="$ctrl.calendar(plan.id)">
             <md-icon class="material-icons">date_range</md-icon>
         </md-button>
 
-        <md-menu class="md-secondary">
+        <md-menu class="md-secondary" ng-if="!$ctrl.customer">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
                 <md-icon class="material-icons md-18"
                          aria-label="More">more_vert
@@ -81,7 +81,7 @@
     <md-divider ng-repeat-end></md-divider>
 </md-list>
 
-<div class="training-plans-list__create">
+<div class="training-plans-list__create" ng-if="!$ctrl.customer">
     <md-button id="training-plans-list__fab"
                ng-click="$ctrl.post($event)"
                class="md-fab md-accent md-hue-2 animated bounce zoomIn">

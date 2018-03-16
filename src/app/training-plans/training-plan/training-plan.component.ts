@@ -64,8 +64,8 @@ class TrainingPlanCtrl implements IComponentController {
             this.toolbar = element(this.$document[0].querySelector('#toolbar'));
             window.addEventListener('scroll', () => {
                 console.debug('scroll top', window.scrollY, window.innerHeight, window.outerHeight);
-                this.toolbar.addClass(window.scrollY > window.innerHeight * 0.50 ? 'solid md-whiteframe-z3' : 'background');
-                this.toolbar.removeClass(window.scrollY <= window.innerHeight * 0.50 ? 'solid md-whiteframe-z3' : 'background');
+                this.toolbar.addClass(window.scrollY > window.innerHeight * 0.60 ? 'solid md-whiteframe-z3' : 'background');
+                this.toolbar.removeClass(window.scrollY <= window.innerHeight * 0.60 ? 'solid md-whiteframe-z3' : 'background');
             });
         }, 500);
     }

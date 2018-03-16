@@ -2,6 +2,7 @@ import { FormMode } from "../application.interface";
 import { TrainingPlan } from "./training-plan/training-plan.datamodel";
 import { SessionService } from "@app/core";
 import { IMonetaAssistantFormData } from "@api/trainingPlans";
+import { IUserProfile } from "../../../api/user/user.interface";
 
 export class TrainingPlanDialogService {
 
@@ -132,8 +133,13 @@ export class TrainingPlanDialogService {
 
 
 
-    assignment(env: Event, plan: TrainingPlan, state?: 'form' | 'list'): Promise<{mode: FormMode, plan: TrainingPlan}> {
-        return this.$mdDialog.show({
+    assignment(env: Event, plan: TrainingPlan, customer: boolean, state?: 'form' | 'list'): Promise<{mode: FormMode, plan: TrainingPlan}> {
+        let user: IUserProfile = this.session.getUser();
+        let athletes: Array<IUserProfile> = customer ?
+            [user] :
+            user.connections.hasOwnProperty('allAthletes') && user.connections.allAthletes.groupMembers || null;
+
+        let dialog = {
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
@@ -154,13 +160,14 @@ export class TrainingPlanDialogService {
             locals: {
                 plan: plan,
                 state,
-                athletes: this.session.getUser().connections.allAthletes.groupMembers || null
+                athletes: athletes
             },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,
             fullscreen: true,
-        });
+        };
+        return this.$mdDialog.show(dialog);
     }
 
 }

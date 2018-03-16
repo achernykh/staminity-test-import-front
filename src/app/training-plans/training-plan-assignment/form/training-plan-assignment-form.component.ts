@@ -31,6 +31,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     $onInit() {
         if (!this.assign) {
             this.data = Object.assign({
+                userId: this.athletes.length === 1 ? [this.athletes[0].userId] : [],
                 applyMode: 'P',
                 applyDateMode: 'F',
                 enabledSync: this.plan.propagateMods || null,

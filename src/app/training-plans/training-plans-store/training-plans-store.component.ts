@@ -25,9 +25,16 @@ class TrainingPlansStoreCtrl implements IComponentController {
     private plans: TrainingPlansList;
     private searchParams: ITrainingPlanSearchRequest = {};
     private destroy: Subject<any> = new Subject();
-    static $inject = ['$location', "SessionService", "TrainingPlansService"];
+    private navBarStates: Array<string> = ['store','purchases'];
+    private currentState: string = 'store';
+    private storePlansFilter: ITrainingPlanSearchRequest = {};
+    private purchasesPlansFilter: ITrainingPlanSearchRequest;
+    private storePlansFilterChange: number = 0;
+    private readonly urlKeys: Array<string> = ['name', 'type', 'distanceType', 'tags'];
+    static $inject = ['$stateParams', '$location', "SessionService", "TrainingPlansService"];
 
     constructor(
+        private $stateParams: any,
         private $location: ILocationService,
         private session: SessionService,
         private trainingPlansService: TrainingPlansService) {
@@ -36,6 +43,40 @@ class TrainingPlansStoreCtrl implements IComponentController {
             .takeUntil(this.destroy)
             .map(getUser)
             .subscribe((userProfile) => this.user = userProfile);
+    }
+
+    $onInit (): void {
+        this.prepareUrlParams();
+        this.prepareStates();
+    }
+
+    private prepareUrlParams (): void {
+        debugger;
+        ['name', 'type', 'distanceType'].map(p => this.storePlansFilter[p] = this.$location.search()[p] || null);
+        ['tags'].map(p => this.$location.search()[p] && (this.storePlansFilter[p] =
+             Array.isArray(this.$location.search()[p]) ? this.$location.search()[p] : [this.$location.search()[p]]));
+        this.purchasesPlansFilter = { ownerId: this.user.userId, purchased: true };
+    }
+
+    private prepareStates(): void {
+        this.setState(this.$stateParams.hasOwnProperty('state') &&
+            this.$stateParams.state ? this.$stateParams.state : this.currentState);
+    }
+
+    private setState (state: string): void {
+        if (this.navBarStates.indexOf(state) === -1) { return; }
+        this.currentState = state;
+        this.$location.search('state', state);
+    }
+
+    private leftPanel (): boolean {
+        return this.currentState === 'store';
+    }
+
+    changeStorePlansFilter (filter: ITrainingPlanSearchRequest): void {
+        this.storePlansFilter = filter;
+        this.storePlansFilterChange++;
+        Object.keys(this.storePlansFilter).map(k => this.$location.search(k, this.storePlansFilter[k]));
     }
 
 }

@@ -14,6 +14,7 @@ class TrainingPlansListCtrl implements IComponentController {
 
     // bind
     plans: TrainingPlansList;
+    customer: boolean;
     filter: ITrainingPlanSearchRequest;
     onEvent: (response: Object) => IPromise<void>;
 
@@ -77,6 +78,10 @@ class TrainingPlansListCtrl implements IComponentController {
         this.trainingPlanDialogService.publish(env, plan).then(_ => {});
     }
 
+    action (env: Event, plan: TrainingPlan): void {
+        this.customer ? this.assignment(env, plan) : this.edit(env, plan);
+    }
+
     edit (env: Event, plan) {
         this.open(env, FormMode.Put, plan);
     }
@@ -122,7 +127,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     private assignment (env: Event, plan: TrainingPlan): void {
-        this.trainingPlanDialogService.assignment(env, plan)
+        this.trainingPlanDialogService.assignment(env, plan, this.customer)
             .then(response => {debugger;}, error => {debugger;});
     }
 
@@ -145,6 +150,7 @@ class TrainingPlansListCtrl implements IComponentController {
 const TrainingPlansListComponent: IComponentOptions = {
     bindings: {
         plans: '<',
+        customer: '<', // покупатель?
         update: '<',
         filter: '<',
         onEvent: '&'

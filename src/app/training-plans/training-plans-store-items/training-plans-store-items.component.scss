@@ -8,12 +8,12 @@
   &__data {
     padding: 16px;
     min-height: calc(100vh - 64px - 32px);
-    background-color: white;
+    //background-color: white;
 
     .md-row {
       cursor: pointer;
       &:hover {
-        background-color: $grey-050;
+        background-color: $grey-200;
       }
     }
   }

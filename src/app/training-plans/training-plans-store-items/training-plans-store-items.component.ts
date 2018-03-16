@@ -25,18 +25,25 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
         private $scope: IScope,
         private $location: ILocationService,
         private trainingPlansService: TrainingPlansService,
-        private trainginPlanDialogs: TrainingPlanDialogService,
+        private trainingPlanDialogs: TrainingPlanDialogService,
         private message: MessageService) {
-
-    }
-
-    $onChanges (changes): void {
 
     }
 
     $onInit() {
         //Object.assign(this.searchParams, {...this.$location.search()});
-        this.prepareData();
+        //this.prepareData();
+    }
+
+    $onChanges (changes): void {
+        if (this.searchParams && changes.hasOwnProperty('searchParams') && !changes['searchParams'].isFirstChanges) {
+            //this.prepareData();
+        }
+        if (this.searchParams && changes.hasOwnProperty('update') && !changes['update'].isFirstChanges) {
+            if (this.searchParams.type === 'all') { this.searchParams.type = null; }
+            if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
+            this.prepareData();
+        }
     }
 
     prepareData () {
@@ -73,6 +80,7 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 export const TrainingPlansStoreItemsComponent:IComponentOptions = {
     bindings: {
         searchParams: '<',
+        update: '<',
         onEvent: '&'
     },
     require: {

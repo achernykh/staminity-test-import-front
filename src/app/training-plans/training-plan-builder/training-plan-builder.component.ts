@@ -315,7 +315,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     private assignment (env: Event, plan: TrainingPlan): void {
-        this.trainingPlanDialogService.assignment(env, plan)
+        this.trainingPlanDialogService.assignment(env, plan, false)
             .then(response => {debugger;}, error => {debugger;});
     }
 
