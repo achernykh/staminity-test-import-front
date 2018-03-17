@@ -11,7 +11,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
   /**
   Шаблон с Навигационной панелью
    */
-  &[nav-bar=true] {
+  &.nav-bar {
     
     .st-application-frame__primary-toolbar {
       height: $app-max-bar-height;
@@ -68,7 +68,7 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     }
 
     // Шаблон профиля с навигационной панелью
-    &[nav-bar=true] {
+    &.nav-bar {
       .st-profile-template__header > .info {
         height: calc(100% - 48px);
         overflow: hidden;

@@ -9,7 +9,13 @@
         </div>
     </md-toolbar>
     <md-dialog-content style="overflow: hidden; min-width: 380px;">
-        <iframe ng-attr-src="{{$ctrl.trust($ctrl.url)}}" sandbox="allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts" seamless="seamless" height="600" scrolling="auto" align="middle" style="width: 100%;">
+        <iframe ng-attr-src="{{$ctrl.trust($ctrl.url)}}"
+                sandbox="allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+                seamless="seamless"
+                height="600"
+                scrolling="auto"
+                align="middle"
+                style="width: 100%;">
         </iframe> 
     </md-dialog-content>
 </md-dialog>

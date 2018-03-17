@@ -2,10 +2,9 @@
     class="training-plans-store st-application-frame"
     template="application"
     left-bar="$ctrl.leftPanel()"
-
-    nav-bar="true"
     nav-bar-state="$ctrl.currentState"
-    ng-switch="$ctrl.currentState">
+    ng-switch="$ctrl.currentState"
+    ng-class="{'nav-bar': $ctrl.authCheck()}">
 
     <st-application-frame-title>
         <span class="md-title" translate="trainingPlans.title"></span>

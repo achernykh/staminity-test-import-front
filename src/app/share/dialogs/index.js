@@ -709,8 +709,8 @@ function IframeController ($scope, $mdDialog, $sce, url, title) {
 
     console.debug('iframe controller');
 
-    this.close = () => { 
-        $mdDialog.hide('close');
+    this.close = () => {
+        $mdDialog.cancel('close');
     };
 
     this.trust = (url) => {
