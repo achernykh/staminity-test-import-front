@@ -194,8 +194,10 @@ export class AgentService {
             this.dialogs.iframe(url, "user.settings.agent.cards.addCard")
             .catch(() => {
                 window.removeEventListener('storage', handler, false);
+                localStorage.removeItem('moneta-result');
             }, () => {
                 window.removeEventListener('storage', handler, false);
+                localStorage.removeItem('moneta-result');
                 reject('close');
             });
         }));
