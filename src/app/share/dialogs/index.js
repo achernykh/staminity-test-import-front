@@ -708,14 +708,9 @@ function IframeController ($scope, $mdDialog, $sce, url, title) {
     };
 
     console.debug('iframe controller');
-    if (window.addEventListener) {
-        window.addEventListener("message", listener, false);
-    } else {
-        window.attachEvent("onmessage", listener);
-    }
 
     this.close = () => { 
-        $mdDialog.hide(); 
+        $mdDialog.hide('close');
     };
 
     this.trust = (url) => {

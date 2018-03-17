@@ -102,7 +102,7 @@ export class TrainingPlanDialogService {
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (mode, plan) => $mdDialog.hide({mode, plan});
+                $scope.answer = (response) => $mdDialog.hide({response});
             }],
             controllerAs: "$ctrl",
             template: `<md-dialog id="training-plan-order" aria-label="Training Plan Order Confirmation">
@@ -110,7 +110,7 @@ export class TrainingPlanDialogService {
                                     layout="column" layout-fill class="training-plan-order"
                                     plan="$ctrl.plan"
                                     user="$ctrl.currentUser"
-                                    on-cancel="cancel()" on-save="answer(mode,plan)"/>
+                                    on-cancel="cancel()" on-save="answer(response)"/>
                        </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: e,
@@ -127,10 +127,39 @@ export class TrainingPlanDialogService {
     }
 
     pay (product: IMonetaAssistantFormData): Promise<any> {
+
         const url = `https://demo.moneta.ru/assistant.widget?` +
             Object.keys(product).map(k => `${k}=${product[k]}`).join('&');// MNT_ID=${product.MNT_ID}&MNT_AMOUNT=${product.MNT_AMOUNT}&MNT_CURRENCY_CODE=${product.MNT_CURRENCY_CODE}&MNT_TRANSACTION_ID=${product.MNT_TRANSACTION_ID}&MNT_SIGNATURE=${product.MNT_SIGNATURE}&MNT_TEST_MODE=${product.MNT_TEST_MODE}&MNT_DESCRIPTION=${product.MNT_DESCRIPTION}`;
         //const url = `https://demo.moneta.ru/assistant.widget?MNT_ID=64994513&MNT_AMOUNT=100.15&MNT_CURRENCY_CODE=RUB&MNT_TRANSACTION_ID=test_tran_1&MNT_SIGNATURE=676d53a77f08ec5b46cb6581f2e6f615&MNT_TEST_MODE=1&MNT_DESCRIPTION=`;
-        return this.dialogs.iframe(url, "trainingPlans.pay.title");
+
+        const handler = (event) => {
+            const result = localStorage.getItem('moneta-result');
+            if (result === 'success') {
+                this.$mdDialog.hide();
+                return Promise.resolve();
+            } else if (result === 'fail') {
+                this.$mdDialog.hide();
+                return Promise.reject('fail');
+            } else if (result === 'inprogress') {
+                this.$mdDialog.hide();
+                return Promise.resolve();
+            } else if (result === 'return') {
+                this.$mdDialog.hide();
+                return Promise.reject('return');
+            }
+        };
+
+        window.addEventListener('storage', handler, false);
+
+        return this.dialogs.iframe(url, "trainingPlans.pay.title")
+            .then(() => {
+                window.removeEventListener('storage', handler, false);
+                localStorage.removeItem('moneta-result');
+            }, () => {
+                window.removeEventListener('storage', handler, false);
+                localStorage.removeItem('moneta-result');
+                return Promise.reject('close');
+            });
     }
 
 

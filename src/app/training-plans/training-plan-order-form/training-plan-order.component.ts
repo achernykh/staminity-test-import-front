@@ -58,7 +58,8 @@ class TrainingPlanOrderCtrl implements IComponentController {
         this.enabled = false; // форма ввода недоступна до получения ответа
 
         if (this.user.userId) {
-            this.trainingPlansDialog.pay(this.plan.product).then(_ => {debugger;}, error => {debugger;});
+            this.trainingPlansDialog.pay(this.plan.product)
+                .then(resposne => {debugger;}, error => {debugger;});
         } else {
             this.authService.signUp(this.credentials)
                 .then(() => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
