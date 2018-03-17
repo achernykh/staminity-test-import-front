@@ -192,7 +192,7 @@ export class AgentService {
             window.addEventListener('storage', handler, false);
 
             this.dialogs.iframe(url, "user.settings.agent.cards.addCard")
-            .catch(() => {
+            .then(() => {
                 window.removeEventListener('storage', handler, false);
                 localStorage.removeItem('moneta-result');
             }, () => {
