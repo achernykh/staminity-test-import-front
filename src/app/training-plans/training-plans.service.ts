@@ -88,8 +88,8 @@ export class TrainingPlansService {
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
-    /**
-     * Создание карточки долгосрочного плана
+    /**ие карточки долгосрочного плана
+     * Создан
      * @param plan
      * @returns {Promise<any>}
      */
@@ -181,7 +181,7 @@ export class TrainingPlansService {
      * Приобритение бесплатного плана
      * @returns {Promise<any>}
      */
-    getFree (planId: number): Promise<ISystemMessage> {
+    getPlan (planId: number): Promise<ISystemMessage> {
         return this.socket.send(new PostTrainingPlanPurchase(planId));
     }
 

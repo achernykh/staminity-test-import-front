@@ -136,16 +136,16 @@ export class TrainingPlanDialogService {
             debugger;
             const result = localStorage.getItem('moneta-result');
             if (result === 'success') {
-                this.$mdDialog.hide();
-                return Promise.resolve();
+                this.$mdDialog.hide('success');
+                return Promise.resolve('success');
             } else if (result === 'fail') {
-                this.$mdDialog.hide();
+                this.$mdDialog.hide('fail');
                 return Promise.reject('fail');
             } else if (result === 'inprogress') {
-                this.$mdDialog.hide();
-                return Promise.resolve();
+                this.$mdDialog.hide('inprogress');
+                return Promise.resolve('inprogress');
             } else if (result === 'return') {
-                this.$mdDialog.hide();
+                this.$mdDialog.hide('return');
                 return Promise.reject('return');
             }
         };

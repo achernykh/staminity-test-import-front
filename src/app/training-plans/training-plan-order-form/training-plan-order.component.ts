@@ -59,7 +59,8 @@ class TrainingPlanOrderCtrl implements IComponentController {
 
         if (this.user.userId) {
             this.trainingPlansDialog.pay(this.plan.product)
-                .then(resposne => {debugger;}, error => {debugger;});
+                .then(resposne => this.trainingPlansService.getPlan(this.plan.id), e => {debugger;})
+                .then(r => console.debug(r.errorMessage), e => console.error(e));
         } else {
             this.authService.signUp(this.credentials)
                 .then(() => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
