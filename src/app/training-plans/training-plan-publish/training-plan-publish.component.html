@@ -12,13 +12,21 @@
     <md-icon flex="none" md-svg-src="/assets/landing/rocket-launch.svg" class="s96" style="margin-top: 16px"></md-icon>
     <div flex="none" class="md-padding">
         <p class="md-body-2 md-dark center" translate="trainingPlans.publish.check.title"></p>
-        <p>
+        <p ng-if="$ctrl.checkProfile()">
             <md-icon class="material-icons" style="margin-right: 20px">check</md-icon>
-            <span class="md-body-1" translate="trainingPlans.publish.check.profile"></span>
+            <span class="md-body-1" translate="trainingPlans.publish.check.profileSuccess"></span>
         </p>
-        <p>
+        <p ng-if="!$ctrl.checkProfile()">
+            <span class="md-body-1" style="margin-left: 44px" md-colors="{'color': 'md-warn'}"
+                  translate="trainingPlans.publish.check.profileFail"></span>
+        </p>
+        <p ng-if="$ctrl.checkVersion()">
             <md-icon class="material-icons" style="margin-right: 20px">check</md-icon>
-            <span class="md-body-1" translate="trainingPlans.publish.check.version"></span>
+            <span class="md-body-1" translate="trainingPlans.publish.check.versionSuccess"></span>
+        </p>
+        <p ng-if="!$ctrl.checkVersion()">
+            <span class="md-body-1" style="margin-left: 44px" md-colors="{'color': 'md-warn'}"
+                  translate="trainingPlans.publish.check.versionFail"></span>
         </p>
         <p class="md-body-2 md-dark center" translate="trainingPlans.publish.status"></p>
         <p>
@@ -32,7 +40,7 @@
     <span flex></span>
     <md-button class="md-primary"
                ng-class="{'md-warn': false}"
-               ng-disabled="false"
+               ng-disabled="!$ctrl.checkProfile() || !$ctrl.checkVersion()"
                ng-click="$ctrl.publish()"
                translate="trainingPlans.actions.publish"></md-button>
 </md-dialog-actions>

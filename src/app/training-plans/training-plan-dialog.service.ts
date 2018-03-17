@@ -86,7 +86,8 @@ export class TrainingPlanDialogService {
             parent: angular.element(document.body),
             targetEvent: e,
             locals: {
-                plan: plan
+                plan: plan,
+                currentUser: this.session.getUser()
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -126,8 +127,9 @@ export class TrainingPlanDialogService {
     }
 
     pay (product: IMonetaAssistantFormData): Promise<any> {
-        //const url = `https://demo.moneta.ru/assistant.widget?MNT_ID=${product.MNT_ID}&MNT_AMOUNT=${product.MNT_AMOUNT}&MNT_CURRENCY_CODE=${product.MNT_CURRENCY_CODE}&MNT_TRANSACTION_ID=${product.MNT_TRANSACTION_ID}&MNT_SIGNATURE=${product.MNT_SIGNATURE}&MNT_TEST_MODE=${product.MNT_TEST_MODE}&MNT_DESCRIPTION=${product.MNT_DESCRIPTION}`;
-        const url = `https://demo.moneta.ru/assistant.widget?MNT_ID=64994513&MNT_AMOUNT=100.15&MNT_CURRENCY_CODE=RUB&MNT_TRANSACTION_ID=test_tran_1&MNT_SIGNATURE=676d53a77f08ec5b46cb6581f2e6f615&MNT_TEST_MODE=1&MNT_DESCRIPTION=`;
+        const url = `https://demo.moneta.ru/assistant.widget?` +
+            Object.keys(product).map(k => `${k}=${product[k]}`).join('&');// MNT_ID=${product.MNT_ID}&MNT_AMOUNT=${product.MNT_AMOUNT}&MNT_CURRENCY_CODE=${product.MNT_CURRENCY_CODE}&MNT_TRANSACTION_ID=${product.MNT_TRANSACTION_ID}&MNT_SIGNATURE=${product.MNT_SIGNATURE}&MNT_TEST_MODE=${product.MNT_TEST_MODE}&MNT_DESCRIPTION=${product.MNT_DESCRIPTION}`;
+        //const url = `https://demo.moneta.ru/assistant.widget?MNT_ID=64994513&MNT_AMOUNT=100.15&MNT_CURRENCY_CODE=RUB&MNT_TRANSACTION_ID=test_tran_1&MNT_SIGNATURE=676d53a77f08ec5b46cb6581f2e6f615&MNT_TEST_MODE=1&MNT_DESCRIPTION=`;
         return this.dialogs.iframe(url, "trainingPlans.pay.title");
     }
 

@@ -11,6 +11,7 @@ import { IWSResponse, IRevisionResponse, ISystemMessage } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
 import { Observable } from "rxjs";
 import { RESTService, PostFile, PostData } from "../core/rest.service";
+import AuthService from "@app/auth/auth.service";
 
 /**
  * Сервис для работы с данными Долгосрочного плана
@@ -24,10 +25,12 @@ export class TrainingPlansService {
 
     message: Observable<any>;
 
-    static $inject = [ 'SocketService', 'RESTService' ];
+    static $inject = [ 'SocketService', 'RESTService', 'AuthService' ];
 
     constructor (private socket: SocketService,
-                 private RESTService: RESTService) {
+                 private RESTService: RESTService,
+                 private authService: AuthService) {
+
         this.message = this.socket.messages.filter(message => message.type === 'trainingPlanItem').share();
     }
 
@@ -46,7 +49,10 @@ export class TrainingPlansService {
      * @returns {Promise<any>}
      */
     store (request: ITrainingPlanSearchRequest): Promise<ITrainingPlanSearchResult> {
-        return this.socket.send(new GetTrainingPlanStore(request));
+        return this.authService.isAuthenticated() ?
+            this.socket.send(new GetTrainingPlanStore(request)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new GetTrainingPlanStore(request)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);;
     }
 
     /**

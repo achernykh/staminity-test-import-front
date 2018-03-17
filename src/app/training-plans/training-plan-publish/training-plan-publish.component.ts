@@ -3,11 +3,13 @@ import {IComponentOptions, IComponentController} from 'angular';
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import MessageService from "@app/core/message.service";
+import { IUserProfile } from "@api/user";
 
 class TrainingPlanPublishCtrl implements IComponentController {
 
     // public
     plan: TrainingPlan;
+    user: IUserProfile;
     onCancel: () => Promise<any>;
     onEvent: (response: Object) => Promise<void>;
 
@@ -24,6 +26,14 @@ class TrainingPlanPublishCtrl implements IComponentController {
 
     }
 
+    checkProfile (): boolean {
+        return true;
+    }
+
+    checkVersion (): boolean {
+        return true;
+    }
+
     publish () {
         this.trainingPlansService.publish(this.plan.id, null)
             .then(response => {
@@ -36,6 +46,7 @@ class TrainingPlanPublishCtrl implements IComponentController {
 export const TrainingPlanPublishComponent:IComponentOptions = {
     bindings: {
         plan: '<',
+        user: '<',
         onCancel: '&'
     },
     require: {

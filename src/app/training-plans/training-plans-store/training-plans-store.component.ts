@@ -9,6 +9,7 @@ import {getUser, SessionService} from "../../core";
 import { TrainingPlansList } from "../training-plans-list/training-plans-list.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import "./training-plans-store.component.scss";
+import AuthService from "@app/auth/auth.service";
 
 class TrainingPlansStoreCtrl implements IComponentController {
 
@@ -31,13 +32,14 @@ class TrainingPlansStoreCtrl implements IComponentController {
     private purchasesPlansFilter: ITrainingPlanSearchRequest;
     private storePlansFilterChange: number = 0;
     private readonly urlKeys: Array<string> = ['name', 'type', 'distanceType', 'tags'];
-    static $inject = ['$stateParams', '$location', "SessionService", "TrainingPlansService"];
+    static $inject = ['$stateParams', '$location', "SessionService", "TrainingPlansService", 'AuthService'];
 
     constructor(
         private $stateParams: any,
         private $location: ILocationService,
         private session: SessionService,
-        private trainingPlansService: TrainingPlansService) {
+        private trainingPlansService: TrainingPlansService,
+        private authService: AuthService) {
 
         session.getObservable()
             .takeUntil(this.destroy)
@@ -55,7 +57,7 @@ class TrainingPlansStoreCtrl implements IComponentController {
         ['name', 'type', 'distanceType'].map(p => this.storePlansFilter[p] = this.$location.search()[p] || null);
         ['tags'].map(p => this.$location.search()[p] && (this.storePlansFilter[p] =
              Array.isArray(this.$location.search()[p]) ? this.$location.search()[p] : [this.$location.search()[p]]));
-        this.purchasesPlansFilter = { ownerId: this.user.userId, purchased: true };
+        this.purchasesPlansFilter = this.user ? { ownerId: this.user.userId, purchased: true } : {};
     }
 
     private prepareStates(): void {
@@ -71,6 +73,10 @@ class TrainingPlansStoreCtrl implements IComponentController {
 
     private leftPanel (): boolean {
         return this.currentState === 'store';
+    }
+
+    private authCheck (): boolean {
+        return this.authService.isAuthenticated();
     }
 
     changeStorePlansFilter (filter: ITrainingPlanSearchRequest): void {
