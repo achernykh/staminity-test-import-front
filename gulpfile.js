@@ -150,7 +150,7 @@ gulp.task('templates', function() {
 // This task is used for building production ready
 gulp.task('build', function() {
     'use strict';
-    let html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico"])
+    let html = gulp.src(["build/index.html", "build/browserconfig.xml", "build/favicon.ico", "build/moneta/**"])
         .pipe(gulp.dest('./dist/'));
 
     let css = gulp.src('build/css/*.css')
@@ -207,6 +207,14 @@ gulp.task('copy-other', function() {
         .pipe(gulp.dest('./'+ENV));
 });
 
+// Copy moneta htmls
+gulp.task('copy-moneta', function() {
+    'use strict';
+    let trg = ENV || gutil.env['trg'];
+    return gulp.src(config.src.moneta)
+        .pipe(gulp.dest('./'+trg+'/moneta'));
+});
+
 // Copy assets: icon, locale, picture
 gulp.task('copy-assets', function() {
     'use strict';
@@ -258,7 +266,7 @@ gulp.task('ftp-dev2-full', function () {
 gulp.task('ftp-dev2', function () {
     'use strict';
     let src = './'+ENV;
-    return gulp.src(['dev2/assets/css/**','dev2/assets/js/**','dev2/index.html'])
+    return gulp.src(['dev2/assets/css/**','dev2/assets/js/**','dev2/index.html', 'dev2/moneta/*'])
         .pipe(ftp(pass.dev2))
         .pipe(gutil.noop());
 });
@@ -325,8 +333,8 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
-        assets: [trg+'/assets/**']
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html', trg+'/moneta/**',],
+        assets: [trg+'/assets/**', trg+'/moneta/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);

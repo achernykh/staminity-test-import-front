@@ -114,6 +114,7 @@ module.exports = {
         jsApp: [src + 'js/**/*.js', src + 'js/**/*.ts' ],
         cssLibs: cssLibs,
         assets: src + 'assets/**/*.*',
+        moneta: src + 'moneta/*.html',
         sass: src + 'sass/app.scss',
         sassFiles: [src + 'sass/app.scss' , src + 'js/**/*.scss', src + 'js/**/**/*.scss', src + 'sass/*.scss'],
         templates: [src + 'js/**/*.html', src + 'js/**/**/*.html', src + 'js/**/**/**/*.html']

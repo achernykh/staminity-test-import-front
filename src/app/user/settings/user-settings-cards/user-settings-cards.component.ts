@@ -74,7 +74,7 @@ class UserSettingsCardsCtrl {
             title: "user.settings.agent.cards.addCard",
             text: "user.settings.agent.cards.addCardMessage",
         })
-        .then(() => this.agentService.addCard(this.currentUser.userId, this.agentEnvironment.bindCardSignature))
+        .then(() => this.agentService.addCard(this.currentUser.userId, this.agentEnvironment))
         .then(() => {
             this.reload();
         });
