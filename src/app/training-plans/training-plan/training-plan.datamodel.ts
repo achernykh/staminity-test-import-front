@@ -285,4 +285,19 @@ export class TrainingPlan implements ITrainingPlan {
         return this.tags && this.tags.some(t => t === 'powerMeter');
     }
 
+    get level(): Array<string> {
+        return this.tags.filter(t => ['beginner', 'advanced', 'pro'].indexOf(t) !== -1);
+    }
+
+    get measures(): Array<string> {
+        return this.tags.filter(t => ['powerMeter', 'hrBelt'].indexOf(t) !== -1).map(t => {
+                if (t === 'powerMeter') { return 'power';}
+                else if (t === 'hrBelt') { return 'heartRate';}
+            });
+    }
+
+    get otherTags (): Array<string> {
+        return this.tags.filter(t => ['beginner', 'advanced', 'pro','powerMeter', 'hrBelt'].indexOf(t) === -1);
+    }
+
 }

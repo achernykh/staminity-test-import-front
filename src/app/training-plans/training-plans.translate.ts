@@ -4,10 +4,6 @@ export const _translateTrainingPlans = {
             fullTitle: 'Тренировочный план',
             shortTitle: 'План',
         },
-        store: {
-            fullTitle: 'Магазин тренировочных планов',
-            shortTitle: 'Магазин планов',
-        },
         filter: 'Фильтр',
         filterResult: 'Найдено планов {{total}}',
 
@@ -36,7 +32,13 @@ export const _translateTrainingPlans = {
             publish: 'Опубликовать',
             unpublish: 'Отменить',
             setIcon: 'Изменить',
-            setBackground: 'Установить фон'
+            setBackground: 'Установить фон',
+            cardView: 'Вид карточки',
+            listView: 'Вид таблица',
+            hidePanel: 'Показать панель',
+            showPanel: 'Скрыть панель',
+            search: 'Поиск',
+            myPlans: 'Мои планы'
         },
         // поля плана
         isPublic: {
@@ -135,6 +137,19 @@ export const _translateTrainingPlans = {
             enabledSyncDisabled: "Трансляция изменений плана невозможна",
             fixedPlanInOtherDays: "Даты присвоения отличаются от дат плана",
             assignDatesBeforeToday: "В плане есть тренировки в прошлом. При присвоении они не будут созданы в календаре спортсмена"
+        },
+        store: {
+            fullTitle: 'Тренировочные планы',
+            shortTitle: 'Планы',
+            tabs: {
+                store: 'Магазин',
+                purchases: 'Покупки'
+            },
+            free: 'Бесплатно',
+            price: 'Купить {{price}} {{currency}}'
+        },
+        landing: {
+            weekCount: 'Недель подготовки {{count}}'
         },
         planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения",
         info: {

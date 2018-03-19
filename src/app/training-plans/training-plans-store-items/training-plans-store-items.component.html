@@ -3,7 +3,7 @@
          ng-if="$ctrl.isLoadingState"
          layout-fill layout="column" layout-align="center center">
     <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
-    <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.emptyList"></p>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
 </section>
 
 <!-- Данных нет -->
@@ -11,11 +11,11 @@
          ng-if="$ctrl.isEmptyState"
          layout-fill layout="column" layout-align="center center">
     <md-icon flex="none" class="material-icons md-dark md-inactive" ng-bind="'hourglass_empty'"></md-icon>
-    <p flex="none" class="md-body-1 md-dark" translate="trainingSeason.emptyList"></p>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.emptyList"></p>
 </section>
 
 <!-- Данные есть, вид таблица -->
-<md-table-container class="training-plans-store-items__data" ng-if="$ctrl.isDataState">
+<md-table-container class="training-plans-store-items__data" ng-if="$ctrl.isDataState && !$ctrl.cardView">
     <table md-table>
         <thead md-head>
         <tr md-row>
@@ -66,5 +66,54 @@
         </tbody>
     </table>
 </md-table-container>
+
+<div ng-if="$ctrl.isDataState && $ctrl.cardView" class="training-plans-store-items__data">
+    <div class="card-grid">
+        <md-card ng-repeat="plan in $ctrl.plans.list track by plan.id" class="card">
+            <md-card-header>
+                <md-card-avatar>
+                    <img class="md-user-avatar" ng-src="{{'/plan/icon/' | image:plan.icon }}"/>
+                </md-card-avatar>
+                <md-card-header-text>
+                    <span class="md-title">{{plan.authorProfile | userName}}</span>
+                    <p class="md-subhead md-truncate">
+                        <span>{{'competition.types.' + plan.type | translate}}</span>
+                        <span>></span>
+                        <span>{{'competition.distanceType.' + plan.type + '.' + plan.distanceType | translate}}</span>
+                    </p>
+                </md-card-header-text>
+            </md-card-header>
+            <img style="height: 200px;" ng-src="{{'/plan/background/' | image:plan.background }}"
+                 class="md-card-image" alt="Washed Out">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-title md-truncate">{{plan.name}}</span>
+                    <p class="md-subhead">
+                        <span translate="trainingPlans.landing.weekCount" translate-values="{count: plan.weekCount}"></span>
+                    </p>
+                    <div class="md-subhead" layout="row" layout-wrap>
+                        <span flex="none" class="tag level {{level}}" ng-repeat="level in plan.level">{{level}}</span>
+                        <div flex="none" class="tag measure" ng-repeat="measure in plan.measures">
+                            <md-icon class="fill-measure {{measure}} s16" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                            <span>{{measure | translate}}</span>
+                        </div>
+                        <span flex="none" class="tag" ng-repeat="tag in plan.otherTags">{{tag}}</span>
+                        <span flex="none" class="tag" ng-repeat="word in plan.keywords">{{word}}</span>
+                    </div>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end start">
+                <md-button flex="none" ng-click="$ctrl.open($event, plan)" class="md-primary">
+                    <span translate="{{plan.price ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
+                          translate-values="{price: plan.price, currency: plan.currency}">
+                    </span>
+                </md-button>
+            </md-card-actions>
+            <md-card-content ng-if="plan.customData.targetAudience">
+                <p ng-bind="plan.customData.targetAudience"></p>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
 
 <!-- Даннве есть, вид плитка -->

@@ -5,6 +5,7 @@ import { ITrainingPlanSearchRequest } from "@api/trainingPlans";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { TrainingPlanConfig } from "@app/training-plans/training-plan/training-plan.config";
 import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
+import { supportLng } from "../../core/display.constants";
 
 class TrainingPlansFilterCtrl implements IComponentController {
 
@@ -16,6 +17,8 @@ class TrainingPlansFilterCtrl implements IComponentController {
     // public
     // private
     private panel: 'plans' | 'events' | 'hide' = 'plans';
+    private weekCountRange: number;
+    private supportLanguages: Array<string> = supportLng;
 
     // inject
     static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig'];
@@ -30,7 +33,11 @@ class TrainingPlansFilterCtrl implements IComponentController {
     $onInit () {
         this.filter.keywords = this.filter.keywords || [];
         this.filter.tags = this.filter.tags || [];
-        this.onChangeFilter({filter: this.filter});
+        //this.filter.lang = this.filter.lang || [];
+        if (this.filter.weekCountFrom) {
+            this.weekCountRange = this.config.weekRanges.findIndex(r => r[0] === this.filter.weekCountFrom);
+        }
+        //this.onChangeFilter({filter: this.filter});
     }
 
     onPost (env: Event) {
@@ -66,6 +73,11 @@ class TrainingPlansFilterCtrl implements IComponentController {
         return list && list.indexOf(item) > -1;
     }
 
+    private changeRange (item: Array<number>, param: string ): void {
+        [this.filter[param+'From'], this.filter[param+'To']] = [...item];
+        this.onChangeFilter({filter: this.filter});
+    }
+
     get isSeacrh(): boolean {
         return this.view === 'search';
     }
@@ -76,8 +88,11 @@ const TrainingPlansFilterComponent: IComponentOptions = {
     bindings: {
         view: '=',
         filter: '<',
+        dialog: '=',
         onHide: '&',
-        onChangeFilter: '&'
+        onChangeFilter: '&',
+        onSearch: '&',
+        onCancel: '&'
     },
     require: {
         //component: '^component'

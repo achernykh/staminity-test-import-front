@@ -1,7 +1,7 @@
-<nav class="training-plans-filter md-whiteframe-2dp bg-grey-100" flex="none"
+<nav class="training-plans-filter md-whiteframe-2dp bg-grey-100" flex="auto" layout="column" layout-fill
      ng-class="{'panel': $ctrl.panel !== 'hide'}" ng-switch="$ctrl.panel">
 
-    <section ng-switch-when="hide" layout="column" class="training-plans-filter__hide">
+    <section flex="auto" ng-switch-when="hide" layout="column" layout-fill class="training-plans-filter__hide">
         <md-button flex="none" class="md-icon-button" ng-click="$ctrl.panel = 'plans'">
             <md-icon class="md-secondary md-dark material-icons">filter_list</md-icon>
         </md-button>
@@ -10,10 +10,9 @@
         </md-button>
     </section>
 
-    <section ng-switch-when="plans" layout="column" class="training-plans-filter__plans">
+    <section flex="auto" ng-switch-when="plans" layout="column" layout-fill class="training-plans-filter__plans">
         <md-content flex="auto">
             <md-list class="md-dense" flex>
-                <md-subheader><span translate="trainingPlans.filter"></span></md-subheader>
                 <!-- Платный план -->
                 <md-list-item ng-if="$ctrl.isSearch">
                     <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
@@ -91,7 +90,64 @@
                         </div>
                     </div>
                 </md-list-item>
+                <!-- Опции плана -->
+                <md-list-item class="tags-wrapper">
+                    <md-icon flex="none" class="md-dark dense" md-svg-src="/assets/icon/settings.svg"></md-icon>
+                    <div layout="column">
+                        <p class="md-caption md-dark label" translate="trainingPlans.options.label"></p>
+                        <div class="tags" layout="row" layout-wrap>
+                            <md-checkbox flex="100"
+                                         ng-repeat="option in $ctrl.config.options track by $index"
+                                         class="md-primary" name="option-{{option}}"
+                                         ng-checked="$ctrl.exists(option, $ctrl.filter.options)"
+                                         ng-click="$ctrl.toggle(options, $ctrl.filter.options)">
+                                <span translate="trainingPlans.options.{{option}}"></span>
+                            </md-checkbox>
+                        </div>
+                    </div>
+                </md-list-item>
+                <!-- Количество недель подготовки -->
+                <md-list-item class="tags-wrapper" layout="row" layout-align="center start">
+                    <md-icon flex="none" class="md-dark dense" style="margin: 0" md-svg-src="/assets/icon/distance.svg"></md-icon>
+                    <div layout="column">
+                        <p class="md-caption md-dark label" translate="trainingPlans.options.label"></p>
+                        <div class="tags" layout="row" layout-wrap>
+                            <md-radio-group ng-model="$ctrl.weekCountRange"
+                                            ng-change="$ctrl.changeRange($ctrl.config.weekRanges[$ctrl.weekCountRange], 'weekCount')" flex="100">
+                                <md-radio-button ng-repeat="range in [0,1,2,3] track by $index"
+                                                 value="{{range}}" class="md-primary">
+                                    <span>{{$ctrl.config.weekRanges[range][0]}}</span>
+                                    <span ng-if="!$last">&nbsp;-&nbsp;</span>
+                                    <span ng-if="!$last">{{$ctrl.config.weekRanges[range][1]}}</span>
+                                    <span ng-if="$last">+</span>
+                                </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                </md-list-item>
+                <!-- Язык плана -->
+                <!--<md-list-item>
+                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                        <label translate="trainingPlans.language.label"></label>
+                        <md-icon flex="none" class="material icons md-dark">language</md-icon>
+                        <md-select flex name="type" class="icon" multiple="true"
+                                   placeholder="{{trainingPlans.language.placeholder}}"
+                                   ng-model="$ctrl.filter.lang"
+                                   ng-change="$ctrl.change()">
+                            <md-option ng-repeat="lang in $ctrl.supportLanguages track by $index"
+                                       value="{{type}}">
+                                {{lang | translate}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-list-item>-->
             </md-list>
         </md-content>
+        <md-dialog-actions ng-if="$ctrl.dialog" flex="none" layout="row" style="background: white; width: 100%;">
+            <span flex></span>
+            <md-button ng-click="$ctrl.onSearch({filter: $ctrl.filter})">
+                <span translate="trainingPlans.actions.search"></span>
+            </md-button>
+        </md-dialog-actions>
     </section>
 </nav>

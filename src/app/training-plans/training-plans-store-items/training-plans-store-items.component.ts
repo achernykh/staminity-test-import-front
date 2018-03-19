@@ -9,20 +9,24 @@ import { TrainingPlansService } from "../training-plans.service";
 import MessageService from "../../core/message.service";
 import { TrainingPlanDialogService } from "../training-plan-dialog.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
+import { StateService} from "angular-ui-router";
 
 class TrainingPlansStoreItemsCtrl implements IComponentController {
 
-    public searchParams: ITrainingPlanSearchRequest;
-    public onEvent: (response: Object) => Promise<void>;
+    searchParams: ITrainingPlanSearchRequest;
+    cardView: boolean;
+    onEvent: (response: Object) => Promise<void>;
 
     // private
     private plans: TrainingPlansList;
     private isLoadingData: boolean = false;
 
-    static $inject = ['$scope', '$location', 'TrainingPlansService', 'TrainingPlanDialogService' , 'message'];
+    static $inject = ['$scope', '$mdMedia', '$state', '$location', 'TrainingPlansService', 'TrainingPlanDialogService' , 'message'];
 
     constructor(
         private $scope: IScope,
+        private $mdMedia,
+        private $state: StateService,
         private $location: ILocationService,
         private trainingPlansService: TrainingPlansService,
         private trainingPlanDialogs: TrainingPlanDialogService,
@@ -42,6 +46,8 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
         if (this.searchParams && changes.hasOwnProperty('update') && !changes['update'].isFirstChanges) {
             if (this.searchParams.type === 'all') { this.searchParams.type = null; }
             if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
+            if (this.searchParams.weekCountFrom) { this.searchParams.weekCountFrom = Number(this.searchParams.weekCountFrom); }
+            if (this.searchParams.weekCountTo) { this.searchParams.weekCountTo = Number(this.searchParams.weekCountTo); }
             this.prepareData();
         }
     }
@@ -60,8 +66,12 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     open (e: Event, item: TrainingPlan): void {
-        window.open(`${window.location.protocol}//${window.location.host}/training-plan/?planId=${item.id}`);
-        //this.trainginPlanDialogs.store(e, item).then(_ => {},);
+        debugger;
+        if (this.$mdMedia('gt-sm')) {
+            window.open(`${window.location.protocol}//${window.location.host}/training-plan/?planId=${item.id}`);
+        } else {
+            this.$state.go('training-plan-id', {planId: item.id});
+        }
     }
 
     get isLoadingState (): boolean {
@@ -80,6 +90,7 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 export const TrainingPlansStoreItemsComponent:IComponentOptions = {
     bindings: {
         searchParams: '<',
+        cardView: '<',
         update: '<',
         onEvent: '&'
     },

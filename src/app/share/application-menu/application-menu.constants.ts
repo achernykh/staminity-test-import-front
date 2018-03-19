@@ -12,11 +12,6 @@ export const UserMenuSettings = [
         link: "user-settings.main"
     },
     {
-        icon: 'shopping_cart',
-        name: 'userMenu.cart',
-        link: 'cart'
-    },
-    {
         icon: "help",
         name: "userMenu.help",
         link: "https://help.staminity.com/ru/"
@@ -56,7 +51,7 @@ export const AppMenuSettings = [
         icon: "shopping_cart",
         name: "appMenu.plan",
         link: "training-plans-store",
-        hideMobile: true
+        hideMobile: false
         //role: [_UserRoles.user, _UserRoles.coach]
     },
     /**{

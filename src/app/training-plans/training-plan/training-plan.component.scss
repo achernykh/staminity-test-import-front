@@ -24,9 +24,8 @@
       top: 0;
       left: 0;
 
-      .menu, .button-action {
-        display: none;
-      }
+      .menu, .button-action { display: none;}
+      .store {display: none;}
 
       &.background {
         background-color: rgba(white,0.0);
@@ -36,8 +35,11 @@
         background-color: rgba(white,0.9);
         color: black;
 
-        .menu, .button-action {
+        .menu, .button-action {  display: block;  }
+
+        .store {
           display: block;
+          md-icon {svg {fill: rgba(black, 0.87);}}
         }
 
       }

@@ -6,7 +6,10 @@ export interface TrainingPlanConfig {
     distanceTypes: {
         [type: string]: Array<string>;
     };
+    options: Array<string>;
     tags: Array<string>;
+    weekRanges: Array<Array<number>>;
+    hourRanges: Array<Array<number>>;
     defaultSettings: {
         type: string,
         distanceType: string,
@@ -24,7 +27,20 @@ export const trainingPlanConfig: TrainingPlanConfig = {
         bike: ['multiDays'],
         swim: ['10km', 'other']
     },
+    options: ['hasOfflineTraining', 'hasConsultations', 'isStructured'],
     tags: ['beginner', 'advanced', 'pro', 'powerMeter', 'hrBelt', 'weightLoss', 'fitness', 'health'],
+    weekRanges: [
+        [1,8],
+        [9,12],
+        [13,18],
+        [19, null]
+    ],
+    hourRanges: [
+        [1,4],
+        [5,9],
+        [10,11],
+        [12, null]
+    ],
     defaultSettings: {
         type: 'triathlon',
         distanceType: null,

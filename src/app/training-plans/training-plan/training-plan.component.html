@@ -11,8 +11,15 @@
                 <md-icon class="material-icons md-dark" size="24">menu</md-icon>
             </md-button>
             <div flex></div>
+            <md-button flex="none" class="store">
+                <md-icon md-svg-src="/assets/icon/shopping_cart.svg"></md-icon>
+                <span translate="trainingPlans.store.tabs.store"></span>
+            </md-button>
             <md-button flex="none" class="button-action md-accent md-hue-3 md-raised">
-                <span class="">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</span>
+                <span ng-if="$ctrl.plan.price" class="md-title md-light"
+                      translate="trainingPlans.store.price"
+                      translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
+                <span ng-if="!$ctrl.plan.price" class="md-light" translate="trainingPlans.store.free"></span>
             </md-button>
         </div>
     </md-toolbar>
@@ -34,11 +41,15 @@
         <div flex></div>
         <h2 flex="none" class="name md-title md-light center">Тренировочный план</h2>
         <h1 flex="none" class="name md-display-3 md-light font-black center md-padding" ng-bind="$ctrl.plan.name"></h1>
-        <h2 flex="none" class="weekCount md-body-1 md-light center">Недель подготовки {{$ctrl.plan.weekCount}}</h2>
+        <h2 flex="none" class="weekCount md-body-1 md-light center"
+            translate="trainingPlans.landing.weekCount"
+            translate-values="{count: $ctrl.plan.weekCount}"></h2>
         <div flex></div>
         <md-button flex="none" class="md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
-            <span ng-if="$ctrl.plan.price" class="md-title md-light">Купить {{$ctrl.plan.price}} {{$ctrl.plan.currency}}</span>
-            <span ng-if="!$ctrl.plan.price" class="md-title md-light" translate="trainingPlans.landing.free"></span>
+            <span ng-if="$ctrl.plan.price" class="md-title md-light"
+                  translate="trainingPlans.store.price"
+                  translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
+            <span ng-if="!$ctrl.plan.price" class="md-title md-light" translate="trainingPlans.store.free"></span>
         </md-button>
     </section>
     <!-- Что включено в план? -->

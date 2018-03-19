@@ -3,6 +3,7 @@ import { TrainingPlan } from "./training-plan/training-plan.datamodel";
 import { SessionService } from "@app/core";
 import { IMonetaAssistantFormData } from "@api/trainingPlans";
 import { IUserProfile } from "../../../api/user/user.interface";
+import { ITrainingPlanSearchRequest } from "../../../api/trainingPlans/training-plans.interface";
 
 export class TrainingPlanDialogService {
 
@@ -116,6 +117,47 @@ export class TrainingPlanDialogService {
             targetEvent: e,
             locals: {
                 plan: plan,
+                currentUser: this.session.getUser()
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true,
+        };
+        return this.$mdDialog.show(dialog);
+    }
+
+    filter (e: Event, filter: ITrainingPlanSearchRequest): Promise<any> {
+        let dialog = {
+            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
+                $scope.hide = () => $mdDialog.hide();
+                $scope.cancel = () => $mdDialog.cancel();
+                $scope.answer = (response) => $mdDialog.hide(response);
+            }],
+            controllerAs: "$ctrl",
+            template: `<md-dialog id="training-plans-filter" aria-label="Training Plan Order Confirmation"
+                                  layout="column" layout-fill>
+                            <md-toolbar flex="none" class="md-default">
+                                <div class="md-toolbar-tools">
+                                    <h2 class="" translate="trainingPlans.filter"></h2>
+                                    <span flex></span>
+                                    <md-button class="md-icon-button" ng-click="cancel()">
+                                        <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                                        <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+                                    </md-button>
+                                </div>
+                            </md-toolbar>
+                            <training-plans-filter flex="auto" layout="column" layout-fill class="training-plans-search__filter"
+                               filter="$ctrl.filter"
+                               view="search"
+                               dialog="true"
+                               on-cancel="cancel()"
+                               on-search="answer(filter)"/>
+                       </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: e,
+            locals: {
+                filter: filter,
                 currentUser: this.session.getUser()
             },
             bindToController: true,
