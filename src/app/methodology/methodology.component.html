@@ -5,10 +5,9 @@
         template="application"
         navigation-bar="true"
         left-bar="$ctrl.checkAuth()"
-
-        nav-bar="true"
         nav-bar-state="$ctrl.currentState"
-        ng-switch="$ctrl.currentState">
+        ng-switch="$ctrl.currentState"
+        ng-class="{'nav-bar': true}">
 
     <st-application-frame-title>
         <span class="md-title" translate="methodology.title"></span>
