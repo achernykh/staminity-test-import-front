@@ -26,10 +26,13 @@
                         <span translate="activity.action.addAthletes"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="false">
-                    <md-button ng-click="$ctrl.item.calculateActivityRange(false)">
-                        <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
-                        <span translate="Тест: обновить рассчет"></span>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.changeLayout('hideSmoothOnChart')">
+                        <md-icon class="material-icons" md-menu-align-target
+                                 ng-bind-template="{{$ctrl.item.layout.hideSmoothOnChart ? 'check_box' : 'check_box_outline_blank'}}">
+                        </md-icon>
+                        <span translate="activity.action.hideSmoothOnChart"></span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>

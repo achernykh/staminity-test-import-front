@@ -13,6 +13,7 @@ export const translateActivity = {
           close: 'Закрыть',
           settings: 'Настройки',
           addAthletes: 'Добавить атлета',
+          hideSmoothOnChart: 'Убрать сглаживание графиков'
       },
       details: {
           measures: {
@@ -125,6 +126,7 @@ export const translateActivity = {
             close: 'Close',
             settings: 'Settings',
             addAthletes: 'Add athletes',
+            hideSmoothOnChart: 'Hide chart smooth'
         },
         details: {
             measures: {

@@ -42,14 +42,17 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     }
 
     $onChanges(changes){
-        if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
+        if (changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue) {
             this.chartData = this.item.activity.details.chartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures);
             this.completeDetails = true;
+        }
+        if (changes.hasOwnProperty('hideSmoothOnChart') && !changes.hideSmoothOnChart.isFirstChange()) {
+            this.smooth = this.item.activity.header.sportBasic === 'swim' ? 1 : this.item.layout.hideSmoothOnChart && 1 || 10;
         }
     }
 
     $onInit() {
-        this.smooth = this.item.activity.header.sportBasic === 'swim' ? 1 : 10;
+        this.smooth = this.item.activity.header.sportBasic === 'swim' ? 1 : this.item.layout.hideSmoothOnChart && 1 || 10;
         this.item.activity.isStructured ? this.tableOption = 'segments' : this.tableOption = 'laps';
         this.item.activity.isStructured ? this.chartOption = 'segments' : this.chartOption = 'measures';
     }
@@ -97,6 +100,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
 const ActivityMetricsDetailsComponent: IComponentOptions = {
     bindings: {
         hasDetails: '<',
+        hideSmoothOnChart: '<'
     },
     require: {
         item: '^calendarItemActivity'
