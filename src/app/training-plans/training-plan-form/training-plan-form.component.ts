@@ -58,8 +58,19 @@ class TrainingPlanFormCtrl implements IComponentController {
         return this.planForm.$valid && (!this.plan.isPublic || (this.plan.isPublic && this.commerceForm.$valid));
     }
 
+    private changeCommerce (): void {
+        if (this.plan.isPublic && !this.plan.icon) {
+            this.plan.icon = this.plan.authorProfile.public.avatar;
+
+        }
+    }
+
     save (): void {
-        if (!this.planForm.$valid || !this.commerceForm.$valid) { return; }
+        if (!this.planForm.$valid || !this.commerceForm.$valid) {
+            this.planForm.$validate();
+            this.commerceForm.$validate();
+            return;
+        }
 
         if (this.mode === FormMode.Post) {
             this.trainingPlanService

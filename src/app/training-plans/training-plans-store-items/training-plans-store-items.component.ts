@@ -15,6 +15,9 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     searchParams: ITrainingPlanSearchRequest;
     cardView: boolean;
+    update: number;
+    limit: number;
+    excludeOwner: number;
     onEvent: (response: Object) => Promise<void>;
 
     // private
@@ -40,9 +43,6 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     $onChanges (changes): void {
-        if (this.searchParams && changes.hasOwnProperty('searchParams') && !changes['searchParams'].isFirstChanges) {
-            //this.prepareData();
-        }
         if (this.searchParams && changes.hasOwnProperty('update') && !changes['update'].isFirstChanges) {
             if (this.searchParams.type === 'all') { this.searchParams.type = null; }
             if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
@@ -63,14 +63,19 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     prepareList(result: ITrainingPlanSearchResult) {
         this.plans = new TrainingPlansList(result.items);
+        if (this.limit) {
+            this.plans.list = this.plans.list.splice(0,this.limit);
+        }
+        if (this.excludeOwner) {
+            this.plans.list = this.plans.list.filter(p => p.authorProfile.userId !== this.excludeOwner);
+        }
     }
 
     open (e: Event, item: TrainingPlan): void {
-        debugger;
         if (this.$mdMedia('gt-sm')) {
-            window.open(`${window.location.protocol}//${window.location.host}/training-plan/?planId=${item.id}`);
+            window.open(`${window.location.protocol}//${window.location.host}/plan/?planId=${item.id}`);
         } else {
-            this.$state.go('training-plan-id', {planId: item.id});
+            this.$state.go('plan', {planId: item.id});
         }
     }
 
@@ -92,6 +97,8 @@ export const TrainingPlansStoreItemsComponent:IComponentOptions = {
         searchParams: '<',
         cardView: '<',
         update: '<',
+        limit: '<',
+        excludeOwner: '<',
         onEvent: '&'
     },
     require: {

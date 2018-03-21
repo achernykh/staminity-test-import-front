@@ -51,9 +51,10 @@ export class TrainingPlan implements ITrainingPlan {
     startDate?: string; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
     product?: IMonetaAssistantFormData; // объект доступен покупателю плана. Используется для формирования ссылки к Moneta.Assistant
+    state?: string; // статус покупки плана
 
 
-    private authorProfile: IUserProfileShort;
+    authorProfile: IUserProfileShort;
     private _startDate: Date;
     private keys: Array<string> = ['keys', 'revision', 'authorProfile', '_startDate'];
 
@@ -248,11 +249,15 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get iconPath(): string {
-        return image()('/plan/icon/', this.icon);
+        return this.icon && image()('/plan/icon/', this.icon) || null;
     }
 
     get backgroundPath(): string {
-        return image()('/plan/background/', this.background);
+        return this.background && image()('/plan/background/', this.background) || null;
+    }
+
+    get authorPath(): string {
+        return this.authorProfile.public.avatar && image()('/user/avatar/', this.authorProfile.public.avatar) || null;
     }
 
     get iconStyle(): Object {
@@ -265,9 +270,20 @@ export class TrainingPlan implements ITrainingPlan {
         };
     }
 
+    get authorStyle(): Object {
+        return {
+            'background-image': `url(${this.authorPath})`,
+            'background-position': 'center',
+            'background-size': 'cover',
+            'position': 'relative',
+            'cursor': 'pointer'
+        };
+    }
+
     get backgroundStyle(): Object {
         return {
             'background-image': `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.7)), url(${this.backgroundPath})`,
+            'background-color': 'grey',
             'background-size': 'cover',
             'background-position': 'center',
             'position': 'relative'

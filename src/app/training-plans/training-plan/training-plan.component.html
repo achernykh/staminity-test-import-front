@@ -11,7 +11,7 @@
                 <md-icon class="material-icons md-dark" size="24">menu</md-icon>
             </md-button>
             <div flex></div>
-            <md-button flex="none" class="store">
+            <md-button flex="none" class="store" ui-sref="training-plans-store">
                 <md-icon md-svg-src="/assets/icon/shopping_cart.svg"></md-icon>
                 <span translate="trainingPlans.store.tabs.store"></span>
             </md-button>
@@ -27,10 +27,12 @@
     <section class="landing-block general" ng-style="$ctrl.plan.backgroundStyle"
              flex="none" layout="column" layout-align="space-between center">
         <div flex="none" layout="row" layout-align="center center" class="md-padding">
-            <div class="st-avatar size-60 border-light md-padding"
+            <a ui-sref="user({uri: $ctrl.plan.authorProfile.public.uri})">
+                <div class="st-avatar size-60 border-light md-padding"
                      flex="none"
                      ng-style="$ctrl.plan.iconStyle">
-            </div>
+                </div>
+            </a>
         </div>
         <div flex="none" class="author md-body-1 md-light" ng-bind="$ctrl.plan.authorProfile | userName"></div>
         <div flex="none" class="catalog md-body-1 md-light">
@@ -58,53 +60,74 @@
             translate="trainingPlans.landing.description"></h2>
         <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.targetAudience">
             <md-icon flex="none" md-svg-src="/assets/landing/agreement.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.targetAudience"></p>
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.targetAudience"></p>
+                <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.customData.targetAudience"></p>
+            </div>
         </div>
         <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/timeline.svg"  class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.calendarDates"></p>
+                <p flex class="text md-subhead md-dark">
                 <span ng-if="$ctrl.plan.isFixedCalendarDates"
                       translate="trainingPlans.landing.fixCalendarDates"
                       translate-values="{weekCount: $ctrl.plan.weekCount}"></span>
-                <span ng-if="!$ctrl.plan.isFixedCalendarDates"
-                      translate="trainingPlans.landing.flexCalendarDates"
-                      translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
+                    <span ng-if="!$ctrl.plan.isFixedCalendarDates"
+                          translate="trainingPlans.landing.flexCalendarDates"
+                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
                 </span>
-                <span>.&nbsp;</span>
-                <span translate="trainingPlans.landing.assignOpportunities"></span>
-            </p>
+                    <span>.&nbsp;</span>
+                    <span translate="trainingPlans.landing.assignOpportunities"></span>
+                </p>
+            </div>
         </div>
         <div class="item" layout="row" layout-align="start start">
             <md-icon flex="none" md-svg-src="/assets/landing/abc.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.regularWeek"></p>
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.regularWeek"></p>
+                <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.regularWeek"></p>
+            </div>
         </div>
         <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasOfflineTraining">
             <md-icon flex="none" md-svg-src="/assets/landing/meeting.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.offlineTrainingDescription"></p>
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.offlineTraining"></p>
+                <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.customData.offlineTrainingDescription"></p>
+            </div>
         </div>
         <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasConsultations">
             <md-icon flex="none" md-svg-src="/assets/landing/lecture.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark" ng-bind="$ctrl.plan.customData.consultationsDescription"></p>
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.consultations"></p>
+                <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.customData.consultationsDescription"></p>
+            </div>
         </div>
         <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasStructuredActivity">
             <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark" >
-                <span ng-bind="$ctrl.plan.customData.structuredActivityDescription"></span>
-                <span>.&nbsp;</span>
-                <span translate="trainingPlans.landing.structuredActivityOpportunities"></span>
-            </p>
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.structuredActivity"></p>
+                <p flex class="text md-subhead md-dark" >
+                    <span ng-bind="$ctrl.plan.customData.structuredActivityDescription"></span>
+                    <span>.&nbsp;</span>
+                    <span translate="trainingPlans.landing.structuredActivityOpportunities"></span>
+                </p>
+            </div>
         </div>
         <div class="item" layout="row" layout-align="start start"
              ng-if="$ctrl.plan.needHrBelt || $ctrl.plan.needPowerMeter">
             <md-icon flex="none" md-svg-src="/assets/landing/server.svg" class="s64"></md-icon>
-            <p flex class="md-subhead md-dark">
+            <div flex layout="column">
+                <p flex class="title md-subhead" translate="trainingPlans.landing.devices"></p>
+                <p flex class="text md-subhead md-dark">
                 <span ng-if="$ctrl.plan.needHrBelt"
                       translate="trainingPlans.landing.needHeartRateBelt"></span>
-                <span ng-if="$ctrl.plan.needPowerMeter"
-                      translate="trainingPlans.landing.needPowermeter"></span>
-                <span>.&nbsp;</span>
-                <span translate="trainingPlans.landing.syncDescription"></span>
-            </p>
+                    <span ng-if="$ctrl.plan.needPowerMeter"
+                          translate="trainingPlans.landing.needPowermeter"></span>
+                    <span>.&nbsp;</span>
+                    <span translate="trainingPlans.landing.syncDescription"></span>
+                </p>
+            </div>
         </div>
     </section>
     <section class="landing-block info" flex="none">
@@ -119,12 +142,11 @@
     <section class="landing-block info" flex="none">
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.howItWorks"></h2>
-        <div layout="column" layout-gt-sm="row" layout-align-gt-sm="space-between center">
-            <div flex="none" flex-gt-sm="50">
+        <div layout="column" layout-align-gt-sm="space-between center">
+            <div flex="none">
                 <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
             </div>
-            <p flex="none" flex-gt-sm="50"
-                translate="trainingPlans.landing.howItWorksDescription"></p>
+            <p flex="none" translate="trainingPlans.landing.howItWorksDescription"></p>
         </div>
     </section>
     <section id="samples" class="landing-block info" flex="none" ng-if="$ctrl.plan.samples">
@@ -143,10 +165,12 @@
     <section id="author" class="landing-block info"
              layout="column" layout-align="space-between center">
         <div flex="none" layout="row" layout-align="center center" class="md-padding">
-            <div class="st-avatar size-120 border-light md-padding"
-                 flex="none"
-                 ng-style="$ctrl.plan.iconStyle">
-            </div>
+            <a ui-sref="user({uri: $ctrl.plan.authorProfile.public.uri})">
+                <div class="st-avatar size-120 border-light md-padding"
+                     flex="none"
+                     ng-style="$ctrl.plan.authorStyle">
+                </div>
+            </a>
         </div>
         <p class="md-body-1" translate="trainingPlans.landing.authorPlaceholder"></p>
         <h2 flex="none" class="name md-display-1 md-dark font-black center" style="margin: 0"
@@ -161,6 +185,31 @@
             <span class="md-body-2 md-dark" translate="user.contact.phone"></span>
             <span class="md-body-1 md-dark" ng-bind="$ctrl.plan.authorExt.phone"></span>
         </div>
+    </section>
+    <section id="authorSearch" class="landing-block bg-grey-100" flex="none">
+        <h2 flex="none" class="name md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.authorPlans"></h2>
+        <st-training-plans-store-items search-params="$ctrl.authorSearch"
+                                       card-view="true"
+                                       update="$ctrl.update"
+                                       limit="3">
+        </st-training-plans-store-items>
+        <md-button flex="none" class="store" ui-sref="training-plans-store({{$ctrl.authorSearch}})">
+            <span translate="trainingPlans.landing.more"></span>
+        </md-button>
+    </section>
+    <section id="similarSearch" class="landing-block bg-grey-200" flex="none">
+        <h2 flex="none" class="name md-display-1 md-dark font-black center"
+            translate="trainingPlans.landing.similarPlans"></h2>
+        <st-training-plans-store-items search-params="$ctrl.similarSearch"
+                                       exclude-owner="$ctrl.plan.authorProfile.userId"
+                                       card-view="true"
+                                       update="$ctrl.update"
+                                       limit="3">
+        </st-training-plans-store-items>
+        <md-button flex="none" class="store" ui-sref="training-plans-store({{$ctrl.similarSearch}})">
+            <span translate="trainingPlans.landing.more"></span>
+        </md-button>
     </section>
 </section>
 

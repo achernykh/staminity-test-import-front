@@ -26,6 +26,7 @@ export const _translateTrainingPlans = {
             create: 'Создать',
             edit: 'Изменить',
             save: 'Сохранить',
+            view: 'Посмотреть',
             appoint: 'Присвоить...',
             calendar: 'Запланировать тренировки',
             assignment: 'Присвоения',

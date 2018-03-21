@@ -43,7 +43,7 @@
                 <md-tab id="general" flex="auto" layout="column">
                     <md-tab-label><span translate="trainingPlans.tabs.general"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
-                        <form flex="auto" layout="column" name="$ctrl.planForm">
+                        <form flex="auto" layout="column" layout-fill name="$ctrl.planForm">
                         <md-list flex="auto" class="md-dense">
                             <!-- Название плана -->
                             <md-list-item>
@@ -53,7 +53,7 @@
                                     <input flex="auto"
                                            name="name" required
                                            type="text"
-                                           placeholder="{{trainingPlans.name.placeholder}}"
+                                           placeholder="{{'trainingPlans.name.placeholder' | translate}}"
                                            ng-model="$ctrl.plan.name">
                                     <div ng-messages="$ctrl.form.sport.$error" role="alert">
                                         <div ng-message-exp="['required']"
@@ -73,7 +73,7 @@
                                              md-svg-src="/assets/icon/{{$ctrl.plan.type}}.svg">
                                     </md-icon>
                                     <md-select flex name="type" class="icon" required
-                                               placeholder="{{trainingPlans.name.placeholder}}"
+                                               placeholder="{{'trainingPlans.type.placeholder' | translate}}"
                                                ng-model="$ctrl.plan.type"
                                                ng-change="$ctrl.changeParam()">
                                         <md-option ng-repeat="type in $ctrl.competitionConfig.types track by $index"
@@ -96,7 +96,7 @@
                                              md-svg-src="/assets/icon/competition.svg"></md-icon>
                                     <md-select flex name="distanceType" class="icon" required="{{$ctrl.plan.isPublic}}"
                                                ng-model="$ctrl.distanceType"
-                                               placeholder="{{trainingPlans.distanceType.placeholder}}"
+                                               placeholder="{{'trainingPlans.distanceType.placeholder' | translate}}"
                                                ng-change="$ctrl.changeParam()">
                                         <md-option
                                             ng-repeat="type in $ctrl.competitionConfig.distanceTypes | filter:{type: $ctrl.plan.type}"
@@ -117,6 +117,7 @@
                                 <p translate="trainingPlans.isPublic.label"></p>
                                 <md-switch class="md-primary"
                                            name="isPublic"
+                                           ng-change="$ctrl.changeCommerce()"
                                            ng-model="$ctrl.plan.isPublic"></md-switch>
                             </md-list-item>
                             <!-- Тип каледарной сетки: динамичский или с фиксированными датами -->
@@ -189,20 +190,35 @@
                                               ng-model="$ctrl.plan.keywords"
                                               readonly="$ctrl.readonly"
                                               md-removable="$ctrl.removable"
-                                              placeholder="{{trainingPlans.keywords.placeholder}}"
+                                              placeholder="{{'trainingPlans.keywords.placeholder' | translate}}"
                                               delete-button-label="Remove Tag"
                                               delete-hint="Press delete to remove tag"
-                                              secondary-placeholder="{{trainingPlans.keywords.secondaryPlaceholder}}"></md-chips>
+                                              secondary-placeholder="{{'trainingPlans.keywords.secondaryPlaceholder' | translate}}"></md-chips>
                                 </md-input-container>
                             </md-list-item>
                         </md-list>
+                            <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+                                <span flex></span>
+                                <md-button type="submit"
+                                           ng-if="$ctrl.isViewMode"
+                                           ng-click="$ctrl.setChangeMode()">
+                                    <span translate="trainingPlans.actions.edit"></span>
+                                </md-button>
+                                <md-button type="submit"
+                                           ng-if="!$ctrl.isViewMode"
+                                           ng-class="{'md-warn': !$ctrl.isFormValid}"
+                                           ng-disabled="!$ctrl.isFormDirty"
+                                           ng-click="$ctrl.save()">
+                                    <span translate="trainingPlans.actions.save"></span>
+                                </md-button>
+                            </md-dialog-actions>
                         </form>
                     </md-tab-body>
                 </md-tab>
                 <md-tab id="commerce" flex="auto" layout="column" ng-if="$ctrl.plan.isPublic">
                     <md-tab-label><span translate="trainingPlans.tabs.commerce"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
-                        <form name="$ctrl.commerceForm">
+                        <form name="$ctrl.commerceForm" layout="column" layout-fill>
                             <section flex="none" ng-style="$ctrl.plan.backgroundStyle"
                                      layout="column" layout-align="space-between stretch"
                                      class="md-padding landing">
@@ -227,9 +243,6 @@
                             <md-list flex="auto" class="md-dense">
                                 <!-- Платный или бесплатный план-->
                                 <md-list-item>
-                                    <md-icon flex="none" class="material-icons md-dark dense">
-                                        {{$ctrl.plan.monetization ? 'monetization_on': 'money_off'}}
-                                    </md-icon>
                                     <p translate="trainingPlans.monetization.label"></p>
                                     <md-switch class="md-primary"
                                                name="monetization"
@@ -242,10 +255,8 @@
                                         <md-input-container class="md-block no-message" md-no-float layout="row"
                                                             flex="45">
                                             <label translate="trainingPlans.currency.label"></label>
-                                            <md-icon flex="none" class="material-icons md-dark">account_balance_wallet
-                                            </md-icon>
                                             <md-select flex name="type" class="icon" required
-                                                       placeholder="{{trainingPlans.currency.placeholder}}"
+                                                       placeholder="{{'trainingPlans.currency.placeholder' | translate}}"
                                                        ng-model="$ctrl.plan.currency"
                                                        ng-change="$ctrl.changeParam()">
                                                 <md-option ng-repeat="cur in ['RUB'] track by $index"
@@ -262,9 +273,9 @@
                                         <md-input-container flex="50" class="md-block no-message" layout="row">
                                             <label translate="trainingPlans.price.label"></label>
                                             <input flex="auto"
-                                                   name="name" required
+                                                   name="price" required
                                                    type="number" min="300" max="10000"
-                                                   placeholder="{{trainingPlans.price.placeholder}}"
+                                                   placeholder="{{'trainingPlans.targetAudience.placeholder' | translate}}"
                                                    ng-model="$ctrl.plan.price">
                                             <div ng-messages="$ctrl.commerceForm.price.$error" role="alert">
                                                 <div ng-message-exp="['required']"
@@ -277,7 +288,7 @@
                                         </md-input-container>
                                     </div>
                                 </md-list-item>
-                                <p class="hint md-caption md-dark" style="padding: 0 16px" translate="trainingPlans.commerceConditions"></p>
+                                <p class="hint md-caption md-dark" ng-if="$ctrl.plan.monetization" style="padding: 0 16px" translate="trainingPlans.commerceConditions"></p>
                                 <md-subheader><span translate="trainingPlans.planDescriptionInfo"></span></md-subheader>
                                 <!-- Целевая аудитория -->
                                 <md-list-item>
@@ -288,11 +299,32 @@
                                                   type="text"
                                                   rows="1"
                                                   max-rows="3"
-                                                  placeholder="{{trainingPlans.targetAudience.placeholder}}"
+                                                  placeholder="{{'trainingPlans.targetAudience.placeholder' | translate}}"
                                                   ng-model="$ctrl.plan.customData.targetAudience"></textarea>
                                         <div ng-messages="$ctrl.commerceForm.targetAudience.$error" role="alert">
                                             <div ng-message-exp="['required']"
                                                  translate="form.required">
+                                            </div>
+                                        </div>
+                                    </md-input-container>
+                                </md-list-item>
+                                <!-- Описание типовой недели -->
+                                <md-list-item>
+                                    <md-input-container class="md-block no-message" layout="row">
+                                        <label translate="trainingPlans.regularWeek.label"></label>
+                                        <textarea flex="auto" required
+                                                  name="regularWeek"
+                                                  type="text"
+                                                  rows="1"
+                                                  max-rows="3"
+                                                  placeholder="{{'trainingPlans.regularWeek.placeholder' | translate}}"
+                                                  ng-model="$ctrl.plan.regularWeek"></textarea>
+                                        <div ng-messages="$ctrl.commerceForm.regularWeek.$error" role="alert">
+                                            <div ng-message-exp="['required']"
+                                                 translate="form.required">
+                                            </div>
+                                            <div ng-message-exp="['minlength', 'maxlength']"
+                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
                                             </div>
                                         </div>
                                     </md-input-container>
@@ -313,7 +345,7 @@
                                                   type="text"
                                                   rows="1"
                                                   max-rows="3"
-                                                  placeholder="{{trainingPlans.consultationsDescription.placeholder}}"
+                                                  placeholder="{{'trainingPlans.consultationsDescription.placeholder' | translate}}"
                                                   ng-model="$ctrl.plan.customData.consultationsDescription"></textarea>
                                         <div ng-messages="$ctrl.commerceForm.consultationsDescription.$error" role="alert">
                                             <div ng-message-exp="['required']"
@@ -338,7 +370,7 @@
                                                   type="text"
                                                   rows="1"
                                                   max-rows="3"
-                                                  placeholder="{{trainingPlans.offlineTrainingDescription.placeholder}}"
+                                                  placeholder="{{'trainingPlans.offlineTrainingDescription.placeholder' | translate}}"
                                                   ng-model="$ctrl.plan.customData.offlineTrainingDescription"></textarea>
                                         <div ng-messages="$ctrl.commerceForm.offlineTrainingDescription.$error" role="alert">
                                             <div ng-message-exp="['required']"
@@ -363,7 +395,7 @@
                                                   type="text"
                                                   rows="1"
                                                   max-rows="3"
-                                                  placeholder="{{trainingPlans.structuredActivityDescription.placeholder}}"
+                                                  placeholder="{{'trainingPlans.structuredActivityDescription.placeholder' | translate}}"
                                                   ng-model="$ctrl.plan.customData.structuredActivityDescription"></textarea>
                                         <div ng-messages="$ctrl.commerceForm.structuredActivityDescription.$error" role="alert">
                                             <div ng-message-exp="['required']"
@@ -372,47 +404,22 @@
                                         </div>
                                     </md-input-container>
                                 </md-list-item>
-                                <!-- Описание типовой недели -->
-                                <md-list-item>
-                                    <md-input-container class="md-block no-message" layout="row">
-                                        <label translate="trainingPlans.regularWeek.label"></label>
-                                        <textarea flex="auto"
-                                                  name="regularWeek"
-                                                  type="text"
-                                                  rows="1"
-                                                  max-rows="3"
-                                                  placeholder="{{trainingPlans.regularWeek.placeholder}}"
-                                                  ng-model="$ctrl.plan.regularWeek"></textarea>
-                                        <div ng-messages="$ctrl.commerceForm.regularWeek.$error" role="alert">
-                                            <div ng-message-exp="['required']"
-                                                 translate="form.required">
-                                            </div>
-                                            <div ng-message-exp="['minlength', 'maxlength']"
-                                                 translate="form.rangeStr" translate-values="{min:2, max:100}">
-                                            </div>
-                                        </div>
-                                    </md-input-container>
-                                </md-list-item>
-                                <!-- Кнопки опубликовать -->
-                                <md-list-item>
-                                    <md-icon flex="none" class="material-icons md-dark dense"
-                                             ng-bind="'copyright'"></md-icon>
-                                    <p translate="trainingPlans.version"></p>
-                                    <md-button class="md-warn md-secondary"
-                                               style="border: 1px solid; border-radius: 5px"
-                                               ng-disabled="!$ctrl.commerceForm.$dirty"
-                                               ng-click="$ctrl.unpublish()"
-                                               md-colors="{'border-color': 'warn'}"
-                                               translate="trainingPlans.actions.unpublish"></md-button>
-                                    <md-button class="md-primary md-secondary"
-                                               style="border: 1px solid; border-radius: 5px"
-                                               ng-class="{'md-warn': !$ctrl.commerceForm.$valid}"
-                                               ng-disabled="!$ctrl.commerceForm.$dirty"
-                                               ng-click="$ctrl.publish()"
-                                               md-colors="{'border-color': 'primary'}"
-                                               translate="trainingPlans.actions.publish"></md-button>
-                                </md-list-item>
                             </md-list>
+                            <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+                                <span flex></span>
+                                <md-button type="submit"
+                                           ng-if="$ctrl.isViewMode"
+                                           ng-click="$ctrl.setChangeMode()">
+                                    <span translate="trainingPlans.actions.edit"></span>
+                                </md-button>
+                                <md-button type="submit"
+                                           ng-if="!$ctrl.isViewMode"
+                                           ng-class="{'md-warn': !$ctrl.isFormValid}"
+                                           ng-disabled="!$ctrl.isFormDirty"
+                                           ng-click="$ctrl.save()">
+                                    <span translate="trainingPlans.actions.save"></span>
+                                </md-button>
+                            </md-dialog-actions>
                         </form>
                     </md-tab-body>
                 </md-tab>
@@ -441,24 +448,11 @@
                             </div>
                             <p flex="none">Text</p>
                         </section>
-                        <st-calendar-item-list class="calendar-item-list"
+                        <st-calendar-item-list flex="auto" class="calendar-item-list"
                                                data="$ctrl.plan.samples">
                         </st-calendar-item-list>
                     </md-tab-body>
                 </md-tab>
             </md-tabs>
     </md-dialog-content>
-    <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
-        <span flex></span>
-        <md-button ng-if="$ctrl.isViewMode"
-                   ng-click="$ctrl.setChangeMode()">
-            <span translate="trainingPlans.actions.edit"></span>
-        </md-button>
-        <md-button ng-if="!$ctrl.isViewMode"
-                   ng-class="{'md-warn': !$ctrl.isFormValid}"
-                   ng-disabled="!$ctrl.isFormDirty"
-                   ng-click="$ctrl.save()">
-            <span translate="trainingPlans.actions.save"></span>
-        </md-button>
-    </md-dialog-actions>
 </section>

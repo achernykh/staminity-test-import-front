@@ -61,8 +61,10 @@ class TrainingPlansStoreCtrl implements IComponentController {
     }
 
     private prepareUrlParams (): void {
-        let search: Object = this.$location.search();
-        ['name', 'type', 'distanceType', 'weekCountFrom', 'weekCountTo'].map(p => this.storePlansFilter[p] = search[p] || null);
+        let clearStateParams = {};
+        Object.keys(this.$stateParams).map(k => this.$stateParams[k] && (clearStateParams[k] = this.$stateParams[k]));
+        let search: Object = Object.assign(this.$location.search(), clearStateParams);
+        ['ownerId', 'name', 'type', 'distanceType', 'weekCountFrom', 'weekCountTo'].map(p => this.storePlansFilter[p] = search[p] || null);
         ['tags','lang'].map(p => search[p] && (this.storePlansFilter[p] =
              Array.isArray(search[p]) ? search[p] : [search[p]]));
 

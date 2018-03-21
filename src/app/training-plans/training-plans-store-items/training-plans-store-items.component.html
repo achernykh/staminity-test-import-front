@@ -58,8 +58,9 @@
                 <md-button class="md-primary md-secondary"
                            style="border: 1px solid; border-radius: 5px"
                            md-colors="{'border-color': 'primary'}">
-                    <span ng-bind="plan.currency"></span>
-                    <span ng-bind="plan.price"></span>
+                    <span translate="{{plan.price ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
+                          translate-values="{price: plan.price, currency: plan.currency}">
+                    </span>
                 </md-button>
             </td>
         </tr>
@@ -83,7 +84,7 @@
                     </p>
                 </md-card-header-text>
             </md-card-header>
-            <img style="height: 200px;" ng-src="{{'/plan/background/' | image:plan.background }}"
+            <img style="height: 200px; object-fit: cover;" ng-src="{{'/plan/background/' | image:plan.background }}"
                  class="md-card-image" alt="Washed Out">
             <md-card-title>
                 <md-card-title-text>
@@ -92,18 +93,21 @@
                         <span translate="trainingPlans.landing.weekCount" translate-values="{count: plan.weekCount}"></span>
                     </p>
                     <div class="md-subhead" layout="row" layout-wrap>
-                        <span flex="none" class="tag level {{level}}" ng-repeat="level in plan.level">{{level}}</span>
+                        <span flex="none" class="tag level {{level}}" ng-repeat="level in plan.level" translate>{{'trainingPlans.tags.' + level}}</span>
                         <div flex="none" class="tag measure" ng-repeat="measure in plan.measures">
                             <md-icon class="fill-measure {{measure}} s16" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
                             <span>{{measure | translate}}</span>
                         </div>
-                        <span flex="none" class="tag" ng-repeat="tag in plan.otherTags">{{tag}}</span>
+                        <span flex="none" class="tag" ng-repeat="tag in plan.otherTags" translate>{{'trainingPlans.tags.' + tag}}</span>
                         <span flex="none" class="tag" ng-repeat="word in plan.keywords">{{word}}</span>
                     </div>
                 </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end start">
                 <md-button flex="none" ng-click="$ctrl.open($event, plan)" class="md-primary">
+                    <span translate="trainingPlans.actions.view"></span>
+                </md-button>
+                <md-button flex="none" ng-click="$ctrl.order($event, plan)" class="md-primary">
                     <span translate="{{plan.price ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
                           translate-values="{price: plan.price, currency: plan.currency}">
                     </span>
