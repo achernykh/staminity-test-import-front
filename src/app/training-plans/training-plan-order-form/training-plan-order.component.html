@@ -18,7 +18,7 @@
         </p>
         <p>
             <span class="md-body-2" translate="trainingPlans.store.author"></span>
-            <span class="md-body-1" ng-bind-template="$ctrl.plan.authorProfile | userName"></span>
+            <span class="md-body-1" ng-bind-template="{{$ctrl.plan.authorProfile | userName}}"></span>
         </p>
         <div layout="row" layout-align="start center">
             <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"

@@ -23,7 +23,8 @@ class CalendarItemListCtrl implements IComponentController {
     $onInit(): void {
         this.itemOptions = {
             currentUser: this.session.getUser(),
-            owner: this.session.getUser()
+            owner: this.session.getUser(),
+            trainingPlanMode: true
         };
     }
 

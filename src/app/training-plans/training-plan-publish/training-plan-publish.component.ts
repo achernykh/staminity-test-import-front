@@ -14,6 +14,8 @@ class TrainingPlanPublishCtrl implements IComponentController {
     onEvent: (response: Object) => Promise<void>;
 
     // private
+    private dataLoading: boolean = false;
+    private rules = ['profile', 'version', 'background', 'items' ];
     static $inject = ['TrainingPlansService', 'message'];
 
     constructor(
@@ -23,15 +25,23 @@ class TrainingPlanPublishCtrl implements IComponentController {
     }
 
     $onInit() {
-
+        this.getPlanDetails();
     }
 
-    checkProfile (): boolean {
+    get profile (): boolean {
         return true;
     }
 
-    checkVersion (): boolean {
-        return true;
+    get version (): boolean {
+        return !!this.plan.storeRevision || (this.plan.storeRevision < this.plan.histRevision);
+    }
+
+    get background (): boolean {
+        return !!this.plan.background;
+    }
+
+    get items (): boolean {
+        return this.plan.calendarItems.length > 10;
     }
 
     publish () {
@@ -40,6 +50,23 @@ class TrainingPlanPublishCtrl implements IComponentController {
                 this.message.toastInfo('trainingPlanPublishSuccess');
                 this.onCancel();
             }, error => this.message.toastInfo(error));
+    }
+
+    unpublish (): void {
+        this.trainingPlansService.unpublish(this.plan.id)
+            .then(_ => this.message.toastInfo('trainingPlanUnpublishSuccess'), e => this.message.toastInfo(e))
+            .then(_ => this.onCancel());
+    }
+
+    private getPlanDetails (): void {
+        this.trainingPlansService.get(this.plan.id)
+            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.dataLoading = true);
+    }
+
+    errorHandler (error: string): void {
+        this.message.toastError(error);
+        this.onCancel();
     }
 }
 

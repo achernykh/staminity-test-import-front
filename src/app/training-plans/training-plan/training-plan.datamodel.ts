@@ -17,6 +17,10 @@ export class TrainingPlan implements ITrainingPlan {
 
     id: number;
     revision?: number;
+    histRevision?: number; // последняя ревизия, сохраненная в истории
+    histVersion?: number; // номер последней версии из истории
+    storeRevision?: number; // ревизия из истории, опубликованная в магазине
+    storeVersion?: number; // номер версии в магазине
     isPublic: boolean; // Тип плана: false - для внутреннего использования, true - для продажи
     status: string; // [D]raft/[P]ublished/[A]pplied
     name: string;

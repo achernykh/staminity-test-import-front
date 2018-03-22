@@ -8,39 +8,41 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-dialog-content flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
+<div ng-if="!$ctrl.dataLoading" flex="auto" layout="column" layout-align="center center">
+    <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
+</div>
+<md-dialog-content ng-if="$ctrl.dataLoading" flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
     <md-icon flex="none" md-svg-src="/assets/landing/rocket-launch.svg" class="s96" style="margin-top: 16px"></md-icon>
     <div flex="none" class="md-padding">
         <p class="md-body-2 md-dark center" translate="trainingPlans.publish.check.title"></p>
-        <p ng-if="$ctrl.checkProfile()">
-            <md-icon class="material-icons" style="margin-right: 20px">check</md-icon>
-            <span class="md-body-1" translate="trainingPlans.publish.check.profileSuccess"></span>
+        <p ng-repeat-start="rule in $ctrl.rules" ng-if="$ctrl[rule]">
+            <md-icon class="material-icons" style="margin-right: 20px">check_box</md-icon>
+            <span class="md-body-1" translate="trainingPlans.publish.check.{{rule}}Success"></span>
         </p>
-        <p ng-if="!$ctrl.checkProfile()">
-            <span class="md-body-1" style="margin-left: 44px" md-colors="{'color': 'md-warn'}"
-                  translate="trainingPlans.publish.check.profileFail"></span>
+        <p ng-repeat-end ng-if="!$ctrl[rule]">
+            <md-icon class="material-icons" style="margin-right: 20px">check_box_outline_blank</md-icon>
+            <span class="md-body-2" md-colors="{color: 'default-warn'}"
+                  translate="trainingPlans.publish.check.{{rule}}Fail"></span>
         </p>
-        <p ng-if="$ctrl.checkVersion()">
-            <md-icon class="material-icons" style="margin-right: 20px">check</md-icon>
-            <span class="md-body-1" translate="trainingPlans.publish.check.versionSuccess"></span>
-        </p>
-        <p ng-if="!$ctrl.checkVersion()">
-            <span class="md-body-1" style="margin-left: 44px" md-colors="{'color': 'md-warn'}"
-                  translate="trainingPlans.publish.check.versionFail"></span>
-        </p>
-        <p class="md-body-2 md-dark center" translate="trainingPlans.publish.status"></p>
+        <!--<p class="md-body-2 md-dark center" translate="trainingPlans.publish.status"></p>
         <p>
             <md-icon class="material-icons" style="margin-right: 20px">check</md-icon>
             <span class="md-body-1" translate="trainingPlans.publish.currentVerison"></span>
-        </p>
+        </p>-->
     </div>
     <div flex></div>
 </md-dialog-content>
-<md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+<md-dialog-actions ng-if="$ctrl.dataLoading" flex="none" layout="row" style="background: white; width: 100%;">
     <span flex></span>
+    <md-button class="md-accent" ng-if="$ctrl.plan.storeVersion"
+               ng-click="$ctrl.unpublish()"
+               translate="trainingPlans.actions.unpublish">
+    </md-button>
     <md-button class="md-primary"
                ng-class="{'md-warn': false}"
-               ng-disabled="!$ctrl.checkProfile() || !$ctrl.checkVersion()"
+               ng-disabled="!$ctrl.profile || !$ctrl.version || !$ctrl.background || !$ctrl.items"
                ng-click="$ctrl.publish()"
-               translate="trainingPlans.actions.publish"></md-button>
+               translate="trainingPlans.actions.publish">
+    </md-button>
 </md-dialog-actions>
