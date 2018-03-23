@@ -40,11 +40,11 @@
         </md-button>
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">pageview</md-icon>
-        </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
+        </md-button> -->
+        <md-button ng-if="$ctrl.customer" class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
             <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
             <span translate="trainingPlans.actions.assignment"></span>
-        </md-button>
+        </md-button><!--
         <md-button class="md-secondary md-icon-button" ng-if="!$ctrl.customer" ng-click="$ctrl.calendar(plan.id)">
             <md-icon class="material-icons">date_range</md-icon>
         </md-button>-->

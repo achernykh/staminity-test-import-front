@@ -95,15 +95,15 @@
                     <div class="md-subhead" layout="row" layout-wrap>
                         <span flex="none" class="tag level {{level}}" ng-repeat="level in plan.level" translate>{{'trainingPlans.tags.' + level}}</span>
                         <div flex="none" class="tag" ng-if="plan.isStructured">
-                            <md-icon class="material-icons">equalizer</md-icon>
+                            <md-icon class="material-icons s18">equalizer</md-icon>
                             <span translate="trainingPlans.isStructured.label"></span>
                         </div>
                         <div flex="none" class="tag" ng-if="plan.customData.hasConsultations">
-                            <md-icon class="material-icons">equalizer</md-icon>
+                            <md-icon class="material-icons s18">chat_bubble</md-icon>
                             <span translate="trainingPlans.hasConsultations.label"></span>
                         </div>
                         <div flex="none" class="tag" ng-if="plan.customData.hasOfflineTraining">
-                            <md-icon class="material-icons">equalizer</md-icon>
+                            <md-icon class="material-icons s18">pin_drop</md-icon>
                             <span translate="trainingPlans.hasOfflineTraining.label"></span>
                         </div>
                         <div flex="none" class="tag measure" ng-repeat="measure in plan.measures">
@@ -119,7 +119,13 @@
                 <md-button flex="none" ng-click="$ctrl.open($event, plan)" class="md-primary">
                     <span translate="trainingPlans.actions.view"></span>
                 </md-button>
-                <md-button flex="none" ng-click="$ctrl.order($event, plan)" class="md-primary">
+                <md-button ng-if="plan.state === 'P'" flex="none" class="md-primary" ng-disabled="true">
+                    <span translate="trainingPlans.state.pending"></span>
+                </md-button>
+                <md-button ng-if="plan.state === 'A'" flex="none" class="md-primary" ng-disabled="true">
+                    <span translate="trainingPlans.state.active"></span>
+                </md-button>
+                <md-button ng-if="!plan.state" flex="none" ng-click="$ctrl.order($event, plan)" class="md-primary">
                     <span translate="{{plan.price ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
                           translate-values="{price: plan.price, currency: plan.currency}">
                     </span>

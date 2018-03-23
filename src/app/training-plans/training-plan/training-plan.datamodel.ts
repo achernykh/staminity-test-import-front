@@ -62,8 +62,8 @@ export class TrainingPlan implements ITrainingPlan {
         consultationsDescription: string;
         statisticData: 'metricsByDuration' | 'metricsByDistance';
     };
-    state?: string; // статус покупки плана
-
+    state?: 'P' | 'A'; // статус покупки плана [P] - pending [A] - active
+    parentId?: number;
 
     authorProfile: IUserProfileShort;
     private _startDate: Date;

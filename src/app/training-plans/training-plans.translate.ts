@@ -88,13 +88,27 @@ export const _translateTrainingPlans = {
             label: 'Ключевые слова'
         },
         isStructured: {
-            label: 'Структурированные тренировки'
+            label: 'Сегменты'
         },
         hasConsultations: {
-            label: 'Консультации автора'
+            label: 'Консультации'
         },
         hasOfflineTraining: {
-            label: 'Очные тренировки'
+            label: 'Очные занятия'
+        },
+        state: {
+            active: 'Приобретен',
+            pending: 'Заказан'
+        },
+        weekCount: {
+            label: 'Количество недель'
+        },
+        options: {
+            label: 'Опции',
+            isStructured: 'Структурированные тренировки',
+            hasConsultations: 'Консультация с автором',
+            hasOfflineTraining: 'Очные занятия'
+
         },
         assignment: {
             info: "Дата начала плана: {{firstPlanDate | date:'longDate'}}, дата первой записи: {{firstItemDate | date:'longDate'}} </br>" +

@@ -15,7 +15,15 @@
                 <md-icon md-svg-src="/assets/icon/shopping_cart.svg"></md-icon>
                 <span translate="trainingPlans.store.tabs.store"></span>
             </md-button>
-            <md-button flex="none" class="button-action md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
+            <md-button ng-if="$ctrl.plan.state === 'P'" flex="none" class="button-action md-raised" ng-disabled="true">
+                <span translate="trainingPlans.state.pending"></span>
+            </md-button>
+            <md-button ng-if="$ctrl.plan.state === 'A'" flex="none" class="button-action md-raised" ng-disabled="true">
+                <span translate="trainingPlans.state.active"></span>
+            </md-button>
+            <md-button ng-if="!$ctrl.plan.state" flex="none"
+                       class="button-action md-accent md-hue-3 md-raised"
+                       ng-click="$ctrl.order($event)">
                 <span ng-if="$ctrl.plan.price" class="md-title md-light"
                       translate="trainingPlans.store.price"
                       translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
@@ -47,17 +55,17 @@
                   translate>{{'trainingPlans.tags.' + level}}</span>
         </div>
         <h2 flex="none" class="name md-title md-light center" style="margin: 16px 0" translate="trainingPlans.plan"></h2>
-        <div flex="none" layout="row" layout-align="center center" hide show-gt-sm>
+        <div flex="none" layout="row" layout-align="center center" layout-wrap hide show-gt-sm>
             <div flex="none" class="tag" ng-if="$ctrl.plan.isStructured">
-                <md-icon class="material-icons">equalizer</md-icon>
+                <md-icon class="material-icons s18">equalizer</md-icon>
                 <span translate="trainingPlans.isStructured.label"></span>
             </div>
             <div flex="none" class="tag" ng-if="$ctrl.plan.customData.hasConsultations">
-                <md-icon class="material-icons">equalizer</md-icon>
+                <md-icon class="material-icons s18">chat_bubble</md-icon>
                 <span translate="trainingPlans.hasConsultations.label"></span>
             </div>
             <div flex="none" class="tag" ng-if="$ctrl.plan.customData.hasOfflineTraining">
-                <md-icon class="material-icons">equalizer</md-icon>
+                <md-icon class="material-icons s18">pin_drop</md-icon>
                 <span translate="trainingPlans.hasOfflineTraining.label"></span>
             </div>
             <div flex="none" class="tag measure" ng-repeat="measure in $ctrl.plan.measures">
@@ -72,7 +80,15 @@
             translate="trainingPlans.landing.weekCount"
             translate-values="{count: $ctrl.plan.weekCount}"></h2>
         <div flex></div>
-        <md-button flex="none" class="md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
+        <md-button ng-if="$ctrl.plan.state === 'P'" flex="none" class="button-action md-raised bg-grey-200" ng-disabled="true">
+            <span translate="trainingPlans.state.pending"></span>
+        </md-button>
+        <md-button ng-if="$ctrl.plan.state === 'A'" flex="none" class="button-action md-raised bg-grey-200" ng-disabled="true">
+            <span translate="trainingPlans.state.active"></span>
+        </md-button>
+        <md-button ng-if="!$ctrl.plan.state"
+                   flex="none"
+                   class="button-action md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
             <span ng-if="$ctrl.plan.price" class="md-title md-light"
                   translate="trainingPlans.store.price"
                   translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>

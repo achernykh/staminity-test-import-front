@@ -79,7 +79,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     action (env: Event, plan: TrainingPlan): void {
-        this.customer ? this.assignment(env, plan) : this.edit(env, plan);
+        this.customer ? this.$state.go('plan', {planId: plan.parentId || plan.id}) : this.edit(env, plan);
     }
 
     edit (env: Event, plan) {
