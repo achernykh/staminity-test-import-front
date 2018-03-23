@@ -94,6 +94,18 @@
                     </p>
                     <div class="md-subhead" layout="row" layout-wrap>
                         <span flex="none" class="tag level {{level}}" ng-repeat="level in plan.level" translate>{{'trainingPlans.tags.' + level}}</span>
+                        <div flex="none" class="tag" ng-if="plan.isStructured">
+                            <md-icon class="material-icons">equalizer</md-icon>
+                            <span translate="trainingPlans.isStructures.label"></span>
+                        </div>
+                        <div flex="none" class="tag" ng-if="plan.customData.hasConsultations">
+                            <md-icon class="material-icons">equalizer</md-icon>
+                            <span translate="trainingPlans.hasConsultations.label"></span>
+                        </div>
+                        <div flex="none" class="tag" ng-if="plan.customData.hasOfflineTraining">
+                            <md-icon class="material-icons">equalizer</md-icon>
+                            <span translate="trainingPlans.hasOfflineTraining.label"></span>
+                        </div>
                         <div flex="none" class="tag measure" ng-repeat="measure in plan.measures">
                             <md-icon class="fill-measure {{measure}} s16" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
                             <span>{{measure | translate}}</span>

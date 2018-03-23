@@ -56,7 +56,7 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
         this.isLoadingData = true;
         this.trainingPlansService.store(this.searchParams)
             .then(result => this.prepareList(result), error => {debugger;})
-            .then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
+            //.then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
             .then(_ => this.isLoadingData = false);
 
     }
@@ -77,6 +77,13 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
         } else {
             this.$state.go('plan', {planId: item.id});
         }
+    }
+
+    order (e: Event, item: TrainingPlan): void {
+        this.trainingPlanDialogs.order(e, item)
+            .then(_ => this.trainingPlansService.purchase(item.id))
+            .then(_ => this.trainingPlanDialogs.orderSuccess(e), e => this.message.toastError(e))
+            .then(_ => this.$scope.$applyAsync());
     }
 
     get isLoadingState (): boolean {

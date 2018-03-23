@@ -1,5 +1,5 @@
 import './training-plan.component.scss';
-import {IComponentOptions, IComponentController, element} from 'angular';
+import {IComponentOptions, IComponentController, element, IScope} from 'angular';
 import MessageService from "@app/core/message.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
@@ -8,7 +8,6 @@ import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { ITrainingPlanSearchRequest } from "../../../../api/trainingPlans/training-plans.interface";
-import { TrainingPlansList } from "../training-plans-list/training-plans-list.datamodel";
 
 class TrainingPlanCtrl implements IComponentController {
 
@@ -21,15 +20,16 @@ class TrainingPlanCtrl implements IComponentController {
     private plan: TrainingPlan;
     private dataLoading: boolean = false;
     private toolbar: JQuery;
-    private durationChart: IChart;
+    private chart: IChart;
     private update: number = 0;
     private authorSearch: ITrainingPlanSearchRequest;
     private similarSearch: ITrainingPlanSearchRequest;
 
-    static $inject = ['$mdSidenav', '$document', 'TrainingPlansService',
+    static $inject = ['$scope', '$mdSidenav', '$document', 'TrainingPlansService',
         'TrainingPlanDialogService', 'trainingPlanConfig', 'message'];
 
     constructor(
+        private $scope: IScope,
         private $mdSidenav,
         private $document,
         private trainingPlanService: TrainingPlansService,
@@ -45,7 +45,7 @@ class TrainingPlanCtrl implements IComponentController {
 
     private getPlanDetails (): void {
         (this.store ?
-            this.trainingPlanService.getStoreItem(this.planId, this.currentUser && this.currentUser.hasOwnProperty('userId')) :
+            this.trainingPlanService.getStoreItem(this.planId) :
             this.trainingPlanService.get(this.planId))
             .then(result => this.plan = new TrainingPlan(result, this.trainingPlanConfig), error => this.errorHandler(error))
             .then(() => this.dataLoading = true)
@@ -76,17 +76,15 @@ class TrainingPlanCtrl implements IComponentController {
     }
 
     order (e: Event): void {
-        if (this.plan.price) {
-            this.trainingPlanDialog.order(e, this.plan).then(_ => {});
-        } else {
-            this.trainingPlanService.getPlan(this.planId)
-                .then(_ => this.message.toastInfo('trainingPlanGetSuccess'), e => this.message.toastError(e));
-        }
+        this.trainingPlanDialog.order(e, this.plan)
+            .then(_ => this.trainingPlanService.purchase(this.planId))
+            .then(_ => this.trainingPlanDialog.orderSuccess(e), e => this.message.toastError(e))
+            .then(_ => this.$scope.$applyAsync());
     }
 
     prepareChart () {
         if (!this.plan) { return; }
-        this.durationChart = this.plan.durationChart;
+        this.chart = this.plan.getChart(this.plan.customData.statisticData);
     }
 
     subscribeOnScroll(): void {

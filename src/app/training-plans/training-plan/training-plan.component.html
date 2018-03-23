@@ -15,7 +15,7 @@
                 <md-icon md-svg-src="/assets/icon/shopping_cart.svg"></md-icon>
                 <span translate="trainingPlans.store.tabs.store"></span>
             </md-button>
-            <md-button flex="none" class="button-action md-accent md-hue-3 md-raised">
+            <md-button flex="none" class="button-action md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
                 <span ng-if="$ctrl.plan.price" class="md-title md-light"
                       translate="trainingPlans.store.price"
                       translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
@@ -133,8 +133,9 @@
     <section class="landing-block info" flex="none">
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.chart"></h2>
+        <p flex="none" class="md-subhead center" translate="trainingPlans.landing.effortStat.{{$ctrl.plan.customData.statisticData}}"></p>
         <universal-chart flex="auto"
-                         data="$ctrl.durationChart"
+                         data="$ctrl.chart"
                          filter="true"
                          update="$ctrl.updateCount ">
         </universal-chart>
@@ -154,7 +155,9 @@
             translate="trainingPlans.landing.samples"></h2>
         <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.landing.samplesDescription"></p>
         <st-calendar-item-list class="calendar-item-list"
-                               data="$ctrl.plan.samples">
+                               ng-init="$ctrl.firstDate = $ctrl.plan.firstDate"
+                               data="$ctrl.plan.samples"
+                               date-point="$ctrl.firstDate">
         </st-calendar-item-list>
     </section>
     <section id="description" class="landing-block info" flex="none" ng-if="$ctrl.plan.description">

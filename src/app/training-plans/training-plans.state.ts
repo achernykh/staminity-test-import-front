@@ -6,6 +6,7 @@ const trainingPlanStore: any = {
     name: 'training-plans-store',
     url: '/training-plans/store',
     params: {
+        state: null,
         ownerId: null,
         tags: null,
         type: null,

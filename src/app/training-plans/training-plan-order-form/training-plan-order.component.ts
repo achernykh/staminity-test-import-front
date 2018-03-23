@@ -13,9 +13,11 @@ class TrainingPlanOrderCtrl implements IComponentController {
     // public
     plan: TrainingPlan;
     user: IUserProfile;
-    onCancel: () => Promise<any>;
+    onSuccess: (response: any) => Promise<any>;
+    onCancel: (response: any) => Promise<any>;
     
     // private
+    private dataLoading: boolean = false;
     private enabled: boolean = true;
     private confirmation: boolean = false;
     private credentials;
@@ -31,6 +33,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.getPlanDetails();
         // Типовая структура для создания нового пользователя
         this.credentials = {
             public: {
@@ -54,13 +57,13 @@ class TrainingPlanOrderCtrl implements IComponentController {
     }
 
     pay (): void {
-        this.onCancel();
         this.enabled = false; // форма ввода недоступна до получения ответа
-
-        if (this.user.userId) {
+        if (!this.plan.price) {
+            this.onSuccess({response: 'success'});
+        }
+        else if (this.user.userId) {
             this.trainingPlansDialog.pay(this.plan.product)
-                .then(resposne => this.trainingPlansService.getPlan(this.plan.id), e => {debugger;})
-                .then(r => console.debug(r.errorMessage), e => console.error(e));
+                .then(response => this.onSuccess({response: response}), e => this.onCancel({response: e}));
         } else {
             this.authService.signUp(this.credentials)
                 .then(() => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
@@ -94,12 +97,25 @@ class TrainingPlanOrderCtrl implements IComponentController {
                 }
             }).catch((response) => this.message.systemError(response));
     }
+
+    private getPlanDetails (): void {
+        this.trainingPlansService.getStoreItem(this.plan.id)
+            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.dataLoading = true);
+    }
+
+    errorHandler (error: string): void {
+        this.message.toastError(error);
+        this.onCancel(error);
+    }
+
 }
 
 export const TrainingPlanOrderComponent:IComponentOptions = {
     bindings: {
         plan: '<',
         user: '<',
+        onSuccess: '&',
         onCancel: '&'
     },
     require: {

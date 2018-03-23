@@ -102,7 +102,7 @@ export class TrainingPlanDialogService {
         let dialog = {
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
-                $scope.cancel = () => $mdDialog.cancel();
+                $scope.cancel = (response) => $mdDialog.cancel(response);
                 $scope.answer = (response) => $mdDialog.hide({response});
             }],
             controllerAs: "$ctrl",
@@ -111,7 +111,7 @@ export class TrainingPlanDialogService {
                                     layout="column" layout-fill class="training-plan-order"
                                     plan="$ctrl.plan"
                                     user="$ctrl.currentUser"
-                                    on-cancel="cancel()" on-save="answer(response)"/>
+                                    on-cancel="cancel(response)" on-success="answer(response)"/>
                        </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: e,
@@ -159,6 +159,33 @@ export class TrainingPlanDialogService {
             locals: {
                 filter: filter,
                 currentUser: this.session.getUser()
+            },
+            bindToController: true,
+            clickOutsideToClose: false,
+            escapeToClose: true,
+            fullscreen: true,
+        };
+        return this.$mdDialog.show(dialog);
+    }
+
+    orderSuccess (e: Event): Promise<any> {
+        let dialog = {
+            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
+                $scope.hide = () => $mdDialog.hide();
+                $scope.cancel = () => $mdDialog.cancel();
+                $scope.answer = () => $mdDialog.hide({});
+            }],
+            controllerAs: "$ctrl",
+            template: `<md-dialog id="training-plan-order-success" aria-label="Training Plan Order Success">
+                            <st-training-plan-order-success
+                                    layout="column" layout-fill class="training-plan-order-success"
+                                    auth="$ctrl.auth"
+                                    on-cancel="cancel()" on-answer="answer()"/>
+                       </md-dialog>`,
+            parent: angular.element(document.body),
+            targetEvent: e,
+            locals: {
+                auth: !!this.session.getUser(),
             },
             bindToController: true,
             clickOutsideToClose: false,

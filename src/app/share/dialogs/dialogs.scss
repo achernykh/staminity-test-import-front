@@ -1,3 +1,13 @@
+md-dialog#iframe {
+
+    @media (min-width: 960px) {
+        min-width: 640px;
+        max-width: 640px;
+        min-height: 90vh;
+        height: 100%;
+    }
+
+}
 md-dialog#upload {
 
     .md-dialog-content {

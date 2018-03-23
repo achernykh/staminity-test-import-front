@@ -15,8 +15,8 @@ export interface TrainingPlanConfig {
         distanceType: string,
         tags: Array<string>
     };
-    durationChart: IChart;
-    distanceChart: IChart;
+    metricsByDurationChart: IChart;
+    metricsByDistanceChart: IChart;
 }
 
 export const trainingPlanConfig: TrainingPlanConfig = {
@@ -46,7 +46,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
         distanceType: null,
         tags: []
     },
-    durationChart: {
+    metricsByDurationChart: {
         options: {
             "legend": {
                 "vertical-align": "bottom",
@@ -126,7 +126,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
 
         }]
     },
-    distanceChart: {
+    metricsByDistanceChart: {
         options: {
             "legend": {
                 "vertical-align": "bottom",

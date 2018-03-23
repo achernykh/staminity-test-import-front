@@ -103,8 +103,8 @@ class TrainingPlansListCtrl implements IComponentController {
         this.$state.go('training-plan-builder-id', {planId: planId});
     }
 
-    plan (planId: number) {
-        this.$state.go('training-plan-id', {planId: planId, store: false});
+    page (planId: number, state: string) {
+        this.$state.go(state, {planId: planId});
     }
 
     private updateList (list: ITrainingPlanSearchResult): void {

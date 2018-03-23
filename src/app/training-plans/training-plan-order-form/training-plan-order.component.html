@@ -8,7 +8,11 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-dialog-content flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
+<div ng-if="!$ctrl.dataLoading" flex="auto" layout="column" layout-align="center center">
+    <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
+</div>
+<md-dialog-content ng-if="$ctrl.dataLoading" flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
     <div flex></div>
     <md-icon flex="none" md-svg-src="/assets/landing/checklist.svg" class="s64" style="margin-top: 16px"></md-icon>
     <div flex="none" class="md-padding">
@@ -92,7 +96,7 @@
         </div>
     </div>
 </md-dialog-content>
-<md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+<md-dialog-actions ng-if="$ctrl.dataLoading" flex="none" layout="row" style="background: white; width: 100%;">
     <span flex></span>
     <md-button ng-click="$ctrl.pay()" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation">
         <span translate="trainingPlans.actions.pay"></span>

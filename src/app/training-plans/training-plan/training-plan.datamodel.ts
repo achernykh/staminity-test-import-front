@@ -5,7 +5,7 @@ import {
     ITrainingPlanReview,
     TrainingPlanSearchResultItem,
     TrainingPlanSearchResultAuthor, ITrainingPlanAssignment, IMonetaAssistantFormData
-} from "../../../../api/trainingPlans/training-plans.interface";
+} from "../../../../api/trainingPlans";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfileShort } from "../../../../api/user/user.interface";
@@ -55,6 +55,14 @@ export class TrainingPlan implements ITrainingPlan {
     startDate?: string; // дата первой тренировки, если isFixedCalendarDates = true
     event: [string /*code*/, string /*date*/]; // план связан с конкретным спортивным событием
     product?: IMonetaAssistantFormData; // объект доступен покупателю плана. Используется для формирования ссылки к Moneta.Assistant
+    customData?: {
+        targetAudience: boolean;
+        hasOfflineTraining: boolean;
+        offlineTrainingDescription: string;
+        hasConsultations: boolean;
+        consultationsDescription: string;
+        statisticData: 'metricsByDuration' | 'metricsByDistance';
+    };
     state?: string; // статус покупки плана
 
 
@@ -65,6 +73,7 @@ export class TrainingPlan implements ITrainingPlan {
     constructor (params?: Object | ITrainingPlan | Array<any>, private config?: TrainingPlanConfig) {
 
         if ( Array.isArray(params) ) {
+            debugger;
             Object.keys(new TrainingPlanSearchResultItem()).map((k: string, i: number) => this[k] = params[i]);
         } else {
             Object.assign(this, params);
@@ -294,8 +303,8 @@ export class TrainingPlan implements ITrainingPlan {
         };
     }
 
-    get durationChart(): IChart {
-        return this.config && this.effortStat && Object.assign({}, this.config.durationChart, {metrics: this.effortStat.metricsByDuration}) || null;
+    getChart(param: string = 'metricsByDuration'): IChart {
+        return this.config && this.effortStat && Object.assign({}, this.config[param + 'Chart'], {metrics: this.effortStat[param]}) || null;
     }
     get needHrBelt(): boolean {
         return this.tags && this.tags.some(t => t === 'hrBelt');
@@ -318,6 +327,11 @@ export class TrainingPlan implements ITrainingPlan {
 
     get otherTags (): Array<string> {
         return this.tags.filter(t => ['beginner', 'advanced', 'pro','powerMeter', 'hrBelt'].indexOf(t) === -1);
+    }
+
+    get hasUpdateForStore (): boolean {
+        return (this.histRevision && this.storeRevision && this.histRevision > this.storeRevision) ||
+            (this.histRevision && !this.storeRevision);
     }
 
 }

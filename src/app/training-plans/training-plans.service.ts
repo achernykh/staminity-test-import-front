@@ -67,11 +67,10 @@ export class TrainingPlansService {
     /**
      * Карточка плана из магазина
      * @param planId
-     * @param ws
      * @returns {Promise<any>}
      */
-    getStoreItem (planId: number, ws: boolean = true): Promise<ITrainingPlan> {
-        return ws ?
+    getStoreItem (planId: number): Promise<ITrainingPlan> {
+        return this.authService.isAuthenticated() ?
             this.socket.send(new GetTrainingPlanStoreItem(planId)) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetTrainingPlanStoreItem(planId)))
                 .then((response: IHttpPromiseCallbackArg<any>) => response.data);
@@ -178,10 +177,10 @@ export class TrainingPlansService {
     }
 
     /**
-     * Приобритение бесплатного плана
+     * Приобритение плана
      * @returns {Promise<any>}
      */
-    getPlan (planId: number): Promise<ISystemMessage> {
+    purchase (planId: number): Promise<ISystemMessage> {
         return this.socket.send(new PostTrainingPlanPurchase(planId));
     }
 

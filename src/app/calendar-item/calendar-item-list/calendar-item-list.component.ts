@@ -1,5 +1,7 @@
 import './calendar-item-list.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
+import moment from 'moment/min/moment-with-locales.js';
+import { Moment } from 'moment';
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
 import { SessionService } from "../../core/session/session.service";
@@ -9,6 +11,7 @@ class CalendarItemListCtrl implements IComponentController {
 
     // bind
     data: Array<ICalendarItem>;
+    datePoint: Date;
     onEvent: (response: Object) => Promise<void>;
 
     // private
@@ -25,6 +28,19 @@ class CalendarItemListCtrl implements IComponentController {
             currentUser: this.session.getUser(),
             owner: this.session.getUser(),
             trainingPlanMode: true
+        };
+    }
+
+    /**
+     *
+     * @param item
+     * @returns {{week: null, days: null, data: Date}}
+     */
+    getDate (item: ICalendarItem): {week: number, day: number, data: Date} {
+        return {
+            week: moment(item.dateStart).diff(this.datePoint, 'weeks') + 1,
+            day: moment(item.dateStart).diff(this.datePoint, 'days') + 1,
+            data: new Date(item.dateStart)
         };
     }
 

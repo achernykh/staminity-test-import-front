@@ -329,6 +329,21 @@
                                         </div>
                                     </md-input-container>
                                 </md-list-item>
+                                <!-- Данные для графика статистики -->
+                                <md-list-item>
+                                    <md-input-container class="md-block no-message" md-no-float layout="row">
+                                        <label translate="trainingPlans.statisticData.label"></label>
+                                        <md-select flex name="statisticData" required
+                                                   ng-init="$ctrl.plan.customData.statisticData = 'metricsByDuration'"
+                                                   ng-model="$ctrl.plan.customData.statisticData"
+                                                   ng-change="$ctrl.changeParam()">
+                                            <md-option ng-repeat="type in ['metricsByDistance', 'metricsByDuration'] track by $index"
+                                                       value="{{type}}">{{'trainingPlans.effortStat.' + type | translate}}
+                                            </md-option>
+                                        </md-select>
+                                        <div class="hint" translate="trainingPlans.statisticData.hint"></div>
+                                    </md-input-container>
+                                </md-list-item>
                                 <!-- Услуги по консультации (hasConsultations) -->
                                 <md-list-item>
                                     <p translate="trainingPlans.hasConsultations.label"></p>
@@ -449,7 +464,9 @@
                             <p flex="none">Text</p>
                         </section>
                         <st-calendar-item-list flex="auto" class="calendar-item-list"
-                                               data="$ctrl.plan.samples">
+                                               ng-init="$ctrl.firstDate = $ctrl.plan.firstDate"
+                                               data="$ctrl.plan.samples"
+                                               date-point="$ctrl.firstDate">
                         </st-calendar-item-list>
                     </md-tab-body>
                 </md-tab>
