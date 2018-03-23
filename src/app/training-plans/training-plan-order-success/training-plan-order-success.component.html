@@ -12,10 +12,10 @@
                    flex="auto" layout="column" layout-align="center center"
                    class="bg-grey-050" style="width: 100%">
     <md-icon flex="none" md-svg-src="/assets/landing/education.svg" class="s96" style="margin-top: 16px"></md-icon>
-    <div flex="none" class="md-padding">
+    <div flex="auto" class="md-padding">
         <p class="md-body-2 md-dark center" translate="trainingPlans.success.title"></p>
         <p class="md-body-1 md-dark center"
-           translate="{{$ctrl.auth ? 'trainingPlans.success.authText' : 'trainingPlans.success.guestText'"></p>
+           translate="{{$ctrl.auth ? 'trainingPlans.success.authText' : 'trainingPlans.success.guestText'}}"></p>
     </div>
 </md-dialog-content>
 <md-dialog-actions ng-if="$ctrl.auth" flex="none" layout="row" style="background: white; width: 100%;">
