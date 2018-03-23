@@ -154,7 +154,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
             "idx" : 0,
             "measureSource" : "activity.startDate",
             "measureName" : "Weeks",
-            "dataType": "date",
+            "dataType": "string",
             "dateFormat": "DD.MM",
             "valueType" : "value",
             "seriesDateTrunc" : "week",

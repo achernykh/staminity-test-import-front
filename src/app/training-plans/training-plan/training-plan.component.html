@@ -36,14 +36,39 @@
         </div>
         <div flex="none" class="author md-body-1 md-light" ng-bind="$ctrl.plan.authorProfile | userName"></div>
         <div flex="none" class="catalog md-body-1 md-light">
-            <span ng-bind="$ctrl.plan.type"></span>&nbsp;|&nbsp;
-            <span ng-bind="$ctrl.plan.distanceType"></span>&nbsp;|&nbsp;
-            <span>Уровень продвинутый</span>;
+            <span>{{'competition.types.' + $ctrl.plan.type | translate}}</span>
+            <span>|</span>
+            <span>{{'competition.distanceType.' + $ctrl.plan.type + '.' + $ctrl.plan.distanceType | translate}}</span>
         </div>
         <div flex></div>
-        <h2 flex="none" class="name md-title md-light center">Тренировочный план</h2>
+        <div flex="none">
+            <span flex="none" class="tag level {{level}}"
+                  ng-repeat="level in $ctrl.plan.level"
+                  translate>{{'trainingPlans.tags.' + level}}</span>
+        </div>
+        <h2 flex="none" class="name md-title md-light center" style="margin: 16px 0" translate="trainingPlans.plan"></h2>
+        <div flex="none" layout="row" layout-align="center center" hide show-gt-sm>
+            <div flex="none" class="tag" ng-if="$ctrl.plan.isStructured">
+                <md-icon class="material-icons">equalizer</md-icon>
+                <span translate="trainingPlans.isStructured.label"></span>
+            </div>
+            <div flex="none" class="tag" ng-if="$ctrl.plan.customData.hasConsultations">
+                <md-icon class="material-icons">equalizer</md-icon>
+                <span translate="trainingPlans.hasConsultations.label"></span>
+            </div>
+            <div flex="none" class="tag" ng-if="$ctrl.plan.customData.hasOfflineTraining">
+                <md-icon class="material-icons">equalizer</md-icon>
+                <span translate="trainingPlans.hasOfflineTraining.label"></span>
+            </div>
+            <div flex="none" class="tag measure" ng-repeat="measure in $ctrl.plan.measures">
+                <md-icon class="fill-measure {{measure}} s16" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                <span>{{measure | translate}}</span>
+            </div>
+            <span flex="none" class="tag" ng-repeat="tag in $ctrl.plan.otherTags" translate>{{'trainingPlans.tags.' + tag}}</span>
+            <span flex="none" class="tag" ng-repeat="word in $ctrl.plan.keywords">{{word}}</span>
+        </div>
         <h1 flex="none" class="name md-display-3 md-light font-black center md-padding" ng-bind="$ctrl.plan.name"></h1>
-        <h2 flex="none" class="weekCount md-body-1 md-light center"
+        <h2 flex="none" class="weekCount md-title md-light center"
             translate="trainingPlans.landing.weekCount"
             translate-values="{count: $ctrl.plan.weekCount}"></h2>
         <div flex></div>
@@ -147,7 +172,7 @@
             <div flex="none">
                 <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
             </div>
-            <p flex="none" translate="trainingPlans.landing.howItWorksDescription"></p>
+            <p flex="none" class="md-body-1" translate="trainingPlans.landing.howItWorksDescription"></p>
         </div>
     </section>
     <section id="samples" class="landing-block info" flex="none" ng-if="$ctrl.plan.samples">
@@ -189,7 +214,7 @@
             <span class="md-body-1 md-dark" ng-bind="$ctrl.plan.authorExt.phone"></span>
         </div>
     </section>
-    <section id="authorSearch" class="landing-block bg-grey-100" flex="none">
+    <section id="authorSearch" class="landing-block bg-grey-100" flex="none" layout="column" layout-align="start center">
         <h2 flex="none" class="name md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.authorPlans"></h2>
         <st-training-plans-store-items search-params="$ctrl.authorSearch"
@@ -201,7 +226,7 @@
             <span translate="trainingPlans.landing.more"></span>
         </md-button>
     </section>
-    <section id="similarSearch" class="landing-block bg-grey-200" flex="none">
+    <section id="similarSearch" class="landing-block bg-grey-200" flex="none" layout="column" layout-align="start center">
         <h2 flex="none" class="name md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.similarPlans"></h2>
         <st-training-plans-store-items search-params="$ctrl.similarSearch"

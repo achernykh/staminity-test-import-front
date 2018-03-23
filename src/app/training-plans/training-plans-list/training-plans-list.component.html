@@ -1,14 +1,10 @@
-<md-list id="training-plans-list__table" class="training-plans-list md-dense" ng-if="$ctrl.totalFound > 0 || $ctrl.plans.list.length > 0">
-    <!--<md-subheader ng-if="$ctrl.totalFound > 0">
-        <span translate="trainingPlans.filterResult"></span>
-        <span ng-bind="$ctrl.totalFound"></span>
-    </md-subheader>-->
+<md-list id="training-plans-list__table"
+         class="training-plans-list md-dense bg-grey-100"
+         ng-if="$ctrl.totalFound > 0 || $ctrl.plans.list.length > 0">
     <md-list-item class="md-2-line"
                   ng-click="$ctrl.action($event, plan)"
                   ng-repeat-start="plan in $ctrl.getTrainingPlanList() track by plan.id">
-
         <img ng-if="plan.icon" ng-src="{{'/plan/icon/' | image:plan.icon }}" class="md-avatar" alt="avatar" />
-
         <div  ng-if="!plan.icon" class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
              layout="row" layout-align="center center">
             <md-icon class="s24 md-light"
@@ -16,25 +12,25 @@
             </md-icon>
             <div class="public"></div>
         </div>
-
         <div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
-            <h3> {{ plan.name }} </h3>
-            <p class="md-caption keywords">
-                <span class="keyword" ng-if="plan.distanceType"
+            <p class="md-body-2" style="line-height: 20px"> {{ plan.name }} </p>
+            <p class="md-caption md-truncate" style="font-weight: 400">
+                <span class="tag" ng-if="plan.distanceType"
                       md-colors="{background: 'accent-300'}">
                     {{'competition.distanceType.' + plan.type + '.' + plan.distanceType | translate}}</span>
-                <span class="keyword" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-300'}">
+                <span class="tag" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-300'}">
                     {{'trainingPlans.tags.' + tag | translate}}</span>
-                <span class="keyword" ng-repeat="word in plan.keywords" ng-bind="word"></span>
+                <span class="tag" ng-repeat="word in plan.keywords" ng-bind="word"></span>
             </p>
         </div>
-
-        <md-button ng-if="plan.storeVersion && plan.isPublic"
-                   class="md-secondary md-icon-button"
+        <md-button ng-if="plan.isPublic"
+                   class="md-secondary"
+                   ng-class="{'md-accent md-hue-2': plan.hasUpdateForStore}"
+                   ng-disabled="!plan.hasUpdateForStore"
                    ng-click="$ctrl.publish($event, plan)">
-            <md-tooltip ng-bind="'trainingPlans.hasUpdateForStore' | translate"></md-tooltip>
-            <md-icon class="material-icons">shoping_cart</md-icon>
-            <span>{{plan.storeVersion}}</span>
+            <md-tooltip ng-if="plan.hasUpdateForStore" ng-bind="'trainingPlans.hasUpdateForStore' | translate"></md-tooltip>
+            <md-icon class="material-icons">shopping_cart</md-icon>
+            <span ng-if="plan.storeVersion">V {{plan.storeVersion}}</span>
 
         </md-button>
 

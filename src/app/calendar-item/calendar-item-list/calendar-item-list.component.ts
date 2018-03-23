@@ -17,9 +17,9 @@ class CalendarItemListCtrl implements IComponentController {
     // private
     itemOptions: ICalendarItemDialogOptions;
     // inject
-    static $inject = ['SessionService'];
+    static $inject = ['$sce','SessionService'];
 
-    constructor(private session: SessionService) {
+    constructor(private $sce, private session: SessionService) {
 
     }
 
@@ -47,10 +47,10 @@ class CalendarItemListCtrl implements IComponentController {
     getDescription (item: ICalendarItem): string {
         switch (item.calendarItemType) {
             case 'activity': {
-                return (item.activityHeader.intervals.filter(i => i.type === 'pW')[0] as IActivityIntervalPW).trainersPrescription || null;
+                return this.$sce.trustAsHtml((item.activityHeader.intervals.filter(i => i.type === 'pW')[0] as IActivityIntervalPW).trainersPrescription) || null;
             }
             case 'record': {
-                return item.recordHeader.description || null;
+                return this.$sce.trustAsHtml(item.recordHeader.description) || null;
             }
         }
     }

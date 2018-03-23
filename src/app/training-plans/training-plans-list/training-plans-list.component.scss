@@ -13,6 +13,7 @@
 .training-plans-list {
 
   padding: 16px;
+  padding-bottom: 64px;
 
   &__create {
     position: fixed;
@@ -72,5 +73,7 @@
   th.md-column:first-child {
     width: 36px !important;
   }
+
+  .md-list-item-inner { overflow: hidden; }
 
 }

@@ -150,6 +150,10 @@ ng-quill-editor, .quill {
 		height: auto;
 	}
 
+	.ql-snow .ql-editor iframe, &.quill-data iframe {
+		width: 100%;
+	}
+
 	.ql-editor .ql-video {
 		//width: 100% !important;
 	}

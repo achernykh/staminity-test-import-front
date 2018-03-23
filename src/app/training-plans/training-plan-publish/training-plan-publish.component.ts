@@ -15,7 +15,7 @@ class TrainingPlanPublishCtrl implements IComponentController {
 
     // private
     private dataLoading: boolean = false;
-    private rules = ['profile', 'version', 'background', 'items' ];
+    private rules = ['profile', 'version', 'icon', 'background', 'items' ];
     static $inject = ['TrainingPlansService', 'message'];
 
     constructor(
@@ -33,7 +33,11 @@ class TrainingPlanPublishCtrl implements IComponentController {
     }
 
     get version (): boolean {
-        return !!this.plan.storeRevision || (this.plan.storeRevision < this.plan.histRevision);
+        return !this.plan.storeRevision || (this.plan.storeRevision < this.plan.revision);
+    }
+
+    get icon (): boolean {
+        return !!this.plan.icon;
     }
 
     get background (): boolean {

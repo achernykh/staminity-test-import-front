@@ -41,6 +41,7 @@ export const _translateTrainingPlans = {
             search: 'Поиск',
             myPlans: 'Мои планы'
         },
+        plan: 'Тренировочный план',
         // поля плана
         isPublic: {
             label: 'План на продажу'
@@ -68,6 +69,7 @@ export const _translateTrainingPlans = {
         endDate: {
             label: 'Конечная дата плана'
         },
+        level: 'Уровень',
         tags: {
             label: 'Характеристики плана',
             beginner: 'Новичок',
@@ -84,6 +86,15 @@ export const _translateTrainingPlans = {
         },
         keywords: {
             label: 'Ключевые слова'
+        },
+        isStructured: {
+            label: 'Структурированные тренировки'
+        },
+        hasConsultations: {
+            label: 'Консультации автора'
+        },
+        hasOfflineTraining: {
+            label: 'Очные тренировки'
         },
         assignment: {
             info: "Дата начала плана: {{firstPlanDate | date:'longDate'}}, дата первой записи: {{firstItemDate | date:'longDate'}} </br>" +
@@ -150,7 +161,35 @@ export const _translateTrainingPlans = {
             price: 'Купить {{price}} {{currency}}'
         },
         landing: {
-            weekCount: 'Недель подготовки {{count}}'
+            weekCount: 'Недель подготовки {{count}}',
+            description: 'Описание плана',
+            targetAudience: 'Целевая аудитория',
+            calendarDates: 'Даты плана',
+            flexCalendarDates: 'План не привзян к датам',
+            assignOpportunities: 'Вы сможете присвоить план с любой или по любую дату для подготовки в вашему старту',
+            regularWeek: 'Типовая неделя',
+            offlineTraining: 'Очные тренировки',
+            consultations: 'Консультации с автором',
+            structuredActivity: 'Структурированные тренировки',
+            structuredActivityOpportunities: 'Структурированные тренировки позволяют составить посегментное задание с указанием необходимой интенсивности для конкретного спортсмена. Автор использует относительные значения в % от ПАНО, а спортсмен видит их у себя в абсолютных значениях в соответствии с настройками тренировочных зон. Структурированное задание в аналитике дает четкое понимание выполнения каждого сегмента тренировки.',
+            devices: 'Необходимые девайсы',
+            needHeartRateBelt: 'Для выполнения тренировочной программы необходимо иметь датчик пульса и девайс имеющий интеграцию с Garmin Connect или Strava (Polar, Suunto)',
+            needPowermeter: 'Для выполнения тренировочной программы необходимо иметь датчик мощности и девайс имеющий интеграцию с Garmin Connect или Strava (Polar, Suunto)',
+            syncDescription: 'Подробнее о синхронизации вы можете прочитать по ссылке <a href="#">импорт данных в Стаминити</a>',
+            chart: 'График нагрузки',
+            effortStat: {
+                metricsByDuration: 'Тренировочный обьем по неделям (часы)',
+                metricsByDistance: 'Тренировочный обьем по неделям (км)'
+            },
+            howItWorks: 'Как это работает?',
+            howItWorksDescription: '<ol type="1"><li>Вы приобритаете план</li><li>В пунтке меню Тренировочные планы -> Покупки выбиарате купленный план и присваиваете в необходмиые даты своего календаря</li><li>Если вы используете средства записи тренировке, то выполняете настройку в меню Настройки -> Интеграция</li><li>Настраиваете тренировочные зоны</li><li>Скачиваете мобильное приложение и ваш план всегда под рукой</li><li>Отслеживаете свой прогресс выполнения с помощью аналитики</li></ol>',
+            samples: 'Примеры записей плана',
+            samplesDescription: '',
+            extDescription: 'Дополнительная информация',
+            authorPlaceholder: 'Автор плана',
+            authorPlans: 'Еще планы автора',
+            similarPlans: 'Похожие планы',
+            more: 'Показать еще'
         },
         planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения",
         info: {

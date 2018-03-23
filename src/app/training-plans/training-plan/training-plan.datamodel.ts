@@ -2,10 +2,9 @@ import moment from 'moment/min/moment-with-locales.js';
 import { Moment } from 'moment';
 import {
     ITrainingPlan,
-    ITrainingPlanReview,
-    TrainingPlanSearchResultItem,
-    TrainingPlanSearchResultAuthor, ITrainingPlanAssignment, IMonetaAssistantFormData
-} from "../../../../api/trainingPlans";
+    ITrainingPlanReview, ITrainingPlanAssignment, IMonetaAssistantFormData
+} from "../../../../api/trainingPlans/training-plans.interface";
+import { TrainingPlanSearchResultItem, TrainingPlanSearchResultAuthor } from "../../../../api/trainingPlans/training-plans.protocol";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfileShort } from "../../../../api/user/user.interface";
@@ -73,7 +72,6 @@ export class TrainingPlan implements ITrainingPlan {
     constructor (params?: Object | ITrainingPlan | Array<any>, private config?: TrainingPlanConfig) {
 
         if ( Array.isArray(params) ) {
-            debugger;
             Object.keys(new TrainingPlanSearchResultItem()).map((k: string, i: number) => this[k] = params[i]);
         } else {
             Object.assign(this, params);
@@ -133,7 +131,7 @@ export class TrainingPlan implements ITrainingPlan {
 
     get firstDate (): Date {
         return this.isFixedCalendarDates && this._startDate ||
-            new Date(moment(this.firstCalendarItem.dateStart).startOf('week'));
+            new Date(moment(this.firstCalendarItem && this.firstCalendarItem.dateStart || '3000.01.01').startOf('week'));
     }
 
     get endDate (): Date {
@@ -330,8 +328,8 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get hasUpdateForStore (): boolean {
-        return (this.histRevision && this.storeRevision && this.histRevision > this.storeRevision) ||
-            (this.histRevision && !this.storeRevision);
+        return (this.revision && this.storeRevision && this.revision > this.storeRevision) ||
+            (this.revision && !this.storeRevision);
     }
 
 }
