@@ -219,7 +219,13 @@
                     <md-tab-label><span translate="trainingPlans.tabs.commerce"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
                         <form name="$ctrl.commerceForm" layout="column" layout-fill>
-                            <section flex="none" ng-style="$ctrl.plan.backgroundStyle"
+                            <section flex="none" ng-if="$ctrl.isPostMode"
+                                     layout="column" layout-align="space-between stretch"
+                                     class="md-padding landing bg-grey-200">
+                                <p flex="none" class="md-body-1" translate="trainingPlans.forUploadNeedSave"></p>
+                            </section>
+                            <section ng-if="!$ctrl.isPostMode"
+                                     flex="none" ng-style="$ctrl.plan.backgroundStyle"
                                      layout="column" layout-align="space-between stretch"
                                      class="md-padding landing">
                                 <section flex="none" layout="row" layout-align="center start">
