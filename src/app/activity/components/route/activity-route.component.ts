@@ -16,8 +16,9 @@ class ActivityRouteCtrl implements IComponentController {
     }
 
     $onChanges(change: any): void {
-        if (!change.select.isFirstChange()) {
-            this.$onInit();
+        if ((change.select && !change.select.isFirstChange()) ||
+            (change.refresh && !change.refresh.isFirstChange())) {
+            setTimeout(() => this.$onInit(), 100);
         }
     }
 
@@ -40,7 +41,8 @@ class ActivityRouteCtrl implements IComponentController {
 const ActivityRouteComponent: IComponentOptions = {
 
     controller: ActivityRouteCtrl,
-    template: `<leaflet width="100%" height="20vh"
+    template: `<leaflet width="100%"
+                        height="100%"
                         paths="$ctrl.map.paths"
                         layers="$ctrl.map.layers"
                         markers="$ctrl.map.markers"
@@ -48,6 +50,7 @@ const ActivityRouteComponent: IComponentOptions = {
     bindings: {
         data: "<",
         select: "<",
+        refresh: "<",
         zoomEnabled: "<",
         layerEnabled: "<",
     },

@@ -22,7 +22,7 @@ const DefaultChartSettings: IActivityChartSettings = {
     },
     //xMeasures: [''],
     heartRate: {
-        order: 3,
+        order: 23,
         flippedChart: false,
         zoomOffset: 5,
         area: {
@@ -70,11 +70,11 @@ const DefaultChartSettings: IActivityChartSettings = {
             tickMinStep: 5,
             tickMinDistance: 10,
             ticksPerLabel: 2,
-            hideOnWidth: 3000,
+            hideOnWidth: 0,
         },
     },
     strokes: {
-        order: 4,
+        order: 2,
         flippedChart: false,
         zoomOffset: 5,
         area: {
@@ -93,14 +93,14 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: "#FFB74D",
-            tickMinStep: 5,
+            tickMinStep: 1,
             tickMinDistance: 10,
             ticksPerLabel: 2,
-            hideOnWidth: 3000,
+            hideOnWidth: 0,
         },
     },
     speed: {
-        order: 2,
+        order: 24,
         flippedChart: false,
         zoomOffset: 0.2,
         area: {
@@ -126,7 +126,7 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
     },
     pace: {
-        order: 2,
+        order: 24,
         flippedChart: false,
         zoomOffset: 0,
         area: {
@@ -145,14 +145,18 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: "#5677fc",
-            tickMinStep: 0.03, // 00:30 min/km
-            tickMinDistance: 50,
+            tickMinStep: (sport) => sport === 'swim' ? 0.005 : 0.03, // 00:30 min/km
+            tickMinDistance: 30,
             ticksPerLabel: 1,
             hideOnWidth: 0,
+            multiplex: (x, sport) => sport === 'swim' ?
+                1000 / ((Math.ceil(1000 / (x * 10) / 60 / 0.08333) * 0.08333) * 10) / 60 :
+                1000 / (Math.ceil(1000 / x / 60 / 0.5) * 0.5) / 60,
+            //multiplex: (x) => 1000 / (Math.ceil(1000 / x / 60 / 0.5) * 0.5) / 60
         },
     },
     power: {
-        order: 1,
+        order: 25,
         flippedChart: false,
         zoomOffset: 0,
         area: {
@@ -182,9 +186,12 @@ const DefaultChartSettings: IActivityChartSettings = {
         flippedChart: false,
         zoomOffset: 0,
         area: {
-            heightRatio: 0.25,
-            fillType: FillType.Solid,
-            solidColor: "#F5F5F5",
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "#BDBDBD", opacity: 0.4 },
+                { offset: "100%", color: "#F5F5F5", opacity: 0.1 },
+            ],
             lineColor: "#BDBDBD",
             lineWidth: 2,
         },
@@ -194,10 +201,10 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: "#8d8d8d",
-            tickMinStep: 5,
-            tickMinDistance: 30,
-            ticksPerLabel: 1,
-            hideOnWidth: 3000,
+            tickMinStep: 1,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0,
         },
     },
     duration: {

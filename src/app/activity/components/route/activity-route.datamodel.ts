@@ -18,6 +18,10 @@ class ActivityRouteDatamodel implements IComponentController {
 
     constructor(data: any[], selection: any[] = []) {
 
+        this.layers = {};
+        this.markers = {};
+        this.paths = {};
+
         this.route = data.map((d) => ({lng: d.lng, lat: d.lat}));
         this.startTimestamp = (selection.length > 0 && selection[0].startTimestamp) || null;
         this.endTimestamp = (selection.length > 0 && selection[0].endTimestamp) || null;

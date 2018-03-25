@@ -1,5 +1,5 @@
 <md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
-    <div class="md-toolbar-tools" ng-cloak>
+    <div class="md-toolbar-tools">
         <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 6}}"
                  md-position-mode="target-right target" md-offset="0 60">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -39,7 +39,7 @@
         </md-menu>
         <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.template.title' : 'activity.title'}}"></h2>
         <span flex flex-order="3"></span>
-        <userpic flex-order="4" class="border-light"
+        <userpic flex-order="4" class="border-light" ng-if="false"
                  profile="$ctrl.item.activity.athletes.first()"
                  is-premium="$ctrl.item.activity.athletes.first().isPremium"
                  unlink="true"></userpic>

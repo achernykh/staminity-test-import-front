@@ -3,6 +3,10 @@
     <md-icon class="material-icon">directions</md-icon>
     <p class="md-body-2" translate="activity.details.map.title"></p>
     <span flex></span>
+    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.mapZoom = !$ctrl.mapZoom">
+        <md-icon class="md-secondary material-icon md-dark"
+                 ng-bind="$ctrl.mapZoom ? 'fullscreen_exit': 'fullscreen'"></md-icon>
+    </md-button>
     <md-button class="md-icon-button"
                ng-click="$ctrl.toggleMap()">
         <md-icon class="md-secondary material-icon md-dark"
@@ -10,22 +14,24 @@
     </md-button>
 </header>
 
-<section flex="none" class="map"
+<section flex="none" class="map" ng-class="{'zoom': $ctrl.mapZoom}"
          ng-if="$ctrl.showMap && !$ctrl.fullScreenTable && $ctrl.item.activity.details.isRouteExist"
          ng-switch="$ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
     <div flex="none" class="loading-map" ng-switch-when="false"
          layout="column" layout-align="center center">
-        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <md-progress-circular class="md-primary" md-diameter="20px"></md-progress-circular>
         <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
     </div>
     <activity-route flex="none" ng-switch-when="true"
                     class="map activity-route"
                     data="$ctrl.item.activity.details.route"
                     select="$ctrl.item.selectionTimestamp"
+                    refresh="$ctrl.mapZoom"
                     zoom-enabled="true" layer-enabled="true">
     </activity-route>
 </section>
-<md-divider flex="none" ng-if="$ctrl.showMap && !$ctrl.fullScreenTable"></md-divider>
+<md-divider flex="none"
+            ng-if="$ctrl.showMap && !$ctrl.fullScreenTable && $ctrl.item.activity.details.isRouteExist"></md-divider>
 
 <!-- График показателей -->
 <header flex="none" layout="row" layout-align="start center" ng-if="!$ctrl.fullScreenTable">
@@ -95,7 +101,7 @@
          layout="column">
     <div flex="none" class="loading-chart" ng-switch-when="false"
          layout="column" layout-align="center center">
-        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <md-progress-circular class="md-primary" md-diameter="20px"></md-progress-circular>
         <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
     </div>
     <activity-metrics-char flex="auto" ng-switch-when="true"
@@ -151,13 +157,13 @@
     </md-button>
 </header>
 
-<section flex layout="column" class="splits"
+<section flex="none" layout="column" class="splits"
          ng-if="$ctrl.showTable"
          ng-switch="$ctrl.item.activity.hasIntervalDetails">
 
     <div ng-switch-when="false"
          flex class="loading-table" layout="column" layout-align="center center">
-        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
+        <md-progress-circular class="md-primary" md-diameter="20px"></md-progress-circular>
         <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
     </div>
 

@@ -5,6 +5,7 @@ import AuthService from "../auth/auth.service";
 import { IUserProfile } from "../../../api/user/user.interface";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
+import {IActivityIntervalW} from "@api/activity";
 
 export class CalendarItemDialogService {
 
@@ -246,9 +247,16 @@ export class CalendarItemDialogService {
     }
 
     private activityDialogOptions (env: Event, options: ICalendarItemDialogOptions, item: ICalendarItem): any {
+        const hasActualData: boolean = item && item.activityHeader && item.activityHeader.intervals &&
+            item.activityHeader.intervals.some(i => i.type === 'W') &&
+            (item.activityHeader.intervals.filter(i => i.type === 'W')[0] as IActivityIntervalW).actualDataIsImported || false ;
+
         return Object.assign(this.defaultDialogOptions, {
-            template: `<md-dialog id="post-activity" aria-label="Activity">
-                            <calendar-item-activity layout="row" class="calendar-item-activity"
+            template: `<md-dialog id="post-activity" aria-label="Activity" layout="column" layout-align="center center">
+                            <calendar-item-activity
+                                    flex="none" layout="row"
+                                    class="calendar-item-activity"
+                                    ng-class="{'has-actual-data': $ctrl.hasActualData}"
                                     data="$ctrl.item"
                                     options="$ctrl.options"
                                     on-cancel="cancel()" on-answer="answer(formMode, item)">
@@ -257,6 +265,7 @@ export class CalendarItemDialogService {
             targetEvent: env,
             locals: {
                 item: item,
+                hasActualData: hasActualData,
                 options: Object.assign(options, {
                     isPro: this.isPro,
                     athleteList: this.getAthleteList(options.currentUser, options.owner)

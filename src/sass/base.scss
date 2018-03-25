@@ -276,8 +276,11 @@ md-pagination-wrapper {
 // Сейчас используется дл плитки в календаре, дэшборде
 .calendar-item-activity-header, .calendar-item-competition-header {
   color: white;
-  background-color: $grey-500;
+  background-color: $grey-300;
   transition: background-color 0.3s 0.1s;
+  &.not-specified {
+    background-color: #cecece;
+  }
   &.complete {
     background: $bg-teal-gradient-800-500 !important;
     &.list-view, &.dashboard-view {
@@ -326,7 +329,7 @@ md-pagination-wrapper {
       background-color: $red-800 !important;
     }
   }
-  &.not-specified {
+  /**&.not-specified {
     background: $bg-blue-grey-gradient-600-400 !important;
     &.list-view, &.dashboard-view {
       background: $blue-grey-500 !important;
@@ -340,7 +343,7 @@ md-pagination-wrapper {
     .calendar-item-activity-icon {
       background-color: $blue-grey-700 !important;
     }
-  }
+  }**/
 }
 
 .calendar-item-activity-icon, .calendar-item-competition-icon {

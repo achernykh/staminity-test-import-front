@@ -1,7 +1,9 @@
-<div class="{{$ctrl.item.activity.status}}">
-    <div layout="row">
+<div class="calendar-item-activity-header {{::$ctrl.item.activity.status}}"
+     style="padding: 16px"
+     ng-class="::{'md-dark' : ($ctrl.item.activity.isComing || !$ctrl.item.activity.isSpecified)}">
+    <div layout="row" >
         <div flex="none" layout="row" layout-align="center center"
-             class="bg-circle-56 bg-blue-grey-A700">
+             class="bg-circle-56 calendar-item-activity-icon color-{{$ctrl.item.activity.header.sportBasic}}">
             <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"
                      class="s36 light-active"></md-icon>
             <md-icon ng-if="$ctrl.item.activity.isStructured && false"
@@ -23,6 +25,7 @@
             </div>
         </div>
         <div flex="auto" layout="column" class="summary-info">
+            <div flex="none">{{$ctrl.item.activity.auth.owner | userName}}</div>
             <div flex="none" ng-if="$ctrl.item.activity.header.category">{{$ctrl.item.activity.header.category | categoryCode}}</div>
             <div flex="none">
                 <!-- | calcTimezoneTime:$ctrl.item.user.display.timezone -->

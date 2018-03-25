@@ -17,6 +17,7 @@ class ActivityMetricsDetailsCtrl implements IComponentController {
     private showMap: boolean = true;
     private showChart: boolean = true;
     private showTable: boolean = true;
+    private mapZoom: boolean = false;
     private fullScreenTable: boolean = false;
     private zoomIn: number = 0;
     private zoomOut: number = 0;
