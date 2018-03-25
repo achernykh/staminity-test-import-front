@@ -48,6 +48,12 @@
                             <span translate="activity.action.copy"></span>
                         </md-button>
                     </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.activity.hasActualData">
+                        <md-button ng-click="$ctrl.split($ctrl.item)" ng-disabled="true">
+                            <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>
+                            <span translate="activity.action.split"></span>
+                        </md-button>
+                    </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.delete()"
                                    ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
@@ -62,7 +68,11 @@
     </section>
     <!-- Элемент дня календаря -->
     <section ng-switch-when="calendar" class="activity-compact__calendar"
-             ng-click="$ctrl.open($event)">
+             ng-click="$ctrl.open($event)"
+             dnd-list="items"
+             dnd-drop="callback({operation: 'merge', trgItemId: $ctrl.activity.calendarItemId})"
+             dnd-allowed-types="['itemType']">
+        <div class="dropzone" style="width: 100%; background: red; height: 15px; border-bottom: 1px solid white" ng-repeat="item in [0,1,2,3,4,5,6]"></div>
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="calendar-item-activity-header {{::$ctrl.activity.status}}"
                 ng-class="{selected: $ctrl.selected}">
@@ -98,6 +108,13 @@
                                 <span translate="activity.action.copy"></span>
                             </md-button>
                         </md-menu-item>
+                        <md-menu-item ng-if="$ctrl.activity.hasActualData && $ctrl.activity.isSpecified">
+                            <md-button ng-click="$ctrl.split($ctrl.item)">
+                                <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>
+                                <span translate="activity.action.split"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-divider></md-divider>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.delete()"
                                        ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">

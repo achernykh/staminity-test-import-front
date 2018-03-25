@@ -41,7 +41,9 @@
         </md-input-container>
     </md-list-item>
 </md-list>
-<section layout="column" class="template-list__data">
+<section layout="column" class="template-list__data"
+         dnd-list="items"
+         dnd-allowed-types="['itemType','user-template']">
     <activity-template ng-repeat="template in $ctrl.templatesByOwner track by template.id"
                        class=""
                        flex="none"
