@@ -1,56 +1,116 @@
 import {IComponentController, IComponentOptions, ILocationService, IPromise, IScope} from "angular";
 import {
-    SearchMethod, SearchParams, SearchResultByGroup,
-    SearchResultByUser,
+    SearchMethod, SearchParams
 } from "../../../api/search/search.interface";
-import * as _connection from "../core/env.js";
 import MessageService from "../core/message.service";
 import "./search.component.scss";
 import {SearchService} from "./search.service";
+import {IUserProfile} from "@api/user";
+import {Subject} from "rxjs/Rx";
+import AuthService from "@app/auth/auth.service";
 
 class SearchCtrl implements IComponentController {
 
+    // bind
     data: any;
     readonly method: SearchMethod = "byParams";
 
-    params: SearchParams = {objectType: "user"};
-    type: string[] = ["user", "coach", "club"]; //,'club','group'];
-    result: Array<SearchResultByUser | SearchResultByGroup>;
-    order: string = "name";
+    // public
+    leftBarShow: boolean = true;
+    rightBarShow: boolean = false;
 
-    options: Object = {
-        rowSelection: false,
-        multiSelect: false,
-        autoSelect: false,
-        decapitate: false,
-        largeEditDialog: false,
-        boundaryLinks: false,
-        limitSelect: false,
-        pageSelect: false,
-    };
+    // private
+    private user: IUserProfile;
+    private searchParams: SearchParams = {};
+    private destroy: Subject<any> = new Subject();
+    private navBarStates: Array<string> = ['users','coaches','clubs'];
+    private currentState: string = 'users';
+    private usersFilter: SearchParams = {};
+    private coachesFilter: SearchParams = {objectType: 'coach'};
+    private clubsFilter: SearchParams = {objectType: 'club'};
+    private usersFilterChange: number = 0;
+    private coachesFilterChange: number = 0;
+    private clubsFilterChange: number = 0;
+    private leftPanel: boolean;
+    private cardView: boolean;
+    private readonly urlKeys: Array<string> = ['objectType', 'name', 'country', 'city', 'activityTypes'];
 
-    onEvent: (response: Object) => IPromise<void>;
-    static $inject = ["$scope", "$stateParams", "$location", "search", "message"];
+    static $inject = ["$mdMedia", "$stateParams", "$location" , "AuthService", "SearchService", "message"];
 
-    constructor(private $scope: IScope,
+    constructor(
+                private $mdMedia,
                 private $stateParams: any,
                 private $location: ILocationService,
-                private search: SearchService,
+                private authService: AuthService,
+                private searchService: SearchService,
                 private message: MessageService) {
 
     }
 
     $onInit() {
-        this.$scope["order"] = "name";
-        const urlSearch = this.$location.search();
-        if (urlSearch && urlSearch.hasOwnProperty("objectType") && urlSearch.objectType) {
-            this.params = urlSearch;
-            this.onSearch(this.params);
-        }
-        this.updateUrl(this.params);
+        this.prepareUrlParams();
+        this.prepareStates();
     }
 
-    onDetails(uri: string, url: string = `${window.location.origin}/`) {
+    private prepareUrlParams (): void {
+        let clearStateParams = {};
+        Object.keys(this.$stateParams).map(k => this.$stateParams[k] && (clearStateParams[k] = this.$stateParams[k]));
+        let search: Object = Object.assign(this.$location.search(), clearStateParams);
+        ['objectType'].map(p => this.usersFilter[p] = search[p] || null);
+        //['objectType', 'name', 'country', 'city'].map(p => this.usersFilter[p] = search[p] || null);
+        //['activityTypes'].map(p => search[p] && (this.usersFilter[p] = Array.isArray(search[p]) ? search[p] : [search[p]]));
+
+        this.leftPanel = search['leftPanel'] || this.$mdMedia('gt-sm') ? true : false;
+        this.cardView = search['cardView'] || true;
+
+        Object.assign(this.usersFilter, {objectType: 'user'});
+    }
+
+    private prepareStates(): void {
+        this.setState(this.$stateParams.hasOwnProperty('state') &&
+        this.$stateParams.state ? this.$stateParams.state : this.currentState);
+    }
+
+    private setState (state: string): void {
+        if (this.navBarStates.indexOf(state) === -1) { return; }
+        this.currentState = state;
+        this.$location.search('state', state);
+    }
+
+    private showLeftPanel (): boolean {
+        return this.$mdMedia('gt-sm') && this.leftPanel;
+    }
+
+    private authCheck (): boolean {
+        return this.authService.isAuthenticated();
+    }
+
+    changeUsersFilter (filter: SearchParams): void {
+        this.usersFilter = filter;
+        this.usersFilterChange++;
+        Object.keys(this.usersFilter).map(k => this.$location.search(k, this.usersFilter[k]));
+    }
+
+    filter (e: Event): void {
+        if (this.$mdMedia('gt-sm')) {
+            this.leftPanel = !this.leftPanel;
+            this.$location.search('leftPanel', this.leftPanel);
+        } else {
+            //this.trainingPlanDialog.filter(e, this.storePlansFilter)
+            //    .then(response => this.changeStorePlansFilter(response));
+        }
+    }
+
+    view (): void {
+        this.cardView = !this.cardView;
+        this.$location.search('cardView', this.cardView);
+    }
+
+
+
+
+
+    /*onDetails(uri: string, url: string = `${window.location.origin}/`) {
 
         switch (this.params.objectType) {
             case "user": case "coach": {
@@ -82,7 +142,7 @@ class SearchCtrl implements IComponentController {
 
     updateUrl(params: SearchParams) {
         this.$location.search(params);
-    }
+    }*/
 }
 
 const SearchComponent: IComponentOptions = {

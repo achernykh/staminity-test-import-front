@@ -1,12 +1,21 @@
 export let _translateSearch = {
     ru: {
-        fullTitle: "Поиск пользователей и групп",
+        fullTitle: "Поиск",
         shortTitle: "Поиск",
         user: "Найти пользователя",
         coach: "Найти тренера",
         club: "Найти клуб",
         group: "Найти группу",
-        go: "Поиск"
+        go: "Поиск",
+        actions: {
+            hidePanel: 'Скрыть',
+            showPanel: 'Показать'
+        },
+        tabs: {
+            users: 'Пользователи',
+            coaches: 'Тренера',
+            clubs: 'Клубы'
+        }
 
     },
     en: {

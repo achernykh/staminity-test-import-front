@@ -1,0 +1,15 @@
+<md-list class="md-dense" flex="auto">
+    <!-- Имя -->
+    <md-list-item>
+        <md-input-container class="md-block no-message" layout="row">
+            <label translate="search.name.label"></label>
+            <input flex="auto"
+                   name="name"
+                   type="text"
+                   ng-change="$ctrl.change()"
+                   ng-model="$ctrl.filter.name"
+                   ng-model-options="{ debounce: 300 }">
+        </md-input-container>
+    </md-list-item>
+
+</md-list>

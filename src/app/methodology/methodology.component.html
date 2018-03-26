@@ -1,12 +1,12 @@
 <st-application-frame
         ng-cloak
         class="methodology st-application-frame"
-        ng-class="{'left-bar-show': $ctrl.checkAuth()}"
+        ng-class="{'left-bar-show': $ctrl.checkAuth(), 'nav-bar': true}"
         template="application"
         navigation-bar="true"
         left-bar="$ctrl.checkAuth()"
 
-        nav-bar="true"
+
         nav-bar-state="$ctrl.currentState"
         ng-switch="$ctrl.currentState">
 

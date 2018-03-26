@@ -6,20 +6,23 @@ $app-toolbar-height: 64px;
 $app-toolbar-height-mobile: 56px;
 $app-nav-bar-height: 48px;
 $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
+$app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
 
 .st-application-frame {
   /**
   Шаблон с Навигационной панелью
    */
-  &[nav-bar=true] {
+  &[nav-bar] {
     
     .st-application-frame__primary-toolbar {
-      height: $app-max-bar-height;
+      height: $app-max-bar-height-mobile;
+      @media (min-width: 960px) { height: $app-max-bar-height; }
     }
     
     .st-application-frame__left-bar, .st-application-frame__right-bar {
-      top: $app-max-bar-height;
+      top: $app-max-bar-height-mobile;
       height: calc(100vh - 64px - 48px);
+      @media (min-width: 960px) { top: $app-max-bar-height; }
     }
 
     .st-application-frame__navbar {
@@ -27,10 +30,12 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     }
 
     .st-application-frame__content {
-      top: $app-max-bar-height;
-      min-height: calc(100vh - 64px - 48px);
+      top: $app-max-bar-height-mobile;
+      @media (min-width: 960px) { top: $app-max-bar-height; }
+      height: calc(100vh - 64px - 48px);
+      overflow-y: auto;
     }
-    
+
   }
 
   /**
@@ -56,17 +61,18 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
 
     .st-application-frame__content {
       top: 30vh;
-      min-height: calc(100vh - 30vh);
+      height: calc(100vh - 30vh);
+      overflow-y: auto;
 
       @media (max-width: 959px) {
         top: 20vh;
-        min-height: calc(100vh - 20vh);
+        height: calc(100vh - 20vh);
       }
 
     }
 
     // Шаблон профиля с навигационной панелью
-    &[nav-bar=true] {
+    &[nav-bar] {
       .st-profile-template__header > .info {
         height: calc(100% - 48px);
         overflow: hidden;
@@ -137,12 +143,13 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
   &__navbar {
     display: none;
     position: fixed;
-    top: $app-toolbar-height;
+    top: $app-toolbar-height-mobile;
     width: 100%;
     z-index: 4;
+    @media (min-width: 960px) {top: $app-toolbar-height}
 
     .md-nav-bar {
-      margin-left: 54px;
+      @media (min-width: 960px) { margin-left: 54px; }
     }
 
     .md-button._md-nav-button.md-unselected {
@@ -220,9 +227,13 @@ $app-max-bar-height: $app-toolbar-height + $app-nav-bar-height;
     background-color: $grey-300;
     top: $app-toolbar-height;
     min-height: calc(100vh - 64px);
+    height: calc(100vh - 64px);
+    overflow-y: auto;
     @media (max-width: 959px) {
       top: $app-toolbar-height-mobile;
       min-height: calc(100vh - 56px);
+      height: calc(100vh - 56px);
+      overflow-y: auto;
     }
     &.left-bar {
       margin-left: $app-sidenav-desktop-width;

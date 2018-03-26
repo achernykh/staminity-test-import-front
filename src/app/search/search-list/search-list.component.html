@@ -1,0 +1,31 @@
+<!-- Выполняется поиск -->
+<section class="search-list__loading"
+         ng-if="$ctrl.isLoadingState && false"
+         layout-fill layout="column" layout-align="center center">
+    <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="search.loading"></p>
+</section>
+
+<!-- Данных нет -->
+<section class="search-list__empty"
+         ng-if="$ctrl.isEmptyState && false"
+         layout-fill layout="column" layout-align="center center">
+    <md-icon flex="none" class="material-icons md-dark md-inactive" ng-bind="'hourglass_empty'"></md-icon>
+    <p flex="none" class="md-body-1 md-dark" translate="search.emptyList"></p>
+</section>
+
+<md-virtual-repeat-container id="vertical-container"
+                             ng-if="$ctrl.isDataState || true" class="search-list__data bg-grey-100">
+    <md-list class="md-dense" style="">
+        <md-list-item class="md-2-line"
+                      ng-click="$ctrl.action($event, plan)"
+                      md-virtual-repeat="item in $ctrl.dynamicItems" md-on-demand>
+            <img flex="none" ng-src="{{item.icon}}" class="st-avatar" alt="avatar"/>
+            <div class="md-list-item-text">
+                <p class="md-body-2" style="line-height: 20px">{{item | userName}}</p>
+                <p class="md-caption md-truncate" style="font-weight: 400">{{item.private.about | htmlToPlainText}}</p>
+            </div>
+        </md-list-item>
+    </md-list>
+</md-virtual-repeat-container>
+

@@ -116,7 +116,7 @@ const ApplicationFrameComponent:IComponentOptions = {
         leftBar: '<', // наличие левой панели: true | false
         rightBar: '<', // наличие правой панели: true | false
 
-        navBar: '=', // наличие навигационной панели md-nav-bar
+        navBar: '<', // наличие навигационной панели md-nav-bar
         navBarState: '<', // текущий стейт в панели md-nav-bar
         leftBarShow: '<',
         /**

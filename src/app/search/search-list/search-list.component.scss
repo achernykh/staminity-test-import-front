@@ -1,0 +1,9 @@
+.search-list {
+  &__loading, &__empty, &__data {
+    min-height: calc(100vh - 124px);
+  }
+  &__data {
+    margin: 16px 16px 0 16px;
+    border-radius: 3px 3px 0 0;
+  }
+}
