@@ -40,19 +40,27 @@ class SearchListCtrl implements IComponentController {
     }
 
     prepareData () {
-        //this.isLoadingData = true;
-        this.dynamicItems = new DynamicItems(this.searchService, this.searchParams);
-        /*this.searchService.request('byParams', this.searchParams)
-            .then(result => this.items = result, e => {debugger;})
-            .then(_ => this.isLoadingData = false);*/
+        if (this.searchParams.hasOwnProperty('activityTypes') && this.searchParams.activityTypes.length === 0) {
+            this.searchParams.activityTypes = undefined;
+        }
+        if (this.cardView) {
+            this.isLoadingData = true;
+            this.searchService.request('byParams', this.searchParams, this.limit, 0)
+                .then(result => this.items = result, e => {debugger;})
+                .then(_ => this.isLoadingData = false);
+        } else {
+            this.dynamicItems = new DynamicItems(this.searchService, this.searchParams);
+        }
     }
 
     get isLoadingState (): boolean {
-        return this.dynamicItems.isLoadingData;
+        return (!this.cardView && this.dynamicItems.isLoadingData) ||
+            (this.cardView && this.isLoadingData);
     }
 
     get isEmptyState (): boolean {
-        return !this.dynamicItems.isLoadingData && (!this.dynamicItems || this.dynamicItems.items.length === 0);
+        return (this.cardView && !this.isLoadingData && this.items.length === 0) ||
+            (!this.cardView && !this.dynamicItems.isLoadingData && this.dynamicItems.numItems === 0);
     }
 
     get isDataState (): boolean {
@@ -82,12 +90,13 @@ export const SearchListComponent:IComponentOptions = {
 // Using a plain object works too. All that matters
 // is that we implement getItemAtIndex and getLength.
 class DynamicItems {
-
-    numLoaded: number = 0;
-    toLoad: number = 0;
+    /**
+     * @type {!Object<?Array>} Data pages, keyed by page number (0-index).
+     */
+    loadedPages = {};
+    /** @type {number} Total number of items. */
+    numItems = 0;
     isLoadingData: boolean = false;
-    items: Array<any> = [];
-    offset: number = 0;
 
     constructor(
         private searchService: SearchService,
@@ -97,22 +106,33 @@ class DynamicItems {
     }
     // Required.
     getItemAtIndex (index) {
-        if (index > this.numLoaded) {
-            this.fetchMoreItems(index);
-            return null;
+        var pageNumber = Math.floor(index / this.limit);
+        var page = this.loadedPages[pageNumber];
+
+        if (page) {
+            return page[index % this.limit];
+        } else if (page !== null) {
+            this.fetchPage(pageNumber);
         }
-        return this.items[index];
     };
     // Required.
-    // For infinite scroll behavior, we always return a slightly higher
-    // number than the previously loaded items.
-    getLength () { return this.items.length + 5; };
+    getLength () { return this.numItems + 5; };
 
-    fetchMoreItems (index) {
+    fetchPage (pageNumber) {
+        // Set the page to null so we know it is already being fetched.
+        this.loadedPages[pageNumber] = null;
+        // For demo purposes, we simulate loading more items with a timed
+        // promise. In real code, this function would likely contain an
+        // $http request.
         this.isLoadingData = true;
-        this.searchService.request('byParams', this.params, this.limit, this.offset)
-            .then(result => this.items.push(...result), e => {debugger;})
-            .then(_ => this.offset = this.offset + this.limit)
+        this.loadedPages[pageNumber] = [];
+        let pageOffset = pageNumber * this.limit;
+
+        this.searchService.request('byParams', this.params, this.limit, pageOffset)
+            .then(result => {
+                this.loadedPages[pageNumber] = result;
+                this.numItems = this.numItems + result.length;
+            }, e => {debugger;})
             .then(_ => this.isLoadingData = false);
     }
 

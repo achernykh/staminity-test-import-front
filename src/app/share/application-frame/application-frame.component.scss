@@ -32,7 +32,7 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     .st-application-frame__content {
       top: $app-max-bar-height-mobile;
       @media (min-width: 960px) { top: $app-max-bar-height; }
-      height: calc(100vh - 64px - 48px);
+      height: auto;//calc(100vh - 64px - 48px);
       overflow-y: auto;
     }
 
@@ -226,13 +226,13 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     width: auto;
     background-color: $grey-300;
     top: $app-toolbar-height;
-    min-height: calc(100vh - 64px);
-    height: calc(100vh - 64px);
+    min-height: auto;//calc(100vh - 64px);
+    height: auto;//calc(100vh - 64px);
     overflow-y: auto;
     @media (max-width: 959px) {
       top: $app-toolbar-height-mobile;
-      min-height: calc(100vh - 56px);
-      height: calc(100vh - 56px);
+      min-height: auto;//calc(100vh - 56px);
+      height: auto;//calc(100vh - 56px);
       overflow-y: auto;
     }
     &.left-bar {

@@ -85,7 +85,7 @@ const _userName = () => (user, options) => maybe(user) (prop('public')) (
  * compact: Имя и первую букву Фамилии
  * full: Имя и Фамилию
  */
-const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
+export const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
     if (
         !profile ||
         !profile.hasOwnProperty('public') ||

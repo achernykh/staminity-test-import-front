@@ -14,7 +14,7 @@ class SearchFilterCtrl implements IComponentController {
     }
 
     $onInit () {
-        //this.filter.activityTypes = this.filter.activityTypes || null;
+        //this.filter.activityTypes = this.filter.activityTypes || [];
     }
 
     private change (): void {

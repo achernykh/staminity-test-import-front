@@ -419,3 +419,30 @@ md-pagination-wrapper {
   }
 }
 
+.tags {
+  font-weight: 400 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.tag {
+  padding: 2px 8px;
+  background: $grey-300;
+  border-radius: 10px;
+  margin: 2px 4px 2px 0px;
+  line-height: 20px !important;
+
+  &.distance-type {
+
+  }
+
+  // уровень спортсмена для тренировочного плана
+  &.level {
+    color: white;
+    &.beginner { background-color: $teal-700 }
+    &.advanced { background-color: $deep-orange-700 }
+    &.pro { background-color: $red-700 }
+  }
+}
+
+

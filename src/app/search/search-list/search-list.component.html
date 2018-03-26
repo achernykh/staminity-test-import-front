@@ -1,6 +1,6 @@
 <!-- Выполняется поиск -->
 <section class="search-list__loading"
-         ng-if="$ctrl.isLoadingState && false"
+         ng-if="$ctrl.isLoadingState"
          layout-fill layout="column" layout-align="center center">
     <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
     <p flex="none" class="md-body-1 md-dark" translate="search.loading"></p>
@@ -8,24 +8,75 @@
 
 <!-- Данных нет -->
 <section class="search-list__empty"
-         ng-if="$ctrl.isEmptyState && false"
+         ng-if="$ctrl.isEmptyState"
          layout-fill layout="column" layout-align="center center">
     <md-icon flex="none" class="material-icons md-dark md-inactive" ng-bind="'hourglass_empty'"></md-icon>
     <p flex="none" class="md-body-1 md-dark" translate="search.emptyList"></p>
 </section>
 
-<md-virtual-repeat-container id="vertical-container"
-                             ng-if="$ctrl.isDataState || true" class="search-list__data bg-grey-100">
-    <md-list class="md-dense" style="">
-        <md-list-item class="md-2-line"
+<md-virtual-repeat-container id="vertical-container" ng-if="!$ctrl.cardView"
+                             class="search-list__data">
+    <md-list class="md-dense" style="" class="md-whiteframe-z3">
+        <md-list-item class="md-3-line"
+                      ng-class="{hide: !item}"
                       ng-click="$ctrl.action($event, plan)"
                       md-virtual-repeat="item in $ctrl.dynamicItems" md-on-demand>
-            <img flex="none" ng-src="{{item.icon}}" class="st-avatar" alt="avatar"/>
-            <div class="md-list-item-text">
-                <p class="md-body-2" style="line-height: 20px">{{item | userName}}</p>
-                <p class="md-caption md-truncate" style="font-weight: 400">{{item.private.about | htmlToPlainText}}</p>
+            <img flex="none" ng-src="{{item.icon}}" class="st-avatar" alt=""/>
+            <div class="md-list-item-text" style="width: 100%; overflow: hidden">
+                <h3 class="md-body-2" ng-bind="item | userName"></h3>
+                <h4>
+                    <span ng-bind="item.private.country"></span>
+                    <span ng-bind="item.private.city"></span>
+                </h4>
+                <p ng-if="false" class="md-truncate">{{item.private.about | htmlToPlainText}}</p>
+            </div>
+            <div class="md-secondary">
+                <span flex="none"
+                      class="tag calendar-item-activity-icon color-{{activity}}" style="color: white"
+                      ng-repeat="activity in item.private.activity" translate>{{'sport.' + activity}}
+                </span>
             </div>
         </md-list-item>
     </md-list>
 </md-virtual-repeat-container>
+
+<section class="search-list__data card-layout" ng-if="$ctrl.cardView">
+    <div class="card-grid">
+        <md-card ng-class="{hide: !item}"
+                 ng-repeat="item in $ctrl.items | orderBy: '-athleteCount'" class="card">
+            <md-card-header>
+                <md-card-avatar>
+                    <img flex="none" ng-src="{{item.icon}}" class="st-avatar" style="object-fit: cover" alt=""/>
+                </md-card-avatar>
+                <md-card-header-text>
+                    <span class="md-title" ng-bind="item.name"></span>
+                    <p class="md-subhead md-truncate">
+                        <span ng-if="item.country" ng-bind="item.country"></span>
+                        <span ng-if="item.country">></span>
+                        <span ng-bind="item.city"></span>
+                    </p>
+                </md-card-header-text>
+            </md-card-header>
+            <md-card-title style="padding-top: 0">
+                <md-card-title-text>
+                    <p class="md-subhead"
+                       translate="{{item.groupId ? 'search.clubMetrics': 'search.coachMetrics'}}"
+                       translate-values="{athletes: item.athleteCount, coaches: item.coachCount}">
+                    <div class="md-subhead" layout="row" layout-wrap>
+                        <span flex="none"
+                              class="tag calendar-item-activity-icon color-{{activity}}" style="color: white"
+                              ng-repeat="activity in item.activity" translate>{{'sport.' + activity}}
+                        </span>
+                    </div>
+                    <p class="md-caption md-dark" ng-bind="item.about | htmlToPlainText | truncate:300"></p>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end start">
+                <md-button flex="none" ng-click="$ctrl.open($event, plan)" class="md-primary">
+                    <span translate="search.actions.profile"></span>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+</section>
 

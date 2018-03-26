@@ -9,12 +9,18 @@ export let _translateSearch = {
         go: "Поиск",
         actions: {
             hidePanel: 'Скрыть',
-            showPanel: 'Показать'
+            showPanel: 'Показать',
+            profile: 'Профиль'
         },
         tabs: {
-            users: 'Пользователи',
-            coaches: 'Тренера',
-            clubs: 'Клубы'
+            user: 'Пользователи',
+            coach: 'Тренеры',
+            club: 'Клубы'
+        },
+        coachMetrics: 'Атлеты {{athletes}}',
+        clubMetrics: 'Тренеров {{coaches}}, атлетов {{athletes}}',
+        name: {
+            label: 'Имя'
         }
 
     },

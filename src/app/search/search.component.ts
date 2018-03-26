@@ -23,8 +23,9 @@ class SearchCtrl implements IComponentController {
     private user: IUserProfile;
     private searchParams: SearchParams = {};
     private destroy: Subject<any> = new Subject();
-    private navBarStates: Array<string> = ['users','coaches','clubs'];
-    private currentState: string = 'users';
+    private navBarStates: Array<string> = ['user','coach','club'];
+    private currentState: string = 'user';
+    private stateParam: string = 'objectType';
     private usersFilter: SearchParams = {};
     private coachesFilter: SearchParams = {objectType: 'coach'};
     private clubsFilter: SearchParams = {objectType: 'club'};
@@ -55,8 +56,8 @@ class SearchCtrl implements IComponentController {
     private prepareUrlParams (): void {
         let clearStateParams = {};
         Object.keys(this.$stateParams).map(k => this.$stateParams[k] && (clearStateParams[k] = this.$stateParams[k]));
-        let search: Object = Object.assign(this.$location.search(), clearStateParams);
-        ['objectType'].map(p => this.usersFilter[p] = search[p] || null);
+        let search: Object = Object.assign({}, this.$location.search(), clearStateParams);
+        ['objectType', 'name'].map(p => this.currentFilter[p] = search[p] || null);
         //['objectType', 'name', 'country', 'city'].map(p => this.usersFilter[p] = search[p] || null);
         //['activityTypes'].map(p => search[p] && (this.usersFilter[p] = Array.isArray(search[p]) ? search[p] : [search[p]]));
 
@@ -64,17 +65,30 @@ class SearchCtrl implements IComponentController {
         this.cardView = search['cardView'] || true;
 
         Object.assign(this.usersFilter, {objectType: 'user'});
+        Object.assign(this.coachesFilter, {objectType: 'coach'});
+        Object.assign(this.clubsFilter, {objectType: 'club'});
     }
 
-    private prepareStates(): void {
-        this.setState(this.$stateParams.hasOwnProperty('state') &&
-        this.$stateParams.state ? this.$stateParams.state : this.currentState);
+    get currentFilter (): SearchParams {
+        if (this.currentState === 'user') {
+            return this.usersFilter;
+        } else if (this.currentState === 'coach') {
+            return this.coachesFilter;
+        }
     }
 
-    private setState (state: string): void {
+    private prepareStates(param: string = this.stateParam): void {
+        this.setState(this.$location.search()[param] || this.$stateParams[param] || this.currentState);
+    }
+
+    private setState (state: string, param: string = this.stateParam): void {
         if (this.navBarStates.indexOf(state) === -1) { return; }
+        if (this.currentState && this.currentState !== state) {
+            Object.keys(this.$location.search())
+                .map(k => !~['objectType', 'leftPanel'].indexOf(k) && this.$location.search(k, null));
+        }
         this.currentState = state;
-        this.$location.search('state', state);
+        this.$location.search(param, state);
     }
 
     private showLeftPanel (): boolean {
@@ -89,6 +103,18 @@ class SearchCtrl implements IComponentController {
         this.usersFilter = filter;
         this.usersFilterChange++;
         Object.keys(this.usersFilter).map(k => this.$location.search(k, this.usersFilter[k]));
+    }
+
+    changeCoachesFilter (filter: SearchParams): void {
+        this.coachesFilter = filter;
+        this.coachesFilterChange++;
+        Object.keys(this.coachesFilter).map(k => this.$location.search(k, this.coachesFilter[k]));
+    }
+
+    changeClubsFilter (filter: SearchParams): void {
+        this.clubsFilter = filter;
+        this.clubsFilterChange++;
+        Object.keys(this.clubsFilter).map(k => this.$location.search(k, this.clubsFilter[k]));
     }
 
     filter (e: Event): void {
