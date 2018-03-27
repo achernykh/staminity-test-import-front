@@ -8,6 +8,7 @@ import {SearchService} from "./search.service";
 import {IUserProfile} from "@api/user";
 import {Subject} from "rxjs/Rx";
 import AuthService from "@app/auth/auth.service";
+import { saveUtmParams } from "../share/location/utm.functions";
 
 class SearchCtrl implements IComponentController {
 
@@ -23,18 +24,20 @@ class SearchCtrl implements IComponentController {
     private user: IUserProfile;
     private searchParams: SearchParams = {};
     private destroy: Subject<any> = new Subject();
-    private navBarStates: Array<string> = ['user','coach','club'];
-    private currentState: string = 'user';
-    private stateParam: string = 'objectType';
+    private navBarStates: Array<string> = ['users','coaches'];
+    private defaultState: string = 'users';
+    private currentState: string = null;
+    private stateParam: string = 'state';
     private usersFilter: SearchParams = {};
-    private coachesFilter: SearchParams = {objectType: 'coach'};
-    private clubsFilter: SearchParams = {objectType: 'club'};
+    private coachesFilter: SearchParams = {};
+    private coachesAndClubsFilter: Array<SearchParams>;
     private usersFilterChange: number = 0;
     private coachesFilterChange: number = 0;
     private clubsFilterChange: number = 0;
     private leftPanel: boolean;
     private cardView: boolean;
-    private readonly urlKeys: Array<string> = ['objectType', 'name', 'country', 'city', 'activityTypes'];
+    private readonly urlStringKeys: Array<string> = ['objectType', 'name', 'country', 'city'];
+    private readonly urlArrayKeys: Array<string> = ['activityTypes'];
 
     static $inject = ["$mdMedia", "$stateParams", "$location" , "AuthService", "SearchService", "message"];
 
@@ -46,39 +49,38 @@ class SearchCtrl implements IComponentController {
                 private searchService: SearchService,
                 private message: MessageService) {
 
+        saveUtmParams($location.search());
     }
 
     $onInit() {
-        this.prepareUrlParams();
         this.prepareStates();
+        this.prepareUrlParams();
     }
 
     private prepareUrlParams (): void {
         let clearStateParams = {};
         Object.keys(this.$stateParams).map(k => this.$stateParams[k] && (clearStateParams[k] = this.$stateParams[k]));
         let search: Object = Object.assign({}, this.$location.search(), clearStateParams);
-        ['objectType', 'name'].map(p => this.currentFilter[p] = search[p] || null);
-        //['objectType', 'name', 'country', 'city'].map(p => this.usersFilter[p] = search[p] || null);
-        //['activityTypes'].map(p => search[p] && (this.usersFilter[p] = Array.isArray(search[p]) ? search[p] : [search[p]]));
+        this.urlStringKeys.map(p => this.currentFilter[p] = search[p] || null);
+        this.urlArrayKeys.map(p => search[p] && (this.currentFilter[p] = Array.isArray(search[p]) ? search[p] : [search[p]]));
 
-        this.leftPanel = search['leftPanel'] || this.$mdMedia('gt-sm') ? true : false;
-        this.cardView = search['cardView'] || true;
+        this.leftPanel = search['leftPanel'] && JSON.parse(search['leftPanel']) || this.$mdMedia('gt-sm') ? true : false;
+        this.cardView = search['cardView'] && JSON.parse(search['cardView']) || true;
 
-        Object.assign(this.usersFilter, {objectType: 'user'});
-        Object.assign(this.coachesFilter, {objectType: 'coach'});
-        Object.assign(this.clubsFilter, {objectType: 'club'});
+        Object.assign(this.usersFilter, {objectType: 'user', sortBy: 'firstName', sortAsc: true});
+        Object.assign(this.coachesFilter, {sortBy: 'athleteCount', sortAsc: false});
+        this.coachesAndClubsFilter = [
+            Object.assign({}, this.coachesFilter, {objectType: 'coach'}),
+            Object.assign({}, this.coachesFilter, {objectType: 'club'})
+        ];
     }
 
     get currentFilter (): SearchParams {
-        if (this.currentState === 'user') {
-            return this.usersFilter;
-        } else if (this.currentState === 'coach') {
-            return this.coachesFilter;
-        }
+        return this[this.currentState + 'Filter'];
     }
 
     private prepareStates(param: string = this.stateParam): void {
-        this.setState(this.$location.search()[param] || this.$stateParams[param] || this.currentState);
+        this.setState(this.$location.search()[param] || this.$stateParams[param] || this.defaultState);
     }
 
     private setState (state: string, param: string = this.stateParam): void {
@@ -88,6 +90,9 @@ class SearchCtrl implements IComponentController {
                 .map(k => !~['objectType', 'leftPanel'].indexOf(k) && this.$location.search(k, null));
         }
         this.currentState = state;
+        if (this[state+'Filter']) {
+            Object.keys(this[state+'Filter']).map(k => this.$location.search(k, this[state+'Filter'][k]));
+        }
         this.$location.search(param, state);
     }
 
@@ -107,14 +112,13 @@ class SearchCtrl implements IComponentController {
 
     changeCoachesFilter (filter: SearchParams): void {
         this.coachesFilter = filter;
+        this.coachesAndClubsFilter = [
+            Object.assign({}, this.coachesFilter, {objectType: 'coach'}),
+            Object.assign({}, this.coachesFilter, {objectType: 'club'})
+        ];
         this.coachesFilterChange++;
-        Object.keys(this.coachesFilter).map(k => this.$location.search(k, this.coachesFilter[k]));
-    }
-
-    changeClubsFilter (filter: SearchParams): void {
-        this.clubsFilter = filter;
-        this.clubsFilterChange++;
-        Object.keys(this.clubsFilter).map(k => this.$location.search(k, this.clubsFilter[k]));
+        Object.keys(this.coachesFilter).filter(k => !~['sortBy','sortSrc']
+            .indexOf(k)).map(k => this.$location.search(k, this.coachesFilter[k]));
     }
 
     filter (e: Event): void {
@@ -127,51 +131,17 @@ class SearchCtrl implements IComponentController {
         }
     }
 
+    showLeftBar (): boolean {
+        return (this.leftPanel && this.$mdMedia('gt-sm')) || false;
+    }
+
     view (): void {
         this.cardView = !this.cardView;
         this.$location.search('cardView', this.cardView);
     }
-
-
-
-
-
-    /*onDetails(uri: string, url: string = `${window.location.origin}/`) {
-
-        switch (this.params.objectType) {
-            case "user": case "coach": {
-                const win = window.open(`${url}user/${uri}`, "_blank");
-                win.focus();
-                break;
-            }
-            case "club": {
-                const win = window.open(`${url}club/${uri}`, "_blank");
-                win.focus();
-                break;
-            }
-        }
-    }
-
-    onSearch(params: SearchParams) {
-        this.search.request(this.method, params)
-            .then((result) => this.result = result)
-            .then(() => !this.$scope.$$phase && this.$scope.$apply())
-            .then(() => this.message.toastInfo("searchResult", {count: this.result.length}));
-    }
-
-    changeQuery(param: string) {
-        if (["objectType"].indexOf(param) !== -1) {
-            this.result = [];
-        }
-        this.updateUrl(this.params);
-    }
-
-    updateUrl(params: SearchParams) {
-        this.$location.search(params);
-    }*/
 }
 
-const SearchComponent: IComponentOptions = {
+export const SearchComponent: IComponentOptions = {
     bindings: {
         data: "<",
         onEvent: "&",
@@ -182,5 +152,3 @@ const SearchComponent: IComponentOptions = {
     controller: SearchCtrl,
     template: require("./search.component.html") as string,
 };
-
-export default SearchComponent;

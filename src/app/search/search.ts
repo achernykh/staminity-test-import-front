@@ -23,22 +23,29 @@ export class SearchResultByUser {
         return this.public && this.public.avatar && image()('/user/avatar/', this.public.avatar) || null;
     }
 
+    get backgroundUrl (): string {
+        return this.public && this.public.background && image()('/user/background/', this.public.background) || null;
+    }
+
     get city (): string {
-        return this.private.city;
+        return this.private && this.private.city;
     }
 
     get country (): string {
-        return this.private.country;
+        return this.private && this.private.country;
     }
 
     get about (): string {
-        return this.private.about;
+        return this.private && this.private.about;
     }
 
     get activity () {
-        return this.private.activity;
+        return this.private && this.private.activity;
     }
 
+    get uri () {
+        return this.public.uri;
+    }
 
 }
 
@@ -54,19 +61,29 @@ export class SearchResultByGroup {
     name: string = null;
     about: string = null;
     groupUri: string = null;
+    background: string = null;
 
     type: number = InitiatorType.club;
 
     constructor(result: any[]) {
         [this.groupId, this.avatar, this.city, this.activityTypes,
-            this.memberCount, this.coachCount, this.athleteCount,  this.name, this.about, this.groupUri] = result;
+            this.memberCount, this.coachCount, this.athleteCount,  this.name, this.about, this.groupUri,
+            this.background] = result;
     }
 
     get icon(): string {
         return this.avatar && image()('/group/avatar/', this.avatar) || null;
     }
 
+    get backgroundUrl(): string {
+        return this.background && image()('/group/background/', this.background) || null;
+    }
+
     get activity () {
         return this.activityTypes;
+    }
+
+    get uri () {
+        return this.groupUri;
     }
 }

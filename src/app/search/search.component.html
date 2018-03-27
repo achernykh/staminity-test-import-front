@@ -1,10 +1,10 @@
 <st-application-frame
     class="search st-application-frame"
     template="application"
-    left-bar="$ctrl.showLeftPanel()"
+    left-bar="$ctrl.showLeftBar()"
     nav-bar-state="$ctrl.currentState"
     ng-switch="$ctrl.currentState"
-    ng-class="{'nav-bar': $ctrl.authCheck()}"
+    ng-class="{'nav-bar': $ctrl.authCheck(), 'left-bar-show': $ctrl.showLeftBar()}"
     nav-bar="true">
 
     <st-application-frame-title>
@@ -37,7 +37,7 @@
     </st-application-frame-navbar>
 
     <!-- Поиск пользователей -->
-    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'user'">
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'users'">
         <st-search-filter
             class="search__filter"
             filter="$ctrl.usersFilter"
@@ -46,7 +46,7 @@
         </st-search-filter>
     </st-application-frame-left-bar>
 
-    <st-application-frame-content ng-switch-when="user">
+    <st-application-frame-content ng-switch-when="users">
         <section flex="auto" class="search__content">
             <st-search-list
                 search-params="$ctrl.usersFilter"
@@ -56,7 +56,7 @@
     </st-application-frame-content>
 
     <!-- Поиск тренеров -->
-    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'coach'">
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'coaches'">
         <st-search-filter
             class="search__filter"
             filter="$ctrl.coachesFilter"
@@ -65,31 +65,12 @@
         </st-search-filter>
     </st-application-frame-left-bar>
 
-    <st-application-frame-content ng-switch-when="coach">
+    <st-application-frame-content ng-switch-when="coaches">
         <section flex="auto" class="search__content">
             <st-search-list
-                search-params="$ctrl.coachesFilter"
+                search-params="$ctrl.coachesAndClubsFilter"
                 card-view="true"
                 update="$ctrl.coachesFilterChange"/>
-        </section>
-    </st-application-frame-content>
-
-    <!-- Поиск клубов -->
-    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'club'">
-        <st-search-filter
-            class="search__filter"
-            filter="$ctrl.clubsFilter"
-            view="search"
-            on-change-filter="$ctrl.changeClubsFilter(filter)">
-        </st-search-filter>
-    </st-application-frame-left-bar>
-
-    <st-application-frame-content ng-switch-when="club">
-        <section flex="auto" class="search__content">
-            <st-search-list
-                search-params="$ctrl.clubsFilter"
-                card-view="true"
-                update="$ctrl.clubsFilterChange"/>
         </section>
     </st-application-frame-content>
 

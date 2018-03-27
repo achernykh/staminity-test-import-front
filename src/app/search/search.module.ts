@@ -1,13 +1,12 @@
 import { module } from "angular";
 import { StateProvider } from "angular-ui-router";
-import SearchComponent from "./search.component";
-import configure from "./search.config";
-import {SearchService} from "./search.service";
-import {SearchFilterComponent} from "./search-filter/search-filter.component";
-import {searchState} from "./search.states";
-import {supportLng} from "../core/display.constants";
-import {_translateSearch} from "./search.translate";
-import {SearchListComponent} from "./search-list/search-list.component";
+import { SearchComponent } from "./search.component";
+import { SearchService } from "./search.service";
+import { SearchFilterComponent } from "./search-filter/search-filter.component";
+import { searchState } from "./search.states";
+import { supportLng } from "../core/display.constants";
+import { _translateSearch } from "./search.translate";
+import { SearchListComponent } from "./search-list/search-list.component";
 
 const Search = module("staminity.search", [])
     .service("SearchService", SearchService)

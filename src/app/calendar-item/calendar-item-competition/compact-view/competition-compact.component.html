@@ -161,11 +161,10 @@
             <section ng-if="$ctrl.competition.items.length > 0">
                 <div ng-repeat-start="stage in $ctrl.competition.items"
                      style="height: 24px;"
-                     layout="row" layout-align="start center"
-                     class="{{::stage.item.status}}">
-                    <div flex="none" layout="row" layout-align="center center"
+                     layout="row" layout-align="start center">
+                    <div flex="none"
                          style="margin-right: 8px"
-                         class="calendar-item-activity-icon color-{{stage.item.header.sportBasic}} bg-circle-18">
+                         class="layout-row layout-align-center-center calendar-item-activity-header calendar-item-activity-icon color-{{stage.item.header.sportBasic}} {{::stage.item.status}} bg-circle-18">
                         <md-icon class="material-icons md-light s14" aria-label="icon"
                                  md-svg-src="{{::stage.item.header.sportUrl}}">
                         </md-icon>

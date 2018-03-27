@@ -4,7 +4,7 @@ import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
 
 import {
-    _NAVBAR, _DELIVERY_METHOD, _UNITS,
+    _NAVBAR, _DELIVERY_METHOD, _UNITS, _ACTIVITIES,
     _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, syncStatus
 } from './settings-user.constants';
 import { parseYYYYMMDD } from '../share/share.module';
@@ -32,7 +32,7 @@ class SettingsUserCtrl {
     constructor ($scope, SessionService, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display, quillConf) {
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
-        this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
+        this._ACTIVITY = _ACTIVITIES;
         this._DELIVERY_METHOD = _DELIVERY_METHOD
         this._PRIVACY_LEVEL = _PRIVACY_LEVEL
         this._UNITS = _UNITS

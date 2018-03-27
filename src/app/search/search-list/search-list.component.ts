@@ -1,5 +1,5 @@
 import './search-list.component.scss';
-import {IComponentOptions, IComponentController, IScope, ILocationService} from 'angular';
+import {IComponentOptions, IComponentController, IScope, ILocationService, copy} from 'angular';
 import {StateService} from "angular-ui-router";
 import {SearchParams} from "@api/search";
 import {SearchResultByUser, SearchResultByGroup} from "../search";
@@ -8,16 +8,16 @@ import MessageService from "../../core/message.service";
 
 class SearchListCtrl implements IComponentController {
 
-    searchParams: SearchParams;
+    searchParams: SearchParams | Array<SearchParams>;
     cardView: boolean;
     update: number;
-    limit: number;
+    limit: number = 50;
     excludeOwner: number;
     onEvent: (response: Object) => Promise<void>;
 
     // private
     private dynamicItems: DynamicItems;
-    private items: Array<SearchResultByUser | SearchResultByGroup>;
+    private items: Array<SearchResultByUser | SearchResultByGroup> = [];
     private isLoadingData: boolean = false;
 
     static $inject = ['$scope', '$mdMedia', '$state', '$location', 'SearchService' , 'message'];
@@ -40,14 +40,18 @@ class SearchListCtrl implements IComponentController {
     }
 
     prepareData () {
-        if (this.searchParams.hasOwnProperty('activityTypes') && this.searchParams.activityTypes.length === 0) {
-            this.searchParams.activityTypes = undefined;
+        if (this.searchParams.hasOwnProperty('activityTypes') &&
+            (this.searchParams as SearchParams).activityTypes.length === 0) {
+            (this.searchParams as SearchParams).activityTypes = undefined;
         }
         if (this.cardView) {
             this.isLoadingData = true;
-            this.searchService.request('byParams', this.searchParams, this.limit, 0)
-                .then(result => this.items = result, e => {debugger;})
-                .then(_ => this.isLoadingData = false);
+            Promise.all([...(this.searchParams as Array<any>)
+                .map(p => this.searchService.request('byParams', p, this.limit, 0))])
+                .then(result => this.items = [].concat(...result), e => {debugger;})
+                .then(_ => this.isLoadingData = false)
+                .then(_ => this.$scope.$applyAsync());
+
         } else {
             this.dynamicItems = new DynamicItems(this.searchService, this.searchParams);
         }
@@ -97,12 +101,13 @@ class DynamicItems {
     /** @type {number} Total number of items. */
     numItems = 0;
     isLoadingData: boolean = false;
+    private limit: number;
 
     constructor(
         private searchService: SearchService,
         private params: SearchParams,
-        private limit: number = 50) {
-
+        limit: number = 50) {
+        this.limit = copy(limit);
     }
     // Required.
     getItemAtIndex (index) {

@@ -39,9 +39,18 @@
       .md-user-avatar {height: 100%; width: 100%}
       md-card-header-text {overflow: hidden;}
       md-card-title-text {overflow: hidden;}
+
+      .md-card-image {
+        background-color: $grey-200;
+        height: 150px;
+        object-fit: cover;
+      }
     }
-
-
-
+    md-list {
+      width: calc(100% - 16px);
+      md-list-item {
+        border-bottom: 1px solid $grey-400;
+      }
+    }
   }
 }

@@ -19,7 +19,7 @@
     <md-list class="md-dense" style="" class="md-whiteframe-z3">
         <md-list-item class="md-3-line"
                       ng-class="{hide: !item}"
-                      ng-click="$ctrl.action($event, plan)"
+                      ui-sref="user({uri: item.public.uri})"
                       md-virtual-repeat="item in $ctrl.dynamicItems" md-on-demand>
             <img flex="none" ng-src="{{item.icon}}" class="st-avatar" alt=""/>
             <div class="md-list-item-text" style="width: 100%; overflow: hidden">
@@ -57,6 +57,7 @@
                     </p>
                 </md-card-header-text>
             </md-card-header>
+            <img ng-src="{{::item.backgroundUrl }}" class="md-card-image" alt="">
             <md-card-title style="padding-top: 0">
                 <md-card-title-text>
                     <p class="md-subhead"
@@ -72,7 +73,7 @@
                 </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end start">
-                <md-button flex="none" ng-click="$ctrl.open($event, plan)" class="md-primary">
+                <md-button flex="none" ui-sref="{{item.groupId ? 'club': 'user'}}({uri: item.uri})" class="md-primary">
                     <span translate="search.actions.profile"></span>
                 </md-button>
             </md-card-actions>

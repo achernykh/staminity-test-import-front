@@ -7,22 +7,27 @@ export let _translateSearch = {
         club: "Найти клуб",
         group: "Найти группу",
         go: "Поиск",
+        loading: 'Загрузка...',
+        empty: 'По заданным критериям записи не найдены',
         actions: {
             hidePanel: 'Скрыть',
             showPanel: 'Показать',
-            profile: 'Профиль'
+            profile: 'Профиль',
+            select: 'Выделить',
+            unselect: 'Снять выделение'
         },
         tabs: {
-            user: 'Пользователи',
-            coach: 'Тренеры',
-            club: 'Клубы'
+            users: 'Пользователи',
+            coaches: 'Тренеры и Клубы'
         },
         coachMetrics: 'Атлеты {{athletes}}',
         clubMetrics: 'Тренеров {{coaches}}, атлетов {{athletes}}',
         name: {
             label: 'Имя'
+        },
+        activityTypes: {
+            label: 'Виды спорта'
         }
-
     },
     en: {
         fullTitle: "Find users coaches and clubs",

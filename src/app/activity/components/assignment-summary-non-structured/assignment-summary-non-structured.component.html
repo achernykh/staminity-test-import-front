@@ -72,8 +72,8 @@
                                    measure="measure.$key"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="$ctrl.item.activity.hasActualData">
+                                   ng-change="$ctrl.changeValue(measure.$key, 'actual')"
+                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
@@ -84,16 +84,16 @@
                                    measure="measure.$key"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="$ctrl.item.activity.hasActualData">
+                                   ng-change="$ctrl.changeValue(measure.$key, 'actual')"
+                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                             <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
                                    ng-model="$ctrl.actual[measure.$key]['value']"
                                    name="actual_{{::measure.$key}}"
                                    measure="measure.$key"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key)"
-                                   ng-disabled="$ctrl.item.activity.hasActualData">
+                                   ng-change="$ctrl.changeValue(measure.$key, 'actual')"
+                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="!($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
@@ -114,6 +114,10 @@
     <div ng-message="singleIntensity">{{'activity.error.singleIntensity' | translate}}</div>
     <div ng-message="needPermissionForFeature">{{'activity.error.needPermissionForFeature' | translate}}</div>
 </div>
+<section class="md-padding md-caption md-dark"
+         ng-if="$ctrl.item.activity.intervals.W.actualDataIsCorrected"
+         translate="activity.actualDataIsCorrected">
+</section>
 <md-list class="md-dense" ng-if="$ctrl.item.activity.header.sport">
     <md-subheader ng-if="false">
         <span translate="activity.trainersPrescription"></span>
