@@ -391,9 +391,17 @@ export const _measurement_system_calculate = {
         unit: 'mile',
         multiplier: (x) => x * 0.621371
     },
+    mile : {
+        unit: 'km',
+        multiplier: (x) => x * 1.60934
+    },
     meter: {
         unit: 'yard',
         multiplier: (x) => x * 1.09361
+    },
+    yard : {
+        unit: 'meter',
+        multiplier: (x) => x * 0.9144
     },
     minpkm: {
         unit: 'minpml',

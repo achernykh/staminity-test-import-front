@@ -246,9 +246,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
             if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
                 return null;
             }
-
             const measure: Measure = new Measure(name, sport, input.intensityLevelFrom);
-
             if (input.intensityLevelFrom === input.intensityLevelTo) {
                 return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
             } else if (measure.isPace()) {
@@ -258,7 +256,25 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
             }
         };
     }])
-    .filter("measureUnit", () => measureUnit)
+    .filter("measureUnit", ['SessionService', (session:SessionService) => {
+        return (measure,
+                sport = 'default',
+                units = session.getUser().display.units): string => {
+
+            let unit: string;
+            try {
+                unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) &&
+                    _activity_measurement_view[sport][measure].unit) ||
+                    (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) ||
+                    _measurement[measure].unit;
+
+                unit = (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)) ?
+                    _measurement_system_calculate[unit].unit :
+                    unit;
+            } catch (e) {console.error('measureUnit error', e, measure, sport, units);}
+            return unit;
+        };
+    }])
     .filter("duration", duration)
     .filter("percentByTotal", ["$filter", ($filter) => {
         return (value, total, decimal = 0) => {
@@ -297,7 +313,6 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
         return (measure, value, sport) => {
 
             const unit = measurementUnitDisplay(sport, measure);
-
             if (isDuration(unit)) {
                 return moment(value, ["ss", "mm:ss", "hh:mm:ss"]).diff(moment().startOf("day"), "seconds");
             } else {
@@ -305,14 +320,14 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
                     value = moment(value, ["ss", "mm:ss"]).diff(moment().startOf("day"), "seconds");
                 }
                 // обратный пересчет по системе мер
-                if (session.getUser().display.units !== "metric") {
-                    value = value / _measurement_system_calculate[unit].multiplier;
+                if (session.getUser().display.units === "imperial" && _measurement_system_calculate[unit]) {
+                    let convertUnit: string = _measurement_system_calculate[unit].unit;
+                    value = _measurement_system_calculate[convertUnit].multiplier(value);
                 }
                 // пересчет от единиц представления в еденицы обмена данными
                 if (unit !== measurementUnit(measure)) {
                     value = _measurement_calculate[unit][measurementUnit(measure)](value);
                 }
-
                 return value;
             }
         };
