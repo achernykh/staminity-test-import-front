@@ -252,10 +252,11 @@ export class CalendarItemDialogService {
             (item.activityHeader.intervals.filter(i => i.type === 'W')[0] as IActivityIntervalW).actualDataIsImported || false ;
 
         return Object.assign(this.defaultDialogOptions, {
-            template: `<md-dialog id="post-activity" aria-label="Activity" layout="column" layout-align="center center">
+            template: `<md-dialog id="post-activity" aria-label="Activity">
                             <calendar-item-activity
-                                    flex="none" layout="row"
+                                    layout="row"
                                     class="calendar-item-activity"
+                                    style="margin: auto"
                                     ng-class="{'has-actual-data': $ctrl.hasActualData}"
                                     data="$ctrl.item"
                                     options="$ctrl.options"

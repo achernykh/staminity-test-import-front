@@ -11,7 +11,6 @@ export const _translate = {
             hint: 'Подсказка, пояснение по блоку информации...',
             coachProfileIncomplete: 'Ваш профиль тренера не заполнен и недоступен в поиске. Проверьте выполнение следующих условий:' +
             '<li>Установлена фотография</li>' +
-            '<li>Указаны страна и город</li>' +
             '<li>Заполнена информация "О себе"</li>' +
             '<li>Указаны условия занятий</li>' +
             '<li>Указана контактная информация</li>' +
@@ -443,7 +442,6 @@ export const _translate = {
             hint: '',
             coachProfileIncomplete: 'Your coach profile is incomplete and not available for search. Please check you set the following info:' +
             '<li>Upload profile photo</li>' +
-            '<li>Country and City</li>' +
             '<li>About you</li>' +
             '<li>Conditions</li>' +
             '<li>Contacts for new athletes</li>' +

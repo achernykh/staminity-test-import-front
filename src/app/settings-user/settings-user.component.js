@@ -234,10 +234,8 @@ class SettingsUserCtrl {
      * Проверка полноты заполнения профиля тренера
      */
     checkProfileComplete() {
-        debugger;
         if ((this.user.public.avatar !== 'default.jpg') &&
             (this.user.public.firstName && this.user.public.lastName) &&
-            (this.user.personal.city && this.user.personal.country) &&
             (this.user.personal.about && this.user.personal.about.length > 5) &&
             (this.user.personal.price && this.user.personal.price.length > 5) &&
             (this.user.personal.contact && this.user.personal.contact.length > 5) &&

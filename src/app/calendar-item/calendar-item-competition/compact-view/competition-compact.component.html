@@ -157,7 +157,7 @@
             </section>
         </header>
 
-        <footer ng-if="$ctrl.competition.competitionHeader.trainersPrescription">
+        <footer ng-if="$ctrl.competition.competitionHeader.trainersPrescription || $ctrl.competition.items.length > 0">
             <section ng-if="$ctrl.competition.items.length > 0">
                 <div ng-repeat-start="stage in $ctrl.competition.items"
                      style="height: 24px;"
@@ -180,7 +180,8 @@
                         </div>
                     </div>
                 </div>
-                <md-divider ng-if="$last" ng-repeat-end style="margin-bottom: 8px"></md-divider>
+                <md-divider ng-if="$last && $ctrl.competition.competitionHeader.trainersPrescription"
+                            ng-repeat-end style="margin-bottom: 8px"></md-divider>
             </section>
             <span class="prescription md-caption md-dark"
                   ng-bind="$ctrl.competition.competitionHeader.trainersPrescription | htmlToPlainText"></span>
