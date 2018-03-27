@@ -77,7 +77,7 @@ export const _NAVBAR = [
 ];
 
 export const _ACTIVITIES = ['run', 'swim', 'bike', 'triathlon', 'ski'];
-export const _UNITS = ["metric"/**, "imperial"**/];
+export const _UNITS = ["metric", "imperial"];
 
 export const _DELIVERY_METHOD = [{
     id: "W",
