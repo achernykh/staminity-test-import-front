@@ -26,6 +26,12 @@
                         <span translate="activity.action.addAthletes"></span>
                     </md-button>
                 </md-menu-item>
+                <md-menu-item ng-if="$ctrl.item.activity.hasActualData">
+                    <md-button ng-click="$ctrl.item.split()">
+                        <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>
+                        <span translate="activity.action.split"></span>
+                    </md-button>
+                </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.changeLayout('hideSmoothOnChart')">

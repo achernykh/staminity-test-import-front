@@ -1,20 +1,91 @@
-import {IComponentController, IComponentOptions, IPromise} from "angular";
+import {IComponentController, IComponentOptions} from "angular";
+import {StateService} from 'angular-ui-router';
+import moment from 'moment/min/moment-with-locales.js';
 import AuthService from "../../auth/auth.service";
 import "./application-user-toolbar.component.scss";
+import {SessionService} from "@app/core";
+import {ApplicationFrameCtrl} from "@app/share/application-frame/application-frame.component";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
     data: any;
-    onEvent: (response: Object) => IPromise<void>;
-    static $inject = ["AuthService"];
+    onEvent: (response: Object) => Promise<void>;
+    application: ApplicationFrameCtrl;
+    private readonly status: Array<string> = ['onlyBasicTariff','incompleteProfile',
+        'premiumExpireIn', 'coachExpireIn', 'clubExpireIn',
+        'expiredPremium','expiredCoach','expiredClub'];
+    static $inject = ["AuthService", "$state"];
 
-    constructor(private AuthService: AuthService) {
+    constructor(private authService: AuthService, private $state: StateService) {}
 
+    $onInit() {}
+
+    action () {
+        switch (this.message) {
+            case 'incompleteProfile': {
+                this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'personal'});
+                break;
+            }
+            case 'onlyBasicTariff': case 'expiredPremium': case 'expiredCoach': case 'expiredClub': {
+                this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'account'});
+                break;
+            }
+        }
     }
 
-    $onInit() {
-
+    get message (): string {
+        let m: string = null;
+        this.status.map(s => this[s] && (m = s));
+        return m;
     }
+
+    get incompleteProfile (): boolean {
+        return this.application.user.public.isCoach && !this.application.user.public.profileComplete;
+    }
+
+    get onlyBasicTariff (): boolean {
+        let roles = ['ReportsPro_User', 'CoachProfile', 'CoachUnlimitedAthletes', 'ProfileClub'];
+        return this.authService.isAuthorized(roles, false);
+    }
+
+    get premiumExpireIn (): boolean {
+        let role: string = 'ReportsPro_User';
+        let diff = this.diffDays(role);
+        return this.authService.isAuthorized([role], false) && diff && diff >= 0 && diff <= 3 || false;
+    }
+
+    get coachExpireIn (): boolean {
+        let role: string = 'CoachUnlimitedAthletes';
+        let diff = this.diffDays(role);
+        return this.authService.isAuthorized([role], false) && diff && diff >= 0 && diff <= 3 || false;
+    }
+
+    get clubExpireIn (): boolean {
+        let role: string = 'ProfileClub';
+        let diff = this.diffDays(role);
+        return this.authService.isAuthorized([role], false) && diff && diff >= 0 && diff <= 3 || false;
+    }
+
+    get expiredPremium (): boolean {
+        let diff = this.diffDays('ReportsPro_User');
+        return diff && diff >= -5 && diff <= -1 || false;
+    }
+
+    get expiredCoach (): boolean {
+        let diff = this.diffDays('CoachUnlimitedAthletes');
+        return diff && diff >= -5 && diff <= -1 || false;
+    }
+
+    get expiredClub (): boolean {
+        let diff = this.diffDays('ProfileClub');
+        return diff && diff >= -5 && diff <= -1 || false;
+    }
+
+    diffDays (message: string): number {
+        let expiredDate = this.application.permissions[message];
+        return moment(expiredDate).diff(moment(), 'days');
+    }
+
 }
 
 const ApplicationUserToolbarComponent: IComponentOptions = {

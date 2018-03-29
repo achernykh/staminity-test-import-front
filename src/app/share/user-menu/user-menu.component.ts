@@ -1,3 +1,4 @@
+import './user-menu.component.scss';
 import { IComponentController, IComponentOptions, ILocationService} from "angular";
 import {StateService} from "angular-ui-router";
 import { Subject } from "rxjs/Rx";

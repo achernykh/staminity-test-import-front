@@ -1,8 +1,10 @@
-<md-menu id="user-menu" md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
-    <md-button class="md-icon-button md-primary" ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
-               aria-label="User">
-        <md-icon class="material-icons md-light">arrow_drop_down</md-icon>
-    </md-button>
+<md-menu id="user-menu" class="user-menu"
+         md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
+    <div flex="none"
+         class="avatar__40"
+         ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
+         style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
+
     <md-menu-content width="4">
         <md-menu-item ng-repeat="menu in $ctrl.menu">
             <md-button ng-click="$ctrl.transitionToState(menu.link)">

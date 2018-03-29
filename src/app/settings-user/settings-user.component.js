@@ -29,7 +29,8 @@ let emptyUser = {
 
 class SettingsUserCtrl {
 
-    constructor ($scope, SessionService, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display, quillConf) {
+    constructor ($scope, SessionService, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService,
+                 dialogs, message, BillingService, $translate, $mdMedia, display, quillConf, $anchorScroll) {
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
         this._ACTIVITY = _ACTIVITIES;
@@ -54,6 +55,7 @@ class SettingsUserCtrl {
         this.$mdMedia = $mdMedia;
         this.display = display;
         this.quillConf = quillConf;
+        this.$anchorScroll = $anchorScroll;
 
         this.destroy = new Subject();
         this.adaptors = [];
@@ -62,12 +64,12 @@ class SettingsUserCtrl {
     }
 
     $onInit () {
-
         /**this.SessionService.getObservable()
             .takeUntil(this.destroy)
             .map((session) => session.userProfile)
             .distinctUntilChanged()
             .subscribe(this.setUser.bind(this));**/
+        setTimeout(() => this.$anchorScroll(), 1000);
 
         this.BillingService.messages
             .takeUntil(this.destroy)
@@ -581,7 +583,8 @@ class SettingsUserCtrl {
 };
 
 SettingsUserCtrl.$inject = [
-    '$scope', 'SessionService', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService','quillConfig'
+    '$scope', 'SessionService', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService',
+    'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService','quillConfig', '$anchorScroll'
 ];
 
 

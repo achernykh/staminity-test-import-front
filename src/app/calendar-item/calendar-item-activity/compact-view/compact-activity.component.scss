@@ -29,8 +29,9 @@
     display: none;
   }
 
-  section[dnd-list] .dndDragover {
+  header[dnd-list].dndDragover {
     .dropzone { display: block; }
+    .first-row, .second-row, .third-row, .chart {  display: none; }
   }
 
   /**
@@ -38,12 +39,10 @@
     * added to the dnd-list while the user is dragging
     * over it.
     */
-  section[dnd-list] .dndPlaceholder {
-    display: block;
-    margin: 0;
-    border-radius: 0;
-    background-color: blue;
-    min-height: 15px;
+  header[dnd-list] .dndPlaceholder {
+    min-height: 48px;
+    margin: 8px 0;
+    background: rgba(0,0,0,0.3);
   }
 
   &__calendar {

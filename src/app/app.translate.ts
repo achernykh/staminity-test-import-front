@@ -11,7 +11,15 @@ export const translateGeneral = {
             message: "Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity",
             action: "ПЕРЕЗАГРУЗИТЬ",
         },
-        rub: 'руб.'
+        rub: 'руб.',
+        onlyBasicTariff: 'Обновить тариф',
+        incompleteProfile: 'Не заполнен профиль',
+        premiumExpireIn: 'Премиум закончился {{days}}дн',
+        coachExpireIn: 'Тренер закончился {{days}}дн',
+        clubExpireIn: 'Клуб закончился {{days}}дн',
+        expiredPremium: 'Премиум заканчивается {{days}}дн',
+        expiredCoach: 'Тренер заканчивается {{days}}дн',
+        expiredClub: 'Клуб заканчивается {{days}}дн'
     },
     en: {
         staminity: "Staminity",

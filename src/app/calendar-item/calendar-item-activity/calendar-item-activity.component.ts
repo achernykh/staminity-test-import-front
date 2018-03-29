@@ -150,7 +150,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     constructor(
         private $scope: IScope,
         private $translate,
-        private CalendarService: CalendarService,
+        private calendarService: CalendarService,
         private UserService: UserService,
         private SessionService: SessionService,
         private ActivityService: ActivityService,
@@ -560,7 +560,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     //TODO intervalP
                 }
                 //console.log('post', athlete.profile, athlete.active)
-                this.CalendarService.postItem(activity.build(profileShort(athlete.profile))) //TODO переделать в Promise.all
+                this.calendarService.postItem(activity.build(profileShort(athlete.profile))) //TODO переделать в Promise.all
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
@@ -570,7 +570,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             });
         }
         if (this.activity.view.isPut) {
-            this.CalendarService.putItem(this.activity.build())
+            this.calendarService.putItem(this.activity.build())
                 .then((response)=> {
                     this.activity.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
@@ -582,7 +582,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     onDelete() {
         this.dialogs.confirm({ text: this.activity.hasIntervalDetails ? 'dialogs.deleteActualActivity' :'dialogs.deletePlanActivity' })
-        .then(() => this.CalendarService.deleteItem('F', [this.activity.calendarItemId]))
+        .then(() => this.calendarService.deleteItem('F', [this.activity.calendarItemId]))
         .then((response)=> {
             this.onAnswer({formMode: FormMode.Delete, item: this.activity.build()});
             this.message.toastInfo('activityDeleted');
@@ -750,6 +750,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
         //return this.$mdDialog.show(templateDialog('post', template, this.options.owner));
         this.calendarDialog.activity(e, templateDialogOptions, templateToActivity(template))
             .then(() => { debugger; });
+    }
+
+    split (): void {
+        this.dialogs.confirm({ text: 'dialogs.splitActivity'})
+            .then(_ => this.calendarService.split(this.activity.calendarItemId))
+            .then(_ => this.message.toastInfo('activitySplited'));
     }
 }
 

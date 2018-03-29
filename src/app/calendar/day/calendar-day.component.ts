@@ -17,6 +17,7 @@ import {
 } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
+import {Activity} from "@app/activity/activity-datamodel/activity.datamodel";
 
 class CalendarDayCtrl {
 
@@ -70,7 +71,7 @@ class CalendarDayCtrl {
     }
 
     isSpecified (item: ICalendarItem): boolean {
-        return isSpecifiedActivity(item);
+        return isSpecifiedActivity(item) || true;
     }
 
 
@@ -155,7 +156,7 @@ class CalendarDayCtrl {
         srcIndex: number,
         trgDate: string,
         trgIndex: number,
-        trgItemId: number) {
+        trgItem: Activity) {
 
         debugger;
 
@@ -165,7 +166,9 @@ class CalendarDayCtrl {
 
         switch ( operation ) {
             case 'merge': {
-                this.calendarService.merge(item.calendarItemId, trgItemId).then(_ => {}, e => {});
+                this.dialogs.confirm({ text: 'dialogs.mergeActivity' })
+                    .then(_ => this.calendarService.merge(item.calendarItemId, trgItem.calendarItemId))
+                    .then(_ => this.message.toastInfo('activityMerged'), e => e && this.message.toastError(e));
                 break;
             }
             case 'move': {
