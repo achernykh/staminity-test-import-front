@@ -12,14 +12,14 @@ export const translateGeneral = {
             action: "ПЕРЕЗАГРУЗИТЬ",
         },
         rub: 'руб.',
-        onlyBasicTariff: 'Обновить тариф',
+        onlyBasicTariff: 'Подключить тариф',
         incompleteProfile: 'Не заполнен профиль',
-        premiumExpireIn: 'Премиум закончился {{days}}дн',
-        coachExpireIn: 'Тренер закончился {{days}}дн',
-        clubExpireIn: 'Клуб закончился {{days}}дн',
-        expiredPremium: 'Премиум заканчивается {{days}}дн',
-        expiredCoach: 'Тренер заканчивается {{days}}дн',
-        expiredClub: 'Клуб заканчивается {{days}}дн'
+        premiumExpireIn: 'Премиум: осталось {{days}} дн',
+        coachExpireIn: 'Тренер: осталось {{days}} дн',
+        clubExpireIn: 'Клуб: осталось {{days}} дн',
+        expiredPremium: 'Премиум отключен',
+        expiredCoach: 'Тренер отключен',
+        expiredClub: 'Клуб отключен'
     },
     en: {
         staminity: "Staminity",
@@ -33,7 +33,15 @@ export const translateGeneral = {
             message: "Staminity update is available. Please refresh the browser page",
             action: "REFRESH",
         },
-        rub: 'RUB'
+        rub: 'RUB',
+        onlyBasicTariff: 'Add tariff',
+        incompleteProfile: 'Incomplete profile',
+        premiumExpireIn: 'Premium: {{days}} days left',
+        coachExpireIn: 'Coach: {{days}} days left',
+        clubExpireIn: 'Club: {{days}} days left',
+        expiredPremium: 'Premium expired',
+        expiredCoach: 'Coach expired',
+        expiredClub: 'Club expired'
     },
 };
 
