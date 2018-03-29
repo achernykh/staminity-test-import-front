@@ -13,16 +13,18 @@
 
   .user-frame {
     cursor: pointer;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px 0 0 5px;
     position: relative;
-    left: -20px;
-    margin-right: -20px;
+    right: -20px;
+    margin-right: 0;
     height: 40px;
     border: none;
     overflow: visible;
+    padding-right: 0;
+    padding-left: 8px;
     &:focus {  outline: none;  }
     .md-menu .md-icon-button {  padding-bottom: 0;  }
-    span {  padding-left: 24px;  }
+    span {  padding-right: 24px;  }
   }
   user-menu {
     z-index: 20;

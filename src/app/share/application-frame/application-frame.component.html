@@ -6,7 +6,7 @@
                    ng-click="$ctrl.sideNav('appmenu')">
             <md-icon class="material-icons md-light">menu</md-icon>
         </md-button>
-        <h2 class="md-title" ng-transclude="title"></h2>
+        <h2 class="md-title md-truncate" ng-transclude="title"></h2>
         <div flex></div>
         <div flex="none" layout="row" ng-transclude="toolbar" class="icon-bar" md-colors="{background: 'primary-600'}"></div>
         <st-application-user-toolbar flex="none"></st-application-user-toolbar>

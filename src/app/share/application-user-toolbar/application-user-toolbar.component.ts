@@ -45,7 +45,7 @@ class ApplicationUserToolbarCtrl implements IComponentController {
 
     get onlyBasicTariff (): boolean {
         let roles = ['ReportsPro_User', 'CoachProfile', 'CoachUnlimitedAthletes', 'ProfileClub'];
-        return this.authService.isAuthorized(roles, false);
+        return !this.authService.isAuthorized(roles, false);
     }
 
     get premiumExpireIn (): boolean {
@@ -79,6 +79,10 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     get expiredClub (): boolean {
         let diff = this.diffDays('ProfileClub');
         return diff && diff >= -5 && diff <= -1 || false;
+    }
+
+    get wran (): boolean {
+        return !~['onlyBasicTariff'].indexOf(this.message);
     }
 
     diffDays (message: string): number {
