@@ -16,7 +16,7 @@ export const _translateMessage = {
 		},
 		timeoutExceeded: {
 			title: 'Ошибка',
-			text: 'Превышено время ожидания ответа на запрос'
+			text: 'Превышено время ожидания ответа на запрос. Попробуйте обновить окно браузера'
 		},
 		// SETTINGS-USER ------------------------------------------------------
 		settingsSaveComplete: { // после успешного сохранения настроек
@@ -622,6 +622,23 @@ export const _translateMessage = {
             title: '',
             text: 'Объединение невозможно: различные виды спорта в тренировках'
         },
+        errorCompleteIntervals: {
+            title: '',
+            text: 'Ошибка получения детальных данных: errorCompleteIntervals. Попробуйте обновить окно браузера'
+        },
+        differentUsersForbidden: {
+            title: '',
+            text: 'Объединение невозможно: различные пользователи'
+        },
+        actualDataNotFound: {
+            title: '',
+            text: 'Объединение невозможно: не найдены фактические данные'
+        },
+        plannedDataNotFound: {
+            title: '',
+            text: 'Объединение невозможно: не найдены плановые данные'
+        },
+
 
     },
 	en: {
@@ -636,7 +653,7 @@ export const _translateMessage = {
 		},
 		timeoutExceeded: {
 			title: 'Error',
-			text: 'Timeout exceeded'
+			text: 'Timeout exceeded. Try to refresh browser window'
 		},
 		// SETTINGS-USER ------------------------------------------------------
 		settingsSaveComplete: { // после успешного сохранения настроек
@@ -1240,6 +1257,22 @@ export const _translateMessage = {
         differentBasicActivityTypes: {
             title: '',
             text: 'Merge cannot be done: different activity types'
+        },
+        errorCompleteIntervals: {
+            title: '',
+            text: 'Cannot get activity details: errorCompleteIntervals. Try to refresh browser window'
+        },
+        differentUsersForbidden: {
+            title: '',
+            text: 'Merge cannot be done: different users'
+        },
+        actualDataNotFound: {
+            title: '',
+            text: 'Merge cannot be done: actual data not found'
+        },
+        plannedDataNotFound: {
+            title: '',
+            text: 'Merge cannot be done: plan not found'
         },
 }
 };
