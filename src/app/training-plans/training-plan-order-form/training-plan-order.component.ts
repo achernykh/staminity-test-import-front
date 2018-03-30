@@ -33,7 +33,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.getPlanDetails();
+        if (!this.plan.hasOwnProperty('samples')) { this.getPlanDetails();} else {this.dataLoading = true;}
         // Типовая структура для создания нового пользователя
         this.credentials = {
             public: {
