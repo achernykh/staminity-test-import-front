@@ -72,7 +72,7 @@
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="calendar-item-activity-header {{::$ctrl.activity.status}}"
                 dnd-list="items"
-                dnd-drop="callback({operation: 'merge', trgItem: $ctrl.activity})"
+                dnd-drop="callback({operation: 'merge', trgDate: $ctrl.activity.dateStart, trgItem: $ctrl.activity})"
                 dnd-allowed-types="['itemType']"
                 ng-class="{selected: $ctrl.selected}">
             <div flex="none" class="dropzone" ng-repeat="item in [0]"></div>

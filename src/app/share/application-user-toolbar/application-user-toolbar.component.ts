@@ -11,6 +11,7 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     data: any;
     onEvent: (response: Object) => Promise<void>;
     application: ApplicationFrameCtrl;
+    private server: string = _connection.server;
     private readonly status: Array<string> = ['onlyBasicTariff','incompleteProfile',
         'premiumExpireIn', 'coachExpireIn', 'clubExpireIn',
         'expiredPremium','expiredCoach','expiredClub'];
@@ -90,11 +91,11 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     }
 
     diffDays (role: string): number {
-        let expiredDate = _connection.server === 'testapp.staminity.com:8080' ?
+        let expiredDate = this.server !== 'testapp.staminity.com:8080' ?
             this.application.permissions[role] :
             JSON.parse(window.localStorage.getItem('permissions'))[role];
 
-        return moment(expiredDate).diff(moment(), 'days');
+        return moment(expiredDate).diff(moment(), 'days') + 1;
     }
 
     getRoleByMessage (message: string): string {

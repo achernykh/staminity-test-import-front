@@ -37,6 +37,7 @@ export interface IAuthService {
 
 export default class AuthService implements IAuthService {
 
+    private server: string = _connection.server;
     static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService', 'ReferenceService',
         'NotificationService', 'RequestsService', 'UserService'];
 
@@ -71,7 +72,7 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions() || [];
-        if (_connection.server === 'testapp.staminity.com:8080') {
+        if (this.server === 'testapp.staminity.com:8080') {
             Object.assign(userRoles, JSON.parse(window.localStorage.getItem('permissions')));
         }
         return  strict ?
