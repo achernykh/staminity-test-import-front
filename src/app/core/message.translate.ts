@@ -588,7 +588,7 @@ export const _translateMessage = {
         },
         needOnlyOneCompletedActivity: {
             title: '',
-            text: 'Объединение двух выполенных тренировок невозможно'
+            text: 'Объединение двух выполненных тренировок невозможно'
         },
 
     },
