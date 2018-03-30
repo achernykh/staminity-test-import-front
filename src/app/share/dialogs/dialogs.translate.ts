@@ -59,8 +59,13 @@ export let translateDialogs = {
         // план
         deleteTrainingPlan: "Вы хотите удалить тренировочный план? Эту операцию отменить невозможно",
         deleteSelectedAssignment: "Удалить присвоение плана? Все невыполненные тренировки будут удалены из календаря спортсмена",
+
         // split and merge
         mergeActivity: "Объединить плановую и фактическую тренировки?",
+        splitActivity: "Отменить сопоставление плана и факта и разделить тренировку на запланированную и выполненную?"
+
+
+
     },
     en: {
         yes: "Yes",
@@ -124,7 +129,9 @@ export let translateDialogs = {
         deleteSelectedAssignment: "Delete training plan assignment? All incompleted activities will be deleted from athlete's calendar",
 
         // split and merge
-        mergeActivity: "Объединить плановую и фактическую тренировки?"
+        mergeActivity: "Merge planned and completed activity?",
+        splitActivity: "Split activity into Planned and Completed?"
+
 
     },
 };
