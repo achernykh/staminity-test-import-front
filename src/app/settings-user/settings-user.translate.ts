@@ -291,6 +291,15 @@ export const _translate = {
             autoPayment: 'Оплачивать автоматически'
         },
         sync: {
+            account: {
+                placeholder: 'Учетная запись'
+            },
+            password: {
+                placeholder: 'Пароль'
+            },
+            startDate: {
+                hint: 'Если начальная дата не указана, то будет выполнена загрузка всех тренировок'
+            },
             header: 'Настройка интеграции',
             garmin: 'Garmin Connect',
             strava: 'Strava',
@@ -714,6 +723,15 @@ You will lost your tariff functions from [{{validThrough}}], after the end of pr
             autoPayment: 'Charge automatically'
         },
         sync: {
+            account: {
+                placeholder: 'Provider account'
+            },
+            password: {
+                placeholder: 'Password'
+            },
+            startDate: {
+                hint: 'If the start date is not specified, then all activities will be sync'
+            },
             header: 'Syncronisation settings',
             garmin: 'Garmin Connect',
             strava: 'Strava',
