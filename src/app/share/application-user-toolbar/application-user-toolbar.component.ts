@@ -3,8 +3,8 @@ import {StateService} from 'angular-ui-router';
 import moment from 'moment/min/moment-with-locales.js';
 import AuthService from "../../auth/auth.service";
 import "./application-user-toolbar.component.scss";
-import {SessionService} from "@app/core";
 import {ApplicationFrameCtrl} from "@app/share/application-frame/application-frame.component";
+import * as _connection from "../../core/env.js";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
@@ -85,9 +85,23 @@ class ApplicationUserToolbarCtrl implements IComponentController {
         return !~['onlyBasicTariff'].indexOf(this.message);
     }
 
-    diffDays (message: string): number {
-        let expiredDate = this.application.permissions[message];
+    getStyle (): string {
+        return ~['onlyBasicTariff'].indexOf(this.message) ? 'primary-600' : 'warn-600';
+    }
+
+    diffDays (role: string): number {
+        let expiredDate = _connection.server === 'testapp.staminity.com:8080' ?
+            this.application.permissions[role] :
+            JSON.parse(window.localStorage.getItem('permissions'))[role];
+
         return moment(expiredDate).diff(moment(), 'days');
+    }
+
+    getRoleByMessage (message: string): string {
+        if (~['premiumExpireIn', 'expiredPremium'].indexOf(message)) { return 'ReportsPro_User';}
+        else if (~['coachExpireIn', 'expiredCoach'].indexOf(message)) { return 'CoachUnlimitedAthletes';}
+        else if (~['clubExpireIn', 'expiredClub'].indexOf(message)) {return 'ProfileClub';}
+        else { return null; }
     }
 
 }

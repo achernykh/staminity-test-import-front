@@ -25,12 +25,12 @@
     <div hide show-gt-sm
          ng-if="$ctrl.message" ng-switch on="$ctrl.message"
          layout="row" layout-align="start center"
-         class="user-frame" md-colors="{'background': $ctrl.warn ? 'warn-600' : 'primary-600'}"
+         class="user-frame" md-colors="{'background': $ctrl.getStyle()}"
          ng-click="$ctrl.action()"
          md-ink-ripple="#FF0000">
         <span ng-repeat="type in $ctrl.status" ng-if="$ctrl.message === type"
               class="md-body-2 md-light"
-              translate="{{type}}" translate-values="{days: $ctrl.diffDays(type)}">
+              translate="{{type}}" translate-values="{days: $ctrl.diffDays($ctrl.getRoleByMessage(type))}">
         </span>
     </div>
     <user-menu id="$ctrl.application.user.public.uri || $ctrl.application.user.userId">

@@ -12,6 +12,7 @@ import ReferenceService from "../reference/reference.service";
 import NotificationService from "../share/notification/notification.service";
 import RequestsService from "../core/requests.service";
 import UserService from "../core/user.service";
+import * as _connection from "../core/env.js";
 
 
 
@@ -70,6 +71,9 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions() || [];
+        if (_connection.server === 'testapp.staminity.com:8080') {
+            Object.assign(userRoles, JSON.parse(window.localStorage.getItem('permissions')));
+        }
         return  strict ?
             authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
             authorizedRoles.some(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
