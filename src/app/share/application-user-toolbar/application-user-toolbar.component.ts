@@ -27,7 +27,8 @@ class ApplicationUserToolbarCtrl implements IComponentController {
                 this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'personal'});
                 break;
             }
-            case 'onlyBasicTariff': case 'expiredPremium': case 'expiredCoach': case 'expiredClub': {
+            case 'onlyBasicTariff': case 'expiredPremium': case 'expiredCoach': case 'expiredClub':
+            case 'premiumExpireIn': case 'coachExpireIn': case 'clubExpireIn': {
                 this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'account'});
                 break;
             }
@@ -52,34 +53,34 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     get premiumExpireIn (): boolean {
         let role: string = 'ReportsPro_User';
         let diff = this.diffDays(role);
-        return this.authService.isAuthorized([role], false) && diff && diff >= 0 && diff <= 3 || false;
+        return this.authService.isAuthorized([role], false) && diff >= 0 && diff <= 3 || false;
     }
 
     get coachExpireIn (): boolean {
         let role: string = 'CoachUnlimitedAthletes';
         let diff = this.diffDays(role);
-        return this.authService.isAuthorized([role], false) && diff && diff >= 0 && diff <= 3 || false;
+        return this.authService.isAuthorized([role], false) && diff >= 0 && diff <= 3 || false;
     }
 
     get clubExpireIn (): boolean {
         let role: string = 'ProfileClub';
         let diff = this.diffDays(role);
-        return this.authService.isAuthorized([role], false) && diff && diff >= 0 && diff <= 3 || false;
+        return this.authService.isAuthorized([role], false) && diff >= 0 && diff <= 3 || false;
     }
 
     get expiredPremium (): boolean {
         let diff = this.diffDays('ReportsPro_User');
-        return diff && diff >= -5 && diff <= -1 || false;
+        return diff >= -5 && diff <= -1 || false;
     }
 
     get expiredCoach (): boolean {
         let diff = this.diffDays('CoachUnlimitedAthletes');
-        return diff && diff >= -5 && diff <= -1 || false;
+        return diff >= -5 && diff <= -1 || false;
     }
 
     get expiredClub (): boolean {
         let diff = this.diffDays('ProfileClub');
-        return diff && diff >= -5 && diff <= -1 || false;
+        return diff >= -5 && diff <= -1 || false;
     }
 
     get wran (): boolean {
@@ -93,9 +94,9 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     diffDays (role: string): number {
         let expiredDate = this.server !== 'testapp.staminity.com:8080' ?
             this.application.permissions[role] :
-            JSON.parse(window.localStorage.getItem('permissions'))[role];
-
-        return moment(expiredDate).diff(moment(), 'days') + 1;
+            window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'))[role];
+        let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
+        return diff !== null && diff !== undefined ? (diff >= 0 ? diff + 1 : diff - 1) : null;
     }
 
     getRoleByMessage (message: string): string {

@@ -584,7 +584,11 @@ export const _translateMessage = {
         },
         needOnlyOneSpecifiedActivity: {
             title: '',
-            text: 'Объединение двух фактических тренировок невозможно'
+            text: 'Объединение двух тренировок c планом невозможно'
+        },
+        needOnlyOneCompletedActivity: {
+            title: '',
+            text: 'Объединение двух выполенных тренировок невозможно'
         },
 
     },
@@ -1166,6 +1170,10 @@ export const _translateMessage = {
             text: 'Change date and time in Completed activity is forbidden'
         },
         needOnlyOneSpecifiedActivity: {
+            title: '',
+            text: 'Cannot merge two activities with plan data'
+        },
+        needOnlyOneCompletedActivity: {
             title: '',
             text: 'Cannot merge two activities with actual data'
         },

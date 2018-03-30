@@ -4,7 +4,8 @@ export const ru = {
         shortTitle: "Шаблоны и категории пользователя",
         action: {
             copy: 'Скопировать',
-            delete: 'Удалить'
+            delete: 'Удалить',
+            post: 'Добавить'
         },
         club: {
             fullTitle: "Шаблоны и категории клуба",

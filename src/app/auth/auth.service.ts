@@ -73,7 +73,7 @@ export default class AuthService implements IAuthService {
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions() || [];
         if (this.server === 'testapp.staminity.com:8080') {
-            Object.assign(userRoles, JSON.parse(window.localStorage.getItem('permissions')));
+            Object.assign(userRoles, window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions')) || {});
         }
         return  strict ?
             authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
