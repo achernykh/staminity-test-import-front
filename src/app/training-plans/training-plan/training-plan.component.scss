@@ -57,11 +57,9 @@
       }
 
     }
-    .info {
-      max-width: 960px;
-    }
+    .info {  max-width: 960px;  }
     .general {
-      height: 60vh;
+      height: 100vh;
       background-color: lightblue;
       padding: 32px 128px;
       @media (max-width: 960px) {
