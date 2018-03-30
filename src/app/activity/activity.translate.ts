@@ -14,8 +14,8 @@ export const translateActivity = {
           settings: 'Настройки',
           addAthletes: 'Добавить атлета',
           setSample: 'Сделать примером',
-          unsetSample: 'Убрать из примеров'
-          hideSmoothOnChart: 'Убрать сглаживание графиков'
+          unsetSample: 'Убрать из примеров',
+          hideSmoothOnChart: 'Убрать сглаживание графиков',
       },
       details: {
           measures: {
