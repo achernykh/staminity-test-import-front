@@ -573,7 +573,19 @@ export const _translateMessage = {
         assignmentDeleted: {
             title: '',
             text: 'Присвоение удалено'
-        }
+        },
+        mergeActivitiesWithDistinctDays: {
+            title: '',
+            text: 'Объединение тренировок за разные даты невозможно'
+        },
+        moveSpecifiedItem: {
+            title: '',
+            text: 'Перенести выполненную тренировку невозможно'
+        },
+        needOnlyOneSpecifiedActivity: {
+            title: '',
+            text: 'Объединение двух фактических тренировок невозможно'
+        },
 
     },
 	en: {
@@ -1140,7 +1152,23 @@ export const _translateMessage = {
         forbidden_PlanHasAssignmentsOrPurchases: {
             title: '',
             text: 'Training plan cannot be deleted. It has assignments or purchases'
-        }
+        },
+        assignmentDeleted: {
+            title: '',
+            text: 'Assignment deleted'
+        },
+        mergeActivitiesWithDistinctDays: {
+            title: '',
+            text: 'Dates in merged activities should be the same'
+        },
+        moveSpecifiedItem: {
+            title: '',
+            text: 'Change date and time in Completed activity is forbidden'
+        },
+        needOnlyOneSpecifiedActivity: {
+            title: '',
+            text: 'Cannot merge two activities with actual data'
+        },
 
 }
 };
