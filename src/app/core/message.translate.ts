@@ -590,6 +590,38 @@ export const _translateMessage = {
             title: '',
             text: 'Объединение двух выполненных тренировок невозможно'
         },
+        dbGetDataError: {
+            title: '',
+            text: 'Операция невозможна: dbGetDataError'
+        },
+        activityMerged: {
+            title: '',
+            text: 'Тренировки объединены'
+        },
+        activitySplited: {
+            title: '',
+            text: 'Тренировки разделены'
+        },
+        badActivityIdFirstIdentifier: {
+            title: '',
+            text: 'Объединение невозможно: некорректный идентификатор 1 тренировки'
+        },
+        badActivityIdSecondIdentifier: {
+            title: '',
+            text: 'Объединение невозможно: некорректный идентификатор 2 тренировки'
+        },
+        bothItemsHavePlanData: {
+            title: '',
+            text: 'Объединение невозможно: в обеих тренировках есть план'
+        },
+        bothItemsHaveActualData: {
+            title: '',
+            text: 'Объединение невозможно: в обеих тренировках есть факт'
+        },
+        differentBasicActivityTypes: {
+            title: '',
+            text: 'Объединение невозможно: различные виды спорта в тренировках'
+        },
 
     },
 	en: {
@@ -1177,6 +1209,37 @@ export const _translateMessage = {
             title: '',
             text: 'Cannot merge two activities with actual data'
         },
-
+        dbGetDataError: {
+            title: '',
+            text: 'Action cancelled: dbGetDataError'
+        },
+        activityMerged: {
+            title: '',
+            text: 'Activity has been merged'
+        },
+        activitySplited: {
+            title: '',
+            text: 'Activity has been splitted'
+        },
+        badActivityIdFirstIdentifier: {
+            title: '',
+            text: 'Merge cannot be done: bad 1st item identifier'
+        },
+        badActivityIdSecondIdentifier: {
+            title: '',
+            text: 'Merge cannot be done: bad 2nd item identifier'
+        },
+        bothItemsHavePlanData: {
+            title: '',
+            text: 'Merge cannot be done: both items have plan data'
+        },
+        bothItemsHaveActualData: {
+            title: '',
+            text: 'Merge cannot be done: both items have actual data'
+        },
+        differentBasicActivityTypes: {
+            title: '',
+            text: 'Merge cannot be done: different activity types'
+        },
 }
 };
