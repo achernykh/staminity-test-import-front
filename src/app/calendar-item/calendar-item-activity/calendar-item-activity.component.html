@@ -1,4 +1,4 @@
-<activity-header flex="none" layout="column" style="background-color: indianred"
+<activity-header flex="auto" flex-gt-sm="none" layout="column" style="background-color: indianred"
                  class="md-whiteframe-12dp"
                  ng-class="{'single': $ctrl.mode === 'post' || !$ctrl.activity.hasDetails}">
 
@@ -13,12 +13,13 @@
 
 <activity-metrics-details flex="auto" layout="column" hide show-gt-sm layout="column"
                           has-details="!$ctrl.activity.details.isEmpty"
+                          hide-smooth-on-chart="$ctrl.layout.hideSmoothOnChart"
                           has-intervals=""
                           ng-if="!$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData)">
 
 </activity-metrics-details>
 <md-button flex="none" class="md-fab md-mini md-accent md-hue-2" aria-label="close" hide show-gt-sm
-           ng-if="$ctrl.activity.view.isPopup && !$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData)"
+           ng-if="false && $ctrl.activity.view.isPopup && !$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData)"
            ng-click="$ctrl.onCancel()">
     <md-icon class="material-icons">close</md-icon>
 </md-button>

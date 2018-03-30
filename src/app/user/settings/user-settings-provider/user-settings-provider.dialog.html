@@ -9,7 +9,6 @@
                 </md-button>
             </div>
         </md-toolbar>
-
         <md-dialog-content>
             <md-list class="md-dense">
                 <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
@@ -17,7 +16,7 @@
                         <md-icon class="material icons">account_circle</md-icon>
                         <input ng-model="$ctrl.adaptor.username" type="text" autocomplete="off"
                                required
-                               placeholder="Учетная запись">
+                               placeholder="{{'settings.sync.account.placeholder' | translate}}">
                     </md-input-container>
                 </md-list-item>
                 <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
@@ -25,7 +24,7 @@
                         <md-icon class="material-icons">security</md-icon>
                         <input ng-model="$ctrl.adaptor.password" type="password" autocomplete="off"
                                required
-                               placeholder="Учетная запись">
+                               placeholder="{{'settings.sync.password.placeholder' | translate}}">
                     </md-input-container>
                 </md-list-item>
                 <md-list-item>
@@ -33,8 +32,7 @@
                         <md-datepicker ng-model="$ctrl.adaptor.startDate" name="dateField" md-min-date="minDate"
                                        md-max-date="maxDate"></md-datepicker>
 
-                        <div class="hint">Если начальная дата не указана, то будет выполнена загрузка всех
-                            тренировок</div>
+                        <div class="hint" translate="settings.sync.startDate.hint"></div>
                         <div ng-messages="myOtherForm.dateField.$error">
                             <div ng-message="valid">The entered value is not a date!</div>
                             <div ng-message="required">This date is required!</div>

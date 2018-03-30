@@ -15,6 +15,7 @@ export const translateActivity = {
           addAthletes: 'Добавить атлета',
           setSample: 'Сделать примером',
           unsetSample: 'Убрать из примеров'
+          hideSmoothOnChart: 'Убрать сглаживание графиков'
       },
       details: {
           measures: {
@@ -111,7 +112,8 @@ export const translateActivity = {
       loading: 'Загрузка данных',
       settings: {
           close: 'Закрыть'
-      }
+      },
+      actualDataIsCorrected: 'Фактические данные изменены вручную'
   },
     en: {
         title: 'Activity',
@@ -127,6 +129,7 @@ export const translateActivity = {
             close: 'Close',
             settings: 'Settings',
             addAthletes: 'Add athletes',
+            hideSmoothOnChart: 'Hide chart smooth'
         },
         details: {
             measures: {
@@ -221,10 +224,9 @@ export const translateActivity = {
         loading: 'Loading',
         settings: {
             close: 'Close'
-        }
+        },
+        actualDataIsCorrected: 'Actual data has been corrected manually'
     }
-
-
 };
 
 export const translateSport = {

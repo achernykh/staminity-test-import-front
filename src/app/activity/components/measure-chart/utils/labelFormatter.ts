@@ -42,6 +42,14 @@ const LabelFormatters = {
         formatter: (x, sport) => measureValue(x, sport, "heartRate"),
         label: (sport) => " " + measureUnit("heartRate", sport),
     },
+    cadence: {
+        formatter: (x, sport) => measureValue(x, sport, "cadence"),
+        label: (sport) => " " + measureUnit("cadence", sport),
+    },
+    strokes: {
+        formatter: (x, sport) => measureValue(x, sport, "strokes"),
+        label: (sport) => " " + measureUnit("strokes", sport),
+    },
     power: {
         formatter: (x, sport) => measureValue(x, sport, "power"),
         label: (sport) => " " + measureUnit("power", sport),

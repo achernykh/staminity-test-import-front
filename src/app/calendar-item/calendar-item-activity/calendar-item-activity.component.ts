@@ -128,6 +128,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
 
     public currentUser: IUserProfile = null;
+    layout: {
+        hideSmoothOnChart?: boolean;
+    } = {}; // настройка отображения тренировки
     //public isOwner: boolean; // true - если пользователь владелец тренировки, false - если нет
     //public isCreator: boolean;
     //public isPro: boolean;
@@ -192,6 +195,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.prepareCategories();
         this.prepareTemplates();
         this.prepareTabPosition();
+        this.prepareLayout();
     }
 
     prepareDetails(){
@@ -268,6 +272,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.updateFilterParams();
     }
 
+    prepareLayout (): void {
+        this.layout.hideSmoothOnChart = JSON.parse(window.localStorage.getItem('hideSmoothOnChart')) || false;
+    }
     /**
      * Диалог открытия тренировки
      * @param e

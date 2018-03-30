@@ -84,6 +84,11 @@ activity-metrics-char {
             background-image: url("/assets/icon/heartRate.svg");
         }
 
+        .cadence:before, .strokes:before {
+          @extend p;
+          background-image: url("/assets/icon/cadence.svg");
+        }
+
         .power:before {
             @extend p;
             background-image: url("/assets/icon/power.svg");

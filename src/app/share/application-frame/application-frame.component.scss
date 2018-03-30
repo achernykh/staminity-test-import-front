@@ -13,7 +13,7 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
   Шаблон с Навигационной панелью
    */
   &.nav-bar {
-    
+
     .st-application-frame__primary-toolbar {
       height: $app-max-bar-height-mobile;
       @media (min-width: 960px) { height: $app-max-bar-height; }
@@ -32,10 +32,10 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     .st-application-frame__content {
       top: $app-max-bar-height-mobile;
       @media (min-width: 960px) { top: $app-max-bar-height; }
-      height: calc(100vh - 64px - 48px);
+      height: auto;//calc(100vh - 64px - 48px);
       overflow-y: auto;
     }
-    
+
   }
 
   /**
@@ -72,7 +72,7 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     }
 
     // Шаблон профиля с навигационной панелью
-    &.nav-bar {
+    &.nav-bar, &[nav-bar] {
       .st-profile-template__header > .info {
         height: calc(100% - 48px);
         overflow: hidden;
@@ -146,7 +146,6 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     top: $app-toolbar-height-mobile;
     width: 100%;
     z-index: 4;
-
     @media (min-width: 960px) {top: $app-toolbar-height}
 
     .md-nav-bar {
@@ -227,11 +226,13 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     width: auto;
     background-color: $grey-300;
     top: $app-toolbar-height;
-    height: calc(100vh - 64px);
+    min-height: auto;//calc(100vh - 64px);
+    height: auto;//calc(100vh - 64px);
     overflow-y: auto;
     @media (max-width: 959px) {
       top: $app-toolbar-height-mobile;
-      height: calc(100vh - 56px);
+      min-height: auto;//calc(100vh - 56px);
+      height: auto;//calc(100vh - 56px);
       overflow-y: auto;
     }
     &.left-bar {

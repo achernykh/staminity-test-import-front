@@ -1,7 +1,6 @@
 <div ng-if="$ctrl.AuthService.isAuthenticated()"
      layout="row" layout-align="end center" layout-fill
      class="st-application-user-toolbar">
-
     <md-button ng-if="!$ctrl.application.connectionStatus" flex="none">
         <md-icon calss="material-icons animated fadeIn">signal_wifi_off</md-icon>
     </md-button>
@@ -23,7 +22,6 @@
         <md-icon md-font-set="material-icons">group</md-icon>
         <span class="badge superscript" ng-if="$ctrl.application.requests > 0">{{$ctrl.application.requests}}</span>
     </md-button>
-
     <div hide show-gt-sm layout="row" class="user-frame" md-colors="::{'background': 'primary-600'}">
         <div flex="none"
              class="avatar mini"
@@ -31,9 +29,15 @@
         <div flex class="user-name md-body-1">{{$ctrl.application.user | username: 'short'}}</div>
         <user-menu id="$ctrl.application.user.public.uri || $ctrl.application.user.userId"></user-menu>
     </div>
-
 </div>
 <div layout="row" layout-align="end center" layout-fill ng-if="!$ctrl.AuthService.isAuthenticated()">
-    <a ui-sref="signin({ nextState: '{{::$ctrl.$state.$current.name}}', nextParams: {{::$ctrl.$state.params}} })" class="button" translate>landing.nav.signIn</a>
-    <a ui-sref="signup" class="button" translate>landing.nav.signUp</a>
+    <md-button ui-sref="signin({nextState: $ctrl.$state.$current.name, nextParams: $ctrl.$state.params})"
+               class="md-icon-button" translate>
+        <md-tooltip ng-bind="'landing.nav.signIn' | translate"></md-tooltip>
+        <md-icon class="material-icons">vpn_key</md-icon>
+    </md-button>
+    <md-button ui-sref="signup" class="md-icon-button">
+        <md-tooltip ng-bind="'landing.nav.signUp' | translate"></md-tooltip>
+        <md-icon class="material-icons">person_add</md-icon>
+    </md-button>
 </div>

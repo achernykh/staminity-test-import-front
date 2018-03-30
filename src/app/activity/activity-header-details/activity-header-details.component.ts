@@ -8,6 +8,7 @@ import {ICalcMeasures} from "../../../../api/activity/activity.interface";
 import {Measure} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
 import {ActivityIntervalL} from "../activity-datamodel/activity.interval-l";
+import { IChartMeasureData } from "../activity-datamodel/activity.details";
 
 interface Select {
     type: string;
@@ -30,7 +31,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
 
     private selectionIndex: ISelectionIndex;
     public onSelected: (result: {initiator: SelectInitiator, selection: ISelectionIndex}) => IPromise<void>;
-    private chartData: MeasureChartData; // класс для расчета данных для графика
+    private chartData: IChartMeasureData; // класс для расчета данных для графика
 
     private readonly intervalTypes = ['P','L','U'];
     private intervals: SelectionOptions<Select> = {};
@@ -83,7 +84,7 @@ class ActivityHeaderDetailsCtrl implements IComponentController {
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
         }
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
-            this.chartData = new MeasureChartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures, this.item.activity.details);
+            this.chartData = this.item.activity.details.chartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures);
             this.completeDetails = true;
             this.prepareIntervals();
         }

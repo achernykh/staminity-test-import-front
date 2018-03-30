@@ -4,6 +4,7 @@ import moment from "moment/min/moment-with-locales.js";
 import "./landing-tariffs.component.scss";
 import {landingTariffsData} from "./landing-tariffs.constants";
 import { SessionService, getUser } from "../../core/session/session.service";
+import { saveUtmParams } from "../../share/location/utm.functions";
 
 interface TariffCalc {
     premium: boolean;
@@ -40,6 +41,8 @@ class LandingTariffsCtrl implements IComponentController {
         private $location: ILocationService,
         private $state: StateService,
         private session: SessionService) {
+
+        saveUtmParams($location.search());
 
     }
 

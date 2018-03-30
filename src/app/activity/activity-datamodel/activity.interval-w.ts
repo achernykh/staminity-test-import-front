@@ -5,6 +5,7 @@ import {ActivityIntervalCalcMeasure} from "./activity.models";
 export class ActivityIntervalW extends ActivityInterval implements IActivityIntervalW {
 
     actualDataIsImported: boolean; // признак загрузки фактических данных с устройства
+    actualDataIsCorrected?: boolean; // признак, что загруженные фактические данные корректировались вручную
     calcMeasures: ICalcMeasures; // рассчитанные фактические показатели
 
     constructor(type: string, params: any) {

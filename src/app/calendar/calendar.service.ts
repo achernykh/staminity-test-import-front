@@ -2,11 +2,12 @@ import {SocketService} from '../core';
 import {
     ICalendarItem, ISearchCalendarItemsParams, ISearchCalendarItemsResult,
     GetCalendarItemRequest, PostCalendarItemRequest,
-    PutCalendarItemRequest, DeleteCalendarItemRequest, SearchCalendarItem} from '../../../api';
+    PutCalendarItemRequest, DeleteCalendarItemRequest, SearchCalendarItem,
+    SplitCalendarItem, MergeCalendarItems} from '../../../api';
 import {Observable} from "rxjs/Rx";
 import {IRESTService, PostFile} from "../core/rest.service";
 import {IHttpPromise, copy} from 'angular';
-import { IRevisionResponse } from "@api/core";
+import {IRevisionResponse, ISystemMessage} from "@api/core";
 import * as _connection from "../core/env.js";
 
 export class CalendarService {
@@ -77,5 +78,24 @@ export class CalendarService {
      */
     search (request: ISearchCalendarItemsParams): Promise<ISearchCalendarItemsResult> {
         return this.SocketService.send(new SearchCalendarItem(request));
+    }
+
+    /**
+     *
+     * @param id
+     * @returns {Promise<any>}
+     */
+    split (id: number): Promise<ISystemMessage> {
+        return this.SocketService.send((new SplitCalendarItem(id)));
+    }
+
+    /**
+     *
+     * @param srcId
+     * @param trgId
+     * @returns {Promise<any>}
+     */
+    merge (srcId: number, trgId: number): Promise<ISystemMessage> {
+        return this.SocketService.send(new MergeCalendarItems(srcId, trgId));
     }
 }

@@ -25,5 +25,15 @@
   "start_url": "/calendar",
   "display": "standalone",
   "background_color": "#3E4EB8",
-  "theme_color": "#3E4EB8"
+  "theme_color": "#3E4EB8",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.staminity.phoneapp",
+      "id": "com.staminity.phoneapp"
+    }, {
+      "platform": "itunes",
+      "url": "https://itunes.apple.com/app/true/id1257031952"
+    }]
 }

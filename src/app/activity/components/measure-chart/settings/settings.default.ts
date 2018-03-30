@@ -22,16 +22,18 @@ const DefaultChartSettings: IActivityChartSettings = {
     },
     //xMeasures: [''],
     heartRate: {
-        order: 3,
+        order: 23,
         flippedChart: false,
         zoomOffset: 5,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(233,30,99,1)", opacity: 1 },
-                { offset: "100%", color: "rgba(247, 153, 131, 0)", opacity: 0 },
+                { offset: "0%", color: "#F06292", opacity: 0.4 },
+                { offset: "100%", color: "#FCE4EC", opacity: 0.1 },
             ],
+            lineColor: "#F06292",
+            lineWidth: 2,
         },
         marker: {
             color: "#c2185b",
@@ -45,17 +47,71 @@ const DefaultChartSettings: IActivityChartSettings = {
             hideOnWidth: 0,
         },
     },
-    speed: {
+    cadence: {
+        order: 4,
+        flippedChart: false,
+        zoomOffset: 5,
+        area: {
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "#FFB74D", opacity: 0 },
+                { offset: "100%", color: "#FFE0B2", opacity: 0 },
+            ],
+            lineColor: "#FFB74D",
+            lineWidth: 2,
+        },
+        marker: {
+            color: "#FF9800",
+            radius: 4,
+        },
+        axis: {
+            color: "#FFB74D",
+            tickMinStep: 5,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0,
+        },
+    },
+    strokes: {
         order: 2,
+        flippedChart: false,
+        zoomOffset: 5,
+        area: {
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "#FFB74D", opacity: 0 },
+                { offset: "100%", color: "#FFE0B2", opacity: 0 },
+            ],
+            lineColor: "#FFB74D",
+            lineWidth: 2,
+        },
+        marker: {
+            color: "#FF9800",
+            radius: 4,
+        },
+        axis: {
+            color: "#FFB74D",
+            tickMinStep: 1,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0,
+        },
+    },
+    speed: {
+        order: 24,
         flippedChart: false,
         zoomOffset: 0.2,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(33,150,243,1)", opacity: 1 },
-                { offset: "100%", color: "rgba(33,150,243, 0)", opacity: 0 },
+                { offset: "0%", color: "#64B5F6", opacity: 0.4 },
+                { offset: "100%", color: "#BBDEFB", opacity: 0.1 },
             ],
+            lineColor: "#64B5F6",
+            lineWidth: 2,
         },
         marker: {
             color: "#4e6cef",
@@ -70,16 +126,18 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
     },
     pace: {
-        order: 2,
+        order: 24,
         flippedChart: false,
         zoomOffset: 0,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(33,150,243,1)", opacity: 1 },
-                { offset: "100%", color: "rgba(33,150,243, 0)", opacity: 0 },
+                { offset: "0%", color: "#64B5F6", opacity: 0.4 },
+                { offset: "100%", color: "#BBDEFB", opacity: 0.1 },
             ],
+            lineColor: "#64B5F6",
+            lineWidth: 2,
         },
         marker: {
             color: "#4e6cef",
@@ -87,23 +145,29 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: "#5677fc",
-            tickMinStep: 0.03, // 00:30 min/km
-            tickMinDistance: 50,
+            tickMinStep: (sport) => sport === 'swim' ? 0.005 : 0.03, // 00:30 min/km
+            tickMinDistance: 30,
             ticksPerLabel: 1,
             hideOnWidth: 0,
+            multiplex: (x, sport) => sport === 'swim' ?
+                1000 / ((Math.ceil(1000 / (x * 10) / 60 / 0.08333) * 0.08333) * 10) / 60 :
+                1000 / (Math.ceil(1000 / x / 60 / 0.5) * 0.5) / 60,
+            //multiplex: (x) => 1000 / (Math.ceil(1000 / x / 60 / 0.5) * 0.5) / 60
         },
     },
     power: {
-        order: 1,
+        order: 25,
         flippedChart: false,
         zoomOffset: 0,
         area: {
             heightRatio: 1,
             fillType: FillType.Gradient,
             gradient: [
-                { offset: "0%", color: "rgba(156,39,176,1)", opacity: 1 },
-                { offset: "100%", color: "rgba(156,39,176,0)", opacity: 0 },
+                { offset: "0%", color: "#BA68C8", opacity: 0.4 },
+                { offset: "100%", color: "#F3E5F5", opacity: 0.1 },
             ],
+            lineColor: "#BA68C8",
+            lineWidth: 2,
         },
         marker: {
             color: "#9C27B0",
@@ -118,13 +182,18 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
     },
     altitude: {
-        order: 4,
+        order: 6,
         flippedChart: false,
         zoomOffset: 0,
         area: {
-            heightRatio: 0.35,
-            fillType: FillType.Solid,
-            solidColor: "rgba(216, 216, 216, 0.5)",
+            heightRatio: 1,
+            fillType: FillType.Gradient,
+            gradient: [
+                { offset: "0%", color: "#BDBDBD", opacity: 0.4 },
+                { offset: "100%", color: "#F5F5F5", opacity: 0.1 },
+            ],
+            lineColor: "#BDBDBD",
+            lineWidth: 2,
         },
         marker: {
             color: "#757575",
@@ -132,10 +201,10 @@ const DefaultChartSettings: IActivityChartSettings = {
         },
         axis: {
             color: "#8d8d8d",
-            tickMinStep: 5,
-            tickMinDistance: 30,
-            ticksPerLabel: 1,
-            hideOnWidth: 3000,
+            tickMinStep: 1,
+            tickMinDistance: 10,
+            ticksPerLabel: 2,
+            hideOnWidth: 0,
         },
     },
     duration: {

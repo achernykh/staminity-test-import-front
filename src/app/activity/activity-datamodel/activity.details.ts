@@ -49,7 +49,7 @@ export class ActivityDetails implements IActivityDetails {
         const maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
 
         const measuresX: string[] = ["distance", "elapsedDuration"];
-        const measuresY: string[] = ["heartRate", "speed", "power", "altitude"];
+        const measuresY: string[] = ["heartRate", "speed", "power", "cadence", "strokes", "altitude"];
         const measuresSecondary: string[] = ["timestamp", "duration"];
 
         let array: string[];
@@ -67,7 +67,11 @@ export class ActivityDetails implements IActivityDetails {
                         min: calcMeasure[key].minValue,
                     };
                 }
-            } else {
+            } else if (this.measures.hasOwnProperty(key) && key === 'strokes') {
+                measures[key] = this.measures[key];
+                measures[key].show = true;
+            }
+            else {
                 measuresY.splice(measuresY.indexOf(key), 1);
             }
         });

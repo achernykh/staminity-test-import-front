@@ -9,8 +9,8 @@ activity-header {
   background: $grey-100;
 
   @media (min-width: 960px) {
-    max-width: $details_width;
-    min-width: $details_width;
+    //max-width: $details_width;
+    //min-width: $details_width;
 
     md-toolbar {
       min-height: 16px;
@@ -19,8 +19,8 @@ activity-header {
 
   &.single {
     @media (min-width: 960px) {
-      max-width: $details_width;
-      min-width: 360px;
+      //max-width: $details_width;
+      //min-width: 360px;
 
       md-toolbar {
         min-height: 16px;
@@ -30,6 +30,9 @@ activity-header {
 
   .md-toolbar-tools md-menu:first-child {
     margin-left: -8px;
+    .md-button {
+      margin-right: 16px;
+    }
   }
 
   md-toolbar {
@@ -66,37 +69,38 @@ activity-header {
       }
     }
     // без плана
-    &.not-specified {
+    /*&.not-specified {
       @extend .bg-blue-grey-800;
       color: white;
       .bg-circle-32 {
         @extend .bg-blue-grey-900;
       }
-    }
+    }*/
     // плановое задание
-    &.coming, &.template{
-      @extend .bg-grey-600;
+    &.coming, &.template, &.not-specified {
+      @extend .bg-grey-500;
       color: white;
       .bg-circle-32 {
-        @extend .bg-grey-700;
+        @extend .bg-grey-600;
       }
     }
 
   }
-
+  md-tabs.md-primary.not-specified > md-tabs-wrapper,
   md-tabs.md-primary.coming > md-tabs-wrapper {
-    @extend .bg-grey-600;
+    @extend .bg-grey-500;
   }
-  md-tabs.md-primary.not-specified > md-tabs-wrapper {
+  /**md-tabs.md-primary.not-specified > md-tabs-wrapper {
     @extend .bg-blue-grey-800;
-  }
+  }**/
   md-tabs.md-primary.complete > md-tabs-wrapper {
     @extend .bg-teal-800;
   }
   md-tabs.md-primary.complete-warn > md-tabs-wrapper {
     @extend .bg-orange-800;
   }
-  md-tabs.md-primary.complete-error > md-tabs-wrapper, md-tabs.md-primary.dismiss > md-tabs-wrapper {
+  md-tabs.md-primary.complete-error > md-tabs-wrapper,
+  md-tabs.md-primary.dismiss > md-tabs-wrapper {
     @extend .bg-red-800;
   }
 

@@ -1,9 +1,9 @@
 import './club.component.scss';
-
+import { saveUtmParams } from "../share/location/utm.functions";
 
 class ClubCtrl {
 
-    constructor ($scope, dialogs, SessionService, GroupService, UserService, RequestsService, message) {
+    constructor ($scope, dialogs, SessionService, GroupService, UserService, RequestsService, message, $location) {
         this.$scope = Object.assign($scope, { Boolean });
         this.dialogs = dialogs;
         this.SessionService = SessionService;
@@ -11,6 +11,7 @@ class ClubCtrl {
         this.UserService = UserService;
         this.RequestsService = RequestsService;
         this.message = message;
+        saveUtmParams($location.search());
     }
 
     $onInit(){
@@ -82,7 +83,8 @@ class ClubCtrl {
     }
 
 };
-ClubCtrl.$inject = ['$scope','dialogs','SessionService','GroupService','UserService','RequestsService','message'];
+ClubCtrl.$inject = ['$scope','dialogs','SessionService','GroupService','UserService','RequestsService',
+    'message','$location'];
 
 const ClubComponent = {
 

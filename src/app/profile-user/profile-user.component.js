@@ -2,11 +2,12 @@
 import moment from 'moment/src/moment.js';
 import { id, pipe, groupBy, log, map, entries, fold, filter } from '../share/util.js';
 import './profile-user.component.scss';
+import { saveUtmParams } from "../share/location/utm.functions";
 
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService, RequestsService) {
+    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService, RequestsService, $location) {
         'ngInject';
         this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
@@ -16,6 +17,8 @@ class ProfileCtrl {
         this.GroupService = GroupService;
         this.message = SystemMessageService;
         this.RequestsService = RequestsService;
+
+        saveUtmParams($location.search());
     }
 
     $onInit() {
@@ -79,7 +82,8 @@ class ProfileCtrl {
     }
 };
 
-ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService','SystemMessageService','RequestsService'];
+ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService',
+    'SystemMessageService','RequestsService','$location'];
 
 const ProfileComponent = {
     bindings: {

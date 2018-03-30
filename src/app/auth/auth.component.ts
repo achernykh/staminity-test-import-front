@@ -95,7 +95,7 @@ class AuthCtrl implements IComponentController {
      */
     signup(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
-        this.AuthService.signUp(credentials)
+        this.AuthService.signUp(Object.assign({}, credentials, {utm: {...this.getUtmParams()}}))
             .finally(() => this.enabled = true)
             .then((message) => {
                 this.showConfirm = true;
@@ -144,15 +144,15 @@ class AuthCtrl implements IComponentController {
     }
 
     OAuth(provider: string) {
+        let data = Object.assign({
+            postAsExternalProvider: false,
+            provider,
+            activateCoachTrial: this.credentials["activateCoachTrial"],
+            activatePremiumTrial: true,
+            utm: {...this.getUtmParams()}
+        });
         this.enabled = false; // форма ввода недоступна до получения ответа
-        this.$auth.link(provider, {
-            internalData: {
-                postAsExternalProvider: false,
-                provider,
-                activateCoachTrial: this.credentials["activateCoachTrial"],
-                activatePremiumTrial: true,
-            },
-        })
+        this.$auth.link(provider, {internalData: data})
             .finally(() => this.enabled = true)
             .then((response: IHttpPromiseCallbackArg<{data: {userProfile: IUserProfile, systemFunctions: any}}>) => {
                 const sessionData = response.data.data;
@@ -176,6 +176,10 @@ class AuthCtrl implements IComponentController {
         }
         //  Устанавливаем таймаут на случай выхода/входа пользователя. Без тайм-аута вход без выхода не успевает
         setTimeout(() => this.$state.go(redirectState, redirectParams), 1000);
+    }
+
+    private getUtmParams (): Object {
+        return JSON.parse(window.sessionStorage.getItem('utm')) || {};
     }
 
 }

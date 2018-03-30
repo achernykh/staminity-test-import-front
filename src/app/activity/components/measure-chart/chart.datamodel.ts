@@ -29,9 +29,11 @@ export class ActivityChartDatamodel implements IComponentController {
     private data: Array<IActivityMetrics<number>>;
     private selectIntervals: ITimestampInterval[];
 
-    constructor(measures, data, x, select = []) {
+    constructor(measures, private originalData: Array<IActivityMetrics<number>>, x, select = [], smooth) {
         this.measures = measures;
-        this.data = data;
+        //this.data = data;
+        this.data = [];
+        originalData.map((d,i) => i % smooth === 0 && this.data.push(d));
         this.selectIntervals = select || [];
     };
 
