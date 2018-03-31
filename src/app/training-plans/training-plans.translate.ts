@@ -194,7 +194,7 @@ export const _translateTrainingPlans = {
             description: 'Описание плана',
             targetAudience: 'Целевая аудитория',
             calendarDates: 'Даты плана',
-            flexCalendarDates: 'План не привзян к датам',
+            flexCalendarDates: 'План не привязан к датам',
             assignOpportunities: 'Вы сможете присвоить план с любой или по любую дату для подготовки в вашему старту',
             regularWeek: 'Типовая неделя',
             offlineTraining: 'Очные тренировки',
