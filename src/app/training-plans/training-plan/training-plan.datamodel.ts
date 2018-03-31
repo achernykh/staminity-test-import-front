@@ -211,6 +211,7 @@ export class TrainingPlan implements ITrainingPlan {
      * @returns {{firstPlanDate: string, firstItemDate: string, lastPlanDate: string, lastItemDate: string}}
      */
     assignmentInfo (applyMode: 'P' | 'I', applyDateMode: 'F' | 'T', applyFromDate: Date, applyToDate: Date): Object {
+        debugger;
         let firstDate: string = this.fistItemAssignmentDate(applyMode, applyDateMode, applyFromDate, applyToDate);
         let shift: number = moment(firstDate).diff(moment(this.firstCalendarItem.dateStart), 'days');
         return {

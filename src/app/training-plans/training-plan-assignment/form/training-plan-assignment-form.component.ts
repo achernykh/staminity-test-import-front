@@ -29,13 +29,16 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     $onInit() {
+        debugger;
         if (!this.assign) {
             this.data = Object.assign({
                 userId: this.athletes.length === 1 ? [this.athletes[0].userId] : [],
                 applyMode: 'P',
                 applyDateMode: 'F',
                 enabledSync: this.plan.propagateMods || null,
-                applyFromDate: null,
+                applyFromDate: this.plan.isFixedCalendarDates ?
+                    moment(this.plan.startDate).diff(moment(), 'days') >= 0 && new Date(this.plan.startDate) || moment().add(1, 'week').startOf('week').toDate() :
+                    moment().add(1, 'week').startOf('week').toDate(),
                 applyToDate: null
             });
         } else {
@@ -53,7 +56,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
         }
 
         if ( this.plan.isFixedCalendarDates && !this.data.firstItemDate ) {
-            this.data.applyFromDate = new Date(moment(this.plan.startDate).format('YYYY-MM-DD'));
+            //this.data.applyFromDate = new Date(moment(this.plan.startDate).format('YYYY-MM-DD'));
         }
 
     }
@@ -75,7 +78,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
             firstItemDate: this.plan.fistItemAssignmentDate(this.data.applyMode, this.data.applyDateMode, this.data.applyFromDate, this.data.applyToDate),
             enabledSync: this.enabledSync,
             applyFromDate: this.data.applyFromDate && moment(this.data.applyFromDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
-            applyToDate: this.data.applyFromDate && moment(this.data.applyToDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
+            applyToDate: this.data.applyToDate && moment(this.data.applyToDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
         }).then(response => this.onCancel(), error => this.message.toastError(error));
     }
 

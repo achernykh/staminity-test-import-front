@@ -157,7 +157,15 @@ export const _translateTrainingPlans = {
             list: {
                 title: 'Список присвоений плана',
                 empty: 'У плана нет присвоений',
-                info: "Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{version}}"
+                info: "<span>Дата подключения {{createdDate | date:'shortDate'}}, версия плана {{version}}</span><br><span>{{applyMode | translate}}, {{applyDateMode | translate}} {{applyDate}}</span>",
+                applyMode: {
+                    P: 'В даты плана',
+                    I: 'В даты записей',
+                },
+                applyDateMode: {
+                    F: 'с',
+                    T: 'до',
+                },
             },
             enabledSync: "Транслировать изменения плана",
             enabledSyncDisabled: "Трансляция изменений плана невозможна",

@@ -22,7 +22,11 @@
             <img ng-src="{{assign.user | stUserAvatarUrl}}" class="md-avatar" alt="{{assign.user.userId}}"/>
             <div class="md-list-item-text" layout="column">
                 <h3 class="md-body-2">{{ assign.user | userName }}</h3>
-                <p translate="trainingPlans.assignment.list.info" translate-values="{{assign}}"></p>
+                <p translate="trainingPlans.assignment.list.info"
+                   translate-values="{createDate: assign.createDate, version: assign.version,
+                   applyMode: 'trainingPlans.assignment.list.applyMode.'+assign.applyMode,
+                   applyDateMode: 'trainingPlans.assignment.list.applyDateMode.'+assign.applyDateMode,
+                   applyDate: assign.applyDateMode === 'F' ? assign.applyFromDate : assign.applyToDate}"></p>
             </div>
             <md-icon class="material-icons md-secondary md-dark"
                      ng-if="$ctrl.plan.propagateMods"

@@ -1,4 +1,5 @@
 import {IComponentController, IComponentOptions, IPromise} from "angular";
+import {StateService} from "angular-ui-router";
 import AuthService from "../../auth/auth.service";
 import "./application-user-toolbar.component.scss";
 
@@ -6,9 +7,10 @@ class ApplicationUserToolbarCtrl implements IComponentController {
 
     data: any;
     onEvent: (response: Object) => IPromise<void>;
-    static $inject = ["AuthService"];
+    static $inject = ["$state", "AuthService"];
 
-    constructor(private AuthService: AuthService) {
+    constructor(private $state: StateService,
+                private AuthService: AuthService) {
 
     }
 
