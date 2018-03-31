@@ -44,16 +44,19 @@ export const _translateTrainingPlans = {
         plan: 'Тренировочный план',
         // поля плана
         isPublic: {
-            label: 'План на продажу'
+            label: 'План для публикации в магазине'
         },
         name: {
-            label: 'Название'
+            label: 'Название',
+            placeholder: 'Укажите название плана'
         },
         type: {
-            label: 'Вид спорта'
+            label: 'Вид спорта',
+            placeholder: 'Выберите вид спорта'
         },
         distanceType: {
-            label: 'Тип соревнований'
+            label: 'Тип соревнований',
+            placeholder: 'Выберите тип соревнования'
         },
         isFixedCalendarDates: {
             label: 'Фиксированные даты',
@@ -85,16 +88,17 @@ export const _translateTrainingPlans = {
             label: 'Описание'
         },
         keywords: {
-            label: 'Ключевые слова'
+            label: 'Ключевые слова',
+            placeholder: 'Введите ключевые слова, разделяйте их по нажатию Enter'
         },
         isStructured: {
             label: 'Сегменты'
         },
         hasConsultations: {
-            label: 'Консультации'
+            label: 'Включены консультации'
         },
         hasOfflineTraining: {
-            label: 'Очные занятия'
+            label: 'Включены очные занятия'
         },
         state: {
             active: 'Приобретен',
@@ -180,7 +184,10 @@ export const _translateTrainingPlans = {
                 purchases: 'Покупки'
             },
             free: 'Бесплатно',
-            price: 'Купить {{price}} {{currency}}'
+            price: 'Купить {{price}} {{currency}}',
+            name: 'Название',
+            author: 'Автор',
+            title: 'Приобрести тренировочный план'
         },
         landing: {
             weekCount: 'Недель подготовки {{count}}',
@@ -216,7 +223,57 @@ export const _translateTrainingPlans = {
         planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения",
         info: {
             disableEditAssignPlan: ""
-        }
+        },
+        order: {
+            needAccount: 'Для покупки плана необходимо войти в систему',
+            signin: 'У меня уже есть аккаунт',
+            signup: 'Создать аккаунт'
+        },
+        monetization: {
+            label: 'Указать стоимость плана'
+        },
+        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На баланс автора будет зачислено 70% от стоимости плана с каждой покупки',
+        currency: {
+            label: 'Валюта',
+            placeholder: 'Выберите валюту'
+        },
+        price: {
+            label: 'Цена',
+            placeholder: 'Укажите цену плана'
+        },
+        planDescriptionInfo: 'Характеристики плана в магазине',
+        targetAudience: {
+            label: "Целевая аудитория",
+            placeholder: 'Опишите, для кого предназначен ваш план'
+        },
+        regularWeek: {
+            label: "Типовая неделя",
+            placeholder: 'Укажите характеристики типовой недели занятий в плане'
+        },
+        statisticData: {
+            label: 'График тренировочных объемов в плане',
+            hint: 'На странице плана график тренировочных объемов может быть выведен по времени или по расстоянию. Выберите нужный'
+        },
+        effortStat: {
+            metricsByDuration: "По времени (часы)",
+            metricsByDistance: 'По расстоянию (км)'
+        },
+        consultationsDescription: {
+            label: 'Описание консультаций',
+            placeholder: 'Как часто и каким способом вы консультируете покупателей плана'
+        },
+        offlineTrainingDescription: {
+            label: 'Описание очных занятий',
+            placeholder: 'Как часто и где проводятся очные занятия, включенные в стоимость плана'
+        },
+        hasStructuredActivity: {
+            label: 'Тренировочные задания разбиты по сегментам'
+        },
+        structuredActivityDescription: {
+            label: 'Опишите структурированные тренировки',
+            placeholder: 'План по каким тренировкам создан с разбивкой по сегментам'
+        },
+
     },
     en: {
         builder: {
@@ -254,16 +311,19 @@ export const _translateTrainingPlans = {
         },
         // поля плана
         isPublic: {
-            label: 'For sale'
+            label: 'For publish in Store'
         },
         name: {
-            label: 'Name'
+            label: 'Name',
+            placeholder: 'Set training plan name'
         },
         type: {
-            label: 'Activity type'
+            label: 'Activity type',
+            placeholder: 'Select activity type'
         },
         distanceType: {
-            label: 'Distance type'
+            label: 'Distance type',
+            placeholder: 'Select distance type'
         },
         isFixedCalendarDates: {
             label: 'Fixed dates',
