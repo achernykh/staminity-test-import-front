@@ -183,7 +183,7 @@ export const _translateTrainingPlans = {
                 store: 'Магазин',
                 purchases: 'Покупки'
             },
-            free: 'Бесплатно',
+            free: 'Подключить бесплатно',
             price: 'Купить {{price}} {{currency}}',
             name: 'Название',
             author: 'Автор',
