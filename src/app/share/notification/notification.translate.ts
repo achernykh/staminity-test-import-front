@@ -1188,7 +1188,6 @@ export const translateNotification = {
         measurementModifiedByAthlete: "Measurement was edited by athlete: {{data[1] | date:'short'}}",
 
         /* ----------Продажа тренировочных планов --------**/
-        activityCreatedByAthlete: "Athlete created new activity: {{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
         agentAccountEnabled: "Your legal entity account for company {{data[0]}} has been approved. Now you will be able to publish training plans in store",
         agentBindCardFailure: "Card link error! New card {{data[0]}} has not been added to your {{data[1]}} account. Error message: {{data[2]}}",
         agentBindCardSuccess: "New card {{data[0]}} has been added to withdraw from your {{data[1]}} account",

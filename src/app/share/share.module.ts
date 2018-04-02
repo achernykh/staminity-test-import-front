@@ -56,8 +56,9 @@ import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
-import { measurePrintIntensity } from "./measure//measure-print-intensity.filter";
+import { measurePrintIntensity } from "./measure/measure-print-intensity.filter";
 import { stringToDate } from "./date/stringToDate.filter";
+import {ApplicationGuestMenuComponent} from "./application-guest-menu/application-guest-menu.component";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -315,6 +316,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
     .component('applicationMenu',ApplicationMenu)
+    .component('stApplicationGuestMenu', ApplicationGuestMenuComponent)
     .service('LoaderService',LoaderService)
     .service('NotificationService', NotificationService)
     .service("dialogs", DialogsService)

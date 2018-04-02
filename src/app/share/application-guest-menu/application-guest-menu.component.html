@@ -1,0 +1,15 @@
+<md-toolbar class="md-hue-3">
+    <div class="md-toolbar-tools">
+        <h2 flex translate="menu"></h2>
+        <md-button class="md-icon-button" aria-label="More" ng-click="$ctrl.close()">
+            <md-icon clas="material-icons">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-list>
+    <md-list-item ng-repeat="item in $ctrl.menu" ng-click="$ctrl.go(item)">
+        <md-icon class="material-icons" ng-bind="item.icon"></md-icon>
+        <p class="md-body-2 md-dark">{{item.name | translate}}</p>
+    </md-list-item>
+</md-list>

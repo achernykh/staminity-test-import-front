@@ -19,4 +19,9 @@
     <application-menu ng-if="!$ctrl.isLoading"/>
 </md-sidenav>
 
+<md-sidenav id="appGuestMenu" class="md-sidenav-left md-whiteframe-z2 st-fixed"
+            md-component-id="appGuestMenu" ng-if="!$ctrl.auth.isAuthenticated()">
+    <st-application-guest-menu ng-if="!$ctrl.isLoading"/>
+</md-sidenav>
+
 <toaster-container></toaster-container>

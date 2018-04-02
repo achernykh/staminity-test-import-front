@@ -3,7 +3,7 @@
     <div class="md-toolbar-tools">
         <section ng-transclude="profile"></section>
         <md-button class="app-menu md-icon-button" aria-label="Application Menu"
-                   ng-click="$ctrl.sideNav('appmenu')">
+                   ng-click="$ctrl.auth.isAuthenticated() ? $ctrl.sideNav('appmenu') : $ctrl.sideNav('appGuestMenu')">
             <md-icon class="material-icons md-light">menu</md-icon>
         </md-button>
         <h2 class="md-title" ng-transclude="title"></h2>
