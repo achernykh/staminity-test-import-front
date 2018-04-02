@@ -420,7 +420,7 @@ export const translateUser = {
                         button: 'Изменить',
                         title: 'Ожидание...',
                         text: "Ожидается подтверждение"},
-                    оnSyncCheckRequisites: {
+                    onSyncCheckRequisites: {
                         button: 'Изменить',
                         title: 'Проверка...',
                         text: "Проверка правильности введенных данных"
@@ -859,7 +859,7 @@ export const translateUser = {
                         button: 'Change',
                         title: 'Please wait...',
                         text: "Waiting confirmation"},
-                    оnSyncCheckRequisites: {
+                    onSyncCheckRequisites: {
                         button: 'Change',
                         title: 'Check...',
                         text: "Check your credentials"
