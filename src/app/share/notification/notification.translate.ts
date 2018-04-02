@@ -584,7 +584,42 @@ export const translateNotification = {
         newAthletePowerFTPBySystem: "Предлагаем обновить ПАНО по мощности для вашего спортсмена по итогам его тренировки. " +
         "Новое значение: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}",
 
-/* ---------- Уведомления от сервиса --------**/
+
+        /* ----------Уведомления по новым calendarItems --------**/
+
+        competitionCreatedByAthlete: "Ученик запланировал соревнование: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionCreatedByCoach: "Тренер запланировал соревнование: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionDeletedByAthlete: "Ученик удалил соревнование: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionDeletedByCoach: "Тренер удалил соревнование: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionModifiedByAthlete: "Ученик изменил соревнование: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionModifiedByCoach: "Тренер изменил соревнование: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+
+        recordCreatedByAthlete: "Ученик создал событие: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordCreatedByCoach: "Тренер создал событие: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordDeletedByAthlete: "Ученик удалил событие: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordDeletedByCoach: "Тренер удалил событие: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordModifiedByAthlete: "Ученик изменил событие: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordModifiedByCoach: "Тренер изменил событие: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+
+        measurementCreatedByAthlete: "Ученик добавил измерение: {{data[1] | date:'short'}}",
+        measurementDeletedByAthlete: "Ученик удалил измерение: {{data[1] | date:'short'}}",
+        measurementModifiedByAthlete: "Ученик изменил измерение: {{data[1] | date:'short'}}",
+
+
+        /* ----------Продажа тренировочных планов --------**/
+        agentAccountEnabled: "Ваш аккаунт для юридического лица {{data[0]}} подтвержден. Теперь вы можете публиковать тренировочные планы в магазине",
+        agentBindCardFailure: "Ошибка добавления новой карты! Карта {{data[0]}} не была добавлена в ваш {{data[1]}} аккаунт. Ошибка: {{data[2]}}",
+        agentBindCardSuccess: "Карта {{data[0]}} добавлена для вывода средств в {{data[1]}}",
+        agentFreeWithdrawalAcquired: "Ваш баланс достиг беспроцентного лимита для вывода средств. Сумма: {{data[0]}} {{data[1]}}. Выводите средства без комиссий!",
+        agentWithdrawalApproved: "Поручение на вывод средств одобрено! Сумма вывода: {{data[0]}}{{data[1]}}, сумма зачисления с учетом комиссии: {{data[2]}}{{data[3]}}",
+        agentWithdrawalCompleted: "Поручение на вывод средств выполнено! Сумма вывода: {{data[0]}}{{data[1]}}, сумма зачисления с учетом комиссии: {{data[2]}}{{data[3]}}",
+        agentWithdrawalDeclined: "Поручение на вывод средств отклонено! Запрошенная сумма: {{data[0]}}{{data[1]}}, причина отказа: {{data[2]}}",
+
+        trainingPlanPurchased: "Ваш тренировочный план {{data[0]}} купили, поздравляем! Сумма покупки: {{data[1]}} {{data[2]}}",
+        trainingPlanPurchasedFree: "Ваш тренировочный план {{data[0]}} подключен бесплатно пользователем в Staminity",
+
+
+        /* ---------- Уведомления от сервиса --------**/
     /* Уведомление для пользователей сервиса. Отправитель - Стаминити.
         * data[0] - текст сообщения RUS*
         * data[1] - текст сообщения ENG **/
@@ -1131,6 +1166,40 @@ export const translateNotification = {
         "sport: {{'sport.'+data[0] | translate}}. Please change his FTP settings",
         newAthletePowerFTPBySystem: "New athlete's power FTP value: {{data[1] | measureCalc: data[0]: 'power'}} {{'power' | measureUnit:data[0] | translate}}, " +
         "sport: {{'sport.'+data[0] | translate}}. Please change his FTP settings",
+
+        /* ----------Уведомления по новым calendarItems --------**/
+
+        competitionCreatedByAthlete: "Your athlete created new competition: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionCreatedByCoach: "New competition from your coach: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionDeletedByAthlete: "Competition was deleted by athlete: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionDeletedByCoach: "Competition was deleted by coach: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionModifiedByAthlete: "Competition was edited by athlete: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+        competitionModifiedByCoach: "Competition was edited by coach: {{'sport.'+data[1] | translate}}, {{'type.'+data[2] | translate}}, priority: {{data[3]}}, {{data[4] | date:'short'}}",
+
+        recordCreatedByAthlete: "New event created by athlete: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordCreatedByCoach: "New event created by coach: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordDeletedByAthlete: "Event was deleted by athlete: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordDeletedByCoach: "Event was deleted by coach: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordModifiedByAthlete: "Event was edited by athlete: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+        recordModifiedByCoach: "Event was edited by coach: {{data[1] | translate}}, {{data[3] | date:'short'}}",
+
+        measurementCreatedByAthlete: "New measurement from your athlete: {{data[1] | date:'short'}}",
+        measurementDeletedByAthlete: "Measurement was deleted by athlete: {{data[1] | date:'short'}}",
+        measurementModifiedByAthlete: "Measurement was edited by athlete: {{data[1] | date:'short'}}",
+
+        /* ----------Продажа тренировочных планов --------**/
+        activityCreatedByAthlete: "Athlete created new activity: {{'sport.'+data[1] | translate}}, {{data[2] | date:'short'}}, {{'category.'+data[4] | translate}}",
+        agentAccountEnabled: "Your legal entity account for company {{data[0]}} has been approved. Now you will be able to publish training plans in store",
+        agentBindCardFailure: "Card link error! New card {{data[0]}} has not been added to your {{data[1]}} account. Error message: {{data[2]}}",
+        agentBindCardSuccess: "New card {{data[0]}} has been added to withdraw from your {{data[1]}} account",
+        agentFreeWithdrawalAcquired: "Your balance has been reached no commission limit! Balance: {{data[0]}} {{data[1]}}. Withdraw with no commission",
+        agentWithdrawalApproved: "Your withdrawal request approved! Requested amount: {{data[0]}}{{data[1]}}, net amount w/o commission: {{data[2]}}{{data[3]}}",
+        agentWithdrawalCompleted: "Your withdrawal request completed! Requested amount: {{data[0]}}{{data[1]}}, net amount w/o commission: {{data[2]}}{{data[3]}}",
+        agentWithdrawalDeclined: "Your withdrawal request declined. Requested amount: {{data[0]}}{{data[1]}}. Comment: {{data[2]}}",
+
+        trainingPlanPurchased: "Your training plan {{data[0]}} has been purchased. Amount: {{data[1]}} {{data[2]}}",
+        trainingPlanPurchasedFree: "Your training plan {{data[0]}} has been connected free to the new user",
+
 
         /* ---------- Уведомления от сервиса --------**/
         /* Уведомление для пользователей сервиса. Отправитель - Стаминити.

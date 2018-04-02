@@ -486,6 +486,7 @@ export const translateUser = {
                 userStaminity: 'Сервисные сообщения',
                 userTariffs: 'Тарифы и оплата',
                 coachWork: 'Подготовка спортсменов',
+                trainingPlansSell: 'Продажа тренировочных планов',
                 clubManagement: 'Управление клубом',
 
                 //notificationSettings
@@ -511,17 +512,20 @@ export const translateUser = {
                 newBills: 'Выставление счетов',
                 tariffActions: 'Операции с тарифами',
                 trial: 'Завершение пробного периода',
+                agentBilling: 'Изменения профиля продавца планов',
                 athleteActivities: 'Тренировки спортсмена',
                 athleteComments: 'Комментарии спортсмена',
                 athleteConnections: 'Подключение спортсменов в клубе',
                 athleteRequest: 'Запросы учеников',
                 incomingRequestCoach: 'Новые запросы от спортсменов',
+                trainingPlans: 'Продажи тренировочных планов',
                 zonesAthlete: 'Изменения зон и порогов учеников',
                 assignClubCoach: 'Назначение тренеров для спортсменов',
+                clubRoleAssignment: 'Назначение ролей в клубе',
                 clubTariffs: 'Подключение тарифов за счет клуба',
                 incomingRequestClub: 'Новые запросы клубу',
                 membersInOut: 'Вход/выход из клуба',
-                membersRequest: 'Запросы клуба'
+                membersRequest: 'Запросы клуба',
 
             },
             templates: {
@@ -912,6 +916,7 @@ export const translateUser = {
                 userStaminity: 'Staminity notifications',
                 userTariffs: 'Tariffs and payments',
                 coachWork: 'Work with athletes',
+                trainingPlansSell: 'Training plans sell',
                 clubManagement: 'Club management',
 
                 //notificationSettings
@@ -937,13 +942,16 @@ export const translateUser = {
                 newBills: 'New bills',
                 tariffActions: 'Tariff actions',
                 trial: 'End trial',
+                agentBilling: 'Training plans seller profile',
                 athleteActivities: "Athlete's activities",
                 athleteComments: 'Athlete comments',
                 athleteConnections: 'Club athletes assignment',
                 athleteRequest: 'Athlete request',
                 incomingRequestCoach: 'New requests from athletes',
+                trainingPlans: 'Training plans purshases',
                 zonesAthlete: "Athlete's zones changes",
                 assignClubCoach: 'Club coach assignment',
+                clubRoleAssignment: 'Club role assignment',
                 clubTariffs: 'Paid by club tariffs',
                 incomingRequestClub: 'New requests to club',
                 membersInOut: 'Club members in/out',
