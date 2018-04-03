@@ -31,7 +31,7 @@ export const _translateTrainingPlans = {
             calendar: 'Запланировать тренировки',
             assignment: 'Присвоения',
             publish: 'Опубликовать',
-            unpublish: 'Отменить',
+            unpublish: 'Снять с публикации',
             setIcon: 'Изменить',
             setBackground: 'Установить фон',
             cardView: 'Вид карточки',
@@ -194,13 +194,13 @@ export const _translateTrainingPlans = {
             description: 'Описание плана',
             targetAudience: 'Целевая аудитория',
             calendarDates: 'Даты плана',
-            fixCalendarDates: 'План привязан к датам. Количество недель {{weekCount}}, начало плана {{start}} и окончание {{finish}}',
-            flexCalendarDates: 'План обновляемый. Тренер может внести изменения в план и все изменения будут отражены в вашем календаре. План не привзян к датам. Количество недель {{weekCount}}',
-            assignOpportunities: 'Вы сможете присвоить план с любой или по любую дату для подготовки в вашему старту',
+            flexCalendarDates: 'План рассчитан на {{weekCount}} недель и не привязан к конкретным датам. ',
+            fixCalendarDates: 'План рассчитан на {{weekCount}} недель, с {{start}} по {{finish}}. ',
+            assignOpportunities: 'Вы сможете присвоить план в нужные даты для подготовки к выбранному старту',
             regularWeek: 'Типовая неделя',
-            weekActivities: 'В неделю в среднем {{avg | stNumberCeil}} тренировок, от мин - {{min | stNumberCeil}}, макс - {{max | stNumberCeil}}',
-            weekDuration: "Тренировочных часов в неделю в среднем - {{avg / 60 / 60 | number:1}}, от {{min / 60 / 60 | number:1}} до {{max / 60 /60 | number:1}}",
-            weekDistance: "Тренировочный объем в километрах в неделю, в среднем {{avg | measureCalc:'default':'distance' | number:0}}, от {{min | measureCalc:'default':'distance' | number:0}} до {{max | measureCalc:'default':'distance' | number:0}}",
+            weekActivities: 'В неделю в среднем {{avg | stNumberCeil}} тренировок, от {{min | stNumberCeil}} до {{max | stNumberCeil}}',
+            weekDuration: "Тренировочных объем в неделю (часов): в среднем - {{avg / 60 / 60 | number:1}}, от {{min / 60 / 60 | number:1}} до {{max / 60 /60 | number:1}}",
+            weekDistance: "Тренировочный объем в неделю (км): в среднем {{avg | measureCalc:'default':'distance' | number:0}}, от {{min | measureCalc:'default':'distance' | number:0}} до {{max | measureCalc:'default':'distance' | number:0}}",
             offlineTraining: 'Очные тренировки',
             consultations: 'Консультации с автором',
             structuredActivity: 'Структурированные тренировки',
@@ -238,7 +238,7 @@ export const _translateTrainingPlans = {
         monetization: {
             label: 'Указать стоимость плана'
         },
-        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На баланс автора будет зачислено 70% от стоимости плана с каждой покупки',
+        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На вашем балансе будет отражена сумма {{value * 0.7}} {{currency}} с каждой покупки',
         currency: {
             label: 'Валюта',
             placeholder: 'Выберите валюту'
@@ -279,6 +279,7 @@ export const _translateTrainingPlans = {
             label: 'Опишите структурированные тренировки',
             placeholder: 'План по каким тренировкам создан с разбивкой по сегментам'
         },
+        forUploadNeedSave: 'Для загрузки изображения сохраните план'
 
     },
     en: {
