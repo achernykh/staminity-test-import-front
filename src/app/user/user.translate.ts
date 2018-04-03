@@ -45,6 +45,9 @@ export const translateUser = {
                     phone: 'Телефон'
                 },
             },
+            coachProfile: {
+                header: 'Профиль тренера'
+            },
             sportShape: {
                 header: 'Спортивная форма',
                 weight: 'Вес (кг)',

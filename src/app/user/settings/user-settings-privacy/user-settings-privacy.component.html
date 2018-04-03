@@ -11,10 +11,12 @@
                 <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl.privacyLevels" translate="{{::'user.settings.privacy.level.id' + level.id | translate}}"></md-option>
             </md-select>
         </md-list-item>
-        <div flex layout="row" layout-align="end center">
-            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
-                {{ 'form.save' | translate }}
-            </md-button>
-        </div>
     </md-list>
-</form>    
+</form>
+
+<div class="user-settings__fab">
+    <md-button class="md-fab md-accent md-hue-2"
+               ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+        <md-icon class="material-icons">save</md-icon>
+    </md-button>
+</div>

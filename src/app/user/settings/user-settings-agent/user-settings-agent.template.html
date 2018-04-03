@@ -1,8 +1,8 @@
 <md-card class="user-settings__card">
-  <h3 class="md-title user-settings__card-title">
-      <a ui-sref="user-settings.main({userId: $ctrl.owner.userId})"><md-icon class="material-icon md-secondary">arrow_back</md-icon></a>
-      {{ 'user.settings.agent.profile' | translate }}
-  </h3>
+    <md-subheader class="">
+        <md-icon ui-sref="user-settings.main({userId: $ctrl.owner.userId})" class="back material-icons">arrow_back</md-icon>
+        <span class="md-body-2 md-dark" translate="user.settings.agent.profile"></span>
+    </md-subheader>
   <st-user-settings-agent 
     owner="$userSettingsCtrl.owner"
     current-user="$userSettingsCtrl.currentUser"

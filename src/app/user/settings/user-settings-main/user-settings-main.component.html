@@ -1,23 +1,23 @@
 <section class="user-settings__card">
     <!-- Профиль -->
-    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-profile">
+    <article id="user-settings-profile">
         <h2 class="md-body-2 user-settings__card-title " translate>user.settings.profile.header</h2>
         <md-card class="user-settings-main__card">
             <st-user-settings-header owner="$ctrl.owner"></st-user-settings-header>
-            <md-divider></md-divider>
-            <md-list-item ui-sref="user-settings.profile({userId: $ctrl.owner.userId})">
+            <md-divider ng-if="$ctrl.isOwnSettings()"></md-divider>
+            <md-list-item ui-sref="user-settings.profile({userId: $ctrl.owner.userId})" ng-if="$ctrl.isOwnSettings()">
                 <p class="md-body-1">{{ ($ctrl.owner | userSettingsProfileFilter) || ('user.settings.personalInfo.hint' | translate) }}</p>
                 <md-icon class="material-icon md-secondary">keyboard_arrow_right
                 </md-icon>
             </md-list-item>
         </md-card>
-        <md-card class="user-settings-main__card">
+        <md-card class="user-settings-main__card" ng-if="$ctrl.isOwnSettings()">
             <st-user-settings-is-coach owner="$ctrl.owner" agent-profile="$ctrl.agentProfile"></st-user-settings-is-coach>
         </md-card>
-        <md-card ng-if="$ctrl.owner.public.isCoach" class="user-settings-main__card">
+        <md-card ng-if="$ctrl.owner.public.isCoach && $ctrl.isOwnSettings()" class="user-settings-main__card">
             <st-user-settings-is-agent owner="$ctrl.owner" agent-profile="$ctrl.agentProfile"></st-user-settings-is-agent>
         </md-card>
-        <md-card class="user-settings-main__card">
+        <md-card class="user-settings-main__card" ng-if="$ctrl.isOwnSettings()">
             <md-list>
                 <md-list-item ng-click="$ctrl.showPasswordChange($event)">
                     <p class="md-body-1">{{ 'user.settings.account.hint' | translate }}: {{$ctrl.owner.email}} #{{$ctrl.owner.userId}}</p>
@@ -25,7 +25,7 @@
                 </md-list-item>
             </md-list>
         </md-card>
-        <md-card class="user-settings-main__card">
+        <md-card class="user-settings-main__card" ng-if="$ctrl.isOwnSettings()">
             <md-list>
                 <md-list-item ui-sref="user-settings.privacy({userId: $ctrl.owner.userId})">
                     <p class="md-body-1" translate>user.settings.privacy.hint</p>

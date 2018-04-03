@@ -110,11 +110,13 @@
         <md-list-item> 
             <p>{{'user.settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.datamodel.isFree? 'user.settings.personalInfo.isFreeTrue' : 'user.settings.personalInfo.isFreeFalse' | translate}}</p> 
             <md-switch class="md-secondary" ng-model="$ctrl.datamodel.isFree"></md-switch> 
-        </md-list-item> 
-        <div flex layout="row" layout-align="end center">
-            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
-                {{ 'form.save' | translate }}
-            </md-button>
-        </div>
+        </md-list-item>
     </form>
 </md-list>
+
+<div class="user-settings__fab">
+    <md-button class="md-fab md-accent md-hue-2"
+               ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+        <md-icon class="material-icons">save</md-icon>
+    </md-button>
+</div>

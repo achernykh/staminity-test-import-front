@@ -1,17 +1,15 @@
 <md-list class="md-dense section">
-    <md-list-item class="md-1-line" > 
-        <div class="md-list-item-text"> 
-            <md-subheader>{{ 'user.settings.billing.invoices' | translate }}</md-subheader> 
-        </div> 
-        <p class="md-secondary" ng-if="$ctrl.hasPaidBill()"> 
-            {{ 'user.settings.billing.autoPayment' | translate }} 
-            <md-checkbox 
-                style="margin-left: 15px;" 
-                ng-model="$ctrl.autoPayment" 
-                ng-model-options="{getterSetter: true}" 
-            /> 
-        </p> 
-    </md-list-item> 
+    <md-subheader>
+        <span>{{ 'user.settings.billing.invoices' | translate }}</span>
+    </md-subheader>
+    <md-list-item>
+        <p class="md-body-1" ng-if="$ctrl.hasPaidBill()">{{ 'user.settings.billing.autoPayment' | translate }}</p>
+        <md-checkbox class="md-secondary"
+                style="margin-left: 15px;"
+                ng-model="$ctrl.autoPayment"
+                ng-model-options="{getterSetter: true}">
+        </md-checkbox>
+    </md-list-item>
     <md-list-item 
         class="md-2-line" 
         ng-repeat-start="bill in $ctrl.owner.billing.bills"

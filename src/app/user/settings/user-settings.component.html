@@ -8,7 +8,7 @@
     <st-application-frame-title>
         <span class="md-title">{{$userSettingsCtrl.isMobileLayout()?'user.settings.shortTitle':'user.settings.fullTitle' | translate}}</span>
         <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <span class="md-title" hide show-gt-sm>{{$userSettingsCtrl.currentUser | userName:'compact'}}</span>
+        <span class="md-title" hide show-gt-sm>{{$userSettingsCtrl.owner | userName:'compact'}}</span>
         <md-menu ng-if="$userSettingsCtrl.currentUser.public.isCoach && $userSettingsCtrl.athletes.length > 0" hide show-gt-sm>
             <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>

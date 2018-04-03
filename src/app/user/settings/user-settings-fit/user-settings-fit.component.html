@@ -47,10 +47,13 @@
                 </div>
             </fieldset>
         </md-list-item>
-        <div flex layout="row" layout-align="end center">
-            <md-button class="md-accent" ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
-                {{ 'form.save' | translate }}
-            </md-button>
-        </div>
     </form>
 </md-list>
+
+<div class="user-settings__fab">
+    <md-button class="md-fab md-accent md-hue-2"
+               ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+        <md-icon class="material-icons">save</md-icon>
+    </md-button>
+</div>
+
