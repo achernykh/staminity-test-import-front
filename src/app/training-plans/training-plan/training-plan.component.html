@@ -7,7 +7,7 @@
     <md-toolbar id="toolbar" class="background" flex="none">
         <div class="md-toolbar-tools">
             <md-button class="menu md-icon-button md-primary" aria-label="PlanMenu"
-                       ng-click="$ctrl.toggleSlide('planMenu')">
+                       ng-click="$ctrl.currentUser.userId ? $ctrl.toggleSlide('appmenu') : $ctrl.toggleSlide('appGuestMenu')">
                 <md-icon class="material-icons md-dark" size="24">menu</md-icon>
             </md-button>
             <div flex></div>

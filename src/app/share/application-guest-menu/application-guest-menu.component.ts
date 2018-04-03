@@ -16,13 +16,13 @@ class ApplicationGuestMenuCtrl implements IComponentController {
     close (): void { this.$mdSidenav("appGuestMenu").toggle();}
 
     getParams (params: Object): Object {
-        return Object.assign({}, params, {
-            nextState: this.$state.$current.name,
-            nextParams: this.$state.params});
+        return Object.assign({}, params, {nextState: this.$state.$current.name, nextParams: this.$state.params});
     }
 
     go (item): void {
-        this.$state.go(item.state, this.getParams(item.params));
+        let params = this.getParams(item.params);
+        debugger;
+        this.$state.go(item.state, params);
         this.close();
     }
 
