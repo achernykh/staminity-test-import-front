@@ -3,12 +3,13 @@
     ng-class="{'left-bar-show': !$userSettingsCtrl.isMobileLayout()}"
     template="application"
     navigation-bar="false"
-    left-bar="!$userSettingsCtrl.isMobileLayout()"
->
+    left-bar="!$userSettingsCtrl.isMobileLayout()">
+    
     <st-application-frame-title>
         <span class="md-title">{{$userSettingsCtrl.isMobileLayout()?'user.settings.shortTitle':'user.settings.fullTitle' | translate}}</span>
         <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <md-menu>
+        <span class="md-title">{{$userSettingsCtrl.currentUser | userName}}</span>
+        <md-menu ng-if="$userSettingsCtrl.athletes">
             <md-button ng-click="$mdMenu.open($event)" ng-class="{'md-icon-button':$userSettingsCtrl.isMobileLayout()}">
                 <span ng-if="!$userSettingsCtrl.isMobileLayout()">{{$userSettingsCtrl.owner | userName:'compact'}}</span>
                 <md-icon ng-if="!$userSettingsCtrl.isMobileLayout()" class="material-icons">arrow_drop_down</md-icon>
