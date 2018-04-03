@@ -180,8 +180,11 @@ export class TrainingPlansService {
      * Приобритение плана
      * @returns {Promise<any>}
      */
-    purchase (planId: number): Promise<ISystemMessage> {
-        return this.socket.send(new PostTrainingPlanPurchase(planId));
+    purchase (planId: number, email?: string): Promise<ISystemMessage> {
+        return this.authService.isAuthenticated() ?
+            this.socket.send(new PostTrainingPlanPurchase(planId, email)) :
+            this.RESTService.postData(new PostData('/api/wsgate', new PostTrainingPlanPurchase(planId, email)))
+                .then((response: IHttpPromiseCallbackArg<any>) => response.data);
     }
 
     /**

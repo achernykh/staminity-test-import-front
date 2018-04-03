@@ -2,6 +2,9 @@
 	&__background {
 		position: relative;
 		height: 150px;
+		background-size: cover;
+		background-position: 50% 50%;
+		background-color: grey;
 	}
 
 	&__avatar {
@@ -28,7 +31,7 @@
 	&__username {
 		position: absolute;
 		bottom: 16px;
-		left: 16px;		
-    	font-size: 32px;
+		left: 16px;
+		color: white;
 	}
 }

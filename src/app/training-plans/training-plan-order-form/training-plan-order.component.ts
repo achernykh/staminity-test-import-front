@@ -1,5 +1,5 @@
 import './training-plan-order.component.scss';
-import { IComponentOptions, IComponentController, IHttpPromiseCallbackArg } from 'angular';
+import { IComponentOptions, IComponentController, IHttpPromiseCallbackArg,IScope, noop } from 'angular';
 import { TrainingPlanDialogService } from "../training-plan-dialog.service";
 import { IUserProfile } from "@api/user";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
@@ -21,9 +21,12 @@ class TrainingPlanOrderCtrl implements IComponentController {
     private enabled: boolean = true;
     private confirmation: boolean = false;
     private credentials;
-    static $inject = ['TrainingPlanDialogService', 'TrainingPlansService', 'AuthService', '$auth', 'message'];
+    private authState: number = 0; // 0 - signup, 1 - signin
+    private error: string = null;
+    static $inject = ['$scope', 'TrainingPlanDialogService', 'TrainingPlansService', 'AuthService', '$auth', 'message'];
 
     constructor(
+        private $scope: IScope,
         private trainingPlansDialog: TrainingPlanDialogService,
         private trainingPlansService: TrainingPlansService,
         private authService: AuthService,
@@ -58,21 +61,43 @@ class TrainingPlanOrderCtrl implements IComponentController {
 
     pay (): void {
         this.enabled = false; // форма ввода недоступна до получения ответа
-        if (!this.plan.price) {
-            this.onSuccess({response: 'success'});
-        }
+        this.error = null;
+        Promise.resolve(_ => {})
+            .then(_ => this.user.userId ? this.plan : this.authGuest())
+            .then(plan => plan.product ?
+                    plan.price > 0 ? this.trainingPlansDialog.pay(this.plan.product) : Promise.resolve('getFreeSuccess') :
+                    Promise.reject('badPlanProduct'),
+                e => { debugger; throw e; })
+            .then(r => this.onSuccess({message: r, email: this.user.userId ? null : this.credentials.email}),
+                e => {if (e) { this.error = e; } this.enabled = true;})
+            .then(_ => this.$scope.$applyAsync());
+
+        /**if (!this.plan.price) { this.onSuccess({response: 'success'}); }
         else if (this.user.userId) {
             this.trainingPlansDialog.pay(this.plan.product)
-                .then(response => this.onSuccess({response: response}), e => this.onCancel({response: e}));
+                .then(response => this.onSuccess({response: response}), e => e && this.onCancel({response: e}));
         } else {
-            this.authService.signUp(this.credentials)
+            Promise.resolve(_ => this.authState ?
+                this.authService.signUp(this.credentials) :
+                this.authService.signIn(this.credentials))
                 .then(() => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
                     error => this.message.toastError(error))
                 .then(response => this.plan = new TrainingPlan(response), error => this.message.toastError(error))
                 .then(_ => this.trainingPlansDialog.pay(this.plan.product))
                 .then(_ => {debugger;}, error => {debugger;});
-        }
+        }**/
     }
+
+    authGuest (): Promise<TrainingPlan> {
+        return Promise.resolve(_ => {})
+                .then(_ => this.authState ?
+                    this.authService.signIn(this.credentials) :
+                    this.authService.signUp(this.credentials))
+                .then(_ => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
+                    e => { this.error = e; throw e; })
+                .then(r => this.plan = new TrainingPlan(r), e => { throw e; });
+    }
+
     OAuth(provider: string) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.$auth.link(provider, {
@@ -107,6 +132,22 @@ class TrainingPlanOrderCtrl implements IComponentController {
     errorHandler (error: string): void {
         this.message.toastError(error);
         this.onCancel(error);
+    }
+
+    get actionText (): string {
+        if (this.user.userId && this.plan.price > 0) {
+            return 'pay';
+        } else if (this.user.userId && !this.plan.price) {
+            return 'addFree';
+        } else if (!this.user.userId && !this.authState && this.plan.price > 0) {
+            return 'signupAndPay';
+        } else if (!this.user.userId && !this.authState && !this.plan.price) {
+            return 'signupAndAddFree';
+        } else if (!this.user.userId && this.authState && this.plan.price > 0) {
+            return 'signinAndPay';
+        } else if (!this.user.userId && this.authState && !this.plan.price) {
+            return 'signinAndAddFree';
+        }
     }
 
 }

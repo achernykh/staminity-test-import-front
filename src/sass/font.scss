@@ -293,9 +293,9 @@
 // Текст подсказок
 .hint {
 	/* Copy styles from ng-messages */
-	font-size: 12px;
-	font-weight: 400;
-	line-height: 14px;
+	font-size: 12px !important;
+	font-weight: 400 !important;
+	line-height: 14px !important;
 	margin: 8px 0px;
 	transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
 	/* Set our own color */

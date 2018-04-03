@@ -8,12 +8,10 @@
     <st-application-frame-title>
         <span class="md-title">{{$userSettingsCtrl.isMobileLayout()?'user.settings.shortTitle':'user.settings.fullTitle' | translate}}</span>
         <md-icon class="material-icons" hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <span class="md-title">{{$userSettingsCtrl.currentUser | userName}}</span>
-        <md-menu ng-if="$userSettingsCtrl.athletes">
-            <md-button ng-click="$mdMenu.open($event)" ng-class="{'md-icon-button':$userSettingsCtrl.isMobileLayout()}">
-                <span ng-if="!$userSettingsCtrl.isMobileLayout()">{{$userSettingsCtrl.owner | userName:'compact'}}</span>
-                <md-icon ng-if="!$userSettingsCtrl.isMobileLayout()" class="material-icons">arrow_drop_down</md-icon>
-                <md-icon ng-if="$userSettingsCtrl.isMobileLayout()" class="material-icons">person_add</md-icon>
+        <span class="md-title" hide show-gt-sm>{{$userSettingsCtrl.currentUser | userName:'compact'}}</span>
+        <md-menu ng-if="$userSettingsCtrl.currentUser.public.isCoach && $userSettingsCtrl.athletes.length > 0" hide show-gt-sm>
+            <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="athlete in $userSettingsCtrl.athletes track by athlete.userId">
@@ -32,14 +30,39 @@
             </md-menu-content>
         </md-menu>
     </st-application-frame-title>
+
     <st-application-frame-toolbar layout="row">
         <section class="desktop" hide show-gt-sm layout="row">
         </section>
         <section class="mobile" hide show-xs show-sm>
+            <md-menu ng-if="$userSettingsCtrl.currentUser.public.isCoach && $userSettingsCtrl.athletes.length > 0">
+                <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                    <md-icon class="material-icons">person_add</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item ng-repeat="athlete in $userSettingsCtrl.athletes track by athlete.userId">
+                        <md-button  ui-sref="user-settings.main({userId: athlete.userId})"
+                                   ng-disable="athlete.userId === $ctrl.owner.userId">
+                            <userpic profile="athlete"></userpic>
+                            <span>{{athlete | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
+                    <md-menu-item>
+                        <md-button ui-sref="user-settings.main({userId: undefined})"
+                                   ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                            <userpic profile="$ctrl.currentUser"></userpic>
+                            <span>{{$userSettingsCtrl.currentUser | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </section>
     </st-application-frame-toolbar>
+
     <st-application-frame-mobile-menu>
     </st-application-frame-mobile-menu>
+
     <st-application-frame-left-bar>
         <st-user-settings-menu hide show-gt-sm owner="$userSettingsCtrl.owner" current-user="$userSettingsCtrl.currentUser" agent-profile="$userSettingsCtrl.agentProfile" class="user-settings__left-bar">
         </st-user-settings-menu>

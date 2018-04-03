@@ -2,7 +2,7 @@
     <div class="md-toolbar-tools">
         <h2 class="" translate="trainingPlans.success.title"></h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+        <md-button class="md-icon-button" ng-click="$ctrl.onAnswer()">
             <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
             <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
         </md-button>
@@ -21,7 +21,7 @@
 <md-dialog-actions ng-if="$ctrl.auth" flex="none" layout="row" style="background: white; width: 100%;">
     <span flex></span>
     <md-button class="md-primary"
-               ng-click="$ctrl.$state.go('training-plans-store', {state: 'purchases'})"
+               ng-click="$ctrl.$state.go('training-plans-store', {state: 'purchases'});$ctrl.onAnswer();"
                translate="trainingPlans.actions.go">
     </md-button>
 </md-dialog-actions>

@@ -117,6 +117,7 @@
                                 <p translate="trainingPlans.isPublic.label"></p>
                                 <md-switch class="md-primary"
                                            name="isPublic"
+                                           ng-disabled="$ctrl.plan.isPublished"
                                            ng-change="$ctrl.changeCommerce()"
                                            ng-model="$ctrl.plan.isPublic"></md-switch>
                             </md-list-item>
@@ -281,7 +282,7 @@
                                             <input flex="auto"
                                                    name="price" required
                                                    type="number" min="300" max="10000"
-                                                   placeholder="{{'trainingPlans.targetAudience.placeholder' | translate}}"
+                                                   placeholder="{{'trainingPlans.price.placeholder' | translate}}"
                                                    ng-model="$ctrl.plan.price">
                                             <div ng-messages="$ctrl.commerceForm.price.$error" role="alert">
                                                 <div ng-message-exp="['required']"
@@ -294,7 +295,8 @@
                                         </md-input-container>
                                     </div>
                                 </md-list-item>
-                                <p class="hint md-caption md-dark" ng-if="$ctrl.plan.monetization" style="padding: 0 16px" translate="trainingPlans.commerceConditions"></p>
+                                <p class="hint md-caption md-dark" ng-if="$ctrl.plan.monetization" style="padding: 0 16px"
+                                   translate="trainingPlans.commerceConditions" translate-values="{value: $ctrl.plan.price}"></p>
                                 <md-subheader><span translate="trainingPlans.planDescriptionInfo"></span></md-subheader>
                                 <!-- Целевая аудитория -->
                                 <md-list-item>

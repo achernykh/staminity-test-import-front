@@ -219,8 +219,8 @@ export default class DialogsService {
             multiple: true,
             parent: angular.element(document.body),
             bindToController: true,
-            clickOutsideToClose: true,
-            escapeToClose: true,
+            clickOutsideToClose: false,
+            escapeToClose: false,
             fullscreen: !this.$mdMedia('gt-sm')
         });
     }

@@ -54,7 +54,8 @@
                   ng-repeat="level in $ctrl.plan.level"
                   translate>{{'trainingPlans.tags.' + level}}</span>
         </div>
-        <h2 flex="none" class="name md-title md-light center" style="margin: 16px 0" translate="trainingPlans.plan"></h2>
+        <h2 flex="none" class="name md-title md-light center" style="margin: 16px 0"
+            translate="trainingPlans.plan"></h2>
         <div flex="none" layout="row" layout-align="center center" layout-wrap hide show-gt-sm>
             <div flex="none" class="tag" ng-if="$ctrl.plan.isStructured">
                 <md-icon class="material-icons s18">equalizer</md-icon>
@@ -80,10 +81,12 @@
             translate="trainingPlans.landing.weekCount"
             translate-values="{count: $ctrl.plan.weekCount}"></h2>
         <div flex></div>
-        <md-button ng-if="$ctrl.plan.state === 'P'" flex="none" class="button-action md-raised bg-grey-200" ng-disabled="true">
+        <md-button ng-if="$ctrl.plan.state === 'P'" flex="none" class="button-action md-raised bg-grey-200"
+                   ng-disabled="true">
             <span translate="trainingPlans.state.pending"></span>
         </md-button>
-        <md-button ng-if="$ctrl.plan.state === 'A'" flex="none" class="button-action md-raised bg-grey-200" ng-disabled="true">
+        <md-button ng-if="$ctrl.plan.state === 'A'" flex="none" class="button-action md-raised bg-grey-200"
+                   ng-disabled="true">
             <span translate="trainingPlans.state.active"></span>
         </md-button>
         <md-button ng-if="!$ctrl.plan.state"
@@ -107,16 +110,17 @@
             </div>
         </div>
         <div class="item" layout="row" layout-align="start start">
-            <md-icon flex="none" md-svg-src="/assets/landing/timeline.svg"  class="s64"></md-icon>
+            <md-icon flex="none" md-svg-src="/assets/landing/timeline.svg" class="s64"></md-icon>
             <div flex layout="column">
                 <p flex class="title md-subhead" translate="trainingPlans.landing.calendarDates"></p>
                 <p flex class="text md-subhead md-dark">
-                <span ng-if="$ctrl.plan.isFixedCalendarDates"
-                      translate="trainingPlans.landing.fixCalendarDates"
-                      translate-values="{weekCount: $ctrl.plan.weekCount}"></span>
+                    <span ng-if="$ctrl.plan.isFixedCalendarDates"
+                          translate="trainingPlans.landing.fixCalendarDates"
+                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
+                    </span>
                     <span ng-if="!$ctrl.plan.isFixedCalendarDates"
                           translate="trainingPlans.landing.flexCalendarDates"
-                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
+                          translate-values="{weekCount: $ctrl.plan.weekCount}">
                 </span>
                     <span>.&nbsp;</span>
                     <span translate="trainingPlans.landing.assignOpportunities"></span>
@@ -127,7 +131,21 @@
             <md-icon flex="none" md-svg-src="/assets/landing/abc.svg" class="s64"></md-icon>
             <div flex layout="column">
                 <p flex class="title md-subhead" translate="trainingPlans.landing.regularWeek"></p>
-                <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.regularWeek"></p>
+                    <ol class="text md-subhead md-dark" style="list-style-type: circle; padding-left: 30px; margin: 16px 0 0 0">
+                        <li translate="trainingPlans.landing.weekActivities"
+                            translate-values="$ctrl.plan.effortStat.metricsPerWeek.activities"></li>
+                        <li ng-if="$ctrl.plan.isExisteffortState('duration')"
+                            translate="trainingPlans.landing.weekDuration"
+                            translate-values="$ctrl.plan.effortStat.metricsPerWeek.duration"></li>
+                        <li ng-if="$ctrl.plan.isExisteffortState('distance')"
+                            translate="trainingPlans.landing.weekDistance"
+                            translate-values="$ctrl.plan.effortStat.metricsPerWeek.distance"></li>
+                    </ol>
+                     <p flex class="text md-subhead md-dark" style="margin-bottom: 0">
+                         <span  class="text md-subhead md-dark" ng-bind="$ctrl.plan.regularWeek"></span>
+                    </p>
+
+                </p>
             </div>
         </div>
         <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasOfflineTraining">
@@ -148,7 +166,7 @@
             <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
             <div flex layout="column">
                 <p flex class="title md-subhead" translate="trainingPlans.landing.structuredActivity"></p>
-                <p flex class="text md-subhead md-dark" >
+                <p flex class="text md-subhead md-dark">
                     <span ng-bind="$ctrl.plan.customData.structuredActivityDescription"></span>
                     <span>.&nbsp;</span>
                     <span translate="trainingPlans.landing.structuredActivityOpportunities"></span>
@@ -174,7 +192,8 @@
     <section class="landing-block info" flex="none">
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.chart"></h2>
-        <p flex="none" class="md-subhead center" translate="trainingPlans.landing.effortStat.{{$ctrl.plan.customData.statisticData}}"></p>
+        <p flex="none" class="md-subhead center"
+           translate="trainingPlans.landing.effortStat.{{$ctrl.plan.customData.statisticData}}"></p>
         <universal-chart flex="auto"
                          data="$ctrl.chart"
                          filter="true"
@@ -230,7 +249,8 @@
             <span class="md-body-1 md-dark" ng-bind="$ctrl.plan.authorExt.phone"></span>
         </div>
     </section>
-    <section id="authorSearch" class="landing-block bg-grey-100" flex="none" layout="column" layout-align="start center">
+    <section id="authorSearch" class="landing-block bg-grey-100" flex="none" layout="column"
+             layout-align="start center">
         <h2 flex="none" class="name md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.authorPlans"></h2>
         <st-training-plans-store-items search-params="$ctrl.authorSearch"
@@ -242,7 +262,8 @@
             <span translate="trainingPlans.landing.more"></span>
         </md-button>
     </section>
-    <section id="similarSearch" class="landing-block bg-grey-200" flex="none" layout="column" layout-align="start center">
+    <section id="similarSearch" class="landing-block bg-grey-200" flex="none" layout="column"
+             layout-align="start center">
         <h2 flex="none" class="name md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.similarPlans"></h2>
         <st-training-plans-store-items search-params="$ctrl.similarSearch"

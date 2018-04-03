@@ -1,5 +1,6 @@
 import './training-plan-order-success.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
+import {StateService} from 'angular-ui-router';
 
 class TrainingPlanOrderSuccessCtrl implements IComponentController {
 
@@ -11,20 +12,16 @@ class TrainingPlanOrderSuccessCtrl implements IComponentController {
     // private
 
     // inject
-    static $inject = [];
+    static $inject = ['$state'];
 
-    constructor() {
+    constructor(private $state: StateService) {}
 
-    }
-
-    $onInit(): void {
-
-    }
+    $onInit(): void {}
 }
 
 export const TrainingPlanOrderSuccessComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        auth: '<',
         onAnswer: '&',
         onCancel: '&'
     },

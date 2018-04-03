@@ -251,6 +251,11 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
             }
         };
     }])
+    .filter("stNumberCeil", () => {
+        return (input: number) => {
+            return input && Math.ceil(input);
+        };
+    })
     .filter("measureEdit", ["$filter", ($filter) => {
         return (measure, value, sport) => {
             let unit = measurementUnitDisplay(sport, measure);

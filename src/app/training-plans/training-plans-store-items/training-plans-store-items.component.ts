@@ -81,8 +81,10 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     order (e: Event, item: TrainingPlan): void {
         this.trainingPlanDialogs.order(e, item)
-            .then(_ => this.trainingPlansService.purchase(item.id))
-            .then(_ => this.trainingPlanDialogs.orderSuccess(e), e => this.message.toastError(e))
+            .then(_ => {debugger; return this.trainingPlansService.purchase(item.id);}, e => {debugger; throw e;})
+            .then(_ => this.trainingPlanDialogs.orderSuccess(e), e => e && this.message.toastError(e))
+            .then(_ => this.trainingPlansService.store(this.searchParams))
+            .then(r => this.prepareList(r), error => {debugger;})
             .then(_ => this.$scope.$applyAsync());
     }
 

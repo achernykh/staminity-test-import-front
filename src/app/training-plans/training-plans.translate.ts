@@ -194,9 +194,13 @@ export const _translateTrainingPlans = {
             description: 'Описание плана',
             targetAudience: 'Целевая аудитория',
             calendarDates: 'Даты плана',
-            flexCalendarDates: 'План не привязан к датам',
+            fixCalendarDates: 'План привязан к датам. Количество недель {{weekCount}}, начало плана {{start}} и окончание {{finish}}',
+            flexCalendarDates: 'План обновляемый. Тренер может внести изменения в план и все изменения будут отражены в вашем календаре. План не привзян к датам. Количество недель {{weekCount}}',
             assignOpportunities: 'Вы сможете присвоить план с любой или по любую дату для подготовки в вашему старту',
             regularWeek: 'Типовая неделя',
+            weekActivities: 'В неделю в среднем {{avg | stNumberCeil}} тренировок, от мин - {{min | stNumberCeil}}, макс - {{max | stNumberCeil}}',
+            weekDuration: "Тренировочных часов в неделю в среднем - {{avg / 60 / 60 | number:1}}, от {{min / 60 / 60 | number:1}} до {{max / 60 /60 | number:1}}",
+            weekDistance: "Тренировочный объем в километрах в неделю, в среднем {{avg | measureCalc:'default':'distance' | number:0}}, от {{min | measureCalc:'default':'distance' | number:0}} до {{max | measureCalc:'default':'distance' | number:0}}",
             offlineTraining: 'Очные тренировки',
             consultations: 'Консультации с автором',
             structuredActivity: 'Структурированные тренировки',
@@ -226,8 +230,10 @@ export const _translateTrainingPlans = {
         },
         order: {
             needAccount: 'Для покупки плана необходимо войти в систему',
-            signin: 'У меня уже есть аккаунт',
-            signup: 'Создать аккаунт'
+            tabs: {
+                signin: 'У меня уже есть аккаунт',
+                signup: 'Создать аккаунт'
+            }
         },
         monetization: {
             label: 'Указать стоимость плана'

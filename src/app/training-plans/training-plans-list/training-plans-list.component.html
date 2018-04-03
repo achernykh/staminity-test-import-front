@@ -23,12 +23,12 @@
                 <span class="tag" ng-repeat="word in plan.keywords" ng-bind="word"></span>
             </p>
         </div>
-        <md-button ng-if="plan.isPublic"
+        <md-button ng-if="plan.isPublished"
                    class="md-secondary"
                    ng-class="{'md-accent md-hue-2': plan.hasUpdateForStore}"
                    ng-disabled="!plan.hasUpdateForStore"
                    ng-click="$ctrl.publish($event, plan)">
-            <md-tooltip ng-if="plan.hasUpdateForStore" ng-bind="'trainingPlans.hasUpdateForStore' | translate"></md-tooltip>
+            <md-tooltip ng-bind="(plan.hasUpdateForStore ? 'trainingPlans.hasUpdateForStore' : 'trainingPlans.published') | translate"></md-tooltip>
             <md-icon class="material-icons">shopping_cart</md-icon>
             <span ng-if="plan.storeVersion">V {{plan.storeVersion}}</span>
 

@@ -99,8 +99,8 @@
                             <md-checkbox flex="100"
                                          ng-repeat="option in $ctrl.config.options track by $index"
                                          class="md-primary" name="option-{{option}}"
-                                         ng-checked="$ctrl.exists(option, $ctrl.filter.options)"
-                                         ng-click="$ctrl.toggle(options, $ctrl.filter.options)">
+                                         ng-checked="$ctrl.filter[option]"
+                                         ng-click="$ctrl.filter[option] ? $ctrl.filter[option] = null : $ctrl.filter[option] = true; $ctrl.onChangeFilter({filter: $ctrl.filter})">
                                 <span translate="trainingPlans.options.{{option}}"></span>
                             </md-checkbox>
                         </div>

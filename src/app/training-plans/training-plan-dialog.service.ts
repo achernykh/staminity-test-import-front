@@ -98,12 +98,12 @@ export class TrainingPlanDialogService {
         return this.$mdDialog.show(dialog);
     }
 
-    order (e: Event, plan: TrainingPlan): Promise<any> {
+    order (e: Event, plan: TrainingPlan): Promise<{message: string, email: string}> {
         let dialog = {
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = (response) => $mdDialog.cancel(response);
-                $scope.answer = (response) => $mdDialog.hide({response});
+                $scope.answer = (message, email) => $mdDialog.hide({message: message, email: email});
             }],
             controllerAs: "$ctrl",
             template: `<md-dialog id="training-plan-order" aria-label="Training Plan Order Confirmation">
@@ -111,7 +111,7 @@ export class TrainingPlanDialogService {
                                     layout="column" layout-fill class="training-plan-order"
                                     plan="$ctrl.plan"
                                     user="$ctrl.currentUser"
-                                    on-cancel="cancel(response)" on-success="answer(response)"/>
+                                    on-cancel="cancel(response)" on-success="answer(message, email)"/>
                        </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: e,
@@ -185,7 +185,7 @@ export class TrainingPlanDialogService {
             parent: angular.element(document.body),
             targetEvent: e,
             locals: {
-                auth: !!this.session.getUser(),
+                auth: !!this.session.getUser().userId,
             },
             bindToController: true,
             clickOutsideToClose: false,

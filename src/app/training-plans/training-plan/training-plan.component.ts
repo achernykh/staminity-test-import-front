@@ -77,8 +77,12 @@ class TrainingPlanCtrl implements IComponentController {
 
     order (e: Event): void {
         this.trainingPlanDialog.order(e, Object.assign({}, this.plan, {id: this.planId}))
-            .then(_ => this.trainingPlanService.purchase(this.planId))
-            .then(_ => this.trainingPlanDialog.orderSuccess(e), e => this.message.toastError(e))
+            .then(r => this.trainingPlanService.purchase(this.planId, r.email), e => {debugger; throw e;})
+            .then(_ => this.trainingPlanDialog.orderSuccess(e), e => e && this.message.toastError(e))
+            .then(_ => this.store ?
+                this.trainingPlanService.getStoreItem(this.planId) :
+                this.trainingPlanService.get(this.planId))
+            .then(r => this.plan = new TrainingPlan(r, this.trainingPlanConfig))
             .then(_ => this.$scope.$applyAsync());
     }
 

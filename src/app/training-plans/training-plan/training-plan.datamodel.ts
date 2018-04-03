@@ -47,6 +47,7 @@ export class TrainingPlan implements ITrainingPlan {
     effortStat: {
         metricsByDistance: Array<Array<any>>;
         metricsByDuration: Array<Array<any>>;
+        metricsPerWeek: Array<Array<any>>;
     };//Array<IChart>; // статистика нагрузки по плану
     reviews: Array<ITrainingPlanReview>; // массив отзывов
     calendarItems?: Array<ICalendarItem>; // массив событий календаря
@@ -211,7 +212,6 @@ export class TrainingPlan implements ITrainingPlan {
      * @returns {{firstPlanDate: string, firstItemDate: string, lastPlanDate: string, lastItemDate: string}}
      */
     assignmentInfo (applyMode: 'P' | 'I', applyDateMode: 'F' | 'T', applyFromDate: Date, applyToDate: Date): Object {
-        debugger;
         let firstDate: string = this.fistItemAssignmentDate(applyMode, applyDateMode, applyFromDate, applyToDate);
         let shift: number = moment(firstDate).diff(moment(this.firstCalendarItem.dateStart), 'days');
         return {
@@ -331,6 +331,16 @@ export class TrainingPlan implements ITrainingPlan {
     get hasUpdateForStore (): boolean {
         return (this.revision && this.storeRevision && this.revision > this.storeRevision) ||
             (this.revision && !this.storeRevision);
+    }
+
+    isExisteffortState (key: string): boolean {
+        return this.effortStat && this.effortStat.metricsPerWeek[key] &&
+            Object.keys(this.effortStat.metricsPerWeek[key]).length > 0 &&
+            Object.keys(this.effortStat.metricsPerWeek[key]).every(k => this.effortStat.metricsPerWeek[key][k] > 0);
+    }
+
+    get isPublished (): boolean {
+        return this.storeVersion && this.storeVersion > 0;
     }
 
 }
