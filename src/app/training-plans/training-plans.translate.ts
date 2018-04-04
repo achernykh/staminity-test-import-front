@@ -238,7 +238,7 @@ export const _translateTrainingPlans = {
         monetization: {
             label: 'Указать стоимость плана'
         },
-        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На вашем балансе будет отражена сумма {{value * 0.7}} {{currency}} с каждой покупки',
+        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На вашем балансе будет отражена сумма {{(value * 0.7) | number:0}} {{currency}} с каждой покупки',
         currency: {
             label: 'Валюта',
             placeholder: 'Выберите валюту'
