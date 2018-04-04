@@ -42,7 +42,8 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     }
 
     get incompleteProfile (): boolean {
-        return this.application.user.public.isCoach && !this.application.user.public.profileComplete;
+        return this.application.user.public.isCoach && !this.application.user.public.profileComplete &&
+            !this.authService.isAuthorized(['ProfileClub']);
     }
 
     get onlyBasicTariff (): boolean {
@@ -96,7 +97,7 @@ class ApplicationUserToolbarCtrl implements IComponentController {
             this.application.permissions[role] :
             window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'))[role];
         let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
-        return diff !== null && diff !== undefined ? (diff >= 0 ? diff + 1 : diff - 1) : null;
+        return diff !== null && diff !== undefined ? (diff >= -1 ? diff + 1 : diff - 1) : null;
     }
 
     getRoleByMessage (message: string): string {
