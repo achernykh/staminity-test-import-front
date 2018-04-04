@@ -13,10 +13,11 @@ class UserMenuCtrl implements IComponentController {
     private user: IUserProfile;
     private destroy = new Subject();
 
-    static $inject = ["$mdSidenav", "$location", "SessionService", "$state", "DisplayService"];
+    static $inject = ["$mdSidenav", "$mdMedia", "$location", "SessionService", "$state", "DisplayService"];
 
     constructor(
         private $mdSidenav: any,
+        private $mdMedia,
         private $location: ILocationService,
         private SessionService: SessionService,
         private $state: StateService,

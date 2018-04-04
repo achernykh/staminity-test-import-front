@@ -1,4 +1,5 @@
 import moment from 'moment/src/moment.js';
+import { element } from 'angular';
 import { SessionService } from "../../core/session/session.service";
 
 // Настройка отображения показателей под разные виды спорта. По-умолчанию отображаются в соотвествии с указанным
@@ -431,6 +432,9 @@ export const measureValue =
      chart:boolean = false,
      units:string = 'imperial') => {
 
+        let session: SessionService = angular.element(document.body).injector().get('SessionService');
+        units = session.getUser().display.units;
+
     if (!!input) {
         let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
             (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
@@ -468,15 +472,19 @@ export const measureValue =
     }
 };
 
-export const measureUnit = (measure, sport = 'default', units = 'imperial'): string => {
-    let unit: string;
+export const measureUnit = (measure:string, sport?:string, units?:string): string => {
+    let unit;
+    let session: SessionService = angular.element(document.body).injector().get('SessionService');
+    units = session.getUser().display.units;
     try {
         unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) &&
             _activity_measurement_view[sport][measure].unit) ||
             (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) ||
             _measurement[measure].unit;
 
-        unit = (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)) ? _measurement_system_calculate[unit].unit : unit;
+        unit = (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)) ?
+            _measurement_system_calculate[unit].unit :
+            unit;
 
     } catch (e) {
         console.error('measureUnit error', e, measure, sport, units);

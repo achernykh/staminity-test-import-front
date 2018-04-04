@@ -1,7 +1,7 @@
 <md-menu id="user-menu" class="user-menu"
          md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
     <div flex="none"
-         class="avatar__40"
+         ng-class="::{'avatar__40': $ctrl.$mdMedia('gt-sm'), 'avatar__24': !$ctrl.$mdMedia('gt-sm')}"
          ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
          style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
 
@@ -9,14 +9,14 @@
         <md-menu-item ng-repeat="menu in $ctrl.menu">
             <md-button ng-click="$ctrl.transitionToState(menu.link)">
                 <md-icon class="material-icons" md-menu-align-target>{{::menu.icon}}</md-icon>
-                <span translate>{{menu.name}}</span>
+                <span translate>{{::menu.name}}</span>
             </md-button>
         </md-menu-item>
         <md-menu-divider></md-menu-divider>
         <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
             <md-button ng-click="$ctrl.display.setLocale(locale)">
-                <md-icon md-svg-src="/assets/icon/{{ locale }}.svg" md-24 md-menu-align-target></md-icon>
-                <span>{{ localeName }}</span>
+                <md-icon md-svg-src="/assets/icon/{{ ::locale }}.svg" md-24 md-menu-align-target></md-icon>
+                <span>{{ ::localeName }}</span>
             </md-button>
         </md-menu-item>
     </md-menu-content>

@@ -136,7 +136,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     //public isPro: boolean;
     //public isMyCoach: boolean;
 
-    public isLoadingDetails: boolean = false;
+    public isLoadingDetails: boolean = null;
+    public isLoadingIntervals: boolean = null;
 
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
@@ -203,9 +204,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
             //Получаем детали по тренировке загруженной из внешнего источника
             if (!this.activity.view.isPost && this.activity.hasActualData) {
                 let intervalsType: Array<string> = this.activity.isStructured ? ['L','P','G'] : ['L'];
+                this.isLoadingDetails = true;
+                this.isLoadingIntervals = true;
                 this.ActivityService.getIntervals(this.activity.activityHeader.activityId, intervalsType)
                     .then(response => this.activity.intervals.add(response, 'update'),
                         error => this.message.toastError('errorCompleteIntervals'))
+                    .then(_ => this.isLoadingIntervals = false)
                     //.then(() => this.activity.updateIntervals())
                     .then(() => this.changeStructuredAssignment++)
                     .then(() => this.prepareTabPosition());

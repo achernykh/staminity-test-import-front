@@ -1,13 +1,23 @@
-<application-frame class="athletes">
-
-    <md-card ng-if="!$ctrl.isMobileLayout()">
-        <div layout="row" layout-align="center center" class="athletes-actions">
-                <span flex>
-                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }} 
+<st-application-frame class="st-application-frame athletes"
+                      ng-class="{'left-bar-show': false}"
+                      template="application"
+                      navigation-bar="false"
+                      left-bar="false">
+    <st-application-frame-title>
+        <span class="md-title" translate="{{$ctrl.$mdMedia('gt-sm') ? 'athletes.fullTitle' : 'athletes.shortTitle'}}"></span>
+        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="md-title" hide show-gt-sm>
+                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }}
                     ({{$ctrl.getRows().length}})
-                </span>
-            <md-input-container style="width: {{$ctrl.showSearch? '300px' : '0'}}; padding:0; margin: 0;" class="animated"> 
-                <input ng-model="$ctrl.search" ng-if="$ctrl.showSearch" auto-focus ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/> 
+        </span>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm layout="row">
+            <md-input-container style="width: {{$ctrl.showSearch ? '150px' : '0'}}; padding:0; margin: 0;" class="animated no-message">
+                <input ng-model="$ctrl.search" style="color: white; margin: 0 16px;" class="md-body-1"
+                       ng-if="$ctrl.showSearch" auto-focus
+                       ng-blur="!$ctrl.search && ($ctrl.showSearch = false)"/>
             </md-input-container>
             <md-button class="athletes-button md-icon-button" ng-click="$ctrl.showSearch = !$ctrl.showSearch">
                 <md-icon class="material-icons">search</md-icon>
@@ -15,22 +25,34 @@
             <md-button class="athletes-button md-icon-button" ng-click="$ctrl.invite($event)">
                 <md-icon class="material-icons">group_add</md-icon>
             </md-button>
+            <section flex="none" layout="row" layout-align="start center"
+                     class="calendar-operations" hide show-gt-md>
+                <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+                <md-button class="md-icon-button"
+                           ng-disabled="!$ctrl.checked.length || !$ctrl.isEditTariffsAvailable()"
+                           ng-click="$ctrl.editTariffs()">
+                    <md-tooltip md-direction="bottom">{{ 'athletes.buttons.tariffs' | translate }}</md-tooltip>
+                    <md-icon class="material-icons">account_balance_wallet</md-icon>
+                </md-button>
+                <md-button class="md-icon-button"
+                           ng-disabled="!$ctrl.checked.length || !$ctrl.isRemoveAvailable()"
+                           ng-click="$ctrl.remove()">
+                    <md-tooltip md-direction="bottom">{{ 'athletes.buttons.remove' | translate }}</md-tooltip>
+                    <md-icon class="material-icons">delete</md-icon>
+                </md-button>
+            </section>
+        </section>
+    </st-application-frame-toolbar>
 
-        </div>
-        <md-toolbar class="athletes-toolbar md-table-toolbar md-default md-subhead" ng-if="$ctrl.checked.length" layout="row" layout-align="center center">
-            <span flex>{{ 'athletes.selected' | translate:{count:$ctrl.checked.length} }}</span>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isEditTariffsAvailable()" ng-click="$ctrl.editTariffs()">
-                <md-tooltip md-direction="bottom">{{ 'athletes.buttons.tariffs' | translate }}</md-tooltip>
-                <md-icon class="material-icons">account_balance_wallet</md-icon>
-            </md-button>
-            <md-button class="md-primary md-icon-button" ng-if="$ctrl.isRemoveAvailable()" ng-click="$ctrl.remove()"> 
-                <md-tooltip md-direction="bottom">{{ 'athletes.buttons.remove' | translate }}</md-tooltip>
-                <md-icon class="material-icons">delete</md-icon> 
-            </md-button>
-        </md-toolbar>
-        <md-table-container>
-            <table md-table md-row-select multiple ng-model="$ctrl.checked">
-                <thead md-head md-order="$ctrl.orderBy">
+    <st-application-frame-mobile-menu></st-application-frame-mobile-menu>
+
+    <st-application-frame-left-bar></st-application-frame-left-bar>
+
+    <st-application-frame-content>
+        <md-card ng-if="!$ctrl.isMobileLayout()">
+            <md-table-container>
+                <table md-table md-row-select multiple ng-model="$ctrl.checked">
+                    <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
                         <th md-column md-order-by="username"><span translate>athletes.columns.username</span></th>
                         <th md-column md-order-by="club"><span translate>athletes.columns.club</span></th>
@@ -38,8 +60,8 @@
                         <th md-column md-order-by="city"><span translate>athletes.columns.city</span></th>
                         <th md-column md-order-by="ageGroup"><span translate>athletes.columns.ageGroup</span></th>
                     </tr>
-                </thead>
-                <tbody md-body>
+                    </thead>
+                    <tbody md-body>
                     <tr md-row md-select="member" md-auto-select ng-repeat="member in $ctrl.getRows()">
                         <td md-cell>
                             <md-button class="athletes-username" ui-sref="user({uri: member.userProfile.public.uri})">
@@ -65,34 +87,36 @@
                         <td md-cell>{{member.userProfile.city}}</td>
                         <td md-cell>{{member.userProfile | ageGroup}}</td>
                     </tr>
-                </tbody>
-            </table>
-        </md-table-container>
-    </md-card>
-    
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-card>
 
-    <div ng-if="$ctrl.isMobileLayout()">
-        <md-list>
-            <md-list-item layout="row" layout-align="center center">
-                <md-icon class="material-icons">search</md-icon>
-                <md-input-container flex> 
-                    <input ng-model="$ctrl.search"/> 
-                </md-input-container>
-            </md-list-item>
-            <md-list-item layout="row" layout-align="center center">
-                <md-icon class="material-icons" class="athletes-tune-icon">tune</md-icon>
-                <span flex>
-                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }} 
+        <div ng-if="$ctrl.isMobileLayout()">
+            <md-list>
+                <md-list-item layout="row" layout-align="center center">
+                    <md-icon class="material-icons">search</md-icon>
+                    <md-input-container flex>
+                        <input ng-model="$ctrl.search"/>
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item layout="row" layout-align="center center">
+                    <md-icon class="material-icons" class="athletes-tune-icon">tune</md-icon>
+                    <span flex>
+                    {{ 'athletes.filters.' + ($ctrl.search ? 'search' : 'all') | translate:{search:$ctrl.search} }}
                     ({{$ctrl.getRows().length}})
                 </span>
-            </md-list-item>
-            <md-list-item ng-repeat="member in $ctrl.getRows()" layout="row" layout-align="center center">
-                <userpic profile="member.userProfile" is-premium="$member.userProfile | isPremium"></userpic>
-                <span ui-sref="user({uri: member.userProfile.public.uri})" flex>{{ member.userProfile | username }}</span>
-                <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
-            </md-list-item>
-        </md-list>
-    </div>
+                </md-list-item>
+                <md-list-item ng-repeat="member in $ctrl.getRows()" layout="row" layout-align="center center">
+                    <userpic profile="member.userProfile" is-premium="$member.userProfile | isPremium"></userpic>
+                    <span ui-sref="user({uri: member.userProfile.public.uri})" flex>{{ member.userProfile | username }}</span>
+                    <md-icon class="material-icons md-secondary" ng-click="$ctrl.showActions(member)">more_vert</md-icon>
+                </md-list-item>
+            </md-list>
+        </div>
 
-</application-frame>
+    </st-application-frame-content>
+
+</st-application-frame>
+
 

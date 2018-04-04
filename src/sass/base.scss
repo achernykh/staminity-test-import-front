@@ -137,6 +137,12 @@ div.avatar{
     @include border-radius(12px);
   }
 
+  &__24 {
+    width: 24px;
+    height: 24px;
+    @include border-radius(12px);
+  }
+
   &__40 {
     width: 40px;
     height: 40px;

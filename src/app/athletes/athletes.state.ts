@@ -19,7 +19,8 @@ const athletes = {
             return GroupService.getManagementProfile(user.connections.allAthletes.groupId, "coach");
         }],
     },
-    views: DefaultTemplate("athletes"),
+    views: { application: {component: 'stAthletes'} }
+    //views: DefaultTemplate("athletes"),
 } as StateDeclaration;
 
 export const athletesStates: StateDeclaration[] = [athletes];

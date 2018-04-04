@@ -4,7 +4,7 @@
                 <p ng-repeat="measure in $ctrl.measures track by $index"
                    class="{{measure}}"></p> -->
                 <p class="elapsedDuration" ng-if="$ctrl.measures.hasOwnProperty('elapsedDuration')"></p>
-                <p class="distance" ng-if="$ctrl.measures.hasOwnProperty('distance')"></p>
+                <p class="distance" ng-if="$ctrl.measures.hasOwnProperty('distance')" translate></p>
                 <p class="heartRate" ng-if="$ctrl.measures.hasOwnProperty('heartRate')">
                         <span class="value"></span>
                         <span class="unit">{{'heartRate' | measureUnit:$ctrl.sport | translate}}</span></p>
