@@ -53,7 +53,7 @@ class LandingTariffsCtrl implements IComponentController {
 
     getPrice(): void {
         this.session.getObservable().map(getUser).subscribe(profile => {
-            this.country = profile.display.language;
+            this.country = profile && profile.display.language || navigator.language.substr(0,2);
             this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[this.country].month;
             this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.premium;
             this.coachByUser = this.price.filter((t) => t.name === "coach")[0].fee.subscription[this.country].month;

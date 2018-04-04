@@ -73,6 +73,7 @@ export const AppMenuSettings = [
         icon: "show_chart",
         name: "appMenu.plan",
         link: "training-plans-search",
+        state: 'soon',
         hideMobile: true
         //role: [_UserRoles.user, _UserRoles.coach]
     },
