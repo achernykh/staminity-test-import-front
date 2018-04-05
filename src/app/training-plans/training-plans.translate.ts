@@ -39,7 +39,17 @@ export const _translateTrainingPlans = {
             hidePanel: 'Показать панель',
             showPanel: 'Скрыть панель',
             search: 'Поиск',
-            myPlans: 'Мои планы'
+            myPlans: 'Мои планы',
+            go: 'Перейти в Покупки',
+            pay: 'Купить',
+            addFree: 'Добавить бесплатно',
+            signupAndPay: "Зарегистрироваться и купить",
+            signupAndAddFree: "Зарегистрироваться и добавить бесплатно",
+            signinAndPay: "Войти и купить",
+            signinAndAddFree: "Войти и добавить бесплатно",
+            viewStore: "Страница плана (опубликованная версия)",
+            viewHistory: "Страница плана (текущая версия)",
+
         },
         plan: 'Тренировочный план',
         // поля плана
@@ -235,12 +245,28 @@ export const _translateTrainingPlans = {
             tabs: {
                 signin: 'У меня уже есть аккаунт',
                 signup: 'Создать аккаунт'
-            }
+            },
+            confirmation: "Я согласен с Условиями покупки плана и принимаю Договор-оферту купли-продажи плана между Автором плана и Покупателем",
+            confirmationSignup: "Регистрируясь, я принимаю <a href=\'https://legal.staminity.com/ru/license.html\'>Публичную оферту</a> и соглашаюсь с <a href=\'https://legal.staminity.com/ru/terms.html\'>Условиями использования</a> сайта",
+            priceLabel: "Цена",
+            free: "Бесплатно",
+            price: "{{price}} {{currency}}"
         },
         publish: {
             check: {
-                versionSuccess: 'Есть изменения. Текущая версия {{histVersion}}#{{revision}}, версия магазина {{storeVersion}}#{{storeRevision}}'
-            }
+                versionSuccess: 'Есть изменения. Текущая версия {{histVersion}}#{{revision}}, версия магазина {{storeVersion}}#{{storeRevision}}',
+                versionFail: 'Нет изменений для публикации',
+                profileSuccess: 'Профиль продавца планов заполнен',
+                profileSuccess: 'Профиль продавца планов не заполнен. Перейдите в Настройки',
+                iconSuccess: "Иконка плана указана",
+                iconFail: "Нет иконки. Загрузите в карточке плана",
+                backgroundSuccess: "Основное изображение плана загружено",
+                backgroundFail: "Нет изображения. Загрузите в карточке плана",
+                itemsSuccess: 'В плане не менее 10 тренировок',
+                itemsFail: 'В плане должно быть не менее 10 тренировок',
+
+            },
+            title: "Публикация плана"
         },
         monetization: {
             label: 'Указать стоимость плана'
@@ -286,8 +312,14 @@ export const _translateTrainingPlans = {
             label: 'Опишите структурированные тренировки',
             placeholder: 'План по каким тренировкам создан с разбивкой по сегментам'
         },
-        forUploadNeedSave: 'Для загрузки изображения сохраните план'
+        forUploadNeedSave: 'Для загрузки изображения сохраните план',
+        success: {
+            title: 'Приобретение успешно',
+            authText: 'Поздравляем, вы успешно приобрели тренировочный план! Чтобы применить его, перейдите в раздел "Покупки"'
 
+        },
+        samplesHowTo: 'Примеры тренировок помогут покупателям оценить Ваш подход. Отметьте нужные тренировки и события как примеры',
+        hasUpdateForStore: "Есть неопубликованные изменения"
     },
     en: {
         builder: {
