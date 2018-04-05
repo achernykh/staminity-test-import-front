@@ -99,7 +99,7 @@ export const _translateTrainingPlans = {
         },
         keywords: {
             label: 'Ключевые слова',
-            placeholder: 'Введите ключевые слова, разделяйте их по нажатию Enter'
+            placeholder: 'Ключевые слова'
         },
         isStructured: {
             label: 'Сегменты'
@@ -206,7 +206,7 @@ export const _translateTrainingPlans = {
             targetAudience: 'Целевая аудитория',
             calendarDates: 'Даты плана',
             flexCalendarDates: 'План рассчитан на {{weekCount}} недель и не привязан к конкретным датам. ',
-            fixCalendarDates: 'План рассчитан на {{weekCount}} недель, с {{start}} по {{finish}}. ',
+            fixCalendarDates: "План рассчитан на {{weekCount}} недель, с {{start | date:'short'}} по {{finish | date:'short'}}. ",
             propagateMods: 'План обновляемый. Тренер может внести изменения в план и все изменения будут отражены в вашем календаре. ',
             assignOpportunities: 'Вы сможете присвоить план в нужные даты для подготовки к выбранному старту',
             regularWeek: 'Типовая неделя',
@@ -254,7 +254,8 @@ export const _translateTrainingPlans = {
         },
         publish: {
             check: {
-                versionSuccess: 'Есть изменения. Текущая версия {{histVersion}}#{{revision}}, версия магазина {{storeVersion}}#{{storeRevision}}',
+                title: 'Чек-лист публикации',
+                versionSuccess: 'Есть изменения для публикации. Текущая версия {{histVersion}}#{{revision}}, версия магазина {{storeVersion}}#{{storeRevision}}',
                 versionFail: 'Нет изменений для публикации',
                 profileSuccess: 'Профиль продавца планов заполнен',
                 profileSuccess: 'Профиль продавца планов не заполнен. Перейдите в Настройки',
@@ -263,7 +264,7 @@ export const _translateTrainingPlans = {
                 backgroundSuccess: "Основное изображение плана загружено",
                 backgroundFail: "Нет изображения. Загрузите в карточке плана",
                 itemsSuccess: 'В плане не менее 10 тренировок',
-                itemsFail: 'В плане должно быть не менее 10 тренировок',
+                itemsFail: 'В плане менее 10 тренировок. Создайте еще',
 
             },
             title: "Публикация плана"
@@ -271,7 +272,7 @@ export const _translateTrainingPlans = {
         monetization: {
             label: 'Указать стоимость плана'
         },
-        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На вашем балансе будет отражена сумма {{(value * 0.7) | number:0}} {{currency}} с каждой покупки',
+        commerceConditions: 'Комиссия Staminity - 30% от цены плана. На вашем балансе будет отражена сумма <strong>{{(value * 0.7) | number:0}} {{currency}}</strong> с каждой покупки',
         currency: {
             label: 'Валюта',
             placeholder: 'Выберите валюту'
@@ -315,7 +316,8 @@ export const _translateTrainingPlans = {
         forUploadNeedSave: 'Для загрузки изображения сохраните план',
         success: {
             title: 'Приобретение успешно',
-            authText: 'Поздравляем, вы успешно приобрели тренировочный план! Чтобы применить его, перейдите в раздел "Покупки"'
+            authText: 'Поздравляем, вы успешно приобрели тренировочный план! Чтобы применить его, перейдите в раздел "Покупки"',
+            guestText: 'Поздравляем, вы успешно приобрели тренировочный план! Дальнейшие шаги: <ol type="1"><li>Войдите в Staminity</li><li>Перейдите в раздел "Тренировочные планы" - "Покупки"</li><li>Примените план в нужные даты</li><li>Тренировки из плана появятся в вашем календаре</li></ol>'
 
         },
         samplesHowTo: 'Примеры тренировок помогут покупателям оценить Ваш подход. Отметьте нужные тренировки и события как примеры',
