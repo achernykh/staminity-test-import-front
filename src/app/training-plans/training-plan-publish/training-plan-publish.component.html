@@ -18,12 +18,12 @@
         <p class="md-body-2 md-dark center" translate="trainingPlans.publish.check.title"></p>
         <p ng-repeat-start="rule in $ctrl.rules" ng-if="$ctrl[rule]">
             <md-icon class="material-icons" style="margin-right: 20px">check_box</md-icon>
-            <span class="md-body-1" translate="trainingPlans.publish.check.{{rule}}Success"></span>
+            <span class="md-body-1" translate="trainingPlans.publish.check.{{rule}}Success" translate-values="$ctrl.plan"></span>
         </p>
         <p ng-repeat-end ng-if="!$ctrl[rule]">
             <md-icon class="material-icons" style="margin-right: 20px">check_box_outline_blank</md-icon>
             <span class="md-body-2" md-colors="{color: 'default-warn'}"
-                  translate="trainingPlans.publish.check.{{rule}}Fail"></span>
+                  translate="trainingPlans.publish.check.{{rule}}Fail" translate-values="$ctrl.plan"></span>
         </p>
         <!--<p class="md-body-2 md-dark center" translate="trainingPlans.publish.status"></p>
         <p>

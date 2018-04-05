@@ -14,12 +14,12 @@
 
     <st-application-frame-toolbar layout="row">
         <section class="desktop" hide show-gt-sm layout="row" layout-align="start center">
-            <md-button ng-if="$ctrl.authService.isCoach()" layout="row"
+            <md-button ng-if="$ctrl.user.public.isCoach" layout="row"
                        ng-click="$ctrl.$state.go('methodology', {})" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Filter">school</md-icon>
                 <span translate="trainingPlans.actions.myPlans"></span>
             </md-button>
-            <span ng-if="$ctrl.authService.isCoach()" class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+            <span ng-if="$ctrl.user.public.isCoach" class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
             <md-button  ng-click="$ctrl.view()" class="md-icon-button" aria-label="Settings" layout="row" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Filter">{{$ctrl.cardView ? 'view_list' : 'credit_card'}}</md-icon>
                 <span translate="{{$ctrl.cardView ? 'trainingPlans.actions.listView' : 'trainingPlans.actions.cardView'}}"></span>

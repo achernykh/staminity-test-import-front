@@ -58,7 +58,7 @@
                 <md-button class="md-primary md-secondary"
                            style="border: 1px solid; border-radius: 5px"
                            md-colors="{'border-color': 'primary'}">
-                    <span translate="{{plan.price ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
+                    <span translate="{{plan.monetization ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
                           translate-values="{price: plan.price, currency: plan.currency}">
                     </span>
                 </md-button>
@@ -126,7 +126,7 @@
                     <span translate="trainingPlans.state.active"></span>
                 </md-button>
                 <md-button ng-if="!plan.state" flex="none" ng-click="$ctrl.order($event, plan)" class="md-primary">
-                    <span translate="{{plan.price ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
+                    <span translate="{{plan.monetization ? 'trainingPlans.store.price' : 'trainingPlans.store.free'}}"
                           translate-values="{price: plan.price, currency: plan.currency}">
                     </span>
                 </md-button>

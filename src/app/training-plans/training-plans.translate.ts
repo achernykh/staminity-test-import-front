@@ -194,8 +194,9 @@ export const _translateTrainingPlans = {
             description: 'Описание плана',
             targetAudience: 'Целевая аудитория',
             calendarDates: 'Даты плана',
-            fixCalendarDates: 'План привязан к датам. Количество недель {{weekCount}}, начало плана {{start}} и окончание {{finish}}',
-            flexCalendarDates: 'План обновляемый. Тренер может внести изменения в план и все изменения будут отражены в вашем календаре. План не привзян к датам. Количество недель {{weekCount}}',
+            fixCalendarDates: 'План привязан к датам. Количество недель {{weekCount}}, начало плана {{start}} и окончание {{finish}}. ',
+            flexCalendarDates: 'План не привзян к датам. Количество недель {{weekCount}}. ',
+            propagateMods: 'План обновляемый. Тренер может внести изменения в план и все изменения будут отражены в вашем календаре. ',
             assignOpportunities: 'Вы сможете присвоить план с любой или по любую дату для подготовки в вашему старту',
             regularWeek: 'Типовая неделя',
             weekActivities: 'В неделю в среднем {{avg | stNumberCeil}} тренировок, от мин - {{min | stNumberCeil}}, макс - {{max | stNumberCeil}}',
@@ -233,6 +234,11 @@ export const _translateTrainingPlans = {
             tabs: {
                 signin: 'У меня уже есть аккаунт',
                 signup: 'Создать аккаунт'
+            }
+        },
+        publish: {
+            check: {
+                versionSuccess: 'Есть изменения. Текущая версия {{histVersion}}#{{revision}}, версия магазина {{storeVersion}}#{{storeRevision}}'
             }
         },
         monetization: {

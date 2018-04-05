@@ -72,6 +72,7 @@
                 <md-menu-item ng-if="plan.isPublic">
                     <md-button ng-click="$ctrl.publish($event, plan)">
                         <md-icon class="material-icons">publish</md-icon>
+                        <span translate="trainingPlans.actions.publish"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="plan.isPublic && plan.storeVersion">

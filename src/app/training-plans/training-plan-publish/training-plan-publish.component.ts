@@ -1,5 +1,5 @@
 import './training-plan-publish.component.scss';
-import {IComponentOptions, IComponentController} from 'angular';
+import {IComponentOptions, IComponentController, IScope} from 'angular';
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import MessageService from "@app/core/message.service";
@@ -16,11 +16,13 @@ class TrainingPlanPublishCtrl implements IComponentController {
     // private
     private dataLoading: boolean = false;
     private rules = ['profile', 'version', 'icon', 'background', 'items' ];
-    static $inject = ['TrainingPlansService', 'message'];
+    static $inject = ['$scope', 'TrainingPlansService', 'message','dialogs'];
 
     constructor(
+        private $scope: IScope,
         private trainingPlansService: TrainingPlansService,
-        private message: MessageService) {
+        private message: MessageService,
+        private dialogs) {
 
     }
 
@@ -57,9 +59,12 @@ class TrainingPlanPublishCtrl implements IComponentController {
     }
 
     unpublish (): void {
-        this.trainingPlansService.unpublish(this.plan.id)
-            .then(_ => this.message.toastInfo('trainingPlanUnpublishSuccess'), e => this.message.toastInfo(e))
-            .then(_ => this.onCancel());
+        Promise.resolve()
+            .then(_ => this.onCancel())
+            .then(_ => this.$scope.$applyAsync())
+            .then(_ => this.dialogs.confirm({ text: 'dialogs.unpublishTrainingPlan' }))
+            .then(_ => this.trainingPlansService.unpublish(this.plan.id))
+            .then(_ => this.message.toastInfo('trainingPlanUnpublishSuccess'), e => e && this.message.toastInfo(e));
     }
 
     private getPlanDetails (): void {
