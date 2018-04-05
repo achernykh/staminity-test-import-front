@@ -1,6 +1,6 @@
 <div class="record-compact" ng-switch="$ctrl.view">
     <!-- Элемент дня дэшборда -->
-    <section ng-switch-when="dashboard" class="record-compact__dashboard" ng-click="$ctrl.open($event)">
+    <section ng-switch-when="dashboard" class="record-compact__dashboard" ng-click="$ctrl.disableActions || $ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="calendar-item-record-header dashboard-view md-dark"
                 layout="row"

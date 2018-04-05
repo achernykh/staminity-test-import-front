@@ -114,6 +114,7 @@ export const _translateTrainingPlans = {
             hasOfflineTraining: 'Очные занятия'
 
         },
+        samplesHowTo: '',
         assignment: {
             info: "Дата начала плана: {{firstPlanDate | date:'longDate'}}, дата первой записи: {{firstItemDate | date:'longDate'}} </br>" +
             "Дата окончания плана:  {{lastPlanDate | date:'longDate'}}, дата последней записи: {{lastItemDate | date:'longDate'}}",

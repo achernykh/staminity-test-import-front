@@ -465,13 +465,14 @@
                     <md-tab-label><span translate="trainingPlans.tabs.samples"></span></md-tab-label>
                     <md-tab-body layout="column" layout-fill>
                         <section ng-if="$ctrl.plan.samples.length === 0"
-                                 layout="column" layout-fill layout-align="center stretch">
+                                 layout="column" layout-fill layout-align="center center">
                             <div flex="none" class="tutorial">
 
                             </div>
-                            <p flex="none">Text</p>
+                            <p class="md-body-1" flex="none" translate="">trainingPlans.samplesHowTo</p>
                         </section>
                         <st-calendar-item-list flex="auto" class="calendar-item-list"
+                                               ng-if="$ctrl.plan.samples.length > 0"
                                                ng-init="$ctrl.firstDate = $ctrl.plan.firstDate"
                                                data="$ctrl.plan.samples"
                                                date-point="$ctrl.firstDate">
