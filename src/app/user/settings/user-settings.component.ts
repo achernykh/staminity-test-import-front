@@ -16,10 +16,12 @@ class UserSettingsCtrl implements IComponentController {
     agentEnvironment: IAgentEnvironment;
 
     // inject
-    static $inject = ['$scope', '$stateParams', '$mdMedia', 'message', 'SessionService', 'UserSettingsService', 'AgentService'];
+    static $inject = ['$scope', '$anchorScroll', '$stateParams', '$mdMedia', 'message', 'SessionService',
+        'UserSettingsService', 'AgentService'];
 
     constructor (
         private $scope: any,
+        private $anchorScroll,
         private $stateParams: any,
         private $mdMedia: any,
         private message: MessageService,
@@ -28,6 +30,7 @@ class UserSettingsCtrl implements IComponentController {
         private agentService: AgentService,
     ) {
         window['UserSettingsCtrl'] = this;
+        $anchorScroll.yOffset = 72;
         userSettingsService.updates.subscribe((userProfile) => {
             if (userProfile.userId === this.userId) {
                 this.owner = userProfile;
