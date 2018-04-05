@@ -1,4 +1,4 @@
-<div ng-if="$ctrl.AuthService.isAuthenticated()"
+<div ng-if="$ctrl.authService.isAuthenticated() && $ctrl.application.user.userId"
      layout="row" layout-align="end center" layout-fill
      class="st-application-user-toolbar">
     <md-button ng-if="!$ctrl.application.connectionStatus" flex="none">
@@ -22,15 +22,21 @@
         <md-icon md-font-set="material-icons">group</md-icon>
         <span class="badge superscript" ng-if="$ctrl.application.requests > 0">{{$ctrl.application.requests}}</span>
     </md-button>
-    <div hide show-gt-sm layout="row" class="user-frame" md-colors="::{'background': 'primary-600'}">
-        <div flex="none"
-             class="avatar mini"
-             style="background-image: url({{'/user/avatar/' | image:$ctrl.application.user.public.avatar}})"></div>
-        <div flex class="user-name md-body-1">{{$ctrl.application.user | username: 'short'}}</div>
-        <user-menu id="$ctrl.application.user.public.uri || $ctrl.application.user.userId"></user-menu>
+    <div hide show-gt-sm
+         ng-if="$ctrl.message" ng-switch on="$ctrl.message"
+         layout="row" layout-align="start center"
+         class="user-frame" md-colors="{'background': $ctrl.getStyle()}"
+         ng-click="$ctrl.action()"
+         md-ink-ripple="#FF0000">
+        <span ng-repeat="type in $ctrl.status" ng-if="$ctrl.message === type"
+              class="md-body-2 md-light"
+              translate="{{type}}" translate-values="{days: $ctrl.diffDays($ctrl.getRoleByMessage(type))}">
+        </span>
     </div>
+    <user-menu id="$ctrl.application.user.public.uri || $ctrl.application.user.userId">
+    </user-menu>
 </div>
-<div layout="row" layout-align="end center" layout-fill ng-if="!$ctrl.AuthService.isAuthenticated()">
+<div layout="row" layout-align="end center" layout-fill ng-if="!$ctrl.authService.isAuthenticated()">
     <md-button ui-sref="signin({nextState: $ctrl.$state.$current.name, nextParams: $ctrl.$state.params})"
                class="md-icon-button" translate>
         <md-tooltip ng-bind="'landing.nav.signIn' | translate"></md-tooltip>

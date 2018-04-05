@@ -27,7 +27,7 @@
                         $ctrl.deleteTrainingPlanRecord()"
                                    ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                            <span translate="activity.toolbar.delete"></span>
+                            <span translate="activity.action.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
@@ -51,13 +51,13 @@
                     <md-menu-item ng-if="$ctrl.record.isRepeated">
                         <md-button ng-click="" ng-disabled="true">
                             <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
-                            <span translate="activity.toolbar.settings"></span>
+                            <span translate="activity.action.settings"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="::$ctrl.currentUser.connections.hasOwnProperty('allAthletes')">
                         <md-button ng-click="$ctrl.showSelectAthletes = true">
                             <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
-                            <span translate="activity.toolbar.multiAthletes"></span>
+                            <span translate="activity.action.addAthletes"></span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>

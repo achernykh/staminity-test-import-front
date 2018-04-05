@@ -25,11 +25,6 @@ const LabelFormatters = {
     distance:
     {
         formatter: (x, sport) => measureValue(x, sport, "distance"),
-        /*formatter: function (d) {
-            let kms = d / 1000;
-            return kms.toFixed(2);
-        },
-        label: ' км'*/
         label: (sport) => " " + measureUnit("distance", sport),
     },
     speed: {

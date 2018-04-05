@@ -223,7 +223,8 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
 
   // Наполнение основной части Представления
   &__content {
-    width: auto;
+    //width: 100%;
+    //position: absolute;
     background-color: $grey-300;
     top: $app-toolbar-height;
     min-height: auto;//calc(100vh - 64px);

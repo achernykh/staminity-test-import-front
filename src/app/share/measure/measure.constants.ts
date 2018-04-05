@@ -1,4 +1,6 @@
 import moment from 'moment/src/moment.js';
+import { element } from 'angular';
+import { SessionService } from "../../core/session/session.service";
 
 // Настройка отображения показателей под разные виды спорта. По-умолчанию отображаются в соотвествии с указанным
 // unit в обьекте _measurement, но для отдельных пар базовый вид спорта / показатель возможено отображение отличной
@@ -390,9 +392,21 @@ export const _measurement_system_calculate = {
         unit: 'mile',
         multiplier: (x) => x * 0.621371
     },
+    mile : {
+        unit: 'km',
+        multiplier: (x) => x * 1.60934
+    },
     meter: {
         unit: 'yard',
         multiplier: (x) => x * 1.09361
+    },
+    yard : {
+        unit: 'meter',
+        multiplier: (x) => x * 0.9144
+    },
+    minpkm: {
+        unit: 'minpml',
+        multiplier: (x) => x * 1.60934
     },
     kmph : {
         unit: 'mph',
@@ -411,7 +425,16 @@ const _recalculation = _measurement_calculate;
  * @param units - система мер (метрическая/имперская
  * @returns {string} - результат пересчета
  */
-export const measureValue = (input: number, sport: string, measure: string, chart:boolean = false, units:string = 'metric') => {
+export const measureValue =
+    (input: number,
+     sport: string,
+     measure: string,
+     chart:boolean = false,
+     units:string = 'imperial') => {
+
+        let session: SessionService = angular.element(document.body).injector().get('SessionService');
+        units = session.getUser().display.units;
+
     if (!!input) {
         let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
             (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
@@ -423,8 +446,8 @@ export const measureValue = (input: number, sport: string, measure: string, char
         }
 
         // Необходим пересчет системы мер
-        if (units && units === 'imperial'){
-            input = input * _measurement_system_calculate[unit].multiplier;
+        if (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)){
+            input = _measurement_system_calculate[unit].multiplier(input);
         }
 
         // Показатель релевантен для пересчета скорости в темп
@@ -449,15 +472,19 @@ export const measureValue = (input: number, sport: string, measure: string, char
     }
 };
 
-export const measureUnit = (measure, sport = 'default', units = 'metric'): string => {
-    let unit: string;
+export const measureUnit = (measure:string, sport?:string, units?:string): string => {
+    let unit;
+    let session: SessionService = angular.element(document.body).injector().get('SessionService');
+    units = session.getUser().display.units;
     try {
         unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) &&
             _activity_measurement_view[sport][measure].unit) ||
             (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) ||
             _measurement[measure].unit;
 
-        unit = (units && units !== 'metric') ? _measurement_system_calculate[unit].unit : unit;
+        unit = (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)) ?
+            _measurement_system_calculate[unit].unit :
+            unit;
 
     } catch (e) {
         console.error('measureUnit error', e, measure, sport, units);

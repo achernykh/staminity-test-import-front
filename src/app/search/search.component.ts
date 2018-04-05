@@ -25,7 +25,7 @@ class SearchCtrl implements IComponentController {
     private searchParams: SearchParams = {};
     private destroy: Subject<any> = new Subject();
     private navBarStates: Array<string> = ['users','coaches'];
-    private defaultState: string = 'users';
+    private defaultState: string = 'coaches';
     private currentState: string = null;
     private stateParam: string = 'state';
     private usersFilter: SearchParams = {};

@@ -290,7 +290,10 @@ export class Calendar {
      * @param parentId
      */
     delete (item: ICalendarItem, parentId?: number): void {
+
         let child: ICalendarItem;
+        item = !item.hasOwnProperty('calendarItemType') ? this.searchItem(item.calendarItemId) : item;
+        parentId = item && item.hasOwnProperty('parentId') && item.parentId || parentId;
         if (parentId && item.calendarItemType === 'activity') {
             child = copy(item);
             item = this.searchItem(parentId);
@@ -352,9 +355,9 @@ export class Calendar {
                 child = i.calendarItems.findIndex(c => c.calendarItemId === id);
             }
         })));
-        console.info('calendar datamodel: search result', include, !child, week, day, pos);
-        return  (include && child && child !== -1 && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
-                (include && !child && this.weeks[week].subItem[day].data.calendarItems[pos]) || null;
+        console.info('calendar datamodel: search result', include, !child, week, day, pos, child);
+        return  (include && child !== null && child > -1 && this.weeks[week].subItem[day].data.calendarItems[pos].calendarItems[child]) ||
+                (include && child === null && this.weeks[week].subItem[day].data.calendarItems[pos]) || null;
     }
 
     /**

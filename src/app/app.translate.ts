@@ -12,7 +12,15 @@ export const translateGeneral = {
             message: "Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity",
             action: "ПЕРЕЗАГРУЗИТЬ",
         },
-        rub: 'руб.'
+        rub: 'руб.',
+        onlyBasicTariff: 'Подключить тариф',
+        incompleteProfile: 'Не заполнен профиль',
+        premiumExpireIn: 'Премиум: осталось {{days}} дн',
+        coachExpireIn: 'Тренер: осталось {{days}} дн',
+        clubExpireIn: 'Клуб: осталось {{days}} дн',
+        expiredPremium: 'Премиум отключен',
+        expiredCoach: 'Тренер отключен',
+        expiredClub: 'Клуб отключен'
     },
     en: {
         staminity: "Staminity",
@@ -27,7 +35,15 @@ export const translateGeneral = {
             message: "Staminity update is available. Please refresh the browser page",
             action: "REFRESH",
         },
-        rub: 'RUB'
+        rub: 'RUB',
+        onlyBasicTariff: 'Add tariff',
+        incompleteProfile: 'Incomplete profile',
+        premiumExpireIn: 'Premium: {{days}} days left',
+        coachExpireIn: 'Coach: {{days}} days left',
+        clubExpireIn: 'Club: {{days}} days left',
+        expiredPremium: 'Premium expired',
+        expiredCoach: 'Coach expired',
+        expiredClub: 'Club expired'
     },
 };
 

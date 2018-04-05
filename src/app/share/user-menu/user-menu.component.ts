@@ -1,3 +1,4 @@
+import './user-menu.component.scss';
 import { IComponentController, IComponentOptions, ILocationService} from "angular";
 import {StateService} from "angular-ui-router";
 import { Subject } from "rxjs/Rx";
@@ -12,10 +13,11 @@ class UserMenuCtrl implements IComponentController {
     private user: IUserProfile;
     private destroy = new Subject();
 
-    static $inject = ["$mdSidenav", "$location", "SessionService", "$state", "DisplayService"];
+    static $inject = ["$mdSidenav", "$mdMedia", "$location", "SessionService", "$state", "DisplayService"];
 
     constructor(
         private $mdSidenav: any,
+        private $mdMedia,
         private $location: ILocationService,
         private SessionService: SessionService,
         private $state: StateService,

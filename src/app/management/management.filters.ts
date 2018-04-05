@@ -63,7 +63,7 @@ export const membersFiltersFilter = ($translate) => (filterParams: MembersFilter
     return (
         filterParams.noCoach && $translate.instant("users.filters.noCoach")
     ) || (
-        filterParams.coachUserId && $translate.instant("users.filters.coach") + ": " + (({ firstName, lastName }) => firstName + " " + lastName) (membersList.getMember(filterParams.coachUserId).userProfile.public)
+        filterParams.coachUserId && $translate.instant("users.filters.coach") + ": " + (({ firstName, lastName }) => lastName + (firstName as string).substr(0,1) + '.') (membersList.getMember(filterParams.coachUserId).userProfile.public)
     ) || (
         filterParams.clubRole && $translate.instant("users.filters.all") + ": " + $translate.instant("users.clubRoles." + filterParams.clubRole)
     ) || (

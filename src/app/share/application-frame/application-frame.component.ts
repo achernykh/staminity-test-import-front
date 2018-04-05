@@ -7,7 +7,7 @@ import NotificationService from "../notification/notification.service";
 import RequestsService from "../../core/requests.service";
 import AuthService from "../../auth/auth.service";
 
-class ApplicationFrameCtrl implements IComponentController {
+export class ApplicationFrameCtrl implements IComponentController {
 
     // bind
     template: 'application' | 'profile'; // тип шаблона: application | profile
@@ -20,6 +20,7 @@ class ApplicationFrameCtrl implements IComponentController {
 
     // public
     user: IUserProfile;
+    permissions: Object;
     connectionStatus: boolean = true;
 
     //private
@@ -44,8 +45,10 @@ class ApplicationFrameCtrl implements IComponentController {
 
         session.getObservable()
             .takeUntil(this.destroy)
-            .map(getUser)
-            .subscribe((userProfile) => this.user = angular.copy(userProfile));
+            .subscribe(session => {
+                this.user = angular.copy(session.userProfile);
+                this.permissions = angular.copy(session.systemFunctions);
+            });
 
         socket.connections
             .takeUntil(this.destroy)

@@ -10,7 +10,8 @@ export const translateDashboard = {
         athletes: 'атлетов',
         summary: 'Итоги',
         calendar: "Календарь",
-        settings: "Настройки зон и ПАНО"
+        settings: "Настройки зон и ПАНО",
+        loading: 'Загрузка ...'
     },
     en: {
         fullTitle: "Coach dashboard",
@@ -23,7 +24,8 @@ export const translateDashboard = {
         athletes: 'athletes',
         summary: 'Summary',
         calendar: "Calendar",
-        settings: "Training zones settings"
+        settings: "Training zones settings",
+        loading: 'Loading ...'
     }
 };
 

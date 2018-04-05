@@ -190,8 +190,9 @@ export class CalendarCtrl implements IComponentController{
                     }
                     case 'U': {
                         if (!this.calendar.include(message.value.calendarItemId, message.value.revision)) {
-                            if (!message.value.parentId || message.value.calendarItemType === 'record') {
-                                this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
+                            let item: ICalendarItem = this.calendar.searchItem(message.value.calendarItemId);
+                            if (!message.value.parentId || !item.parentId || message.value.calendarItemType === 'record') {
+                                this.calendar.delete(item, item.parentId && message.value.parentId || null);
                             }
                             this.calendar.post(message.value as ICalendarItem, message.value.parentId);
                         } else {

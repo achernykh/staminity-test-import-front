@@ -17,6 +17,7 @@ import {
 } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
+import {Activity} from "@app/activity/activity-datamodel/activity.datamodel";
 
 class CalendarDayCtrl {
 
@@ -71,6 +72,10 @@ class CalendarDayCtrl {
 
     isSpecified (item: ICalendarItem): boolean {
         return isSpecifiedActivity(item);
+    }
+
+    isCompleted (item: ICalendarItem): boolean {
+        return isCompletedActivity(item);
     }
 
 
@@ -155,20 +160,46 @@ class CalendarDayCtrl {
         srcIndex: number,
         trgDate: string,
         trgIndex: number,
-        trgItemId: number) {
-
-        debugger;
+        trgItem: Activity) {
 
         let item: ICalendarItem = copy(srcItem);
+        let srcItemSpecified: boolean = isSpecifiedActivity(item);
+        let trgItemSpecified: boolean = trgItem && isSpecifiedActivity(trgItem);
+        let srcItemCompleted: boolean = isCompletedActivity(item);
+        let trgItemCompleted: boolean = trgItem && isCompletedActivity(trgItem);
+        let diffDays: number = item && (trgItem || trgDate) &&
+            moment(item.dateStart).diff(moment(trgItem && trgItem.dateStart || trgDate), 'days');
+
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
         item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
 
         switch ( operation ) {
             case 'merge': {
-                this.calendarService.merge(item.calendarItemId, trgItemId).then(_ => {}, e => {});
+                // Обьединение двух фактических тренировок не возможно
+                if (srcItemCompleted && trgItemCompleted) {
+                    this.message.toastError('needOnlyOneCompletedActivity');
+                    break;
+                }
+                if (srcItemSpecified && trgItemSpecified) {
+                    this.message.toastError('needOnlyOneSpecifiedActivity');
+                    break;
+                }
+                // Обьединение тренеировок с разными датами не возможно
+                if (srcItemCompleted && diffDays !== 0) {
+                    this.message.toastError('mergeActivitiesWithDistinctDays');
+                    break;
+                }
+                this.dialogs.confirm({ text: 'dialogs.mergeActivity' })
+                    .then(_ => this.calendarService.merge(item.calendarItemId, trgItem.calendarItemId))
+                    .then(_ => this.message.toastInfo('activityMerged'), e => e && this.message.toastError(e));
                 break;
             }
             case 'move': {
+                // перенос в другой день фактической тренировки
+                if (srcItemCompleted) {
+                    this.message.toastError('moveSpecifiedItem');
+                    break;
+                }
                 if (isCompletedActivity(item)) {
                     this.dialogs.confirm({ text: 'dialogs.moveActualActivity' })
                         .then(() => this.calendarService.postItem(clearActualDataActivity(item)))

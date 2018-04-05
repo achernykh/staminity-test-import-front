@@ -159,15 +159,15 @@
 
 <section flex="none" layout="column" class="splits"
          ng-if="$ctrl.showTable"
-         ng-switch="$ctrl.item.activity.hasIntervalDetails">
+         ng-switch="$ctrl.item.isLoadingIntervals">
 
-    <div ng-switch-when="false"
+    <div ng-switch-when="true"
          flex class="loading-table" layout="column" layout-align="center center">
         <md-progress-circular class="md-primary" md-diameter="20px"></md-progress-circular>
         <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
     </div>
 
-    <measure-split-table ng-switch-when="true"
+    <measure-split-table ng-switch-when="false"
                          ng-if="$ctrl.tableOption === 'laps'"
                          class="chart measure-split-table"
                          splits="$ctrl.item.activity.intervals.stack"
@@ -178,7 +178,7 @@
                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">Data table...
     </measure-split-table>
 
-    <activity-segments-table ng-switch-when="true"
+    <activity-segments-table ng-switch-when="false"
                              ng-if="$ctrl.tableOption === 'segments'"
                              class="chart activity-segments-table measure-split-table"
                              segments="$ctrl.item.activity.intervals.stack"

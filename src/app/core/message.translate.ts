@@ -16,7 +16,7 @@ export const _translateMessage = {
 		},
 		timeoutExceeded: {
 			title: 'Ошибка',
-			text: 'Превышено время ожидания ответа на запрос'
+			text: 'Превышено время ожидания ответа на запрос. Попробуйте обновить окно браузера'
 		},
 		// SETTINGS-USER ------------------------------------------------------
 		settingsSaveComplete: { // после успешного сохранения настроек
@@ -573,7 +573,72 @@ export const _translateMessage = {
         assignmentDeleted: {
             title: '',
             text: 'Присвоение удалено'
-        }
+        },
+        mergeActivitiesWithDistinctDays: {
+            title: '',
+            text: 'Объединение тренировок за разные даты невозможно'
+        },
+        moveSpecifiedItem: {
+            title: '',
+            text: 'Перенести выполненную тренировку невозможно'
+        },
+        needOnlyOneSpecifiedActivity: {
+            title: '',
+            text: 'Объединение двух тренировок c планом невозможно'
+        },
+        needOnlyOneCompletedActivity: {
+            title: '',
+            text: 'Объединение двух выполненных тренировок невозможно'
+        },
+        dbGetDataError: {
+            title: '',
+            text: 'Операция невозможна: dbGetDataError'
+        },
+        activityMerged: {
+            title: '',
+            text: 'Тренировки объединены'
+        },
+        activitySplited: {
+            title: '',
+            text: 'Тренировки разделены'
+        },
+        badActivityIdFirstIdentifier: {
+            title: '',
+            text: 'Объединение невозможно: некорректный идентификатор 1 тренировки'
+        },
+        badActivityIdSecondIdentifier: {
+            title: '',
+            text: 'Объединение невозможно: некорректный идентификатор 2 тренировки'
+        },
+        bothItemsHavePlanData: {
+            title: '',
+            text: 'Объединение невозможно: в обеих тренировках есть план'
+        },
+        bothItemsHaveActualData: {
+            title: '',
+            text: 'Объединение невозможно: в обеих тренировках есть факт'
+        },
+        differentBasicActivityTypes: {
+            title: '',
+            text: 'Объединение невозможно: различные виды спорта в тренировках'
+        },
+        errorCompleteIntervals: {
+            title: '',
+            text: 'Ошибка получения детальных данных: errorCompleteIntervals. Попробуйте обновить окно браузера'
+        },
+        differentUsersForbidden: {
+            title: '',
+            text: 'Объединение невозможно: различные пользователи'
+        },
+        actualDataNotFound: {
+            title: '',
+            text: 'Объединение невозможно: не найдены фактические данные'
+        },
+        plannedDataNotFound: {
+            title: '',
+            text: 'Объединение невозможно: не найдены плановые данные'
+        },
+
 
     },
 	en: {
@@ -588,7 +653,7 @@ export const _translateMessage = {
 		},
 		timeoutExceeded: {
 			title: 'Error',
-			text: 'Timeout exceeded'
+			text: 'Timeout exceeded. Try to refresh browser window'
 		},
 		// SETTINGS-USER ------------------------------------------------------
 		settingsSaveComplete: { // после успешного сохранения настроек
@@ -1140,7 +1205,74 @@ export const _translateMessage = {
         forbidden_PlanHasAssignmentsOrPurchases: {
             title: '',
             text: 'Training plan cannot be deleted. It has assignments or purchases'
-        }
-
+        },
+        assignmentDeleted: {
+            title: '',
+            text: 'Assignment deleted'
+        },
+        mergeActivitiesWithDistinctDays: {
+            title: '',
+            text: 'Dates in merged activities should be the same'
+        },
+        moveSpecifiedItem: {
+            title: '',
+            text: 'Change date and time in Completed activity is forbidden'
+        },
+        needOnlyOneSpecifiedActivity: {
+            title: '',
+            text: 'Cannot merge two activities with plan data'
+        },
+        needOnlyOneCompletedActivity: {
+            title: '',
+            text: 'Cannot merge two activities with actual data'
+        },
+        dbGetDataError: {
+            title: '',
+            text: 'Action cancelled: dbGetDataError'
+        },
+        activityMerged: {
+            title: '',
+            text: 'Activity has been merged'
+        },
+        activitySplited: {
+            title: '',
+            text: 'Activity has been splitted'
+        },
+        badActivityIdFirstIdentifier: {
+            title: '',
+            text: 'Merge cannot be done: bad 1st item identifier'
+        },
+        badActivityIdSecondIdentifier: {
+            title: '',
+            text: 'Merge cannot be done: bad 2nd item identifier'
+        },
+        bothItemsHavePlanData: {
+            title: '',
+            text: 'Merge cannot be done: both items have plan data'
+        },
+        bothItemsHaveActualData: {
+            title: '',
+            text: 'Merge cannot be done: both items have actual data'
+        },
+        differentBasicActivityTypes: {
+            title: '',
+            text: 'Merge cannot be done: different activity types'
+        },
+        errorCompleteIntervals: {
+            title: '',
+            text: 'Cannot get activity details: errorCompleteIntervals. Try to refresh browser window'
+        },
+        differentUsersForbidden: {
+            title: '',
+            text: 'Merge cannot be done: different users'
+        },
+        actualDataNotFound: {
+            title: '',
+            text: 'Merge cannot be done: actual data not found'
+        },
+        plannedDataNotFound: {
+            title: '',
+            text: 'Merge cannot be done: plan not found'
+        },
 }
 };

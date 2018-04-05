@@ -30,7 +30,8 @@ const management = {
             (GroupService: GroupService, club) => GroupService.getManagementProfile(club.groupId, "club"),
         ],
     },
-    views: DefaultTemplate("management"),
+    views: { application: {component: 'stManagement'} }
+    //views: DefaultTemplate("management"),
 } as StateDeclaration;
 
 export const managementStates: StateDeclaration[] = [management];

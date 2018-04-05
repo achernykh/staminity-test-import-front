@@ -138,7 +138,6 @@
                                     dnd-moved="$ctrl.calendar.onDeleteItem(item); $ctrl._$log.info('Item moved', event)">
 
             </st-competition-compact>
-
             <calendar-record ng-switch-when="record"
                              ng-click="$ctrl.open($event,item.calendarItemType, item)"
                              layout="row" layout-align="start center" flex="auto">
@@ -146,7 +145,6 @@
                          md-svg-src="/assets/icon/{{item.recordHeader.type}}.svg"></md-icon>
                 <div class="md-caption md-dark" translate>{{::'record.'+item.recordHeader.type}}</div>
             </calendar-record>
-
             <st-activity-compact ng-switch-when="activity"
                                  layout="column" flex="auto"
                                  view="$ctrl.viewLayout"
@@ -155,10 +153,10 @@
                                  options="$ctrl.itemOptions"
                                  on-answer="$ctrl.onUpdate({formMode: formMode, item: item})"
                                  dnd-draggable="item"
-                                 dnd-disable-if="::!$ctrl.isSpecified(item)"
+                                 dnd-disable-if="::($ctrl.isSpecified(item) && $ctrl.isCompleted(item))"
                                  dnd-type="'itemType'"
                                  dnd-effect-allowed="copyMove"
-                                 dnd-callback="$ctrl.onDropActivity(item, operation, $index, date, index, trgItemId)"
+                                 dnd-callback="$ctrl.onDropActivity(item, operation, $index, date, index, trgItem)"
             </st-activity-compact>
         </div>
     </section>
