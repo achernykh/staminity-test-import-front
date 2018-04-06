@@ -4,14 +4,16 @@ import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
 import MessageService from "@app/core/message.service";
 import { IUserProfile } from "@api/user";
+import { FormMode } from "../../application.interface";
 
 class TrainingPlanPublishCtrl implements IComponentController {
 
     // public
     plan: TrainingPlan;
     user: IUserProfile;
+    onHide: () => Promise<any>;
     onCancel: () => Promise<any>;
-    onEvent: (response: Object) => Promise<void>;
+    onAnswer: (response: {mode: FormMode, plan: TrainingPlan }) => Promise<void>;
 
     // private
     private dataLoading: boolean = false;
@@ -51,19 +53,24 @@ class TrainingPlanPublishCtrl implements IComponentController {
     }
 
     publish () {
-        this.trainingPlansService.publish(this.plan.id, null)
-            .then(response => {
-                this.message.toastInfo('trainingPlanPublishSuccess');
-                this.onCancel();
-            }, error => this.message.toastInfo(error));
+        Promise.resolve()
+            .then(_ => this.onHide())
+            .then(_ => this.$scope.$applyAsync())
+            .then(_ => this.dialogs.confirm({ text: 'dialogs.publishTrainingPlan' }))
+            .then(_ => this.trainingPlansService.publish(this.plan.id, null))
+            .then(r => Object.assign(this.plan, r))
+            .then(_ => this.message.toastInfo('trainingPlanPublishSuccess'))
+            .then(_ => this.onAnswer({mode: FormMode.Post, plan: this.plan }),e => this.message.toastInfo(e));
     }
 
     unpublish (): void {
         Promise.resolve()
-            .then(_ => this.onCancel())
+            .then(_ => this.onHide())
             .then(_ => this.$scope.$applyAsync())
             .then(_ => this.dialogs.confirm({ text: 'dialogs.unpublishTrainingPlan' }))
             .then(_ => this.trainingPlansService.unpublish(this.plan.id))
+            .then(r => Object.assign(this.plan, r))
+            .then(_ => this.onAnswer({mode: FormMode.Delete, plan: this.plan }))
             .then(_ => this.message.toastInfo('trainingPlanUnpublishSuccess'), e => e && this.message.toastInfo(e));
     }
 
@@ -83,7 +90,9 @@ export const TrainingPlanPublishComponent:IComponentOptions = {
     bindings: {
         plan: '<',
         user: '<',
-        onCancel: '&'
+        onHide: '&',
+        onCancel: '&',
+        onAnswer: '&'
     },
     require: {
         //component: '^component'

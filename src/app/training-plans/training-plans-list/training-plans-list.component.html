@@ -34,14 +34,17 @@
 
         </md-button>
 
-
+        <span class="md-secondary md-body-1 md-dark" ng-if="plan.state === 'P'" translate="trainingPlans.state.pending"></span>
+        <md-icon class="md-secondary material-icons" ng-if="plan.propagateMods">sync</md-icon>
         <!--<md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.publish($event, plan)">
             <md-icon class="material-icons">publish</md-icon>
         </md-button>
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">pageview</md-icon>
         </md-button> -->
-        <md-button ng-if="$ctrl.customer" class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
+        <md-button ng-if="$ctrl.customer" class="md-secondary md-icon-button"
+                   ng-disabled="plan.state === 'P'"
+                   ng-click="$ctrl.assignment($event, plan)">
             <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
             <span translate="trainingPlans.actions.assignment"></span>
         </md-button><!--

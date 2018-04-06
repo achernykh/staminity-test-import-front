@@ -7,7 +7,7 @@
                 <span class="day-title__number"
                       md-colors="::{backgroundColor: $ctrl.today ? 'accent-700' : 'grey-primary-50'}"
                       ng-class="{'md-light': $ctrl.today}">{{::($ctrl.dynamicDates ? ($ctrl.weekSid * 7 + $ctrl.daySid + 1) : $ctrl.data.title)}}</span>
-                <span class="day-title__month" ng-if="$ctrl.data.title == '01' && !$ctrl.dynamicDates" style="">{{::$ctrl.data.month}}</span>
+                <span class="day-title__month" ng-if="::($ctrl.data.title == '01' && !$ctrl.dynamicDates)" style="">{{::$ctrl.data.month}}</span>
             </div>
             <div hide-gt-sm class="md-title day">{{::$ctrl.data.title}}</div>
             <div hide-gt-sm class="md-caption weekday">{{::$ctrl.data.day}}</div>
@@ -150,9 +150,9 @@
                                  view="$ctrl.viewLayout"
                                  selected="$ctrl.selected"
                                  data="::item"
-                                 options="$ctrl.itemOptions"
+                                 options="::$ctrl.itemOptions"
                                  on-answer="$ctrl.onUpdate({formMode: formMode, item: item})"
-                                 dnd-draggable="item"
+                                 dnd-draggable="::item"
                                  dnd-disable-if="::($ctrl.isSpecified(item) && $ctrl.isCompleted(item))"
                                  dnd-type="'itemType'"
                                  dnd-effect-allowed="copyMove"

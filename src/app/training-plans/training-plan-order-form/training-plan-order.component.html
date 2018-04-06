@@ -53,7 +53,7 @@
                    translate>trainingPlans.order.confirmationSignup</p>
                 <div class="signup md-padding bg-grey-100"
                      layout="row" layout-align="space-between start">
-                    <div flex class="signup-email md-dense" layout="column">
+                    <form name="$ctrl.signupForm" flex class="signup-email md-dense" layout="column">
                         <md-input-container flex="none" md-no-float class="no-message">
                             <input maxlength="30" ng-model="$ctrl.credentials.public.firstName" name="name"
                                    required ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
@@ -98,7 +98,7 @@
                                 <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
                             </div>
                         </md-input-container>
-                    </div>
+                    </form>
                     <div flex="5"></div>
                     <div flex class="signup-social" layout="column" layout-align="start stretch">
                         <md-button ng-repeat="provider in ['facebook','google','vkontakte']"
@@ -117,7 +117,7 @@
             <md-tab-body layout="column" layout-fill>
                 <div class="signin md-padding bg-grey-100" style="border-top: 1px solid lightgrey"
                      layout="row" layout-align="space-between start">
-                    <div flex class="signin-email md-dense" layout="column">
+                    <form name="$ctrl.signinForm" flex class="signin-email md-dense" layout="column">
                         <md-input-container flex="none" md-no-float class="no-message">
                             <input required type="email" name="email" ng-model="$ctrl.credentials.email" minlength="5"
                                    maxlength="100"
@@ -125,7 +125,7 @@
                                    autocomplete="off"
                                    ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
                                    placeholder="{{ 'auth.email' | translate }}">
-                            <div ng-messages="!$ctrl.signupForm.email.$valid" role="alert">
+                            <div ng-messages="!$ctrl.signinForm.email.$valid" role="alert">
                                 <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']" translate>
                                     auth.errMail
                                 </div>
@@ -136,11 +136,11 @@
                                    ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
                                    ng-pattern="$ctrl.passwordStrength"
                                    placeholder="{{ 'auth.pass' | translate }}">
-                            <div ng-messages="$ctrl.signupForm.password.$error" role="alert">
+                            <div ng-messages="$ctrl.signinForm.password.$error" role="alert">
                                 <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>
                             </div>
                         </md-input-container>
-                    </div>
+                    </form>
                     <div flex="5"></div>
                     <div flex class="signup-social" layout="column" layout-align="start stretch">
                         <md-button ng-repeat="provider in ['facebook','google','vkontakte']"
@@ -158,7 +158,7 @@
 </md-dialog-content>
 <md-dialog-actions ng-if="$ctrl.dataLoading" flex="none" layout="row" style="background: white; width: 100%;">
     <span flex></span>
-    <md-button ng-click="$ctrl.pay()" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation">
+    <md-button ng-click="$ctrl.pay()" ng-disabled="!$ctrl.isPayEnable">
         <span translate="trainingPlans.actions.{{$ctrl.actionText}}"></span>
     </md-button>
 </md-dialog-actions>

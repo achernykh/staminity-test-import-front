@@ -1,5 +1,5 @@
 import './user-settings.component.scss';
-import {IComponentOptions, IComponentController} from 'angular';
+import {IComponentOptions, IComponentController, IScope} from 'angular';
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction } from "@api/agent";
 import MessageService from "../../core/message.service";
@@ -20,7 +20,7 @@ class UserSettingsCtrl implements IComponentController {
         'UserSettingsService', 'AgentService'];
 
     constructor (
-        private $scope: any,
+        private $scope: IScope,
         private $anchorScroll,
         private $stateParams: any,
         private $mdMedia: any,
@@ -35,12 +35,17 @@ class UserSettingsCtrl implements IComponentController {
             if (userProfile.userId === this.userId) {
                 this.owner = userProfile;
             }
-            this.$scope.$apply();
+            this.$scope.$applyAsync();
         });
         agentService.updates.subscribe((agentProfile) => {
             this.agentProfile = agentProfile;
-            this.$scope.$apply();
+            this.$scope.$applyAsync();
         });
+    }
+
+    $onInit(): void {
+        debugger;
+        this.$anchorScroll();
     }
 
     get currentUser () : IUserProfile {

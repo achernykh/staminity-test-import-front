@@ -115,7 +115,7 @@ export default class MessageService implements IMessageService{
 	toast(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
 		this.$mdToast.show({
 			hideDelay: delay * 1000,
-			position: 'bottom center',
+			position: 'bottom left',
 			bindToController: true,
 			controllerAs: '$ctrl',
 			controller: ToastCtrl,

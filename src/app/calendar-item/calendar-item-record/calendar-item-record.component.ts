@@ -186,6 +186,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
 export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
         item: '=', // CalendarItem
+        disableActions: '<',
         options: '<',
         onAnswer: '&',
         onCancel: '&', // отмена открытия

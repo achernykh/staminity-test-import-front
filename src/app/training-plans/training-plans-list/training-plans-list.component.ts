@@ -75,11 +75,24 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     publish (env: Event, plan: TrainingPlan) {
-        this.trainingPlanDialogService.publish(env, plan).then(_ => {});
+        this.trainingPlanDialogService.publish(env, plan)
+            .then(r => {
+                debugger;
+                switch (r.mode) {
+                    case FormMode.Post: {
+                        Object.assign(plan,r.plan);
+                        break;
+                    }
+                    case FormMode.Delete: {
+                        Object.assign(plan,r.plan);
+                        break;
+                    }
+                }
+            });
     }
 
     action (env: Event, plan: TrainingPlan): void {
-        this.customer ? this.$state.go('plan', {planId: plan.parentId || plan.id}) : this.edit(env, plan);
+        this.customer ? this.$state.go('training-plan-preview', {planId: plan.id}) : this.edit(env, plan);
     }
 
     edit (env: Event, plan) {

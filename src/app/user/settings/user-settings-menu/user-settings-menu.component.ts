@@ -1,4 +1,5 @@
 import {IComponentOptions, IComponentController, ILocationService} from 'angular';
+import { StateService } from 'angular-ui-router';
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { IAgentProfile, IAgentEnvironment } from "@api/agent";
 import './user-settings-menu.component.scss';
@@ -11,13 +12,14 @@ class UserSettingsMenuCtrl implements IComponentController {
     agentProfile: IAgentProfile;
    
     // inject
-    static $inject = ['$location', '$state'];
+    static $inject = ['$location', '$state','$anchorScroll'];
 
     constructor (
         private $location: ILocationService,
-        private $state: any,
+        private $state: StateService,
+        private $anchorScroll,
     ) {
-
+        //$anchorScroll.yOffset = 72;
     }
 
     /**
@@ -33,7 +35,10 @@ class UserSettingsMenuCtrl implements IComponentController {
      * @param hash: string
      */
     go (hash: string) {
-        this.$state.go('user-settings.main', { userId: this.owner.userId, '#': hash });
+        this.$location.hash(hash);
+        this.$anchorScroll();
+        //let trans = this.$state.go('user-settings.main', { userId: this.owner.userId, '#': hash }).transition;
+        //trans.onSuccess({}, _ => this.$anchorScroll(), {priority: -1});
     } 
 }
 

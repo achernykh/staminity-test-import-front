@@ -210,12 +210,12 @@
             <p flex="none" class="md-body-1" translate="trainingPlans.landing.howItWorksDescription"></p>
         </div>
     </section>
-    <section id="samples" class="landing-block info" flex="none" ng-if="$ctrl.plan.samples">
+    <section id="samples" class="landing-block info" flex="none"
+             ng-if="$ctrl.plan.samples">
         <h2 flex="none" class="block-title md-display-1 md-dark font-black center"
             translate="trainingPlans.landing.samples"></h2>
         <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.landing.samplesDescription"></p>
         <st-calendar-item-list class="calendar-item-list"
-                               ng-init="$ctrl.firstDate = $ctrl.plan.firstDate"
                                data="$ctrl.plan.samples"
                                date-point="$ctrl.firstDate">
         </st-calendar-item-list>

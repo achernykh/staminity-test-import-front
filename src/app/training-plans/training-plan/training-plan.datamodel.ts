@@ -123,7 +123,7 @@ export class TrainingPlan implements ITrainingPlan {
 
     private prepareDefaultData (): void {
         this._startDate = (this.startDate && new Date(this.startDate)) ||
-            (this.isFixedCalendarDates && new Date(moment().startOf('week').toDate())) || null;
+            (this.isFixedCalendarDates && moment().startOf('week').toDate()) || null;
         if ( !this.lang ) { this.lang = 'ru'; }
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
@@ -132,11 +132,11 @@ export class TrainingPlan implements ITrainingPlan {
 
     get firstDate (): Date {
         return this.isFixedCalendarDates && this._startDate ||
-            new Date(moment(this.firstCalendarItem && this.firstCalendarItem.dateStart || '3000.01.01').startOf('week'));
+            (this.firstCalendarItem && moment(this.firstCalendarItem.dateStart).toDate()) || new Date(3000,0,1);
     }
 
     get endDate (): Date {
-        return new Date(moment(this.lastCalendarItem.dateStart).endOf('week'));
+        return moment(this.lastCalendarItem.dateStart).endOf('week').toDate();
     }
 
     get firstItemCalendarShift (): number {
@@ -329,7 +329,7 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get hasUpdateForStore (): boolean {
-        return (this.revision && this.storeRevision && this.revision > this.storeRevision) ||
+        return (this.revision && this.storeRevision >= 0 && this.revision > this.storeRevision) ||
             (this.revision && !this.storeRevision);
     }
 
@@ -340,7 +340,7 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get isPublished (): boolean {
-        return this.storeVersion && this.storeVersion > 0;
+        return this.storeRevision !== null && this.storeVersion >= 0;
     }
 
 }

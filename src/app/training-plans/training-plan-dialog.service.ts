@@ -77,16 +77,19 @@ export class TrainingPlanDialogService {
                 $scope.answer = (mode, plan) => $mdDialog.hide({mode, plan});
             }],
             controllerAs: "$ctrl",
-            template: `<md-dialog id="training-plan-publish" aria-label="Training Plan Publish">
+            template: `<md-dialog id="training-plan-publish" ng-class="{hide: $ctrl.hide}" aria-label="Training Plan Publish">
                             <st-training-plan-publish
                                     layout="column" layout-fill class="training-plan-order"
                                     plan="$ctrl.plan"
                                     user="$ctrl.currentUser"
-                                    on-cancel="cancel()" on-save="answer(mode,plan)"/>
+                                    on-hide="$ctrl.hide = !$ctrl.hide"
+                                    on-cancel="cancel()"
+                                    on-answer="answer(mode,plan)"/>
                        </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: e,
             locals: {
+                hide: false,
                 plan: plan,
                 currentUser: this.session.getUser()
             },

@@ -1,5 +1,5 @@
 import './training-plan-order.component.scss';
-import { IComponentOptions, IComponentController, IHttpPromiseCallbackArg,IScope, noop } from 'angular';
+import { IComponentOptions, IComponentController, IHttpPromiseCallbackArg,IScope, INgModelController } from 'angular';
 import { TrainingPlanDialogService } from "../training-plan-dialog.service";
 import { IUserProfile } from "@api/user";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
@@ -23,6 +23,9 @@ class TrainingPlanOrderCtrl implements IComponentController {
     private credentials;
     private authState: number = 0; // 0 - signup, 1 - signin
     private error: string = null;
+    private signupForm: INgModelController;
+    private signinForm: INgModelController;
+
     static $inject = ['$scope', 'TrainingPlanDialogService', 'TrainingPlansService', 'AuthService', '$auth', 'message'];
 
     constructor(
@@ -62,7 +65,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
     pay (): void {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.error = null;
-        Promise.resolve(_ => noop())
+        Promise.resolve(_ => {})
             .then(_ => this.user.userId ? this.plan : this.authGuest())
             .then(plan => plan.product ?
                     plan.price > 0 ? this.trainingPlansDialog.pay(this.plan.product) : Promise.resolve('getFreeSuccess') :
@@ -71,21 +74,6 @@ class TrainingPlanOrderCtrl implements IComponentController {
             .then(r => this.onSuccess({message: r, email: this.user.userId ? null : this.credentials.email}),
                 e => {if (e) { this.error = e; } this.enabled = true;})
             .then(_ => this.$scope.$applyAsync());
-
-        /**if (!this.plan.price) { this.onSuccess({response: 'success'}); }
-        else if (this.user.userId) {
-            this.trainingPlansDialog.pay(this.plan.product)
-                .then(response => this.onSuccess({response: response}), e => e && this.onCancel({response: e}));
-        } else {
-            Promise.resolve(_ => this.authState ?
-                this.authService.signUp(this.credentials) :
-                this.authService.signIn(this.credentials))
-                .then(() => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
-                    error => this.message.toastError(error))
-                .then(response => this.plan = new TrainingPlan(response), error => this.message.toastError(error))
-                .then(_ => this.trainingPlansDialog.pay(this.plan.product))
-                .then(_ => {debugger;}, error => {debugger;});
-        }**/
     }
 
     authGuest (): Promise<TrainingPlan> {
@@ -148,6 +136,17 @@ class TrainingPlanOrderCtrl implements IComponentController {
         } else if (!this.user.userId && this.authState && !this.plan.price) {
             return 'signinAndAddFree';
         }
+    }
+
+    get isAuth (): boolean {
+        return !!this.user.userId;
+    }
+
+    get isPayEnable (): boolean {
+        return  this.confirmation && this.enabled && (
+                (!this.isAuth && this.authState === 1 && this.signinForm.$valid) ||
+                (!this.isAuth && this.authState === 0 && this.signupForm.$valid) ||
+                this.isAuth);
     }
 
 }

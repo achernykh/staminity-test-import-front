@@ -1,5 +1,6 @@
 import './training-plan.component.scss';
 import {IComponentOptions, IComponentController, element, IScope} from 'angular';
+import { StateService } from 'angular-ui-router';
 import MessageService from "@app/core/message.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { TrainingPlansService } from "../training-plans.service";
@@ -24,12 +25,14 @@ class TrainingPlanCtrl implements IComponentController {
     private update: number = 0;
     private authorSearch: ITrainingPlanSearchRequest;
     private similarSearch: ITrainingPlanSearchRequest;
+    private firstDate: Date;
 
-    static $inject = ['$scope', '$mdSidenav', '$document', 'TrainingPlansService',
+    static $inject = ['$scope', '$state', '$mdSidenav', '$document', 'TrainingPlansService',
         'TrainingPlanDialogService', 'trainingPlanConfig', 'message'];
 
     constructor(
         private $scope: IScope,
+        private $state: StateService,
         private $mdSidenav,
         private $document,
         private trainingPlanService: TrainingPlansService,
@@ -48,10 +51,11 @@ class TrainingPlanCtrl implements IComponentController {
             this.trainingPlanService.getStoreItem(this.planId) :
             this.trainingPlanService.get(this.planId))
             .then(result => this.plan = new TrainingPlan(result, this.trainingPlanConfig), error => this.errorHandler(error))
-            .then(() => this.dataLoading = true)
-            .then(() => this.subscribeOnScroll())
-            .then(() => this.prepareChart())
-            .then(() => this.getRecommendedPlans());
+            .then(_ => this.firstDate = this.plan.firstDate)
+            .then(_ => this.dataLoading = true)
+            .then(_ => this.subscribeOnScroll())
+            .then(_ => this.prepareChart())
+            .then(_ => this.getRecommendedPlans());
         //this.trainingPlanService.getStoreItem(this.planId, this.currentUser && this.currentUser.hasOwnProperty('userId'))
     }
 
@@ -104,6 +108,9 @@ class TrainingPlanCtrl implements IComponentController {
 
     errorHandler (error: string): void {
         this.message.toastError(error);
+        this.dataLoading = true;
+        this.$state.go('404');
+        throw error;
     }
 
     toggleSlide(component) {

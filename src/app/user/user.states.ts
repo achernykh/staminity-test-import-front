@@ -31,9 +31,8 @@ const userSettingsMain: any = {
     reloadOnSearch: false,
     template: require('./settings/user-settings-main/user-settings-main.template.html') as string,
     onEnter: ['$state', '$anchorScroll', ($state, $anchorScroll) => {
-        setTimeout(() => {
-            $anchorScroll();
-        }, 100);
+        $anchorScroll.yOffset = 72;
+        setTimeout(_ => $anchorScroll(), 100);
     }],
 };
 

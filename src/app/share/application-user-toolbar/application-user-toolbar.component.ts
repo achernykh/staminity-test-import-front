@@ -93,9 +93,9 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     }
 
     diffDays (role: string): number {
-        let expiredDate = this.server !== 'testapp.staminity.com:8080' ?
-            this.application.permissions[role] :
-            window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'))[role];
+        let expiredDate = this.application.permissions[role];//this.server !== 'testapp.staminity.com:8080' ?
+            //this.application.permissions[role] :
+            //window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'))[role];
         let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
         return diff !== null && diff !== undefined ? (diff >= -1 ? diff + 1 : diff - 1) : null;
     }
