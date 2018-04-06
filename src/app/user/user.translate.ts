@@ -84,6 +84,7 @@ export const translateUser = {
                 currency: {
                     RUB: "Рубли РФ",
                     USD: "Доллары США",
+                    EUR: 'Евро'
                 },
                 cards: {
                     label: "Карты и счета",
