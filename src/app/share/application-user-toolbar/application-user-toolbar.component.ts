@@ -5,6 +5,7 @@ import AuthService from "../../auth/auth.service";
 import "./application-user-toolbar.component.scss";
 import {ApplicationFrameCtrl} from "@app/share/application-frame/application-frame.component";
 import * as _connection from "../../core/env.js";
+import {toDay} from "../../activity/activity.datamodel";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
@@ -12,6 +13,7 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     onEvent: (response: Object) => Promise<void>;
     application: ApplicationFrameCtrl;
     private server: string = _connection.server;
+    private permissions = window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'));
     private readonly status: Array<string> = ['onlyBasicTariff','incompleteProfile',
         'premiumExpireIn', 'coachExpireIn', 'clubExpireIn',
         'expiredPremium','expiredCoach','expiredClub'];
@@ -42,6 +44,7 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     }
 
     get incompleteProfile (): boolean {
+        console.debug('ProfileClub auth:',this.authService.isAuthorized(['ProfileClub']));
         return this.application.user.public.isCoach && !this.application.user.public.profileComplete &&
             !this.authService.isAuthorized(['ProfileClub']);
     }
@@ -84,10 +87,6 @@ class ApplicationUserToolbarCtrl implements IComponentController {
         return diff >= -5 && diff <= -1 || false;
     }
 
-    get wran (): boolean {
-        return !~['onlyBasicTariff'].indexOf(this.message);
-    }
-
     getStyle (): string {
         return ~['onlyBasicTariff'].indexOf(this.message) ? 'primary-600' : 'warn-600';
     }
@@ -95,9 +94,11 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     diffDays (role: string): number {
         let expiredDate = this.server !== 'testapp.staminity.com:8080' ?
             this.application.permissions[role] :
-            window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'))[role];
-        let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
-        return diff !== null && diff !== undefined ? (diff >= -1 ? diff + 1 : diff - 1) : null;
+            this.permissions && this.permissions[role];
+        //let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
+        let diff = Math.ceil((toDay(new Date(expiredDate)).getTime() - toDay(new Date()).getTime())/(1000*3600*24));
+        return diff !== null && diff !== undefined && diff; // || null;
+            //(diff > 0 && diff + 1 || diff < 0 && diff - 1 || diff) || null;
     }
 
     getRoleByMessage (message: string): string {

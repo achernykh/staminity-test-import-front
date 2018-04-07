@@ -36,9 +36,9 @@ export const translateGeneral = {
         rub: 'RUB',
         onlyBasicTariff: 'Add tariff',
         incompleteProfile: 'Incomplete profile',
-        premiumExpireIn: 'Premium: {{days}} days left',
-        coachExpireIn: 'Coach: {{days}} days left',
-        clubExpireIn: 'Club: {{days}} days left',
+        premiumExpireIn: 'Premium: {{days | number}} days left',
+        coachExpireIn: 'Coach: {{days | number}} days left',
+        clubExpireIn: 'Club: {{days | number}} days left',
         expiredPremium: 'Premium expired',
         expiredCoach: 'Coach expired',
         expiredClub: 'Club expired'

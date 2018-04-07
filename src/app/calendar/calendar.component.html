@@ -6,7 +6,7 @@
 
     <st-application-frame-title>
         <span class="md-title" translate="calendar.fullTitle" ng-if="$ctrl.$mdMedia('(min-width: 1440px)') || $ctrl.$mdMedia('(max-width: 959px)')"></span>
-        <span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
+        <span class="md-title" hide show-gt-sm>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>

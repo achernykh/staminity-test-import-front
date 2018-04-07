@@ -38,6 +38,7 @@ export interface IAuthService {
 export default class AuthService implements IAuthService {
 
     private server: string = _connection.server;
+    private permissions: Object = window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'));
     static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService', 'ReferenceService',
         'NotificationService', 'RequestsService', 'UserService'];
 
@@ -72,8 +73,8 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions() || [];
-        if (this.server === 'testapp.staminity.com:8080') {
-            Object.assign(userRoles, window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions')) || {});
+        if (this.server === 'testapp.staminity.com:8080' && this.permissions) {
+            Object.assign(userRoles, this.permissions);
         }
         return  strict ?
             authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
