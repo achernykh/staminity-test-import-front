@@ -124,7 +124,6 @@ export const _translateTrainingPlans = {
             hasOfflineTraining: 'Очные занятия'
 
         },
-        samplesHowTo: '',
         assignment: {
             info: "Дата начала плана: {{firstPlanDate | date:'longDate'}}, дата первой записи: {{firstItemDate | date:'longDate'}} </br>" +
             "Дата окончания плана:  {{lastPlanDate | date:'longDate'}}, дата последней записи: {{lastItemDate | date:'longDate'}}",
@@ -258,7 +257,7 @@ export const _translateTrainingPlans = {
                 versionSuccess: 'Есть изменения для публикации. Текущая версия {{histVersion}}#{{revision}}, версия магазина {{storeVersion}}#{{storeRevision}}',
                 versionFail: 'Нет изменений для публикации',
                 profileSuccess: 'Профиль продавца планов заполнен',
-                profileSuccess: 'Профиль продавца планов не заполнен. Перейдите в Настройки',
+                profileFail: 'Профиль продавца планов не заполнен. Перейдите в Настройки',
                 iconSuccess: "Иконка плана указана",
                 iconFail: "Нет иконки. Загрузите в карточке плана",
                 backgroundSuccess: "Основное изображение плана загружено",
