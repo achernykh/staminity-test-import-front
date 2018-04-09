@@ -34,7 +34,7 @@
 
         </md-button>
 
-        <span class="md-secondary md-body-1 md-dark" ng-if="plan.state === 'P'" translate="trainingPlans.state.pending"></span>
+        <span class="md-secondary md-body-1 md-dark" ng-if="$ctrl.customer && plan.state === 'P'" translate="trainingPlans.state.pending"></span>
         <md-icon class="md-secondary material-icons" ng-if="plan.propagateMods">sync</md-icon>
         <!--<md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.publish($event, plan)">
             <md-icon class="material-icons">publish</md-icon>

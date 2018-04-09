@@ -11,6 +11,14 @@
   margin-left: 300px;
 }
 
+.methodology.st-application-frame.nav-bar .st-application-frame__content {
+  @media (min-width: 960px) {
+    top: 112px;
+    height: calc(100vh - 64px - 48px);
+    width: calc(100% - 300px);
+  }
+}
+
 .methodology {
 
   &__left-bar {
