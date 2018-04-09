@@ -12,6 +12,13 @@
                 <span translate>{{::menu.name}}</span>
             </md-button>
         </md-menu-item>
+        <!--<md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="$ctrl.toggleFullScreen()">
+                <md-icon class="material-icons">face</md-icon>
+                <span translate="userMenu.fullScreen"></span>
+            </md-button>
+        </md-menu-item>-->
         <md-menu-divider></md-menu-divider>
         <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
             <md-button ng-click="$ctrl.display.setLocale(locale)">

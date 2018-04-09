@@ -329,8 +329,8 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get hasUpdateForStore (): boolean {
-        return (this.revision && this.storeRevision >= 0 && this.revision > this.storeRevision) ||
-            (this.revision && !this.storeRevision);
+        return  (!this.propagateMods && this.revision && this.storeRevision >= 0 && this.revision > this.storeRevision) ||
+                (!this.propagateMods && this.revision && !this.storeRevision);
     }
 
     isExisteffortState (key: string): boolean {

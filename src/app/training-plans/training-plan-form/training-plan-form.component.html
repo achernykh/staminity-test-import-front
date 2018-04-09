@@ -407,10 +407,10 @@
                                     <p translate="trainingPlans.hasStructuredActivity.label"></p>
                                     <md-switch class="md-primary"
                                                name="hasOfflineTraining"
-                                               ng-model="$ctrl.plan.customData.hasStructuredActivity">
+                                               ng-model="$ctrl.plan.isStructured">
                                     </md-switch>
                                 </md-list-item>
-                                <md-list-item ng-if="$ctrl.plan.customData.hasStructuredActivity">
+                                <md-list-item ng-if="$ctrl.plan.isStructured">
                                     <md-input-container class="md-block no-message" layout="row">
                                         <label translate="trainingPlans.structuredActivityDescription.label"></label>
                                         <textarea flex="auto"

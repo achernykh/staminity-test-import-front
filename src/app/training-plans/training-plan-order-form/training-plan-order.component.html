@@ -33,12 +33,12 @@
                   translate="trainingPlans.order.free"></span>
         </p>
         <div layout="row" layout-align="start center">
-            <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+            <md-checkbox flex="none" aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
                          class="md-primary md-secondary"
                          ng-disabled="!$ctrl.enabled"
                          style="margin-bottom: 0">
             </md-checkbox>
-            <p class="md-body-1 md-dark" translate>trainingPlans.order.confirmation</p>
+            <p flex="auto" class="md-body-1 md-dark" translate>trainingPlans.order.confirmation</p>
         </div>
     </div>
     <div ng-if="!$ctrl.user.userId" class="md-title md-padding center" translate="trainingPlans.order.needAccount"></div>
@@ -132,9 +132,10 @@
                             </div>
                         </md-input-container>
                         <md-input-container flex="none" md-no-float class="no-message">
-                            <input required type="password" name="password" ng-model="$ctrl.credentials.password" minlength="8"
+                            <input required type="password"
+                                   name="password"
+                                   ng-model="$ctrl.credentials.password"
                                    ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
-                                   ng-pattern="$ctrl.passwordStrength"
                                    placeholder="{{ 'auth.pass' | translate }}">
                             <div ng-messages="$ctrl.signinForm.password.$error" role="alert">
                                 <div ng-message-exp="['minlength', 'required' , 'pattern']" translate>auth.errPass</div>

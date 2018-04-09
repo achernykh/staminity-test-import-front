@@ -55,6 +55,10 @@ class UserMenuCtrl implements IComponentController {
             }
         }
     }
+
+    toggleFullScreen(): void {
+        //document.requestFullScreen();
+    }
 }
 
 const UserMenuComponent: IComponentOptions = {
