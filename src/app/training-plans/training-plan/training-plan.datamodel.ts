@@ -132,7 +132,8 @@ export class TrainingPlan implements ITrainingPlan {
 
     get firstDate (): Date {
         return this.isFixedCalendarDates && this._startDate ||
-            (this.firstCalendarItem && moment(this.firstCalendarItem.dateStart).toDate()) || new Date(3000,0,1);
+            (this.firstCalendarItem && moment(this.firstCalendarItem.dateStart).toDate()) ||
+            moment('3000-01-01').startOf('week').toDate();
     }
 
     get endDate (): Date {

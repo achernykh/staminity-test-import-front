@@ -2,7 +2,7 @@
     <!-- Элемент списка -->
     <section ng-switch-when="list" class="activity-compact__list"
              ng-click="$ctrl.disableActions || $ctrl.open($event)">
-        <header class="calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
+        <header class="layout-row calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
                 ng-class="{selected: $ctrl.selected}">
             <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"

@@ -56,6 +56,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     getTrainingPlanList(): Array<TrainingPlan> {
+        debugger;
         return this.plans.list
             .filter(p =>
                 (!this.filter['isPublic'] || (this.filter['isPublic'] && p.isPublic)) &&
@@ -63,7 +64,12 @@ class TrainingPlansListCtrl implements IComponentController {
                 (!this.filter.type || this.filter.type === 'all' || (this.filter.type && p.type.indexOf(this.filter.type) !== -1)) &&
                 (!this.filter.distanceType || this.filter.distanceType === 'all' || (this.filter.distanceType && p.distanceType.indexOf(this.filter.distanceType) !== -1)) &&
                 (!this.filter.tags || (this.filter.tags && this.filter.tags.every(t => p.tags.indexOf(t) !== -1))) &&
-                (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))));
+                (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))) &&
+                (!this.filter.weekCountFrom || (this.filter.weekCountFrom && p.weekCount >= this.filter.weekCountFrom)) &&
+                (!this.filter.weekCountTo || (this.filter.weekCountTo && p.weekCount <= this.filter.weekCountTo)) &&
+                (!this.filter.hasConsultations || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasConsultations') && p.customData.hasConsultations)) &&
+                (!this.filter.hasOfflineTraining || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasOfflineTraining') && p.customData.hasOfflineTraining)) &&
+                (!this.filter.hasStructuredActivities || p.isStructured));
     }
 
     post (env: Event) {
