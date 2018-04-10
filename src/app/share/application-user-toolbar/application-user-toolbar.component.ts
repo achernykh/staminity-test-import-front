@@ -5,7 +5,7 @@ import AuthService from "../../auth/auth.service";
 import "./application-user-toolbar.component.scss";
 import {ApplicationFrameCtrl} from "@app/share/application-frame/application-frame.component";
 import * as _connection from "../../core/env.js";
-import {toDay} from "../../activity/activity.datamodel";
+import { toDay } from "../../activity/activity-datamodel/activity.datamodel";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
@@ -95,7 +95,6 @@ class ApplicationUserToolbarCtrl implements IComponentController {
         let expiredDate = this.server !== 'testapp.staminity.com:8080' ?
             this.application.permissions[role] :
             this.permissions && this.permissions[role];
-        //let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
         let diff = Math.ceil((toDay(new Date(expiredDate)).getTime() - toDay(new Date()).getTime())/(1000*3600*24));
         return diff !== null && diff !== undefined && diff; // || null;
             //(diff > 0 && diff + 1 || diff < 0 && diff - 1 || diff) || null;
