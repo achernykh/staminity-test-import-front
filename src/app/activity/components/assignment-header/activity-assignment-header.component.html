@@ -74,9 +74,10 @@
     </md-list-item>
     <md-list-item layout="row" layout-align="start center"
                   ng-if="!($ctrl.item.options.templateMode || ($ctrl.item.activity.view.isTrainingPlan && $ctrl.item.options.trainingPlanOptions.dynamicDates))">
-        <md-input-container flex="50" class="no-message" md-no-float>
-            <md-icon flex="none" class="material-icons md-dark" style="left: 0px">today</md-icon>
-            <md-datepicker flex="auto" ng-model="$ctrl.item.activity._dateStart"
+        <md-input-container flex="auto" class="no-message" md-no-float>
+            <md-icon flex="45" class="material-icons md-dark" style="left: 0px">today</md-icon>
+            <md-datepicker flex="auto"
+                           ng-model="$ctrl.item.activity._dateStart"
                            ng-change="$ctrl.changeParam()"
                            name="dateStart" md-hide-icons="calendar"
                            ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach"
@@ -87,8 +88,15 @@
                 </div>
             </div>
         </md-input-container>
-        <div flex="5">
-        </div>
+        <div flex="5"></div>
+        <md-input-container flex="45" class="no-message" md-no-float>
+            <md-icon flex="none"
+                     md-svg-src="{{$ctrl.item.activity.getTimeIcon}}"
+                     class="md-dark" style="left: 0px"></md-icon>
+            <input type="time" name="time"
+                   ng-change="$ctrl.changeParam()"
+                   ng-model="$ctrl.item.activity._time"/>
+        </md-input-container>
     </md-list-item>
     <md-list-item ng-if="$ctrl.item.activity.view.isTrainingPlan && $ctrl.item.options.trainingPlanOptions.dynamicDates">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">today</md-icon>
