@@ -962,11 +962,22 @@ class ActivityChartController implements IComponentController {
         //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
 
-        //console.debug('data:', i, d && d.elapsedDuration, i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).elapsedDuration, d.power, d.speed, d.cadence, d.heartRate);
+        /**console.debug('data:',
+            i,
+            d && d.elapsedDuration,
+            i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).elapsedDuration,
+            d && d.duration,
+            i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).duration,
+            d.power,
+            d.speed,
+            d.cadence,
+            d.heartRate);**/
 
         if (param && !d[param]) { return false;}
 
-        return i !== 0 && this.chartData.getData(i - 1) && (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
+        return i !== 0 && this.chartData.getData(i - 1) &&
+            (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
+            (this.smooth === 0 || (d.elapsedDuration - this.chartData.getData(i - 1).elapsedDuration <= this.smooth)) &&
             (d.duration > this.chartData.getData(i - 1).duration);
     }
 
