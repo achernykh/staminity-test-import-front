@@ -165,7 +165,7 @@ export class AgentService {
                 'secure%5BCARDNUMBER%5D=required',
                 'secure%5BCARDEXPIRATION%5D=required',
                 'secure%5BCARDCVV2%5D=required', 
-                'formTarget=_top', 
+                'formTarget=_self', 
                 'MNT_DESCRIPTION=', 
                 'process=Submit'
             ].join('&');
