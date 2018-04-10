@@ -130,6 +130,7 @@ export class CalendarItem implements ICalendarItem {
 	public userProfileCreator: IUserProfileShort;
 	public _dateStart: Date;
 	public _dateEnd: Date;
+    public _time: Date;
 	public index: number; // index for ng-repeat in calendar-day component
 
 	view: CalendarItemView;
@@ -150,13 +151,20 @@ export class CalendarItem implements ICalendarItem {
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		this._dateStart = new Date(this.dateStart);
 		this._dateEnd = new Date(this.dateEnd);
+        this._time = new Date(this.dateStart);
 		//this._dateEnd = new Date(moment(this.dateEnd).format('YYYY-MM-DD'));
 	}
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-		this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
-		this.dateEnd = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
+		this.dateStart = moment(this._dateStart.setHours(0,0,0)).utc()
+            .add(moment().utcOffset(),'minutes')
+            .add(this._time.getHours(), 'hours')
+            .add(this._time.getMinutes(), 'minutes')
+            .add(this._time.getSeconds(), 'seconds')
+            .format('YYYY-MM-DDTHH:mm:ss');
+
+		this.dateEnd = this.dateStart;//moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
 		this.userProfileOwner = userProfile || this.userProfileOwner;
 		return this;
 	}
@@ -170,4 +178,10 @@ export class CalendarItem implements ICalendarItem {
             this.activityHeader.activityId = response.value.activityId;
         }
 	}
+
+	get getTimeIcon (): string {
+	    if (this._time.getHours() < 11) { return 'assets/icon/morning.svg'; }
+	    else if (this._time.getHours() < 16) { return 'assets/icon/noon.svg'; }
+	    else { return 'assets/icon/evening.svg'; }
+    }
 }
