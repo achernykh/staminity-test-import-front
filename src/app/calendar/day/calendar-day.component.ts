@@ -17,6 +17,7 @@ import {
 } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
+import {Activity} from "@app/activity/activity-datamodel/activity.datamodel";
 
 class CalendarDayCtrl {
 
@@ -41,14 +42,15 @@ class CalendarDayCtrl {
     private itemOptions: ICalendarItemDialogOptions;
     private readonly dateFormat: string = "YYYY-MM-DD";
 
-    static $inject = [ '$mdDialog', '$mdMedia', 'CalendarItemDialogService', 'message', 'ActivityService', 'CalendarService', '$scope', 'dialogs' ];
+    static $inject = [ '$mdDialog', '$mdMedia', 'CalendarItemDialogService', 'message', 'ActivityService',
+        'CalendarService', '$scope', 'dialogs' ];
 
     constructor (private $mdDialog: any,
                  private $mdMedia: any,
                  private calendarItemDialog: CalendarItemDialogService,
                  private message: IMessageService,
                  private ActivityService: ActivityService,
-                 private CalendarService: CalendarService,
+                 private calendarService: CalendarService,
                  private $scope: IScope,
                  private dialogs: any) {
 
@@ -70,6 +72,10 @@ class CalendarDayCtrl {
 
     isSpecified (item: ICalendarItem): boolean {
         return isSpecifiedActivity(item);
+    }
+
+    isCompleted (item: ICalendarItem): boolean {
+        return isCompletedActivity(item);
     }
 
 
@@ -148,31 +154,63 @@ class CalendarDayCtrl {
 
     }
     
-    onDropActivity (srcItem: ICalendarItem, operation: string, srcIndex: number, trgDate: string, trgIndex: number) {
+    onDropActivity (
+        srcItem: ICalendarItem,
+        operation: string,
+        srcIndex: number,
+        trgDate: string,
+        trgIndex: number,
+        trgItem: Activity) {
 
         let item: ICalendarItem = copy(srcItem);
+        let srcItemSpecified: boolean = isSpecifiedActivity(item);
+        let trgItemSpecified: boolean = trgItem && isSpecifiedActivity(trgItem);
+        let srcItemCompleted: boolean = isCompletedActivity(item);
+        let trgItemCompleted: boolean = trgItem && isCompletedActivity(trgItem);
+        let diffDays: number = item && (trgItem || trgDate) &&
+            moment(item.dateStart).diff(moment(trgItem && trgItem.dateStart || trgDate), 'days');
+
         item.dateStart = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
         item.dateEnd = moment(trgDate).utc().add(moment().utcOffset(), 'minutes').format();//new Date(date);
 
         switch ( operation ) {
+            case 'merge': {
+                // Обьединение двух фактических тренировок не возможно
+                if (srcItemCompleted && trgItemCompleted) {
+                    this.message.toastError('needOnlyOneCompletedActivity');
+                    break;
+                }
+                if (srcItemSpecified && trgItemSpecified) {
+                    this.message.toastError('needOnlyOneSpecifiedActivity');
+                    break;
+                }
+                // Обьединение тренеировок с разными датами не возможно
+                if (srcItemCompleted && diffDays !== 0) {
+                    this.message.toastError('mergeActivitiesWithDistinctDays');
+                    break;
+                }
+                this.dialogs.confirm({ text: 'dialogs.mergeActivity' })
+                    .then(_ => this.calendarService.merge(item.calendarItemId, trgItem.calendarItemId))
+                    .then(_ => this.message.toastInfo('activityMerged'), e => e && this.message.toastError(e));
+                break;
+            }
             case 'move': {
+                // перенос в другой день фактической тренировки
+                if (srcItemCompleted) {
+                    this.message.toastError('moveSpecifiedItem');
+                    break;
+                }
                 if (isCompletedActivity(item)) {
                     this.dialogs.confirm({ text: 'dialogs.moveActualActivity' })
-                        .then(() => this.CalendarService.postItem(clearActualDataActivity(item)))
+                        .then(() => this.calendarService.postItem(clearActualDataActivity(item)))
                         .then(() => this.message.toastInfo('activityCopied'), error => error && this.message.toastError(error));
                 } else {
                     this.onDrop({formMode: FormMode.Put, item: item});
-                    /**this.CalendarService.putItem(item)
-                        .then(() => this.message.toastInfo('activityMoved'))
-                        .catch(error => this.message.toastError(error));**/
                 }
                 break;
             }
             case 'copy': {
                 this.onDrop({formMode: FormMode.Post, item: item});
-                /**this.CalendarService.postItem(isCompletedActivity(item) ? clearActualDataActivity(item) : item)
-                    .then(() => this.message.toastInfo('activityCopied'))
-                    .catch(error => this.message.toastError(error));**/
                 break;
             }
         }
@@ -186,13 +224,13 @@ class CalendarDayCtrl {
 
         switch ( operation ) {
             case 'move': {
-                this.CalendarService.putItem(item)
+                this.calendarService.putItem(item)
                     .then(() => this.message.toastInfo('eventMoved'))
                     .catch(error => this.message.toastError(error));
                 break;
             }
             case 'copy': {
-                this.CalendarService.postItem(item)
+                this.calendarService.postItem(item)
                     .then(() => this.message.toastInfo('eventCopied'))
                     .catch(error => this.message.toastError(error));
                 break;

@@ -39,6 +39,30 @@
     padding: 8px 12px 8px 12px;
   }
 
+  .dropzone {
+    display: none;
+    width: 100%;
+    height: 24px;
+    margin: 8px 0;
+    transition: 0.2s;
+  }
+
+  section[dnd-list] {
+    min-height: 24px;
+  }
+
+  section[dnd-list].dndDragover {
+    .dropzone { display: none; }
+    .calendar-item-activity-header, .stage-info { display: none; }
+  }
+
+  section[dnd-list] .dndPlaceholder {
+    min-height: 12px;
+    margin: 6px 0;
+    background: rgba(0,0,0,0.1);
+    width: 100%;
+  }
+
   &__list, &__table {
 
     //margin: 0px 4px 8px 4px;

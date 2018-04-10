@@ -1,5 +1,6 @@
 <!-- common section -->
-<application-frame class='{{$ctrl.view.style}}' layout="column" layout-fill>
+<application-frame class='{{$ctrl.view.style}}' layout="column" layout-fill
+                   style="min-height: 100%; overflow-y: auto">
     <header flex="none" layout="column" layout-align="space-between center">
         <div flex="20"></div>
         <h2 flex="none" class="md-display-2 font-black md-light" translate="landing.tariffs.title"></h2>
@@ -26,7 +27,7 @@
             </md-card-title>
             <md-card-content layout="column">
                 <div flex="none" class="subscription" layout="row" layout-align="center center">
-                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.country][$ctrl.selectedTab] | currency}}</p>
+                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.country][$ctrl.selectedTab] | number:0}} {{'rub' | translate}}</p>
                     <p flex="none" class="md-body md-dark" translate="landing.tariffs.byMonth"></p>
                     <div ng-if="tariff.fee.variable[$ctrl.country]">
                         <span>&nbsp;</span>
@@ -90,15 +91,15 @@
         <div flex-gt-sm="50" flex="none" class="totals" layout="column">
             <div class="md-headline md-dark font-black" layout="row" layout-align="space-between center">
                 <h2 class="md-headline md-dark font-black" translate="landing.tariffs.calc.totals"></h2>
-                <span >&nbsp;{{$ctrl.calculate() | currency}}</span>
+                <span >&nbsp;{{$ctrl.calculate() | number:0}} {{'rub' | translate}}</span>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.subscription"></p>
-                <p>{{$ctrl.calculateSubscription() | currency}}</p>
+                <p>{{$ctrl.calculateSubscription() | number:0}} {{'rub' | translate}}</p>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.variable"></p>
-                <p>{{$ctrl.calculateVariable() | currency}}</p>
+                <p>{{$ctrl.calculateVariable() | number:0}} {{'rub' | translate}}</p>
             </div>
         </div>
     </section>

@@ -2,9 +2,10 @@ import { SocketService } from "../core";
 import {
     PostTrainingPlan, PutTrainingPlan, SearchTrainingPlan, DeleteTrainingPlan, GetTrainingPlan, ModifyTrainingPlanItem,
     ITrainingPlan, ITrainingPlanSearchResult, ITrainingPlanSearchRequest, ITrainingPlanAssignmentRequest,
-    ModifyTrainingPlanAssignment, ITrainingPlanAssignment, GetTrainingPlanAssignment, ITrainingPlanAssignmentResponse
+    ModifyTrainingPlanAssignment, ITrainingPlanAssignment, GetTrainingPlanAssignment, ITrainingPlanAssignmentResponse,
+    PublishTrainingPlan
 } from "../../../api/trainingPlans";
-import { IWSResponse, IRevisionResponse } from "@api/core";
+import { IWSResponse, IRevisionResponse, ISystemMessage } from "@api/core";
 import { ICalendarItem } from "@api/calendar";
 import { Observable } from "rxjs";
 
@@ -121,5 +122,15 @@ export class TrainingPlansService {
      */
     deleteItem (planId: number, item: ICalendarItem, isSample: boolean = false, rmParams?: any): Promise<IWSResponse> {
         return this.socket.send(new ModifyTrainingPlanItem('D', planId, item, isSample, rmParams));
+    }
+
+    /**
+     * Публикация версии плана для магазина
+     * @param planId
+     * @param version
+     * @returns {Promise<any>}
+     */
+    publish (planId: number, version: number): Promise<ISystemMessage> {
+        return this.socket.send(new PublishTrainingPlan(planId, version));
     }
 }

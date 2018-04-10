@@ -1,0 +1,37 @@
+<md-list class="md-dense" flex="auto">
+    <!-- Имя -->
+    <md-list-item>
+        <md-input-container class="md-block no-message" layout="row">
+            <label translate="search.name.label"></label>
+            <input flex="auto"
+                   name="name"
+                   type="text"
+                   ng-change="$ctrl.change()"
+                   ng-model="$ctrl.filter.name"
+                   ng-model-options="{ debounce: 300 }">
+        </md-input-container>
+    </md-list-item>
+    <fieldset class="md-padding" style="margin-top: 16px;">
+        <legend class="md-caption" translate="search.activityTypes.label"></legend>
+        <div layout="row" layout-wrap flex>
+            <div flex-xs flex="50">
+                <md-checkbox aria-label="Select All"
+                             class="md-primary"
+                             ng-checked="$ctrl.isChecked('activityTypes')"
+                             md-indeterminate="$ctrl.isIndeterminate('activityTypes')"
+                             ng-click="$ctrl.toggleAll('activityTypes')">
+                    <span class="md-caption md-dark"
+                          translate="{{$ctrl.isChecked('activityTypes') ? 'search.actions.unselect' : 'search.actions.select'}}">
+                </md-checkbox>
+            </div>
+            <div style="margin-left: 20px;" flex="100" ng-repeat="activity in $ctrl.activityTypes">
+                <md-checkbox class="md-primary"
+                             ng-checked="$ctrl.exists(activity, $ctrl.filter.activityTypes)"
+                             ng-click="$ctrl.toggle(activity, $ctrl.filter.activityTypes)">
+                    <span class="md-caption md-dark">{{'sport.' + activity | translate }}</span>
+                </md-checkbox>
+            </div>
+        </div>
+    </fieldset>
+
+</md-list>

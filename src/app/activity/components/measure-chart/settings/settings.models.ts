@@ -23,6 +23,8 @@ export interface IAreaSettings {
     fillType: FillType;
     gradient?: IGradientPoint[];
     solidColor?: string;
+    lineColor?: string;
+    lineWidth?: number;
 }
 
 export interface ISelectIntervalArea {
@@ -45,13 +47,15 @@ export interface IAxisLabel {
     // label's text color
     color: string;
     // min tick step in the metric units
-    tickMinStep: number;
+    tickMinStep: any;
     // min distance between ticks in pixels
     tickMinDistance: number;
     // how often does the label should be shown?
     ticksPerLabel: number;
     // what min chart width should be achived to show this axis?
     hideOnWidth: number;
+    //
+    multiplex?: any;
 }
 
 export interface IMetricArea {
@@ -99,6 +103,8 @@ export interface IActivityChartSettings {
     pace: IMetricArea;
     power: IMetricArea;
     altitude: IMetricArea;
+    cadence: IMetricArea;
+    strokes: IMetricArea;
     elapsedDuration: IDomainMeasure;
     movingDuration: IDomainMeasure;
     duration: IDomainMeasure;

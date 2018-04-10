@@ -102,11 +102,17 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     private prepareDefaultData (): void {
-        if ( this.startDate ) { this._startDate = new Date(this.startDate); }
+        this._startDate = (this.startDate && new Date(this.startDate)) ||
+            (this.isFixedCalendarDates && new Date(moment().startOf('week').toDate())) || null;
         if ( !this.lang ) { this.lang = 'ru'; }
         if ( !this.tags ) { this.tags = []; }
         if ( !this.keywords ) {this.keywords = [];}
         if ( !this.isFixedCalendarDates ) { this.isFixedCalendarDates = false; }
+    }
+
+    get firstDate (): Date {
+        return this.isFixedCalendarDates && this._startDate ||
+            new Date(moment(this.firstCalendarItem.dateStart).startOf('week'));
     }
 
     get endDate (): Date {
@@ -115,12 +121,17 @@ export class TrainingPlan implements ITrainingPlan {
 
     get firstItemCalendarShift (): number {
         let firstCalendarItemDate: Moment = moment(this.firstCalendarItem.dateStart);
-        return firstCalendarItemDate.diff(moment(this.startDate), 'days');
+        let startDate = this.isFixedCalendarDates ? moment(this.startDate) : moment(firstCalendarItemDate).startOf('week');
+        return firstCalendarItemDate.diff(startDate, 'days');
     }
 
     get lastItemCalendarShift (): number {
         let lastCalendarItemDate: Moment = moment(this.lastCalendarItem.dateStart);
         return moment(lastCalendarItemDate).endOf('week').diff(lastCalendarItemDate, 'days');
+    }
+
+    get firstLastItemCalendarShift (): number {
+        return moment(this.lastCalendarItem.dateStart).diff(moment(this.firstCalendarItem.dateStart), 'days');
     }
 
     get firstCalendarItem (): ICalendarItem {
@@ -129,6 +140,91 @@ export class TrainingPlan implements ITrainingPlan {
 
     get lastCalendarItem (): ICalendarItem {
         return this.calendarItems && this.calendarItems[this.calendarItems.length - 1] || null;
+    }
+
+    get hasAssignment (): boolean {
+        return this.assignmentList && this.assignmentList.length > 0;
+    }
+
+    get hasCalendarItems (): boolean {
+        return this.calendarItems && this.calendarItems.length > 0;
+    }
+
+    /**
+     * Расчет даты первого элемента календаря для набора параметров присвоения
+     * @param applyMode
+     * @param applyDateMode
+     * @param applyFromDate
+     * @param applyToDate
+     * @returns {any}
+     */
+    fistItemAssignmentDate (applyMode: 'P' | 'I',
+                            applyDateMode: 'F' | 'T',
+                            applyFromDate: Date,
+                            applyToDate: Date): string {
+
+        let dateForm: Moment = moment(applyFromDate).utc().add(moment().utcOffset(),'minutes');
+        let dateTo: Moment = moment(applyToDate).utc().add(moment().utcOffset(),'minutes');
+        // Вариант 1. Тип Даты = План & Дата = с начала
+        if ( applyMode === 'P' && applyDateMode === 'F' ) {
+            return dateForm.add(this.firstItemCalendarShift, 'days').format('YYYY-MM-DD');
+        }
+        // Вариант 2. Тип Даты = План & Дата = с конца
+        else if ( applyMode === 'P' && applyDateMode === 'T' ) {
+            return dateTo.subtract(this.lastItemCalendarShift + this.firstLastItemCalendarShift, 'days').format('YYYY-MM-DD');
+        }
+        // Вариант 3. Тип даты = Итем + Дата = с начала
+        else if ( applyMode === 'I' && applyDateMode === 'F' ) {
+            return dateForm.format('YYYY-MM-DD');
+        }
+        // Вариант 4. Тип даты = Итем + Дата = с конца
+        else if ( applyMode === 'I' && applyDateMode === 'T' ) {
+            return dateTo.subtract(this.firstLastItemCalendarShift, 'days').format('YYYY-MM-DD');
+        }
+    }
+
+    /**
+     * Всопомгательная информация для пользователя по параметрам будущего присвоения
+     * @param applyMode
+     * @param applyDateMode
+     * @param applyFromDate
+     * @param applyToDate
+     * @returns {{firstPlanDate: string, firstItemDate: string, lastPlanDate: string, lastItemDate: string}}
+     */
+    assignmentInfo (applyMode: 'P' | 'I', applyDateMode: 'F' | 'T', applyFromDate: Date, applyToDate: Date): Object {
+        let firstDate: string = this.fistItemAssignmentDate(applyMode, applyDateMode, applyFromDate, applyToDate);
+        let shift: number = moment(firstDate).diff(moment(this.firstCalendarItem.dateStart), 'days');
+        return {
+            firstPlanDate: moment(this.firstDate).add(shift, 'days').toDate(),
+            firstItemDate: new Date(firstDate),
+            lastPlanDate: moment(this.endDate).add(shift, 'days').toDate(),
+            lastItemDate: moment(this.lastCalendarItem.dateStart).add(shift, 'days').toDate()
+        };
+    }
+
+    isDatesBeforeToday (date: Date, mode: 'F' | 'T'): boolean {
+        return moment(date).isBefore(moment(), 'day');
+    }
+
+    isAfterPlanDates (date: Date, mode: 'F' | 'T'): boolean {
+        return  (mode === 'F' && moment(this.startDate).isAfter(moment(date), 'day')) ||
+                (mode === 'T' && moment(this.endDate).isBefore(moment(date), 'day'));
+    }
+
+    isSamePlanDates (date: Date, mode: 'F' | 'T'): boolean {
+        return  (mode === 'F' && moment(this.startDate).isSame(moment(date), 'day')) ||
+                (mode === 'T' && moment(this.endDate).isSame(moment(date), 'day'));
+    }
+
+    /**
+     * План с фиксированными дантами и с обновлением можно присвоить только в даты плана, когда
+     * дата начала присвоения совпадает с началом плана или дата окончания совпадает с датой окончания плана
+     * @param date
+     * @param mode
+     * @returns {boolean|any}
+     */
+    isEnablePropagateMods (date: Date, mode: 'F' | 'T'): boolean {
+        return this.propagateMods && this.isSamePlanDates(date, mode);
     }
 
     apiObject (): ITrainingPlan {

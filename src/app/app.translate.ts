@@ -7,12 +7,19 @@ export const translateGeneral = {
         day: "По дням",
         month: "По месяцам",
         quarter: "По кварталам",
-        duration: "Время",
-        distance: "Расстояние",
         updateToast: {
             message: "Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity",
             action: "ПЕРЕЗАГРУЗИТЬ",
         },
+        rub: 'руб.',
+        onlyBasicTariff: 'Подключить тариф',
+        incompleteProfile: 'Не заполнен профиль',
+        premiumExpireIn: 'Премиум: осталось {{days}} дн',
+        coachExpireIn: 'Тренер: осталось {{days}} дн',
+        clubExpireIn: 'Клуб: осталось {{days}} дн',
+        expiredPremium: 'Премиум отключен',
+        expiredCoach: 'Тренер отключен',
+        expiredClub: 'Клуб отключен'
     },
     en: {
         staminity: "Staminity",
@@ -22,12 +29,19 @@ export const translateGeneral = {
         day: "Day",
         month: "Month",
         quarter: "Quarter",
-        duration: "Время",
-        distance: "Расстояние",
         updateToast: {
             message: "Staminity update is available. Please refresh the browser page",
             action: "REFRESH",
         },
+        rub: 'RUB',
+        onlyBasicTariff: 'Add tariff',
+        incompleteProfile: 'Incomplete profile',
+        premiumExpireIn: 'Premium: {{days | number}} days left',
+        coachExpireIn: 'Coach: {{days | number}} days left',
+        clubExpireIn: 'Club: {{days | number}} days left',
+        expiredPremium: 'Premium expired',
+        expiredCoach: 'Coach expired',
+        expiredClub: 'Club expired'
     },
 };
 

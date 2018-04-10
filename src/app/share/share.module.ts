@@ -70,7 +70,7 @@ export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
 export const fromNow = () => (date) => moment.utc(date).fromNow(true);
 
 
-const image = () => (sub: string, url:string = 'default.jpg') : string => {
+export const image = () => (sub: string, url:string = 'default.jpg') : string => {
     return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
 };
 
@@ -88,7 +88,7 @@ const _userName = () => (user, options) => maybe(user) (prop('public')) (
  * compact: Имя и первую букву Фамилии
  * full: Имя и Фамилию
  */
-const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
+export const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
     if (
         !profile ||
         !profile.hasOwnProperty('public') ||
@@ -212,15 +212,44 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("clubName", clubName)
     .filter("ageGroup", () => ageGroup)
     .filter("requestType", () => (request) => requestType(request) + ".action")
-    .filter("measureCalc", () => measureValue)
+    .filter("measureCalc", ["SessionService", (session: SessionService) =>
+        (input: number,
+         sport: string,
+         measure: string,
+         chart:boolean = false,
+         units:string = session.getUser().display.units) => {
+             if (!input) { return input;}
+
+            let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
+                    (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) || _measurement[measure].unit;
+            let fixed = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].fixed) || _measurement[measure].fixed;
+            // Необходимо пересчет единиц измерения
+            if (unit !== _measurement[measure].unit){
+                input = _measurement_calculate[_measurement[measure].unit][unit](input);
+            }
+            // Необходим пересчет системы мер
+            if (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)){
+                input = _measurement_system_calculate[unit].multiplier(input);
+            }
+            // Показатель релевантен для пересчета скорости в темп
+            if (!chart && (isDuration(unit) || isPace(unit))){
+                let format = input >= 60*60 ? 'HH:mm:ss' : 'mm:ss';
+                let time = moment().startOf('day').millisecond(input*1000).startOf('millisecond');
+
+                if(time.milliseconds() >= 500) {time.add(1, 'second');}
+                    return time.format(format);
+                }
+                else {
+                    return Number(input).toFixed(fixed);
+                }
+         }
+    ])
     .filter("measureCalcInterval", ["$filter", ($filter) => {
         return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart: boolean = false, units: string = "metric") => {
             if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
                 return null;
             }
-
             const measure: Measure = new Measure(name, sport, input.intensityLevelFrom);
-
             if (input.intensityLevelFrom === input.intensityLevelTo) {
                 return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units);
             } else if (measure.isPace()) {
@@ -230,7 +259,25 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
             }
         };
     }])
-    .filter("measureUnit", () => measureUnit)
+    .filter("measureUnit", ['SessionService', (session:SessionService) => {
+        return (measure,
+                sport = 'default',
+                units = session.getUser().display.units): string => {
+
+            let unit: string;
+            try {
+                unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) &&
+                    _activity_measurement_view[sport][measure].unit) ||
+                    (_measurement[measure].hasOwnProperty('view') && _measurement[measure]['view']) ||
+                    _measurement[measure].unit;
+
+                unit = (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)) ?
+                    _measurement_system_calculate[unit].unit :
+                    unit;
+            } catch (e) {console.error('measureUnit error', e, measure, sport, units);}
+            return unit;
+        };
+    }])
     .filter("duration", duration)
     .filter("percentByTotal", ["$filter", ($filter) => {
         return (value, total, decimal = 0) => {
@@ -269,7 +316,6 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
         return (measure, value, sport) => {
 
             const unit = measurementUnitDisplay(sport, measure);
-
             if (isDuration(unit)) {
                 return moment(value, ["ss", "mm:ss", "hh:mm:ss"]).diff(moment().startOf("day"), "seconds");
             } else {
@@ -277,14 +323,14 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
                     value = moment(value, ["ss", "mm:ss"]).diff(moment().startOf("day"), "seconds");
                 }
                 // обратный пересчет по системе мер
-                if (session.getUser().display.units !== "metric") {
-                    value = value / _measurement_system_calculate[unit].multiplier;
+                if (session.getUser().display.units === "imperial" && _measurement_system_calculate[unit]) {
+                    let convertUnit: string = _measurement_system_calculate[unit].unit;
+                    value = _measurement_system_calculate[convertUnit].multiplier(value);
                 }
                 // пересчет от единиц представления в еденицы обмена данными
                 if (unit !== measurementUnit(measure)) {
                     value = _measurement_calculate[unit][measurementUnit(measure)](value);
                 }
-
                 return value;
             }
         };

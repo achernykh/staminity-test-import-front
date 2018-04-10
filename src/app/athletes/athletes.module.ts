@@ -10,7 +10,7 @@ import { translateAthletes } from "./athletes.translate";
 
 const Athletes = module("staminity.athletes", ["ngMaterial", "staminity.share"])
     .service("AthletesService", AthletesService)
-    .component("athletes", AthletesComponent)
+    .component("stAthletes", AthletesComponent)
     .component("athleteInvitation", AthleteInvitationComponent)
     .config(["$stateProvider", ($stateProvider: StateProvider) => {
         athletesStates.forEach($stateProvider.state);

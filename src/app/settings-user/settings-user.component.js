@@ -4,7 +4,7 @@ import * as momentTimezone from 'moment-timezone';
 import * as angular from 'angular';
 
 import {
-    _NAVBAR, _DELIVERY_METHOD, _UNITS,
+    _NAVBAR, _DELIVERY_METHOD, _UNITS, _ACTIVITIES,
     _PRIVACY_LEVEL, _ZONE_CALCULATION_METHOD, _country_list, _SYNC_ADAPTORS, syncStatus
 } from './settings-user.constants';
 import { parseYYYYMMDD } from '../share/share.module';
@@ -29,10 +29,11 @@ let emptyUser = {
 
 class SettingsUserCtrl {
 
-    constructor ($scope, SessionService, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService, dialogs, message, BillingService, $translate, $mdMedia, display, quillConf) {
+    constructor ($scope, SessionService, UserService, AuthService, $http, $mdDialog, $auth, SyncAdaptorService,
+                 dialogs, message, BillingService, $translate, $mdMedia, display, quillConf, $anchorScroll) {
         this.passwordStrength = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
         this._NAVBAR = _NAVBAR
-        this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
+        this._ACTIVITY = _ACTIVITIES;
         this._DELIVERY_METHOD = _DELIVERY_METHOD
         this._PRIVACY_LEVEL = _PRIVACY_LEVEL
         this._UNITS = _UNITS
@@ -54,6 +55,7 @@ class SettingsUserCtrl {
         this.$mdMedia = $mdMedia;
         this.display = display;
         this.quillConf = quillConf;
+        this.$anchorScroll = $anchorScroll;
 
         this.destroy = new Subject();
         this.adaptors = [];
@@ -62,12 +64,12 @@ class SettingsUserCtrl {
     }
 
     $onInit () {
-
         /**this.SessionService.getObservable()
             .takeUntil(this.destroy)
             .map((session) => session.userProfile)
             .distinctUntilChanged()
             .subscribe(this.setUser.bind(this));**/
+        setTimeout(() => this.$anchorScroll(), 1000);
 
         this.BillingService.messages
             .takeUntil(this.destroy)
@@ -234,10 +236,8 @@ class SettingsUserCtrl {
      * Проверка полноты заполнения профиля тренера
      */
     checkProfileComplete() {
-        debugger;
         if ((this.user.public.avatar !== 'default.jpg') &&
             (this.user.public.firstName && this.user.public.lastName) &&
-            (this.user.personal.city && this.user.personal.country) &&
             (this.user.personal.about && this.user.personal.about.length > 5) &&
             (this.user.personal.price && this.user.personal.price.length > 5) &&
             (this.user.personal.contact && this.user.personal.contact.length > 5) &&
@@ -292,7 +292,8 @@ class SettingsUserCtrl {
                         //adaptor.status.switch = true;
                     });
 
-        } else if(toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
+        }
+        else if(toggle && !adaptor.status.switch && adaptor.isOAuth && adaptor.status.code === 'offSyncNeverEnabled') { //2. Подключить OAuth синхронизацию
             // Подключение стравы
             this.$auth.link(adaptor.provider,{
                 internalData: {
@@ -582,7 +583,8 @@ class SettingsUserCtrl {
 };
 
 SettingsUserCtrl.$inject = [
-    '$scope', 'SessionService', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService', 'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService','quillConfig'
+    '$scope', 'SessionService', 'UserService', 'AuthService', '$http', '$mdDialog', '$auth', 'SyncAdaptorService',
+    'dialogs', 'message', 'BillingService', '$translate', '$mdMedia', 'DisplayService','quillConfig', '$anchorScroll'
 ];
 
 

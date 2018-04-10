@@ -1,9 +1,12 @@
 activity-metrics-details {
+  display: block !important;
+  overflow: auto;
   background: white;
-  margin-left: 16px;
+  margin-left: 400px;
+  width: calc(100vw - 400px);
   padding-right: 16px;
-  min-width: calc(95vw - 450px);
-  border-radius: 0px 3px 3px 0px;
+  //min-width: calc(95vw - 450px);
+  //border-radius: 0px 3px 3px 0px;
 
 
 
@@ -41,18 +44,21 @@ activity-metrics-details {
   }
 
   section.map, div.loading-map{
-    height: 20vh;
+    height: 30vh;
+    &.zoom {
+      height: calc(100vh - 64px);
+    }
   }
 
   section.chart, div.loading-chart{
-    height: 20vh;
+    height: 25vh;
     // gt-md
     @media  (min-width: 1280px) {
-      height: 20vh;
+      height: 25vh;
     }
     //lg
     @media  (min-width: 1280px) and (max-width: 1919px) {
-      height: 20vh;
+      height: 25vh;
     }
     
   }

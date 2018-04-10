@@ -8,6 +8,7 @@ export const _MEASURE_TRANSLATE = {
         kmph: "км/ч",
         minpkm: "/км",
         minp100m: "/100м",
+        minpml: '/мл',
         bpm: "уд/мин",
         min: "мин",
         watt: "вт",
@@ -19,6 +20,7 @@ export const _MEASURE_TRANSLATE = {
         sm: "см",
         none: "",
         mh: "м/ч", // добавил - "метров в час". Это для VAM.
+        spl: 'гребков',
 
         // Показатели
         adjustedPower: "Мощность корр",
@@ -76,6 +78,7 @@ export const _MEASURE_TRANSLATE = {
         kmph: "km/h",
         minpkm: "/km",
         minp100m: "/100m",
+        minpml: '/ml',
         bpm: "bpm",
         min: "min",
         watt: "Wt",
@@ -87,6 +90,7 @@ export const _MEASURE_TRANSLATE = {
         sm: "sm",
         none: "",
         mh: "m/h", // добавил - "метров в час". Это для VAM.
+        spl: 'strokes',
 
         // Показатели
         adjustedPower: "APw",

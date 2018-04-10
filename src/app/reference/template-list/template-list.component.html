@@ -1,16 +1,20 @@
 <md-list class="md-dense slim-input" md-theme="grey" class="template-list__filter">
+    <md-list-item ng-click="$ctrl.post($event)">
+        <p class="md-body-1" translate="reference.action.post"></p>
+    </md-list-item>
     <md-list-item>
+        </md-input-container>
         <md-input-container>
             <md-input-container class="md-block no-message" md-no-float>
                 <!--<md-icon flex="none" md-svg-src="assets/icon/{{ $ctrl.filterParams.activityType.code || 'run' }}.svg"></md-icon>-->
                 <md-select
-                        placeholder="{{ 'reference.sport' | translate }}"
-                        flex name="activity-type" class="icon"
-                        ng-model="$ctrl.filterParams.activityType"
-                        ng-change="$ctrl.updateFilterParams()">
+                    placeholder="{{ 'reference.sport' | translate }}"
+                    flex name="activity-type" class="icon"
+                    ng-model="$ctrl.filterParams.activityType"
+                    ng-change="$ctrl.updateFilterParams()">
                     <md-option
-                            ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true, enabled: true} track by activityType.id"
-                            ng-value="activityType">
+                        ng-repeat="activityType in $ctrl.activityTypes | filter:{isBasic: true, enabled: true} track by activityType.id"
+                        ng-value="activityType">
                         {{ 'sport.' + activityType.code | translate }}
                     </md-option>
                 </md-select>
@@ -20,17 +24,17 @@
     <md-list-item>
         <md-input-container class="md-block no-message" md-no-float>
             <md-select
-                    ng-model="$ctrl.filterParams.category"
-                    ng-model-options="{ trackBy: '$value.id' }"
-                    required=""
-                    md-no-asterisk="false"
-                    placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
-                    ng-change="$ctrl.updateFilterParams()"
-                    class="icon">
+                ng-model="$ctrl.filterParams.category"
+                ng-model-options="{ trackBy: '$value.id' }"
+                required=""
+                md-no-asterisk="false"
+                placeholder="{{::'activity.assignment.categoryLabel' | translate}}"
+                ng-change="$ctrl.updateFilterParams()"
+                class="icon">
                 <md-optgroup
-                        ng-repeat="owner in ['user', 'coach', 'club', 'system']"
-                        ng-if="$ctrl.categoriesByOwner[owner].length"
-                        label="{{ 'reference.categories.' + owner | translate }}">
+                    ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+                    ng-if="$ctrl.categoriesByOwner[owner].length"
+                    label="{{ 'reference.categories.' + owner | translate }}">
                     <md-option class="md-caption"
                                ng-repeat="category in $ctrl.categoriesByOwner[owner] track by category.id"
                                ng-value="category">
@@ -41,7 +45,9 @@
         </md-input-container>
     </md-list-item>
 </md-list>
-<section layout="column" class="template-list__data">
+<section layout="column" class="template-list__data"
+         dnd-list="items"
+         dnd-allowed-types="['itemType','user-template']">
     <activity-template ng-repeat="template in $ctrl.templatesByOwner track by template.id"
                        class=""
                        flex="none"

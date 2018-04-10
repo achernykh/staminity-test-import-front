@@ -3,8 +3,8 @@
     <md-card class="profile-header" layout="column" layout-align="center center" style="background-image: linear-gradient(to bottom, rgba(0,0,0, 0.1), rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.5)), url({{$ctrl.user.public.background | userBackground}})">
         <div layout="row" layout-align="center center" style="width:100%">
             <div flex="40" layout="column" layout-align="center end">
-                <div class="chip" ng-if="$ctrl.user.public.isCoach">Тренер</div> 
-                <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span> Премиум</div>
+                <div class="chip" ng-if="$ctrl.user.public.isCoach" translate="user.coach"></div>
+                <div class="chip" ng-if="$ctrl.user.public.isPremium"> <span ng-style="{color: '#ff5722'}">⬤</span><span translate="user.premium"></span></div>
             </div>
             <userpic class="size-60 border-light"
                      profile="$ctrl.user" is-premium="$ctrl.user.isPremium"></userpic>
@@ -22,26 +22,26 @@
                 <md-button ng-click="$ctrl.join($ctrl.user.connections.Athletes, 'dialogs.startCoach')"
                            ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && ($ctrl.user.private.isFree || !$ctrl.user.private.hasOwnProperty('isFree'))"
                            class="md-raised md-primary md-dark-theme" style="text-transform: none;">
-                    Начать тренироваться
+                    <span translate="user.action.joinToCoach"></span>
                 </md-button>
                 <md-button ng-click=""
                            ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnJoinGroup && !$ctrl.user.isYourCoach && (!$ctrl.user.private.isFree && $ctrl.user.private.hasOwnProperty('isFree'))"
                            class="md-raised md-primary md-dark-theme" style="text-transform: none;" ng-disabled="true">
-                    Набор учеников завершен
+                    <span translate="user.action.joinToCoachDisable"></span>
                 </md-button>
 
                 <md-button ng-if="$ctrl.user.isYourCoach && !$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup" ng-disabled="true" class="md-dark-theme">
-                    Ваш тренер
+                    <span translate="user.action.isYourCoach"></span>
                 </md-button>
 
                 <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnCancelJoinGroup">
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                        Заявка отправлена ▾
+                        <span translate="user.action.coachRequestWaiting"></span>
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'dialogs.rejectRequest')">
-                                Отменить заявку
+                                <span translate="user.action.coachRequestCancel"></span>
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -49,12 +49,12 @@
 
                 <md-menu ng-if="$ctrl.user.connections.Athletes.availableInteractions.btnLeaveGroup">
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                        Ваш тренер ▾
+                        <span translate="user.action.isYourCoach"></span> ▾
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.leave($ctrl.user.connections.Athletes, 'dialogs.leaveCoach')">
-                                Перестать тренироваться
+                                <span translate="user.action.leaveCoach"></span>
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -62,12 +62,12 @@
 
                 <md-menu ng-if="$ctrl.user.connections.Athletes.btnCancelLeaveGroup">
                     <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                        Вы отправили заявку на отказ от тренера ▾
+                        <span translate="user.action.requestLeaveWaiting"></span> ▾
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.cancel($ctrl.user.connections.Athletes, 'dialogs.rejectRequest')">
-                                Отменить заявку
+                                <span translate="user.action.requestLeaveCancel"></span>
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -81,12 +81,12 @@
                     <md-menu-content>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.join($ctrl.user.connections.Followers, 'dialogs.startFollow')">
-                                Подписаться
+                                <span translate="user.action.startFollow"></span>
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.join($ctrl.user.connections.Friends, 'dialogs.startFriends')">
-                                Добавить в друзья
+                                <span translate="user.action.startFriend"></span>
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -123,7 +123,7 @@
                              st-quill-post-image>
             </ng-quill-editor>
             <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.price || "Информация не указана" }}</div>-->
-            <div class="md-caption" translate>user.contact</div>
+            <div class="md-caption" translate>user.contact.header</div>
             <ng-quill-editor ng-if="true" flex="auto"
                              ng-model="$ctrl.user.personal.contact"
                              placeholder="{{'record.descriptionPlaceholder' | translate}}"
@@ -145,51 +145,51 @@
                              st-quill-post-image>
             </ng-quill-editor>
             <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>-->
-            <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</div>
+            <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{($ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse') | translate}}</div>
         </div>
         <div ng-if="$ctrl.user.private.weight || $ctrl.user.private.height">
             <span style="margin-right:25px">Вес: {{ $ctrl.user.private.weight || '-' }}</span>
             <span>Рост: {{ $ctrl.user.private.height || '-' }}</span>
         </div>
-        <div class="md-caption">Связи</div>
+        <div class="md-caption" translate="user.connections.header"></div>
         <div>
             <md-button ng-repeat="club in $ctrl.user.connections.Clubs" ui-sref="club({uri: club.groupUri})">
-                <span>Клуб: </span>
+                <span translate="user.connections.clubs"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ club.public.name }}</span>
             </md-button>
             <md-button ng-if="!$ctrl.user.connections.Clubs.length" disabled="disabled">
-                <span>Клуб: </span>
+                <span translate="user.connections.clubs"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)"> - </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.Coaches.groupMembers.length" ng-click="$ctrl.coaches()">
-                <span>Тренеры: </span>
+                <span translate="user.connections.coaches"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.user.connections.Coaches.groupMembers.length || '-' }} </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.allAthletes.groupMembers.length" ng-click="$ctrl.athletes()">
-                <span>Спортсмены: </span>
+                <span translate="user.connections.athletes"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.allAthletes  .groupMembers.length || '-'}} </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.Followers.groupMembers.length" ng-click="$ctrl.subscribers()">
-                <span>Подписчики: </span>
+                <span translate="user.connections.followers"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.Followers.groupMembers.length || '-'}} </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.Following.groupMembers.length" ng-click="$ctrl.subscriptions()">
-                <span>Подписан: </span>
+                <span translate="user.connections.following"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.Following.groupMembers.length || '-'}} </span>
             </md-button>
             <md-button ng-disabled="!$ctrl.user.connections.Friends.groupMembers.length" ng-click="$ctrl.friends()">
-                <span>Друзья: </span>
+                <span translate="user.connections.friends"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{$ctrl.user.connections.Friends.groupMembers.length || '-'}} </span>
             </md-button>
             <md-button ng-disabled="true">
-                <span>Группы: </span>
+                <span translate="user.connections.groups"></span>
                 <span style="color:rgba(0, 0, 0, 0.38)">- </span>
             </md-button>
         </div>
-        <div class="md-caption" ng-if="$ctrl.user.private.phone || $ctrl.user.private.extEmail">Контакты</div>
+        <div class="md-caption" ng-if="$ctrl.user.private.phone || $ctrl.user.private.extEmail" translate="user.contact.header"></div>
         <div ng-if="$ctrl.user.private.phone || $ctrl.user.private.extEmail">
-            <span style="margin-right:25px">Телефон: {{ $ctrl.user.private.phone || '-' }}</span>
-            <span>Email: {{ $ctrl.user.private.extEmail || '-' }}</span>
+            <span style="margin-right:25px">{{'user.contact.phone' | translate}} {{ $ctrl.user.private.phone || '-' }}</span>
+            <span>{{'user.contact.email' | translate}} {{ $ctrl.user.private.extEmail || '-' }}</span>
         </div>
     </md-card>
 

@@ -5,8 +5,8 @@
                       left-bar="$ctrl.isLargeScreen && $ctrl.panelAuthCheck">
 
     <st-application-frame-title>
-        <span class="md-title" translate="calendar.fullTitle"></span>
-        <span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
+        <span class="md-title" translate="calendar.fullTitle" ng-if="$ctrl.$mdMedia('(min-width: 1440px)') || $ctrl.$mdMedia('(max-width: 959px)')"></span>
+        <span class="md-title" hide show-gt-sm>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
@@ -23,7 +23,7 @@
                 </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                    <md-button ng-click="$ctrl.setOwner($ctrl.currentUser.userId)"
                                ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
                         <userpic profile="$ctrl.currentUser" unlink="true"></userpic>
                         <span>{{$ctrl.currentUser | userName}}</span>
@@ -96,7 +96,7 @@
                 </md-button>
                 <md-menu-content>
                     <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
-                        <md-button ng-click="$ctrl.setOwner(athlete)"
+                        <md-button ng-click="$ctrl.setOwner(athlete.userId)"
                                    ng-disable="athlete.userId === $ctrl.owner.userId">
                             <userpic profile="athlete"></userpic>
                             <span>{{athlete | userName}}</span>
@@ -104,7 +104,7 @@
                     </md-menu-item>
                     <md-divider></md-divider>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser)"
+                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser.userId)"
                                    ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
                             <userpic profile="$ctrl.currentUser"></userpic>
                             <span>{{$ctrl.currentUser | userName}}</span>
@@ -134,7 +134,7 @@
             <!-- weekdays panel: start -->
             <md-toolbar md-theme="grey" class="calendar__days-header md-default" hide show-gt-sm>
                 <div ng-repeat="day in $ctrl.weekdayNames track by $index" class="day md-caption md-dark font-medium">{{::day}}</div>
-                <div hide show-gt-md class="total md-caption md-dark font-medium">Итоги</div>
+                <div hide show-gt-md class="total md-caption md-dark font-medium" translate="calendar.totals"></div>
             </md-toolbar>
             <!-- grid: start -->
             <section class="calendar__grid"

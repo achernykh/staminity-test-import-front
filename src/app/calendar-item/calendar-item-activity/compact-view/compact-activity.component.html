@@ -3,30 +3,30 @@
     <section ng-switch-when="list" class="activity-compact__list"
              ng-click="$ctrl.open($event)">
         <header layout="row" layout-align="start center"
-                class="calendar-item-activity-header {{$ctrl.activity.status}} list-view"
+                class="calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
                 ng-class="{selected: $ctrl.selected}">
             <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
                  ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
-                <md-icon class="material-icons md-light md-24" aria-label="icon"
-                         md-svg-src="{{$ctrl.activity.header.sportUrl}}"></md-icon>
+                <md-icon class="material-icons md-light md-18" aria-label="icon"
+                         md-svg-src="{{::$ctrl.activity.header.sportUrl}}"></md-icon>
             </div>
             <div flex="auto" layout="column">
                 <section flex layout="row" layout-align="start center"
-                         ng-class="{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
+                         ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
                          class="md-caption md-active center">
-                    <div flex="none" class="line-14" ng-if="$ctrl.activity.header.category"
-                         ng-bind-template="{{$ctrl.activity.header.category | categoryCode}}"></div>
+                    <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
+                         ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}"></div>
                 </section>
                 <section flex layout="row" layout-align="start center"
-                         ng-class="{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
+                         ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
                          class="md-title-small md-active center tight-10">
-                    <span flex="none" ng-if="$ctrl.activity.movingDuration">
-                    {{$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}&nbsp;&nbsp;
+                    <span flex="none" ng-if="::$ctrl.activity.movingDuration">
+                    {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}&nbsp;&nbsp;
                     </span>
-                    <div flex="none" ng-if="$ctrl.activity.distance">
-                        {{$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
-                        {{'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
+                    <div flex="none" ng-if="::$ctrl.activity.distance">
+                        {{::$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
+                        {{::'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
                     </div>
                 </section>
             </div>
@@ -48,6 +48,12 @@
                             <span translate="activity.action.copy"></span>
                         </md-button>
                     </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.activity.hasActualData">
+                        <md-button ng-click="$ctrl.split()">
+                            <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>
+                            <span translate="activity.action.split"></span>
+                        </md-button>
+                    </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="$ctrl.delete()"
                                    ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
@@ -65,16 +71,20 @@
              ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="calendar-item-activity-header {{::$ctrl.activity.status}}"
+                dnd-list="items"
+                dnd-drop="callback({operation: 'merge', trgDate: $ctrl.activity.dateStart, trgItem: $ctrl.activity})"
+                dnd-allowed-types="['itemType']"
                 ng-class="{selected: $ctrl.selected}">
+            <div flex="none" class="dropzone" ng-repeat="item in [0]"></div>
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
-            <section layout="row" layout-align="space-between center">
+            <section class="first-row" layout="row" layout-align="space-between center">
                 <div flex="25" class="percent md-caption tight-07">
                     <span>{{$ctrl.activity.percent / 100 | stPercent}}</span>
                 </div>
 
                 <div flex="none" layout="row" layout-align="center center"
                      class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
-                     ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
+                     ng-class="{color: !$ctrl.activity.isCompleted}">
                     <md-icon class="material-icons md-light" aria-label="icon"
                              md-svg-src="{{::$ctrl.activity.header.sportUrl}}">
                     </md-icon>
@@ -98,6 +108,13 @@
                                 <span translate="activity.action.copy"></span>
                             </md-button>
                         </md-menu-item>
+                        <md-menu-item ng-if="$ctrl.activity.hasActualData && $ctrl.activity.isSpecified">
+                            <md-button ng-click="$ctrl.split($ctrl.item)">
+                                <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>
+                                <span translate="activity.action.split"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-divider></md-divider>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.delete()"
                                        ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
@@ -111,16 +128,16 @@
             </section>
             <!-- Вторая строка: Категория тренировки -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
-                     class="md-caption center">
+                     ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
+                     class="second-row md-caption center">
                 <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
                      ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}">
                 </div>
             </section>
             <!-- Третья строка: Время и Расстояние -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}"
-                     class="md-title-small center tight-10">
+                     ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
+                     class="third-row md-title-small center tight-10">
                 <span flex="none" ng-if="::$ctrl.activity.movingDurationApprox">~</span>
                 <span flex="none" ng-if="::$ctrl.activity.movingDuration">
                     {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}
@@ -132,7 +149,8 @@
                     {{::'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
                 </div>
             </section>
-            <calendar-activity-chart flex="none" hide show-gt-sm
+            <calendar-activity-chart class="chart"
+                                     flex="none" hide show-gt-sm
                                      ng-if="::$ctrl.segmentChart"
                                      data="::$ctrl.segmentChart"
                                      status="::$ctrl.activity.status">
@@ -185,7 +203,7 @@
              ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="calendar-item-activity-header {{::$ctrl.activity.status}} dashboard-view" layout="row"
-                ng-class="{selected: $ctrl.selected, 'md-dark': !($ctrl.activity.isCompleted || $ctrl.activity.isDismissed)}">
+                ng-class="{selected: $ctrl.selected, 'md-dark': ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}">
             <section flex="none" class="first-column" layout="column">
                 <div flex="none" layout="row" layout-align="center center"
                      class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"

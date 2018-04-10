@@ -51,6 +51,7 @@ export class DashboardCtrl implements IComponentController {
     private buffer: Array<ICalendarItem> = [];
     private firstSrcDay: string;
     private range: Array<number> = [0,0];
+    private isLoadingData: boolean = true;
 
     static $inject = ['$scope','$mdDialog','CalendarService','SessionService', 'message','storage','dialogs'];
 
@@ -237,6 +238,7 @@ export class DashboardCtrl implements IComponentController {
             this.dashboard = this.cache.filter(d => d.sid === this.currentWeek)[0];
             //this.$scope.$apply();
         } else {
+            this.isLoadingData = true;
             this.calendar.getCalendarItem(start.format(this.dateFormat), end.format(this.dateFormat),null,this.groupId)
                 .then((response:Array<ICalendarItem>) => {
                     this.cache.push({
@@ -271,8 +273,9 @@ export class DashboardCtrl implements IComponentController {
                         }
                     });
                     this.dashboard = this.cache.filter(d => d.sid === this.currentWeek)[0];
-                    this.$scope.$apply();
-                }, error => console.error(error));
+                }, error => console.error(error))
+                .then(_ => this.isLoadingData = false)
+                .then(_ => this.$scope.$applyAsync());
         }
     }
 

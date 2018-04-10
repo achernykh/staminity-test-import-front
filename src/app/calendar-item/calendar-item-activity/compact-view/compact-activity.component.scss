@@ -25,8 +25,28 @@
     padding: 8px 12px 8px 12px;
   }
 
+  .dropzone {
+    display: none;
+  }
+
+  header[dnd-list].dndDragover {
+    .dropzone { display: block; }
+    .first-row, .second-row, .third-row, .chart {  display: none; }
+  }
+
+  /**
+    * An element with .dndPlaceholder class will be
+    * added to the dnd-list while the user is dragging
+    * over it.
+    */
+  header[dnd-list] .dndPlaceholder {
+    min-height: 48px;
+    margin: 8px 0;
+    background: rgba(0,0,0,0.3);
+  }
+
   &__calendar {
-    background-color: $grey-300;
+    //background-color: $grey-300;
     margin: 6px 0 0 0;
     &:focus {
       outline: none !important;

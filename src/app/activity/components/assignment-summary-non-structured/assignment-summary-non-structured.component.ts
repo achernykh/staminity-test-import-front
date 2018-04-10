@@ -181,9 +181,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (zones.hasOwnProperty(measure) && zones[measure].hasOwnProperty('default') && zones[measure]['default']['FTP']) || null;
     }
 
-    changeValue(key) {
-        if(!!!key) {
-            return;
+    changeValue(key: string, segment: 'actual' | 'plan' = null) {
+        if(!!!key) {return;}
+        if (segment === 'actual' && this.item.activity.hasActualData) {
+            this.item.activity.intervals.W.actualDataIsCorrected = true;
         }
         this.clearTemplate();
         this.validateForm();

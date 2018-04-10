@@ -10,6 +10,9 @@ import ReferenceService from "../reference.service";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters, templatesFilters } from "../reference.datamodel";
 import { Subject } from "rxjs/Rx";
 import { ICalendarItem } from "@api/calendar";
+import {CalendarItemDialogService} from "@app/calendar-item/calendar-item-dialog.service";
+import {ICalendarItemDialogOptions} from "@app/calendar-item/calendar-item-dialog.interface";
+import {FormMode} from "../../application.interface";
 
 class TemplateListCtrl implements IComponentController {
 
@@ -32,13 +35,15 @@ class TemplateListCtrl implements IComponentController {
         activityType: activityTypes[0],
         category: null
     };
+    private dialogOptions: ICalendarItemDialogOptions;
 
     // inject
-    static $inject = ['$scope', 'ReferenceService'];
+    static $inject = ['$scope', 'ReferenceService', 'CalendarItemDialogService'];
 
     constructor (
         private $scope: IScope,
-        private referenceService: ReferenceService) {
+        private referenceService: ReferenceService,
+        private calendarDialog: CalendarItemDialogService) {
 
     }
 
@@ -62,6 +67,22 @@ class TemplateListCtrl implements IComponentController {
             });
 
         this.updateFilterParams();
+
+        this.dialogOptions = {
+            currentUser: this.currentUser,
+            owner: this.currentUser,
+            popupMode: true,
+            formMode: FormMode.Post,
+            trainingPlanMode: false,
+            templateMode: true,
+            templateOptions: {
+                templateId: null,
+                code: null,
+                visible: true,
+                favourite: false,
+                groupProfile: this.club
+            }
+        };
     }
 
     $onChanges () {
@@ -97,9 +118,12 @@ class TemplateListCtrl implements IComponentController {
         this.onDrop({template: srcItem, date: trgDate});
     }
 
-
-
+    post (e: Event): void {
+        this.calendarDialog.activity(e, this.dialogOptions).then(response => {});
     }
+
+
+}
 
 const TemplateListComponent: IComponentOptions = {
     bindings: {

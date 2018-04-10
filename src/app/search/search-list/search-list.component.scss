@@ -1,0 +1,56 @@
+@import "../../../sass/color";
+
+.search-list {
+  &__loading, &__empty {
+    height: calc(100vh - 64px - 48px - 16px);
+    md-icon {
+      margin: 16px;
+    }
+  }
+  &__data {
+    height: calc(100vh - 64px - 48px - 16px);
+    max-height: calc(100vh - 64px - 48px - 16px);
+    width: calc(100% - 32px);
+    margin: 16px 16px 0 16px;
+    border-radius: 3px 3px 0 0;
+    background-color: $grey-200;
+
+    &.card-layout {
+      height: auto;
+      max-height: auto;
+      width: auto;
+      margin: 0;
+      border-radius: 0;
+      background: none !important;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      @media (min-width:  960px) {  grid-template-columns: repeat(2, 1fr); }
+      @media (min-width: 1280px) {  grid-template-columns: repeat(3, 1fr); }
+      @media (min-width: 1920px) {  grid-template-columns: repeat(5, 1fr); }
+    }
+    .card {
+      grid-column-end: span 1;
+      grid-row-end: span 1;
+      overflow: hidden;
+      .md-subhead {margin: 0;}
+      .md-user-avatar {height: 100%; width: 100%}
+      md-card-header-text {overflow: hidden;}
+      md-card-title-text {overflow: hidden;}
+
+      .md-card-image {
+        background-color: $grey-200;
+        height: 150px;
+        object-fit: cover;
+      }
+    }
+    md-list {
+      width: calc(100% - 16px);
+      md-list-item {
+        border-bottom: 1px solid $grey-400;
+      }
+    }
+  }
+}

@@ -61,7 +61,7 @@
     </md-list-item>-->
 </md-list>
 <md-list class="md-dense" ng-if="$ctrl.item.activity.header.sport">
-    <md-subheader>
+    <md-subheader ng-if="false">
         <span translate="activity.trainersPrescription"></span>
     </md-subheader>
     <ng-quill-editor ng-model="$ctrl.plan.trainersPrescription"

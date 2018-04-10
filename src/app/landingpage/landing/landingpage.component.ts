@@ -1,4 +1,4 @@
-import { IComponentController, IComponentOptions} from "angular";
+import { IComponentController, IComponentOptions, ILocationService} from "angular";
 import {StateService} from "@uirouter/angularjs";
 import { Observable } from "rxjs/Observable";
 import {IUserProfile} from "../../../../api";
@@ -6,6 +6,7 @@ import {IAuthService} from "../../auth/auth.service";
 import {SessionService} from "../../core";
 import DisplayService from "../../core/display.service";
 import "./landingpage.component.scss";
+import { saveUtmParams } from "../../share/location/utm.functions";
 
 class LandingPageCtrl implements IComponentController {
 
@@ -15,14 +16,16 @@ class LandingPageCtrl implements IComponentController {
         club: ["lp-club-01.png"],
     };
 
-    static $inject = ["AuthService", "$state", "SessionService", "DisplayService", '$mdMedia'];
+    static $inject = ["AuthService", "$state", "SessionService", "DisplayService", '$mdMedia', '$location'];
 
     constructor(private AuthService: IAuthService,
                 private $state: StateService,
                 private SessionService: SessionService,
                 private display: DisplayService,
-                private $mdMedia: any) {
+                private $mdMedia: any,
+                private $location: ILocationService) {
 
+        saveUtmParams($location.search());
     }
 
     get user(): IUserProfile {

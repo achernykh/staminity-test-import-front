@@ -39,6 +39,11 @@ export class ActivityHeaderCtrl implements IComponentController {
         this.item.structuredMode = !this.item.structuredMode;
     }
 
+    changeLayout (key: string): void {
+        this.item.layout[key] = !this.item.layout[key];
+        window.localStorage.setItem(key, JSON.stringify(this.item.layout[key]));
+    }
+
     get isIonic (): boolean {
         return window.hasOwnProperty('ionic');
     }

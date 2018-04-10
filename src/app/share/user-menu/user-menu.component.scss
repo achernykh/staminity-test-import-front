@@ -1,0 +1,10 @@
+.user-menu {
+  .avatar__40 {
+    cursor: pointer;
+    background-size: cover;
+    background-color: darkgrey;
+    &:focus {
+      outline: none;
+    }
+  }
+}

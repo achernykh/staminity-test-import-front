@@ -3,6 +3,8 @@ import {StateService} from "@uirouter/angularjs";
 import moment from "moment/min/moment-with-locales.js";
 import "./landing-tariffs.component.scss";
 import {landingTariffsData} from "./landing-tariffs.constants";
+import { SessionService, getUser } from "../../core/session/session.service";
+import { saveUtmParams } from "../../share/location/utm.functions";
 
 interface TariffCalc {
     premium: boolean;
@@ -30,29 +32,35 @@ class LandingTariffsCtrl implements IComponentController {
     private coachByUser: number;
     private athleteByCoach: number;
 
-    private readonly country: string = "ru";
+    private country: string = "en";
 
-    static $inject = ["$scope", "$location", "$state"];
+    static $inject = ["$scope", "$location", "$state", 'SessionService'];
 
     constructor(
         private $scope: IScope,
         private $location: ILocationService,
-        private $state: StateService) {
+        private $state: StateService,
+        private session: SessionService) {
+
+        saveUtmParams($location.search());
 
     }
 
     $onInit() {
         this.selectedTab = this.$location.search().tab || "month";
-        /**if(this.selectedTab === 'calculator') {
-            Object.assign(this.calc, this.$location.search());
-            this.$scope.$apply();
-        }**/
-
-        this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[this.country].month;
-        this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.premium;
-        this.coachByUser = this.price.filter((t) => t.name === "coach")[0].fee.subscription[this.country].month;
-        this.athleteByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.athlete;
+        this.getPrice();
     }
+
+    getPrice(): void {
+        this.session.getObservable().map(getUser).subscribe(profile => {
+            this.country = profile && profile.display.language || navigator.language.substr(0,2);
+            this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[this.country].month;
+            this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.premium;
+            this.coachByUser = this.price.filter((t) => t.name === "coach")[0].fee.subscription[this.country].month;
+            this.athleteByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.athlete;
+        });
+    }
+
 
     onChangeTab(tab: string): void {
         this.selectedTab = tab;

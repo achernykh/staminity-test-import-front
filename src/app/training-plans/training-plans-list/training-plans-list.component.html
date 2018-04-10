@@ -29,7 +29,7 @@
         <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
             <md-icon class="material-icons">landscape</md-icon>
         </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)" ng-if="false">
+        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
             <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
             <span translate="trainingPlans.actions.assignment"></span>
         </md-button>
@@ -50,7 +50,7 @@
                         <span translate="trainingPlans.actions.calendar"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="false">
+                <md-menu-item>
                     <md-button ng-click="$ctrl.assignment($event, plan)">
                         <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
                         <span translate="trainingPlans.actions.appoint"></span>

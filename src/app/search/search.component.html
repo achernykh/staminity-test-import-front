@@ -1,4 +1,83 @@
-<div class="application">
+<st-application-frame
+    class="search st-application-frame"
+    template="application"
+    left-bar="$ctrl.showLeftBar()"
+    nav-bar-state="$ctrl.currentState"
+    ng-switch="$ctrl.currentState"
+    ng-class="{'nav-bar': $ctrl.authCheck(), 'left-bar-show': $ctrl.showLeftBar()}"
+    nav-bar="true">
+
+    <st-application-frame-title>
+        <span class="md-title"
+              translate="{{$ctrl.$mdMedia('gt-sm') ? 'search.fullTitle' : 'search.shortTitle'}}">
+        </span>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm layout="row" layout-align="start center">
+            <md-button ng-click="$ctrl.filter()" class="md-icon-button" layout="row" aria-label="Settings"
+                       style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Filter">filter_list</md-icon>
+                <span
+                    translate="{{$ctrl.leftPanel ? 'search.actions.hidePanel' : 'search.actions.showPanel'}}"></span>
+            </md-button>
+        </section>
+        <section class="mobile" hide show-xs show-sm>
+            <md-button ng-click="$ctrl.filter()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Filter">filter_list</md-icon>
+            </md-button>
+        </section>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-navbar layout="row">
+        <md-nav-item ng-repeat="state in $ctrl.navBarStates track by $index"
+                     md-nav-click="$ctrl.setState(state)" name="{{::state}}">
+            <span translate="search.tabs.{{::state}}"></span>
+        </md-nav-item>
+    </st-application-frame-navbar>
+
+    <!-- Поиск пользователей -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'users'">
+        <st-search-filter
+            class="search__filter"
+            filter="$ctrl.usersFilter"
+            view="search"
+            on-change-filter="$ctrl.changeUsersFilter(filter)">
+        </st-search-filter>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="users">
+        <section flex="auto" class="search__content">
+            <st-search-list
+                search-params="$ctrl.usersFilter"
+                card-view="false"
+                update="$ctrl.usersFilterChange"/>
+        </section>
+    </st-application-frame-content>
+
+    <!-- Поиск тренеров -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'coaches'">
+        <st-search-filter
+            class="search__filter"
+            filter="$ctrl.coachesFilter"
+            view="search"
+            on-change-filter="$ctrl.changeCoachesFilter(filter)">
+        </st-search-filter>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="coaches">
+        <section flex="auto" class="search__content">
+            <st-search-list
+                search-params="$ctrl.coachesAndClubsFilter"
+                card-view="true"
+                update="$ctrl.coachesFilterChange"/>
+        </section>
+    </st-application-frame-content>
+
+</st-application-frame>
+
+
+<!--<div class="application">
     <div hide-md class="margin-left"></div>
     <section class="application-body" layout-gt-md="row" layout="column">
         <div flex="none" class="search-filter bg-grey-200">
@@ -37,8 +116,7 @@
         </div>
         <div flex="auto" class="search-result bg-grey-200"
              ng-if="!$ctrl.result || $ctrl.result.length === 0" layout="column" layout-align="center center" layout-fill>
-            <!--<md-icon flex="none" class="material-icons s64">search</md-icon>
-            <div flex="none" class="md-body-2" translate>Данных для просмотра нет<br>Нажмите Посик для получения </div>-->
+
         </div>
         <div flex="auto" class="search-result bg-grey-200"
              ng-if="$ctrl.result && $ctrl.result.length>0" ng-switch on="$ctrl.params.objectType">
@@ -153,7 +231,7 @@
                             <avatar-pic type="club.type"
                                         avatar="club.avatar"
                                         class="md-avatar border-light size-60"></avatar-pic>
-                            <!--<userpic flex="none" class="border-light size-60" profile="user" unlink="false"></userpic>-->
+
                         </md-card-header>
                         <md-card-content flex class="md-body-1 md-dark" layout="column">
                             <p flex="auto">{{club.about | htmlToPlainText}}</p>
@@ -176,4 +254,4 @@
     </section>
     <div hide-md class="margin-right">
     </div>
-</div>
+</div>-->

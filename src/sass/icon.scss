@@ -24,6 +24,13 @@
 
 
 // размеры иконок
+md-icon.s14, img.s14 {
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+}
+
 md-icon.s16, img.s16 {
 	width: 16px;
 	height: 16px;
@@ -118,6 +125,11 @@ md-icon {
 	&.fill-measure.speed {
 		svg {
 			fill: #2196F3 !important;
+		}
+	}
+	&.fill-measure.cadence, &.fill-measure.strokes {
+		svg {
+			fill: #FFB74D !important;
 		}
 	}
 	&.md-dark {

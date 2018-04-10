@@ -4,7 +4,7 @@
                 <p ng-repeat="measure in $ctrl.measures track by $index"
                    class="{{measure}}"></p> -->
                 <p class="elapsedDuration" ng-if="$ctrl.measures.hasOwnProperty('elapsedDuration')"></p>
-                <p class="distance" ng-if="$ctrl.measures.hasOwnProperty('distance')"></p>
+                <p class="distance" ng-if="$ctrl.measures.hasOwnProperty('distance')" translate></p>
                 <p class="heartRate" ng-if="$ctrl.measures.hasOwnProperty('heartRate')">
                         <span class="value"></span>
                         <span class="unit">{{'heartRate' | measureUnit:$ctrl.sport | translate}}</span></p>
@@ -14,6 +14,12 @@
                 <p class="power" ng-if="$ctrl.measures.hasOwnProperty('power')">
                         <span class="value"></span>
                         <span class="unit">{{'power' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="cadence" ng-if="$ctrl.measures.hasOwnProperty('cadence')">
+                    <span class="value"></span>
+                    <span class="unit">{{'cadence' | measureUnit:$ctrl.sport | translate}}</span></p>
+                <p class="strokes" ng-if="$ctrl.measures.hasOwnProperty('strokes')">
+                    <span class="value"></span>
+                    <span class="unit">{{'strokes' | measureUnit:$ctrl.sport | translate}}</span></p>
                 <p class="altitude" ng-if="$ctrl.measures.hasOwnProperty('altitude')">
                         <span class="value"></span>
                         <span class="unit">{{'altitude' | measureUnit:$ctrl.sport | translate}}</span></p>

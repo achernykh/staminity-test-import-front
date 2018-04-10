@@ -1,4 +1,5 @@
 import './training-plan-form.component.scss';
+import moment from 'moment/min/moment-with-locales.js';
 import { IComponentOptions, IComponentController, IPromise, INgModelController, copy} from 'angular';
 import MessageService from "@app/core/message.service";
 import { FormMode } from "../../application.interface";
@@ -15,29 +16,40 @@ class TrainingPlanFormCtrl implements IComponentController {
     data: TrainingPlan;
     mode: FormMode;
     onSave: (response: { mode: FormMode, plan: TrainingPlan }) => IPromise<void>;
+    onCancel: () => Promise<any>;
 
     // private
     private plan: TrainingPlan;
     private planForm: INgModelController;
+    private dataLoading: boolean = false;
 
     //inject
-    static $inject = [ 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig', 'CompetitionConfig'];
+    static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig',
+        'CompetitionConfig', 'dialogs'];
 
-    constructor (private trainingPlanService: TrainingPlansService,
+    constructor (private $scope,
+                 private trainingPlanService: TrainingPlansService,
                  private config: TrainingPlanConfig,
                  private message: MessageService,
                  private quillConf: IQuillConfig,
-                 private competitionConfig: ICompetitionConfig) {
+                 private competitionConfig: ICompetitionConfig,
+                 private dialogs) {
+
+        $scope.onlyFirstPlanDaysPredicate = (date: Date) => this.onlyFirstPlanDaysPredicate(date);
 
     }
 
     $onInit () {
-        debugger;
-        this.plan = new TrainingPlan(copy(this.data)); //Object.assign({}, this.plan);//deepCopy(this.plan);
-        this.getPlanDetails();
+
+        if (this.mode === FormMode.Post) {
+            this.plan = new TrainingPlan();
+            this.dataLoading = true;
+        } else {
+            this.getPlanDetails();
+        }
     }
 
-    save () {
+    save (): void {
         if (this.mode === FormMode.Post) {
             this.trainingPlanService
                 .post(this.plan.apiObject())
@@ -59,6 +71,23 @@ class TrainingPlanFormCtrl implements IComponentController {
         }
     }
 
+    publish (): void {
+        this.trainingPlanService.publish(this.plan.id, null)
+            .then(response => {
+                this.message.toastInfo('');
+            }, error => this.message.toastInfo(error));
+    }
+
+    setAvatar (): void {
+        this.dialogs.uploadPicture()
+            .then();
+    }
+
+    setBackground (): void {
+        this.dialogs.uploadPicture()
+            .then();
+    }
+
     get distanceType () : any {
         return this.plan && this.competitionConfig.distanceTypes.find((t) => t.type === this.plan.type && t.code === this.plan.distanceType);
     }
@@ -71,10 +100,22 @@ class TrainingPlanFormCtrl implements IComponentController {
         this.mode = FormMode.Put;
     }
 
+    private onlyFirstPlanDaysPredicate (date: Date): boolean {
+        return date.getDay() === moment().startOf('week').toDate().getDay();
+    };
+
     private getPlanDetails (): void {
-        if ( this.mode === FormMode.Post || this.plan.hasOwnProperty('calendarItems') ) { return; }
-        this.trainingPlanService.get(this.plan.id)
-            .then(result => this.plan = new TrainingPlan(result), error => {debugger;});
+        //if ( this.mode === FormMode.Post /**|| this.plan.hasOwnProperty('calendarItems')**/ ) { return; }
+        this.trainingPlanService.get(this.data.id)
+            .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(() => this.trainingPlanService.getAssignment(this.plan.id))
+            .then(result => this.plan.assignmentList = [...result.arrayResult], error => this.errorHandler(error))
+            .then(() => this.dataLoading = true);
+    }
+
+    errorHandler (error: string): void {
+        this.message.toastError(error);
+        this.onCancel();
     }
 
     private toggle (item, list): void {

@@ -14,7 +14,7 @@
                         $ctrl.deleteTrainingPlanRecord()"
                                    ng-disabled="$ctrl.record.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                            <span translate="activity.toolbar.delete"></span>
+                            <span translate="activity.action.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
@@ -38,13 +38,13 @@
                     <md-menu-item ng-if="$ctrl.record.isRepeated">
                         <md-button ng-click="" ng-disabled="true">
                             <md-icon class="material-icons" md-menu-align-target>settings</md-icon>
-                            <span translate="activity.toolbar.settings"></span>
+                            <span translate="activity.action.settings"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="::$ctrl.currentUser.connections.hasOwnProperty('allAthletes')">
                         <md-button ng-click="$ctrl.showSelectAthletes = true">
                             <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
-                            <span translate="activity.toolbar.multiAthletes"></span>
+                            <span translate="activity.action.addAthletes"></span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -116,14 +116,19 @@
                        translate="activity.dynamicDate"
                        translate-values="{week: $ctrl.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.options.trainingPlanOptions.dayNumber + 1}"></p>
                 </md-list-item>
+                <!-- Переключатель повторения события -->
                 <md-list-item ng-if="!$ctrl.record.view.isView">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">repeat</md-icon>
                     <p translate="record.isRepeated"></p>
                     <md-switch class="md-secondary md-primary"
                                ng-model="$ctrl.record.isRepeated"
                                ng-change="$ctrl.changeRepeatMode()"
+                               ng-disabled="$ctrl.record.planItemId"
                                md-invert>
                 </md-list-item>
+                <div class="hint" style="margin-left: 60px" ng-if="$ctrl.record.planItemId"
+                     translate="record.disableEditPlanItem">
+                </div>
                 <md-list-item ng-if="$ctrl.record.isRepeated" class="margin-top-8">
                     <md-input-container class="md-block no-message" layout="row">
                         <label translate="record.period.label"></label>
@@ -248,13 +253,13 @@
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
                    ng-click="$ctrl.record.view.isPut = true">
-            <span translate="activity.edit"></span>
+            <span translate="activity.action.edit"></span>
         </md-button>
         <md-button ng-if="!$ctrl.record.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
                    ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
                    ng-click="($ctrl.recordForm.$valid) ? $ctrl.onSave() : null">
-            <span translate="activity.save"></span>
+            <span translate="activity.action.save"></span>
         </md-button>
     </md-dialog-actions>
     <!-- Тренировочный план -->
@@ -265,7 +270,7 @@
                    type="submit"
                    ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
                    ng-disabled="($ctrl.record.view.isPut && !$ctrl.recordForm.$dirty) || $ctrl.inAction"
-                   translate="activity.save"
+                   translate="activity.action.save"
                    ng-click="$ctrl.recordForm.$valid ? $ctrl.saveTrainingPlanRecord() : null">
         </md-button>
     </md-dialog-actions>

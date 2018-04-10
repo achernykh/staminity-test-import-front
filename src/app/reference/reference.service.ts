@@ -28,7 +28,7 @@ export default class ReferenceService {
 	public resetCategories = () => {
 		this.getActivityCategories(undefined, false, true)
 			.then((categories) => {
-				this.categories = categories.map(c => this.setIndex(c)) as Array<IActivityCategory>;
+				this.categories = Array.isArray(categories) && categories.map(c => this.setIndex(c)) as Array<IActivityCategory> || [];
 				this.categoriesChanges.next(this.categories);
 			});
 	}
@@ -44,7 +44,7 @@ export default class ReferenceService {
 	public resetTemplates = () => {
 		this.getActivityTemplates(undefined, undefined, false, false)
 			.then((templates) => {
-				this.templates = templates.map(c => this.setIndex(c)) as Array<IActivityTemplate>;
+				this.templates = Array.isArray(templates) && templates.map(c => this.setIndex(c)) as Array<IActivityTemplate> || [];
 				this.templatesChanges.next(this.templates);
 			});
 	}

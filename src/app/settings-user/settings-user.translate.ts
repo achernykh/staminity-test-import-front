@@ -2,12 +2,15 @@ export const _translate = {
     ru: {
         fullTitle: 'Настройки пользователя',
         shortTitle: 'Настройки',
+        actions: {
+            edit: 'Изменить',
+            resetPass: 'Новый пароль'
+        },
         personalInfo: {
             header: 'Персональная информация',
             hint: 'Подсказка, пояснение по блоку информации...',
             coachProfileIncomplete: 'Ваш профиль тренера не заполнен и недоступен в поиске. Проверьте выполнение следующих условий:' +
             '<li>Установлена фотография</li>' +
-            '<li>Указаны страна и город</li>' +
             '<li>Заполнена информация "О себе"</li>' +
             '<li>Указаны условия занятий</li>' +
             '<li>Указана контактная информация</li>' +
@@ -18,6 +21,7 @@ export const _translate = {
                 lastName: 'Фамилия',
                 sex: 'Пол',
                 birthday: 'День рождения',
+                birthdayLabel: 'День рождения в формате ',
                 country: 'Страна',
                 city: 'Город',
                 uri: 'Ваш профиль: staminity.com/user/'
@@ -104,7 +108,8 @@ export const _translate = {
             header: 'Учетная запись',
             hint: 'Пояснение, подсказка....',
             email: 'Логин',
-            password: 'Пароль'
+            password: 'Пароль',
+            info: 'Ваша учетная запись'
         },
         billing: {
             tariffsHeader: 'Тарифные планы',
@@ -286,6 +291,15 @@ export const _translate = {
             autoPayment: 'Оплачивать автоматически'
         },
         sync: {
+            account: {
+                placeholder: 'Учетная запись'
+            },
+            password: {
+                placeholder: 'Пароль'
+            },
+            startDate: {
+                hint: 'Если начальная дата не указана, то будет выполнена загрузка всех тренировок'
+            },
             header: 'Настройка интеграции',
             garmin: 'Garmin Connect',
             strava: 'Strava',
@@ -325,7 +339,7 @@ export const _translate = {
         zones: {
             header: 'Тренировочные зоны',
             hint: 'Подсказка, пояснение по блоку информации...',
-
+            measures: 'Показатели',
             addSport: 'Добавить спорт',
             editZones: 'Изменить зоны',
             deleteZones: 'Удалить зоны',
@@ -428,12 +442,15 @@ export const _translate = {
     en: {
         fullTitle: 'User settings',
         shortTitle: 'settings',
+        actions: {
+            edit: 'Edit',
+            resetPass: 'New password'
+        },
         personalInfo: {
             header: 'Personal info',
             hint: '',
             coachProfileIncomplete: 'Your coach profile is incomplete and not available for search. Please check you set the following info:' +
             '<li>Upload profile photo</li>' +
-            '<li>Country and City</li>' +
             '<li>About you</li>' +
             '<li>Conditions</li>' +
             '<li>Contacts for new athletes</li>' +
@@ -444,6 +461,7 @@ export const _translate = {
                 lastName: 'Last name',
                 sex: 'Sex',
                 birthday: 'Birthday',
+                birthdayLabel: 'Set birthday as ',
                 country: 'Country',
                 city: 'City',
                 uri: 'Your profile: staminity.com/user/'
@@ -529,7 +547,8 @@ export const _translate = {
             header: 'Account',
             hint: 'Account',
             email: 'E-mail',
-            password: 'Password'
+            password: 'Password',
+            info: 'Your account'
         },
         billing: {
             tariffsHeader: 'Tariffs',
@@ -704,6 +723,15 @@ You will lost your tariff functions from [{{validThrough}}], after the end of pr
             autoPayment: 'Charge automatically'
         },
         sync: {
+            account: {
+                placeholder: 'Provider account'
+            },
+            password: {
+                placeholder: 'Password'
+            },
+            startDate: {
+                hint: 'If the start date is not specified, then all activities will be sync'
+            },
             header: 'Syncronisation settings',
             garmin: 'Garmin Connect',
             strava: 'Strava',
@@ -743,7 +771,7 @@ You will lost your tariff functions from [{{validThrough}}], after the end of pr
         zones: {
             header: 'Training zones',
             hint: 'Training zones',
-
+            measures: 'Measures',
             addSport: 'Add activity type',
             editZones: 'Change zones',
             deleteZones: 'Delete zones',
@@ -752,7 +780,7 @@ You will lost your tariff functions from [{{validThrough}}], after the end of pr
             zoneTo: 'To',
 
             calculation: {
-                method: 'Method',
+                method: 'Calculation method',
                 choose: 'Choose available method',
                 lactateThreshold: 'FTP',
                 restingAndMax: 'Min and max',

@@ -38,6 +38,8 @@ class AthletesCtrl implements IComponentController {
         ]) (management.members);
     });
 
+    private showSearch: boolean = false;
+
     static $inject = ["$scope", "$mdDialog", "$translate", "GroupService", "AthletesService", "dialogs", "$mdMedia", "$mdBottomSheet", "SystemMessageService", "GroupService"];
 
     constructor(

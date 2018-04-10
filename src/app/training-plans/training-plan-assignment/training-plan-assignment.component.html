@@ -1,21 +1,43 @@
 <section layout="column" layout-align="center center" layout-fill
-         ng-if="!$ctrl.dataExist">
+         ng-if="!$ctrl.dataLoading">
     <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
     <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
 </section>
+<!-- Отстутсвуют данные для присовения -->
+<section layout="column" layout-align="center center" layout-fill
+         ng-if="$ctrl.dataLoading && !$ctrl.plan.hasCalendarItems">
+    <md-toolbar class="md-default">
+        <div class="md-toolbar-tools">
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div flex="auto" layout="column" layout-align="center center" style="width: 100%">
+        <md-icon flex="none" style="margin: 0" class="material-icons">event_busy</md-icon>
+        <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.planDontHaveItemsForAssignment"></p>
+    </div>
+    <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%">
+        <span flex></span>
+        <md-button ng-click="$ctrl.onCancel()">
+            <span translate="trainingPlans.assignment.action.close"></span>
+        </md-button>
+    </md-dialog-actions>
+</section>
 <!-- Форма просмотра имеющихся присвоений тренировочного плана -->
 <st-training-plan-assignment-list layout="column" layout-fill
-                                  ng-if="$ctrl.dataExist && $ctrl.isListState"
+                                  ng-if="$ctrl.dataLoading && $ctrl.plan.hasCalendarItems && $ctrl.isListState"
                                   class="training-plan-assignment-list"
                                   plan="$ctrl.plan"
                                   on-form="$ctrl.setFormData(assign)"
                                   on-cancel="$ctrl.onCancel()">
 
 </st-training-plan-assignment-list>
-
 <!-- Форма редактировани / создания присвоения-->
 <st-training-plan-assignment-form layout="column" layout-fill
-                                  ng-if="$ctrl.dataExist && $ctrl.isFormState"
+                                  ng-if="$ctrl.dataLoading && $ctrl.plan.hasCalendarItems && $ctrl.isFormState"
                                   class="training-plan-assignment-form"
                                   plan="$ctrl.plan"
                                   assign="$ctrl.assign"

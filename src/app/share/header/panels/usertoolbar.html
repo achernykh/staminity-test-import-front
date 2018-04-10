@@ -21,14 +21,8 @@
         <span class="badge superscript" ng-if="$ctrl.requests > 0">{{$ctrl.requests}}</span>
     </md-button>
 
-    <div hide show-gt-sm layout="row" class="user-frame">
-        <div flex="none"
-             class="avatar mini"
-             style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
-        <div flex class="user-name"
-             class="md-body">{{$ctrl.user | username: 'short'}}</div>
-        <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId"></user-menu>
-    </div>
+    <user-menu id="$ctrl.user.public.uri || $ctrl.user.userId">
+    </user-menu>
 </div>
 <div layout="row" layout-align="end center" layout-fill ng-if="!$ctrl.AuthService.isAuthenticated()">
     <a ui-sref="signin({ nextState: '{{::$ctrl.$state.$current.name}}', nextParams: {{::$ctrl.$state.params}} })" class="button" translate>landing.nav.signIn</a>

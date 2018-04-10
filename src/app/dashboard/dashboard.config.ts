@@ -22,7 +22,7 @@ function configure($stateProvider: StateProvider,
                     group.getManagementProfile(groupId , "coach")],
             },
             views: {
-                "background": {
+                /**"background": {
                     component: "staminityBackground",
                     bindings: {
                         view: "view.background",
@@ -33,12 +33,9 @@ function configure($stateProvider: StateProvider,
                     bindings: {
                         view: "view.header",
                     },
-                },
+                },**/
                 "application": {
                     component: "dashboard",
-                    bindings: {
-                        view: "view.application",
-                    },
                 },
             },
         } as StateDeclaration)
@@ -58,7 +55,7 @@ function configure($stateProvider: StateProvider,
                     })],
             },
             views: {
-                "background": {
+                /**"background": {
                     component: "staminityBackground",
                     bindings: {
                         view: "view.background",
@@ -69,12 +66,9 @@ function configure($stateProvider: StateProvider,
                     bindings: {
                         view: "view.header",
                     },
-                },
+                },**/
                 "application": {
                     component: "dashboard",
-                    bindings: {
-                        view: "view.application",
-                    },
                 },
             },
         } as StateDeclaration);

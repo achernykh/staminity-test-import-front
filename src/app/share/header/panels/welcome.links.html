@@ -1,9 +1,9 @@
 <div flex="auto" layout="row" layout-align="end center">
-    <div flex="none" layout="row" hide-xs>
+    <div flex="none" layout="row">
         <!--<a href="#" translate>landing.nav.link1</a>-->
-        <a href="http://blog.staminity.com" target="_blank" translate>landing.nav.link2</a>
+        <a hide-xs href="http://blog.staminity.com" target="_blank" translate>landing.nav.link2</a>
         <a ui-sref="tariffs" translate="landing.nav.link3"></a>
-        <a href="https://help.staminity.com/ru" target="_blank" translate>landing.nav.link4</a>
+        <a hide-xs href="https://help.staminity.com/ru" target="_blank" translate>landing.nav.link4</a>
     </div>
     <div flex="none">
         <a ng-if="!$ctrl.AuthService.isAuthenticated()" ui-sref="signin" class="button" translate>landing.nav.signIn</a>

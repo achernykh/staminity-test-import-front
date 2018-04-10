@@ -64,13 +64,14 @@ const ActivityPeaksComponent: IComponentOptions = {
     controller: ActivityPeaksCtrl,
     template: `
         <md-list class="md-dense">
-            <md-list-item>
-                <p>Пики</p>
-                <md-button ng-repeat="measure in $ctrl.measures track by $index" class="md-icon-button md-secondary" ng-click="$ctrl.setFilter(measure)">
-                    <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
-                </md-button>
-
-            </md-list-item>
+            <md-subheader>
+                <div layout="row">
+                    <span flex translate="activity.details.peaks.title" style="line-height: 40px"></span>
+                    <md-button ng-repeat="measure in $ctrl.measures track by $index" class="md-icon-button md-secondary" ng-click="$ctrl.setFilter(measure)">
+                        <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active" ></md-icon>
+                    </md-button>
+                </div>
+            </md-subheader>
             <md-list-item class="peaks" ng-repeat-start="category in $ctrl.peaks | filter:filter">
                 <div class="peak" ng-repeat="peak in category.value track by $index" ng-if="peak.value">
                     <md-button class="md-exclude">

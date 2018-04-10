@@ -11,7 +11,7 @@ const Management = module("staminity.management", ["ngMaterial", "staminity.shar
     .service("ManagementService", ManagementService)
     .filter("clubRoleMembership", roleMembershipFilter)
     .filter("clubMembersFilters", membersFiltersFilter)
-    .component("management", ManagementComponent)
+    .component("stManagement", ManagementComponent)
     .config(["$stateProvider", ($stateProvider: StateProvider) => {
         managementStates.forEach($stateProvider.state);
     }])

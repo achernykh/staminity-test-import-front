@@ -1,3 +1,104 @@
+<st-application-frame class="st-application-frame dashboard"
+                      ng-class="{'left-bar-show': false}"
+                      template="application"
+                      navigation-bar="false"
+                      left-bar="false">
+    <st-application-frame-title>
+        <span class="md-title" translate="dashboard.fullTitle"></span>
+        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="md-title" hide show-gt-sm translate="dashboard.week" translate-values="{date: $ctrl.toolbarDate()}"></span>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm layout="row">
+            <md-button class="md-icon-button" aria-label="Settings" style="margin: 0px"
+                       ng-click="$ctrl.prev()">
+                <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Settings" style="margin: 0px"
+                       ng-click="$ctrl.next()">
+                <md-icon class="material-icons md-18" aria-label="Back">navigate_next</md-icon>
+            </md-button>
+            <section flex="none" layout="row" layout-align="start center"
+                     class="calendar-operations" hide show-gt-md>
+                <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+                <md-menu-bar style="padding: 0">
+                    <md-menu>
+                        <button ng-click="$mdMenu.open()">
+                        <span class="md-body-1 md-light">
+                            {{$ctrl.athletes.members.length}} {{'dashboard.athletes' | translate}}
+                        </span>
+                            <div ng-if="$ctrl.athletes.members.length > $ctrl.viewAthletes.length" style="display: inline-block">
+                                <md-icon class="material-icons md-light md-inactive">visibility_off</md-icon>
+                                <span class="md-body-1 md-light">{{$ctrl.athletes.members.length-$ctrl.viewAthletes.length}}</span>
+                            </div>
+                        </button>
+                        <md-menu-content>
+                            <md-menu-item ng-repeat="athlete in $ctrl.athletes.members"
+                                          type="checkbox" ng-model="athlete.view"
+                                          ng-change="$ctrl.setVisible(athlete.view,athlete.userProfile.userId)">
+                                <img flex="none" profile="athlete.userProfile"></img>
+                                <span flex="none">{{::athlete.userProfile | username}}</span>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-menu-bar>
+                <md-button class="md-icon-button " aria-label="Settings" style="margin: 0px"
+                           ng-click="$ctrl.changeOrder(true)">
+                    <md-icon class="material-icons  md-18" aria-label="Back">arrow_upward</md-icon>
+                </md-button>
+                <md-button class="md-icon-button " aria-label="Settings" style="margin: 0px"
+                           ng-click="$ctrl.changeOrder(false)">
+                    <md-icon class="material-icons  md-18" aria-label="Back">arrow_downward</md-icon>
+                </md-button>
+            </section>
+        </section>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-left-bar>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content>
+        <section class="dashboard__loading" ng-if="$ctrl.isLoadingData" layout-fill layout="column" layout-align="center center">
+            <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+            <p flex="none" class="md-body-1 md-dark" translate="dashboard.loading"></p>
+        </section>
+        <section class="dashboard__content" ng-if="!$ctrl.isLoadingData" layout="column" layout-align="start center">
+            <md-toolbar flex="none" class="dashboard-header md-caption md-dark md-whiteframe-1dp bg-grey-300" hide show-gt-sm>
+                <div class="athlete" translate="dashboard.athlete"></div>
+                <div class="day" style="text-transform: capitalize" ng-repeat="day in $ctrl.weekdayNames">{{day}}</div>
+                <div class="total" hide show-gt-md translate="dashboard.summary"></div>
+            </md-toolbar>
+            <section flex="auto" class="dashboard-grid bg-grey-200">
+                <div class="dashboard-week"
+                     ng-repeat="calendar in $ctrl.dashboard.calendar | filter:filter | orderBy:order track by $index"
+                     ng-class="{'selected': $ctrl.selectedAthletes.indexOf(calendar.profile.userId) !== -1}">
+                    <dashboard-athlete class="athlete"
+                                       profile="calendar.profile"
+                                       selected="$ctrl.selectedAthletes.indexOf(calendar.profile.userId) !== -1"
+                                       on-select="calendar.selected = !calendar.selected">
+                    </dashboard-athlete>
+                    <dashboard-day class="day" ng-class="{selected: day.selected}"
+                                   layout="column" layout-align="space-between start"
+                                   ng-repeat="day in calendar.subItem track by $index"
+                                   day="day"
+                                   current-user="$ctrl.coach"
+                                   owner="calendar.profile"
+                                   selected="day.selected"
+                                   calendar-range-start="$ctrl.range[0]"
+                                   calendar-range-end="$ctrl.range[1]"
+                                   on-update="$ctrl.update(formMode, item)"
+                                   on-select="day.selected = !day.selected">
+                    </dashboard-day>
+                    <dashboard-total class="total" week="calendar" update="calendar.changes" hide show-gt-md>
+                    </dashboard-total>
+                </div>
+            </section>
+        </section>
+    </st-application-frame-content>
+
+</st-application-frame>
+<!--
 <div class="application">
     <div hide-md class="margin-left"></div>
     <section class="application-body">
@@ -5,7 +106,9 @@
             <md-menu-bar>
                 <md-menu>
                     <button ng-click="$mdMenu.open()">
-                        <span class="md-caption">{{$ctrl.athletes.members.length}} атлетов</span>
+                        <span class="md-caption">
+                            {{$ctrl.athletes.members.length}} {{'dashboard.athletes' | translate}}
+                        </span>
                         <div ng-if="$ctrl.athletes.members.length > $ctrl.viewAthletes.length" style="display: inline-block">
                             <md-icon class="material-icons md-light md-inactive">visibility_off</md-icon>
                             <span class="md-caption">{{$ctrl.athletes.members.length-$ctrl.viewAthletes.length}}</span>
@@ -29,7 +132,8 @@
                        ng-click="$ctrl.changeOrder(false)">
                 <md-icon class="material-icons md-18" aria-label="Back">arrow_downward</md-icon>
             </md-button>
-            <span class="md-caption">Неделя с {{$ctrl.toolbarDate() | date:'longDate'}}</span>
+            <span class="md-caption" translate="dashboard.week"
+                  translate-values="{date: $ctrl.toolbarDate()}"></span>
             <md-button class="md-icon-button md-primary" aria-label="Settings" style="margin: 0px"
                        ng-click="$ctrl.prev()">
                 <md-icon class="material-icons md-18" aria-label="Back">navigate_before</md-icon>
@@ -41,9 +145,9 @@
         </section>
         <section id="dashboard" class="content animated zoomIn">
             <md-toolbar class="dashboard-header md-caption md-dark md-whiteframe-1dp bg-grey-300" hide show-gt-sm>
-                <div class="athlete">Атлет</div>
+                <div class="athlete" translate="dashboard.athlete"></div>
                 <div class="day" style="text-transform: capitalize" ng-repeat="day in $ctrl.weekdayNames">{{day}}</div>
-                <div class="total" hide show-gt-md>Итоги</div>
+                <div class="total" hide show-gt-md translate="dashboard.summary"></div>
             </md-toolbar>
             <section class="dashboard-grid bg-grey-200">
                 <div class="dashboard-week"
@@ -73,4 +177,4 @@
         </section>
     </section>
     <div hide-md class="margin-right"></div>
-</div>
+</div> -->

@@ -13,13 +13,13 @@
                        $ctrl.deleteTrainingPlanItems() : $ctrl.delete()"
                                    ng-disabled="$ctrl.competition.view.isPost">
                             <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
-                            <span translate="activity.toolbar.delete"></span>
+                            <span translate="activity.action.delete"></span>
                         </md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="::$ctrl.currentUser.connections.hasOwnProperty('allAthletes')">
                         <md-button ng-click="$ctrl.showSelectAthletes = true">
                             <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
-                            <span translate="activity.toolbar.multiAthletes"></span>
+                            <span translate="activity.action.addAthletes"></span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -219,13 +219,13 @@
         <span flex></span>
         <md-button ng-if="$ctrl.competition.view.isView" type="submit"
                    ng-click="$ctrl.competition.view.isPut = true">
-            <span translate="activity.edit"></span>
+            <span translate="activity.action.edit"></span>
         </md-button>
         <md-button ng-if="!$ctrl.competition.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.form.$valid}"
                    ng-disabled="($ctrl.competition.view.isPut && !$ctrl.form.$dirty) || $ctrl.inAction"
-                   ng-click="$ctrl.save()">
-            <span translate="activity.save"></span>
+                   ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
+            <span translate="activity.action.save"></span>
         </md-button>
     </md-dialog-actions>
     <!-- Тренировочный план -->
@@ -235,10 +235,8 @@
         <md-button ng-if="!$ctrl.competition.view.isView"
                    type="submit"
                    ng-disabled="!$ctrl.form.$dirty || !$ctrl.form.$valid"
-                   translate="activity.save"
+                   translate="activity.action.save"
                    ng-click="$ctrl.saveTrainingPlanCompetition()">
         </md-button>
     </md-dialog-actions>
-
-
 </div>

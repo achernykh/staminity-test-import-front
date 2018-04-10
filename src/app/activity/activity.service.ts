@@ -67,4 +67,6 @@ export default class ActivityService {
         return this.SocketService.send(new CalculateActivityRangeRequest(activityId, start, end, type, nonContiguousMode));
     }
 
+
+
 }

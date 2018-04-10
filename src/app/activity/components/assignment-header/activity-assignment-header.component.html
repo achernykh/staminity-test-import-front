@@ -61,7 +61,7 @@
                   ng-if="!$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory && !$ctrl.item.isIonic"
                   ng-disabled="!$ctrl.item.templateByFilter">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
-        <p translate>{{$ctrl.templateSelectorText}}</p>
+        <p translate="{{$ctrl.templateSelectorText}}" translate-values="{code: $ctrl.item.activity.header.template.code}"></p>
         <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
     </md-list-item>
     <md-list-item ng-if="$ctrl.item.activity.header.sport">

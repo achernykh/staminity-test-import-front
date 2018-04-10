@@ -81,7 +81,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     }
 
     get templateSelectorText(): string {
-        return this.item.activity.header.template && `Шаблон: ${this.item.activity.header.template.code}` ||
+        return this.item.activity.header.template && "activity.template.code" ||
             this.item.templateByFilter && "activity.template.enable" || "activity.template.empty";
     }
 }

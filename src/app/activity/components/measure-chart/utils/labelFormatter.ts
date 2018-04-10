@@ -25,11 +25,6 @@ const LabelFormatters = {
     distance:
     {
         formatter: (x, sport) => measureValue(x, sport, "distance"),
-        /*formatter: function (d) {
-            let kms = d / 1000;
-            return kms.toFixed(2);
-        },
-        label: ' км'*/
         label: (sport) => " " + measureUnit("distance", sport),
     },
     speed: {
@@ -41,6 +36,14 @@ const LabelFormatters = {
     heartRate: {
         formatter: (x, sport) => measureValue(x, sport, "heartRate"),
         label: (sport) => " " + measureUnit("heartRate", sport),
+    },
+    cadence: {
+        formatter: (x, sport) => measureValue(x, sport, "cadence"),
+        label: (sport) => " " + measureUnit("cadence", sport),
+    },
+    strokes: {
+        formatter: (x, sport) => measureValue(x, sport, "strokes"),
+        label: (sport) => " " + measureUnit("strokes", sport),
     },
     power: {
         formatter: (x, sport) => measureValue(x, sport, "power"),

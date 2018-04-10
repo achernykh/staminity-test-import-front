@@ -14,6 +14,7 @@
  * */
 export const translateNotification = {
     ru: {
+        title: 'Уведомления',
 /*  ----------ПРИМЕР --------
          * Тестовое сообщение
          * data[0] - базовый вид спорта
@@ -593,6 +594,7 @@ export const translateNotification = {
 //    ----------------- ENGLISH ---------------------
 
     en: {
+        title: 'Notifications',
         /*  ----------ПРИМЕР --------
          * Тестовое сообщение
          * data[0] - базовый вид спорта
