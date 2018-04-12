@@ -3,7 +3,7 @@ export const _user_menu = {
         profile: "Профиль",
         settings: "Настройки",
         help: "Справка",
-        issue: "Сообщить о проблеме",
+        issue: "Задать вопрос",
         home: "На главную страницу",
         exit: "Выход",
     },
@@ -11,7 +11,7 @@ export const _user_menu = {
         profile: "Profile",
         settings: "Settings",
         help: "Help",
-        issue: "Let us know about issue",
+        issue: "Ask questions",
         home: "Main page",
         exit: "Log out"
     }
