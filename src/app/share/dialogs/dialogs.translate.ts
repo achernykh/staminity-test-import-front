@@ -67,8 +67,9 @@ export let translateDialogs = {
         omni: {
             title: 'Ваш вопрос',
             userName: 'Имя и Фамилия',
-            userEmail: 'Почта',
-            contentPlaceholder: 'Укажите причину обращения....',
+            userEmail: 'E-mail адрес',
+            subject: 'Тема',
+            contentPlaceholder: 'Ваш вопрос...',
             post: 'Отправить'
         }
 
@@ -136,7 +137,16 @@ export let translateDialogs = {
 
         // split and merge
         mergeActivity: "Merge planned and completed activity?",
-        splitActivity: "Split activity into Planned and Completed?"
+        splitActivity: "Split activity into Planned and Completed?",
+
+        omni: {
+            title: 'Your question',
+            userName: 'Full name',
+            userEmail: 'E-mail address',
+            subject: 'Subject',
+            contentPlaceholder: 'Your question...',
+            post: 'Send'
+        }
 
 
     },
