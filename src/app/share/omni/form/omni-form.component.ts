@@ -1,5 +1,5 @@
 import './omni-form.component.scss';
-import {IComponentOptions, IComponentController} from 'angular';
+import {IComponentOptions, IComponentController, INgModelController} from 'angular';
 import { IQuillConfig } from "../../quill/quill.config";
 
 class OmniFormCtrl implements IComponentController {
@@ -10,6 +10,7 @@ class OmniFormCtrl implements IComponentController {
     onPost: (response: Object) => Promise<void>;
 
     // private
+    private omniForm: INgModelController;
     private message : {
         user_email: string,
         user_full_name: string,

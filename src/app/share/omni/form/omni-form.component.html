@@ -1,4 +1,4 @@
-<form name="omni" layout="column" flex>
+<form name="$ctrl.omniForm" layout="column" flex>
     <md-toolbar flex="none" class="md-default">
         <div class="md-toolbar-tools">
             <h2 class="">{{::'dialogs.omni.title' | translate}}</h2>
@@ -19,7 +19,7 @@
                            name="name" required
                            type="text"
                            ng-model="$ctrl.message.user_full_name">
-                    <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                    <div ng-messages="$ctrl.omniForm.$error" role="alert">
                         <div ng-message-exp="['required']"
                              translate="form.required">
                         </div>
@@ -31,29 +31,46 @@
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="dialogs.omni.userEmail"></label>
                     <input flex="auto"
+                           name="name" required minlength="5" maxlength="100"
+                           type="text" ng-pattern="/^.+@.+\..+$/"
+                           ng-model="$ctrl.message.user_email">
+                    <div ng-messages="$ctrl.omniForm.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="auth.errMail">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Тема -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="dialogs.omni.subject"></label>
+                    <input flex="auto"
                            name="name" required
                            type="text"
-                           placeholder="{{trainingPlans.name.placeholder}}"
-                           ng-model="$ctrl.message.user_email">
-                    <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                           ng-model="$ctrl.message.subject">
+                    <div ng-messages="$ctrl.omniForm.$error" role="alert">
                         <div ng-message-exp="['required']"
                              translate="form.required">
                         </div>
                     </div>
                 </md-input-container>
             </md-list-item>
-            <ng-quill-editor flex="auto"
+            <ng-quill-editor flex="auto" required
                              ng-model="$ctrl.message.content_html"
                              placeholder="{{'dialogs.omni.contentPlaceholder' | translate}}"
                              modules="$ctrl.quillConf.toolbar"
-                             on-content-changed="$ctrl.changeForm()"
+                             on-content-changed="$ctrl.omniForm.$setDirty()"
                              st-quill-post-image>
             </ng-quill-editor>
         </md-list>
     </md-dialog-content>
     <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
         <span flex></span>
-        <md-button ng-click="$ctrl.onPost({message: $ctrl.message})">
+        <md-button type="sumbit"
+                   ng-class="{'md-warn': $ctrl.omniForm.$invalid || !$ctrl.message.content_html}"
+                   ng-disabled="$ctrl.omniForm.$pristine"
+                   ng-click="$ctrl.omniForm.$valid && $ctrl.message.content_html && $ctrl.onPost({message: $ctrl.message})">
             <span translate="dialogs.omni.post"></span>
         </md-button>
     </md-dialog-actions>
