@@ -68,6 +68,7 @@ export let translateDialogs = {
             title: 'Ваш вопрос',
             userName: 'Имя и Фамилия',
             userEmail: 'Почта',
+            subject: 'Тема',
             contentPlaceholder: 'Укажите причину обращения....',
             post: 'Отправить'
         }

@@ -89,7 +89,8 @@
             </md-list-item>
             <md-list-item>
                 <md-input-container md-no-float class="no-message">
-                    <input required type="email" name="email" ng-model="$ctrl.credentials.email" minlength="5"
+                    <input required type="email" name="email" ng-model="$ctrl.credentials.email
+                            minlength="5"
                            maxlength="100"
                            ng-pattern="/^.+@.+\..+$/"
                            autocomplete="off" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
