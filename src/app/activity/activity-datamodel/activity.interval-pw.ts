@@ -149,9 +149,9 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
         update.distanceApprox = intervals.some((i) => i.distanceApprox);
 
         update.durationMeasure = (!update.movingDurationApprox
-            || (update.movingDurationApprox && update.distanceApprox)) && "movingDuration" || "distance";
+            || (update.movingDurationApprox && update.distanceApprox)) && "duration" || "distance";
 
-        update.durationValue = update.durationMeasure === "movingDuration" &&
+        update.durationValue = update.durationMeasure === "duration" &&
             update.movingDurationLength || update.distanceLength;
 
         // Округляем дистанцию в м до 100м/1км, по времени до 1/5 минут

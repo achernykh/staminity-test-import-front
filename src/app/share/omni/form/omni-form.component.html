@@ -1,0 +1,60 @@
+<form name="omni" layout="column" flex>
+    <md-toolbar flex="none" class="md-default">
+        <div class="md-toolbar-tools">
+            <h2 class="">{{::'dialogs.omni.title' | translate}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-active md-dark" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
+        <md-list flex="auto" class="md-dense">
+            <!-- Имя пользователя -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="dialogs.omni.userName"></label>
+                    <input flex="auto"
+                           name="name" required
+                           type="text"
+                           ng-model="$ctrl.message.user_full_name">
+                    <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <!-- Почта -->
+            <md-list-item>
+                <md-input-container class="md-block no-message" layout="row">
+                    <label translate="dialogs.omni.userEmail"></label>
+                    <input flex="auto"
+                           name="name" required
+                           type="text"
+                           placeholder="{{trainingPlans.name.placeholder}}"
+                           ng-model="$ctrl.message.user_email">
+                    <div ng-messages="$ctrl.form.sport.$error" role="alert">
+                        <div ng-message-exp="['required']"
+                             translate="form.required">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <ng-quill-editor flex="auto"
+                             ng-model="$ctrl.message.content_html"
+                             placeholder="{{'dialogs.omni.contentPlaceholder' | translate}}"
+                             modules="$ctrl.quillConf.toolbar"
+                             on-content-changed="$ctrl.changeForm()"
+                             st-quill-post-image>
+            </ng-quill-editor>
+        </md-list>
+    </md-dialog-content>
+    <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
+        <span flex></span>
+        <md-button ng-click="$ctrl.onPost({message: $ctrl.message})">
+            <span translate="dialogs.omni.post"></span>
+        </md-button>
+    </md-dialog-actions>
+</form>

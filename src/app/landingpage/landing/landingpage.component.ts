@@ -7,6 +7,7 @@ import {SessionService} from "../../core";
 import DisplayService from "../../core/display.service";
 import "./landingpage.component.scss";
 import { saveUtmParams } from "../../share/location/utm.functions";
+import { OmniService } from "../../share/omni/omni.service";
 
 class LandingPageCtrl implements IComponentController {
 

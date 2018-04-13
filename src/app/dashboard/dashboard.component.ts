@@ -244,7 +244,7 @@ export class DashboardCtrl implements IComponentController {
                     this.cache.push({
                         sid: this.currentWeek,
                         week: moment(start).format('GGGG-ww'),
-                        calendar: this.athletes.members.map(athlete => ({
+                        calendar: this.athletes.members && this.athletes.members.map(athlete => ({
                             profile: athlete.userProfile,
                             subItem: times(7).map(i => ({
                                 data: {
@@ -552,6 +552,7 @@ export class DashboardCtrl implements IComponentController {
 const DashboardComponent:IComponentOptions = {
     bindings: {
         coach: '<',
+        clubUri: '<',
         groupId: '<',
         athletes: '<'
     },

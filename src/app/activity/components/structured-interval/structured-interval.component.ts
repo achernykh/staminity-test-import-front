@@ -40,7 +40,7 @@ class StructuredIntervalCtrl implements IComponentController {
     public onChange: (response: {interval: IActivityIntervalP}) => IPromise<void>;
     public onDelete: (response: {id: number}) => IPromise<void>;
 
-    private readonly durationMeasure: Array<string> = ['movingDuration', 'distance'];
+    private readonly durationMeasure: Array<string> = ['duration', 'movingDuration', 'distance'];
     private readonly intensityMeasure: any = {
         swim: ['heartRate','speed'],
         bike: ['heartRate', 'speed','power'],
@@ -51,7 +51,7 @@ class StructuredIntervalCtrl implements IComponentController {
         other: ['heartRate', 'speed'],
         default: ['heartRate', 'speed'],
     };
-    private duration: string = 'movingDuration';
+    private duration: string = 'duration';
     private intensity: string = 'heartRate';
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
@@ -159,7 +159,7 @@ class StructuredIntervalCtrl implements IComponentController {
      */
     changeValue(measure: string) {
         this.completeInterval(measure);
-        if (measure === 'movingDuration') {
+        if (measure === 'duration' || measure === 'movingDuration') {
             this.interval.movingDurationLength = this.interval.durationValue;
         }
         if (measure === 'distance') {

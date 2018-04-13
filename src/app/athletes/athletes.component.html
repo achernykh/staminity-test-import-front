@@ -66,7 +66,7 @@
                         <td md-cell>
                             <md-button class="athletes-username" ui-sref="user({uri: member.userProfile.public.uri})">
                                 <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
-                                {{ member.userProfile | username }}
+                                {{ member.userProfile | username:'full-last' }}
                             </md-button>
                         </td>
                         <td md-cell>

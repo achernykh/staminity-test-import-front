@@ -50,7 +50,6 @@ function run(
 
     $transitions.onBefore({to: "*", from: "*"}, (state) => {
         const routeTo = Object.assign(state.$to()) as IStaminityState;
-        console.info(`app run: $transition onBefore ${routeTo.name}`);
 
         if (routeTo.loginRequired && !AuthService.isAuthenticated()) {
             message.systemWarning("forbidden_InsufficientAction");
@@ -67,7 +66,7 @@ function run(
     });
 
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
-        console.info(`app run: $transition onSuccess ${state.$to().name} ${window.location.origin}`);
+        //omniSetup(state.$from().name, state.$to().name);
         LoaderService.hide();
     });
 
@@ -75,6 +74,48 @@ function run(
         console.error(error);
         //message.systemWarning(error.detail);
     });
+}
+
+function omniSetup(src: string, trg: string) {
+    window['omni'][0].config({
+        diplay_button: false, // название класса при значении false - omni-email-widget
+        user_info: true, // при true передаём базовую информацию по пользователю в виде заметки
+    });
+    window['omni'][0].email_widget.ready(function() {
+        window['omni'][0].email_widget.identify={
+            user_full_name: 'Василий Пукин', //Заменить на фамилию / имя пользователя Staminity
+            user_email: 'vas_pup@yandex.ru', //Заменить на e-mail
+        };
+    });
+    /**let omniButtonState = ["welcome", "tariffs","plan"];
+    console.debug(`src button ${~omniButtonState.indexOf(src)}, trg button${~omniButtonState.indexOf(trg)}`);
+    if (src === "" || ~omniButtonState.indexOf(src) !== ~omniButtonState.indexOf(trg)) {
+        debugger;
+        if (~omniButtonState.indexOf(trg)) {
+            Object.assign(window['omni'][0].g_config, {
+                    widget_id: window.navigator.language.substr(0, 2) === 'en' ? "2574-hnkgahuc" : "2573-8q5ftnh6"
+                });
+            window['omni'][0].config({
+                diplay_button: true, // название класса при значении false - omni-email-widget
+                user_info: true, // при true передаём базовую информацию по пользователю в виде заметки
+            });
+        } else {
+            Object.assign(window['omni'][0].g_config, {
+                widget_id: window.navigator.language.substr(0, 2) === 'en' ? "2562-1cmh2449" : "2559-02bwft39"
+            });
+            window['omni'][0].config({
+                diplay_button: false, // название класса при значении false - omni-email-widget
+                user_info: true, // при true передаём базовую информацию по пользователю в виде заметки
+            });
+            window['omni'][0].email_widget.ready(function () {
+                window['omni'][0].email_widget.identify = {
+                    user_full_name: 'Stick', //Заменить на фамилию / имя пользователя Staminity
+                    user_email: 'stick@staminity.com', //Заменить на e-mail
+                };
+            });
+        }
+    }**/
+
 }
 
 run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message",

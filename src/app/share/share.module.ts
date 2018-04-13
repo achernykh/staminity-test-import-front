@@ -61,6 +61,9 @@ import { measureSaveFilter } from './measure/measure-save.filter';
 import { measureEditFilter } from './measure/measure-edit.filter';
 import { measureCalcIntervalFilter } from './measure/measure-calc-interval.filter';
 import { QuillHtmlViewerComponent } from './quill/quill-html-viewer.component';
+import { OmniFabComponent } from "./omni/omni-fab.component";
+import { OmniFormComponent } from "./omni/form/omni-form.component";
+import { OmniService } from "./omni/omni.service";
 
 
 export const parseUtc = memorize(date => moment.utc(date));
@@ -88,7 +91,7 @@ const _userName = () => (user, options) => maybe(user) (prop('public')) (
  * compact: Имя и первую букву Фамилии
  * full: Имя и Фамилию
  */
-export const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full'): string => {
+export const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full-last' | 'full'): string => {
     if (
         !profile ||
         !profile.hasOwnProperty('public') ||
@@ -105,6 +108,9 @@ export const userName = () => (profile: IUserProfile | IUserProfileShort, option
         }
         case 'compact-first': {
             return `${profile.public.lastName} ${profile.public.firstName[0]}.`;
+        }
+        case 'full-last': {
+            return `${profile.public.lastName} ${profile.public.firstName}`;
         }
         default: {
             return `${profile.public.firstName} ${profile.public.lastName}`;
@@ -377,6 +383,9 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('pageNotFound', PageNotFoundComponent)
     .component('universalChart', UniversalChartComponent)
     .component('stQuillHtmlViewer', QuillHtmlViewerComponent)
+    .component('stOmniFab', OmniFabComponent)
+    .component('stOmniForm', OmniFormComponent)
+    .service('OmniService', OmniService)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
     .directive('measureInput', ['$filter',MeasurementInput])

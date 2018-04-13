@@ -13,6 +13,13 @@
             </md-button>
         </md-menu-item>
         <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="$ctrl.omniOpen($event)">
+                <md-icon class="material-icons" md-menu-align-target>error</md-icon>
+                <span translate="userMenu.issue"></span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-divider></md-menu-divider>
         <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
             <md-button ng-click="$ctrl.display.setLocale(locale)">
                 <md-icon md-svg-src="/assets/icon/{{ ::locale }}.svg" md-24 md-menu-align-target></md-icon>
