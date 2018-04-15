@@ -299,7 +299,7 @@ md-pagination-wrapper {
       background: $teal-500 !important;
     }
     @media (min-width: 0px) and (max-width: 959px) {
-      background: $teal-500 !important;
+      //background: $teal-500 !important;
     }
     &:hover, &.selected {
       background: $bg-teal-gradient-900-800;
@@ -314,7 +314,7 @@ md-pagination-wrapper {
       background: $orange-500 !important;
     }
     @media (min-width: 0px) and (max-width: 959px) {
-      background: $orange-500 !important;
+      //background: $orange-500 !important;
     }
     &:hover, &.selected {
       background: $bg-orange-gradient-900-800;
@@ -332,7 +332,7 @@ md-pagination-wrapper {
       background: none !important;
     }
     @media (min-width: 0px) and (max-width: 959px) {
-      background: $red-500 !important;
+      //background: $red-500 !important;
     }
     &:hover, &.selected {
       background: $bg-red-gradient-900-800;
