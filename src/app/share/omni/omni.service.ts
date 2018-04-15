@@ -17,7 +17,7 @@ export class OmniService {
                     this.post(message)
                         .then(r => {debugger;}, e => {debugger;})
                         .then(_ => $mdDialog.hide());
-                }
+                };
             }],
             controllerAs: "$ctrl",
             template: `<md-dialog id="omni-form" aria-label="Omni Form">
