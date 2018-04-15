@@ -414,6 +414,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     calculateActivityRange(nonContiguousMode: boolean):void {
+        debugger;
         this.ActivityService.calculateRange(
             this.activity.header.id, null, null,
             [   this.activity.intervals.PW.prepareForCalculateRange(),

@@ -15,8 +15,8 @@ function configure($stateProvider: StateProvider,
             authRequired: ["user"],
             resolve: {
                 init: ['SocketService', (socket: SocketService) => socket.init()],
-                view: () => new DisplayView("dashboard"),
                 coach: ["SessionService", (session: SessionService) => session.getUser()],
+                clubUri: ["$stateParams", ($stateParams) => $stateParams.uri],
                 groupId: ["coach", (coach: IUserProfile) => coach.connections.allAthletes.groupId],
                 athletes: ["GroupService", "groupId", (group: GroupService, groupId: number) =>
                     group.getManagementProfile(groupId , "coach")],
@@ -44,15 +44,16 @@ function configure($stateProvider: StateProvider,
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
-                view: () => new DisplayView("dashboardClub"),
+                init: ['SocketService', (socket: SocketService) => socket.init()],
                 coach: ["SessionService", (session: SessionService) => session.getUser()],
-                groupId: ["coach", "$stateParams", (coach: IUserProfile, $stateParams) =>
-                    coach.connections.ControlledClubs.filter((club) => club.groupUri === $stateParams.uri)[0].groupId],
+                clubUri: ["$stateParams", ($stateParams) => $stateParams.uri],
+                groupId: ["coach", "clubUri", (coach: IUserProfile, clubUri: string) =>
+                    coach.connections.ControlledClubs.filter((club) => club.groupUri === clubUri)[0].groupId],
                 athletes: ["GroupService", "groupId", (group: GroupService, groupId: number) =>
                     group.getManagementProfile(groupId , "club").then((profile) => {
                         profile.members = profile.members.filter((member) => member.roleMembership.some((role) => role === "ClubAthletes"));
                         return profile;
-                    })],
+                    })]
             },
             views: {
                 /**"background": {

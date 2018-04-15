@@ -62,9 +62,16 @@ export let translateDialogs = {
 
         // split and merge
         mergeActivity: "Объединить плановую и фактическую тренировки?",
-        splitActivity: "Отменить сопоставление плана и факта и разделить тренировку на запланированную и выполненную?"
+        splitActivity: "Отменить сопоставление плана и факта и разделить тренировку на запланированную и выполненную?",
 
-
+        omni: {
+            title: 'Ваш вопрос',
+            userName: 'Имя и Фамилия',
+            userEmail: 'E-mail адрес',
+            subject: 'Тема',
+            contentPlaceholder: 'Ваш вопрос...',
+            post: 'Отправить'
+        }
 
     },
     en: {
@@ -130,7 +137,16 @@ export let translateDialogs = {
 
         // split and merge
         mergeActivity: "Merge planned and completed activity?",
-        splitActivity: "Split activity into Planned and Completed?"
+        splitActivity: "Split activity into Planned and Completed?",
+
+        omni: {
+            title: 'Your question',
+            userName: 'Full name',
+            userEmail: 'E-mail address',
+            subject: 'Subject',
+            contentPlaceholder: 'Your question...',
+            post: 'Send'
+        }
 
 
     },

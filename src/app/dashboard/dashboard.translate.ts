@@ -1,7 +1,9 @@
 export const translateDashboard = {
     ru: {
-        fullTitle: "Атлеты тренера",
-        shortTitle: "Атлеты",
+        coachfullTitle: "Атлеты тренера",
+        coachshortTitle: "Атлеты",
+        clubfullTitle: "Атлеты клуба",
+        clubhortTitle: "Атлеты",
         today: "Сегодня",
         week: 'Неделя с {{date | date:"longDate"}}',
         compact: "Компактный режим",

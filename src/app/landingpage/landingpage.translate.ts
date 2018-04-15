@@ -167,8 +167,7 @@ export let _translate = {
             block2 : {
                 title: "Помощь и поддержка",
                 link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
-                link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Портал поддержки</a>',
-                link3: '<a flex href="https://t.me/staminity_support" target="_blank" class="md-body md-light">Напишите в Телеграм</a>',
+                link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Поддержка пользователей</a>',
                 link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
                 link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
                 link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
@@ -186,7 +185,7 @@ export let _translate = {
                 link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">Написать письмо</a>',
             },
             copyright1: 'Cделано с',
-            copyright2: '| © 2018 ООО "Стаминити" ИНН 9715304797 КПП 771501001. Все права защищены',
+            copyright2: '| © 2018 Staminity. Все права защищены',
         },
         tariffs: {
             title: "Сколько стоит Стаминити?",
@@ -434,8 +433,7 @@ export let _translate = {
             block2 : {
                 title: "Help and support",
                 link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Help center (RUS)</a>',
-                link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Support portal</a>',
-                link3: '<a flex href="http://t.me/staminity_support" target="_blank" class="md-body md-light">Support in Telegram</a>',
+                link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Customer service</a>',
                 link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Terms of service (RUS)</a>',
                 link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">License agreement (RUS)</a>',
                 link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Privacy policy (RUS)</a>',
@@ -443,8 +441,8 @@ export let _translate = {
             block3 : {
                 title: "Follow us",
                 link1: '<a flex href="http://eepurl.com/cmOSiH" target="_blank" class="md-body md-light">Subscribe to our newsletter (RUS)</a>',
-                link2: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Folow us in Facebook</a>',
-                link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Follow us in VK</a>',
+                link2: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Folow us on Facebook</a>',
+                link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Follow us on VK</a>',
                 link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Blog (RUS)</a>',
             },
             block4 : {
@@ -453,7 +451,7 @@ export let _translate = {
                 link2: '<a flex href="mailto:mail@staminity.com" target="_blank" class="md-body md-light">E-mail us</a>',
             },
             copyright1: "Made with",
-            copyright2: "| © 2018 LLC Staminity INN 9715304797 KPP 771501001. All rights reserved",
+            copyright2: "| © 2018 Staminity. All rights reserved",
         },
         tariffs: {
             title: "Find a plan that’s right for you",

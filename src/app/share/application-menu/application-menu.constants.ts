@@ -16,11 +16,11 @@ export const UserMenuSettings = [
         name: "userMenu.help",
         link: "https://help.staminity.com/ru/"
     },
-    {
+    /*{
         icon: "error",
         name: "userMenu.issue",
         link: "http://support.staminity.com/"
-    },
+    },*/
     {
         icon: "home",
         name: "userMenu.home",

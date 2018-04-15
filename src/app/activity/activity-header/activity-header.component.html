@@ -27,6 +27,12 @@
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="$ctrl.item.activity.hasActualData">
+                    <md-button ng-click="$ctrl.item.calculateActivityRange(false)">
+                        <md-icon class="material-icons" md-menu-align-target>replay</md-icon>
+                        <span translate="activity.action.recalc"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="$ctrl.item.activity.hasActualData">
                     <md-button ng-click="$ctrl.item.split(); $ctrl.item.onCancel()">
                         <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>
                         <span translate="activity.action.split"></span>

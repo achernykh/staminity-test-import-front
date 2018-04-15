@@ -16,7 +16,7 @@ export const getMemberId = (member: IGroupManagementProfileMember): number => {
  * @returns {string}
  */
 export const getMemberUsername = (member: IGroupManagementProfileMember): string => {
-    return `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`;
+    return `${member.userProfile.public.lastName} ${member.userProfile.public.firstName}`;
 };
 
 /**

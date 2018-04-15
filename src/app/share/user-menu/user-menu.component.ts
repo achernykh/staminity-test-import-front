@@ -6,6 +6,7 @@ import {IUserProfile} from "../../../../api";
 import { getUser, SessionService } from "../../core";
 import DisplayService from "../../core/display.service";
 import { UserMenuSettings } from "../application-menu/application-menu.constants";
+import { OmniService } from "../omni/omni.service";
 
 class UserMenuCtrl implements IComponentController {
 
@@ -13,7 +14,7 @@ class UserMenuCtrl implements IComponentController {
     private user: IUserProfile;
     private destroy = new Subject();
 
-    static $inject = ["$mdSidenav", "$mdMedia", "$location", "SessionService", "$state", "DisplayService"];
+    static $inject = ["$mdSidenav", "$mdMedia", "$location", "SessionService", "$state", "DisplayService", "OmniService"];
 
     constructor(
         private $mdSidenav: any,
@@ -22,6 +23,7 @@ class UserMenuCtrl implements IComponentController {
         private SessionService: SessionService,
         private $state: StateService,
         private display: DisplayService,
+        private omni: OmniService
     ) {
         SessionService.getObservable()
         .takeUntil(this.destroy)
@@ -39,6 +41,10 @@ class UserMenuCtrl implements IComponentController {
     onUserMenu($mdOpenMenu, ev) {
         const originatorEv = ev;
         $mdOpenMenu(ev);
+    }
+
+    omniOpen(e: Event) {
+        this.omni.open(e).then(_=>{});
     }
 
     transitionToState(url) {
