@@ -239,7 +239,7 @@ export class Activity extends CalendarItem {
         this.dateEnd = this.dateStart;
         this.header.activityType = getType(Number(this.header.activityType.id));
 
-        return {
+        return Object.assign({
             calendarItemId: this.calendarItemId,
             calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
             revision: this.revision,
@@ -253,7 +253,9 @@ export class Activity extends CalendarItem {
                 this.header.build(),
                 {intervals: this.intervals.build()},
                 {activityId: this.header.activityId || this.activityHeader.activityId})
-        };
+        }, this.view.isTrainingPlan ? { // для тренировочных планов добавляем признак isSample
+            isSample: this.isSample
+        } : {});
     }
 
 

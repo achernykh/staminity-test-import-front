@@ -1,0 +1,14 @@
+<md-card class="user-settings__card">
+
+    <md-subheader class="">
+        <md-icon ui-sref="user-settings.main({userId: $ctrl.owner.userId})" class="back material-icons">arrow_back</md-icon>
+        <span class="md-body-2 md-dark" translate="user.settings.agent.cards.header"></span>
+    </md-subheader>
+  <st-user-settings-cards 
+    owner="$userSettingsCtrl.owner"
+    current-user="$userSettingsCtrl.currentUser"
+    agent-profile="$userSettingsCtrl.agentProfile"
+    ext-accounts="extAccounts"
+    agent-environment="$userSettingsCtrl.agentEnvironment"
+  ></st-user-settings-cards>
+</md-card>

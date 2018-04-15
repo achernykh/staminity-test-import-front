@@ -127,12 +127,13 @@
                     <thead md-head md-order="$ctrl.orderBy">
                     <tr md-row>
                         <th md-column md-order-by="username"><span>{{ 'users.cols.username' | translate }}</span></th>
-                        <th md-column md-order-by="roles"><span>{{ 'users.cols.roles' | translate }}</span></th>
+                        <th ng-if="!$ctrl.isFilterRole('ClubAthletes')" md-column md-order-by="roles"><span>{{ 'users.cols.roles' | translate }}</span></th>
                         <th md-column md-order-by="coaches"><span>{{ 'users.cols.coaches' | translate }}</span></th>
                         <th md-column md-order-by="tariff"><span>{{ 'users.cols.tariff' | translate }}</span></th>
-                        <th md-column md-order-by="athletes"><span>{{ 'users.cols.athletes' | translate }}</span></th>
+                        <th ng-if="!$ctrl.isFilterRole('ClubAthletes')" md-column md-order-by="athletes"><span>{{ 'users.cols.athletes' | translate }}</span></th>
                         <th md-column md-order-by="city"><span>{{ 'users.cols.city' | translate }}</span></th>
                         <th md-column md-order-by="ageGroup"><span>{{ 'users.cols.ageGroup' | translate }}</span></th>
+                        <th ng-if="false && $ctrl.isFilterRole('ClubAthletes')" md-column md-number md-order-by="ftpWatt"><span>{{ 'users.cols.ftpWatt' | translate }}</span></th>
                     </tr>
                     </thead>
                     <tbody md-body>
@@ -143,7 +144,7 @@
                                 {{ member.userProfile | username }}
                             </md-button>
                         </td>
-                        <td md-cell>{{ member.roleMembership | clubRoleMembership }}</td>
+                        <td ng-if="!$ctrl.isFilterRole('ClubAthletes')" md-cell>{{ member.roleMembership | clubRoleMembership }}</td>
                         <td md-cell>
                             <span ng-if="member.coaches.length">
                                 {{ member.getCoaches()[0].userProfile | username }}
@@ -158,9 +159,10 @@
                             </span>
                             <span ng-if="!member.userProfile.billing || !member.userProfile.billing.length">-</span>
                         </td>
-                        <td md-cell>{{ member.getAthletes().length || '-' }}</td>
+                        <td ng-if="!$ctrl.isFilterRole('ClubAthletes')" md-cell>{{ member.getAthletes().length || '-' }}</td>
                         <td md-cell>{{ member.userProfile.city }}</td>
                         <td md-cell>{{ member.userProfile | ageGroup }}</td>
+                        <td ng-if="false && $ctrl.isFilterRole('ClubAthletes')" md-cell>{{ member.userProfile.trainingZones.power.bike.FTP || member.userProfile.trainingZones.power.default.FTP | number:0 }}</td>
                     </tr>
                     </tbody>
                 </table>

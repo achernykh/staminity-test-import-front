@@ -134,7 +134,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    signUp(request) : IHttpPromise<{}> {
+    signUp(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/signup', request));
     }
 

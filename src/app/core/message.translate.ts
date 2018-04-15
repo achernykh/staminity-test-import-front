@@ -638,7 +638,14 @@ export const _translateMessage = {
             title: '',
             text: 'Объединение невозможно: не найдены плановые данные'
         },
-
+        trainingPlanPublishSuccess: {
+            title: '',
+            text: 'Тренировочный план опубликован в магазине'
+        },
+        trainingPlanUnpublishSuccess: {
+            title: '',
+            text: 'Публикация плана отменена'
+        }
 
     },
 	en: {

@@ -1,43 +1,60 @@
 @import "../../../sass/color";
 
-$menu-width: 220px;
+$menu-width: 320px;
 
 .user-settings .st-application-frame__left-bar {
   width: $menu-width;
-  background-color: $grey-050;
+  background-color: white;
   .md-subheader {
-    background-color: $grey-050 !important;
+    background-color: white !important;
   }
 }
 
 .user-settings.left-bar-show .st-application-frame__content {
   margin-left: $menu-width;
+  min-height: calc(100vh - 64px);
+  background-color: $grey-100;
 }
 
 .user-settings {
 
-  &__content {
+  &__card {
     max-width: 640px;
-    margin: auto;
+    margin: 16px auto 0 auto;
+    min-height: calc(100vh - 16px - 64px);
 
     @media (max-width: 959px) {
+      max-width: auto;
       width: 100%;
-      margin: 8px;
-    }
-    
-    .first-level-section {
-      .title {
-        margin: 16px 8px;
-      }
+      margin: 0;
+      border-radius: 0;
+      padding-bottom: 64px;
     }
 
-    .second-level-section {
-      .content {
-        margin: 0;
-        min-height: calc(100vh - 64px);
-      }
+    md-icon.back {
+      cursor: pointer;
+      margin-right: 20px;
     }
-    
+
+    .md-subheader {
+      background: white;
+      padding-bottom: 24px
+    }
+
+  }
+
+  &__card-title {
+    @media (max-width: 959px) {
+      padding: 0 8px;
+    }
+  }
+
+  &__fab {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    top: auto;
+    z-index: 100;
   }
 
 }

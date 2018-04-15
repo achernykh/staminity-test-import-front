@@ -1,9 +1,8 @@
 <div class="activity-compact" ng-switch="$ctrl.view">
     <!-- Элемент списка -->
     <section ng-switch-when="list" class="activity-compact__list"
-             ng-click="$ctrl.open($event)">
-        <header layout="row" layout-align="start center"
-                class="calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
+             ng-click="$ctrl.disableActions || $ctrl.open($event)">
+        <header class="layout-row calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
                 ng-class="{selected: $ctrl.selected}">
             <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
@@ -79,12 +78,14 @@
             <!-- Первая строка: Процент, Иконка и Конекстное меню -->
             <section class="first-row" layout="row" layout-align="space-between center">
                 <div flex="25" class="percent md-caption tight-07">
-                    <span>{{$ctrl.activity.percent / 100 | stPercent}}</span>
+                    <span ng-if="::!$ctrl.activity.view.isTrainingPlan">{{::$ctrl.activity.percent / 100 | stPercent}}</span>
+                    <md-icon ng-if="::($ctrl.activity.view.isTrainingPlan && $ctrl.activity.isSample)"
+                             class="material-icons" ng-bind="'star'"></md-icon>
                 </div>
 
                 <div flex="none" layout="row" layout-align="center center"
-                     class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
-                     ng-class="{color: !$ctrl.activity.isCompleted}">
+                     class="calendar-item-activity-icon color-{{::$ctrl.activity.header.sportBasic}} bg-circle-32"
+                     ng-class="::{color: !$ctrl.activity.isCompleted}">
                     <md-icon class="material-icons md-light" aria-label="icon"
                              md-svg-src="{{::$ctrl.activity.header.sportUrl}}">
                     </md-icon>
@@ -115,6 +116,18 @@
                             </md-button>
                         </md-menu-item>
                         <md-divider></md-divider>
+                        <md-menu-item ng-if="$ctrl.activity.view.isTrainingPlan && !$ctrl.activity.isSample">
+                            <md-button ng-click="$ctrl.setSample(true)">
+                                <md-icon class="material-icons" md-menu-align-target ng-bind="'star'"></md-icon>
+                                <span translate="activity.action.setSample"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item ng-if="$ctrl.activity.view.isTrainingPlan && $ctrl.activity.isSample">
+                            <md-button ng-click="$ctrl.setSample(false)">
+                                <md-icon class="material-icons" md-menu-align-target ng-bind="'star_border'"></md-icon>
+                                <span translate="activity.action.unsetSample"></span>
+                            </md-button>
+                        </md-menu-item>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.delete()"
                                        ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">
@@ -131,7 +144,7 @@
                      ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
                      class="second-row md-caption center">
                 <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
-                     ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}">
+                     ng-bind-template="{{$ctrl.activity.header.category | categoryCode}}">
                 </div>
             </section>
             <!-- Третья строка: Время и Расстояние -->
@@ -157,36 +170,37 @@
             </calendar-activity-chart>
         </header>
         <!--Нижняя часть: данные, установка тренера или -->
-        <footer ng-switch="$ctrl.activity.bottomPanel" ng-if="$ctrl.activity.hasBottomData">
+        <footer ng-switch="$ctrl.activity.bottomPanel" ng-if="::$ctrl.activity.hasBottomData">
             <section ng-switch-when="plan">
                 <div ng-if="::($ctrl.activity.intensityMeasure && !$ctrl.activity.isStructured)"
                      class="md-caption md-dark" style="margin-top: 2px">
-                    <span>{{::$ctrl.activity.intervals.PW | stMeasurePrintIntensity:
+                    <span>{{::($ctrl.activity.intervals.PW | stMeasurePrintIntensity:
                         $ctrl.activity.header.sportBasic:
                         $ctrl.activity.intensityMeasure:
-                        $ctrl.activity.view.isTrainingPlan}}</span>
-                    <span ng-if="$ctrl.activity.view.isTrainingPlan" translate="FTP"></span>
-                    <span ng-if="$ctrl.activity.view.isTrainingPlan">
-                        {{$ctrl.activity.intensityMeasure | translate | lowercase}}</span>
-                    <span ng-if="!$ctrl.activity.view.isTrainingPlan" class="md-inactive">
-                        {{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
+                        $ctrl.activity.view.isTrainingPlan)}}</span>
+                    <span ng-if="::$ctrl.activity.view.isTrainingPlan" translate="FTP"></span>
+                    <span ng-if="::$ctrl.activity.view.isTrainingPlan">
+                        {{::($ctrl.activity.intensityMeasure | translate | lowercase)}}</span>
+                    <span ng-if="::!$ctrl.activity.view.isTrainingPlan" class="md-inactive">
+                        {{::($ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate)}}</span>
                 </div>
-                <div flex ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                <div flex
+                     ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
                      style="height: 4px"></div>
                 <div class="prescription md-caption md-dark"
-                      ng-if="::(!!$ctrl.activity.intervals.PW.trainersPrescription.length)"
-                      ng-bind="::$ctrl.activity.intervals.PW.trainersPrescription | htmlToPlainText">
+                     ng-if="::(!!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                     ng-bind="::$ctrl.activity.intervals.PW.trainersPrescription | htmlToPlainText">
                 </div>
             </section>
             <section ng-switch-when="data" class="md-caption md-dark" layout="row" layout-align="start start"
                      ng-if="::($ctrl.bottomPanelData.length > 0)">
                 <div layout="column" flex="auto">
-                    <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind" >
+                    <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
                         <span>
-                            {{::obj.value | measureCalc:$ctrl.activity.header.sportBasic:obj.measure}}
+                            {{::(obj.value | measureCalc:$ctrl.activity.header.sportBasic:obj.measure)}}
                         </span>
                         <span flex="none" class="md-cation md-dark md-inactive">
-                            &nbsp;{{::obj.measure | measureUnit:$ctrl.activity.header.sportBasic | translate}}&nbsp;
+                            &nbsp;{{::(obj.measure | measureUnit:$ctrl.activity.header.sportBasic | translate)}}&nbsp;
                         </span>
                     </div>
                 </div>
@@ -243,7 +257,8 @@
                     <span>&nbsp;</span>
                     <span class="md-inactive">{{::$ctrl.activity.intensityMeasure | measureUnit:$ctrl.activity.header.sportBasic | translate}}</span>
                 </div>
-                <div flex ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
+                <div flex
+                     ng-if="::($ctrl.activity.intensityMeasure && !!$ctrl.activity.intervals.PW.trainersPrescription.length)"
                      style="height: 4px"></div>
                 <div class="prescription md-caption md-dark"
                      ng-if="::(!!$ctrl.activity.intervals.PW.trainersPrescription.length)"
@@ -253,7 +268,7 @@
             <section ng-switch-when="data" class="md-caption md-dark" layout="row" layout-align="start start"
                      ng-if="::($ctrl.bottomPanelData.length > 0)">
                 <div layout="column" flex="auto">
-                    <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind" >
+                    <div flex="none" ng-repeat="(ind,obj) in ::$ctrl.bottomPanelData track by ind">
                         <span>
                             {{::obj.value | measureCalc:$ctrl.activity.header.sportBasic:obj.measure}}
                         </span>

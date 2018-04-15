@@ -57,6 +57,7 @@ import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
 import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
 import { measurePrintIntensity } from "./measure/measure-print-intensity.filter";
 import { stringToDate } from "./date/stringToDate.filter";
+import {ApplicationGuestMenuComponent} from "./application-guest-menu/application-guest-menu.component";
 import { measureSaveFilter } from './measure/measure-save.filter';
 import { measureEditFilter } from './measure/measure-edit.filter';
 import { measureCalcIntervalFilter } from './measure/measure-calc-interval.filter';
@@ -306,6 +307,11 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
             }
         };
     }])
+    .filter("stNumberCeil", () => {
+        return (input: number) => {
+            return input && Math.ceil(input);
+        };
+    })
     .filter("measureEdit", ["$filter", ($filter) => {
         return (measure, value, sport) => {
             let unit = measurementUnitDisplay(sport, measure);
@@ -370,6 +376,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('staminityHeader',HeaderComponent)
     .component('userMenu',UserMenuComponent)
     .component('applicationMenu',ApplicationMenu)
+    .component('stApplicationGuestMenu', ApplicationGuestMenuComponent)
     .service('LoaderService',LoaderService)
     .service('NotificationService', NotificationService)
     .service("dialogs", DialogsService)

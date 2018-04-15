@@ -1,0 +1,38 @@
+<md-list class="md-dense section">
+    <md-subheader>
+        <span>{{ 'user.settings.billing.invoices' | translate }}</span>
+    </md-subheader>
+    <md-list-item>
+        <p class="md-body-1" ng-if="$ctrl.hasPaidBill()">{{ 'user.settings.billing.autoPayment' | translate }}</p>
+        <md-checkbox class="md-secondary"
+                style="margin-left: 15px;"
+                ng-model="$ctrl.autoPayment"
+                ng-model-options="{getterSetter: true}">
+        </md-checkbox>
+    </md-list-item>
+    <md-list-item 
+        class="md-2-line" 
+        ng-repeat-start="bill in $ctrl.owner.billing.bills"
+        ng-click="$ctrl.viewBill(bill)"
+        ng-switch="$ctrl.invoiceStatus(bill)"
+    >
+        <md-icon  class="material-icons">payment</md-icon>
+        <div class="md-list-item-text">
+            <h3> {{ 'user.settings.billing.invoiceAmount' | translate }} {{ bill.totalAmount | currency:bill.currency }}</h3>
+            <p> {{ 'user.settings.billing.period' | translate }} {{ bill.startPeriod | date: shortDate}} - {{ bill.endPeriod | date: shortDate}}</p>
+        </div>
+        <div class="md-secondary" ng-switch-when="new">
+            <md-button>{{ 'user.settings.billing.invoiceStatuses.new' | translate }}</md-button>
+        </div>
+        <div class="md-secondary" ng-switch-when="ready">
+            <md-button class="md-accent" ng-click="$ctrl.viewBill(bill)">{{ 'user.settings.billing.invoiceStatuses.ready' | translate }} {{ bill.totalAmount | currency:bill.currency }}</md-button>
+        </div>
+        <div class="md-secondary" ng-switch-when="complete">
+            <md-button ng-click="$ctrl.viewBill(bill)">{{ 'user.settings.billing.invoiceStatuses.complete' | translate }}</md-button>
+        </div>
+    </md-list-item>
+    <md-divider ng-repeat-end ng-if="!$last"></md-divider>
+    <md-list-item> 
+        <md-button class="md-secondary" ng-click="$ctrl.billsList()">{{ 'user.settings.billing.billsList' | translate }}</md-button> 
+    </md-list-item> 
+</md-list>

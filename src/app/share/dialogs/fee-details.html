@@ -2,8 +2,8 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2 >{{ 
-                $ctrl.fee.rateType === 'Variable' && ('settings.billing.group.' + $ctrl.fee.varGroup | translate) ||
-                ('settings.billing.fixedFee' | translate)
+                $ctrl.fee.rateType === 'Variable' && ('user.settings.billing.group.' + $ctrl.fee.varGroup | translate) ||
+                ('user.settings.billing.fixedFee' | translate)
             }}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="$ctrl.close()">
@@ -18,9 +18,9 @@
             <table md-table>
                 <thead md-head>
                     <tr md-row>
-                        <th md-column>{{ 'settings.billing.date' | translate }}</th>
-                        <th ng-if="$ctrl.fee.rateType === 'Variable'" md-column>{{ 'settings.billing.count' | translate }}</th>
-                        <th md-column>{{ 'settings.billing.amount' | translate }}</th>
+                        <th md-column>{{ 'user.settings.billing.date' | translate }}</th>
+                        <th ng-if="$ctrl.fee.rateType === 'Variable'" md-column>{{ 'user.settings.billing.count' | translate }}</th>
+                        <th md-column>{{ 'user.settings.billing.amount' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody md-body>
@@ -33,7 +33,7 @@
                         <td md-cell class="font-medium">{{ entry.amount | currency:$ctrl.bill.currency }}</td>
                     </tr>
                     <tr md-row class="hover-bg-blue-grey-100 animated">
-                        <td md-cell>{{ 'settings.billing.total' | translate }}</td>
+                        <td md-cell>{{ 'user.settings.billing.total' | translate }}</td>
                         <td ng-if="$ctrl.fee.rateType === 'Variable'" md-cell></td>
                         <td md-cell class="font-medium">{{$ctrl.fee.totalAmount | currency:$ctrl.bill.currency}}</td>
                     </tr>

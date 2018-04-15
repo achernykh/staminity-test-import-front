@@ -1,0 +1,20 @@
+<md-list>
+    <md-list-item>
+        <div layout="column">
+            <div class="md-body-1" translate translate-values="{currency:$ctrl.account.currency}">user.settings.agent.balance.label</div>
+            <div class="md-body-1 md-dark" ng-attr-translate="{{
+                !$ctrl.account.defExtAccount ? 'user.settings.agent.balance.withdrawNoExtAccount' :
+                !$ctrl.account.balance ? 'user.settings.agent.balance.withdrawZeroAmount' :
+                $ctrl.account.balance<$ctrl.account.defExtAccount.limits.withdrawLimit ? 'user.settings.agent.balance.withdrawNotAvaliable' : 
+                $ctrl.account.balance<$ctrl.account.defExtAccount.limits.noCommissionLimit ? 'user.settings.agent.balance.withdrawWithCommission.' + $ctrl.account.currency :
+                'user.settings.agent.balance.withdrawNoCommission'
+            }}" translate-values="{currency:$ctrl.account.currency, withdrawLimit:$ctrl.account.defExtAccount.limits.withdrawLimit||'0', noCommissionLimit:$ctrl.account.defExtAccount.limits.noCommissionLimit||'0'}"></div>
+        </div>
+        <md-button class="md-secondary"
+                   ng-disabled="!$ctrl.account.balance || !$ctrl.account.defExtAccount || $ctrl.account.balance<$ctrl.account.defExtAccount.limits.withdrawLimit"
+                   ng-click="$ctrl.withdraw($event)">
+            {{'user.settings.agent.balance.withdraw' | translate}}
+            <span>{{$ctrl.account.balance}} {{$ctrl.account.currency}}</span>
+        </md-button>
+    </md-list-item>
+</md-list>

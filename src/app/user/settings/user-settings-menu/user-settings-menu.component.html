@@ -1,0 +1,34 @@
+<md-list class="md-dense user-settings-menu">
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-profile')">
+    	<md-icon class="material-icons md-20 md-dark" style="margin-bottom: auto !important;">person</md-icon>
+        <p class="md-body-2" translate>user.settings.profile.header</p>
+    </md-list-item>
+    <md-list-item ng-click="$ctrl.go('user-settings-fit')">
+        <md-icon class="material-icons md-20 md-dark"  style="margin-bottom: auto !important;">multiline_chart</md-icon>
+        <p class="md-body-2" translate>user.settings.sportShape.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-billing')">
+        <md-icon class="material-icons md-20 md-dark" style="margin-bottom: auto !important;">payment</md-icon>
+        <p class="md-body-2" translate>user.settings.billing.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings() && $ctrl.agentProfile.isActive" ng-click="$ctrl.go('user-settings-agent')">
+        <md-icon class="material-icons md-20 md-dark" style="margin-bottom: auto !important;">attach_money</md-icon>
+        <p class="md-body-2" translate>user.settings.agent.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-display')">
+    	<md-icon class="material-icons md-20 md-dark" style="margin-bottom: auto !important;">dvr</md-icon>
+        <p class="md-body-2" translate>user.settings.display.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-sync')">
+    	<md-icon class="material-icons md-20 md-dark"  style="margin-bottom: auto !important;">sync</md-icon>
+        <p class="md-body-2" translate>user.settings.sync.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-calendars')">
+        <md-icon class="material-icons md-20 md-dark"  style="margin-bottom: auto !important;">today</md-icon>
+        <p class="md-body-2" translate>user.settings.calendar.header</p>
+    </md-list-item>
+    <md-list-item ng-if="$ctrl.isOwnSettings()" ng-click="$ctrl.go('user-settings-notifications')">
+    	<md-icon class="material-icons md-20 md-dark"  style="margin-bottom: auto !important;">notifications</md-icon>
+        <p class="md-body-2" translate>user.settings.notification.header</p>
+    </md-list-item>
+</md-list>
