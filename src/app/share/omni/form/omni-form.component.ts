@@ -3,10 +3,10 @@ import {IComponentOptions, IComponentController, INgModelController} from 'angul
 import { IQuillConfig } from "../../quill/quill.config";
 
 export interface OmniMessage {
-    user_email: string,
-    user_full_name: string,
-    subject: string,
-    content_html: string
+    user_email: string;
+    user_full_name: string;
+    subject: string;
+    content_html: string;
 }
 
 class OmniFormCtrl implements IComponentController {
