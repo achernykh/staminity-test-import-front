@@ -10,7 +10,7 @@ function configure(
 	$compileProvider: ICompileProvider,
 	$locationProvider: ILocationProvider,
 	$urlRouterProvider: any,
-	$mdThemingProvider: ng.material.IThemingProvider,
+	$mdThemingProvider: any,
 	$stateProvider:StateProvider,
 	$translateProvider: any,
 	$anchorScrollProvider: any,
