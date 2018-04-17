@@ -65,7 +65,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
     pay (): void {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.error = null;
-        Promise.resolve(_ => {})
+        Promise.resolve()
             .then(_ => this.user.userId ? this.plan : this.authGuest())
             .then(plan => plan.product ?
                     plan.price > 0 ? this.trainingPlansDialog.pay(this.plan.product) : Promise.resolve('getFreeSuccess') :
