@@ -65,7 +65,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
     pay (): void {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.error = null;
-        Promise.resolve()
+        /**Promise.resolve()
             .then(_ => this.user.userId ? this.plan : this.authGuest())
             .then(plan => plan.product ?
                     plan.price > 0 ? this.trainingPlansDialog.pay(this.plan.product) : Promise.resolve('getFreeSuccess') :
@@ -73,7 +73,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
                 e => { debugger; throw e; })
             .then(r => this.onSuccess({message: r, email: this.user.userId ? null : this.credentials.email}),
                 e => {if (e) { this.error = e; } this.enabled = true;})
-            .then(_ => this.$scope.$applyAsync());
+            .then(_ => this.$scope.$applyAsync());**/
     }
 
     authGuest (): Promise<TrainingPlan> {
