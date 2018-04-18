@@ -90,6 +90,10 @@ export class Activity extends CalendarItem {
     // Тренировка имеет плановое задание
     get isSpecified (): boolean { return this.intervals.PW && this.intervals.PW.specified(); }
 
+    get isDarkColor (): boolean {
+        return (this.isComing && !this.isCompleted) || (this.isCompleted && !this.isSpecified);
+    }
+
     // Статус выполнения тренировки
     get status() {
         return this.options.hasOwnProperty('templateMode') && this.options.templateMode ? 'template' : (

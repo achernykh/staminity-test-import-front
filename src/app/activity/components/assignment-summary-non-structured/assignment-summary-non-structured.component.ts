@@ -63,6 +63,17 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         power: 'avgValue'
     };
 
+    private readonly measuresBySport = {
+        swim: ['movingDuration','distance', 'heartRate','speed'],
+        bike: ['movingDuration','distance','heartRate', 'speed','power'],
+        run: ['movingDuration','distance','heartRate', 'speed'],
+        strength: ['movingDuration','distance','heartRate'],
+        transition: ['movingDuration','distance','heartRate', 'speed'],
+        ski: ['movingDuration','distance','heartRate', 'speed'],
+        other: ['movingDuration','distance','heartRate', 'speed'],
+        default: ['movingDuration','distance','heartRate', 'speed'],
+    };
+
     private trustHTML: string;
 
     static $inject = ['$scope', 'AuthService', 'quillConfig'];

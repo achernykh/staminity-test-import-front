@@ -51,16 +51,16 @@ export class OmniService {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: {
-                "case": {
-                    "user_email": "user@domain.ru",
-                    "user_full_name": "User\u0027s full name",
-                    "subject": "I need help",
-                    "content": "I need help",
-                    "language_id": 2,
-                    "custom_fields": { "cf_25": "some text", "cf_30": "another field" },
-                    "labels": [101, 102]
-                }
+            formData: {
+
+                    "case[user_email]": "user@domain.ru",
+                    "case[user_full_name]": "User\u0027s full name",
+                    "case[subject]": "I need help",
+                    "case[content]": "I need help",
+                    "case[language_id]": 2,
+                    "case[custom_fields]": { "cf_25": "some text", "cf_30": "another field" },
+                    "case[labels]": [101, 102]
+
             },
             auth: {
                 'user': 'staminity@gmail.com',

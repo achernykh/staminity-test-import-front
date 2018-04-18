@@ -13,13 +13,13 @@
             </div>
             <div flex="auto" layout="column">
                 <section flex layout="row" layout-align="start center"
-                         ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
+                         ng-class="::{'md-dark' : $ctrl.activity.isDarkColor}"
                          class="md-caption md-active center">
                     <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
                          ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}"></div>
                 </section>
                 <section flex layout="row" layout-align="start center"
-                         ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
+                         ng-class="::{'md-dark' : $ctrl.activity.isDarkColor}"
                          class="md-title-small md-active center tight-10">
                     <span flex="none" ng-if="::$ctrl.activity.movingDuration">
                     {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}&nbsp;&nbsp;
@@ -128,7 +128,7 @@
             </section>
             <!-- Вторая строка: Категория тренировки -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
+                     ng-class="::{'md-dark' : $ctrl.activity.isDarkColor}"
                      class="second-row md-caption center">
                 <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
                      ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}">
@@ -136,7 +136,7 @@
             </section>
             <!-- Третья строка: Время и Расстояние -->
             <section flex layout="row" layout-align="center center"
-                     ng-class="::{'md-dark' : ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}"
+                     ng-class="::{'md-dark' : $ctrl.activity.isDarkColor}"
                      class="third-row md-title-small center tight-10">
                 <span flex="none" ng-if="::$ctrl.activity.movingDurationApprox">~</span>
                 <span flex="none" ng-if="::$ctrl.activity.movingDuration">
@@ -203,7 +203,7 @@
              ng-click="$ctrl.open($event)">
         <!-- Заголовок. Окрашиваем в цвет статуса -->
         <header class="calendar-item-activity-header {{::$ctrl.activity.status}} dashboard-view" layout="row"
-                ng-class="{selected: $ctrl.selected, 'md-dark': ($ctrl.activity.isComing || !$ctrl.activity.isSpecified)}">
+                ng-class="{selected: $ctrl.selected, 'md-dark': $ctrl.activity.isDarkColor}">
             <section flex="none" class="first-column" layout="column">
                 <div flex="none" layout="row" layout-align="center center"
                      class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"

@@ -34,70 +34,70 @@
                 </tr>
                 </thead>
                 <tbody md-body>
-                <tr md-row ng-if="$ctrl.showRow(measure.$key)"
-                    ng-repeat="measure in $ctrl.plan | toArray | filter:search | orderBy:order track by measure.$key">
+                <tr md-row ng-if="$ctrl.showRow(measure)"
+                    ng-repeat="measure in $ctrl.measuresBySport[$ctrl.sport] track by $index">
                     <td md-cell>
-                        <md-icon md-svg-src="assets/icon/{{measure.$key}}.svg" class="md-dark"></md-icon>&nbsp;
-                        <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure.$key)" translate="activity.percentFTP"></span>
-                        <span ng-if="!($ctrl.isFTP() && $ctrl.isInterval(measure.$key))">{{measure.$key | measureUnit:$ctrl.sport | translate}}</span>
+                        <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="md-dark"></md-icon>&nbsp;
+                        <span ng-if="$ctrl.isFTP() && $ctrl.isInterval(measure)" translate="activity.percentFTP"></span>
+                        <span ng-if="!($ctrl.isFTP() && $ctrl.isInterval(measure))">{{measure | measureUnit:$ctrl.sport | translate}}</span>
                     </td>
                     <td md-cell>
                         <md-input-container>
-                            <input ng-if="$ctrl.isInterval(measure.$key)"
+                            <input ng-if="$ctrl.isInterval(measure)"
                                    measure-input
-                                   ng-model="measure"
-                                   name="plan_{{::measure.$key}}"
-                                   measure="measure.$key"
+                                   ng-model="$ctrl.plan[measure]"
+                                   name="plan_{{::measure}}"
+                                   measure="measure"
                                    ng-attr-sport={{$ctrl.sport}}
                                    interval="true"
                                    ftp-mode="$ctrl.isFTP()"
-                                   ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key)"
+                                   ftp="$ctrl.getFTP(measure,$ctrl.sport)"
+                                   ng-change="$ctrl.changeValue(measure)"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-                            <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
-                                   name="plan_{{::measure.$key}}"
-                                   ng-model="measure.durationValue"
+                            <input ng-if="!$ctrl.isInterval(measure)" measure-input
+                                   name="plan_{{::measure}}"
+                                   ng-model="$ctrl.plan[measure].durationValue"
                                    change="$ctrl.change"
-                                   measure="measure.$key"
+                                   measure="measure"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key)"
+                                   ng-change="$ctrl.changeValue(measure)"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="!$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan) ">
                         <md-input-container>
-                            <input ng-model="$ctrl.actual[measure.$key][$ctrl.valueType[measure.$key]]"
-                                   name="actual_{{::measure.$key}}" measure-input
-                                   measure="measure.$key"
+                            <input ng-model="$ctrl.actual[measure][$ctrl.valueType[measure]]"
+                                   name="actual_{{::measure}}" measure-input
+                                   measure="measure"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
-                                   ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key, 'actual')"
+                                   ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure,$ctrl.sport)"
+                                   ng-change="$ctrl.changeValue(measure, 'actual')"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
                         <md-input-container>
-                            <input ng-if="$ctrl.isInterval(measure.$key)" measure-input
-                                   ng-model="$ctrl.actual[measure.$key]['intensityByFtp']"
-                                   name="actual_{{::measure.$key}}"
-                                   measure="measure.$key"
+                            <input ng-if="$ctrl.isInterval(measure)" measure-input
+                                   ng-model="$ctrl.actual[measure]['intensityByFtp']"
+                                   name="actual_{{::measure}}"
+                                   measure="measure"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
-                                   ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key, 'actual')"
+                                   ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure,$ctrl.sport)"
+                                   ng-change="$ctrl.changeValue(measure, 'actual')"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-                            <input ng-if="!$ctrl.isInterval(measure.$key)" measure-input
-                                   ng-model="$ctrl.actual[measure.$key]['value']"
-                                   name="actual_{{::measure.$key}}"
-                                   measure="measure.$key"
+                            <input ng-if="!$ctrl.isInterval(measure)" measure-input
+                                   ng-model="$ctrl.actual[measure]['value']"
+                                   name="actual_{{::measure}}"
+                                   measure="measure"
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
-                                   ng-change="$ctrl.changeValue(measure.$key, 'actual')"
+                                   ng-change="$ctrl.changeValue(measure, 'actual')"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="!($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
-                        {{$ctrl.percentComplete[measure.$key] | percent}}
+                        {{$ctrl.percentComplete[measure] | percent}}
                     </td>
                 </tr>
                 </tbody>

@@ -16,6 +16,7 @@ export interface IChartMeasureData {
     max: any;
     measuresX: string[];
     measuresY: string[];
+    avgStep: number;
 }
 
 export class ActivityDetails implements IActivityDetails {
@@ -47,6 +48,7 @@ export class ActivityDetails implements IActivityDetails {
         const measures: {} = {}; // Перечень показателей, которые будут показаны на графике
         const data: Array<{}> = []; // Массив данных для показа на графике
         const maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
+        let avgStep: number = 0;
 
         const measuresX: string[] = ["distance", "elapsedDuration"];
         const measuresY: string[] = ["heartRate", "speed", "power", "cadence", "strokes", "altitude"];
@@ -95,13 +97,21 @@ export class ActivityDetails implements IActivityDetails {
         });
 
         // 4) Подготовка детальных данных для графика
-        this.metrics.forEach((info) => {
+        this.metrics.forEach((info, index) => {
             const cleaned = {};
             for (const key in measures) {
                 const measure: Measure = new Measure(key, sportBasic);
                 cleaned[key] = measure.isPace() ?
                     Math.max(info[measures[key].idx], getSportLimit(sportBasic, key).min) :
                     info[measures[key].idx];
+            }
+            if (index !== 0 && info[measures['elapsedDuration'].idx] &&
+                info[measures['elapsedDuration'].idx] > this.metrics[index - 1][measures['elapsedDuration'].idx] &&
+                info[measures['duration'].idx] > this.metrics[index - 1][measures['duration'].idx]) {
+                cleaned['pause'] = false;
+                avgStep = (avgStep + info[measures['elapsedDuration'].idx] - this.metrics[index - 1][measures['elapsedDuration'].idx])/(avgStep ? 2 : 1);
+            } else {
+                cleaned['pause'] = true;
             }
             data.push(cleaned);
         });
@@ -112,6 +122,7 @@ export class ActivityDetails implements IActivityDetails {
             max: maxValue,
             measuresX,
             measuresY,
+            avgStep
         };
     }
 

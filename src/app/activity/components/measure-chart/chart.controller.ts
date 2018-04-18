@@ -9,7 +9,8 @@ import { ActivityChartMode, FillType, IActivityChartSettings, IAreaSettings, IGr
 import { ChangeTracker } from "./utils/changeTracker";
 import { IActivityScales, IScaleInfo, ScaleType } from "./utils/chart.scale";
 import LabelFormatters from "./utils/labelFormatter";
-import {scale} from 'leaflet';// L.control.scale;
+//import {scale} from 'leaflet';// L.control.scale;
+//import scale = L.control.scale;
 
 class ActivityChartController implements IComponentController {
 
@@ -21,6 +22,7 @@ class ActivityChartController implements IComponentController {
     private select;
     private x: string;
     private smooth: number;
+    private step: number;
     private changeMeasure: string = null;
     private sport: string;
     private autoZoom: boolean;
@@ -964,6 +966,7 @@ class ActivityChartController implements IComponentController {
 
         /**console.debug('data:',
             i,
+            d && d.pause,
             d && d.elapsedDuration,
             i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).elapsedDuration,
             d && d.duration,
@@ -974,11 +977,14 @@ class ActivityChartController implements IComponentController {
             d.heartRate);**/
 
         if (param && !d[param]) { return false;}
+        if (i === 0) { return true;}
 
-        return i !== 0 && this.chartData.getData(i - 1) &&
+        return !d.pause &&
+            (this.smooth === 0 || (d.elapsedDuration - this.chartData.getData(i - 1).elapsedDuration <= this.chartData.smooth * Math.ceil(this.step * 5)));
+        /*return i !== 0 && this.chartData.getData(i - 1) &&
             (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
-            (this.smooth === 0 || (d.elapsedDuration - this.chartData.getData(i - 1).elapsedDuration <= this.smooth)) &&
-            (d.duration > this.chartData.getData(i - 1).duration);
+            (this.smooth === 0 || (d.elapsedDuration - this.chartData.getData(i - 1).elapsedDuration <= Math.max(this.chartData.smooth * 5, 15))) &&
+            (d.duration > this.chartData.getData(i - 1).duration);*/
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {
