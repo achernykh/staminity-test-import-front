@@ -80,6 +80,23 @@ export default class NotificationService {
                 notification.isRead = true;
             }
         });
+
+        this.socket.messages
+        .filter((message) => message.type === "notificationRead")
+        .subscribe(({action, value}) => {
+            if (action === 'U') {
+                let {readUntil} = value;
+                let readUntilDate = new Date(readUntil);
+                this.notifications = this.notifications.map((notification) => {
+                    let date = new Date(notification.ts);
+                    if (date <= readUntilDate) {
+                        notification.isRead = true;
+                    }
+                    return notification;
+                });
+                this.notificationsChanges.next(this.notifications);
+            }
+        });
     }
 
     clear (): void {
