@@ -115,7 +115,7 @@ export default class MessageService implements IMessageService{
 	toast(code: string, status: string = 'error', context: {} = null, delay: number = 10) {
 		this.$mdToast.show({
 			hideDelay: delay * 1000,
-			position: 'bottom center',
+			position: 'bottom left',
 			bindToController: true,
 			controllerAs: '$ctrl',
 			controller: ToastCtrl,
@@ -129,16 +129,15 @@ export default class MessageService implements IMessageService{
 	}
 
 	toastError(code: string, context?: {}, delay?: number) {
-		debugger;
-		this.toast(code,'error',context,delay);
+		this.toast(code,'md-warn',context,delay);
 	}
 
 	toastWarning(code: string, context?: {}, delay?: number) {
-		this.toast(code,'warning',context,delay);
+		this.toast(code,'md-accent',context,delay);
 	}
 
 	toastInfo(code: string, context?: {}, delay?: number) {
-		this.toast(code,'info',context,delay);
+		this.toast(code,'md-primary',context,delay);
 	}
 
 }

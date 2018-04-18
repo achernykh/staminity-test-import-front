@@ -125,11 +125,17 @@ export class CalendarItemRecordCtrl implements IComponentController {
             }, error => this.message.toastError(error));
     }
 
+    setSample (value: boolean): void {
+        this.record.isSample = value;
+        this.record.view.isPut = true;
+        this.saveTrainingPlanRecord();
+    }
+
     saveTrainingPlanRecord(): void {
         //this.inAction = true;
 
         if (this.record.view.isPost) {
-            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.record.build(), this.record.isSample)
                 .then((response)=> {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
@@ -137,7 +143,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 }, error => this.message.toastError(error));
                 //.then(() => this.inAction = false);
         } else if (this.record.view.isPut) {
-            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), this.record.isSample)
                 .then((response)=> {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
@@ -187,6 +193,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
 export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
         item: '=', // CalendarItem
+        disableActions: '<',
         options: '<',
         onAnswer: '&',
         onCancel: '&', // отмена открытия

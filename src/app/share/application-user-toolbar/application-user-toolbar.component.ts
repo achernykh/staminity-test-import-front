@@ -44,7 +44,6 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     }
 
     get incompleteProfile (): boolean {
-        console.debug('ProfileClub auth:',this.authService.isAuthorized(['ProfileClub']));
         return this.application.user.public.isCoach && !this.application.user.public.profileComplete &&
             !this.authService.isAuthorized(['ProfileClub']);
     }

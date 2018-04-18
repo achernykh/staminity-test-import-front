@@ -153,7 +153,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     saveTrainingPlanCompetition () {
         if ( this.competition.view.isPost ) {
-            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.competition.build())
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.competition.build(), this.competition.isSample)
                 .then(response => this.competition.compile(response),
                     error => { this.message.toastError(error); throw new Error(error); })
                 .then(() => this.competition.setParentId())
@@ -169,7 +169,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 );
         }
         if ( this.competition.view.isPut ) {
-            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.competition.build())
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.competition.build(), this.competition.isSample)
                 .then(response => this.competition.compile(response),
                     error => { this.message.toastError(error); throw new Error(error); })
                 .then(() => Object.assign({}, this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
@@ -197,10 +197,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         return Promise.all(<any>this.competition.items.map(i => {
                 i.item = new Activity(i.item.build(), this.options);
                 if ( this.competition.view.isPost ) {
-                    return this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, i.item.build());
+                    return this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, i.item.build(), false);
                 }
                 if ( this.competition.view.isPut && i.dirty) {
-                    return this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, i.item.build());
+                    return this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, i.item.build(), false);
                 }
             })
         );

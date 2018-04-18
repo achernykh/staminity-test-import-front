@@ -1,0 +1,54 @@
+<md-dialog style="min-width: 320px">
+    <form name="$ctrl.adaptorForm" ng-submit='hide()' ng-cloak>
+        <md-toolbar style="background-color: white; color: black">
+            <div class="md-toolbar-tools">
+                <h2 >{{ 'settings.sync.'+ $ctrl.adaptor.provider | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                    <md-icon class="material-icons md-dark">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <md-list class="md-dense">
+                <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
+                    <md-input-container md-no-float class="md-block no-message">
+                        <md-icon class="material icons">account_circle</md-icon>
+                        <input ng-model="$ctrl.adaptor.username" type="text" autocomplete="off"
+                               required
+                               placeholder="{{'settings.sync.account.placeholder' | translate}}">
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
+                    <md-input-container md-no-float class="md-block no-message">
+                        <md-icon class="material-icons">security</md-icon>
+                        <input ng-model="$ctrl.adaptor.password" type="password" autocomplete="off"
+                               required
+                               placeholder="{{'settings.sync.password.placeholder' | translate}}">
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item>
+                    <md-input-container md-no-float class="md-block">
+                        <md-datepicker ng-model="$ctrl.adaptor.startDate" name="dateField" md-min-date="minDate"
+                                       md-max-date="maxDate"></md-datepicker>
+
+                        <div class="hint" translate="settings.sync.startDate.hint"></div>
+                        <div ng-messages="myOtherForm.dateField.$error">
+                            <div ng-message="valid">The entered value is not a date!</div>
+                            <div ng-message="required">This date is required!</div>
+                            <div ng-message="mindate">Date is too early!</div>
+                            <div ng-message="maxdate">Date is too late!</div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
+            </md-list>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-disabled="!$ctrl.adaptorForm.$valid" type="submit"
+                       ng-class="{'md-primary': $ctrl.adaptorForm.$valid, 'md-disabled': $ctrl.adaptorForm.$error}"
+                       ng-click="$ctrl.confirm()">{{'user.settings.sync.status.'+$ctrl.adaptor.status.code+'.button' | translate}}</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

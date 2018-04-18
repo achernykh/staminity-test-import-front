@@ -13,14 +13,14 @@ export class CalendarItemAthletes {
 
 	constructor(private owner: IUserProfile, private currentUser: IUserProfile) {
 
-		if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
+		if(this.currentUser.connections && this.currentUser.connections.hasOwnProperty('allAthletes') &&
+			this.currentUser.connections.allAthletes){
 			this.list = this.currentUser.connections.allAthletes.groupMembers
 				.filter(user => user.hasOwnProperty('trainingZones'))
 				.map(user => ({profile: user, active: user.userId === this.owner.userId}));
-
 		}
 
-		if(this.list.length === 0 || !this.list.some(athlete => athlete.active)) {
+		if(this.owner && this.list.length === 0 || !this.list.some(athlete => athlete.active)) {
 			this.list.push({profile: this.owner, active: true});
 		}
 	}
@@ -131,6 +131,7 @@ export class CalendarItem implements ICalendarItem {
 	public _dateStart: Date;
 	public _dateEnd: Date;
     public _time: Date;
+	public isSample: boolean;
 	public index: number; // index for ng-repeat in calendar-day component
 
 	view: CalendarItemView;

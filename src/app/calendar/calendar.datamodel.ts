@@ -164,20 +164,19 @@ export class Calendar {
     down (n = 1) {
         let i0 = this.range[1];
         this.range[1] += n;
+        console.time(`calendar down ${this.range[1]}`);
 
         let items = times(n)
             .map((i) => i0 + i)
             .map((i) => this.getWeek(moment(this.date).add(i, 'w'), i));
 
-        items
-            .forEach(week => {
+        items.forEach(week => {
                 this.weeks.push(week);
                 week.loading
-                    .then(() => {
-                        week.loading = null;
-                        this.$scope.$applyAsync();
-                    })
-                    .catch((exc) => { console.log('Calendar loading fail', exc); });
+                    .then(_ => week.loading = null)
+                    .then(_ => console.timeEnd(`calendar down ${this.range[1]}`))
+                    .then(_ => this.$scope.$applyAsync())
+                    .catch(e => console.log('Calendar loading fail', e));
             });
 
         return items;
@@ -402,6 +401,11 @@ export class Calendar {
     }
 
     private getItemsFromCache (cache: Array<ICalendarItem>, dateStart: Moment, dateFinish: Moment): Promise<Array<ICalendarItem>> {
+
+        /**return Promise.resolve(cache.filter(item =>item && item.hasOwnProperty('dateStart') &&
+            moment(item.dateStart).isSameOrAfter(dateStart, 'day') &&
+            moment(item.dateStart).isSameOrBefore(dateFinish, 'day'))
+            .map(item => Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)})));**/
 
         return new Promise(resolve => {
             return resolve(cache

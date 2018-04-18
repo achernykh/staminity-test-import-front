@@ -174,7 +174,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     post (item: ICalendarItem): void {
-        this.trainingPlansService.postItem(this.currentPlan.id, item, true)
+        this.trainingPlansService.postItem(this.currentPlan.id, item, false)
             .then(response => response && Object.assign(item, {
                 index: Number(`${response.value.id}${response.value.revision}`),
                 calendarItemId: response.value.id,
@@ -186,7 +186,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     put (item: ICalendarItem): void {
-        this.trainingPlansService.putItem(this.currentPlan.id, item, true)
+        this.trainingPlansService.putItem(this.currentPlan.id, item, false)
             .then(response => response && Object.assign(item, {
                 index: Number(`${response.value.id}${response.value.revision}`),
                 calendarItemId: response.value.id,
@@ -295,7 +295,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         if (shift && this.copiedItems && this.copiedItems.length > 0) {
             task = this.copiedItems
                 .filter(item => item.calendarItemType === 'activity' && item.activityHeader.intervals.some(interval => interval.type === 'pW'))
-                .map(item => this.trainingPlansService.postItem(this.currentPlan.id, prepareItem(item, shift), true));
+                .map(item => this.trainingPlansService.postItem(this.currentPlan.id, prepareItem(item, shift), false));
 
             Promise.all(task)
                 .then(response => {
@@ -315,7 +315,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
     }
 
     private assignment (env: Event, plan: TrainingPlan): void {
-        this.trainingPlanDialogService.assignment(env, plan)
+        this.trainingPlanDialogService.assignment(env, plan, false)
             .then(response => {debugger;}, error => {debugger;});
     }
 

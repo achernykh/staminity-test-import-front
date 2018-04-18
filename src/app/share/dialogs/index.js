@@ -1,5 +1,6 @@
- import moment from 'moment/min/moment-with-locales.js';
+import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
+import './moneta.scss';
 import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
 
 
@@ -14,6 +15,7 @@ export default class DialogsService {
     
     uploadPicture () {
         return this.$mdDialog.show({
+            multiple: true,
             controller: UploadPictureDialogController,
             template: require('./upload.html'),
             parent: angular.element(document.body),
@@ -217,8 +219,8 @@ export default class DialogsService {
             multiple: true,
             parent: angular.element(document.body),
             bindToController: true,
-            clickOutsideToClose: true,
-            escapeToClose: true,
+            clickOutsideToClose: false,
+            escapeToClose: false,
             fullscreen: !this.$mdMedia('gt-sm')
         });
     }
@@ -472,7 +474,7 @@ function DisableTariffController($scope, $mdDialog, BillingService, message, use
 
     this.countsText = () => {
         return this.counts()
-            .map(fee => $translate.instant(`settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
+            .map(fee => $translate.instant(`user.settings.billing.counts.${fee.varGroup}`, { count: fee.varActualCount }))
             .join(', ');
     };
 
@@ -701,15 +703,19 @@ function IframeController ($scope, $mdDialog, $sce, url, title) {
     this.url = url;
     this.title = title;
 
-    this.close = () => { 
-        $mdDialog.hide(); 
+    const listener = (event) => {
+        console.debug(event);
+    };
+
+    console.debug('iframe controller');
+
+    this.close = () => {
+        $mdDialog.cancel('close');
     };
 
     this.trust = (url) => {
         return $sce.trustAsResourceUrl(url);
     };
-
-    console.log('IframeController', this);
 }
 
 IframeController.$inject = ['$scope','$mdDialog', '$sce', 'url', 'title'];

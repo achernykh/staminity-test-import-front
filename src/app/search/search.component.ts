@@ -28,9 +28,9 @@ export class SearchCtrl implements IComponentController {
     private defaultState: string = 'coaches';
     private currentState: string = null;
     private stateParam: string = 'state';
-    private usersFilter: SearchParams = {};
-    private coachesFilter: SearchParams = {};
-    private coachesAndClubsFilter: Array<SearchParams>;
+    usersFilter: SearchParams = {};
+    coachesFilter: SearchParams = {};
+    coachesAndClubsFilter: Array<SearchParams>;
     private usersFilterChange: number = 0;
     private coachesFilterChange: number = 0;
     private clubsFilterChange: number = 0;
@@ -46,7 +46,7 @@ export class SearchCtrl implements IComponentController {
                 private $stateParams: any,
                 private $location: ILocationService,
                 private authService: AuthService,
-                private searchService: SearchService,
+                public searchService: SearchService,
                 private message: MessageService) {
 
         saveUtmParams($location.search());

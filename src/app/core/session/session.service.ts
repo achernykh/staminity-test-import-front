@@ -71,7 +71,6 @@ export class SessionService {
         }
     }
 
-
     getToken (): string {
         return getToken(this.get());
     }

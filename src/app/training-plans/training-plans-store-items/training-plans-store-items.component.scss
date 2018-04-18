@@ -1,0 +1,47 @@
+@import "../../../sass/color";
+
+.training-plans-store-items {
+  &__loading, &__empty, &__data {
+    min-height: calc(100vh - 64px);
+  }
+  
+  &__data {
+    padding: 0;
+    min-height: calc(100vh - 64px - 16px);
+    @media (min-width:  960px) { padding: 16px; min-height: calc(100vh - 110px - 32px); }
+    .md-row {
+      cursor: pointer;
+      &:hover {
+        background-color: $grey-200;
+      }
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+
+      @media (min-width:  960px) {  grid-template-columns: repeat(2, 1fr); }
+      @media (min-width: 1280px) {  grid-template-columns: repeat(3, 1fr); }
+      @media (min-width: 1920px) {  grid-template-columns: repeat(5, 1fr); }
+      //grid-gap: 8px;
+      //margin: 8px;
+    }
+    .card {
+      grid-column-end: span 1;
+      grid-row-end: span 1;
+      overflow: hidden;
+      .md-subhead {margin: 0;}
+      .md-user-avatar {height: 100%; width: 100%}
+      md-card-header-text {overflow: hidden;}
+      md-card-title-text {overflow: hidden;}
+    }
+  }
+
+  &__empty {
+    md-icon {
+      font-size: 96px;
+      height: 96px;
+      width: 96px;
+      margin: 0;
+    }
+  }
+}

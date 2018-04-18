@@ -2,6 +2,13 @@ import './omni-form.component.scss';
 import {IComponentOptions, IComponentController, INgModelController} from 'angular';
 import { IQuillConfig } from "../../quill/quill.config";
 
+export interface OmniMessage {
+    user_email: string;
+    user_full_name: string;
+    subject: string;
+    content_html: string;
+}
+
 class OmniFormCtrl implements IComponentController {
 
     // bind
@@ -11,11 +18,7 @@ class OmniFormCtrl implements IComponentController {
 
     // private
     private omniForm: INgModelController;
-    private message : {
-        user_email: string,
-        user_full_name: string,
-        content_html: string
-    };
+    private message : OmniMessage;
 
     // inject
     static $inject = ['quillConfig'];

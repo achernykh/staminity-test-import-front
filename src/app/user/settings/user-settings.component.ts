@@ -1,67 +1,87 @@
 import './user-settings.component.scss';
-import {IComponentOptions, IComponentController,ILocationService} from 'angular';
-import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
+import {IComponentOptions, IComponentController, IScope} from 'angular';
+import { IUserProfile, IUserProfileShort } from "@api/user";
+import { IAgentProfile, IAgentEnvironment, IAgentWithdrawal, IAgentExtAccount, IAgentAccountTransaction } from "@api/agent";
 import MessageService from "../../core/message.service";
-import AuthService from "../../auth/auth.service";
+import { SessionService } from "../../core/session/session.service";
+import { UserSettingsService } from "./user-settings.service";
+import { AgentService } from "./agent.service";
 
 class UserSettingsCtrl implements IComponentController {
-    
-    // bind
-    currentUser: IUserProfile;
-    onEvent: (response: Object) => Promise<void>;
-     
-    // private
-    private owner: IUserProfile;
-    private athletes: Array<IUserProfileShort>;
+
+    // binding
+    userId: number;
+    owner: IUserProfile | IUserProfileShort;
+    agentProfile: IAgentProfile;
+    agentEnvironment: IAgentEnvironment;
 
     // inject
-    static $inject = ['$stateParams', '$location', '$mdMedia', 'message', 'AuthService'];
+    static $inject = ['$scope', '$anchorScroll', '$stateParams', '$mdMedia', 'message', 'SessionService',
+        'UserSettingsService', 'AgentService'];
 
-    constructor(private $stateParams: any,
-                private $location: ILocationService,
-                private $mdMedia: any,
-                private message: MessageService,
-                private auth: AuthService) {
-
+    constructor (
+        private $scope: IScope,
+        private $anchorScroll,
+        private $stateParams: any,
+        private $mdMedia: any,
+        private message: MessageService,
+        private sessionService: SessionService,
+        private userSettingsService: UserSettingsService,
+        private agentService: AgentService,
+    ) {
+        window['UserSettingsCtrl'] = this;
+        $anchorScroll.yOffset = 72;
+        userSettingsService.updates.subscribe((userProfile) => {
+            if (userProfile.userId === this.userId) {
+                this.owner = userProfile;
+            }
+            this.$scope.$applyAsync();
+        });
+        agentService.updates.subscribe((agentProfile) => {
+            this.agentProfile = agentProfile;
+            this.$scope.$applyAsync();
+        });
     }
 
     $onInit(): void {
-        this.prepareRoles();
+        debugger;
+        this.$anchorScroll();
+    }
+
+    get currentUser () : IUserProfile {
+        return this.sessionService.getUser();
+    }
+
+    get athletes () : IUserProfileShort[] {
+        return this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes') ?
+            this.currentUser.connections.allAthletes.groupMembers : [];
     }
 
     /**
-     * Установка владельца
-     * После смены владельца выполняется переустановка данных
-     * @param user
+     * Открыта собственная страница настроек
+     * @returns {boolean}
      */
-    setOwner (user: IUserProfile | IUserProfileShort): void {
-        this.owner = user;
-        this.$location.search('userId', this.owner.userId);
-        this.setData();
+    isOwnSettings () : boolean {
+        return this.currentUser.userId === this.userId;
     }
 
-    setData (): void {
-
-    }
-
-    private prepareRoles (): void {
-        if (this.currentUser.public.isCoach && this.currentUser.connections.hasOwnProperty('allAthletes')) {
-            this.athletes = this.currentUser.connections.allAthletes.groupMembers;
-        }
-        if (this.$stateParams.userId && this.athletes &&
-            this.athletes.some(a => a.userId === Number(this.$stateParams.userId))) {
-            this.setOwner(this.athletes.filter(a => a.userId === Number(this.$stateParams.userId))[0]);
-        } else {
-            this.setOwner(this.currentUser);
-        }
+    /**
+     * Мобильная вёрстка
+     * @returns {boolean}
+     */
+    isMobileLayout(): boolean {
+        return this.$mdMedia(`(max-width: 959px)`);
     }
 }
 
-export const UserSettingsComponent:IComponentOptions = {
+export const UserSettingsComponent: IComponentOptions = {
     bindings: {
-        currentUser: '<',
-        onEvent: '&'
+        userId: '<',
+        owner: '<',
+        agentProfile: '<',
+        agentEnvironment: '<',
     },
     controller: UserSettingsCtrl,
+    controllerAs: '$userSettingsCtrl',
     template: require('./user-settings.component.html') as string
-};
+} as any;

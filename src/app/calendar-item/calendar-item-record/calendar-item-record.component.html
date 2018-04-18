@@ -8,6 +8,19 @@
                     <md-icon class="material-icons">menu</md-icon>
                 </md-button>
                 <md-menu-content width="4">
+                    <md-menu-item ng-if="$ctrl.record.view.isTrainingPlan && !$ctrl.record.isSample">
+                        <md-button ng-click="$ctrl.setSample(true)">
+                            <md-icon class="material-icons" md-menu-align-target ng-bind="'star'"></md-icon>
+                            <span translate="activity.action.setSample"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.record.view.isTrainingPlan && $ctrl.record.isSample">
+                        <md-button ng-click="$ctrl.setSample(false)">
+                            <md-icon class="material-icons" md-menu-align-target ng-bind="'star_border'"></md-icon>
+                            <span translate="activity.action.unsetSample"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
                     <md-menu-item>
                         <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
                         $ctrl.onDelete() :

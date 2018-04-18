@@ -1,7 +1,7 @@
 import './search-filter.component.scss';
 import { IComponentOptions, IComponentController } from 'angular';
 import { SearchParams } from "@api/search";
-import { _ACTIVITIES } from "../../settings-user/settings-user.constants";
+import { activities } from "../../user/settings/user-settings.constants";
 
 class SearchFilterCtrl implements IComponentController {
 
@@ -10,7 +10,7 @@ class SearchFilterCtrl implements IComponentController {
     view: string;
     onChangeFilter: (response: { filter: SearchParams }) => Promise<void>;
 
-    private activityTypes = _ACTIVITIES;
+    private activityTypes = activities;
 
     constructor () {}
 

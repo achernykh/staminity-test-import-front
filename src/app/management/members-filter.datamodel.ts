@@ -29,6 +29,7 @@ export const membersOrderings: {
     roles: (member) => member.roleMembership.join(" "),
     coaches: (member) => member.coaches.join(","),
     athletes: (member) => this.athletes(member).map((a) => a.userProfile.userId).join(","),
+    ftpWatt: (member) => member.userProfile.trainingZones['power']['bike'].FTP || member.userProfile.trainingZones['power']['default'].FTP
 };
 
 /**

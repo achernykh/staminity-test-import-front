@@ -1,0 +1,29 @@
+<md-list class="md-dense">
+    <md-list-item class="md-2-line"> 
+        <div class="md-list-item-text"> 
+            <div class="md-body-1">{{ 'user.settings.agent.iWant' | translate }}</div>
+        </div> 
+        <div class="md-secondary">
+            <md-switch
+                ng-if="$ctrl.owner.public.isCoach"
+                ng-model="$ctrl.isAgent"
+                ng-model-options="{getterSetter: true}"
+                ng-disabled="$ctrl.isDisabled()"
+            >
+            </md-switch>
+        </div> 
+    </md-list-item>
+    <md-divider ng-if="$ctrl.agentProfile.isActive"></md-divider>
+    <md-list-item ng-if="$ctrl.agentProfile.isActive" ui-sref="user-settings.agent({userId: $ctrl.owner.userId})">
+        <div layout="column">
+            <div class="md-body-1" translate>user.settings.agent.profile</div>
+            <div class="md-body-1 md-dark" ng-if="$ctrl.agentProfile.isCompleted" translate style="color:#38761d">user.settings.agent.complete</div>
+            <div class="md-body-1 md-dark" ng-if="!$ctrl.agentProfile.isCompleted && ($ctrl.agentProfile.isIndividual || $ctrl.agentProfile.isIndividual === null)" translate
+                 colors="{color: 'default-warn'}">user.settings.agent.incompleteIndividual</div>
+            <div class="md-body-1 md-dark" ng-if="!$ctrl.agentProfile.isCompleted && $ctrl.agentProfile.isIndividual === false" translate
+                 colors="{color: 'default-primary-700'}">user.settings.agent.incompleteNotIndividual</div>
+        </div>
+        <md-icon class="material-icon md-secondary">keyboard_arrow_right
+        </md-icon>
+    </md-list-item>
+</md-list>

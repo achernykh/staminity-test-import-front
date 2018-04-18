@@ -44,6 +44,7 @@ md-dialog#training-plan-form{
       }
 
     }
+
   }
 
   md-input-container._md-datepicker-floating-label {
@@ -55,6 +56,22 @@ md-dialog#training-plan-form{
 
   .ql-editor {
     padding: 16px 0px;
+  }
+
+  .landing {
+    height: 160px;
+    .md-button {
+      color: white;
+      border: 1px solid white;
+      border-radius: 5px;
+    };
+  }
+
+  .tutorial {
+    width: 320px;
+    height: 276px;
+    border-radius: 5px;
+    background: url("/assets/picture/training_plans_select_ru.gif");
   }
 
 }
