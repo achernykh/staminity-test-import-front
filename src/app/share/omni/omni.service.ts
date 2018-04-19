@@ -19,7 +19,7 @@ export class OmniService {
                 $scope.cancel = () => $mdDialog.cancel();
                 $scope.post = (message) => {
                     this.post(message).then(_ => $mdDialog.hide());
-                }
+                };
             }],
             controllerAs: "$ctrl",
             template: `<md-dialog id="omni-form" aria-label="Omni Form">

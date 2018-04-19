@@ -28,7 +28,7 @@ export interface OmniMessage {
                 content: any;
             }
         ];
-    }
+    };
 }
 
 class OmniFormCtrl implements IComponentController {
