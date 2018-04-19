@@ -62,20 +62,6 @@ class TrainingPlanOrderCtrl implements IComponentController {
         };
     }
 
-    pay (): void {
-        this.enabled = false; // форма ввода недоступна до получения ответа
-        this.error = null;
-        Promise.resolve(_ => {})
-            .then(_ => this.user.userId ? this.plan : this.authGuest())
-            .then(plan => plan.product ?
-                    plan.price > 0 ? this.trainingPlansDialog.pay(this.plan.product) : Promise.resolve('getFreeSuccess') :
-                    Promise.reject('badPlanProduct'),
-                e => { debugger; throw e; })
-            .then(r => this.onSuccess({message: r, email: this.user.userId ? null : this.credentials.email}),
-                e => {if (e) { this.error = e; } this.enabled = true;})
-            .then(_ => this.$scope.$applyAsync());
-    }
-
     authGuest (): Promise<TrainingPlan> {
         return Promise.resolve(_ => {})
                 .then(_ => this.authState ?
@@ -84,6 +70,27 @@ class TrainingPlanOrderCtrl implements IComponentController {
                 .then(_ => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
                     e => { this.error = e; throw e; })
                 .then(r => this.plan = new TrainingPlan(r), e => { throw e; });
+    }
+
+    pay (): void {
+        this.enabled = false; // форма ввода недоступна до получения ответа
+        this.error = null;
+        Promise.resolve(() => {})
+            .then(() => this.user.userId ? Promise.resolve(this.plan) : this.authGuest())
+            .then((plan: TrainingPlan) => {
+                if (plan.product) {
+                    if (plan.monetization) {
+                        return this.trainingPlansDialog.pay(this.plan.product);
+                    } else {
+                        return Promise.resolve('getFreeSuccess');
+                    }
+                } else {
+                    throw Promise.reject('badPlanProduct');
+                }
+            }, e => {throw Promise.reject(e);})
+            .then(r => this.onSuccess({message: r, email: this.user.userId ? null : this.credentials.email}),
+                e => {if (e) { this.error = e; } this.enabled = true;})
+            .then(_ => this.$scope.$applyAsync());
     }
 
     OAuth(provider: string) {

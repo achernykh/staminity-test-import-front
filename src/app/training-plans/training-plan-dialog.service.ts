@@ -198,7 +198,7 @@ export class TrainingPlanDialogService {
         return this.$mdDialog.show(dialog);
     }
 
-    pay (product: IMonetaAssistantFormData): Promise<any> {
+    pay (product: IMonetaAssistantFormData): Promise<string> {
 
         const url = `https://demo.moneta.ru/assistant.widget?` +
             Object.keys(product).map(k => `${k}=${product[k]}`).join('&');// MNT_ID=${product.MNT_ID}&MNT_AMOUNT=${product.MNT_AMOUNT}&MNT_CURRENCY_CODE=${product.MNT_CURRENCY_CODE}&MNT_TRANSACTION_ID=${product.MNT_TRANSACTION_ID}&MNT_SIGNATURE=${product.MNT_SIGNATURE}&MNT_TEST_MODE=${product.MNT_TEST_MODE}&MNT_DESCRIPTION=${product.MNT_DESCRIPTION}`;

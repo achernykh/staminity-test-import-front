@@ -55,7 +55,7 @@ export class UserSettingsAgentOwnerDatamodel {
 		this.firstName = profile.public.firstName;
 		this.lastName = profile.public.lastName;
 		this.email = profile['email'];
-		this.phone = profile.personal.phone;
+		this.phone = profile.hasOwnProperty('personal') && profile.personal.phone || null;
 	}
 
 	toUserProfile () : IUserProfile {
