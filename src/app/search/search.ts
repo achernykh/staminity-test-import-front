@@ -1,7 +1,8 @@
 // Ответ в случае поископ по пользователям/тренерам
 import {InitiatorType} from "../../../api/notification/notification.interface";
 import {IUserProfilePublic} from "@api/user";
-import { image, userName } from "../share/share.module";
+import { fullImageUrl } from "../share/image/image.functions";
+import { userName } from "../user/user.functions";
 
 export class SearchResultByUser {
     userId: number = null;
@@ -20,11 +21,11 @@ export class SearchResultByUser {
     }
 
     get icon(): string {
-        return this.public && this.public.avatar && image()('/user/avatar/', this.public.avatar) || null;
+        return this.public && this.public.avatar && fullImageUrl()('/user/avatar/', this.public.avatar) || null;
     }
 
     get backgroundUrl (): string {
-        return this.public && this.public.background && image()('/user/background/', this.public.background) || null;
+        return this.public && this.public.background && fullImageUrl()('/user/background/', this.public.background) || null;
     }
 
     get city (): string {
@@ -72,11 +73,11 @@ export class SearchResultByGroup {
     }
 
     get icon(): string {
-        return this.avatar && image()('/group/avatar/', this.avatar) || null;
+        return this.avatar && fullImageUrl()('/group/avatar/', this.avatar) || null;
     }
 
     get backgroundUrl(): string {
-        return this.background && image()('/group/background/', this.background) || null;
+        return this.background && fullImageUrl()('/group/background/', this.background) || null;
     }
 
     get activity () {

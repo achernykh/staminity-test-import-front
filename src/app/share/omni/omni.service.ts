@@ -1,5 +1,9 @@
 import { IHttpService } from "angular";
 import { SessionService } from "../../core/session/session.service";
+import { RESTService, PostData } from "../../core/rest.service";
+import { OmniMessageRequest, OmniMessage } from "./form/omni-form.component";
+import * as _connection from "../../core/env.js";
+import MessageService from "../../core/message.service";
 
 export class OmniService {
     static $inject = ["$mdDialog", "SessionService", "$http"];
@@ -10,13 +14,11 @@ export class OmniService {
 
     open (e: Event): Promise<any> {
         return this.$mdDialog.show({
-            controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
+            controller: ["$scope", "$mdDialog", "message", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
                 $scope.post = (message) => {
-                    this.post(message)
-                        .then(r => {debugger;}, e => {debugger;})
-                        .then(_ => $mdDialog.hide());
+                    this.post(message).then(_ => $mdDialog.hide());
                 }
             }],
             controllerAs: "$ctrl",
@@ -44,8 +46,9 @@ export class OmniService {
         });
     }
 
-    post (message): Promise<any> {
-        let request = {
+    post (message: OmniMessage): Promise<any> {
+        return this.$http.post(`${_connection.protocol.rest}${_connection.server}/omnidesk/gate`, message);
+        /**let request = {
             method: 'POST',
             url: 'https://staminity.omnidesk.ru/api/cases.json',
             headers: {
@@ -67,6 +70,6 @@ export class OmniService {
                 'pass': 'fa42d97402b381a0f0b4f663e'
             }
         };
-         return this.$http(request);
+         return this.$http(request);**/
     }
 }

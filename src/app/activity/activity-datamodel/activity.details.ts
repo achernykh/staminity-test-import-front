@@ -49,6 +49,7 @@ export class ActivityDetails implements IActivityDetails {
         const data: Array<{}> = []; // Массив данных для показа на графике
         const maxValue: {} = {}; // Максимальные/минимальные значения для таблицы показателей...
         let avgStep: number = 0;
+        let avgStepCount: number = 0;
 
         const measuresX: string[] = ["distance", "elapsedDuration"];
         const measuresY: string[] = ["heartRate", "speed", "power", "cadence", "strokes", "altitude"];
@@ -109,7 +110,9 @@ export class ActivityDetails implements IActivityDetails {
                 info[measures['elapsedDuration'].idx] > this.metrics[index - 1][measures['elapsedDuration'].idx] &&
                 info[measures['duration'].idx] > this.metrics[index - 1][measures['duration'].idx]) {
                 cleaned['pause'] = false;
-                avgStep = (avgStep + info[measures['elapsedDuration'].idx] - this.metrics[index - 1][measures['elapsedDuration'].idx])/(avgStep ? 2 : 1);
+                avgStepCount ++;
+                avgStep = avgStep + info[measures['elapsedDuration'].idx] - this.metrics[index - 1][measures['elapsedDuration'].idx];
+                //console.debug('step = ', info[measures['elapsedDuration'].idx] - this.metrics[index - 1][measures['elapsedDuration'].idx], ' avg step = ', avgStep / avgStepCount);
             } else {
                 cleaned['pause'] = true;
             }
@@ -122,7 +125,7 @@ export class ActivityDetails implements IActivityDetails {
             max: maxValue,
             measuresX,
             measuresY,
-            avgStep
+            avgStep: avgStep / avgStepCount
         };
     }
 

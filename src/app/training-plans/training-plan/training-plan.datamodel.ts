@@ -9,7 +9,7 @@ import { ICalendarItem } from "../../../../api/calendar/calendar.interface";
 import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfileShort } from "../../../../api/user/user.interface";
 import { IRevisionResponse } from "../../../../api/core/core";
-import { image } from "../../share/share.module";
+import { fullImageUrl } from "../../share/image/image.functions";
 import { TrainingPlanConfig } from "./training-plan.config";
 
 export class TrainingPlan implements ITrainingPlan {
@@ -263,15 +263,15 @@ export class TrainingPlan implements ITrainingPlan {
     }
 
     get iconPath(): string {
-        return this.icon && image()('/plan/icon/', this.icon) || null;
+        return this.icon && fullImageUrl()('/plan/icon/', this.icon) || null;
     }
 
     get backgroundPath(): string {
-        return this.background && image()('/plan/background/', this.background) || null;
+        return this.background && fullImageUrl()('/plan/background/', this.background) || null;
     }
 
     get authorPath(): string {
-        return this.authorProfile.public.avatar && image()('/user/avatar/', this.authorProfile.public.avatar) || null;
+        return this.authorProfile.public.avatar && fullImageUrl()('/user/avatar/', this.authorProfile.public.avatar) || null;
     }
 
     get iconStyle(): Object {

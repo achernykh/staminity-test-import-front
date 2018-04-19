@@ -3,7 +3,7 @@ import { IGroupProfile } from "../../../api/group/group.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
 import { activityTypes, getType } from "../activity/activity.constants";
-import { measureUnit, measureValue } from "../share/measure/measure.constants";
+import { measureUnit, measureValue } from "../share/measure/measure.functions";
 import { path } from "../share/utility/path";
 
 type ActivityReference = IActivityCategory | IActivityTemplate;

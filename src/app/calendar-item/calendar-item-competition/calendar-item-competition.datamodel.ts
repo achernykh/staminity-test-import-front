@@ -52,7 +52,10 @@ export class CalendarItemCompetition extends CalendarItem {
         }
 
         if (this.items && this.items.length) {
-            this.items.sort((a,b) => sortAsc(a.item._dateStart.getSeconds(),b.item._dateStart.getSeconds()));
+            this.items.sort((a,b) => sortAsc(
+                a.item.header.initStartDate && new Date(a.item.header.initStartDate).getSeconds() || a.item._dateStart.getSeconds(),
+                b.item.header.initStartDate && new Date(b.item.header.initStartDate).getSeconds() || b.item._dateStart.getSeconds())
+            );
         }
     }
 

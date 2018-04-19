@@ -2,13 +2,14 @@
 import * as d3 from "d3";
 import {Dispatch} from "d3-dispatch";
 import {select} from "d3-selection";
-import {isPace, measureUnit} from "../../../share/measure/measure.constants";
+import {measureUnit} from "../../../share/measure/measure.functions";
 import "./chart.component.scss";
 import { ActivityChartDatamodel } from "./chart.datamodel";
 import { ActivityChartMode, FillType, IActivityChartSettings, IAreaSettings, IGradientPoint } from "./settings/settings.models";
 import { ChangeTracker } from "./utils/changeTracker";
 import { IActivityScales, IScaleInfo, ScaleType } from "./utils/chart.scale";
 import LabelFormatters from "./utils/labelFormatter";
+import { isPace } from "../../../share/measure/measure.constants";
 //import {scale} from 'leaflet';// L.control.scale;
 //import scale = L.control.scale;
 

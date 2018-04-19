@@ -1,50 +1,33 @@
-import './components.scss';
-import './notification/notification.scss';
-import { module, isObject } from 'angular';
+import "./components.scss";
+import "./notification/notification.scss";
+import { module, isObject } from "angular";
 import { StateProvider } from "angular-ui-router";
-import moment from 'moment/min/moment-with-locales.js';
-import  { ageGroup } from '../../../api/user/user.interface';
-import  { requestType } from '../../../api/group/group.interface';
-import * as _connection from '../core/env.js';
-import BackgroundComponent from './background/background.component';
-import HeaderComponent from './header/header.component';
-import ApplicationMenu from './application-menu/application-menu.component';
-import UserMenuComponent from './user-menu/user-menu.component';
-import {_application_menu} from './application-menu/application-menu.translate';
-import {_user_menu} from "./user-menu/user-menu.tranlsate";
-import {_MEASURE_TRANSLATE} from './measure/measure.translate';
-import LoaderComponent from './loader/loader.component';
-import LoaderService from './loader/loader.service';
-import DialogsService from './dialogs/';
-import { translateDialogs } from './dialogs/dialogs.translate';
-import RequestsComponent from './requests/requests.component.js';
-import { translateRequestPanel } from './requests/request.translate';
-import {
-    _activity_measurement_view,
-    _measurement,
-    _measurement_calculate,
-    _measurement_pace_unit,
-    _measurement_system_calculate,
-    isDuration,
-    isPace,
-    Measure,
-    measurementUnit,
-    measurementUnitDisplay, measurementUnitView, measureUnit, measureValue,
-} from "./measure/measure.constants";
-import {MeasurementInput} from "./measure/measure.directive";
-import {duration} from "./measure/measure.filter";
+import { requestType } from "../../../api/group/group.interface";
+import BackgroundComponent from "./background/background.component";
+import HeaderComponent from "./header/header.component";
+import ApplicationMenu from "./application-menu/application-menu.component";
+import UserMenuComponent from "./user-menu/user-menu.component";
+import { _application_menu } from "./application-menu/application-menu.translate";
+import { _user_menu } from "./user-menu/user-menu.tranlsate";
+import { _MEASURE_TRANSLATE } from "./measure/measure.translate";
+import LoaderComponent from "./loader/loader.component";
+import LoaderService from "./loader/loader.service";
+import DialogsService from "./dialogs/";
+import { translateDialogs } from "./dialogs/dialogs.translate";
+import RequestsComponent from "./requests/requests.component.js";
+import { translateRequestPanel } from "./requests/request.translate";
+import { MeasurementInput } from "./measure/measure.directive";
+import { duration } from "./measure/measure.filter";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
-import {InitiatorType} from "../../../api/notification/notification.interface";
-import { translateNotification } from './notification/notification.translate';
+import { translateNotification } from "./notification/notification.translate";
 import { memorize, maybe, prop } from "./util.js";
-import {calcTimezoneTime} from "./date/date.filter";
+import { calcTimezoneTime, fromNow } from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
-import {_translate_PageNotFound} from "./404/404.translate";
+import { _translate_PageNotFound } from "./404/404.translate";
 import UniversalChartComponent from "./universal-chart/universal-chart.component";
-import {translateHeader} from "./header/header.translate";
-import {compareTo} from "./directives/form.directive";
-import {SessionService} from "../core";
+import { translateHeader } from "./header/header.translate";
+import { compareTo } from "./directives/form.directive";
 import ApplicationFrameComponent from "./application-frame/application-frame.component";
 import ApplicationUserToolbarComponent from "./application-user-toolbar/application-user-toolbar.component";
 import ApplicationProfileTemplateComponent from "./application-frame/profile-template/profile-template.component";
@@ -52,179 +35,37 @@ import { shareStates } from "./share.states";
 import { htmlToPlainText } from "./text/plain-text.filter";
 import { quillConfig } from "./quill/quill.config";
 import { stQuillPostImage } from "./quill/st-quill-post-image.directive";
-import { IUserProfile, IUserProfileShort } from "@api/user";
 import { keyboardShortcut } from "./keyboard/keyboard-shortcut.filter";
-import AthleteSelectorComponent from './athlete-selector/athlete-selector.component';
+import AthleteSelectorComponent from "./athlete-selector/athlete-selector.component";
 import { measurePrintIntensity } from "./measure/measure-print-intensity.filter";
 import { stringToDate } from "./date/stringToDate.filter";
-import {ApplicationGuestMenuComponent} from "./application-guest-menu/application-guest-menu.component";
-import { measureSaveFilter } from './measure/measure-save.filter';
-import { measureEditFilter } from './measure/measure-edit.filter';
-import { measureCalcIntervalFilter } from './measure/measure-calc-interval.filter';
-import { QuillHtmlViewerComponent } from './quill/quill-html-viewer.component';
+import { ApplicationGuestMenuComponent } from "./application-guest-menu/application-guest-menu.component";
+import { QuillHtmlViewerComponent } from "./quill/quill-html-viewer.component";
 import { OmniFabComponent } from "./omni/omni-fab.component";
 import { OmniFormComponent } from "./omni/form/omni-form.component";
 import { OmniService } from "./omni/omni.service";
+import { fullImageUrl, avatarUrl } from "./image/image.functions";
+import { measureValue, measureUnit, measureCalcInterval, measureSave, measureEdit } from "./measure/measure.functions";
+import { autoFocus } from "./directives/autofocus.directive";
+import { onFiles } from "./directives/onfiles.directive";
+import { truncateFilter } from "./text/truncate.filter";
 
-
-export const parseUtc = memorize(date => moment.utc(date));
-
-export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
-
-export const fromNow = () => (date) => moment.utc(date).fromNow(true);
-
-
-export const image = () => (sub: string, url:string = 'default.jpg') : string => {
-    return url.indexOf('http') !== -1 ? url : _connection.content + '/content' + sub + url;
-};
-
-const userBackground = () => (url:string) => url && url !== 'default.jpg' ? _connection.content + '/content/user/background/' + url : '/assets/picture/default_background.jpg';
-
-const avatar = () => (user) => `url(${user && user.public && user.public.hasOwnProperty('avatar') && user.public.avatar !== 'default.jpg' ? image() ('/user/avatar/',user.public.avatar) : '/assets/picture/default_avatar.png'})`;
-
-const _userName = () => (user, options) => maybe(user) (prop('public')) (
-    options === 'short'? prop('firstName') : ({ firstName, lastName }) => `${firstName} ${lastName}`
-) ();
-
-/**
- * Функция для фильтра вывода имени пользователя
- * short: Только имя
- * compact: Имя и первую букву Фамилии
- * full: Имя и Фамилию
- */
-export const userName = () => (profile: IUserProfile | IUserProfileShort, options: 'short' | 'compact' | 'compact-first' | 'full-last' | 'full'): string => {
-    if (
-        !profile ||
-        !profile.hasOwnProperty('public') ||
-        !profile.public.hasOwnProperty('firstName') ||
-        !profile.public.hasOwnProperty('lastName')
-    ) {return null;}
-
-    switch (options) {
-        case 'short': {
-            return profile.public.firstName;
-        }
-        case 'compact': {
-            return `${profile.public.firstName} ${profile.public.lastName[0]}.`;
-        }
-        case 'compact-first': {
-            return `${profile.public.lastName} ${profile.public.firstName[0]}.`;
-        }
-        case 'full-last': {
-            return `${profile.public.lastName} ${profile.public.firstName}`;
-        }
-        default: {
-            return `${profile.public.firstName} ${profile.public.lastName}`;
-        }
-    }
-};
-
-const clubName = () => (club) => maybe(club) (prop('public')) (prop('name')) ();
-
-const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorType.user):string => {
-    let url: string = '/assets/picture/default_avatar.png';
-    switch (type) {
-        case InitiatorType.user: {
-            url = `url(${avatar && avatar !== 'default.jpg' ? image() ('/user/avatar/', avatar) : '/assets/picture/default_avatar.png'})`;
-            break;
-        }
-        case InitiatorType.group: case InitiatorType.club: {
-            url = `url(${avatar ? image() ('/group/avatar/',avatar) : image() (null,'/assets/picture/default_avatar.png')})`;
-            break;
-        }
-        case InitiatorType.provider: {
-            url = `url(/assets/icon/${avatar.toLowerCase()}_on.png)`;
-            break;
-        }
-        case InitiatorType.staminity: {
-            url = `url(/assets/icon/apple-touch-icon-57x57.png)`;
-            break;
-        }
-    }
-    return url;
-};
-
-const isPremium = () => (userProfile) => userProfile && userProfile.billing.find((tariff) => tariff.tariffCode === "Premium");
-
-const truncate = () => (s, max = 140) => s && (s.length <= max ? s : s.slice(0, max - 1) + "…");
-
-const userpic = {
-    bindings: {
-        profile: "<",
-        isPremium: "<",
-        unlink: "<",
-    },
-    transclude: true,
-    controller: ["$scope", class UserpicController {
-        constructor($scope) {
-        }
-    }],
-    template: require("./userpic.component.html") as string,
-};
-
-const AvatarPicComponent = {
-    bindings: {
-        type: "<",
-        avatar: "<",
-        sref: "<",
-        isPremium: "<",
-    },
-    controller: ["$scope", class AvatarPicCtrl {
-        constructor($scope) {
-        }
-    }],
-    template: require("./avatar-pic.component.html") as string,
-};
-
-const userInfo = {
-    bindings: {
-        user: "<",
-    },
-    template: require("./user-info.component.html") as string,
-};
-
-function onFiles() {
-    return {
-        scope: {
-            onFiles: "<",
-        },
-
-        link(scope, element, attributes) {
-            const onFiles = (event) => (scope) => scope.onFiles(event.target.files);
-            element.bind("change", (event) => scope.$apply(onFiles(event)));
-        },
-    };
-}
-
-function autoFocus() {
-    return {
-        link: {
-            post(scope, element, attr) {
-                element[0].focus();
-            },
-        },
-    };
-}
+// import
 
 const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter("calcTimezoneTime", calcTimezoneTime)
     .filter("fromNow", fromNow)
-    .filter("avatar", avatar)
     .filter("avatarUrl", avatarUrl)
-    .filter("image", image)
-    .filter("userBackground", userBackground)
-    .filter("username", userName)
-    .filter("userName", userName)
-    .filter("isPremium", isPremium)
-    .filter("clubName", clubName)
-    .filter("ageGroup", () => ageGroup)
+    .filter("image", fullImageUrl)
+    .filter("clubName", () => (club) => maybe(club)(prop('public'))(prop('name'))())
     .filter("requestType", () => (request) => requestType(request) + ".action")
-    .filter("measureCalc", ["SessionService", (session: SessionService) =>
-        (input: number,
-         sport: string,
-         measure: string,
-         chart:boolean = false,
-         units:string = session.getUser().display.units) => {
+    .filter('measureCalc', () => measureValue)/**
+     .filter("measureCalc", ["SessionService", (session: SessionService) =>
+     (input: number,
+     sport: string,
+     measure: string,
+     chart:boolean = false,
+     units:string = session.getUser().display.units) => {
              if (!input) { return input;}
 
             let unit = ((_activity_measurement_view[sport].hasOwnProperty(measure)) && _activity_measurement_view[sport][measure].unit) ||
@@ -250,8 +91,8 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
                     return Number(input).toFixed(fixed);
                 }
          }
-    ])
-    .filter("measureCalcInterval", ["$filter", ($filter) => {
+     ])**/
+    /**.filter("measureCalcInterval", ["$filter", ($filter) => {
         return (input: {intensityLevelFrom: number, intensityLevelTo: number}, sport: string, name: string, chart: boolean = false, units: string = "metric") => {
             if (!input.hasOwnProperty("intensityLevelFrom") || !input.hasOwnProperty("intensityLevelTo")) {
                 return null;
@@ -265,8 +106,11 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
                 return $filter("measureCalc")(input.intensityLevelFrom, sport, name, chart, units) + "-" + $filter("measureCalc")(input.intensityLevelTo, sport, name, chart, units);
             }
         };
-    }])
-    .filter("measureUnit", ['SessionService', (session:SessionService) => {
+    }])**/
+    .filter('measureCalcInterval', measureCalcInterval)
+    .filter("measureUnit", () => measureUnit)
+    /**
+     .filter("measureUnit", ['SessionService', (session:SessionService) => {
         return (measure,
                 sport = 'default',
                 units = session.getUser().display.units): string => {
@@ -284,35 +128,32 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
             } catch (e) {console.error('measureUnit error', e, measure, sport, units);}
             return unit;
         };
-    }])
+    }])**/
     .filter("duration", duration)
     .filter("percentByTotal", ["$filter", ($filter) => {
         return (value, total, decimal = 0) => {
-            if (value && total) {
+            if ( value && total ) {
                 return $filter("number")((value / total) * 100, decimal) + "%";
             }
         };
     }])
     .filter("percent", ["$filter", ($filter) => {
         return (value, id, decimal = 0, percent: boolean = true) => {
-            if (value) {
-                return `${$filter('number')(value*100,decimal)}${percent?'%':''}`;
+            if ( value ) {
+                return `${$filter('number')(value * 100, decimal)}${percent ? '%' : ''}`;
             }
         };
     }])
     .filter("stPercent", ["$filter", ($filter) => {
         return (value, decimal = 0, percent: boolean = true) => {
-            if (value) {
-                return `${$filter('number')(value*100,decimal)}${percent ? '%': ''}`; //$filter('number')(value*100,decimal) + percent ? '%': '';
+            if ( value ) {
+                return `${$filter('number')(value * 100, decimal)}${percent ? '%' : ''}`; //$filter('number')(value*100,decimal) + percent ? '%': '';
             }
         };
     }])
-    .filter("stNumberCeil", () => {
-        return (input: number) => {
-            return input && Math.ceil(input);
-        };
-    })
-    .filter("measureEdit", ["$filter", ($filter) => {
+    .filter("stNumberCeil", () => (input: number) => input && Math.ceil(input))
+    .filter('measureEdit', () => measureEdit)
+    /**.filter("measureEdit", ["$filter", ($filter) => {
         return (measure, value, sport) => {
             let unit = measurementUnitDisplay(sport, measure);
             if(isDuration(unit)) {
@@ -323,8 +164,9 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
                 return Number($filter("measureCalc")(value, sport, measure));
             }
         };
-    }])
-    .filter("measureSave", ["SessionService", (session: SessionService) => {
+    }])**/
+    .filter('measureSave', () => measureSave)
+    /**.filter("measureSave", ["SessionService", (session: SessionService) => {
         return (measure, value, sport) => {
 
             const unit = measurementUnitDisplay(sport, measure);
@@ -346,22 +188,22 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
                 return value;
             }
         };
-    }])
+    }])**/
     //https://github.com/petebacondarwin/angular-toArrayFilter
-    .filter("toArray", function() {
-        return function(obj, addKey) {
-            if (!isObject(obj)) {
+    .filter("toArray", function () {
+        return function (obj, addKey) {
+            if ( !isObject(obj) ) {
                 return obj;
             }
             if ( addKey === false ) {
-                return Object.keys(obj).map(function(key) {
+                return Object.keys(obj).map(function (key) {
                     return obj[key];
                 });
             } else {
-                return Object.keys(obj).map(function(key) {
+                return Object.keys(obj).map(function (key) {
                     const value = obj[key];
                     return isObject(value) ?
-                        Object.defineProperty(value, "$key", { enumerable: false, value: key}) :
+                        Object.defineProperty(value, "$key", { enumerable: false, value: key }) :
                     { $key: key, $value: value };
                 });
             }
@@ -372,19 +214,16 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('stApplicationUserToolbar', ApplicationUserToolbarComponent)
     .filter('htmlToPlainText', htmlToPlainText)
     .filter('stMeasurePrintIntensity', measurePrintIntensity)
-    .component('staminityBackground',BackgroundComponent)
-    .component('staminityHeader',HeaderComponent)
-    .component('userMenu',UserMenuComponent)
-    .component('applicationMenu',ApplicationMenu)
+    .component('staminityBackground', BackgroundComponent)
+    .component('staminityHeader', HeaderComponent)
+    .component('userMenu', UserMenuComponent)
+    .component('applicationMenu', ApplicationMenu)
     .component('stApplicationGuestMenu', ApplicationGuestMenuComponent)
-    .service('LoaderService',LoaderService)
+    .service('LoaderService', LoaderService)
     .service('NotificationService', NotificationService)
     .service("dialogs", DialogsService)
     .component('loader', LoaderComponent)
-    .component('userInfo', userInfo)
     .component('requests', RequestsComponent)
-    .component('userpic', userpic)
-    .component('avatarPic', AvatarPicComponent)
     .component('athleteSelector', AthleteSelectorComponent)
     .component('notificationList', NotificationListComponent)
     .component('pageNotFound', PageNotFoundComponent)
@@ -395,36 +234,36 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .service('OmniService', OmniService)
     .directive("onFiles", onFiles)
     .directive('autoFocus', autoFocus)
-    .directive('measureInput', ['$filter',MeasurementInput])
+    .directive('measureInput', ['$filter', MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
-    .directive('stQuillPostImage', stQuillPostImage) 
-    .filter('truncate', truncate)
+    .directive('stQuillPostImage', stQuillPostImage)
+    .filter('truncate', truncateFilter)
     .filter('stringToDate', stringToDate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
     .constant('quillConfig', quillConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])
-    .config(['$translateProvider',($translateProvider)=>{
+    .config(['$translateProvider', ($translateProvider)=> {
 
-        $translateProvider.translations('ru', {appMenu: _application_menu['ru']});
-        $translateProvider.translations('en', {appMenu: _application_menu['en']});
-        $translateProvider.translations('ru', {userMenu: _user_menu['ru']});
-        $translateProvider.translations('en', {userMenu: _user_menu['en']});
-        $translateProvider.translations('ru',_MEASURE_TRANSLATE.ru);
-        $translateProvider.translations('en',_MEASURE_TRANSLATE.en);
-        $translateProvider.translations('ru', {request: translateRequestPanel['ru']});
-        $translateProvider.translations('en', {request: translateRequestPanel['en']});
-        $translateProvider.translations('ru', {dialogs: translateDialogs['ru']});
-        $translateProvider.translations('en', {dialogs: translateDialogs['en']});
+        $translateProvider.translations('ru', { appMenu: _application_menu['ru'] });
+        $translateProvider.translations('en', { appMenu: _application_menu['en'] });
+        $translateProvider.translations('ru', { userMenu: _user_menu['ru'] });
+        $translateProvider.translations('en', { userMenu: _user_menu['en'] });
+        $translateProvider.translations('ru', _MEASURE_TRANSLATE.ru);
+        $translateProvider.translations('en', _MEASURE_TRANSLATE.en);
+        $translateProvider.translations('ru', { request: translateRequestPanel['ru'] });
+        $translateProvider.translations('en', { request: translateRequestPanel['en'] });
+        $translateProvider.translations('ru', { dialogs: translateDialogs['ru'] });
+        $translateProvider.translations('en', { dialogs: translateDialogs['en'] });
         $translateProvider.translations('ru', translateNotification['ru']);
         $translateProvider.translations('en', translateNotification['en']);
-        $translateProvider.translations('ru', {'404': _translate_PageNotFound['ru']});
-        $translateProvider.translations('en', {'404': _translate_PageNotFound['en']});
-        $translateProvider.translations('ru', {header: translateHeader['ru']});
-        $translateProvider.translations('en', {header: translateHeader['en']});
+        $translateProvider.translations('ru', { '404': _translate_PageNotFound['ru'] });
+        $translateProvider.translations('en', { '404': _translate_PageNotFound['en'] });
+        $translateProvider.translations('ru', { header: translateHeader['ru'] });
+        $translateProvider.translations('en', { header: translateHeader['en'] });
     }])
     // Пока не нашел рабочего плагина или загрузчика для webpack 2.0
     // ng-cache-loader@0.0.22 не сработал
-    .run(['$templateCache',($templateCache)=>{
+    .run(['$templateCache', ($templateCache)=> {
         $templateCache.put('header/appmenutoolbar.html', require('./header/panels/appmenutoolbar.html') as string);
         $templateCache.put('header/backbar.html', require('./header/panels/backbar.html') as string);
         $templateCache.put('header/logo.html', require('./header/panels/logo.html') as string);

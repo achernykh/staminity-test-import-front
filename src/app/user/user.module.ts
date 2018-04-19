@@ -33,7 +33,9 @@ import { UserSettingsService } from "./settings/user-settings.service";
 import { AgentService } from "./settings/agent.service"; 
 import { userSettingsProfileFilter } from "./settings/user-settings-profile/user-settings-profile.filter"; 
 import SyncAdaptorService from "./sync-adaptor.service"; 
-import userSettingsConfig from "./settings/user-settings.config"; 
+import userSettingsConfig from "./settings/user-settings.config";
+import { userName, userAvatar, userBackground, userAgeGroup, userIsPremium } from "./user.functions";
+import { UserInfoComponent, UserPicComponent, AvatarPicComponent } from "./pic/userpic.component";
 
 export const User = module('staminity.user', [satellizer])
     .service("SyncAdaptorService", SyncAdaptorService)
@@ -62,8 +64,17 @@ export const User = module('staminity.user', [satellizer])
     .component('stUserSettingsZones', UserSettingsZonesComponent)
     .component('stUserSettingsEditZone', UserSettingsEditZoneComponent)
     .component('stUserSettingsNotifications', UserSettingsNotificationsComponent)
+    .component('userInfo', UserInfoComponent)
+    .component('userpic', UserPicComponent)
+    .component('avatarPic', AvatarPicComponent)
     .filter('userSettingsProfileFilter', userSettingsProfileFilter)
     .filter('agentEnvironmentSalesTotal', agentEnvironmentSalesTotal)
+    .filter("username", userName)
+    .filter("userName", userName)
+    .filter("avatar", userAvatar)
+    .filter("userBackground", userBackground)
+    .filter("ageGroup", userAgeGroup)
+    .filter("isPremium", userIsPremium)
     .config(['$stateProvider', ($stateProvider: StateProvider) => {
         userState.map(s => $stateProvider.state(s));
     }])

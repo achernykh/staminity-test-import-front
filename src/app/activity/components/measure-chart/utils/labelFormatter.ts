@@ -1,4 +1,4 @@
-﻿import {measureUnit, measureValue} from "../../../../share/measure/measure.constants";
+﻿import {measureUnit, measureValue} from "../../../../share/measure/measure.functions";
 const timeFormatter = function(d) {
     const hours = ~~(d / 3600);
     const minutes = ~~((d % 3600) / 60);

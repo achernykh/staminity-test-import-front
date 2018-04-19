@@ -5,23 +5,23 @@ import { getType } from "../activity.constants";
 
 export class ActivityHeader implements IActivityHeader {
 
-    public activityId: number;
-    public startTimestamp: Date = new Date();
-    public activityCategory: IActivityCategory = { // категория тренировки
+    activityId: number;
+    startTimestamp: Date = new Date();
+    activityCategory: IActivityCategory = { // категория тренировки
         id: null,
         revision: null,
         code: null,
         activityTypeId: null,
         sortOrder: null
     };
-    public activityType: IActivityType = { //вид спорта
+    activityType: IActivityType = { //вид спорта
         id: null,
         code: null,
         typeBasic: null
     };
-    public intervals: Array<IActivityIntervals> = [];
-    public templateId: number;
-    competitionStagePosition: number; // номер позиции этапа в рамках соревнования
+    intervals: Array<IActivityIntervals> = [];
+    templateId: number;
+    initStartDate?: string; // номер позиции этапа в рамках соревнования
 
     // Вспомогательные поля фронт-енд
     public template: IActivityTemplate;

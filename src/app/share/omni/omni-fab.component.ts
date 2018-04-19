@@ -1,6 +1,7 @@
 import './omni-fab.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
 import { OmniService } from "./omni.service";
+import MessageService from "../../core/message.service";
 
 class OmniFabCtrl implements IComponentController {
     
@@ -11,19 +12,15 @@ class OmniFabCtrl implements IComponentController {
     // private
    
     // inject
-    static $inject = ['OmniService'];
+    static $inject = ['OmniService', 'message'];
 
-    constructor(private omni: OmniService) {
-
-    }
-
-    $onInit(): void {
+    constructor(private omni: OmniService, private message: MessageService) {
 
     }
 
-    open (e: Event) {
-        this.omni.open(e).then(_ => {});
-    }
+    $onInit(): void {}
+
+    open (e: Event) { this.omni.open(e).then(_ => this.message.toastInfo('omniMessagePost')); }
 }
 
 export const OmniFabComponent:IComponentOptions = {
