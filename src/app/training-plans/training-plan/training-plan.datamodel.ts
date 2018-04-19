@@ -35,6 +35,7 @@ export class TrainingPlan implements ITrainingPlan {
     background?: string; // абсолютный путь к фоновому изображению (url)
     club: Array<any>; // club profile
     author: Array<any>; // профиль создателя, если club is null
+    monetization?: boolean;
     price: number;
     currency: string;
     isFixedCalendarDates: boolean; // тренировки жестко привязаны к датам
