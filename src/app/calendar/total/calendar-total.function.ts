@@ -18,7 +18,7 @@ export interface ICalendarWeekTotal {
 
 const searchMeasure = (point, interval) => {
     if (point === "plan") {
-        if (interval.durationMeasure === "movingDuration") {
+        if (interval.durationMeasure === "movingDuration" || interval.durationMeasure === "duration") {
             return [0, interval.durationValue];
         } else {
             return [interval.durationValue, 0];

@@ -154,9 +154,7 @@ export class Activity extends CalendarItem {
     }
 
     get movingDuration():number {
-        return this.intervals.W.movingDuration() ||
-            (this.intervals.PW.movingDurationLength > 0 && this.intervals.PW.movingDurationLength) ||
-            (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
+        return this.duration;
     }
 
     get movingDurationApprox():boolean {
@@ -166,6 +164,7 @@ export class Activity extends CalendarItem {
     get duration() {
         return this.intervals.W.movingDuration() ||
             (this.isStructured && this.intervals.PW.movingDurationLength) ||
+            (this.intervals.PW.durationMeasure === 'duration' && this.intervals.PW.durationValue) ||
             (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
     }
 
