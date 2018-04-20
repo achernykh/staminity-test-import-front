@@ -15,6 +15,7 @@ export class SocketService {
     backgroundState: boolean = false; // отслеживание состояния приложения
     internetState: boolean = navigator.onLine; // отслеживание состояния сети интернет
     socketStarted: boolean = null; // состояние соединения с сервером
+    buffer: Array<IWSRequest | IWSResponse> = [];
 
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
@@ -24,6 +25,7 @@ export class SocketService {
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
     private pendingIntervalLink: any; //
+    private bufferMaxLength: number = 500;
 
     static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService', '$state', 'message'];
 
@@ -132,6 +134,7 @@ export class SocketService {
      * @param message
      */
     public response (message: IWSResponse) {
+        this.storage(message);
         if ( message.hasOwnProperty('requestId') && this.requests[message.requestId] ) {
             let request: Deferred<any> = this.requests[message.requestId];
             this.loader.hide();
@@ -169,7 +172,6 @@ export class SocketService {
      * @returns {any}
      */
     public send (request: IWSRequest): Promise<any> {
-        console.info(`socket service: send request ${request.requestType}`);
         /**
          * Можно будет раскоментировать после перехода на Angular 4
          */
@@ -182,6 +184,7 @@ export class SocketService {
 
         request.requestId = this.requestId++;
         this.requests[request.requestId] = new Deferred<boolean>();
+        this.storage(request);
         /**
          * После перехода на Angular 4 можно будет перенести инициализацию веб-сокета в конфигурацию модуля, а сейчас
          * функция init() вернет сразу success, если сессия доступна, или асинхронно запустит ее создание и полученный
@@ -205,5 +208,16 @@ export class SocketService {
                 throw new Error('internetConnectionLost');
             }
         );
+    }
+
+    /**
+     * Сохраняем историю входящих и исходящих запросов
+     * @param item
+     */
+    private storage (item: IWSRequest | IWSResponse): void {
+        this.buffer.push(Object.assign(item, {timestamp: new Date().toLocaleTimeString()}));
+        if (this.buffer.length >= this.bufferMaxLength) {
+            this.buffer.splice(this.bufferMaxLength - 1);
+        }
     }
 }

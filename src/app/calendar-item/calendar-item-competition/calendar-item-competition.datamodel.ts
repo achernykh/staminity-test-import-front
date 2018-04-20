@@ -65,8 +65,8 @@ export class CalendarItemCompetition extends CalendarItem {
             this.items.forEach((s,i) => this.items[i] = {
                 dirty: true,
                 item: Object.assign(s.item, {
-                    _dateStart: new Date(date.getTime() + i * 10 * 1000),
-                    _dateEnd: new Date(date.getTime() + i * 10 * 1000)
+                    _dateStart: new Date(date.getTime() + (i + 1) * 10 * 1000),
+                    _dateEnd: new Date(date.getTime() + (i + 1) * 10 * 1000)
                 })
             });
         }
@@ -104,7 +104,7 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-            activity._dateStart.setSeconds(activity._dateStart.getSeconds() + i * 10);
+            activity._dateStart.setSeconds(activity._dateStart.getSeconds() + (i + 1) * 10);
             activity.header.category = categories && categories.filter(c => c.activityTypeId === activity.header.sport && c.code === 'race')[0];
             this.items.push({dirty: true, item: activity});
         });

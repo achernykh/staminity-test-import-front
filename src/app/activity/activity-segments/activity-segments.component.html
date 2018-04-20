@@ -67,7 +67,7 @@
              layout="row" layout-align="center center">
         <md-button ng-click="$ctrl.addInterval()" flex="33" class="bg-grey-200">
             <!--<md-icon class="material-icons">add_circle</md-icon>-->
-            <span class="md-caption">&nbsp;Добавить</span>
+            <span class="md-caption" translate="activity.action.add"></span>
             <md-menu flex="none" class="add">
                 <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -76,7 +76,7 @@
                     <md-menu-item ng-repeat="(type,obj) in $ctrl.scenario[$ctrl.item.activity.header.sportBasic] track by $index" ng-if="type !== 'default'">
                         <md-button ng-click="$ctrl.addInterval(type)">
                             <md-icon class="md-dark" md-svg-src="/assets/icon/duration.svg"></md-icon>
-                            <span class="md-caption" translate="activity.segments.add.{{type}}"></span>
+                            <span class="md-caption" style="margin-left: 8px" translate="activity.segments.add.{{type}}"></span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>

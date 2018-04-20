@@ -4,15 +4,50 @@ import { RESTService, PostData } from "../../core/rest.service";
 import { OmniMessageRequest, OmniMessage } from "./form/omni-form.component";
 import * as _connection from "../../core/env.js";
 import MessageService from "../../core/message.service";
+import * as env from "../../core/env.js";
+import {SocketService} from "@app/core";
 
 export class OmniService {
-    static $inject = ["$mdDialog", "SessionService", "$http"];
+    static $inject = ["$mdDialog", "SessionService", "$http", 'SocketService'];
 
-    constructor (private $mdDialog: any, private session: SessionService, private $http: IHttpService) {
+    constructor (
+        private $mdDialog: any,
+        private session: SessionService,
+        private $http: IHttpService,
+        private socket: SocketService) {
 
     }
 
     open (e: Event): Promise<any> {
+        let currentUser = this.session.getUser();
+        let permissions = this.session.getPermissions();
+        let buffer = this.socket.buffer;
+
+        let message = {
+            user_full_name: currentUser.userId && `${currentUser.public.firstName} ${currentUser.public.lastName}`,
+            user_email: currentUser.userId && `${currentUser.email || this.session.getUser().personal.extEmail}`,
+            language_id: (currentUser.userId && currentUser.display.language || window.navigator.language) === 'ru' ? 1 : 2,
+            note: {
+                content:
+                    `<b>User Agent</b><br><p>${window.navigator.userAgent}</p>` +
+                    `<b>Network</b><br><p>${JSON.stringify(window.navigator['connection'])}</p>` +
+                    `<b>URL</b><br><p>${window.location.href}</p>` +
+                    `<b>Version</b><br><p>${env.version} #${env.build}</p>`,
+                files: [{
+                    name: 'user-profile',
+                    ext: 'json',
+                    content: currentUser.userId && JSON.stringify(currentUser) || ''
+                }, {
+                    name: 'user-permissions',
+                    ext: 'json',
+                    content: Object.keys(permissions).length > 0 && JSON.stringify(permissions) || ''
+                }, {
+                    name: 'ws-buffer',
+                    ext: 'json',
+                    content: buffer.length > 0 && JSON.stringify(buffer) || ''
+                }]
+            }
+        };
         return this.$mdDialog.show({
             controller: ["$scope", "$mdDialog", "message", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
@@ -32,13 +67,7 @@ export class OmniService {
                        </md-dialog>`,
             parent: angular.element(document.body),
             targetEvent: e,
-            locals: {
-                message: {
-                    user_full_name: `${this.session.getUser().public.firstName} ${this.session.getUser().public.lastName}`,
-                    user_email: `${this.session.getUser().email || this.session.getUser().personal.extEmail}`,
-                    language_id: this.session.getUser().display.language === 'ru' ? 1 : 2,
-                }
-            },
+            locals: { message: message },
             bindToController: true,
             clickOutsideToClose: false,
             escapeToClose: true,

@@ -7,6 +7,7 @@ export const translateActivity = {
           edit: 'Изменить',
           reset: 'Отменить',
           delete: 'Удалить',
+          add: 'Добавить',
           open: 'Открыть',
           copy: 'Скопировать',
           select: 'Выделить',

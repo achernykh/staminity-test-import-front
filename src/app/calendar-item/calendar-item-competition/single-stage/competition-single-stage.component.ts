@@ -79,6 +79,7 @@ export const CompetitionSingleStageComponent:IComponentOptions = {
         type: '<',
         distanceType: '<',
         items: '<',
+        mode: '<',
         options: '<',
         onChange: '&'
     },

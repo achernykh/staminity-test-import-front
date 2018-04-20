@@ -739,7 +739,7 @@ export const translateUser = {
                     id40: 'Me, my coach and friends',
                     id10: 'Everyone'
                 },
-                hint: 'Privacy settings'
+                //hint: 'Privacy settings'
             },
             display: {
                 header: 'Display preferences',

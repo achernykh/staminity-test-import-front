@@ -20,7 +20,9 @@ class OmniFabCtrl implements IComponentController {
 
     $onInit(): void {}
 
-    open (e: Event) { this.omni.open(e).then(_ => this.message.toastInfo('omniMessagePost')); }
+    open (e: Event) { this.omni.open(e)
+        .then(_ => this.message.toastInfo('omniMessagePost'), e => this.message.toastError('omniMessagePostError'));
+    }
 }
 
 export const OmniFabComponent:IComponentOptions = {

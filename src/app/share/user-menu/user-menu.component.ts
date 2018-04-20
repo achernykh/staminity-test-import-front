@@ -46,7 +46,8 @@ class UserMenuCtrl implements IComponentController {
     }
 
     omniOpen(e: Event) {
-        this.omniService.open(e).then(_=> this.message.toastInfo('omniMessagePost'));
+        this.omniService.open(e)
+            .then(_=> this.message.toastInfo('omniMessagePost'), e => this.message.toastError('omniMessagePostError'));
     }
 
     transitionToState(url) {
