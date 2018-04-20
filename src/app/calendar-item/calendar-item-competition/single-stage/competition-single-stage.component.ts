@@ -18,10 +18,12 @@ export class CompetitionSingleStageCtrl implements IComponentController {
     // private
     private readonly opposite = {
         value: {
+            duration: 'distanceLength',
             movingDuration: 'distanceLength',
             distance: 'movingDurationLength'
         },
         unit: {
+            duration: 'distance',
             movingDuration: 'distance',
             distance: 'movingDuration'
         }
@@ -35,7 +37,11 @@ export class CompetitionSingleStageCtrl implements IComponentController {
     }
 
     $onInit() {
+        this.prepareData()
+    }
 
+    prepareData (): void {
+        //let duration = this.ite
     }
 
     open (e: Event, item: Activity): void {
