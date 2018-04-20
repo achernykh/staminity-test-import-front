@@ -11,7 +11,6 @@ export const translateUser = {
                 hint: 'Настройка профиля',
                 coachProfileIncomplete: 'Ваш профиль тренера не заполнен и недоступен в поиске. Проверьте выполнение следующих условий:' +
                 '<li>Установлена фотография</li>' +
-                '<li>Указаны страна и город</li>' +
                 '<li>Заполнена информация "О себе"</li>' +
                 '<li>Указаны условия занятий</li>' +
                 '<li>Указана контактная информация</li>' +
@@ -124,7 +123,7 @@ export const translateUser = {
                 },
                 balance: {
                     label: 'Доступный баланс, {{currency}}',
-                    conditions: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 2.8%, минимум {{withdrawLimit}} {{currency}}",
+                    conditions: "Комиссия за вывод до {{noCommissionLimit}} {{currency}} - 1.5%, минимум {{withdrawLimit}} {{currency}}",
                     withdraw: "Вывести",
                     withdrawNoExtAccount: "Не подключено средство для вывода",
                     withdrawZeroAmount: "Ваш баланс пуст",
@@ -142,27 +141,26 @@ export const translateUser = {
                         EUR: "Вывести с комиссией? Комиссия 2% + 0.3 EUR будет удержана при перечислении",
                     },
                     withdrawNoCommissionConfirmation: {
-                        RUB: "Вывести без комиссии (рубли)",
-                        USD: "Вывести без комиссии (доллары)",
-                        EUR: "Вывести без комиссии (евро)",
+                        RUB: "Вывести без комиссии? Вся сумма будет перечислена на вашу карту/счет, установленные по-умолчанию для RUB",
+                        USD: "Вывести без комиссии? Вся сумма будет перечислена на вашу карту/счет, установленные по-умолчанию для USD",
+                        EUR: "Вывести без комиссии? Вся сумма будет перечислена на вашу карту/счет, установленные по-умолчанию для EUR",
                     },
                 },
-                iWant: "Я хочу продавать тренировочные планы",
-                profile: "Профиль продавца планов",
-                complete: "Продажа тренировочных планов возможна",
-                incompleteIndividual: "Продажа тренировочных планов невозможна, не заполнен профиль",
-                incompleteNotIndividual: "Продажа тренировочных планов невозможна, заполните и отправьте анкету",
+                iWant: "Я хочу публиковать тренировочные планы",
+                profile: "Профиль автора планов",
+                complete: "Публикация тренировочных планов возможна",
+                incompleteIndividual: "Публикация планов невозможна, не заполнен профиль",
+                incompleteNotIndividual: "Публикация планов невозможна, заполните и отправьте анкету",
                 isIndividual: "Физическое лицо",
                 individual: "Да",
                 notIndividual: "Нет, я ИП или представитель юридического лица",
-                agree: "Подтверждаю... соглашаюсь...",
+                agree: 'Я прочитал и принимаю условия <a href="https://legal.staminity.com/ru/offer-author-individual.html">Договора с авторами планов-физическими лицами</a> и <a href="https://legal.staminity.com/ru/offer-author-buyer.html">Договора между Автором и Покупателем тренировочных планов</a>',
                 email: "E-mail",
                 companyName: "Полное наименование компании / ИП",
                 inn: "ИНН",
                 kpp: "КПП",
-                noIndividualRUS: `Чтобы продавать тренировочные планы от имени юридического лица необходимо заполнить форму (ссылка) акцепта с условиями договора-оферты (ссылка), подписать и направить скан по адресу: .... <br/>
-                При возникновении вопросов напишите нам: <a href="mailto:mail@staminity.com">mail@staminity.com</a>`,
-                noResidentRUS: "Возможность продажи планов нерезидентами РФ будет реализована позднее. Напишите нам, если заинтересованы в этом: mail@staminity.com",
+                noIndividualRUS: `Чтобы публиковать тренировочные планы от имени юридического лица или ИП необходимо прочитать <a href="https://legal.staminity.com/ru/offer-author-company.html">Договор с авторами планов-юрлицами и ИП</a>, заполнить анкету, приведенную в договоре и направить нам скан-копию подписанной анкеты по адресу <a href="mailto:support@staminity.com">support@staminity.com</a>`,
+                noResidentRUS: 'Возможность продажи планов нерезидентами РФ будет реализована позднее. Напишите нам, если заинтересованы в этом: <a href="mailto:support@staminity.com">support@staminity.com</a>',
                 innMessage: "ИНН должен состоять из 10 или 12 цифр",
                 kppMessage: "КПП должен состоять из 9 цифр",
             },
@@ -193,7 +191,7 @@ export const translateUser = {
             },
             display: {
                 header: 'Представление',
-                hint: 'Пояснение, подсказка....',
+                hint: 'Настройки отображения',
                 language: 'Язык интерфейса',
                 timezone: 'Часовой пояс',
                 units: 'Система мер',
@@ -411,15 +409,15 @@ export const translateUser = {
                     onSyncing: {
                         button: 'Изменить',
                         title: 'Синхронизация...',
-                        text: "Выполняется начальная синхронизация"},                   
+                        text: "Выполняется начальная синхронизация"},
                     onSyncComplete: {
                         button: 'Изменить',
                         title: 'Синхронизировано',
-                        text: "Последняя тренировка загружена {{lastSync | date:'short' }}"}, 
+                        text: "Последняя тренировка загружена {{lastSync | date:'short' }}"},
                     onSyncCreate: {
                         button: 'Изменить',
                         title: 'Ожидание...',
-                        text: "Ожидается подтверждение"}, 
+                        text: "Ожидается подтверждение"},
                     onSyncPendingRequest: {
                         button: 'Изменить',
                         title: 'Ожидание...',
@@ -556,16 +554,18 @@ export const translateUser = {
         settings: {
             fullTitle: 'User settings',
             shortTitle: 'settings',
+            profile: {
+                header: 'Profile',
+            },
             personalInfo: {
                 header: 'Personal info',
                 hint: '',
                 coachProfileIncomplete: 'Your coach profile is incomplete and not available for search. Please check you set the following info:' +
                 '<li>Upload profile photo</li>' +
-                '<li>Country and City</li>' +
                 '<li>About you</li>' +
                 '<li>Conditions</li>' +
                 '<li>Contacts for new athletes</li>' +
-                '<li>Privacy settings - Personal info = "All"</li>',
+                '<li>Privacy settings: Personal info = "All"</li>',
                 main: {
                     header: 'About you',
                     firstName: 'First name',
@@ -595,6 +595,9 @@ export const translateUser = {
                     phone: 'Phone'
                 },
             },
+            coachProfile: {
+                header: 'Coach profile'
+            },
             sportShape: {
                 header: 'Fitness',
                 weight: 'Weight (kg)',
@@ -608,9 +611,109 @@ export const translateUser = {
                 }
             },
             calendar: {
+                header: 'External calendars',
                 title: 'External calendar integration (iCal)',
                 hint: 'Your Staminity activity calendar personal link for Microsoft Outlook, Google Calendar, Apple iCal and other 3rd party calendar applications.',
                 empty: 'Your personal link is not available'
+            },
+            coach: {
+                header: 'Coach profile',
+                hint: 'Coach profile',
+                statusIncomplete: "Coach profile incomplete, you're not available for search",
+                isCoach: 'I am the coach',
+                status: {
+                    addCoachTariff: "To became Coach please add trial Coach tariff",
+                    off: "You're not the coach",
+                    coachTariffEnabled: "Switching off is not available till you have active 'Coach' tariff",
+                    planSellerEnabled: "Switching off is not available till you have active 'Training plan seller' option",
+                    on: "Вы тренер.",
+                },
+            },
+            agent: {
+                header: "Training plans selling",
+                currency: {
+                    RUB: "RUB",
+                    USD: "USD",
+                    EUR: 'EUR'
+                },
+                cards: {
+                    label: "Cards and bank accounts",
+                    header: "Cards and bank accounts to withdraw funds",
+                    has: "Cards and accounts exists",
+                    none: "No cards or bank accounts",
+                    card: "{{identityString}}, till {{expireDate}}",
+                    addCard: "Add new card",
+                    removeCard: "Remove card",
+                    isDefault: "Defauld",
+                    addCardMessage: "To add new card we charge it for small amount of money, less than 1 RUB. This amount doesn't return to your card.",
+                },
+                sales: {
+                    label: "Training plans purchases",
+                    header: "Training plans purchases",
+                    summary: "Total purchases: {{count}} training plans for {{amounts}}",
+                    none: "No purchases",
+                    total: "Total",
+                },
+                withdrawals: {
+                    label: "Withdraw",
+                    header: "Withdraw requests",
+                    none: "No withdraws",
+                    last: "Last withdraw request: {{date}} for {{amount}} {{currency}}",
+                    requestedAmount: "Requested amount",
+                    execAmount: "Executed amount",
+                    account: "Card/Bank acc",
+                    state: "Status",
+                    created: "Created",
+                    executed: "Executed",
+                    states: {
+                        "C": "Created",
+                        "A": "Approved",
+                        "D": "Declined",
+                        "E": "Executed",
+                    },
+                },
+                balance: {
+                    label: 'Available balance, {{currency}}',
+                    conditions: "Withdraw commission if the amount less than {{noCommissionLimit}} {{currency}} - 1.5%, min {{withdrawLimit}} {{currency}}",
+                    withdraw: "Withdraw",
+                    withdrawNoExtAccount: "No cards / bank accounts to withdraw",
+                    withdrawZeroAmount: "Withdraw not available, zero balance",
+                    withdrawNotAvaliable: "Min amount to withdraw - {{withdrawLimit}} {{currency}}",
+                    withdrawWithCommission: {
+                        RUB: "Commission for withdraw less than {{noCommissionLimit}} {{currency}} - 1.5% min 60 RUB",
+                        USD: "Commission for withdraw less than {{noCommissionLimit}} {{currency}} - 2% + 0.5 USD",
+                        EUR: "Commission for withdraw less than {{noCommissionLimit}} {{currency}} - 2% + 0.3 EUR",
+                    },
+                    withdrawNoCommission: "Withdraw without commission",
+                    withdrawConfirmationHeader: "Withdraw confirmation",
+                    withdrawWithCommissionConfirmation: {
+                        RUB: "Withdraw with commission? Commission 1.5% min 60 RUB",
+                        USD: "Withdraw with commission? Commission 2% + 0.5 USD",
+                        EUR: "Withdraw with commission? Commission 2% + 0.3 EUR",
+                    },
+                    withdrawNoCommissionConfirmation: {
+                        RUB: "Withdraw without commission? All requested amount in RUB will be send to your default card / bank account",
+                        USD: "Withdraw without commission? All requested amount in USD will be send to your default card / bank account",
+                        EUR: "Withdraw without commission? All requested amount in EUR will be send to your default card / bank account",
+                    },
+                },
+                iWant: "I want to publish training plans in Store",
+                profile: "Training plan seller profile",
+                complete: "You're available to publish training plans in Store",
+                incompleteIndividual: "Publication is not available, training plan's Author profile is incomplete",
+                incompleteNotIndividual: "Publication is not available, please fill and send Author's request form",
+                isIndividual: "Is individual",
+                individual: "Yes",
+                notIndividual: "No, i am the Company or individual enterpreneur",
+                agree: 'I have read and agree with <a href="https://legal.staminity.com/en/offer-author-individual.html">Agreement with Authors - individuals</a> and <a href="https://legal.staminity.com/en/offer-author-buyer.html">Agreement between Author and Aquirer of training plan</a>',
+                email: "E-mail",
+                companyName: "Full Company name / Full enterpreneur name",
+                inn: "INN",
+                kpp: "KPP",
+                noIndividualRUS: `To be able to publish trainging plans as a Company or Individual Enterpreneur you have to read the <a href="https://legal.staminity.com/ru/offer-author-company.html">Agreement with Authors - companies and enterpeneurs </a>, fill the special Form from the Agreement and send to us the scan copy of signed form to <a href="mailto:support@staminity.com">support@staminity.com</a>`,
+                noResidentRUS: 'Training plan publication for non-Russian resindents is not available now. Let us know if you are interested in that option <a href="mailto:support@staminity.com">support@staminity.com</a>',
+                innMessage: "INN should be 10 or 12 digits",
+                kppMessage: "KPP should be 9 digits",
             },
             privacy: {
                 header: 'Privacy',
@@ -635,7 +738,8 @@ export const translateUser = {
                     id50: 'Me and my coach',
                     id40: 'Me, my coach and friends',
                     id10: 'Everyone'
-                }
+                },
+                hint: 'Privacy settings'
             },
             display: {
                 header: 'Display preferences',
@@ -655,12 +759,12 @@ export const translateUser = {
             },
             account: {
                 header: 'Account',
-                hint: 'Account',
+                hint: 'Your account',
                 email: 'E-mail',
                 password: 'Password'
             },
             billing: {
-                header: 'Payment',
+                header: 'Tariffs and bills',
                 tariffsHeader: 'Tariffs',
                 enableTariff: 'Subscribe',
                 disableTariff: 'Unsubscribe',
@@ -681,6 +785,11 @@ export const translateUser = {
                 term: {
                     1: 'month',
                     12: 'year'
+                },
+                terms: {
+                    1: 'Monthly',
+                    12: 'Yearly',
+                    14: 'Yearly'
                 },
                 dayly: 'day',
                 subscriptionFees: 'Subscription fee',
@@ -730,8 +839,8 @@ export const translateUser = {
                     "Athletes": '{{count}} athletes',
                     "ClubAthletes": '{{count}} club athletes',
                     "CoachByClub": "{{count}} coaches",
-                    "PremiumByCoach": "{{count}} premium athlethes",
-                    "PremiumByClub": "{{count}} premium by club athletes"
+                    "PremiumByCoach": "{{count}} Premium athlethes",
+                    "PremiumByClub": "{{count}} Premium by club athletes"
                 },
                 group: {
                     "Athletes": 'Athletes fees',
@@ -744,8 +853,8 @@ export const translateUser = {
                     "Athletes": 'For every athlete',
                     "ClubAthletes": 'For every club athlete',
                     "CoachByClub": "For every club coach",
-                    "PremiumByCoach": "For every premium by coach",
-                    "PremiumByClub": "For every premium by club"
+                    "PremiumByCoach": "For every Premium by coach",
+                    "PremiumByClub": "For every Premium by club"
                 },
                 eachInGroupBelow: '{{below}}',
                 eachInGroupBetween: 'From {{from}} to {{to}} per person',
@@ -905,6 +1014,7 @@ export const translateUser = {
             },
             notification: {
                 header: 'Notifications',
+                hint: 'Notification settings',
 
                 //notificationGroup
                 user: 'For all users',
@@ -966,6 +1076,19 @@ export const translateUser = {
             favorites: {
                 header: 'Favorites'
             }
+        },
+        profile: {
+            fullTitle: 'User profile',
+            shortTitle: 'Profile',
+        },
+        // все действия с профилем, настройками
+        actions: {
+            uploadAvatar: '',
+            uploadBackground: ''
+        },
+        // структура данных по разделам
+        public : {
+
         }
     }
 };
