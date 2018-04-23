@@ -36,13 +36,7 @@ export class CompetitionSingleStageCtrl implements IComponentController {
 
     }
 
-    $onInit() {
-        this.prepareData()
-    }
-
-    prepareData (): void {
-        //let duration = this.ite
-    }
+    $onInit() { }
 
     open (e: Event, item: Activity): void {
         this.calendarItemDialog.activity(e, this.options, item)
