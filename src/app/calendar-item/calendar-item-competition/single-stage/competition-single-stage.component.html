@@ -36,7 +36,7 @@
                            ftp-mode="false"
                            ftp="null"
                            ng-change="$ctrl.changeValue(stage, $index)"
-                           ng-disabled="stage.item.hasActualData || stage.item.view.isView">
+                           ng-disabled="stage.item.hasActualData || $ctrl.isView">
                 </md-input-container>
             </td>
             <!-- Факт по величине второстипенной величине этапа -->
@@ -51,7 +51,7 @@
                            ftp-mode="false"
                            ftp="null"
                            ng-change="$ctrl.changeValue(stage, $index)"
-                           ng-disabled="stage.item.hasActualData || stage.item.view.isView">
+                           ng-disabled="stage.item.hasActualData || $ctrl.isView">
                 </md-input-container>
             </td>
             <!-- Процент выполнения -->

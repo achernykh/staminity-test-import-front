@@ -13,6 +13,7 @@ export class CompetitionSingleStageCtrl implements IComponentController {
     distanceType: string;
     items: Array<CompetitionItems>;
     options: ICalendarItemDialogOptions;
+    isView: boolean;
     onChange: () => Promise<any>;
 
     // private
@@ -85,7 +86,7 @@ export const CompetitionSingleStageComponent:IComponentOptions = {
         type: '<',
         distanceType: '<',
         items: '<',
-        mode: '<',
+        isView: '<',
         options: '<',
         onChange: '&'
     },

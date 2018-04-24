@@ -121,11 +121,11 @@ export class CalendarItemCompetition extends CalendarItem {
                     pW.durationMeasure = 'distance';
                 }
                 if (pW && pW.distanceLength && pW.durationValue !== pW.distanceLength) {
-                    pW.durationMeasure = 'movingDuration';
+                    pW.durationMeasure = 'duration';
                 }
                 if (pW && pW.movingDurationLength && pW.durationValue === 0) {
                     pW.durationValue = pW.movingDurationLength;
-                    pW.durationMeasure = 'movingDuration';
+                    pW.durationMeasure = 'duration';
                 }
                 if (pW && pW.movingDurationLength && pW.durationValue !== pW.movingDurationLength) {
                     pW.durationMeasure = 'distance';
@@ -185,11 +185,15 @@ export class CalendarItemCompetition extends CalendarItem {
         return this.competitionHeader.type;
     }
 
-    get movingDuration (): number {
+    get duration (): number {
         if (!this.items) { return null; }
         let sum: number = 0;
         this.items.map(i => sum = sum + i.item.movingDuration);
         return sum;
+    }
+
+    get movingDuration (): number {
+        return this.duration;
     }
 
     get distance  (): number {
