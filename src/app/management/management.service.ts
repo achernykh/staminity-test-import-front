@@ -102,10 +102,10 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editCoaches(membersList: MembersList, members: Member[]): Promise<any> {
+    editCoaches(membersList: MembersList, members: Member[], $scope?: any): Promise<any> {
         const checkedCoaches = members[0].getCoaches();
-
-        return this.dialogs.selectUsers(membersList.getCoaches(), checkedCoaches, "coaches")
+        debugger;
+        return this.dialogs.selectUsers(membersList.getCoaches(), checkedCoaches, "coaches", $scope)
             .then((nextCheckedCoaches) => {
                 if (checkedCoaches) {
                     const memberships = [
@@ -123,10 +123,10 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editAthletes(membersList: MembersList, members: Member[]): Promise<any> {
+    editAthletes(membersList: MembersList, members: Member[], $scope?: any): Promise<any> {
         const checkedAthletes = members[0].getAthletes();
 
-        return this.dialogs.selectUsers(membersList.getAthletes(), checkedAthletes, "athletes")
+        return this.dialogs.selectUsers(membersList.getAthletes(), checkedAthletes, "athletes", $scope)
             .then((athletes) => {
                 if (athletes) {
                     let groupIds = members.map((member) => member.getAthletesGroupId());
