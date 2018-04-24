@@ -9,7 +9,6 @@
             </md-button>
         </div>
     </md-toolbar>
-    <div flex="none" class="md-caption md-dark md-padding" translate="dialogs.omni.confirm"></div>
     <md-dialog-content flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
         <md-list flex="auto" class="md-dense">
             <!-- Имя пользователя -->
@@ -66,13 +65,16 @@
             </ng-quill-editor>
         </md-list>
     </md-dialog-content>
-    <md-dialog-actions flex="none" layout="row" style="background: white; width: 100%;">
-        <span flex></span>
-        <md-button type="sumbit"
-                   ng-class="{'md-warn': $ctrl.omniForm.$invalid || !$ctrl.message.content_html}"
-                   ng-disabled="$ctrl.omniForm.$pristine"
-                   ng-click="$ctrl.omniForm.$valid && $ctrl.message.content_html && $ctrl.onPost({message: $ctrl.message})">
-            <span translate="dialogs.omni.post"></span>
-        </md-button>
+    <md-dialog-actions layout="column" flex="none" style="background: white; width: 100%;">
+        <div flex="none" class="md-caption md-dark" style="padding: 12px 0" translate="dialogs.omni.confirm"></div>
+        <div layout="row" layout-fill>
+            <span flex></span>
+            <md-button type="sumbit"
+                       ng-class="{'md-warn': $ctrl.omniForm.$invalid || !$ctrl.message.content_html}"
+                       ng-disabled="$ctrl.omniForm.$pristine"
+                       ng-click="$ctrl.omniForm.$valid && $ctrl.message.content_html && $ctrl.onPost({message: $ctrl.message})">
+                <span translate="dialogs.omni.post"></span>
+            </md-button>
+        </div>
     </md-dialog-actions>
 </form>

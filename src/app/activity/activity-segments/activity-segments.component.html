@@ -20,7 +20,7 @@
                 <span translate="activity.segments.total"></span>
                 <span>{{$ctrl.intervals.W.movingDuration() | measureCalc:$ctrl.item.activity.header.sportBasic:'movingDuration'}}</span>
                 <span>{{$ctrl.intervals.W.distance() | measureCalc:$ctrl.item.activity.header.sportBasic:'distance'}}</span>
-                <span>{{'distance' | measureUnit:$ctrl.item.header.activity.header.sportBasic}}</span>
+                <span>{{'distance' | measureUnit:$ctrl.item.activity.header.sportBasic}}</span>
             </div>
 
             <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
@@ -66,7 +66,6 @@
     <section ng-if="!$ctrl.item.activity.view.isView" class="action-panel" flex="none"
              layout="row" layout-align="center center">
         <md-button ng-click="$ctrl.addInterval()" flex="33" class="bg-grey-200">
-            <!--<md-icon class="material-icons">add_circle</md-icon>-->
             <span class="md-caption" translate="activity.action.add"></span>
             <md-menu flex="none" class="add">
                 <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
@@ -111,5 +110,6 @@
 </md-content>
 <activity-assignment-buttons
         is-form-valid="$ctrl.item.assignmentForm.$valid"
-        flex="none"/>
+        flex="none">
+</activity-assignment-buttons>
 </form>

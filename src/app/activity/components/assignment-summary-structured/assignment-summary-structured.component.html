@@ -2,10 +2,10 @@
     <md-list-item>
         <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
     </md-list-item>
-    <md-list-item ng-if="!$ctrl.item.activity.header.sport">
+    <md-list-item ng-if="!$ctrl.item.activity.header.sportBasic">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
-    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sport">
+    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sportBasic">
         <table md-table
                md-row-select="$ctrl.options.rowSelection"
                multiple="{{$ctrl.options.multiSelect}}"
@@ -23,7 +23,7 @@
                 <td md-cell>
                     <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="dark-active"></md-icon>
                 </td>
-                <td md-cell><span>{{measure | measureUnit:$ctrl.$ctrl.item.activity.header.sportBasic | translate}}</span></td>
+                <td md-cell><span>{{measure | measureUnit:$ctrl.item.activity.header.sportBasic | translate}}</span></td>
                 <td md-cell>
                     <span ng-if="$ctrl.item.activity.intervals.PW[$ctrl.structuredMeasure[measure].approx]">~</span>
                     <span>{{$ctrl.item.activity.intervals.PW[$ctrl.structuredMeasure[measure].length] | measureCalc:$ctrl.item.activity.header.sportBasic:measure}}</span>
@@ -60,7 +60,7 @@
         </md-input-container>
     </md-list-item>-->
 </md-list>
-<md-list class="md-dense" ng-if="$ctrl.item.activity.header.sport">
+<md-list class="md-dense" ng-if="$ctrl.item.activity.header.sportBasic">
     <md-subheader ng-if="false">
         <span translate="activity.trainersPrescription"></span>
     </md-subheader>

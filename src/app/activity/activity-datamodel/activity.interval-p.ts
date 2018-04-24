@@ -64,7 +64,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         super(type, params);
 
         this.distance = this.distance || new DurationMeasure();
-        this.duration = this.movingDuration || new DurationMeasure();
+        this.duration = this.duration || new DurationMeasure();
         this.movingDuration = this.movingDuration || new DurationMeasure();
 
         this.heartRate = this.heartRate || new IntensityMeasure();

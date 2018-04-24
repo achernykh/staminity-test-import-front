@@ -81,7 +81,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     change (cycle: Microcycle, pos?: number): void {
-        if ( cycle.mesocycle.id ) {
+        if ( cycle.mesocycle && cycle.mesocycle.id ) {
             cycle.mesocycle = Object.assign({},this.getMesocycle(cycle.mesocycle.id));
         } else { return; }
         //if ( pos >= 0) { this.recalcMesoWeekNumber(); }
@@ -158,7 +158,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
             modelValue: cycle.durationValue,
             placeholder: translate(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
             save: function (input) {
-                if (!Number(input.$modelValue.replace(/\,/g,'.'))) {
+                if (typeof input.$modelValue === 'string' && !Number(input.$modelValue.replace(/\,/g,'.'))) {
                     input.$invalid = true;
                     //return Promise.reject();
                     throw new Error('please provide number');

@@ -40,7 +40,7 @@ export class OmniService {
                 }, {
                     name: 'user-permissions',
                     ext: 'json',
-                    content: Object.keys(permissions).length > 0 && JSON.stringify(permissions) || ''
+                    content: currentUser.userId && Object.keys(permissions).length > 0 && JSON.stringify(permissions) || ''
                 }, {
                     name: 'ws-buffer',
                     ext: 'json',
