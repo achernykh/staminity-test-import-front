@@ -427,6 +427,15 @@ export const translateUser = {
                         title: 'Проверка...',
                         text: "Проверка правильности введенных данных"
                     }
+                },
+                account: {
+                    placeholder: 'Логин'
+                },
+                password: {
+                    placeholder: 'Пароль'
+                },
+                startDate: {
+                    hint: 'Дата начала синхронизации'
                 }
             },
             zones: {
@@ -976,6 +985,15 @@ export const translateUser = {
                         title: 'Check...',
                         text: "Check your credentials"
                     }
+                },
+                account: {
+                    placeholder: 'Login'
+                },
+                password: {
+                    placeholder: 'Password'
+                },
+                startDate: {
+                    hint: 'Sync start date'
                 }
             },
             zones: {

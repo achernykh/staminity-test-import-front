@@ -645,500 +645,508 @@ export const _translateMessage = {
         trainingPlanUnpublishSuccess: {
             title: '',
             text: 'Публикация плана отменена'
+        },
+        omniMessagePost: {
+            title: '',
+            text: 'Ваше обращение отправлено. Ожидайте ответа по e-mail'
+        },
+        omniMessagePostError: {
+            title: '',
+            text: "Ваше обращение не отправлено. Попробуйте еще раз или оставьте заявку на support.staminity.com"
         }
 
     },
 	en: {
-		null: {
-			title: 'Unknown error',
-			text: 'Something went wrong. Please try again'
-		},
-		// CORE
-		internetConnectionLost: {
-			title: 'Error',
-			text: 'Internet connection lost. Please check connection settings'
-		},
-		timeoutExceeded: {
-			title: 'Error',
-			text: 'Timeout exceeded. Try to refresh browser window'
-		},
-		// SETTINGS-USER ------------------------------------------------------
-		settingsSaveComplete: { // после успешного сохранения настроек
-			title: '',
-			text: 'Settings have been updated'
-		},
-		updateAvatar: { // после успешной загрузки аватара пользователя
-			title: '',
-			text: 'New image has been uploaded'
-		},
-		updateBackgroundImage: { // после успешной загрузки фонового изображения
-			title: '',
-			text: 'New background image has been uploaded'
-		},
-		setPasswordSuccess: { // после успешного изменения пароля
-			title: '',
-			text: 'Password has been successfully changed'
-		},
-		setPasswordError: { // после ошибки в изменении пароля
-			title: '',
-			text: 'Password has not changed'
-		},
-		duplicateUserProfileURI: { // ошибка от бэка при сохранении изменений настроек
-			title: 'Error',
-			text: 'Please choose another shortname (uri) for your profile. Settings have not been saved'
-		},
-		badPasswordString: { // ошибка от бэка при изменении пароля
-			title: 'Error',
-			text: 'Password strings does not match. Please check and try again'
-		},
-		/* отключил блок сообщений, сейчас достаточно "Изменения настроек сохранены"
-		 pubInitialSyncRequestSuccess: { //после успешного подключения начальной синхронизации
-		 title: "Внимание!",
-		 text: "Отправлен запрос на начальную синхронизацию тренировок. Ожидайте оповещения о завершении загрузки"
-		 },
-		 pubSyncRequestSuccess: { // после успешного повторного включения синхронизации
-		 title: "Внимание!",
-		 text: "Отправлен запрос на синхронизацию тренировок. Ожидайте оповещения о завершении загрузки"
-		 },
-		 pubSyncRequestSuccess: { // после успешного повторного включения синхронизации
-		 title: "Внимание!",
-		 text: "Отправлен запрос на синхронизацию тренировок. Ожидайте оповещения о завершении загрузки"
-		 }, */
+        null: {
+            title: 'Unknown error',
+            text: 'Something went wrong. Please try again'
+        },
+        // CORE
+        internetConnectionLost: {
+            title: 'Error',
+            text: 'Internet connection lost. Please check connection settings'
+        },
+        timeoutExceeded: {
+            title: 'Error',
+            text: 'Timeout exceeded. Try to refresh browser window'
+        },
+        // SETTINGS-USER ------------------------------------------------------
+        settingsSaveComplete: { // после успешного сохранения настроек
+            title: '',
+            text: 'Settings have been updated'
+        },
+        updateAvatar: { // после успешной загрузки аватара пользователя
+            title: '',
+            text: 'New image has been uploaded'
+        },
+        updateBackgroundImage: { // после успешной загрузки фонового изображения
+            title: '',
+            text: 'New background image has been uploaded'
+        },
+        setPasswordSuccess: { // после успешного изменения пароля
+            title: '',
+            text: 'Password has been successfully changed'
+        },
+        setPasswordError: { // после ошибки в изменении пароля
+            title: '',
+            text: 'Password has not changed'
+        },
+        duplicateUserProfileURI: { // ошибка от бэка при сохранении изменений настроек
+            title: 'Error',
+            text: 'Please choose another shortname (uri) for your profile. Settings have not been saved'
+        },
+        badPasswordString: { // ошибка от бэка при изменении пароля
+            title: 'Error',
+            text: 'Password strings does not match. Please check and try again'
+        },
+        /* отключил блок сообщений, сейчас достаточно "Изменения настроек сохранены"
+         pubInitialSyncRequestSuccess: { //после успешного подключения начальной синхронизации
+         title: "Внимание!",
+         text: "Отправлен запрос на начальную синхронизацию тренировок. Ожидайте оповещения о завершении загрузки"
+         },
+         pubSyncRequestSuccess: { // после успешного повторного включения синхронизации
+         title: "Внимание!",
+         text: "Отправлен запрос на синхронизацию тренировок. Ожидайте оповещения о завершении загрузки"
+         },
+         pubSyncRequestSuccess: { // после успешного повторного включения синхронизации
+         title: "Внимание!",
+         text: "Отправлен запрос на синхронизацию тренировок. Ожидайте оповещения о завершении загрузки"
+         }, */
 
-		badProviderCode: { // ошибка от бэка. Передан некорректный код провайдера для синхронизации аккаунта
-			title: 'Error',
-			text: 'Incorrect provided code. Please contact support'
-		},
-		badProviderUsernameOrPassword: { //  указаны неправильное имя или пароль для провайдера
-			title: '',
-			text: 'Wrong username or password. Please check and try again'
-		},
-		forbidden_DuplicateExternalAccountBinding: { // Попытка подключения аккаунта, который уже подключен к другому пользователю
-			title: 'Error',
-			text: 'Account you try to connect is already connected to another Staminity user'
-		},
-		mailSendingError: { // Ошибка отправки письма
-			title: 'Error',
-			text: 'Cannot send an email. Please contact support'
-		},
+        badProviderCode: { // ошибка от бэка. Передан некорректный код провайдера для синхронизации аккаунта
+            title: 'Error',
+            text: 'Incorrect provided code. Please contact support'
+        },
+        badProviderUsernameOrPassword: { //  указаны неправильное имя или пароль для провайдера
+            title: '',
+            text: 'Wrong username or password. Please check and try again'
+        },
+        forbidden_DuplicateExternalAccountBinding: { // Попытка подключения аккаунта, который уже подключен к другому пользователю
+            title: 'Error',
+            text: 'Account you try to connect is already connected to another Staminity user'
+        },
+        mailSendingError: { // Ошибка отправки письма
+            title: 'Error',
+            text: 'Cannot send an email. Please contact support'
+        },
 
-		// SETTINGS-CLUB ------------------------------------------------------
-		settingsClubSaveComplete: { // после успешного сохранения изменений в профиле клуба
-			title: '',
-			text: 'Club profile has been changed'
-		},
-		updateClubAvatar: { // после успешной загрузки аватара клуба
-			title: '',
-			text: 'New image has beed uploaded'
-		},
-		updateclubBackgroundImage: { // после успешной загрузки фонового изображения
-			title: '',
-			text: 'New background image has beed uploaded'
-		},
-		duplicateUserGroupUri: { // указан uri, который уже используется
-			title: 'Attention',
-			text: 'Profile has not been changed. Please use another URI (shortname) for your profile'
-		},
-		forbiddenUriFormat: { // указан uri в неправильном формате
-			title: 'Attention',
-			text: 'Profile has not been changed. Wrong URI (shortname). Please use english letters and digits'
-		},
-		duplicateGroupProfileURI: { // указан uri, который уже используется
-			title: 'Attention',
-			text: 'Profile has not been changed. Please use another URI (shortname) for your profile'
-		},
+        // SETTINGS-CLUB ------------------------------------------------------
+        settingsClubSaveComplete: { // после успешного сохранения изменений в профиле клуба
+            title: '',
+            text: 'Club profile has been changed'
+        },
+        updateClubAvatar: { // после успешной загрузки аватара клуба
+            title: '',
+            text: 'New image has beed uploaded'
+        },
+        updateclubBackgroundImage: { // после успешной загрузки фонового изображения
+            title: '',
+            text: 'New background image has beed uploaded'
+        },
+        duplicateUserGroupUri: { // указан uri, который уже используется
+            title: 'Attention',
+            text: 'Profile has not been changed. Please use another URI (shortname) for your profile'
+        },
+        forbiddenUriFormat: { // указан uri в неправильном формате
+            title: 'Attention',
+            text: 'Profile has not been changed. Wrong URI (shortname). Please use english letters and digits'
+        },
+        duplicateGroupProfileURI: { // указан uri, который уже используется
+            title: 'Attention',
+            text: 'Profile has not been changed. Please use another URI (shortname) for your profile'
+        },
 
-		//-------- SIGNUP -----------------------------------------------------
-		signupSuccess: { // в ответ на успешный /signup
-			title: 'Contratulations',
-			text: 'Your account has been created. Please check your email to continue'
-		},
-		confirmSuccess: { // в ответ на /confirm
-			title: 'E-mail confirmation',
-			text: 'Your account has been activated'
-		},
-		// это событие мы не реализовывали... Предлагаю и не делать, иначе придется делать логику "Отправить письмо-подтверждение повторно".
-		confirmExpiredValidation: { // ошибка в момент перехода по устаревшей ссылке из письма по подтверждению email
-			title: 'Attention',
-			text: 'Confirmation link has been expired'
-		},
-		confirmInvalidValidation: { // ошибка в момент перехода по невалидной ссылке из письма по подтверждению email
-			title: 'Error',
-			text: 'Incorrect confirmation link. Please contact support'
-		},
-		userIsAlreadyValidated: { // пользователь пытается валидировать аккаунт, который уже подтвержден
-			title: 'Attention',
-			text: 'E-mail has been already confirmed'
-		},
-		revalidationAccountSuccess: {
-			title: '',
-			text: 'New confirmation e-mail has been sent'
-		},
-		unconfirmedEmailAddress: {
-			title: 'Error!',
-			text: 'Your email address has not confirmed '
-		},
-		userCancelOAuth: {
-			title: '',
-			text: 'Login via external service has been cancelled'
-		},
-		unavailableEmailAddress: {
-			title: 'Error',
-			text: 'We cannot get your e-mail address. Please allow us to use your e-mail address information or choose another method to login'
-		},
-		//------ SIGN IN --------------------
-		signinBadUsernameOrPassword: { //  ошибка от бэка после входа с неверными именем/паролем
-			title: 'Error',
-			text: 'Invalid username or password'
-		},
-		signinNotValidatedAccount: { // ошибка от бэка, вход неподтвержденного пользователя
-			title: 'Attention',
-			text: 'E-mail address has not been confrimed. Please check your e-mail and follow the instructions in account activation letter'
-		},
-		/*
-		 signinUserHaveActiveSession: {
-		 title: 'Внимание!',
-		 text: 'Вы уже вошли в сервис. Для входа с другими учетными данными необходимо выйти'
-		 }, */
-		signupUserAlreadyExists: { // ошибка при попытке регистрации пользователя от бэка
-			title: 'Error',
-			text: 'User with this email already exists'
-		},
-		badToken: { // токен для индентиифкации сессии не подтвержден сервером
-			title: 'Error',
-			text: 'Your session is expired. Please log in'
-		},
-		userNotFound: { // в ответ на getValidationToken. заправшиваемый пользователь не найден
-			title: 'Error',
-			text: 'User is not found'
-		},
-		sendMailError: { // ошибка при отправке email
-			title: 'Error',
-			text: 'Email sending error'
-		},
-/*		forbidden_ProcessIncomplete_ResetPassword: {
-			title: 'Attention',
-			text: 'По вашей учетной записи запущена процедура восстановления пароля. Вход с использование старого логина и пароля не возможен.'
-		},*/
-		resetPasswordSuccess: {
-			title: '',
-			text: 'Please check your email for recovery password letter'
-		},
+        //-------- SIGNUP -----------------------------------------------------
+        signupSuccess: { // в ответ на успешный /signup
+            title: 'Contratulations',
+            text: 'Your account has been created. Please check your email to continue'
+        },
+        confirmSuccess: { // в ответ на /confirm
+            title: 'E-mail confirmation',
+            text: 'Your account has been activated'
+        },
+        // это событие мы не реализовывали... Предлагаю и не делать, иначе придется делать логику "Отправить письмо-подтверждение повторно".
+        confirmExpiredValidation: { // ошибка в момент перехода по устаревшей ссылке из письма по подтверждению email
+            title: 'Attention',
+            text: 'Confirmation link has been expired'
+        },
+        confirmInvalidValidation: { // ошибка в момент перехода по невалидной ссылке из письма по подтверждению email
+            title: 'Error',
+            text: 'Incorrect confirmation link. Please contact support'
+        },
+        userIsAlreadyValidated: { // пользователь пытается валидировать аккаунт, который уже подтвержден
+            title: 'Attention',
+            text: 'E-mail has been already confirmed'
+        },
+        revalidationAccountSuccess: {
+            title: '',
+            text: 'New confirmation e-mail has been sent'
+        },
+        unconfirmedEmailAddress: {
+            title: 'Error!',
+            text: 'Your email address has not confirmed '
+        },
+        userCancelOAuth: {
+            title: '',
+            text: 'Login via external service has been cancelled'
+        },
+        unavailableEmailAddress: {
+            title: 'Error',
+            text: 'We cannot get your e-mail address. Please allow us to use your e-mail address information or choose another method to login'
+        },
+        //------ SIGN IN --------------------
+        signinBadUsernameOrPassword: { //  ошибка от бэка после входа с неверными именем/паролем
+            title: 'Error',
+            text: 'Invalid username or password'
+        },
+        signinNotValidatedAccount: { // ошибка от бэка, вход неподтвержденного пользователя
+            title: 'Attention',
+            text: 'E-mail address has not been confrimed. Please check your e-mail and follow the instructions in account activation letter'
+        },
+        /*
+         signinUserHaveActiveSession: {
+         title: 'Внимание!',
+         text: 'Вы уже вошли в сервис. Для входа с другими учетными данными необходимо выйти'
+         }, */
+        signupUserAlreadyExists: { // ошибка при попытке регистрации пользователя от бэка
+            title: 'Error',
+            text: 'User with this email already exists'
+        },
+        badToken: { // токен для индентиифкации сессии не подтвержден сервером
+            title: 'Error',
+            text: 'Your session is expired. Please log in'
+        },
+        userNotFound: { // в ответ на getValidationToken. заправшиваемый пользователь не найден
+            title: 'Error',
+            text: 'User is not found'
+        },
+        sendMailError: { // ошибка при отправке email
+            title: 'Error',
+            text: 'Email sending error'
+        },
+        /*		forbidden_ProcessIncomplete_ResetPassword: {
+                    title: 'Attention',
+                    text: 'По вашей учетной записи запущена процедура восстановления пароля. Вход с использование старого логина и пароля не возможен.'
+                },*/
+        resetPasswordSuccess: {
+            title: '',
+            text: 'Please check your email for recovery password letter'
+        },
 
-		// --------------- SIGN OUT ---------------
-		signoutSuccess: { // сообщение об успешной завершении пользовательской сессии
-			title: '',
-			text: 'You have successfully signed out'
-		},
+        // --------------- SIGN OUT ---------------
+        signoutSuccess: { // сообщение об успешной завершении пользовательской сессии
+            title: '',
+            text: 'You have successfully signed out'
+        },
 
 
-		// ------------- CORE SYSTEM --------
+        // ------------- CORE SYSTEM --------
 
-		unknownRequestType: { // оповещение о некорректном типе запроса через websocket-сессию
-			title: 'Error',
-			text: 'Unknown request type'
-		},
-		expiredObject: {
-			title: "Attention",
-			text: "The object you edited was changed by someone. Please refresh the page" // возникает в случае сохранения изменений по объекту, основываясь не на последней его версии.
-		},
-		/*
-		 subscriptionCoachRequired: {
-		 title: "Внимание!",
-		 text: "Недостаточно прав для выполнения операции. Необходим тариф 'Тренер'"
-		 },*/
-		forbidden_InsufficientAction: {
-			title: "Error",
-			text: "You dont't have enough rights (insufficient action)"
-		},
-		forbidden_InsufficientRights: {
-			title: "Error",
-			text: "You dont't have enough rights (insufficient rights)"
-		},
-		unAuthorized: {
-			title: "Error",
-			text: "Authorization error. Please sign in"
-		},
+        unknownRequestType: { // оповещение о некорректном типе запроса через websocket-сессию
+            title: 'Error',
+            text: 'Unknown request type'
+        },
+        expiredObject: {
+            title: "Attention",
+            text: "The object you edited was changed by someone. Please refresh the page" // возникает в случае сохранения изменений по объекту, основываясь не на последней его версии.
+        },
+        /*
+         subscriptionCoachRequired: {
+         title: "Внимание!",
+         text: "Недостаточно прав для выполнения операции. Необходим тариф 'Тренер'"
+         },*/
+        forbidden_InsufficientAction: {
+            title: "Error",
+            text: "You dont't have enough rights (insufficient action)"
+        },
+        forbidden_InsufficientRights: {
+            title: "Error",
+            text: "You dont't have enough rights (insufficient rights)"
+        },
+        unAuthorized: {
+            title: "Error",
+            text: "Authorization error. Please sign in"
+        },
 
-		// -------- Measurement --------
-		measurementCreated: {
-			title: "",
-			text: "New measurement has been created"
-		},
-		measurementUpdated: {
-			title: "",
-			text: "The measurement has been updated"
-		},
-		measurementDeleted: {
-			title: "",
-			text: "The measurement has been deleted"
-		},
+        // -------- Measurement --------
+        measurementCreated: {
+            title: "",
+            text: "New measurement has been created"
+        },
+        measurementUpdated: {
+            title: "",
+            text: "The measurement has been updated"
+        },
+        measurementDeleted: {
+            title: "",
+            text: "The measurement has been deleted"
+        },
 
-		// -------- Event --------
-		eventCreated: {
-			title: "",
-			text: "New event has been created"
-		},
-		eventUpdated: {
-			title: "",
-			text: "The event has been updated"
-		},
-		eventDeleted: {
-			title: "",
-			text: "The event has been deleted"
-		},
-		// -------- Activity --------
-		activityCreated: {
-			title: "",
-			text: "New activity has been created"
-		},
-		activityCopied: {
-			title: "",
-			text: "The activity has been copied"
-		},
-		activityMoved: {
-			title: "",
-			text: "The activity has been moved"
-		},
-		activityUpdated: {
-			title: "",
-			text: "The activity has been updated"
-		},
-		activityDeleted: {
-			title: "",
-			text: "The measurement has been deleted"
-		},
-		activityFactDeleted: { // когда прошло удаление детального факта в тренировке, параметр mode: 'D'
-			title: "",
-			text: "Activity actual data has been deleted"
-		},
-		itemsDeleted:{
-			title: "",
-			text: "Calendar items have been deleted"
-		},
-		itemsCopied:{
-			title: "",
-			text: "Calendar items have been copied"
-		},
-		itemsPasted:{
-			title: "",
-			text: "Calendar items have been pasted"
-		},
-		nonexistentActivity: { // неверный идентификатор в удаляемой тренировке
-			title: "",
-			text: "The activity cannot be deleted, insufficient id"
-		},
-		unknownActivity: { // неправильный код тренировки
-			title: "",
-			text: "Unknown activity code"
-		},
-		activityNotFound: { // тренировка не найдена
-			title: "",
-			text: "The activity cannot be founded"
-		},
-		badInputTimestampRange: { // неверно передан диапазон timeStamp
-			title: "",
-			text: "Wrong timestamps for calculated segment"
-		},
-		activityDetailedDataNotFound: { // не найдены детальные данные по тренировке
-			title: "",
-			text: "Activity detailed data not found"
-		},
-		itemCreatedByOtherUser: { // не найдены детальные данные по тренировке
-			title: "",
-			text: "Item has been created by another user"
-		},
+        // -------- Event --------
+        eventCreated: {
+            title: "",
+            text: "New event has been created"
+        },
+        eventUpdated: {
+            title: "",
+            text: "The event has been updated"
+        },
+        eventDeleted: {
+            title: "",
+            text: "The event has been deleted"
+        },
+        // -------- Activity --------
+        activityCreated: {
+            title: "",
+            text: "New activity has been created"
+        },
+        activityCopied: {
+            title: "",
+            text: "The activity has been copied"
+        },
+        activityMoved: {
+            title: "",
+            text: "The activity has been moved"
+        },
+        activityUpdated: {
+            title: "",
+            text: "The activity has been updated"
+        },
+        activityDeleted: {
+            title: "",
+            text: "The measurement has been deleted"
+        },
+        activityFactDeleted: { // когда прошло удаление детального факта в тренировке, параметр mode: 'D'
+            title: "",
+            text: "Activity actual data has been deleted"
+        },
+        itemsDeleted: {
+            title: "",
+            text: "Calendar items have been deleted"
+        },
+        itemsCopied: {
+            title: "",
+            text: "Calendar items have been copied"
+        },
+        itemsPasted: {
+            title: "",
+            text: "Calendar items have been pasted"
+        },
+        nonexistentActivity: { // неверный идентификатор в удаляемой тренировке
+            title: "",
+            text: "The activity cannot be deleted, insufficient id"
+        },
+        unknownActivity: { // неправильный код тренировки
+            title: "",
+            text: "Unknown activity code"
+        },
+        activityNotFound: { // тренировка не найдена
+            title: "",
+            text: "The activity cannot be founded"
+        },
+        badInputTimestampRange: { // неверно передан диапазон timeStamp
+            title: "",
+            text: "Wrong timestamps for calculated segment"
+        },
+        activityDetailedDataNotFound: { // не найдены детальные данные по тренировке
+            title: "",
+            text: "Activity detailed data not found"
+        },
+        itemCreatedByOtherUser: { // не найдены детальные данные по тренировке
+            title: "",
+            text: "Item has been created by another user"
+        },
 
-		// -------- CalendarItem actiions: copy, paste, cut, drag&drop --------
-		calendarItemCopy: { //
-			title: "",
-			text: "Calendar items have been copied"
-		},
-		calendarItemPaste: { //
-			title: "",
-			text: "Calendar items have been added"
-		},
-		calendarItemDragAndDrop: { //
-			title: "",
-			text: "Calendar items have been moved"
-		},
-		calendarItemCut: { //
-			title: "",
-			text: "Calendar items have been cut and ready to move"
-		},
-		forbiddenAction_postCalendarItem: { //
-			title: "",
-			text: "Calendar items cannot be added. Future planning is a premium option"
-		},
+        // -------- CalendarItem actiions: copy, paste, cut, drag&drop --------
+        calendarItemCopy: { //
+            title: "",
+            text: "Calendar items have been copied"
+        },
+        calendarItemPaste: { //
+            title: "",
+            text: "Calendar items have been added"
+        },
+        calendarItemDragAndDrop: { //
+            title: "",
+            text: "Calendar items have been moved"
+        },
+        calendarItemCut: { //
+            title: "",
+            text: "Calendar items have been cut and ready to move"
+        },
+        forbiddenAction_postCalendarItem: { //
+            title: "",
+            text: "Calendar items cannot be added. Future planning is a premium option"
+        },
 
-		// -------- Категории и шаблоны ---------
+        // -------- Категории и шаблоны ---------
 
-		activityTemplateCreated: {
-			title: "",
-			text: "New template have been created"
-		},
+        activityTemplateCreated: {
+            title: "",
+            text: "New template have been created"
+        },
         forbidden_ExistsRelatedActivity: {
             title: "Action forbidden",
             text: "Item has related activities"
         },
 
 
-    // -------- Запросы и групповые операции ---------
-		requestSent: { // отправить запрос из профиля пользователя, из профиля клуба
-			title: "",
-			text: "Operation was successful" // сделал такую нейтральную формулировку, т.к. есть запросы, требующие согласования, а есть например выход из клуба, который не требует согласования
-		},
-		requestComplete: {
-			title: "",
-			text: "You have sent the request"
-		},
-		requestCancelled: { // пользователь отменил свой запрос из профиля или в реестре исходящих запросов
-			title: "",
-			text: "Your request has been cancelled"
-		},
-		requestAccepted: { // в реестре запросов пользователь принял входящий запрос
-			title: "",
-			text: "You have accepted the request"
-		},
-		requestDeclined: { // в реестре запросов пользователь отклонил входящий запрос
-			title: "",
-			text: "You have declined the request"
-		},
-		badGroupMembershipRequest: { // передан некорректный идентификатор запроса на членство в группе
-			title: 'Error',
-			text: 'Incorrect group membership request id '
-		},
-		unknownGroupIdentifier: { // в ответ на запрос включения в группу
-			title: "",
-			text: "Incorrect group id"
-		},
-		userIsAlreadyGroupMember: { // в ответ на запрос включения в группу
-			title: "",
-			text: "User is already a group member"
-		},
-		forbidden_YouAreNotGroupManager: { // в ответ на запрос включения в группу
-			title: "",
-			text: "Operation forbidden, you are not a group manager"
-		},
-		forbidden_joinOnlyByGroupManager: { // в ответ на запрос включения в группу
-			title: "",
-			text: "Operation forbidden, you are not a group manager"
-		},
-		duplicateGroupMembership: { // в ответ на запрос включения в группу
-			title: "",
-			text: "User is already a group member (duplicate group membership)"
-		},
+        // -------- Запросы и групповые операции ---------
+        requestSent: { // отправить запрос из профиля пользователя, из профиля клуба
+            title: "",
+            text: "Operation was successful" // сделал такую нейтральную формулировку, т.к. есть запросы, требующие согласования, а есть например выход из клуба, который не требует согласования
+        },
+        requestComplete: {
+            title: "",
+            text: "You have sent the request"
+        },
+        requestCancelled: { // пользователь отменил свой запрос из профиля или в реестре исходящих запросов
+            title: "",
+            text: "Your request has been cancelled"
+        },
+        requestAccepted: { // в реестре запросов пользователь принял входящий запрос
+            title: "",
+            text: "You have accepted the request"
+        },
+        requestDeclined: { // в реестре запросов пользователь отклонил входящий запрос
+            title: "",
+            text: "You have declined the request"
+        },
+        badGroupMembershipRequest: { // передан некорректный идентификатор запроса на членство в группе
+            title: 'Error',
+            text: 'Incorrect group membership request id '
+        },
+        unknownGroupIdentifier: { // в ответ на запрос включения в группу
+            title: "",
+            text: "Incorrect group id"
+        },
+        userIsAlreadyGroupMember: { // в ответ на запрос включения в группу
+            title: "",
+            text: "User is already a group member"
+        },
+        forbidden_YouAreNotGroupManager: { // в ответ на запрос включения в группу
+            title: "",
+            text: "Operation forbidden, you are not a group manager"
+        },
+        forbidden_joinOnlyByGroupManager: { // в ответ на запрос включения в группу
+            title: "",
+            text: "Operation forbidden, you are not a group manager"
+        },
+        duplicateGroupMembership: { // в ответ на запрос включения в группу
+            title: "",
+            text: "User is already a group member (duplicate group membership)"
+        },
 
-		// -------- Управление спортсменами тренера (/athletes) ---------
-		athletesDisconnected: { // тренер отключил спортсмена
-			title: "",
-			text: "Your athletes have been disconnected from you"
-		},
-		coachTariffsChanged: { // изменено подключение тарифов за счет тренера
-			title: "",
-			text: "You have successfully changed the tariffs of your athletes"
-		},
-		inviteSuccess: { // тренер отправил запрос на подключение для новых пользователей сервиса
-			title: "",
-			text: "You have successfully sent an ivites to athletes"
-		},
-		forbidden_cannotConnectToCoach_coachTariffRequired: {
-			title: "Error",
-			text: "Cannot connect to coach. Please ask coach to check his tariffs"
-		},
-		forbidden_cannotConnectToAthlete_coachTariffRequired: {
-			title: "Error",
-			text: "You don't have an active tariff 'Coach'. Please switch on 'Coach' tariff and try again"
-		},
+        // -------- Управление спортсменами тренера (/athletes) ---------
+        athletesDisconnected: { // тренер отключил спортсмена
+            title: "",
+            text: "Your athletes have been disconnected from you"
+        },
+        coachTariffsChanged: { // изменено подключение тарифов за счет тренера
+            title: "",
+            text: "You have successfully changed the tariffs of your athletes"
+        },
+        inviteSuccess: { // тренер отправил запрос на подключение для новых пользователей сервиса
+            title: "",
+            text: "You have successfully sent an ivites to athletes"
+        },
+        forbidden_cannotConnectToCoach_coachTariffRequired: {
+            title: "Error",
+            text: "Cannot connect to coach. Please ask coach to check his tariffs"
+        },
+        forbidden_cannotConnectToAthlete_coachTariffRequired: {
+            title: "Error",
+            text: "You don't have an active tariff 'Coach'. Please switch on 'Coach' tariff and try again"
+        },
 
-		// -------- Управление членами клуба (/management/clubUri) ---------
-		clubMembersDisconnected: { // член клуба исключен из клуба
-			title: "",
-			text: "Club members have been successfully excluded from club"
-		},
-		clubRolesChanged: { // роли изменены
-			title: "",
-			text: "Club members roles have been changed"
-		},
-		clubTariffsChanged: { // изменены тарифы
-			title: "",
-			text: "Club members tariffs have been changed"
-		},
-		clubCoachesChanged: { // Изменено назначение тренеров
-			title: "",
-			text: "Coach assignment to club athletes have been changed"
-		},
-		forbidden_YouMustHaveMembershipInManagementGroup: { // Открытие /management
-			title: "",
-			text: "Operation forbidden. You have to be the group manager"
-		},
-		forbidden_OnlyClubManagerCanManageThisGroup: { // в ответ на запрос включения в группу
-			title: "",
-			text: "Operation forbidden. You have to be the group manager or admin"
-		},
-		duplicateCoachAthleteRelation: { // в ответ на запрос включения в группу
-			title: "Attention",
-			text: "Operation forbidden. Coach and athlete are already connected to each other"
-		},
-		forbidden_CoachingYourself: { // назначить себя тренером для себя
-			title: "Attention",
-			text: "Operation forbidden. You cannot be the coach for yourself"
-		},
-		forbidden_ManagerCannotLeaveClub: { // менеджер исключает себя из клуба
-			title: "Attention",
-			text: "Club manager cannot leave the club"
-		},
-		forbidden_LeaveClubManagementGroupFirst: { // ошибка, если администратору клуба отключается роль Тренер, а Админ остается
-			title: "Attention",
-			text: "Operation forbidden. Club manager have to be the coach in the club"
-		},
-		forbidden_CoachHasAthletesInThisClub: { // ошибка, если отключается роль "Тренер" у тренера, у которого в клубе есть спортсмены, либо если тренер с учениками исключается из клуба
-			title: "Error",
-			text: "Operation forbidden. Coach has athletes in the club. Please disconnect athletes and try again"
-		},
+        // -------- Управление членами клуба (/management/clubUri) ---------
+        clubMembersDisconnected: { // член клуба исключен из клуба
+            title: "",
+            text: "Club members have been successfully excluded from club"
+        },
+        clubRolesChanged: { // роли изменены
+            title: "",
+            text: "Club members roles have been changed"
+        },
+        clubTariffsChanged: { // изменены тарифы
+            title: "",
+            text: "Club members tariffs have been changed"
+        },
+        clubCoachesChanged: { // Изменено назначение тренеров
+            title: "",
+            text: "Coach assignment to club athletes have been changed"
+        },
+        forbidden_YouMustHaveMembershipInManagementGroup: { // Открытие /management
+            title: "",
+            text: "Operation forbidden. You have to be the group manager"
+        },
+        forbidden_OnlyClubManagerCanManageThisGroup: { // в ответ на запрос включения в группу
+            title: "",
+            text: "Operation forbidden. You have to be the group manager or admin"
+        },
+        duplicateCoachAthleteRelation: { // в ответ на запрос включения в группу
+            title: "Attention",
+            text: "Operation forbidden. Coach and athlete are already connected to each other"
+        },
+        forbidden_CoachingYourself: { // назначить себя тренером для себя
+            title: "Attention",
+            text: "Operation forbidden. You cannot be the coach for yourself"
+        },
+        forbidden_ManagerCannotLeaveClub: { // менеджер исключает себя из клуба
+            title: "Attention",
+            text: "Club manager cannot leave the club"
+        },
+        forbidden_LeaveClubManagementGroupFirst: { // ошибка, если администратору клуба отключается роль Тренер, а Админ остается
+            title: "Attention",
+            text: "Operation forbidden. Club manager have to be the coach in the club"
+        },
+        forbidden_CoachHasAthletesInThisClub: { // ошибка, если отключается роль "Тренер" у тренера, у которого в клубе есть спортсмены, либо если тренер с учениками исключается из клуба
+            title: "Error",
+            text: "Operation forbidden. Coach has athletes in the club. Please disconnect athletes and try again"
+        },
 
-		// -------- Тарификация и биллинг ----------
-		badPromoCodeString: {
-			title: "",
-			text: "Wrong promo-code"
-		},
-		rateNotFound: {
-			title: "",
-			text: "Tariff rate is invalid"
-		},
-		billNotFound: {
-			title: "",
-			text: "Bill not found"
-		},
-		unknownPaymentIdentifier: {
-			title: "",
-			text: "Unknown payment identifier"
-		},
-		unknownTariffIdentifier: {
-			title: "",
-			text: "Unknown tariff identifier"
-		},
-		TariffNotFound: {
-			title: "",
-			text: "Tariff not found"
-		},
-		successUnsubscribeTariff: {
-			title: "",
-			text: "Unsubscribe tariff successful"
-		},
-		groupMyAthletesNotEmpty: {
-			title: "Error",
-			text: "You have athletes. To switch tariff 'Coach' off please disconnect them before"
-		},
-		groupClubAthletesNotEmpty: {
-			title: "Error",
-			text: "Operation forbidden, you have athletes in the club. Please remove them before switch 'Club' tariff off"
-		},
-		// Поиск
-		searchResult: {
-			title: 'Information',
-			text: 'Found {{count}} items'
-		},
+        // -------- Тарификация и биллинг ----------
+        badPromoCodeString: {
+            title: "",
+            text: "Wrong promo-code"
+        },
+        rateNotFound: {
+            title: "",
+            text: "Tariff rate is invalid"
+        },
+        billNotFound: {
+            title: "",
+            text: "Bill not found"
+        },
+        unknownPaymentIdentifier: {
+            title: "",
+            text: "Unknown payment identifier"
+        },
+        unknownTariffIdentifier: {
+            title: "",
+            text: "Unknown tariff identifier"
+        },
+        TariffNotFound: {
+            title: "",
+            text: "Tariff not found"
+        },
+        successUnsubscribeTariff: {
+            title: "",
+            text: "Unsubscribe tariff successful"
+        },
+        groupMyAthletesNotEmpty: {
+            title: "Error",
+            text: "You have athletes. To switch tariff 'Coach' off please disconnect them before"
+        },
+        groupClubAthletesNotEmpty: {
+            title: "Error",
+            text: "Operation forbidden, you have athletes in the club. Please remove them before switch 'Club' tariff off"
+        },
+        // Поиск
+        searchResult: {
+            title: 'Information',
+            text: 'Found {{count}} items'
+        },
         // ----- Периодизация
 
         periodizationMesocycleEdited: {
@@ -1281,5 +1289,21 @@ export const _translateMessage = {
             title: '',
             text: 'Merge cannot be done: plan not found'
         },
-}
+        trainingPlanPublishSuccess: {
+            title: '',
+            text: 'Training plan successfully published and available in Store'
+        },
+        trainingPlanUnpublishSuccess: {
+            title: '',
+            text: 'Training plan publication cancelled'
+        },
+        omniMessagePost: {
+            title: '',
+            text: "Your request was sent. Please check your email for details"
+        },
+        omniMessagePostError: {
+            title: '',
+            text: "Your request wasn't sent. Please try again or leave us a request at support.staminity.com"
+        }
+    }
 };

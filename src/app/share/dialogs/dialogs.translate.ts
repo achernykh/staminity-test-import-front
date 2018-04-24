@@ -72,7 +72,8 @@ export let translateDialogs = {
             userEmail: 'E-mail адрес',
             subject: 'Тема',
             contentPlaceholder: 'Ваш вопрос...',
-            post: 'Отправить'
+            post: 'Отправить',
+            confirm: "Нажимая на кнопку 'Отправить', вы даете согласие на <a href='https://legal.staminity.com/ru/privacy.html'>обработку персональных данных</a> "
         }
 
     },
@@ -147,7 +148,8 @@ export let translateDialogs = {
             userEmail: 'E-mail address',
             subject: 'Subject',
             contentPlaceholder: 'Your question...',
-            post: 'Send'
+            post: 'Send',
+            confirm: "By clicking on the 'Send' button you agree with the <a href='https://legal.staminity.com/en/privacy.html'>Privacy Policy</a>"
         }
 
 
