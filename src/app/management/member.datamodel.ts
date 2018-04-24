@@ -1,20 +1,40 @@
 import { IGroupManagementProfileMember, IUserManagementProfile } from "../../../api";
 import { ClubRole } from "./management.constants";
 import { MembersList } from "./members-list.datamodel";
+import { User } from "../user/user.datamodel";
+import {userName} from "../user/user.functions";
 
 export class Member implements IGroupManagementProfileMember {
 
     userProfile: IUserManagementProfile;
     roleMembership: string[];
     coaches: number[];
+    profile: User;
 
     constructor(
         public membersList: MembersList,
         public member: IGroupManagementProfileMember,
     ) {
         this.userProfile = member.userProfile;
+        this.profile = new User(member.userProfile);
         this.roleMembership = member.roleMembership;
         this.coaches = member.coaches;
+    }
+
+    get isManagement (): boolean {
+        return this.roleMembership && this.roleMembership.indexOf('ClubManagement') !== -1;
+    }
+
+    get isAthlete (): boolean {
+        return this.roleMembership && this.roleMembership.indexOf('ClubAthletes') !== -1;
+    }
+
+    get isCoach (): boolean {
+        return this.roleMembership && this.roleMembership.indexOf('ClubCoaches') !== -1;
+    }
+
+    get isMember (): boolean {
+        return this.roleMembership && !this.isManagement && !this.isCoach && !this.isAthlete;
     }
 
     /**
@@ -22,7 +42,7 @@ export class Member implements IGroupManagementProfileMember {
      * @returns {number}
     */
     getUserId = (): number => {
-        return this.userProfile.userId;
+        return this.profile.userId;
     }
 
     /**
@@ -42,6 +62,10 @@ export class Member implements IGroupManagementProfileMember {
         return this.membersList.getAthletesByCoachId(this.getUserId());
     }
 
+    getAthletesString (): string {
+        return this.getAthletes().map(c => userName()(c.profile,'full')).join(', ');
+    }
+
     /**
      * Список тренеров члена клуба
      * @param bill: IBillingTariff
@@ -49,6 +73,10 @@ export class Member implements IGroupManagementProfileMember {
     */
     getCoaches = (): Member[] => {
         return this.coaches.map(this.membersList.getMember);
+    }
+
+    getCoachesString (): string {
+        return this.getCoaches().map(c => userName()(c.profile,'full')).join(', ');
     }
 
     /**

@@ -68,11 +68,11 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editTariffs(membersList: MembersList, members: Member[]): Promise<any> {
+    editTariffs(membersList: MembersList, members: Member[], $scope?: any): Promise<any> {
         const byClub = membersList.getTariffsByClub(members[0]);
         const bySelf = membersList.getTariffsNotByClub(members[0]);
-        debugger;
-        return this.dialogs.tariffs(clubTariffs, byClub, bySelf, "dialogs.byClub")
+
+        return this.dialogs.tariffs(clubTariffs, byClub, bySelf, "dialogs.byClub", $scope)
             .then((selectedTariffs) => {
                 const addTariffs = arrays.difference(selectedTariffs, byClub);
                 const removeTariffs = arrays.difference(byClub, selectedTariffs);
@@ -102,10 +102,10 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editCoaches(membersList: MembersList, members: Member[]): Promise<any> {
+    editCoaches(membersList: MembersList, members: Member[], $scope?: any): Promise<any> {
         const checkedCoaches = members[0].getCoaches();
-
-        return this.dialogs.selectUsers(membersList.getCoaches(), checkedCoaches, "coaches")
+        debugger;
+        return this.dialogs.selectUsers(membersList.getCoaches(), checkedCoaches, "coaches", $scope)
             .then((nextCheckedCoaches) => {
                 if (checkedCoaches) {
                     const memberships = [
@@ -123,10 +123,10 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editAthletes(membersList: MembersList, members: Member[]): Promise<any> {
+    editAthletes(membersList: MembersList, members: Member[], $scope?: any): Promise<any> {
         const checkedAthletes = members[0].getAthletes();
 
-        return this.dialogs.selectUsers(membersList.getAthletes(), checkedAthletes, "athletes")
+        return this.dialogs.selectUsers(membersList.getAthletes(), checkedAthletes, "athletes", $scope)
             .then((athletes) => {
                 if (athletes) {
                     let groupIds = members.map((member) => member.getAthletesGroupId());
@@ -147,10 +147,10 @@ export class ManagementService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editRoles(membersList: MembersList, members: Member[]): Promise<any> {
+    editRoles(membersList: MembersList, members: Member[], $scope?: any): Promise<any> {
         const checkedRoles = members[0].roleMembership.filter((role) => clubRoles.indexOf(role) !== -1);
 
-        return this.dialogs.roles(clubRoles, checkedRoles)
+        return this.dialogs.roles(clubRoles, checkedRoles, $scope)
             .then((roles: ClubRole[]) => {
                 const addRoles = arrays.difference(roles, checkedRoles);
                 const removeRoles = arrays.difference(checkedRoles, roles);
