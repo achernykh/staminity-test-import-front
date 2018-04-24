@@ -2,6 +2,7 @@ import { IGroupManagementProfileMember, IUserManagementProfile } from "../../../
 import { ClubRole } from "./management.constants";
 import { MembersList } from "./members-list.datamodel";
 import { User } from "../user/user.datamodel";
+import {userName} from "../user/user.functions";
 
 export class Member implements IGroupManagementProfileMember {
 
@@ -61,6 +62,10 @@ export class Member implements IGroupManagementProfileMember {
         return this.membersList.getAthletesByCoachId(this.getUserId());
     }
 
+    getAthletesString (): string {
+        return this.getAthletes().map(c => userName()(c.profile,'full')).join(', ');
+    }
+
     /**
      * Список тренеров члена клуба
      * @param bill: IBillingTariff
@@ -68,6 +73,10 @@ export class Member implements IGroupManagementProfileMember {
     */
     getCoaches = (): Member[] => {
         return this.coaches.map(this.membersList.getMember);
+    }
+
+    getCoachesString (): string {
+        return this.getCoaches().map(c => userName()(c.profile,'full')).join(', ');
     }
 
     /**
