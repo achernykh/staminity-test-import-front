@@ -41,9 +41,9 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
                 type: "P",
                 parentGroupCode: group,
                 repeatPos: 0,
-                durationMeasure: "movingDuration",
+                durationMeasure: "duration",
                 intensityMeasure: "heartRate",
-                movingDuration: new DurationMeasure(3 * 60), //sec
+                duration: new DurationMeasure(3 * 60), //sec
                 heartRate: new IntensityMeasure(0.75, 0.80),
             },
             {
@@ -59,9 +59,9 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
                 type: "P",
                 parentGroupCode: group,
                 repeatPos: 1,
-                durationMeasure: "movingDuration",
+                durationMeasure: "duration",
                 intensityMeasure: "heartRate",
-                movingDuration: new DurationMeasure(3 * 60), //sec
+                duration: new DurationMeasure(3 * 60), //sec
                 heartRate: new IntensityMeasure(0.75, 0.80),
             },
         ],
@@ -116,9 +116,9 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
                 type: "P",
                 parentGroupCode: group,
                 repeatPos: 0,
-                durationMeasure: "movingDuration",
+                durationMeasure: "duration",
                 intensityMeasure: "heartRate",
-                movingDuration: new DurationMeasure(3 * 60), //sec
+                duration: new DurationMeasure(3 * 60), //sec
                 heartRate: new IntensityMeasure(0.75, 0.80),
             },
             {
@@ -134,9 +134,9 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
                 type: "P",
                 parentGroupCode: group,
                 repeatPos: 1,
-                durationMeasure: "movingDuration",
+                durationMeasure: "duration",
                 intensityMeasure: "heartRate",
-                movingDuration: new DurationMeasure(3 * 60), //sec
+                duration: new DurationMeasure(3 * 60), //sec
                 heartRate: new IntensityMeasure(0.75, 0.80),
             },
             {
@@ -151,9 +151,9 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
     bike: {
         default: [{
             type: "P",
-            durationMeasure: "movingDuration",
+            durationMeasure: "duration",
             intensityMeasure: "heartRate",
-            movingDuration: new DurationMeasure(60 * 10), //sec
+            duration: new DurationMeasure(60 * 10), //sec
             heartRate: new IntensityMeasure(0.75, 0.75),
         }],
     },
@@ -169,27 +169,27 @@ export const getSegmentTemplates = (group: string = genHash(6)) => ({
     strength: {
         default: [{
             type: "P",
-            durationMeasure: "movingDuration",
+            durationMeasure: "duration",
             intensityMeasure: "heartRate",
-            movingDuration: new DurationMeasure(30 * 60), //s
+            duration: new DurationMeasure(30 * 60), //s
             heartRate: new IntensityMeasure(0.75, 0.85),
         }],
     },
     ski: {
         default: [{
             type: "P",
-            durationMeasure: "movingDuration",
+            durationMeasure: "duration",
             intensityMeasure: "heartRate",
-            movingDuration: new DurationMeasure(30 * 60), //m
+            duration: new DurationMeasure(30 * 60), //m
             heartRate: new IntensityMeasure(0.75, 0.85),
         }],
     },
     other: {
         default: [{
             type: "P",
-            durationMeasure: "movingDuration",
+            durationMeasure: "duration",
             intensityMeasure: "heartRate",
-            movingDuration: new DurationMeasure(30 * 60), //m
+            duration: new DurationMeasure(30 * 60), //m
             heartRate: new IntensityMeasure(0.75, 0.85),
         }],
     },
