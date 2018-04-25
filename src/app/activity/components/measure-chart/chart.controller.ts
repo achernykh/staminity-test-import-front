@@ -85,7 +85,7 @@ class ActivityChartController implements IComponentController {
                 this.preparePlaceholder();
                 this.prepareScales();
                 this.drawChart();
-            }, 300);
+            }, 1000);
         });
         if (this.config.autoResizable) {
             angular.element(this.$window).on("resize", () => this.redraw());
