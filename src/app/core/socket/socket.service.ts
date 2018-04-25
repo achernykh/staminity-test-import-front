@@ -25,7 +25,7 @@ export class SocketService {
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
     private pendingIntervalLink: any; //
-    private bufferMaxLength: number = 500;
+    private bufferMaxLength: number = 50;
 
     static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService', '$state', 'message'];
 
