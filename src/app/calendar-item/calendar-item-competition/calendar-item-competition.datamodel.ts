@@ -53,20 +53,20 @@ export class CalendarItemCompetition extends CalendarItem {
 
         if (this.items && this.items.length) {
             this.items.sort((a,b) => sortAsc(
-                a.item.header.initStartDate && new Date(a.item.header.initStartDate).getSeconds() || a.item._dateStart.getSeconds(),
-                b.item.header.initStartDate && new Date(b.item.header.initStartDate).getSeconds() || b.item._dateStart.getSeconds())
+                a.item.header.initStartDate && new Date(a.item.header.initStartDate).getTime() || a.item._dateStart.getTime(),
+                b.item.header.initStartDate && new Date(b.item.header.initStartDate).getTime() || b.item._dateStart.getTime())
             );
         }
     }
 
     setDate (date: Date): void {
-        console.debug('setDate', date.getSeconds(), this._dateStart.getSeconds(), date.getTime() + 10000);
         if (this.items) {
             this.items.forEach((s,i) => this.items[i] = {
                 dirty: true,
                 item: Object.assign(s.item, {
-                    _dateStart: new Date(date.getTime() + (i + 1) * 10 * 1000),
-                    _dateEnd: new Date(date.getTime() + (i + 1) * 10 * 1000)
+                    _dateStart: date,
+                    _dateEnd: date,
+                    _time: new Date(date.getTime() + (i + 1) * 10 * 1000)
                 })
             });
         }
@@ -104,7 +104,8 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-            activity._dateStart.setSeconds(activity._dateStart.getSeconds() + (i + 1) * 10);
+            debugger;
+            activity._time = new Date(activity._dateStart.getTime() + (i + 1) * 10 * 1000);
             activity.header.category = categories && categories.filter(c => c.activityTypeId === activity.header.sport && c.code === 'race')[0];
             this.items.push({dirty: true, item: activity});
         });

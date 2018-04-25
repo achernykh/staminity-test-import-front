@@ -286,8 +286,12 @@ const sportLimit = {
 
 export const getSportLimit = (sport, limit) => sportLimit[sport][limit];
 
-export const measurementUnit = (measure) => _measurement[measure].unit;
-export const measurementUnitView = (sport, measure) => _activity_measurement_view[sport][measure].unit;
+export const measurementUnit = (measure) => _measurement[measure].hasOwnProperty('view') && _measurement[measure].view || _measurement[measure].unit;
+
+export const measurementUnitView = (sport, measure) =>
+    _activity_measurement_view[sport][measure].hasOwnProperty('view') && _activity_measurement_view[sport][measure].view ||
+    _activity_measurement_view[sport][measure].unit;
+
 export const measurementUnitDisplay = (sport, measure) =>
     ((_activity_measurement_view[sport].hasOwnProperty(measure)) && measurementUnitView(sport,measure)) ||
         measurementUnit(measure);

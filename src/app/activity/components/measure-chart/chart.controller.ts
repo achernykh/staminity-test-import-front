@@ -73,7 +73,7 @@ class ActivityChartController implements IComponentController {
         setTimeout(() => {
             this.prepareData();
             this.prepareConfig();
-        }, 0);
+        }, 100);
     }
 
     $postLink(): void {
@@ -85,7 +85,7 @@ class ActivityChartController implements IComponentController {
                 this.preparePlaceholder();
                 this.prepareScales();
                 this.drawChart();
-            }, 0);
+            }, 300);
         });
         if (this.config.autoResizable) {
             angular.element(this.$window).on("resize", () => this.redraw());
