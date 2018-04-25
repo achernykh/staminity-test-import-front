@@ -726,7 +726,6 @@ export const translateUser = {
             },
             privacy: {
                 header: 'Privacy',
-                hint: 'Your image, First and Last name are available for all. Your personal info (e-mail, phone, weight, height) are not available to anyone except you and your coach.',
                 groups: {
                     userProfile: {
                         personal: "User profile: personal information",
@@ -748,7 +747,7 @@ export const translateUser = {
                     id40: 'Me, my coach and friends',
                     id10: 'Everyone'
                 },
-                //hint: 'Privacy settings'
+                hint: 'Privacy settings'
             },
             display: {
                 header: 'Display preferences',
@@ -770,7 +769,8 @@ export const translateUser = {
                 header: 'Account',
                 hint: 'Your account',
                 email: 'E-mail',
-                password: 'Password'
+                password: 'Password',
+                newPassword: 'Change password'
             },
             billing: {
                 header: 'Tariffs and bills',
