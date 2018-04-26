@@ -73,7 +73,7 @@ class ActivityChartController implements IComponentController {
         setTimeout(() => {
             this.prepareData();
             this.prepareConfig();
-        }, 100);
+        }, 300);
     }
 
     $postLink(): void {
