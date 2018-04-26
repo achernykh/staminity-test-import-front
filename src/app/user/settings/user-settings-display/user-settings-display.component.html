@@ -18,7 +18,8 @@
 
     <md-list-item class="mobile-select">
         <span class="md-body-1" translate="user.settings.display.timezone"></span>
-        <span class="md-secondary md-body-1 md-dark">{{$ctrl.getTimezoneTitle()}}</span>
+        <span ng-if="$ctrl.timezone"
+              class="md-secondary md-body-1 md-dark">{{$ctrl.getTimezoneTitle()}}</span>
         <md-menu class="md-secondary md-body-1 md-dark">
             <md-button class="md-icon-button">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -35,7 +36,9 @@
 
     <md-list-item class="mobile-select">
         <span class="md-body-1" translate="user.settings.display.units"></span>
-        <span class="md-secondary md-body-1 md-dark" translate="user.settings.display.{{$ctrl.units}}.short"></span>
+        <span class="md-secondary md-body-1 md-dark"
+              ng-if="$ctrl.units"
+              translate="user.settings.display.{{$ctrl.units}}.short"></span>
         <md-menu class="md-secondary md-body-1 md-dark">
             <md-button class="md-icon-button">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -52,7 +55,9 @@
 
     <md-list-item class="mobile-select">
         <span class="md-body-1" translate="user.settings.display.firstDayOfWeek"></span>
-        <span class="md-secondary md-body-1 md-dark" style="text-transform: capitalize">
+        <span class="md-secondary md-body-1 md-dark"
+              ng-if="$ctrl.firstDayOfWeek >= 0"
+              style="text-transform: capitalize">
             {{$ctrl.weekdays($ctrl.firstDayOfWeek)}}
         </span>
         <md-menu class="md-secondary md-body-1 md-dark">

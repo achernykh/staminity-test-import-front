@@ -39,11 +39,11 @@ class UserSettingsIsCoachCtrl {
      */
     getStatus () : string {
         const { isCoach } = this.owner.public;
-        const { Athletes } = this.owner.connections;
-        return !isCoach && !Athletes ? 'addCoachTariff' :
-            !isCoach && Athletes ? 'off' :
+        const { allAthletes } = this.owner.connections;
+        return !isCoach && !allAthletes ? 'addCoachTariff' :
+            !isCoach && allAthletes ? 'off' :
             isCoach && this.isCoachTariffEnabled() ? 'coachTariffEnabled' :
-            isCoach && this.agentProfile.isActive ? 'planSellerEnabled' : 'on';
+            isCoach && this.agentProfile && this.agentProfile.isActive ? 'planSellerEnabled' : 'on';
     }
 
     /**
@@ -51,7 +51,7 @@ class UserSettingsIsCoachCtrl {
      * @returns {boolean}
      */
     isDisabled () : boolean {
-        return this.owner.public.isCoach && (this.agentProfile.isActive || this.isCoachTariffEnabled());
+        return this.owner.public.isCoach && (this.agentProfile && this.agentProfile.isActive || this.isCoachTariffEnabled());
     }
 
     /**
@@ -61,7 +61,7 @@ class UserSettingsIsCoachCtrl {
      */
     isCoach (value?: boolean) : boolean | void { 
         if (typeof value === 'undefined') { 
-            return this.owner.public['isCoach']; 
+            return this.owner.public.isCoach;
         } 
  
         this.userSettingsService.saveSettings({ 
@@ -73,8 +73,8 @@ class UserSettingsIsCoachCtrl {
             },
         }) 
         .then(() => { 
-            this.owner.public['isCoach'] = value; 
-            this.message.toastInfo('settingsSaveComplete'); 
+            this.owner.public.isCoach = value;
+            //this.message.toastInfo('settingsSaveComplete');
             this.$scope.$apply(); 
         }) 
         .catch((info) => { 

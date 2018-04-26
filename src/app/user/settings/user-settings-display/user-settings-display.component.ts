@@ -4,6 +4,7 @@ import {IComponentOptions, IComponentController,ILocationService} from 'angular'
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import DisplayService from "../../../core/display.service";
 import './user-settings-display.component.scss';
+import MessageService from "@app/core/message.service";
 
 class UserSettingsDisplayCtrl {
     
@@ -24,42 +25,46 @@ class UserSettingsDisplayCtrl {
     constructor (
         private displayService: DisplayService,
         private dialogs: any,
-        private message: any,
+        private message: MessageService,
         private $mdDialog: any,
     ) {
 
     }   
 
     get locale () : string {
-        return this.displayService.getLocale();
+        return this.owner.display.language;
     }
 
     set locale (locale: string) {
-        this.displayService.setLocale(locale);
+        this.displayService.setLocale(locale)
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));
     }
 
     get timezone () {
-        return this.displayService.getTimezone();
+        return this.owner.display.timezone;
     }
 
     set timezone (timezone: string) {
-        this.displayService.setTimezone(timezone);
+        this.displayService.setTimezone(timezone)
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));
     }
 
     get units () : string {
-        return this.displayService.getUnits();
+        return this.owner.display.units;
     }
 
     set units (units: string) {
-        this.displayService.setUnits(units);
+        this.displayService.setUnits(units)
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));;
     }
 
     get firstDayOfWeek () {
-        return this.displayService.getFirstDayOfWeek();
+        return this.owner.display.firstDayOfWeek;
     }
 
     set firstDayOfWeek (firstDayOfWeek: number) {
-        this.displayService.setFirstDayOfWeek(firstDayOfWeek);
+        this.displayService.setFirstDayOfWeek(firstDayOfWeek)
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));
     }
 
     weekdays (day: number) : string[] {

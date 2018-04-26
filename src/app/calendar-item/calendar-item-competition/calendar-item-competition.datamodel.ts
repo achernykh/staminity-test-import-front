@@ -189,7 +189,7 @@ export class CalendarItemCompetition extends CalendarItem {
     get duration (): number {
         if (!this.items) { return null; }
         let sum: number = 0;
-        this.items.map(i => sum = sum + i.item.movingDuration);
+        this.items.map(i => sum = sum + i.item.duration);
         return sum;
     }
 

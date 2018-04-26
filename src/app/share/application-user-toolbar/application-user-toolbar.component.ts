@@ -26,12 +26,12 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     action () {
         switch (this.message) {
             case 'incompleteProfile': {
-                this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'personal'});
+                this.$state.go('user-settings.coach', {userId: this.application.user.userId});
                 break;
             }
             case 'onlyBasicTariff': case 'expiredPremium': case 'expiredCoach': case 'expiredClub':
             case 'premiumExpireIn': case 'coachExpireIn': case 'clubExpireIn': {
-                this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'account'});
+                this.$state.go('user-settings', {userId: this.application.user.userId, '#': 'user-settings-billing'});
                 break;
             }
         }

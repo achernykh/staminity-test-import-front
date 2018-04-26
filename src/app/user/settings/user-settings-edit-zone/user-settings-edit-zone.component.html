@@ -15,7 +15,7 @@
 <md-dialog-content flex="auto">
     <md-list class="md-dense section">
         <form name="$ctrl.zones">
-            <md-subheader translate>user.settings.zones.measures</md-subheader>
+            <md-subheader><span translate="user.settings.zones.measures"></span></md-subheader>
             <md-list-item layout="row">
                 <md-input-container flex class="no-message" ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
@@ -33,7 +33,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-subheader translate>user.settings.zones.methods</md-subheader>
+            <md-subheader><span translate="user.settings.zones.methods"></span></md-subheader>
             <md-list-item layout="row">
                 <md-input-container flex class="no-message">
                     <label>{{'user.settings.zones.calculation.method' | translate}}</label>

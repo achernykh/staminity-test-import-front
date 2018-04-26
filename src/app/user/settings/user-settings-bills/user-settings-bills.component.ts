@@ -78,7 +78,7 @@ class UserSettingsBillsCtrl {
         this.userSettingsService.saveSettings({ 
             userId: this.owner.userId,
             revision: this.owner.revision,
-            billing: { autoPayment: isOn } 
+            billing: Object.assign({}, this.owner.billing, { autoPayment: isOn } )
         }) 
         .then(() => { 
             this.owner.billing['autoPayment'] = isOn; 

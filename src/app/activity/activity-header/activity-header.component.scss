@@ -19,13 +19,11 @@ activity-header {
 
   &.single {
     @media (min-width: 960px) {
-      //max-width: $details_width;
-      //min-width: 360px;
-
       md-toolbar {
         min-height: 16px;
       }
     }
+    @media (max-width: 960px) {  height: 100vh; }
   }
 
   .md-toolbar-tools md-menu:first-child {

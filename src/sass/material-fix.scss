@@ -42,4 +42,9 @@ md-toast.md-center {
   left: 50%;
 }
 
+md-toast.md-left {
+  position: fixed !important;
+  bottom: 0;
+}
+
 md-toast.md-warn .md-toast-text {  color: $red-500;  }

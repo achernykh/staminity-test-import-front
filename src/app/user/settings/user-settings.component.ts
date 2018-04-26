@@ -44,7 +44,6 @@ class UserSettingsCtrl implements IComponentController {
     }
 
     $onInit(): void {
-        debugger;
         this.$anchorScroll();
     }
 

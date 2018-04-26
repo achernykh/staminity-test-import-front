@@ -11,6 +11,7 @@ export class UserSettingsCoachDatamodel {
 	contact: string;
 	athletes: string;
 	isFree: boolean;
+    profileComplete: boolean;
 
 	constructor (private profile: IUserProfile) {
 		this.firstName = profile.public.firstName;
@@ -22,6 +23,7 @@ export class UserSettingsCoachDatamodel {
 		this.contact = profile.personal['contact'];
 		this.athletes = profile.personal['athletes'];
 		this.isFree = profile.personal['isFree'];
+        this.profileComplete = profile.public.profileComplete;
 	}
 
 	toUserProfile () : IUserProfile {
@@ -32,6 +34,7 @@ export class UserSettingsCoachDatamodel {
 				...this.profile.public,
 				firstName: this.firstName,
 				lastName: this.lastName,
+                profileComplete: this.profileComplete,
 		    },
 		    personal: {
 		    	...this.profile.personal,

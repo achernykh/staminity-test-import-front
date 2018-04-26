@@ -63,36 +63,46 @@ class ActivityChartController implements IComponentController {
         private activityChartSettings: IActivityChartSettings,
         private $mdMedia: any) {
 
+        console.debug(`chart controller: constructor`);
         this.state = { inTransition: 0, inSelection: false };
         this.changeTracker = new ChangeTracker();
     }
 
     $onInit() {
+        console.debug(`chart controller: $onInit`);
         this.absUrl = this.$location.absUrl().split("#")[0];
         this.zoomDispatch = d3.dispatch("zoom");
         setTimeout(() => {
+            console.debug(`chart controller: $onInit endTimeout`);
             this.prepareData();
             this.prepareConfig();
-        }, 100);
+        }, 1);
     }
 
     $postLink(): void {
+        console.debug(`chart controller: $postLink`);
         this.prepareConfig();
         this.$element.ready(() => {
+            console.debug(`chart controller: $postLink element ready ${this.$element}`);
            setTimeout(() => {
+               console.debug(`chart controller: $postLink element ready endTimeout ${this.$element}`);
                 this.isReady = true;
                 this.prepareConfig();
                 this.preparePlaceholder();
                 this.prepareScales();
                 this.drawChart();
-            }, 1000);
+            }, 1);
         });
         if (this.config.autoResizable) {
-            angular.element(this.$window).on("resize", () => this.redraw());
+            angular.element(this.$window).on("resize", () => {
+                console.debug(`chart controller: $postLink resize ${this.$element}`);
+                this.redraw();
+            });
         }
     }
 
     $onChanges(changes: any): void {
+        console.debug(`chart controller: $onChanges`);
         if (this.changeTracker.isFirstChange(changes)) {
             return;
         }
@@ -192,10 +202,12 @@ class ActivityChartController implements IComponentController {
     private preparePlaceholder(): void {
         // calc current chart size based on the conteiner size and chart's settings
         //var bounds = this.$element[0].getBoundingClientRect();
+        console.debug(`chart controller: element[w,h]=${this.$element[0].clientWidth} ${this.$element[0].clientHeight},
+         parent[w,h]=${angular.element(document).find("activity-metrics-char")[0].clientWidth} ${angular.element(document).find("activity-metrics-char")[0].clientHeight}`);
         const parent: Element = angular.element(document).find("activity-metrics-char")[0];
 
-        this.width = parent.clientWidth; //Math.max(bounds.width, this.config.minWidth);
-        this.height = parent.clientHeight; //bounds.height;
+        this.width = this.$element[0].clientWidth;//parent.clientWidth; //Math.max(bounds.width, this.config.minWidth);
+        this.height = this.$element[0].clientHeight;//parent.clientHeight; //bounds.height;
         //var aspectRatio = this.height / this.width;
         //if (aspectRatio < this.config.minAspectRation) {
             //this.height = this.width * this.config.minAspectRation;

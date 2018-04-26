@@ -39,6 +39,7 @@ class UserSettingsCoachCtrl {
      * Сохранить 
      */
     submit () {
+        this.checkProfileComplete();
         this.userSettingsService.saveSettings(this.datamodel.toUserProfile())
         .then((result) => {
             this.form.$setPristine(true);
@@ -89,6 +90,24 @@ class UserSettingsCoachCtrl {
     isProfileComplete () : boolean {
         return this.currentUser.public.profileComplete;
     }
+
+    /**
+     * Проверка полноты заполнения профиля тренера
+     */
+    checkProfileComplete() {
+        debugger;
+        if ((this.currentUser.public.avatar !== 'default.jpg') &&
+            (this.datamodel.firstName && this.datamodel.lastName) &&
+            (this.datamodel.about && this.datamodel.about.length > 5) &&
+            (this.datamodel.price && this.datamodel.price.length > 5) &&
+            (this.datamodel.contact && this.datamodel.contact.length > 5) &&
+            (this.currentUser.privacy.some(s => s.key === 'userProfile.personal' && s.setup === 10))) {
+
+            this.datamodel.profileComplete = true;
+
+        } else { this.datamodel.profileComplete = false; }
+    }
+
 }
 
 export const UserSettingsCoachComponent: IComponentOptions = {

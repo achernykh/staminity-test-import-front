@@ -755,7 +755,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             visible: true,
             activityCategory: activityCategory,
             userProfileCreator: this.options.currentUser,
-            content: [this.activity.intervals.PW, ...this.activity.intervals.P, ...this.activity.intervals.G]
+            content: [this.activity.intervals.PW.toTemplate(), ...this.activity.intervals.P.map(i => i.toTemplate()), ...this.activity.intervals.G]
         };
 
         let templateDialogOptions: ICalendarItemDialogOptions = Object.assign({}, this.options, {

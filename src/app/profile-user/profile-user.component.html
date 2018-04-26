@@ -145,7 +145,7 @@
                              st-quill-post-image>
             </ng-quill-editor>
             <!--<div style="white-space: pre-wrap;">{{ $ctrl.user.personal.athletes || "Информация не указана" }}</div>-->
-            <div style="white-space: pre-wrap;">{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{($ctrl.user.personal.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse') | translate}}</div>
+            <div style="white-space: pre-wrap;">{{'user.settings.personalInfo.isFree' | translate}}:&nbsp;{{($ctrl.user.personal.isFree? 'user.settings.personalInfo.isFreeTrue' : 'user.settings.personalInfo.isFreeFalse') | translate}}</div>
         </div>
         <div ng-if="$ctrl.user.private.weight || $ctrl.user.private.height">
             <span style="margin-right:25px">Вес: {{ $ctrl.user.private.weight || '-' }}</span>

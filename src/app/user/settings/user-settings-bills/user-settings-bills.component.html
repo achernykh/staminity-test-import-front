@@ -2,8 +2,8 @@
     <md-subheader>
         <span>{{ 'user.settings.billing.invoices' | translate }}</span>
     </md-subheader>
-    <md-list-item>
-        <p class="md-body-1" ng-if="$ctrl.hasPaidBill()">{{ 'user.settings.billing.autoPayment' | translate }}</p>
+    <md-list-item ng-if="$ctrl.hasPaidBill()">
+        <p class="md-body-1">{{ 'user.settings.billing.autoPayment' | translate }}</p>
         <md-checkbox class="md-secondary"
                 style="margin-left: 15px;"
                 ng-model="$ctrl.autoPayment"

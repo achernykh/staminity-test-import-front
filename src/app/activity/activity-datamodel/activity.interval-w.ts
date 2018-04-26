@@ -25,10 +25,14 @@ export class ActivityIntervalW extends ActivityInterval implements IActivityInte
         return interval;
     }
 
+    duration(): number {
+        return this.calcMeasures.hasOwnProperty('duration') &&
+            this.calcMeasures.duration.hasOwnProperty('value') &&
+            this.calcMeasures.duration.value;
+    }
+
     movingDuration():number {
-        return this.calcMeasures.hasOwnProperty('movingDuration') &&
-            this.calcMeasures.movingDuration.hasOwnProperty('value') &&
-            this.calcMeasures.movingDuration.value;
+        return this.duration();
     }
 
     distance():number {

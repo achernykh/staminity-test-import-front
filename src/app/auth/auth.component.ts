@@ -4,6 +4,7 @@ import {IUserProfile} from "../../../api/user/user.interface";
 import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
 import "./auth.component.scss";
+import {gaEmailSignup, gaSocialSignup} from "../share/google/google-analitics.functions";
 
 class AuthCtrl implements IComponentController {
 
@@ -111,6 +112,7 @@ class AuthCtrl implements IComponentController {
             .finally(() => this.enabled = true)
             .then((message) => {
                 this.showConfirm = true;
+                gaEmailSignup();
                 this.message.systemSuccess(message.title);
             }, (error) => {
                 this.message.systemWarning(error);
@@ -169,6 +171,7 @@ class AuthCtrl implements IComponentController {
             .finally(() => this.enabled = true)
             .then((response: IHttpPromiseCallbackArg<{data: {userProfile: IUserProfile, systemFunctions: any}}>) => {
                 const sessionData = response.data.data;
+                gaSocialSignup();
                 this.AuthService.signedIn(sessionData);
                 this.redirect("calendar", {uri: sessionData.userProfile.public.uri});
             }, (error) => {
