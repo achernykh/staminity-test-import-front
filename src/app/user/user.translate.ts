@@ -69,13 +69,13 @@ export const translateUser = {
                 header: 'Профиль тренера',
                 hint: 'Профиль тренера',
                 statusIncomplete: 'Профиль тренера не заполнен, вас нельзя найти в поиске',
-                isCoach: 'Я - тренер',
+                isCoach: 'Тренер',
                 status: {
                     addCoachTariff: "Чтобы стать тренером, подключите тариф 'Тренер'",
                     off: "Вы не тренер.",
-                    coachTariffEnabled: "Вы тренер. Отключение невозможно, пока есть активный тариф 'Тренер'.",
-                    planSellerEnabled: "Вы тренер. Отключение невозможно, активен профиль продавца планов.",
-                    on: "Вы тренер.",
+                    coachTariffEnabled: "Вы тренер. Отключение невозможно, пока есть активный тариф 'Тренер'",
+                    planSellerEnabled: "Вы тренер. Отключение невозможно, активен профиль продавца планов",
+                    on: "Вы тренер",
                 },
             },
             agent: {
@@ -629,13 +629,13 @@ export const translateUser = {
                 header: 'Coach profile',
                 hint: 'Coach profile',
                 statusIncomplete: "Coach profile incomplete, you're not available for search",
-                isCoach: 'I am the coach',
+                isCoach: 'Coach',
                 status: {
                     addCoachTariff: "To became Coach please add trial Coach tariff",
                     off: "You're not the coach",
                     coachTariffEnabled: "Switching off is not available till you have active 'Coach' tariff",
                     planSellerEnabled: "Switching off is not available till you have active 'Training plan seller' option",
-                    on: "Вы тренер.",
+                    on: "You are the coach",
                 },
             },
             agent: {

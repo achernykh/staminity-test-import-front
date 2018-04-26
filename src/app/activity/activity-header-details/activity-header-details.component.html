@@ -13,7 +13,8 @@
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
         <p flex="none" class="md-caption md-dark center">loading...</p>
     </div>
-    <activity-metrics-char flex="auto" ng-switch-when="true"
+    <activity-metrics-char ng-cloak
+                           flex="auto" ng-switch-when="true"
                            measures="$ctrl.chartData.measures"
                            data="$ctrl.chartData.data"
                            x="elapsedDuration"
