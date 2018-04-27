@@ -159,14 +159,14 @@ export class CalendarItem implements ICalendarItem {
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
 
-	    this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
+	    this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ssZ');
 		if (this._time && (this._time.getHours() || this._time.getMinutes() || this._time.getSeconds())) {
             this.dateStart = moment(this._dateStart.setHours(0,0,0)).utc()
                 .add(moment().utcOffset(),'minutes')
                 .add(this._time.getHours(), 'hours')
                 .add(this._time.getMinutes(), 'minutes')
                 .add(this._time.getSeconds(), 'seconds')
-                .format('YYYY-MM-DDTHH:mm:ss');
+                .format('YYYY-MM-DDTHH:mm:ssZ');
         }
 
 		console.debug(`package item after time: ${this.dateStart}, time ${this._time}`);
