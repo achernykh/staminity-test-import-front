@@ -16,3 +16,5 @@ export const parseUtc = memorize(date => moment.utc(date));
 export const parseYYYYMMDD = memorize(date => moment(date, 'YYYY-MM-DD'));
 
 export const fromNow = () => (date) => moment.utc(date).fromNow(true);
+
+export const utcStartOfDay = (date: string): string =>  moment().utc().add(moment().utcOffset(),'minutes').startOf('day').format('YYYY-MM-DDTHH:mm:ss');
