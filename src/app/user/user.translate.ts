@@ -773,7 +773,7 @@ export const translateUser = {
                 newPassword: 'Change password'
             },
             billing: {
-                header: 'Tariffs and bills',
+                header: 'Tariffs and invoices',
                 tariffsHeader: 'Tariffs',
                 enableTariff: 'Subscribe',
                 disableTariff: 'Unsubscribe',
@@ -823,11 +823,11 @@ export const translateUser = {
                 agreementLink: "tariff conditions",
                 conditions: 'Tariff conditions',
                 conditionsText: `
-    Calculated tariff's fees for "{{tariff}}" tariff will be added to your existed bill.
+    Calculated tariff's fees for "{{tariff}}" tariff will be added to your existed invoice.
 
-    Next bill will be issued at [{{validThrough}}]. 
+    Next invoice will be issued at [{{validThrough}}]. 
 
-    You could control the calculated amount for every tariff in Bills`,
+    You could control the calculated amount for every tariff in Invoices`,
                 trialConditionsText: `
     Trial subscription is free. 
 
@@ -891,7 +891,7 @@ export const translateUser = {
                     notEnabled: "Disabled",
                     isPaid: "Paid",
                     trial: "Trial",
-                    isBlocked: "Blocked. You have unpaid bills"
+                    isBlocked: "Blocked. You have unpaid invoices"
                 },
                 tariffStatusesEnablers: {
                     enabled: "By yourself",
@@ -909,20 +909,20 @@ export const translateUser = {
                 promoDiscount: 'Promo discount',
                 volumeDiscount: 'Volume discount',
                 connections: 'Connections',
-                bill: "Bill",
+                bill: "Invoice",
                 payTheBill: "Pay {{amount}}",
                 billIsPaid: "Paid {{date}}",
-                billEntry: 'Bill entry',
+                billEntry: 'Invoice entry',
                 amount: 'Amount',
                 date: 'Date',
                 count: 'Count',
-                billTotal: 'Bill TOTAL',
+                billTotal: 'Invoice TOTAL',
                 total: 'Total amount',
-                billsList: 'All bills',
-                invoices: 'Bills',
-                invoiceAmount: 'Bill for',
+                billsList: 'All invoices',
+                invoices: 'Invoices',
+                invoiceAmount: 'Invoice for',
                 period: 'Period',
-                billId: 'Bill number',
+                billId: 'Invoice number',
                 approvalCode: 'Approval code',
                 paymentProcessing: 'Payment processing',
                 billStatuses: {
@@ -939,7 +939,7 @@ export const translateUser = {
                 billDates: {
                     start: 'Start date',
                     end: 'End date',
-                    bill: 'Bill date',
+                    bill: 'Invoice date',
                     payment: 'Payment date'
                 },
                 billTabs: {
@@ -1068,8 +1068,8 @@ export const translateUser = {
                 groups: 'Group actions',
                 messages: 'New messages',
                 system: 'System notifications',
-                billPayment: 'Bills payments',
-                billRecurring: 'Bills recurring',
+                billPayment: 'Invoices payments',
+                billRecurring: 'Payments recurring',
                 newBills: 'New bills',
                 tariffActions: 'Tariff actions',
                 trial: 'End trial',

@@ -36,6 +36,27 @@ export let _translateSearch = {
         coach: "Find coach",
         club: "Find club",
         group: "Find group",
-        go: "Search"
+        go: "Search",
+        loading: 'Loading...',
+        empty: 'No items matched these search criteria',
+        actions: {
+            hidePanel: 'Hide panel',
+            showPanel: 'Show panel',
+            profile: 'Profile',
+            select: 'Select',
+            unselect: 'Unselect'
+        },
+        tabs: {
+            users: 'Users',
+            coaches: 'Coaches and Clubs'
+        },
+        coachMetrics: 'Athletes: {{athletes}}',
+        clubMetrics: 'Coaches: {{coaches}}, athletes: {{athletes}}',
+        name: {
+            label: 'Name'
+        },
+        activityTypes: {
+            label: 'Activity types'
+        }
     },
 };
