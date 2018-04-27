@@ -80,10 +80,10 @@ class ActivityChartController implements IComponentController {
     }
 
     $postLink(): void {
-        console.debug(`chart controller: $postLink`);
+        console.debug(`chart controller: $postLink [w,h] ${this.$element[0].clientWidth} ${this.$element[0].clientHeight}`);
         this.prepareConfig();
         this.$element.ready(() => {
-            console.debug(`chart controller: $postLink element ready ${this.$element}`);
+            console.debug(`chart controller: $postLink element ready [w,h] ${this.$element[0].clientWidth} ${this.$element[0].clientHeight}`);
            setTimeout(() => {
                console.debug(`chart controller: $postLink element ready endTimeout ${this.$element}`);
                 this.isReady = true;

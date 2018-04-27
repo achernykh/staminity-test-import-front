@@ -304,7 +304,6 @@ export function MeasurementInput($filter): IDirective {
         });
 
         $element.on("blur", () => {
-            debugger;
             if (measure.type === "duration" && isFinite(Number($ctrl.$viewValue))) {
                 console.log("duration blur", $ctrl.$viewValue, $ctrl.$modelValue);
                 $ctrl.$setViewValue(convert($ctrl.$viewValue));

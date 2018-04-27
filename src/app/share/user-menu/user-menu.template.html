@@ -3,7 +3,7 @@
     <div flex="none"
          ng-class="::{'avatar__40': $ctrl.$mdMedia('gt-sm'), 'avatar__24': !$ctrl.$mdMedia('gt-sm')}"
          ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
-         style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
+         style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}}); background-size: cover;background-color: darkgrey;"></div>
 
     <md-menu-content width="4">
         <md-menu-item ng-repeat="menu in $ctrl.menu">

@@ -19,7 +19,7 @@
         </div>
     </div>
 </div>
-<div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack ng-if="false">
+<div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack ng-if="!$ctrl.isIonic">
     <md-input-container flex class="md-block no-message">
         <textarea ng-model="$ctrl.text"
                   ng-model-options="{ updateOn: 'blur' }"
@@ -31,7 +31,7 @@
         <md-icon class="material-icons">send</md-icon>
     </md-button>
 </div>
-<div class="list" ng-if="true">
+<div class="list" ng-if="$ctrl.isIonic">
     <form ng-submit="$ctrl.onPostComment($ctrl.text)">
         <div class="item item-input-inset">
             <label class="item-input-wrapper">

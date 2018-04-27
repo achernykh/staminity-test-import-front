@@ -63,6 +63,10 @@ export class ActivityHeaderChatCtrl implements IComponentController {
         console.log("date: ", date, moment.utc(date).format("DD MMM HH:mm"), new Date().getTimezoneOffset());
         return moment(date).add("minutes", -1 * (new Date().getTimezoneOffset())).format("DD MMM HH:mm");
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
 }
 
 const ActivityHeaderChatComponent: IComponentOptions = {
