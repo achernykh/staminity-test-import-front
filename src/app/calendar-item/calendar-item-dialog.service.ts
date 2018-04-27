@@ -116,6 +116,7 @@ export class CalendarItemDialogService {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
                 template: `<md-dialog id="post-measurement" aria-label="Measurement">
                                 <calendar-item-measurement
+                                    layout="column"
                                     class="calendar-item-measurement"
                                     data="$ctrl.item"
                                     options="$ctrl.options"
@@ -144,7 +145,8 @@ export class CalendarItemDialogService {
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-record" aria-label="Record">
-                        <calendar-item-record 
+                        <calendar-item-record
+                                layout="column"
                                 item="$ctrl.item"
                                 options="$ctrl.options"
                                 calendar-range="$ctrl.calendarRange"
@@ -175,6 +177,7 @@ export class CalendarItemDialogService {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
                         <st-calendar-item-competition
+                                layout="column" flex="auto"
                                 class="calendar-item-competition" layout="column"
                                 item="$ctrl.item"
                                 options="$ctrl.options"
