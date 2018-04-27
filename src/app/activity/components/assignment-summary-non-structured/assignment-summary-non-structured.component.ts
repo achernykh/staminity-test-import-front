@@ -284,7 +284,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             // Пользователь может указать или расстояние, или время | время в движении
             this.form['plan_distance'].$setValidity('singleDuration',
                 !(this.form['plan_distance'].$modelValue > 0 &&
-                (this.form['plan_duration'].$modelValue > 0 || this.form['plan_movingDuration'].$modelValue > 0)));
+                ((this.form['plan_duration'] && this.form['plan_duration'].$modelValue > 0) ||
+                (this.form['plan_movingDuration'] && this.form['plan_movingDuration'].$modelValue > 0))));
 
             if (this.form.hasOwnProperty('plan_duration')) {
                 this.form['plan_duration'].$setValidity('singleDuration',

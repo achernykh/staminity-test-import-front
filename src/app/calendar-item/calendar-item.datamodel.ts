@@ -158,11 +158,6 @@ export class CalendarItem implements ICalendarItem {
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-		console.debug(`package item: type=${this.calendarItemType},
-		date=${this._dateStart}, date.utc()=${moment(this._dateStart).utc().toDate()},
-		date+offset=${moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss')}`);
-
-		debugger;
 
 	    this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
 		if (this._time && (this._time.getHours() || this._time.getMinutes() || this._time.getSeconds())) {
