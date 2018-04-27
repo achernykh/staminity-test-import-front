@@ -150,23 +150,22 @@ export class CalendarItem implements ICalendarItem {
 	prepare(method?: string) {
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
-		this._dateStart = new Date(this.dateStart);
-		this._dateEnd = new Date(this.dateEnd);
-        this._time = new Date(this.dateStart);
+		this._dateStart = moment(this.dateStart).utc().toDate();// new Date(`${this.dateStart}+03:00`);
+		this._dateEnd = moment(this.dateStart).utc().toDate();
+        this._time = moment(this.dateStart).utc().toDate();
 		//this._dateEnd = new Date(moment(this.dateEnd).format('YYYY-MM-DD'));
 	}
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-
-	    this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ssZ');
+	    this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
 		if (this._time && (this._time.getHours() || this._time.getMinutes() || this._time.getSeconds())) {
             this.dateStart = moment(this._dateStart.setHours(0,0,0)).utc()
                 .add(moment().utcOffset(),'minutes')
                 .add(this._time.getHours(), 'hours')
                 .add(this._time.getMinutes(), 'minutes')
                 .add(this._time.getSeconds(), 'seconds')
-                .format('YYYY-MM-DDTHH:mm:ssZ');
+                .format('YYYY-MM-DDTHH:mm:ss');
         }
 
 		console.debug(`package item after time: ${this.dateStart}, time ${this._time}`);
