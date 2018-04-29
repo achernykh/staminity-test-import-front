@@ -94,7 +94,7 @@
             </span>
         </div>
 
-        <md-button ng-if="$ctrl.isMe" class="md-fab profile-fab" ui-sref="settings/user({uri: $ctrl.user.public.uri})">
+        <md-button ng-if="$ctrl.isMe" class="md-fab profile-fab" ui-sref="user-settings.main({userId: $ctrl.user.userId})">
             <md-icon class="material-icons" style="color: white">mode_edit</md-icon>
         </md-button>
     </md-card>

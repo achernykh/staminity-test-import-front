@@ -35,12 +35,9 @@ export default class DisplayService {
 
     setLocale(locale: string): Promise<any> {
         const displayChanges = { language: locale };
-        debugger;
-        return this.sessionService.getToken() ? (
-            this.saveDisplaySettings(displayChanges as any)
-        ) : (
-            Promise.resolve(this.sessionService.updateUser(displayChanges as any))
-        );
+        return this.sessionService.getToken() ?
+            this.saveDisplaySettings(displayChanges as any) :
+            Promise.resolve(this.$translate.use(locale));
     }
 
     getUnits (): string {

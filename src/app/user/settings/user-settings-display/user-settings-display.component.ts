@@ -37,7 +37,8 @@ class UserSettingsDisplayCtrl {
 
     set locale (locale: string) {
         this.displayService.setLocale(locale)
-            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e))
+            .then(_ => this.owner.display.language = locale);
     }
 
     get timezone () {
@@ -46,16 +47,18 @@ class UserSettingsDisplayCtrl {
 
     set timezone (timezone: string) {
         this.displayService.setTimezone(timezone)
-            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e))
+            .then(_ => this.owner.display.timezone = timezone);
     }
 
-    get units () : string {
+    get units () : 'metric' | 'imperial' {
         return this.owner.display.units;
     }
 
-    set units (units: string) {
+    set units (units: 'metric' | 'imperial') {
         this.displayService.setUnits(units)
-            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));;
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e))
+            .then(_ => this.owner.display.units = units);
     }
 
     get firstDayOfWeek () {
@@ -64,7 +67,8 @@ class UserSettingsDisplayCtrl {
 
     set firstDayOfWeek (firstDayOfWeek: number) {
         this.displayService.setFirstDayOfWeek(firstDayOfWeek)
-            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e));
+            .then(_ => this.message.toastInfo('settingsSaveComplete'), e => e && this.message.toastError(e))
+            .then(_ => this.owner.display.firstDayOfWeek = firstDayOfWeek);
     }
 
     weekdays (day: number) : string[] {

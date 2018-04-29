@@ -11,7 +11,7 @@ export class UserSettingsFitDatamodel {
 		this.weight = profile.private.weight;
 		this.height = profile.private.height;
 		this.level = profile.private.level;
-		this.activity = profile.personal['activity'];
+		this.activity = profile.personal && profile.personal.activity || [];
 	}
 
 	toUserProfile () : IUserProfile {

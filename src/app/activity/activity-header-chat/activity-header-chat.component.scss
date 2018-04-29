@@ -6,11 +6,11 @@ activity-header-chat {
 
   .message-list {
     padding: 8px 16px;
-    overflow-y: auto;
-
     overflow-y: hidden;
     overflow-x: hidden;
 
+    @media (max-width: 959px) {  overflow-y: auto; }
+    
     &:focus, &:hover {
       overflow-y: auto;
     }

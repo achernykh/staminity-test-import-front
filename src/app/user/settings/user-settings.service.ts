@@ -40,8 +40,8 @@ export class UserSettingsService {
     saveSettings (changes) : Promise<any> {
         return this.userService.putProfile(changes)
         .then((result) => {
-            const userChanges = { ...changes, ...result };
-            this.sessionService.updateUser(userChanges);
+            //const userChanges = { ...changes, ...result };
+            //this.sessionService.updateUser(userChanges);
             this.update(this.sessionService.getUser());
             this.message.toastInfo('settingsSaveComplete');
         })
@@ -58,10 +58,10 @@ export class UserSettingsService {
     saveZones (changes) : Promise<any> {
         return this.userService.putProfile(changes)
         .then((userProfile) => {
-            let { userId, revision, trainigZones } = changes;
-            if (this.sessionService.isCurrentUserId(userId)) {
-                this.sessionService.setUser(userProfile);
-            }
+            //let { userId, revision, trainigZones } = changes;
+            //if (this.sessionService.isCurrentUserId(userId)) {
+            //    this.sessionService.setUser(userProfile);
+            //}
             this.update(userProfile);
             this.message.toastInfo('settingsSaveComplete');
         })

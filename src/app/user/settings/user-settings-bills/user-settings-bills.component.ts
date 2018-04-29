@@ -4,12 +4,16 @@ import { IBill } from "@api/billing";
 import BillingService from "../../../core/billing.service";
 import { UserSettingsService } from "../user-settings.service";
 import './user-settings-bills.component.scss';
+import { Subject } from 'rxjs/Rx';
 
 class UserSettingsBillsCtrl {
     
     // bind
     owner: IUserProfile;
     currentUser: IUserProfile;
+
+    // private
+    private destroy = new Subject();
 
     static $inject = ['BillingService', 'dialogs', 'message', 'UserSettingsService', '$scope'];
 
@@ -22,6 +26,19 @@ class UserSettingsBillsCtrl {
     ) {
 
     }
+
+    $onInit (): void {
+        this.billingService.messages
+            .takeUntil(this.destroy)
+            .subscribe(this.reload.bind(this));
+
+    }
+
+    $onDestroy () {
+        this.destroy.next();
+        this.destroy.complete();
+    }
+
 
     /**
      * Статус счёта
@@ -82,7 +99,7 @@ class UserSettingsBillsCtrl {
         }) 
         .then(() => { 
             this.owner.billing['autoPayment'] = isOn; 
-            this.message.toastInfo('settingsSaveComplete'); 
+            //this.message.toastInfo('settingsSaveComplete');
             this.$scope.$apply(); 
         }) 
         .catch((info) => { 
@@ -94,7 +111,7 @@ class UserSettingsBillsCtrl {
      * Перезагрузить профиль
      */
     reload () {
-        this.userSettingsService.reload(this.owner.userId); 
+        this.userSettingsService.reload(this.owner.userId);
     }
 }
 

@@ -133,6 +133,7 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
+        debugger;
         let needRefresh: boolean = Object.keys(userChanges).length > 4;//userChanges.hasOwnProperty('trainingZones') || userChanges.hasOwnProperty('public');
         return this.SocketService.send(new PutUserRequest(userChanges))
         .then((result) => result.value)

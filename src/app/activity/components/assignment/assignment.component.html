@@ -6,7 +6,7 @@
                                 on-change="$ctrl.checkForm(form)">
     </activity-assignment-header>
 
-    <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured)"
+    <assignment-summary-non-structured ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured || $ctrl.item.showSelectTemplate)"
                                        flex="auto"
                                        sport="$ctrl.item.activity.header.sportBasic"
                                        form="$ctrl.item.assignmentForm"

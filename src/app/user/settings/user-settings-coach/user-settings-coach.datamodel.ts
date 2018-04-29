@@ -16,13 +16,13 @@ export class UserSettingsCoachDatamodel {
 	constructor (private profile: IUserProfile) {
 		this.firstName = profile.public.firstName;
 		this.lastName = profile.public.lastName;
-		this.about = profile.personal['about'];
-		this.country = profile.personal['country'];
-		this.city = profile.personal['city'];
-		this.price = profile.personal['price'];
-		this.contact = profile.personal['contact'];
-		this.athletes = profile.personal['athletes'];
-		this.isFree = profile.personal['isFree'];
+		this.about = profile.personal && profile.personal.about || null;
+		this.country = profile.personal && profile.personal.country || null;
+		this.city = profile.personal && profile.personal.city || null;
+		this.price = profile.personal && profile.personal.price || null;
+		this.contact = profile.personal && profile.personal.contact || null;
+		this.athletes = profile.personal && profile.personal.athletes || null;
+		this.isFree = profile.personal && profile.personal.isFree;
         this.profileComplete = profile.public.profileComplete;
 	}
 

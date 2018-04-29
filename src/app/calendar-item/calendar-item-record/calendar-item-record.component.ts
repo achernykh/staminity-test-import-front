@@ -94,7 +94,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 .then(response => {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
-                    this.onAnswer({ formMode: FormMode.Delete, item: this.record });
+                    this.onAnswer({ formMode: FormMode.Post, item: this.record });
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
         }
@@ -103,7 +103,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 .then((response)=> {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
-                    this.onAnswer({ formMode: FormMode.Delete, item: this.record });
+                    this.onAnswer({ formMode: FormMode.Put, item: this.record });
                 }, error => this.message.toastError(error)).
             then(() => this.inAction = false);
         }

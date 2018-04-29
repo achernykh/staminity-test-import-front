@@ -71,7 +71,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     static $inject = ['$scope', 'AuthService', 'quillConfig'];
 
     constructor(
-        private $scope: any,
+        private $scope: IScope,
         private AuthService: IAuthService,
         private quillConf: IQuillConfig) {
     }
@@ -84,6 +84,14 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.validateForm();
     }
 
+    $postLink () {
+        setTimeout(() => {
+            this.validateForm();
+            this.updateForm();
+            this.$scope.$applyAsync();
+        }, 100);
+    }
+
     $onDestroy(): void {
         this.validateForm();
     }
@@ -92,11 +100,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
             this.plan = null;
             this.actual = null;
+            this.prepareData();
             setTimeout(() => {
-                this.prepareData();
                 this.validateForm();
                 this.updateForm();
-            }, 100);
+            }, 300);
         }
     }
 
@@ -120,7 +128,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     prepareData(): void {
         this.plan = this.item.activity.intervals.PW;
         this.actual = this.item.activity.intervals.W.calcMeasures;
-        this.$scope.$evalAsync();
+        this.$scope.$applyAsync();
     }
 
     prepareValues() {

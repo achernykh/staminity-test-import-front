@@ -2,7 +2,7 @@
     <form name="$ctrl.adaptorForm" ng-submit='hide()' ng-cloak>
         <md-toolbar style="background-color: white; color: black">
             <div class="md-toolbar-tools">
-                <h2 >{{ 'settings.sync.'+ $ctrl.adaptor.provider | translate}}</h2>
+                <h2 >{{ 'user.settings.sync.'+ $ctrl.adaptor.provider | translate}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
                     <md-icon class="material-icons md-dark">close</md-icon>
@@ -16,7 +16,7 @@
                         <md-icon class="material icons">account_circle</md-icon>
                         <input ng-model="$ctrl.adaptor.username" type="text" autocomplete="off"
                                required
-                               placeholder="{{'settings.sync.account.placeholder' | translate}}">
+                               placeholder="{{'user.settings.sync.account.placeholder' | translate}}">
                     </md-input-container>
                 </md-list-item>
                 <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
@@ -24,7 +24,7 @@
                         <md-icon class="material-icons">security</md-icon>
                         <input ng-model="$ctrl.adaptor.password" type="password" autocomplete="off"
                                required
-                               placeholder="{{'settings.sync.password.placeholder' | translate}}">
+                               placeholder="{{'user.settings.sync.password.placeholder' | translate}}">
                     </md-input-container>
                 </md-list-item>
                 <md-list-item>
@@ -32,7 +32,7 @@
                         <md-datepicker ng-model="$ctrl.adaptor.startDate" name="dateField" md-min-date="minDate"
                                        md-max-date="maxDate"></md-datepicker>
 
-                        <div class="hint" translate="settings.sync.startDate.hint"></div>
+                        <div class="hint" translate="user.settings.sync.startDate.hint"></div>
                         <div ng-messages="myOtherForm.dateField.$error">
                             <div ng-message="valid">The entered value is not a date!</div>
                             <div ng-message="required">This date is required!</div>

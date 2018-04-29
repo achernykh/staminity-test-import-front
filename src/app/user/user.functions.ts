@@ -1,5 +1,5 @@
 // import
-import { _connection } from "../core/env.template";
+import * as _connection from "../core/env.js";
 import { fullImageUrl } from "../share/image/image.functions";
 import { IUserProfile, IUserProfileShort } from "../../../api/user/user.interface";
 

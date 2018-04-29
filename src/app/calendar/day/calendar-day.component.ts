@@ -136,7 +136,8 @@ class CalendarDayCtrl {
      * @param data
      */
     wizard (e: Event, data: ICalendarDayData): void {
-        this.calendarItemDialog.wizard(e, this.getOptions(FormMode.Post, data.date))
+        this.calendarItemDialog.wizard(e,
+            this.getOptions(FormMode.Post, moment(data.date).startOf('day').format('YYYY-MM-DDTHH:mm:ss')))
             .then(response => this.onUpdate(response),  error => { });
     }
 

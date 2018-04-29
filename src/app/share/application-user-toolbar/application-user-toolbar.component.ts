@@ -31,7 +31,7 @@ class ApplicationUserToolbarCtrl implements IComponentController {
             }
             case 'onlyBasicTariff': case 'expiredPremium': case 'expiredCoach': case 'expiredClub':
             case 'premiumExpireIn': case 'coachExpireIn': case 'clubExpireIn': {
-                this.$state.go('user-settings', {userId: this.application.user.userId, '#': 'user-settings-billing'});
+                this.$state.go('user-settings.main', {userId: this.application.user.userId, '#': 'user-settings-billing'});
                 break;
             }
         }
