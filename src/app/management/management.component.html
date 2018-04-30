@@ -141,7 +141,7 @@
                         <td md-cell>
                             <md-button class="management-username" ui-sref="user({uri: member.userProfile.public.uri})">
                                 <userpic profile="member.userProfile" is-premium="member.userProfile | isPremium"></userpic>
-                                {{ member.userProfile | username }}
+                                {{ member.userProfile | userName:'full-last' }}
                             </md-button>
                         </td>
                         <td ng-if="!$ctrl.isFilterRole('ClubAthletes')" md-cell>{{ member.roleMembership | clubRoleMembership }}</td>
