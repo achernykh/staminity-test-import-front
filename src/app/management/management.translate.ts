@@ -96,6 +96,7 @@ export const translateManagement = {
         role: "Role",
         roles: "Roles",
         selected: "You've selected {{count}} club members",
+        myAthletes: 'My athletes',
         clubRoles: {
             ClubCoaches: "Coaches",
             ClubAthletes: "Athletes",

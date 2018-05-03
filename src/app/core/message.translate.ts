@@ -914,7 +914,7 @@ export const _translateMessage = {
         },
         activityDeleted: {
             title: "",
-            text: "The measurement has been deleted"
+            text: "The activity has been deleted"
         },
         activityFactDeleted: { // когда прошло удаление детального факта в тренировке, параметр mode: 'D'
             title: "",
@@ -955,6 +955,10 @@ export const _translateMessage = {
         itemCreatedByOtherUser: { // не найдены детальные данные по тренировке
             title: "",
             text: "Item has been created by another user"
+        },
+        errorResponseTrainingZones: {
+            title: '',
+            text: 'Training zones receiving error. Please refresh and try again.'
         },
 
         // -------- CalendarItem actiions: copy, paste, cut, drag&drop --------
@@ -1116,7 +1120,7 @@ export const _translateMessage = {
         },
         billNotFound: {
             title: "",
-            text: "Bill not found"
+            text: "Invoice not found"
         },
         unknownPaymentIdentifier: {
             title: "",

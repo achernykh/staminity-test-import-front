@@ -18,6 +18,8 @@ export const translateDashboard = {
     en: {
         fullTitle: "Coach dashboard",
         shortTitle: "Dashboard",
+        clubfullTitle: "Club athletes",
+        clubhortTitle: "Athletes",
         today: "Today",
         week: 'Week from {{date | date:"longDate"}}',
         compact: "Compact",

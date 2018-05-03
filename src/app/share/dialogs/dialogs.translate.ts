@@ -117,6 +117,7 @@ export let translateDialogs = {
         startClub: "Send request to club?",
         leaveClub: "Leave club?",
         excludeClub: "Drop off from club?",
+        removeAthlete: "Remove athlete?",
 
         // Операции с тренировками
         deleteSelectedItems: "Delete selected activities? Action cannot be undone",
@@ -137,6 +138,8 @@ export let translateDialogs = {
         // план
         deleteTrainingPlan: "Do you want to delete training plan? This operation cannot be undone",
         deleteSelectedAssignment: "Delete training plan assignment? All incompleted activities will be deleted from athlete's calendar",
+        unpublishTrainingPlan: "Remove training plan from store?",
+        publishTrainingPlan: "Publish new traning plan version in Store?",
 
         // split and merge
         mergeActivity: "Merge planned and completed activity?",
