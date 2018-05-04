@@ -29,8 +29,11 @@
                 </md-list-item>
                 <md-list-item>
                     <md-input-container md-no-float class="md-block">
-                        <md-datepicker ng-model="$ctrl.adaptor.startDate" name="dateField" md-min-date="minDate"
-                                       md-max-date="maxDate"></md-datepicker>
+                        <md-datepicker ng-model="$ctrl.adaptor.startDate"
+                                       name="dateField"
+                                       md-min-date="minDate"
+                                       md-max-date="maxDate">
+                        </md-datepicker>
 
                         <div class="hint" translate="user.settings.sync.startDate.hint"></div>
                         <div ng-messages="myOtherForm.dateField.$error">

@@ -8,7 +8,10 @@
                 <h4>{{ 'user.settings.sync.status.' + adaptor.status.code + '.title' | translate }}</h4>
                 <p>{{ 'user.settings.sync.status.' + adaptor.status.code + '.text' | translate:adaptor }}</p>
             </div>
-            <md-switch class="md-secondary md-primary" ng-init="$ctrl.toggle[adaptor.provider] = adaptor.status.switch" ng-model="$ctrl.toggle[adaptor.provider]" ng-change="$ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider])"></md-switch>
+            <md-switch class="md-secondary md-primary"
+                       ng-init="$ctrl.toggle[adaptor.provider] = adaptor.status.switch"
+                       ng-model="$ctrl.toggle[adaptor.provider]"
+                       ng-change="$ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider])"></md-switch>
         </md-list-item>
         <md-divider ng-repeat-end ng-if="!$last"/>
     </md-list>

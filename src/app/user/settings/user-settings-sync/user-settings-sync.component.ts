@@ -4,6 +4,7 @@ import {IComponentOptions, IComponentController, ILocationService} from 'angular
 import { IUserProfile, IUserProfileShort } from "@api/user";
 import { ExternalProviderState } from "../../../../../api/sync";
 import './user-settings-sync.component.scss';
+import SyncAdaptorService from "../../sync-adaptor.service";
 
 export const syncStatus = (last, state) => {
 
@@ -117,7 +118,7 @@ class UserSettingsSyncCtrl {
     static $inject = ['SyncAdaptorService', 'dialogs', 'message', '$mdDialog'];
 
     constructor (
-        private syncAdaptorService: any,
+        private syncAdaptorService: SyncAdaptorService,
         private dialogs: any,
         private message: any,
         private $mdDialog: any,

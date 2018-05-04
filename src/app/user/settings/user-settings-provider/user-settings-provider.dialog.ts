@@ -20,6 +20,6 @@ export class UserSettingsProviderCtrl {
     };
     
     confirm () {
-        this.$mdDialog.hide();
+        this.$mdDialog.hide(this.adaptor);
     };
 }

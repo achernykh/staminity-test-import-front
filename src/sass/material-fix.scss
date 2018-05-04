@@ -42,7 +42,7 @@ md-toast.md-center {
   left: 50%;
 }
 
-md-toast.md-left {
+md-toast.md-left, md-toast.md-bottom {
   position: fixed !important;
   bottom: 0;
 }
