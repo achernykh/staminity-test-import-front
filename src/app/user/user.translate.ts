@@ -1006,6 +1006,8 @@ export const translateUser = {
                 zoneCaption: 'Name',
                 zoneFrom: 'From',
                 zoneTo: 'To',
+                measures: 'Measures',
+                methods: 'Calculation methods',
 
                 calculation: {
                     method: 'Method',
@@ -1027,6 +1029,12 @@ export const translateUser = {
                     '7': '7 custom zones',
                     '9': '9 custom zones'
 
+                },
+                error: {
+                    required: 'Values in zones should exist',
+                    consistencyPositive: 'Values in zones should be positive',
+                    consistencyBetweenValues: 'Upper limit in every zone should be greater that lower',
+                    consistencyBetweenZones: 'Ranges of values in the training zones should not overlap'
                 }
 
             },

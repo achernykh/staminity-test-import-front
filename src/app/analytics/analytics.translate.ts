@@ -183,7 +183,7 @@ export const translateAnalytics = {
                 placeholder: "Activity types",
             },
             activityCategories: {
-                empty: "Caterory",
+                empty: "Category",
             },
             periods: {
                 placeholder: "Period",

@@ -46,16 +46,16 @@ export const _translate = {
         athletes: "Athletes",
         isFree: "Available for new students",
         action: {
-            joinToCoach: 'Начать тренироваться',
-            joinToCoachDisable: 'Набор учеников завершен',
-            isYourCoach: 'Ваш тренер',
-            coachRequestWaiting: 'Заявка отправлена ▾',
-            coachRequestCancel: 'Отменить заявку',
-            leaveCoach: 'Перестать тренироваться',
-            requestLeaveWaiting: 'Вы отправили заявку на отказ от тренера',
-            requestLeaveCancel: 'Отменить заявку',
-            startFollow: 'Подписаться',
-            startFriend: 'Добавить в друзья'
+            joinToCoach: 'Join coach',
+            joinToCoachDisable: 'Closed for new athletes',
+            isYourCoach: 'Your coach',
+            coachRequestWaiting: 'Your request has been sent ▾',
+            coachRequestCancel: 'Cancel your request',
+            leaveCoach: 'Leave coach',
+            requestLeaveWaiting: "You've sent leave coach request",
+            requestLeaveCancel: 'Cancel your request',
+            startFollow: 'Follow',
+            startFriend: 'Add friend'
         },
         connections: {
             header: 'Connections',

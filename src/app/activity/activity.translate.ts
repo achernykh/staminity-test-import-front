@@ -126,6 +126,7 @@ export const translateActivity = {
             edit: 'Edit',
             delete: 'Delete',
             reset: 'Cancel',
+            add: 'Add',
             open: 'Open',
             copy: 'Copy',
             select: 'Select',
@@ -180,6 +181,7 @@ export const translateActivity = {
             on: 'ON',
             off: 'OFF'
         },
+        dynamicDate: 'Week {{week}}, Day {{day}}',
         trainersPrescription: 'Coach prescription',
         descriptionPlaceholder: '...',
         assignment: {
@@ -213,7 +215,8 @@ export const translateActivity = {
             enable: 'Templates available',
             empty: 'Templates not available',
             favorite: 'Favorite',
-            namePlaceholder: 'Name required'
+            namePlaceholder: 'Name required',
+            code: 'Template {{code}}'
         },
         split: {
             all: 'Activity',
