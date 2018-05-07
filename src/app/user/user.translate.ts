@@ -484,6 +484,10 @@ export const translateUser = {
                 header: 'Уведомления',
                 hint: 'Настройки уведомлений',
 
+                web: 'Браузер',
+                email: 'Почта',
+                mobile: 'Телефон',
+
                 //notificationGroup
                 user: 'Для всех пользователей',
                 coach: 'Для тренера',

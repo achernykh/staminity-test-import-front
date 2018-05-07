@@ -3,6 +3,14 @@ import { memorize } from "../utility/memorize";
 const _GMT: string = "Europe/London";
 const _format: string = "YYYY-MM-DD hh:mm";
 
+export const getTimeZones = () => {
+    return moment.tz.names().map((z) => ({
+        title: `(GMT${moment.tz(z).format('Z')}) ${z}`,
+        name: z,
+        offset: moment.tz(z).offset
+    }));
+};
+
 export const calcTimezoneTime = () => (date: Date | string, trgTimezone: string = _GMT, format: string = _format): Date => {
     return moment(typeof date === "string" ? date + "Z" : date.toISOString()).tz(trgTimezone).format();
 };
