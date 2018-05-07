@@ -119,8 +119,8 @@ export const _MEASURE_TRANSLATE = {
         variabilityIndex: "VI",
 
         //
-        FTP: "FTP",
-        ATP: "AeP",
+        FTP: "LT",
+        ATP: "AT",
         minValue: "Min",
         maxValue: "Max",
 
