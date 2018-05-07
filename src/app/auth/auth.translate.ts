@@ -8,7 +8,7 @@ export let _translate = {
         pass: "Пароль",
         email: "E-mail",
         required: "Обязательное поле",
-        err30: "{{field}} не должно превышать 30 символов",
+        err30: "{{field}} максимум 30 символов",
         errMail: "Проверьте правильность указания e-mail",
         errPass: "Пароль должен быть не менее 8 символов и содержать хотя бы одну цифру и заглавную букву",
         errComparePass: "Пароли не совпадают",
@@ -48,7 +48,7 @@ export let _translate = {
             shortTitle: "Восстановление пароля",
             title: "Восстановление пароля",
             info: "Укажите e-mail, с которым вы регистрировались, и мы пришлем ссылку для изменения пароля",
-            button: "Восстановить пароль"
+            button: "Сбросить пароль"
         },
         setpass: {
             fullTitle: "Придумайте новый пароль",
@@ -81,20 +81,20 @@ export let _translate = {
         pass: "Password",
         email: "E-mail",
         required: "Required",
-        err30: "{{field}} max length is 30 symbols",
+        err30: "{{field}} 30 characters maximum",
         errMail: "Please check your e-mail address",
-        errPass: "Password should be at least 8 characters and include one digit and one uppercase letter",
+        errPass: "The password should contain at least 8 characters and include one digit and one uppercase letter",
         errComparePass: "Passwords did not match",
-        confirmation: "I agree with Staminity <a href='https://legal.staminity.com/en/terms.html'>Terms and conditions</a>.<br>",
+        confirmation: "I accept <a href='https://legal.staminity.com/en/license.html'>the Public offer</a> and agree with <a href='https://legal.staminity.com/en/terms.html'>the Website use policy</a>",
 
-        socialText: "By social networks:",
+        socialText: "Through social networks: ",
         socialOr: "or by email",
 
         // Окно регистрации / создания нового пользователя
         signup: {
             fullTitle: "New user sign up",
             shortTitle: "Sign up",
-            coach: "I am the coach",
+            coach: "I am a coach",
             button: "Sign up"
         },
         // Окно входа в сервис
@@ -103,24 +103,24 @@ export let _translate = {
             shortTitle: "Sign in",
             button: "Sign in",
             remember: "Remember me",
-            reset: "Forgot your password"
+            reset: "Forgot my password"
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
             fullTitle: "Sign up confirmation",
             shortTitle: "Confirmation",
-            text: "Congratulations, you are signing up! To start using the Staminity please confirm your email. Check your email <b>{{email}}</b> and follow the instructions"
+            text: "Congratulations, you have successfully signed up! To start using Staminity please verify your email <b>{{email}}</b>."
         },
         invite: {
             fullTitle: "Set your password",
             shortTitle: "Set your password"
         },
         reset: {
-            fullTitle: "Recover password",
-            shortTitle: "Recover password",
-            title: "Recover password",
-            info: "Enter your e-mail and we will send you the email with instructions",
-            button: "Recover password"
+            fullTitle: "Reset password",
+            shortTitle: "Reset password",
+            title: "Reset password",
+            info: "Enter the email address you have used to sign up and we will send you an email with instructions.",
+            button: "Reset password"
         },
         setpass: {
             fullTitle: "Set up your new password",
@@ -129,16 +129,16 @@ export let _translate = {
         },
         // Окно "Забыли пароль"
         forgetpass: {
-            fullTitle: "Forget your password?",
-            shortTitle: "Forget password?",
-            text: "Enter your e-mail and we will send you the email with instructions",
-            button: "Send"
+            fullTitle: "Reset password",
+            shortTitle: "Reset password",
+            text: "Enter your email address and we will send you an email with instructions",
+            button: "Reset password"
         },
         // Окно "Изменить пароль"
         changepass: {
             fullTitle: "Change password",
             shortTitle: "Change password",
-            text: "Set up you new password",
+            text: "Set up your new password",
             newpass: "New password",
             verifypass: "Confirm your new password",
             button: "Change"
