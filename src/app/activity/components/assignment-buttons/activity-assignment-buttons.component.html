@@ -2,7 +2,7 @@
 <md-dialog-actions ng-if="!($ctrl.item.activity.view.isTrainingPlan || $ctrl.item.activity.view.isTemplate)"
                    flex="none" layout="row" style="background: white">
     <span flex></span>
-    <md-button ng-if="$ctrl.item.activity.view.isView && $ctrl.item.activity.isSpecified"
+    <md-button ng-if="$ctrl.item.activity.view.isView && $ctrl.item.activity.isSpecified && !$ctrl.item.isIonic"
                ng-click="$ctrl.item.toTemplate($event)"
                translate="activity.action.toTemplate">
     </md-button>
@@ -10,14 +10,14 @@
                ng-click="$ctrl.item.activity.view.isPut = true"
                translate="activity.action.edit">
     </md-button>
-    <md-button ng-if="!$ctrl.item.activity.view.isView"
+    <md-button ng-if="!$ctrl.item.activity.view.isView && !$ctrl.item.isIonic"
                ng-click="$ctrl.item.onReset($ctrl.item.activity.view.isPost ? 'post' : 'view' )"
                translate="activity.action.reset">
     </md-button>
     <md-button ng-if="!$ctrl.item.activity.view.isView"
                type="submit"
-               ng-disabled="!$ctrl.item.assignmentForm.$valid || $ctrl.item.inAction"
-               ng-class="{'md-warn': !$ctrl.item.assignmentForm.$valid}"
+               ng-disabled="!$ctrl.isFormValid || $ctrl.item.inAction"
+               ng-class="{'md-warn': !$ctrl.isFormValid}"
                ng-click="$ctrl.onSave()" translate="activity.action.save">
     </md-button>
 </md-dialog-actions>

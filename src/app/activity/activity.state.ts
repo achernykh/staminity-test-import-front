@@ -1,4 +1,4 @@
-import { StateDeclaration } from "angular-ui-router";
+import { StateDeclaration } from "@uirouter/angularjs";
 import { ICalendarItem } from "../../../api/";
 import { CalendarService } from "../calendar/calendar.service";
 import { DisplayView } from "../core/display.constants";
@@ -12,10 +12,9 @@ export const activityState = {
     loginRequired: true,
     authRequired: ["user"],
     resolve: {
-        view: () => new DisplayView("activity"),
         item: ["CalendarService", "message", "$stateParams",
-            (CalendarService: CalendarService, message: MessageService, $stateParams) =>
-            CalendarService.getCalendarItem(null, null, null, null, $stateParams.calendarItemId)
+            (calendarService: CalendarService, message: MessageService, $stateParams) =>
+            calendarService.getCalendarItem(null, null, null, null, $stateParams.calendarItemId)
                 .then((response) => response && response[0])
                 .catch((error) => {
                     message.systemWarning(error);
@@ -25,15 +24,8 @@ export const activityState = {
             UserService.getProfile(item.userProfileOwner.userId).catch((error) => {
                 message.systemWarning(error);
                 throw error;
-            })],
+            })]
     },
-    views: {
-        "application": {
-            component: "activity",
-            bindings: {
-                view: "view.application",
-            },
-        },
-    },
+    views: { application: { component: "activity" } },
 
 };

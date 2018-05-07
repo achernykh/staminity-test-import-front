@@ -7,6 +7,7 @@ export const translateGeneral = {
         day: "По дням",
         month: "По месяцам",
         quarter: "По кварталам",
+        menu: 'Меню',
         updateToast: {
             message: "Перезагрузите страницу, чтобы загрузить обновление сервиса Staminity",
             action: "ПЕРЕЗАГРУЗИТЬ",
@@ -29,6 +30,7 @@ export const translateGeneral = {
         day: "Day",
         month: "Month",
         quarter: "Quarter",
+        menu: 'Menu',
         updateToast: {
             message: "Staminity update is available. Please refresh the browser page",
             action: "REFRESH",
@@ -54,6 +56,7 @@ export const translateForm = {
         save: "Сохранить",
         invalidDate: "Некорректный формат даты",
         delete: "Удалить",
+        edit: 'Изменить'
     },
     en: {
         required: "Mandatory field",
@@ -63,5 +66,6 @@ export const translateForm = {
         save: "Save",
         invalidDate: "Incorrect date format",
         delete: "Delete",
+        edit: 'Edit'
     },
 };

@@ -5,6 +5,7 @@ export * from "./path";
 export * from "./filtering";
 export * from "./memorize";
 export * from "./createSelector";
+export * from "./sort";
 
 import * as arrays from "./arrays";
 export { arrays };

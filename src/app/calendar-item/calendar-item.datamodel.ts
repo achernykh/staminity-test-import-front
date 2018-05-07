@@ -13,14 +13,14 @@ export class CalendarItemAthletes {
 
 	constructor(private owner: IUserProfile, private currentUser: IUserProfile) {
 
-		if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
+		if(this.currentUser.connections && this.currentUser.connections.hasOwnProperty('allAthletes') &&
+			this.currentUser.connections.allAthletes){
 			this.list = this.currentUser.connections.allAthletes.groupMembers
 				.filter(user => user.hasOwnProperty('trainingZones'))
 				.map(user => ({profile: user, active: user.userId === this.owner.userId}));
-
 		}
 
-		if(this.list.length === 0 || !this.list.some(athlete => athlete.active)) {
+		if(this.owner && this.list.length === 0 || !this.list.some(athlete => athlete.active)) {
 			this.list.push({profile: this.owner, active: true});
 		}
 	}
@@ -77,8 +77,10 @@ export class CalendarItemAuth {
 
 export class CalendarItemView {
 
-	constructor(private options: ICalendarItemDialogOptions) {
+	options: ICalendarItemDialogOptions;
 
+	constructor(options: ICalendarItemDialogOptions) {
+		this.options = Object.assign({}, options);
 	}
 
 	get isPopup (): boolean {
@@ -129,6 +131,7 @@ export class CalendarItem implements ICalendarItem {
 	public _dateStart: Date;
 	public _dateEnd: Date;
     public _time: Date;
+	public isSample: boolean;
 	public index: number; // index for ng-repeat in calendar-day component
 
 	view: CalendarItemView;
@@ -147,20 +150,25 @@ export class CalendarItem implements ICalendarItem {
 	prepare(method?: string) {
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
 		//this._dateStart = new Date(moment(this.dateStart).format('YYYY-MM-DD'));
-		this._dateStart = new Date(this.dateStart);
-		this._dateEnd = new Date(this.dateEnd);
-        this._time = new Date(this.dateStart);
+		this._dateStart = moment(this.dateStart).utc().toDate();// new Date(`${this.dateStart}+03:00`);
+		this._dateEnd = moment(this.dateStart).utc().toDate();
+        this._time = moment(this.dateStart).utc().toDate();
 		//this._dateEnd = new Date(moment(this.dateEnd).format('YYYY-MM-DD'));
 	}
 
 	// Подготовка данных для передачи в API
 	package(userProfile?: IUserProfileShort) {
-		this.dateStart = moment(this._dateStart.setHours(0,0,0)).utc()
-            .add(moment().utcOffset(),'minutes')
-            .add(this._time.getHours(), 'hours')
-            .add(this._time.getMinutes(), 'minutes')
-            .add(this._time.getSeconds(), 'seconds')
-            .format('YYYY-MM-DDTHH:mm:ss');
+	    this.dateStart = moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
+		if (this._time && (this._time.getHours() || this._time.getMinutes() || this._time.getSeconds())) {
+            this.dateStart = moment(this._dateStart.setHours(0,0,0)).utc()
+                .add(moment().utcOffset(),'minutes')
+                .add(this._time.getHours(), 'hours')
+                .add(this._time.getMinutes(), 'minutes')
+                .add(this._time.getSeconds(), 'seconds')
+                .format('YYYY-MM-DDTHH:mm:ss');
+        }
+
+		console.debug(`package item after time: ${this.dateStart}, time ${this._time}`);
 
 		this.dateEnd = this.dateStart;//moment(this._dateStart).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss');
 		this.userProfileOwner = userProfile || this.userProfileOwner;

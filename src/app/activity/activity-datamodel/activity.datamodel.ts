@@ -7,7 +7,6 @@ import { ActivityIntervals } from "./activity.intervals";
 import { ActivityDetails } from "./activity.details";
 import { IUserProfileShort, IUserProfile } from "../../../../api/user/user.interface";
 import { getType } from "../activity.constants";
-import { toDay } from "../activity.datamodel";
 import { IGroupProfileShort } from "../../../../api/group/group.interface";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../../reference/reference.datamodel";
@@ -16,6 +15,12 @@ import { ActivityAuth } from "./activity.auth";
 import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { ActivityAthletes } from "./activity.athletes";
 import { ActivityView } from "./activity.view";
+
+export let toDay = (date):Date => {
+    let result = new Date(date);
+    result.setHours(0, 0, 0, 0);
+    return result;
+};
 
 export class Activity extends CalendarItem {
 
@@ -29,7 +34,7 @@ export class Activity extends CalendarItem {
     //athletes: ActivityAthletes; // класс для работы с переченем пользователей для планирования
     //auth: ActivityAuth; // класс для работы с полномочиями
 
-    categoriesList: Array<IActivityCategory> = [];
+    categoriesList: Array<IActivityCategory>;
     categoriesByOwner: { [owner in Owner]: Array<IActivityCategory> };
 
     // private
@@ -84,6 +89,10 @@ export class Activity extends CalendarItem {
 
     // Тренировка имеет плановое задание
     get isSpecified (): boolean { return this.intervals.PW && this.intervals.PW.specified(); }
+
+    get isDarkColor (): boolean {
+        return (this.isComing && !this.isCompleted) || (this.isCompleted && !this.isSpecified);
+    }
 
     // Статус выполнения тренировки
     get status() {
@@ -145,9 +154,7 @@ export class Activity extends CalendarItem {
     }
 
     get movingDuration():number {
-        return this.intervals.W.movingDuration() ||
-            (this.intervals.PW.movingDurationLength > 0 && this.intervals.PW.movingDurationLength) ||
-            (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
+        return this.duration;
     }
 
     get movingDurationApprox():boolean {
@@ -157,6 +164,7 @@ export class Activity extends CalendarItem {
     get duration() {
         return this.intervals.W.movingDuration() ||
             (this.isStructured && this.intervals.PW.movingDurationLength) ||
+            (this.intervals.PW.durationMeasure === 'duration' && this.intervals.PW.durationValue) ||
             (this.intervals.PW.durationMeasure === 'movingDuration' && this.intervals.PW.durationValue) || null;
     }
 
@@ -234,7 +242,7 @@ export class Activity extends CalendarItem {
         this.dateEnd = this.dateStart;
         this.header.activityType = getType(Number(this.header.activityType.id));
 
-        return {
+        return Object.assign({
             calendarItemId: this.calendarItemId,
             calendarItemType: this.calendarItemType, //activity/competition/event/measurement/...,
             revision: this.revision,
@@ -248,7 +256,9 @@ export class Activity extends CalendarItem {
                 this.header.build(),
                 {intervals: this.intervals.build()},
                 {activityId: this.header.activityId || this.activityHeader.activityId})
-        };
+        }, this.view.isTrainingPlan ? { // для тренировочных планов добавляем признак isSample
+            isSample: this.isSample
+        } : {});
     }
 
 

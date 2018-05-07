@@ -8,7 +8,7 @@ import {
 	DeleteActivityCategoryRequest, GetActivityTemplateRequest, PostActivityTemplateRequest,
 	PutActivityTemplateRequest, DeleteActivityTemplateRequest
 } from "../../../api";
-
+import { categoriesReorder, templatesReorder } from './reference.datamodel';
 
 export default class ReferenceService {
 
@@ -65,6 +65,13 @@ export default class ReferenceService {
 					this.categoriesChanges.next(this.categories);
 				}
 			});
+		this.SocketService.messages
+			.filter(message => message.type === 'activityCategoryOrder')
+			.subscribe((message) => {
+				let order: number[] = message.value.items;
+				this.categories = categoriesReorder(this.categories, order);
+				this.categoriesChanges.next(this.categories);
+			});
 
 		//this.resetTemplates();
 		this.SocketService.connections.subscribe(status => status && this.resetTemplates());
@@ -76,6 +83,13 @@ export default class ReferenceService {
 					this.templates = reducer(message.value);
 					this.templatesChanges.next(this.templates);
 				}
+			});
+		this.SocketService.messages
+			.filter(message => message.type === 'activityTemplateOrder')
+			.subscribe((message) => {
+				let order: number[] = message.value.items;
+				this.templates = templatesReorder(this.templates, order);
+				this.templatesChanges.next(this.templates);
 			});
 	}
 

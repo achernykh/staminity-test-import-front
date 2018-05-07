@@ -1,0 +1,91 @@
+<st-application-frame
+    class="training-plans-store st-application-frame"
+    template="application"
+    left-bar="$ctrl.showLeftPanel()"
+    nav-bar-state="$ctrl.currentState"
+    ng-switch="$ctrl.currentState"
+    ng-class="{'nav-bar': $ctrl.authCheck()}">
+
+    <st-application-frame-title>
+        <span class="md-title"
+              translate="{{$ctrl.$mdMedia('gt-sm') ? 'trainingPlans.store.fullTitle' : 'trainingPlans.store.shortTitle'}}">
+        </span>
+    </st-application-frame-title>
+
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm layout="row" layout-align="start center">
+            <md-button ng-if="$ctrl.user.public.isCoach" layout="row"
+                       ng-click="$ctrl.$state.go('methodology', {})" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Filter">school</md-icon>
+                <span translate="trainingPlans.actions.myPlans"></span>
+            </md-button>
+            <span ng-if="$ctrl.user.public.isCoach" class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+            <md-button  ng-click="$ctrl.view()" class="md-icon-button" aria-label="Settings" layout="row" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Filter">{{$ctrl.cardView ? 'view_list' : 'credit_card'}}</md-icon>
+                <span translate="{{$ctrl.cardView ? 'trainingPlans.actions.listView' : 'trainingPlans.actions.cardView'}}"></span>
+            </md-button>
+            <md-button  ng-click="$ctrl.filter()" class="md-icon-button" layout="row" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Filter">filter_list</md-icon>
+                <span translate="{{$ctrl.leftPanel ? 'trainingPlans.actions.hidePanel' : 'trainingPlans.actions.showPanel'}}"></span>
+            </md-button>
+        </section>
+        <section class="mobile" hide show-xs show-sm>
+            <md-button  ng-click="$ctrl.filter()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Filter">filter_list</md-icon>
+            </md-button>
+        </section>
+    </st-application-frame-toolbar>
+
+    <st-application-frame-navbar layout="row">
+        <md-nav-item  ng-repeat="state in $ctrl.navBarStates track by $index"
+                      md-nav-click="$ctrl.setState(state)" name="{{::state}}">
+            <span translate="trainingPlans.store.tabs.{{::state}}"></span>
+        </md-nav-item>
+    </st-application-frame-navbar>
+
+    <!-- Магазин планов -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'store'">
+        <training-plans-filter class="training-plans-search__filter"
+                               filter="$ctrl.storePlansFilter"
+                               view="search"
+                               on-change-filter="$ctrl.changeStorePlansFilter(filter)">
+        </training-plans-filter>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="store">
+        <section flex="auto" class="training-plans-store__content">
+            <st-training-plans-store-items
+                    search-params="$ctrl.storePlansFilter"
+                    card-view="$ctrl.cardView"
+                    update="$ctrl.storePlansFilterChange"/>
+        </section>
+    </st-application-frame-content>
+
+    <!-- Покупки пользователя -->
+    <st-application-frame-left-bar ng-if="$ctrl.currentState === 'purchases'">
+        <training-plans-filter class="training-plans-search__filter"
+                               view="search">
+        </training-plans-filter>
+    </st-application-frame-left-bar>
+
+    <st-application-frame-content ng-switch-when="purchases">
+        <training-plans-list plans="$ctrl.plans"
+                             customer="true"
+                             filter="$ctrl.purchasesPlansFilter"
+                             update="$ctrl.trainingPlansFilterChange"
+                             filter-changes="$ctrl.filterChanges"
+                             on-change-filter="$ctrl.saveSettings('charts')"
+                             mobile-view="">
+        </training-plans-list>
+        <!--<section ng-if="$ctrl.plans.length" class="methodology__access-lock"
+                 layout="column" layout-align="center center">
+            <md-icon flex="none"
+                     class="material-icons md-dark md-inactive">lock_outline</md-icon>
+            <p flex="none" class="md-body-1 md-dark center"
+               translate="methodology.accessLock.{{$ctrl.currentState}}"></p>
+        </section>-->
+    </st-application-frame-content>
+
+
+</st-application-frame>
+

@@ -1,4 +1,4 @@
-<div class="activity__frame">
+<!--<div class="activity__frame">
     <calendar-item-activity layout="row" class="calendar-item-activity full-screen"
                 date=""
                 data="$ctrl.item"
@@ -7,4 +7,14 @@
                 tab=""
                 popup="false">
     </calendar-item-activity>
-</div>
+</div>-->
+
+
+<calendar-item-activity layout="row"
+                        class="activity calendar-item-activity"
+                        style="margin: auto"
+                        ng-class="{'has-actual-data': true}"
+                        data="$ctrl.item"
+                        options="$ctrl.options"
+                        on-cancel="cancel()" on-answer="answer(formMode, item)">
+</calendar-item-activity>

@@ -28,17 +28,17 @@ export class CalendarItemRecordCtrl implements IComponentController {
     // private
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
+    private inAction: boolean = false;
 
-    static $inject = ['calendarItemRecordConfig', 'SessionService', 'CalendarService', 'CalendarItemDialogService',
+    static $inject = ['calendarItemRecordConfig', 'CalendarService', 'CalendarItemDialogService',
         'TrainingPlansService', 'message', 'quillConfig'];
 
     constructor (
         private config: ICalendarItemRecordConfig,
-        private session: SessionService,
         private calendarService: CalendarService,
         private calendarDialog: CalendarItemDialogService,
         private trainingPlansService: TrainingPlansService,
-        private message: MessageService,
+        public message: MessageService,
         private quillConf: IQuillConfig
     ) {
 
@@ -85,6 +85,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     }
 
     onSave () {
+        this.inAction = true;
         this.record.recordHeader.editParams.asyncEventsDateFrom = this.options.calendarRange.dateStart;
         this.record.recordHeader.editParams.asyncEventsDateTo = this.options.calendarRange.dateEnd;
 
@@ -93,16 +94,18 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 .then(response => {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
-                    this.close();
-                }, error => this.message.toastError(error));
+                    this.onAnswer({ formMode: FormMode.Post, item: this.record.build() });
+                }, error => this.message.toastError(error))
+                .then(() => this.inAction = false);
         }
         if ( this.record.view.isPut ) {
             this.calendarService.putItem(this.record.build())
                 .then((response)=> {
                     this.record.compile(response); // сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
-                    this.close();
-                }, error => this.message.toastError(error));
+                    this.onAnswer({ formMode: FormMode.Put, item: this.record.build() });
+                }, error => this.message.toastError(error)).
+            then(() => this.inAction = false);
         }
     }
 
@@ -122,11 +125,17 @@ export class CalendarItemRecordCtrl implements IComponentController {
             }, error => this.message.toastError(error));
     }
 
+    setSample (value: boolean): void {
+        this.record.isSample = value;
+        this.record.view.isPut = true;
+        this.saveTrainingPlanRecord();
+    }
+
     saveTrainingPlanRecord(): void {
         //this.inAction = true;
 
         if (this.record.view.isPost) {
-            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.record.build(), this.record.isSample)
                 .then((response)=> {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordCreated');
@@ -134,7 +143,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
                 }, error => this.message.toastError(error));
                 //.then(() => this.inAction = false);
         } else if (this.record.view.isPut) {
-            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), true)
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.record.build(), this.record.isSample)
                 .then((response)=> {
                     this.record.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('recordUpdated');
@@ -175,11 +184,16 @@ export class CalendarItemRecordCtrl implements IComponentController {
         this.onCancel();
     }
 
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
+
 }
 
 export const CalendarItemRecordComponent: IComponentOptions = {
     bindings: {
         item: '=', // CalendarItem
+        disableActions: '<',
         options: '<',
         onAnswer: '&',
         onCancel: '&', // отмена открытия

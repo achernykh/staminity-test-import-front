@@ -1,0 +1,24 @@
+html.widget .page-wrapper { width: 350px !important; }
+html.widget .page-wrapper form input[type="text"], html.widget .page-wrapper form input[type="password"] { height: 32px !important; }
+html.widget .page-wrapper dl { margin-bottom: 0; }
+html.widget #tab-ps-selector { display: none; }
+html.widget #content { background: #ccc; width: 350px !important; height: 320px !important; }
+html.widget .form-error-wrapper { position: absolute; margin-top: 38px !important; }
+#cvc_hint { display: none; }
+.field-cardHolder { position: absolute; margin-top: 125px; display: none; }
+.field-cardNumber { margin-top: -10px; }
+.field-cardExpiration { margin-top: -10px; }
+.field-cardCVV2 { margin-top: -7px; margin-right: 0; }
+.field-cardCVV2 dt { text-align: right; }
+.field-cardCVV2 dd { float: right; }
+.field-cardCVV2 .form-error-wrapper { display: none; }
+.field-totalAmount { position: absolute; margin-top: 184px; }
+.field-ownerLogin { position: absolute; margin-top: 130px; }
+.field-ownerLogin .hint { display: none; }
+.field-description { display: none; }
+.h-buttons { margin-left: 192px; margin-top: 55px; position: absolute; }
+.verified-by-systems { margin-top: 96px !important; }
+html.widget .page-wrapper form select { padding: 0 4px; }
+.js { margin: 0 !important; }
+.oauth-splitter { display: none; }
+.oauth { display: none; }

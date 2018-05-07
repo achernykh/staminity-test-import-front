@@ -7,14 +7,18 @@ export const translateActivity = {
           edit: 'Изменить',
           reset: 'Отменить',
           delete: 'Удалить',
+          add: 'Добавить',
           open: 'Открыть',
           copy: 'Скопировать',
           select: 'Выделить',
           close: 'Закрыть',
           settings: 'Настройки',
           addAthletes: 'Добавить атлета',
+          setSample: 'Сделать примером',
+          unsetSample: 'Убрать из примеров',
           hideSmoothOnChart: 'Убрать сглаживание графиков',
-          split: 'Открепить фактические данные'
+          split: 'Открепить фактические данные',
+          recalc: 'Пересчитать тренировку'
       },
       details: {
           measures: {
@@ -120,16 +124,21 @@ export const translateActivity = {
             save: 'Save',
             toTemplate: 'Save as template',
             edit: 'Edit',
-            reset: 'Cancel',
-            open: 'Open',
             delete: 'Delete',
+            reset: 'Cancel',
+            add: 'Add',
+            open: 'Open',
             copy: 'Copy',
             select: 'Select',
             close: 'Close',
             settings: 'Settings',
             addAthletes: 'Add athletes',
+            setSample: 'Set as sample',
+            unsetSample: 'Unset as sample',
             hideSmoothOnChart: 'Hide chart smooth',
-            split: 'Split Plan and Actual data'
+            split: 'Split Plan and Actual data',
+            recalc: 'Recalculate activity'
+
         },
         details: {
             measures: {
@@ -172,6 +181,7 @@ export const translateActivity = {
             on: 'ON',
             off: 'OFF'
         },
+        dynamicDate: 'Week {{week}}, Day {{day}}',
         trainersPrescription: 'Coach prescription',
         descriptionPlaceholder: '...',
         assignment: {
@@ -205,7 +215,8 @@ export const translateActivity = {
             enable: 'Templates available',
             empty: 'Templates not available',
             favorite: 'Favorite',
-            namePlaceholder: 'Name required'
+            namePlaceholder: 'Name required',
+            code: 'Template {{code}}'
         },
         split: {
             all: 'Activity',

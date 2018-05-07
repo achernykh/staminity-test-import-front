@@ -13,7 +13,8 @@ const hostEndPoint = {
     dev2: "https://dev2.staminity.com",
     dev3: "https://dev3.staminity.com",
     prd: "https://staminity.com",
-    testapp: 'https://testapp.staminity.com'
+    testapp: 'https://testapp.staminity.com',
+    glastic: 'http://node51402-env-1004830.mircloud.ru:11159/'
 };
 
 const contentBase = {
@@ -23,7 +24,8 @@ const contentBase = {
     dev2: './dev2',
     dev3: './dev3',
     prd: './prd',
-    testapp: './testapp'
+    testapp: './testapp',
+    glastic: './glastic'
 };
 
 var cwd = process.cwd();
@@ -105,12 +107,6 @@ module.exports = {
     devServer: {
         contentBase: contentBase[ENV],
         stats: 'minimal',
-        stats: {
-         colors: true,
-         modules: false,
-         cached: false,
-         chunk: false
-         },
         historyApiFallback: true
     }
 };

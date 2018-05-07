@@ -1,0 +1,10 @@
+.user-settings-menu {
+
+  md-list-item, md-list-item::before {  min-height: 48px !important;  }
+  md-list-item::before, md-list-item .md-list-item-inner::before {
+    min-height: 48px !important;
+  }
+  md-icon {
+    margin: auto 24px auto 0 !important;
+  }
+}

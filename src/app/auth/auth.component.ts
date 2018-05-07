@@ -1,9 +1,10 @@
 import { IComponentController, IComponentOptions, IHttpPromiseCallbackArg, ILocationService} from "angular";
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angularjs";
 import {IUserProfile} from "../../../api/user/user.interface";
 import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
 import "./auth.component.scss";
+import {gaEmailSignup, gaSocialSignup} from "../share/google/google-analitics.functions";
 
 class AuthCtrl implements IComponentController {
 
@@ -22,6 +23,17 @@ class AuthCtrl implements IComponentController {
         private $location: ILocationService,
         private message: IMessageService,
         private $auth: any) {
+    }
+
+    get device (): string {
+        if (window.hasOwnProperty('ionic')) {
+            return 'mobile';
+        }
+        else if (/Mobi/.test(navigator.userAgent) || /Android/i.test(navigator.userAgent)) {
+            return 'mobilebrowser';
+        } else {
+            return 'webbrowser';
+        }
     }
 
     $onInit() {
@@ -54,6 +66,7 @@ class AuthCtrl implements IComponentController {
 
         // Типовая структура для создания нового пользователя
         this.credentials = {
+            device: this.device,
             public: {
                 firstName: "",
                 lastName: "",
@@ -80,7 +93,7 @@ class AuthCtrl implements IComponentController {
      */
     signin(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
-        this.AuthService.signIn({email: credentials.email, password: credentials.password})
+        this.AuthService.signIn({device: this.device, email: credentials.email, password: credentials.password})
             .finally(() => this.enabled = true)
             .then((profile: IUserProfile) => {
                 this.redirect("calendar", {uri: profile.public.uri});
@@ -99,6 +112,7 @@ class AuthCtrl implements IComponentController {
             .finally(() => this.enabled = true)
             .then((message) => {
                 this.showConfirm = true;
+                gaEmailSignup();
                 this.message.systemSuccess(message.title);
             }, (error) => {
                 this.message.systemWarning(error);
@@ -145,6 +159,7 @@ class AuthCtrl implements IComponentController {
 
     OAuth(provider: string) {
         let data = Object.assign({
+            device: this.device,
             postAsExternalProvider: false,
             provider,
             activateCoachTrial: this.credentials["activateCoachTrial"],
@@ -156,6 +171,7 @@ class AuthCtrl implements IComponentController {
             .finally(() => this.enabled = true)
             .then((response: IHttpPromiseCallbackArg<{data: {userProfile: IUserProfile, systemFunctions: any}}>) => {
                 const sessionData = response.data.data;
+                gaSocialSignup();
                 this.AuthService.signedIn(sessionData);
                 this.redirect("calendar", {uri: sessionData.userProfile.public.uri});
             }, (error) => {

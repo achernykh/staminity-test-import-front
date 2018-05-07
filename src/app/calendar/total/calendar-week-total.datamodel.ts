@@ -1,6 +1,6 @@
 import {copy} from "angular";
 import {ICalendarItem} from "../../../../api/calendar";
-import {toDay} from "../../activity/activity.datamodel";
+import {toDay} from "../../activity/activity-datamodel/activity.datamodel";
 import {ICalendarDay, ICalendarWeek} from "../calendar.interface";
 
 interface ICalendarWeekSummary {
@@ -104,8 +104,10 @@ const getSummaryFromInterval = (point: string, interval, itemDate: string): numb
         distance = interval.hasOwnProperty("distanceLength") && interval.distanceLength ||
                 interval.durationMeasure === "distance" && interval.durationValue || null;
 
-        movingDuration = interval.hasOwnProperty("movingDurationLength") && interval.movingDurationLength ||
-            interval.durationMeasure === "movingDuration" && interval.durationValue || null;
+        movingDuration =
+            (interval.hasOwnProperty("movingDurationLength") && interval.movingDurationLength) ||
+            ((interval.durationMeasure === "duration" || interval.durationMeasure === "movingDuration") && interval.durationValue) ||
+            null;
 
     } else {
         completed ++;
@@ -122,7 +124,7 @@ const getSummaryFromInterval = (point: string, interval, itemDate: string): numb
 
 const searchMeasure = (point, interval) => {
     if (point === "plan") {
-        if (interval.durationMeasure === "movingDuration") {
+        if (interval.durationMeasure === "movingDuration" && interval.durationMeasure === "duration") {
             return [0, interval.durationValue];
         } else {
             return [interval.durationValue, 0];

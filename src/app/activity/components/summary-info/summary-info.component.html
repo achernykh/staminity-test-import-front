@@ -1,6 +1,6 @@
 <div class="calendar-item-activity-header {{::$ctrl.item.activity.status}}"
      style="padding: 16px"
-     ng-class="::{'md-dark' : ($ctrl.item.activity.isComing || !$ctrl.item.activity.isSpecified)}">
+     ng-class="::{'md-dark' : $ctrl.item.activity.isDarkColor}">
     <div layout="row" >
         <div flex="none" layout="row" layout-align="center center"
              class="bg-circle-56 calendar-item-activity-icon color-{{$ctrl.item.activity.header.sportBasic}}">

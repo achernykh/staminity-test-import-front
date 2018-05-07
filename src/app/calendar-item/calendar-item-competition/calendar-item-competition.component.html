@@ -1,6 +1,6 @@
-<div flex class="md-whiteframe-8dp" layout="column">
+<div flex="auto" class="md-whiteframe-8dp" layout="column">
     <!-- Заголовок с контекстным меню Соревнования -->
-    <md-toolbar flex="none" class="md-primary">
+    <md-toolbar flex="none" class="md-primary" ng-if="!$ctrl.isIonic">
         <div class="md-toolbar-tools">
             <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -54,7 +54,6 @@
         <form flex="none" ng-if="!$ctrl.isViewMode" layout="column"
               name="$ctrl.form">
             <md-list flex="none" class="md-dense bg-grey-050">
-                <!--<md-subheader><span translate="competition.about"></span></md-subheader> -->
                 <!-- Название соревнования -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
@@ -168,7 +167,7 @@
         </form>
         <!-- Задание -->
         <md-list flex="none" class="md-dense" ng-if="$ctrl.competition.items.length > 0">
-            <md-subheader><span translate="competition.target"></span></md-subheader>
+            <md-subheader class="md-no-sticky"><span translate="competition.target"></span></md-subheader>
             <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
                 <div ng-message-exp="['needDuration']" translate="competition.needDuration">
                 </div>
@@ -178,6 +177,7 @@
                     distance-type="$ctrl.competition.competitionHeader.distanceType"
                     items="$ctrl.competition.items"
                     options="$ctrl.options"
+                    is-view="$ctrl.competition.view.isView"
                     on-change="$ctrl.setDirty()">
             </st-competition-single-stage>
         </md-list>
@@ -191,7 +191,7 @@
 
         <!-- Описание -->
         <md-list flex="none" class="md-dense description" ng-if="$ctrl.competition.items.length > 0">
-            <md-subheader><span translate="competition.trainersPrescription"></span></md-subheader>
+            <md-subheader class="md-no-sticky"><span translate="competition.trainersPrescription"></span></md-subheader>
             <ng-quill-editor ng-if="$ctrl.fullScreenMode"
                              ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
                              placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
@@ -224,7 +224,7 @@
         </md-button>
         <md-button ng-if="!$ctrl.competition.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.form.$valid}"
-                   ng-disabled="$ctrl.competition.view.isPut && !$ctrl.form.$dirty"
+                   ng-disabled="($ctrl.competition.view.isPut && !$ctrl.form.$dirty) || $ctrl.inAction"
                    ng-click="($ctrl.form.$valid) ? $ctrl.save() : null">
             <span translate="activity.action.save"></span>
         </md-button>

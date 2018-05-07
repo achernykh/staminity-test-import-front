@@ -52,6 +52,11 @@ export const en = {
     reference: {
         fullTitle: "Activity templates and categories",
         shortTitle: "Templates and categories",
+        action: {
+            copy: 'Copy',
+            delete: 'Delete',
+            post: 'Add new'
+        },
         club: {
             fullTitle: "Club templates and categories",
             shortTitle: "Club templates and categories",

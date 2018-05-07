@@ -1,0 +1,26 @@
+<md-list>
+    <md-list-item class="md-2-line"> 
+        <div class="md-list-item-text"> 
+            <div class="md-body-1">{{'user.settings.coach.isCoach' | translate}}</div>
+            <div class="md-body-1 md-dark">{{'user.settings.coach.status.' + $ctrl.getStatus() | translate}}</div>
+        </div> 
+        <div class="md-secondary">
+            <md-switch
+                ng-if="$ctrl.owner.connections.allAthletes"
+                ng-model="$ctrl.isCoach"
+                ng-model-options="{getterSetter: true}"
+                ng-disabled="$ctrl.isDisabled() && true"
+            >
+            </md-switch>
+        </div> 
+    </md-list-item>
+    <md-divider ng-if="$ctrl.owner.public.isCoach"></md-divider>
+    <md-list-item ng-if="$ctrl.owner.public.isCoach" ui-sref="user-settings.coach({userId: $ctrl.owner.userId})">
+        <div layout="column">
+            <div class="md-body-1" translate>user.settings.coach.hint</div>
+            <div class="md-body-1 md-dark" ng-if="!$ctrl.isCoachProfileComplete()" translate style="color:red">user.settings.coach.statusIncomplete</div>
+        </div>
+        <md-icon class="material-icon md-secondary">keyboard_arrow_right
+        </md-icon>
+    </md-list-item>
+</md-list>

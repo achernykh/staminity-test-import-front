@@ -5,7 +5,7 @@ import AuthService from "../../auth/auth.service";
 import "./application-user-toolbar.component.scss";
 import {ApplicationFrameCtrl} from "@app/share/application-frame/application-frame.component";
 import * as _connection from "../../core/env.js";
-import {toDay} from "../../activity/activity.datamodel";
+import { toDay } from "../../activity/activity-datamodel/activity.datamodel";
 
 class ApplicationUserToolbarCtrl implements IComponentController {
 
@@ -26,12 +26,12 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     action () {
         switch (this.message) {
             case 'incompleteProfile': {
-                this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'personal'});
+                this.$state.go('user-settings.coach', {userId: this.application.user.userId});
                 break;
             }
             case 'onlyBasicTariff': case 'expiredPremium': case 'expiredCoach': case 'expiredClub':
             case 'premiumExpireIn': case 'coachExpireIn': case 'clubExpireIn': {
-                this.$state.go('settings/user', {uri: this.application.user.public.uri, '#': 'account'});
+                this.$state.go('user-settings.main', {userId: this.application.user.userId, '#': 'user-settings-billing'});
                 break;
             }
         }
@@ -44,7 +44,6 @@ class ApplicationUserToolbarCtrl implements IComponentController {
     }
 
     get incompleteProfile (): boolean {
-        console.debug('ProfileClub auth:',this.authService.isAuthorized(['ProfileClub']));
         return this.application.user.public.isCoach && !this.application.user.public.profileComplete &&
             !this.authService.isAuthorized(['ProfileClub']);
     }
@@ -95,7 +94,6 @@ class ApplicationUserToolbarCtrl implements IComponentController {
         let expiredDate = this.server !== 'testapp.staminity.com:8080' ?
             this.application.permissions[role] :
             this.permissions && this.permissions[role];
-        //let diff = expiredDate && moment(expiredDate).diff(moment(), 'days');
         let diff = Math.ceil((toDay(new Date(expiredDate)).getTime() - toDay(new Date()).getTime())/(1000*3600*24));
         return diff !== null && diff !== undefined && diff; // || null;
             //(diff > 0 && diff + 1 || diff < 0 && diff - 1 || diff) || null;

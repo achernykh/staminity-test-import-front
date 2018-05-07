@@ -5,7 +5,7 @@ const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
 const whitelist = ['https://'];
-const blacklist = ['/sw.js', 'favicon.ico?', 'https://www.google-analytics.com', 'https://mc.yandex.ru'];
+const blacklist = ['/sw.js', 'favicon.ico?', 'https://www.google-analytics.com', 'https://mc.yandex.ru', 'https://omnidesk.ru/bundles/'];
 
 self.addEventListener('install', (event) => {
 	console.log('sw install', event);

@@ -1,0 +1,76 @@
+<md-list class="md-dense">
+    <md-list-item class="md-body-1 mobile-select">
+        <span translate="user.settings.display.language"></span>
+        <span class="md-secondary md-body-1 md-dark">{{ $ctrl.displayService.locales[$ctrl.locale] }}</span>
+        <md-menu class="md-secondary md-body-1 md-dark">
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="(locale, localeName) in $ctrl.displayService.locales">
+                    <md-button ng-click="$ctrl.locale = locale">
+                        <span class="md-body-1 md-dark">{{ localeName }}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </md-list-item>
+
+    <md-list-item class="mobile-select">
+        <span class="md-body-1" translate="user.settings.display.timezone"></span>
+        <span ng-if="$ctrl.timezone"
+              class="md-secondary md-body-1 md-dark">{{$ctrl.getTimezoneTitle()}}</span>
+        <md-menu class="md-secondary md-body-1 md-dark">
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="zone in $ctrl.timeZones">
+                    <md-button ng-click="$ctrl.timezone = zone.name">
+                        <span class="md-body-1 md-dark">{{::zone.title}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </md-list-item>
+
+    <md-list-item class="mobile-select">
+        <span class="md-body-1" translate="user.settings.display.units"></span>
+        <span class="md-secondary md-body-1 md-dark"
+              ng-if="$ctrl.units"
+              translate="user.settings.display.{{$ctrl.units}}.short"></span>
+        <md-menu class="md-secondary md-body-1 md-dark">
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="units in $ctrl.unitsOptions">
+                    <md-button ng-click="$ctrl.units = units">
+                        <span class="md-body-1 md-dark" translate="user.settings.display.{{units}}.full"></span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </md-list-item>
+
+    <md-list-item class="mobile-select">
+        <span class="md-body-1" translate="user.settings.display.firstDayOfWeek"></span>
+        <span class="md-secondary md-body-1 md-dark"
+              ng-if="$ctrl.firstDayOfWeek >= 0"
+              style="text-transform: capitalize">
+            {{$ctrl.weekdays($ctrl.firstDayOfWeek)}}
+        </span>
+        <md-menu class="md-secondary md-body-1 md-dark">
+            <md-button class="md-icon-button">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="number in [0, 1]">
+                    <md-button ng-click="$ctrl.firstDayOfWeek = number" style="text-transform: capitalize">
+                        <span class="md-body-1 md-dark">{{$ctrl.weekdays(number)}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </md-list-item>
+</md-list>

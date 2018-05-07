@@ -73,6 +73,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     date: Date;
     data: any;
+    id: number;
     options: ICalendarItemDialogOptions;
     activityType: IActivityType;
     activityCategory: IActivityCategory;
@@ -149,14 +150,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
         'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
 
     constructor(
-        private $scope: IScope,
+        public $scope: IScope,
         private $translate,
         private calendarService: CalendarService,
         private UserService: UserService,
         private SessionService: SessionService,
         private ActivityService: ActivityService,
         private AuthService: IAuthService,
-        private message: IMessageService,
+        public message: IMessageService,
         private $mdMedia: any,
         private $mdDialog: any,
         private dialogs: any,
@@ -170,9 +171,24 @@ export class CalendarItemActivityCtrl implements IComponentController{
         if(changes.mode && !changes.mode.isFirstChange()) {
             this.changeMode(changes.mode);
         }
+        if (changes.id && !changes.id.isFirstChange() && this.id) {
+            this.$onInit();
+        };
     }
 
+
     $onInit() {
+        this.prepareActivity();
+        this.prepareDetails();
+        this.prepareAuth();
+        this.prepareAthletesList();
+        this.prepareCategories();
+        this.prepareTemplates();
+        this.prepareTabPosition();
+        this.prepareLayout();
+    }
+
+    prepareActivity (): void {
         if ( this.options ) {
             ///this.mode = this.options.formMode;
             this.popup = this.options.popupMode;
@@ -190,13 +206,6 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.structuredMode = this.activity.isStructured;
         this.ftpMode = (this.activity.view.isTemplate || this.activity.view.isTrainingPlan) ? FtpState.On : FtpState.Off;
 
-        this.prepareDetails();
-        this.prepareAuth();
-        this.prepareAthletesList();
-        this.prepareCategories();
-        this.prepareTemplates();
-        this.prepareTabPosition();
-        this.prepareLayout();
     }
 
     prepareDetails(){
@@ -263,12 +272,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     prepareTemplates(): void {
-        this.templates = this.ReferenceService.templates;
-        this.activity.header.template = this.templates.filter(t => t.id === this.activity.header.templateId)[0] || null;
+        this.templates = this.ReferenceService.templates || [];
+        this.activity.header.template = this.templates &&
+            this.templates.filter(t => t.id === this.activity.header.templateId)[0] || null;
+
         this.ReferenceService.templatesChanges
             .takeUntil(this.destroy)
             .subscribe((templates) => {
-                this.templates = templates;
+                this.templates = templates || [];
                 this.updateFilterParams();
                 this.$scope.$apply();
             });
@@ -344,7 +355,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
      * @description Подготовка перечня атлетов достунпых для планирования
      */
     prepareAthletesList() {
-        if(this.currentUser.connections.hasOwnProperty('allAthletes') && this.currentUser.connections.allAthletes){
+        if( this.currentUser.connections && this.currentUser.connections.hasOwnProperty('allAthletes') &&
+            this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))
                 .map(user => ({profile: user, active: user.userId === this.user.userId}));
@@ -359,9 +371,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.forAthletes = [{ profile: this.data.userProfileCreator, active: true }];
         }
     }
-    
+
     $onDestroy () {
-        this.destroy.next(); 
+        this.destroy.next();
         this.destroy.complete();
     }
 
@@ -403,6 +415,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     calculateActivityRange(nonContiguousMode: boolean):void {
+        debugger;
         this.ActivityService.calculateRange(
             this.activity.header.id, null, null,
             [   this.activity.intervals.PW.prepareForCalculateRange(),
@@ -612,11 +625,17 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 });
     }
 
+    setSample (value: boolean): void {
+        this.activity.isSample = value;
+        this.activity.view.isPut = true;
+        this.onSaveTrainingPlanActivity();
+    }
+
     onSaveTrainingPlanActivity(): void {
         this.inAction = true;
 
         if (this.activity.view.isPost) {
-            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.activity.build(), this.activity.isSample)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityCreated');
@@ -624,7 +643,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 }, error => this.message.toastError(error))
                 .then(() => this.inAction = false);
         } else if (this.activity.view.isPut) {
-            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), true)
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.activity.build(), this.activity.isSample)
                 .then((response)=> {
                     this.activity.compile(response);// сохраняем id, revision в обьекте
                     this.message.toastInfo('activityUpdated');
@@ -736,7 +755,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             visible: true,
             activityCategory: activityCategory,
             userProfileCreator: this.options.currentUser,
-            content: [this.activity.intervals.PW, ...this.activity.intervals.P, ...this.activity.intervals.G]
+            content: [this.activity.intervals.PW.toTemplate(), ...this.activity.intervals.P.map(i => i.toTemplate()), ...this.activity.intervals.G]
         };
 
         let templateDialogOptions: ICalendarItemDialogOptions = Object.assign({}, this.options, {
@@ -750,10 +769,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
                 groupProfile: null
             }
         });
-        
+
         //return this.$mdDialog.show(templateDialog('post', template, this.options.owner));
         this.calendarDialog.activity(e, templateDialogOptions, templateToActivity(template))
             .then(() => { debugger; });
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 
     split (): void {
@@ -761,11 +784,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
             .then(_ => this.calendarService.split(this.activity.calendarItemId))
             .then(_ => this.message.toastInfo('activitySplited'));
     }
+
 }
 
-const CalendarItemActivityComponent: IComponentOptions = {
+export const CalendarItemActivityComponent: IComponentOptions = {
     bindings: {
         date: '<', // в режиме создания передает дату календаря
+        id: '<',
         activityType: '<', // если создание идет через wizard, то передаем тип тренировки
         activityCategory: '<',
         club: '<',
@@ -774,7 +799,7 @@ const CalendarItemActivityComponent: IComponentOptions = {
         mode: '<', // режим: созадние, просмотр, изменение
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
-        template: '=',
+        template: '=?',
         onCancel: '&',
         onAnswer: '&'
     },

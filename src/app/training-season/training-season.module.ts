@@ -1,5 +1,5 @@
 import { module } from "angular";
-import { StateProvider } from "angular-ui-router";
+import { StateProvider } from "@uirouter/angularjs";
 import { TrainingSeasonFormComponent } from "./training-season-form/training-season-form.component";
 import { TrainingSeasonListComponent } from "./training-season-list/training-season-list.component";
 import { TrainingSeasonService } from "./training-season.service";

@@ -6,13 +6,13 @@
          ng-click="$ctrl.select()">
         <span>{{$ctrl.interval.pos}}</span>
     </div>
-    <span class="md-dark" style="padding-left: 16px; padding-right: 8px; width: 60px" flex="none" ng-if="$ctrl.viewActual">
+    <span class="md-dark" style="padding-left: 16px; padding-right: 8px; width: 60px; white-space: nowrap" flex="none" ng-if="$ctrl.viewActual">
         &nbsp;{{$ctrl.group && $ctrl.viewGroup ?
             $ctrl.interval.totalMeasures.completePercent.avgValue :
             $ctrl.interval.calcMeasures.completePercent.value | percent}}
     </span>
 
-    <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
+    <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.interval.durationMeasure}}.svg" class="md-dark duration"></md-icon>
     <md-menu flex="none" ng-if="!$ctrl.item.activity.view.isView">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -20,7 +20,7 @@
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.durationMeasure track by $index">
                 <md-button ng-click="$ctrl.changeDurationType(measure)">
-                    <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                    <md-icon class="md-dark" md-svg-src="assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
             </md-menu-item>
@@ -31,6 +31,15 @@
         <input measure-input ng-switch-when="movingDuration"
                name="plan_movingDuration"
                ng-model="$ctrl.interval.movingDuration.durationValue"
+               ng-model-options="{ debounce: 500 }"
+               measure="$ctrl.interval.durationMeasure"
+               ng-attr-sport={{$ctrl.sport}} interval="false"
+               ftp-mode="false" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
+               ng-change="$ctrl.changeValue($ctrl.interval.durationMeasure)"
+               ng-disabled="$ctrl.item.activity.view.isView">
+        <input measure-input ng-switch-when="duration"
+               name="plan_movingDuration"
+               ng-model="$ctrl.interval.duration.durationValue"
                ng-model-options="{ debounce: 500 }"
                measure="$ctrl.interval.durationMeasure"
                ng-attr-sport={{$ctrl.sport}} interval="false"
@@ -54,7 +63,7 @@
     </span>
 
     <span flex="auto"></span>
-    <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
+    <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.interval.intensityMeasure}}.svg" class="md-dark intensity"></md-icon>
     <md-menu flex="none" ng-if="!$ctrl.item.activity.view.isView">
         <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
             <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -62,7 +71,7 @@
         <md-menu-content width="3">
             <md-menu-item ng-repeat="measure in $ctrl.intensityMeasure[$ctrl.sport] track by $index">
                 <md-button ng-click="$ctrl.changeIntensityMeasure(measure)">
-                    <md-icon class="md-dark" md-svg-src="/assets/icon/{{measure}}.svg"></md-icon>
+                    <md-icon class="md-dark" md-svg-src="assets/icon/{{measure}}.svg"></md-icon>
                     <span class="md-caption" translate="{{measure}}"></span>
                 </md-button>
             </md-menu-item>

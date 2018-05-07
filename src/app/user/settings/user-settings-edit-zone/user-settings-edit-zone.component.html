@@ -1,0 +1,127 @@
+<md-toolbar style="background-color: white; color: black" flex="none">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+            <md-icon md-svg-icon="/assets/icon/{{::$ctrl.intensityFactor}}.svg"></md-icon>
+        </md-button>
+        <h2>{{$ctrl.intensityFactor | translate}}: {{'sport.'+$ctrl.sport | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{'measurement.toolbar.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-dialog-content flex="auto">
+    <md-list class="md-dense section">
+        <form name="$ctrl.zones">
+            <md-subheader><span translate="user.settings.zones.measures"></span></md-subheader>
+            <md-list-item layout="row">
+                <md-input-container flex class="no-message" ng-repeat="measure in $ctrl.measures track by $index">
+                    <label translate="{{::measure}}"></label>
+                    <input name="{{::measure}}" measure-input
+                           ng-model="$ctrl.settings[measure]"
+                           name="valueFrom"
+                           measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
+                           ng-attr-sport={{$ctrl.sport}}
+                           ng-disabled="false">
+                    <div ng-messages="$ctrl.zones[measure].$error" role="alert">
+                        <div ng-message-exp="['required']" translate="form.required">
+                        </div>
+                        <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}">
+                        </div>
+                    </div>
+                </md-input-container>
+            </md-list-item>
+            <md-subheader><span translate="user.settings.zones.methods"></span></md-subheader>
+            <md-list-item layout="row">
+                <md-input-container flex class="no-message">
+                    <label>{{'user.settings.zones.calculation.method' | translate}}</label>
+                    <md-select flex class="no-border" ng-model="$ctrl.settings.calculateMethod" placeholder="{{'user.settings.zones.calculation.choose' | translate}}">
+                        <md-optgroup ng-repeat="calculation in $ctrl.calculationMethod[$ctrl.intensityFactor] track by $index"
+                                     label="{{::'user.settings.zones.calculation.'+ calculation.type | translate}}" class="md-caption">
+                            <md-option class="md-caption" ng-repeat="method in calculation.method" ng-value="method"
+                                       ng-click="$ctrl.selectMethod(method, $ctrl.intensityFactor)">{{::'user.settings.zones.calculation.' + method | translate}}
+                            </md-option>
+                        </md-optgroup>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
+            <md-divider></md-divider>
+            <md-list-item>
+                <md-table-container class="user-settings-zones-edit__table-container">
+                    <table md-table
+                           md-row-select="$ctrl.options.rowSelection"
+                           multiple="{{$ctrl.options.multiSelect}}"
+                           ng-model="$ctrl.selected"
+                           class="user-settings-zones-edit__table">
+                        <thead ng-if="!$ctrl.options.decapitate" md-head>
+                        <tr md-row>
+                            <th md-column style="width: 10px"><span>#</span></th>
+                            <th md-column><span translate="user.settings.zones.zoneCaption"></span></th>
+                            <th md-column md-numeric><span translate="user.settings.zones.zoneFrom"></span></th>
+                            <th md-column md-numeric><span translate="user.settings.zones.zoneTo"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row
+                            md-select="zone"
+                            md-on-select="change" md-on-deselect="change"
+                            md-select-id="ind"
+                            md-auto-select="$ctrl.options.autoSelect"
+                            ng-repeat="zone in $ctrl.settings.zones track by $index" ng-animate="'animate'">
+                            <td md-cell>{{$index+1}}</td>
+                            <td md-cell>
+                                <md-input-container class="no-border">
+                                    <input type="text" ng-model="zone.code" name="code" required
+                                           style="text-align: left; border-color: rgba(0,0,0,0);"
+                                           ng-disabled="$ctrl.viewMode">
+                                </md-input-container>
+                            </td>
+                            <td md-cell>
+                                <md-input-container style="max-width: 60px">
+                                    <input style="color: rgba(0,0,0,0.54)"
+                                           ng-model="zone.valueFrom"
+                                           measure-input required
+                                           name="valueFrom"
+                                           measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
+                                           ng-attr-sport={{$ctrl.sport}}
+                                           ng-change="$ctrl.checkForm()"
+                                           ng-disabled="$ctrl.viewMode || (!$ctrl.viewMode && !$first)">
+                                </md-input-container>
+                            </td>
+                            <td md-cell>
+                                <md-input-container style="max-width: 60px">
+                                    <input ng-model="zone.valueTo" measure-input required
+                                           name="valueTo"
+                                           name="valueFrom"
+                                           measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
+                                           ng-attr-sport={{$ctrl.sport}}
+                                           ng-change="$ctrl.changeZone($index,zone.valueTo, $ctrl.intensityFactor)"
+                                           ng-disabled="$ctrl.viewMode">
+                                </md-input-container>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </md-list-item>
+        </form>
+    </md-list>
+    <div class="md-caption user-settings-zones-edit__error-block"
+         ng-messages="$ctrl.zones.$error"
+         ng-if="$ctrl.zones.$dirty && $ctrl.zones.$invalid">
+        <div ng-message="required">{{'user.settings.zones.error.required' | translate}}</div>
+        <div ng-message="consistencyPositive">{{'user.settings.zones.error.consistencyPositive' | translate}}</div>
+        <div ng-message="consistencyBetweenValues">{{'user.settings.zones.error.consistencyBetweenValues' | translate}}</div>
+        <div ng-message="consistencyBetweenZones">{{'user.settings.zones.error.consistencyBetweenZones' | translate}}</div>
+    </div>
+</md-dialog-content>
+
+<md-dialog-actions layout="row" flex="none">
+    <span flex></span>
+    <md-button ng-click="$ctrl.onCancel()">{{'form.cancel' | translate}}</md-button>
+    <md-button type="submit"
+               ng-class="{'md-primary': $ctrl.zones.$valid, 'md-warn': $ctrl.zones.$invalid}"
+               ng-click="$ctrl.zones.$valid ? $ctrl.onSave({ response: {intensityFactor: $ctrl.intensityFactor, sport: $ctrl.sport, settings: $ctrl.settings}}) : angular.noop()">{{'form.save' | translate}}</md-button>
+</md-dialog-actions>

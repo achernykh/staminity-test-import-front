@@ -192,7 +192,7 @@ export let translateRequestPanel = {
             action: "Connect with coach",
             A: {
                 title: "Accept request",
-                text: 'Accept start coaching request from athlete? Your daily accruals in your bill is based on connected athletes amount</a>.',
+                text: 'Accept start coaching request from athlete? Your daily accruals in your bill is based on connected athletes amount',
                 confirm: "Accept",
                 cancel: "Cancel",
             },

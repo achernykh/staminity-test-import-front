@@ -4,13 +4,13 @@
                       navigation-bar="false"
                       left-bar="$ctrl.isLargeScreen && $ctrl.panelAuthCheck">
 
-    <st-application-frame-title>
-        <span class="md-title" translate="trainingPlans.builder.fullTitle"></span>
+    <st-application-frame-title layout="row" layout-align="center center">
+        <span flex="none" class="md-title" translate="trainingPlans.builder.fullTitle"></span>
         <!--<span class="md-title" hide show-gt-md>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>-->
-        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <md-icon flex="none" class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <!--<md-truncate class="button" flex hide show-gt-sm>{{$ctrl.currentPlan.name}}</md-truncate>-->
-        <span class="button" hide show-gt-sm ng-click="$ctrl.view($event, $ctrl.currentPlan)">{{$ctrl.currentPlan.name}}</span>
-        <md-menu ng-if="$ctrl.trainingPlans.list.length > 0"  hide show-gt-sm>
+        <span flex="auto" class="button md-truncate" hide show-gt-sm ng-click="$ctrl.view($event, $ctrl.currentPlan)">{{$ctrl.currentPlan.name}}</span>
+        <md-menu flex="none" ng-if="$ctrl.trainingPlans.list.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
@@ -188,7 +188,7 @@
                             accent="accentTotal"
                             update="week.changes"
                             week="week"
-                            owner="$ctrl.owner"
+                            owner="::$ctrl.owner"
                             training-plan-mode="true"
                             plan-id="$ctrl.currentPlan.id"
                             dynamic-dates="$ctrl.dynamicDates"
@@ -198,7 +198,7 @@
                             on-copy="$ctrl.copyItems(items)"
                             on-paste="$ctrl.pasteItems(date)"
                             on-delete="$ctrl.deleteItems(items)">
-                        <div class="md-body-1">Неделя {{$index}}</div>
+                        <div class="md-body-1">Неделя {{::$index}}</div>
                     </calendar-total>
 
                 </div>

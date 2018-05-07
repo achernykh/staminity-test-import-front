@@ -1,4 +1,4 @@
-import { StateDeclaration } from "angular-ui-router";
+import { StateDeclaration } from "@uirouter/angularjs";
 
 export enum FormMode {
     Post,

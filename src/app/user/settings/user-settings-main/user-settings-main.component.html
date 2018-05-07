@@ -1,0 +1,153 @@
+<section class="user-settings__card">
+    <!-- Профиль -->
+    <article id="user-settings-profile">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.profile.header</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-header owner="$ctrl.owner" current-user="$ctrl.currentUser"></st-user-settings-header>
+            <md-divider ng-if="$ctrl.isOwnSettings()"></md-divider>
+            <md-list-item ui-sref="user-settings.profile({userId: $ctrl.owner.userId})" ng-if="$ctrl.isOwnSettings()">
+                <p class="md-body-1">{{ ($ctrl.owner | userSettingsProfileFilter) || ('user.settings.personalInfo.hint' | translate) }}</p>
+                <md-icon class="material-icon md-secondary">keyboard_arrow_right
+                </md-icon>
+            </md-list-item>
+        </md-card>
+        <md-card class="user-settings-main__card" ng-if="$ctrl.isOwnSettings()" >
+            <st-user-settings-is-coach owner="$ctrl.owner" agent-profile="$ctrl.agentProfile"></st-user-settings-is-coach>
+        </md-card>
+        <!--<md-card ng-if="$ctrl.owner.public.isCoach && $ctrl.isOwnSettings()" class="user-settings-main__card">
+            <st-user-settings-is-agent owner="$ctrl.owner" agent-profile="$ctrl.agentProfile"></st-user-settings-is-agent>
+        </md-card>-->
+        <md-card class="user-settings-main__card" ng-if="$ctrl.isOwnSettings()">
+            <md-list>
+                <md-list-item ng-click="$ctrl.showPasswordChange($event)">
+                    <p class="md-body-1">{{ 'user.settings.account.hint' | translate }}: {{$ctrl.owner.email}} #{{$ctrl.owner.userId}}</p>
+                    <md-button class="md-secondary" ng-click="$ctrl.showChangePassword($event)" translate="user.settings.account.newPassword"></md-button>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <md-card class="user-settings-main__card" ng-if="$ctrl.isOwnSettings()">
+            <md-list>
+                <md-list-item ui-sref="user-settings.privacy({userId: $ctrl.owner.userId})">
+                    <p class="md-body-1" translate>user.settings.privacy.hint</p>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+    </article>
+    <!-- Спортивная форма -->
+    <article id="user-settings-fit">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.sportShape.header</h2>
+        <md-card ng-if="$ctrl.isOwnSettings()" class="user-settings-main__card">
+            <md-list>
+                <md-list-item ui-sref="user-settings.fit({userId: $ctrl.owner.userId})">
+                    <p class="md-body-1" translate>user.settings.sportShape.header</p>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <md-card class="user-settings-main__card">
+            <md-list>
+                <md-list-item ui-sref="user-settings.zones({userId: $ctrl.owner.userId})">
+                    <p class="md-body-1" translate>user.settings.zones.hint</p>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+    </article>
+    <!-- Биллинг -->
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-billing">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.billing.header</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-tariffs owner="$ctrl.owner"></st-user-settings-tariffs>
+            <st-user-settings-bills owner="$ctrl.owner"></st-user-settings-bills>
+        </md-card>
+    </article>
+    <!-- Агент -->
+    <article ng-if="$ctrl.isOwnSettings() && $ctrl.agentProfile.isActive && false" id="user-settings-agent">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.agent.header</h2>
+        <md-card class="user-settings-main__card">
+            <md-list>
+                <md-list-item ui-sref="user-settings.cards({userId: $ctrl.owner.userId})">
+                    <div layout="column">
+                        <div class="md-body-1" translate>user.settings.agent.cards.label</div>
+                        <div class="md-body-1 md-dark" ng-if="$ctrl.agentEnvironment.externalAccounts.length" translate>user.settings.agent.cards.has</div>
+                        <div class="md-body-1 md-dark" ng-if="!$ctrl.agentEnvironment.externalAccounts.length" translate style="color: red;">user.settings.agent.cards.none</div>
+                    </div>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <md-card class="user-settings-main__card">
+            <md-list>
+                <md-list-item ui-sref="user-settings.sales({userId: $ctrl.owner.userId})">
+                    <div layout="column">
+                        <div class="md-body-1" translate>user.settings.agent.sales.label</div>
+                        <div class="md-body-1 md-dark">{{$ctrl.agentEnvironment | agentEnvironmentSalesTotal}}</div>
+                    </div>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <md-card ng-repeat="account in $ctrl.agentEnvironment.accounts" class="user-settings-main__card">
+            <st-user-settings-balance owner="$ctrl.owner" account="account"></st-user-settings-balance>
+        </md-card>
+        <md-card ng-if="!$ctrl.agentEnvironment.accounts.length" class="user-settings-main__card">
+            <md-list>
+                <md-list-item>
+                    <div layout="column">
+                        <div class="md-body-2" translate translate-values="{currency:'RUB'}">user.settings.agent.balance.label</div>
+                    </div>
+                    <md-button class="md-secondary" ng-disabled="true" style="text-transform: none; font-weight: normal;">
+                        {{'user.settings.agent.balance.withdraw' | translate}}
+                        <span style="font-weight: bold; color: black;">— RUB</span>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-card>
+        <md-card class="user-settings-main__card">
+            <md-list>
+                <md-list-item ui-sref="user-settings.withdrawal({userId: $ctrl.owner.userId})">
+                    <div layout="column">
+                        <div class="md-body-1" translate>user.settings.agent.withdrawals.label</div>
+                        <div class="md-body-1 md-dark" ng-if="$ctrl.agentEnvironment.lastWithdrawal" translate translate-values="{date:($ctrl.agentEnvironment.lastWithdrawal.created|date:'shortDate'), amount:$ctrl.agentEnvironment.lastWithdrawal.requestedAmount, currency:$ctrl.agentEnvironment.lastWithdrawal.account.currency}">user.settings.agent.withdrawals.last</div>
+                        <div class="md-body-1 md-dark" ng-if="!$ctrl.agentEnvironment.lastWithdrawal" translate>user.settings.agent.withdrawals.none</div>
+                    </div>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+    </article>
+    <!-- Настройки отображения -->
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-display">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.display.header</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-display owner="$ctrl.owner" currentUser="$ctrl.currentUser"></st-user-settings-display>
+        </md-card>
+    </article>
+    <!-- Настройки синхронизации -->
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-sync">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.sync.header</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-sync owner="$ctrl.owner"></st-user-settings-sync>
+        </md-card>
+    </article>
+    <!-- Синхронизация календарей -->
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-calendars">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.calendar.header</h2>
+        <md-card class="user-settings-main__card">
+            <st-user-settings-calendars owner="$ctrl.owner"></st-user-settings-calendars>
+        </md-card>
+    </article>
+    <!-- Настройка уведолмений -->
+    <article ng-if="$ctrl.isOwnSettings()" id="user-settings-notifications">
+        <h2 class="md-body-2 user-settings__card-title " translate>user.settings.notification.header</h2>
+        <md-card class="user-settings-main__card">
+            <md-list>
+                <md-list-item ui-sref="user-settings.notifications({userId: $ctrl.owner.userId})">
+                    <p class="md-body-1" translate>user.settings.notification.header</p>
+                    <md-icon class="material-icon md-secondary">keyboard_arrow_right</md-icon>
+                </md-list-item>
+            </md-list>
+        </md-card>
+    </article>
+</section>

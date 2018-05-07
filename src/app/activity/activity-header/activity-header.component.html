@@ -1,5 +1,5 @@
-<md-toolbar flex="none" class="{{$ctrl.item.activity.status}}">
-    <div class="md-toolbar-tools">
+<md-toolbar flex="none" class="{{$ctrl.item.activity.status}}" ng-if="!$ctrl.isIonic">
+    <div class="md-toolbar-tools" ng-cloak>
         <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 6}}"
                  md-position-mode="target-right target" md-offset="0 60">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -24,6 +24,12 @@
                     <md-button ng-click="$ctrl.item.showSelectAthletes = true">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
                         <span translate="activity.action.addAthletes"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="$ctrl.item.activity.hasActualData">
+                    <md-button ng-click="$ctrl.item.calculateActivityRange(false)">
+                        <md-icon class="material-icons" md-menu-align-target>replay</md-icon>
+                        <span translate="activity.action.recalc"></span>
                     </md-button>
                 </md-menu-item>
                 <md-menu-item ng-if="$ctrl.item.activity.hasActualData">
@@ -77,7 +83,8 @@
                     <activity-header-overview></activity-header-overview>
             </md-tab-body>
         </md-tab>
-        <md-tab id="segments" flex="auto" layout="column" ng-if="$ctrl.item.structuredMode || $ctrl.item.activity.isStructured">
+        <md-tab id="segments" flex="auto" layout="column"
+                ng-if="($ctrl.item.structuredMode || $ctrl.item.activity.isStructured)">
             <md-tab-label><md-icon class="material-icons">format_list_numbered</md-icon></md-tab-label>
             <md-tab-body layout-column layout-fill>
                 <activity-segments flex="auto" layout="column" layout-fill
@@ -119,7 +126,8 @@
                 <activity-header-chat flex="auto" layout="column" layout-fill
                                       activity-id="$ctrl.item.activity.header.id"
                                       social="$ctrl.item.activity.header.social"
-                                      user="$ctrl.item.user" current-user="$ctrl.item.currentUser"
+                                      user="$ctrl.item.options.owner"
+                                      current-user="$ctrl.item.options.currentUser"
                                       coach="$ctrl.item.activity.auth.isMyCoach"
                                       on-update="$ctrl.updateComments(response)">
                 </activity-header-chat>
@@ -130,7 +138,7 @@
             <md-tab-label><md-icon class="material-icons">tune</md-icon></md-tab-label>
             <md-tab-body layout-fill layout-column>
                 <activity-header-zones flex="auto" layout="column" layout-fill
-                                       zones="$ctrl.item.user.trainingZones"
+                                       zones="$ctrl.item.options.owner.trainingZones"
                                        sport="$ctrl.item.activity.header.sportBasic"
                                        has-details="$ctrl.item.activity.hasIntervalDetails">
                 </activity-header-zones>

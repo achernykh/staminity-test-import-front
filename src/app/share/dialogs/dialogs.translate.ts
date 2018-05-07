@@ -59,12 +59,22 @@ export let translateDialogs = {
         // план
         deleteTrainingPlan: "Вы хотите удалить тренировочный план? Эту операцию отменить невозможно",
         deleteSelectedAssignment: "Удалить присвоение плана? Все невыполненные тренировки будут удалены из календаря спортсмена",
+        unpublishTrainingPlan: "Снять план с публикации? Тренировочный план будет удален из магазина планов и недоступен для приобретения",
+        publishTrainingPlan: "Опубликовать план? Тренировочный план будет доступен в магазине",
 
         // split and merge
         mergeActivity: "Объединить плановую и фактическую тренировки?",
-        splitActivity: "Отменить сопоставление плана и факта и разделить тренировку на запланированную и выполненную?"
+        splitActivity: "Отменить сопоставление плана и факта и разделить тренировку на запланированную и выполненную?",
 
-
+        omni: {
+            title: 'Ваш вопрос',
+            userName: 'Имя и Фамилия',
+            userEmail: 'E-mail адрес',
+            subject: 'Тема',
+            contentPlaceholder: 'Ваш вопрос...',
+            post: 'Отправить',
+            confirm: "Нажимая на кнопку 'Отправить', вы даете согласие на <a href='https://legal.staminity.com/ru/privacy.html'>обработку персональных данных</a> "
+        }
 
     },
     en: {
@@ -107,6 +117,7 @@ export let translateDialogs = {
         startClub: "Send request to club?",
         leaveClub: "Leave club?",
         excludeClub: "Drop off from club?",
+        removeAthlete: "Remove athlete?",
 
         // Операции с тренировками
         deleteSelectedItems: "Delete selected activities? Action cannot be undone",
@@ -127,10 +138,22 @@ export let translateDialogs = {
         // план
         deleteTrainingPlan: "Do you want to delete training plan? This operation cannot be undone",
         deleteSelectedAssignment: "Delete training plan assignment? All incompleted activities will be deleted from athlete's calendar",
+        unpublishTrainingPlan: "Remove training plan from store?",
+        publishTrainingPlan: "Publish new traning plan version in Store?",
 
         // split and merge
         mergeActivity: "Merge planned and completed activity?",
-        splitActivity: "Split activity into Planned and Completed?"
+        splitActivity: "Split activity into Planned and Completed?",
+
+        omni: {
+            title: 'Your question',
+            userName: 'Full name',
+            userEmail: 'E-mail address',
+            subject: 'Subject',
+            contentPlaceholder: 'Your question...',
+            post: 'Send',
+            confirm: "By clicking on the 'Send' button you agree with the <a href='https://legal.staminity.com/en/privacy.html'>Privacy Policy</a>"
+        }
 
 
     },

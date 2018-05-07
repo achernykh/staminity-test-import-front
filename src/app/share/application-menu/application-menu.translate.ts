@@ -17,7 +17,7 @@ export const _application_menu = {
         athletes: 'Спортсмены',
         methodology: 'Методология',
         admin: 'Панель администрирования',
-        staminity: 'Стаминити'
+        staminity: 'Staminity'
     },
     en: {
         clubProfile: 'Club profile',

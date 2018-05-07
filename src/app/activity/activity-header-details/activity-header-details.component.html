@@ -1,22 +1,25 @@
-<div ng-if="$ctrl.item.isLoadingRange" class="screen-center-block" style="background-color: white; opacity: 0.5; position: absolute; z-index: 100">
+<div ng-if="$ctrl.item.isLoadingRange" class="screen-center-block"
+     style="background-color: white; opacity: 0.5; position: absolute; z-index: 100">
     <div>
         <img src="/assets/icon/ripple.svg" width="60" height="60"/>
     </div>
 </div>
 
-<section flex="none" class="chart" ng-if="!$ctrl.item.$mdMedia('gt-sm')"
-         ng-switch="$ctrl.completeDetails" layout="column" style="margin-top: 8px; margin-right: 8px; height: 20vh">
+<section flex="none" class="chart" ng-if="!$ctrl.item.$mdMedia('gt-sm') || $ctrl.item.isIonic"
+         ng-switch="$ctrl.completeDetails" layout="column" style="margin-top: 8px; margin-right: 8px; height: 30vh">
 
     <div flex="none" class="loading-chart" ng-switch-when="false"
          layout="column" layout-align="center center">
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
         <p flex="none" class="md-caption md-dark center">loading...</p>
     </div>
-    <activity-metrics-char flex="auto" ng-switch-when="true"
+    <activity-metrics-char ng-cloak
+                           flex="auto" ng-switch-when="true"
                            measures="$ctrl.chartData.measures"
                            data="$ctrl.chartData.data"
                            x="elapsedDuration"
                            smooth="$ctrl.item.activity.header.sportBasic === 'swim' ? 1 : 10"
+                           step="$ctrl.chartData.avgStep"
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.header.sportBasic"

@@ -2,14 +2,16 @@
 import * as d3 from "d3";
 import {Dispatch} from "d3-dispatch";
 import {select} from "d3-selection";
-import {isPace, measureUnit} from "../../../share/measure/measure.constants";
+import {measureUnit} from "../../../share/measure/measure.functions";
 import "./chart.component.scss";
 import { ActivityChartDatamodel } from "./chart.datamodel";
 import { ActivityChartMode, FillType, IActivityChartSettings, IAreaSettings, IGradientPoint } from "./settings/settings.models";
 import { ChangeTracker } from "./utils/changeTracker";
 import { IActivityScales, IScaleInfo, ScaleType } from "./utils/chart.scale";
 import LabelFormatters from "./utils/labelFormatter";
-import scale = L.control.scale;
+import { isPace } from "../../../share/measure/measure.constants";
+//import {scale} from 'leaflet';// L.control.scale;
+//import scale = L.control.scale;
 
 class ActivityChartController implements IComponentController {
 
@@ -21,6 +23,7 @@ class ActivityChartController implements IComponentController {
     private select;
     private x: string;
     private smooth: number;
+    private step: number;
     private changeMeasure: string = null;
     private sport: string;
     private autoZoom: boolean;
@@ -37,6 +40,7 @@ class ActivityChartController implements IComponentController {
     private zoomDispatch: Dispatch<EventTarget>;
     private height: number;
     private width: number;
+    private isReady: boolean;
 
     private $placeholder: any;
     private $interactiveArea: any;
@@ -59,35 +63,46 @@ class ActivityChartController implements IComponentController {
         private activityChartSettings: IActivityChartSettings,
         private $mdMedia: any) {
 
+        console.debug(`chart controller: constructor`);
         this.state = { inTransition: 0, inSelection: false };
         this.changeTracker = new ChangeTracker();
     }
 
     $onInit() {
+        console.debug(`chart controller: $onInit`);
         this.absUrl = this.$location.absUrl().split("#")[0];
         this.zoomDispatch = d3.dispatch("zoom");
         setTimeout(() => {
+            console.debug(`chart controller: $onInit endTimeout`);
             this.prepareData();
             this.prepareConfig();
-        }, 0);
+        }, 1);
     }
 
     $postLink(): void {
+        console.debug(`chart controller: $postLink [w,h] ${this.$element[0].clientWidth} ${this.$element[0].clientHeight}`);
         this.prepareConfig();
         this.$element.ready(() => {
+            console.debug(`chart controller: $postLink element ready [w,h] ${this.$element[0].clientWidth} ${this.$element[0].clientHeight}`);
            setTimeout(() => {
+               console.debug(`chart controller: $postLink element ready endTimeout ${this.$element}`);
+                this.isReady = true;
                 this.prepareConfig();
                 this.preparePlaceholder();
                 this.prepareScales();
                 this.drawChart();
-            }, 0);
+            }, 1);
         });
         if (this.config.autoResizable) {
-            angular.element(this.$window).on("resize", () => this.redraw());
+            angular.element(this.$window).on("resize", () => {
+                console.debug(`chart controller: $postLink resize ${this.$element}`);
+                this.redraw();
+            });
         }
     }
 
     $onChanges(changes: any): void {
+        console.debug(`chart controller: $onChanges`);
         if (this.changeTracker.isFirstChange(changes)) {
             return;
         }
@@ -110,7 +125,12 @@ class ActivityChartController implements IComponentController {
         }
         this.prepareConfig();
         this.prepareData();
-        this.redraw();
+        if (this.isReady) {
+            this.cleanupPlaceholder();
+            this.preparePlaceholder();
+            this.prepareScales();
+            this.drawChart();
+        }
     }
 
     $onDestroy(): void {
@@ -182,10 +202,12 @@ class ActivityChartController implements IComponentController {
     private preparePlaceholder(): void {
         // calc current chart size based on the conteiner size and chart's settings
         //var bounds = this.$element[0].getBoundingClientRect();
+        console.debug(`chart controller: element[w,h]=${this.$element[0].clientWidth} ${this.$element[0].clientHeight},
+         parent[w,h]=${angular.element(document).find("activity-metrics-char")[0].clientWidth} ${angular.element(document).find("activity-metrics-char")[0].clientHeight}`);
         const parent: Element = angular.element(document).find("activity-metrics-char")[0];
 
-        this.width = parent.clientWidth; //Math.max(bounds.width, this.config.minWidth);
-        this.height = parent.clientHeight; //bounds.height;
+        this.width = this.$element[0].clientWidth;//parent.clientWidth; //Math.max(bounds.width, this.config.minWidth);
+        this.height = this.$element[0].clientHeight;//parent.clientHeight; //bounds.height;
         //var aspectRatio = this.height / this.width;
         //if (aspectRatio < this.config.minAspectRation) {
             //this.height = this.width * this.config.minAspectRation;
@@ -288,6 +310,11 @@ class ActivityChartController implements IComponentController {
         scaleInfo.scale.domain(domain);
         scaleInfo.min = min;
         scaleInfo.max = max;
+    }
+
+    private cleanupPlaceholder(): void {
+        this.$interactiveArea.remove();
+        this.$placeholder.remove();
     }
 
     private drawChart(): void {
@@ -950,12 +977,27 @@ class ActivityChartController implements IComponentController {
         //return i !== 0 && (d['elapsedDuration'] - this.chartData.getData(i-1)['elapsedDuration']) <= 10;
         //return d['speed'] !== 1000;
 
-        //console.debug('data:', i, d && d.elapsedDuration, i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).elapsedDuration, d.power, d.speed, d.cadence, d.heartRate);
+        /**console.debug('data:',
+            i,
+            d && d.pause,
+            d && d.elapsedDuration,
+            i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).elapsedDuration,
+            d && d.duration,
+            i !== 0 && this.chartData.getData(i - 1) && this.chartData.getData(i - 1).duration,
+            d.power,
+            d.speed,
+            d.cadence,
+            d.heartRate);**/
 
         if (param && !d[param]) { return false;}
+        if (i === 0) { return true;}
 
-        return i !== 0 && this.chartData.getData(i - 1) && (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
-            (d.duration > this.chartData.getData(i - 1).duration);
+        return !d.pause &&
+            (this.smooth === 0 || (d.elapsedDuration - this.chartData.getData(i - 1).elapsedDuration <= this.chartData.smooth * Math.ceil(this.step * 5)));
+        /*return i !== 0 && this.chartData.getData(i - 1) &&
+            (d.elapsedDuration > this.chartData.getData(i - 1).elapsedDuration) &&
+            (this.smooth === 0 || (d.elapsedDuration - this.chartData.getData(i - 1).elapsedDuration <= Math.max(this.chartData.smooth * 5, 15))) &&
+            (d.duration > this.chartData.getData(i - 1).duration);*/
     }
 
     private getFillColor(areaSettings: IAreaSettings): string {

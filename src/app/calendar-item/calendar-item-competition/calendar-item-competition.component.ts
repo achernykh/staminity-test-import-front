@@ -26,17 +26,18 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     // private
     private form: INgModelController;
     private competition: CalendarItemCompetition;
+    private inAction: boolean = false;
 
     // inject
     static $inject = ['$scope','CompetitionConfig', 'ReferenceService', 'CalendarService', 'TrainingPlansService', 'CalendarItemDialogService', 'message', 'quillConfig', 'dialogs'];
 
-    constructor (private $scope: IScope,
+    constructor (public $scope: IScope,
                  private config: ICompetitionConfig,
                  private referenceService: ReferenceService,
                  private calendarService: CalendarService,
                  private trainingPlansService: TrainingPlansService,
                  private calendarDialog: CalendarItemDialogService,
-                 private message: MessageService,
+                 public message: MessageService,
                  private quillConf: IQuillConfig,
                  private dialogs: any) {
 
@@ -120,6 +121,9 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
     }
 
     save () {
+        console.debug('competition save');
+        this.inAction = true;
+        if (!this.form.$valid) { return; }
         if ( this.competition.view.isPost ) {
             this.calendarService.postItem(this.competition.build())
                 .then(response => this.competition.compile(response),
@@ -129,6 +133,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(competition => this.onAnswer({ formMode: FormMode.Post, item: competition}))
                 .then(() => this.saveItems())
                 .then(() => { this.message.toastInfo('competitionCreated'); this.onCancel(); }, error => {});
+                //.then(() => this.inAction = false); // в мобильном приложениее после сохранения есть тайм-аут для готовности соревнования в календаря. в это время пользователь также может нажимать на кнопку сохранения, что задублирует запись
         }
 
         if ( this.competition.view.isPut ) {
@@ -138,14 +143,17 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(() => Object.assign({}, this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
                 .then(competition => this.onAnswer({ formMode: FormMode.Put, item: competition }))
                 .then(() => this.saveItems())
-                .then(() => { this.message.toastInfo('competitionModified'); this.onCancel();
+                .then(() => {
+                    this.message.toastInfo('competitionModified');
+                    this.onCancel();
                 }, error => this.message.toastError(error));
+                //.then(() => this.inAction = false);
         }
     }
 
     saveTrainingPlanCompetition () {
         if ( this.competition.view.isPost ) {
-            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.competition.build())
+            this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, this.competition.build(), this.competition.isSample)
                 .then(response => this.competition.compile(response),
                     error => { this.message.toastError(error); throw new Error(error); })
                 .then(() => this.competition.setParentId())
@@ -161,7 +169,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 );
         }
         if ( this.competition.view.isPut ) {
-            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.competition.build())
+            this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, this.competition.build(), this.competition.isSample)
                 .then(response => this.competition.compile(response),
                     error => { this.message.toastError(error); throw new Error(error); })
                 .then(() => Object.assign({}, this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
@@ -189,10 +197,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
         return Promise.all(<any>this.competition.items.map(i => {
                 i.item = new Activity(i.item.build(), this.options);
                 if ( this.competition.view.isPost ) {
-                    return this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, i.item.build());
+                    return this.trainingPlansService.postItem(this.options.trainingPlanOptions.planId, i.item.build(), false);
                 }
                 if ( this.competition.view.isPut && i.dirty) {
-                    return this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, i.item.build());
+                    return this.trainingPlansService.putItem(this.options.trainingPlanOptions.planId, i.item.build(), false);
                 }
             })
         );
@@ -226,6 +234,10 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
 
     private close (): void {
         this.onCancel();
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 }
 

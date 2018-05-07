@@ -14,6 +14,14 @@
 	@include animate(4s, 0.5s, 1);
 }
 
+.landing-page {
+	&.md-button.md-fab {
+		position: fixed;
+		bottom: 16px;
+		right: 16px;
+	}
+}
+
 landing-page {
 	.cover-01 { // озеро в тумане
 		background-image: linear-gradient(to top, rgba(#618BB9, 1), rgba(0, 0, 0, 0.40) 30%, rgba(0, 0, 0, 0.60) 73%, rgba(0, 0, 0, 0.76)),

@@ -3,13 +3,27 @@
     <div flex="none"
          ng-class="::{'avatar__40': $ctrl.$mdMedia('gt-sm'), 'avatar__24': !$ctrl.$mdMedia('gt-sm')}"
          ng-click="$ctrl.onUserMenu($mdOpenMenu, $event)"
-         style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}})"></div>
+         style="background-image: url({{'/user/avatar/' | image:$ctrl.user.public.avatar}}); background-size: cover;background-color: darkgrey;"></div>
 
     <md-menu-content width="4">
         <md-menu-item ng-repeat="menu in $ctrl.menu">
             <md-button ng-click="$ctrl.transitionToState(menu.link)">
                 <md-icon class="material-icons" md-menu-align-target>{{::menu.icon}}</md-icon>
                 <span translate>{{::menu.name}}</span>
+            </md-button>
+        </md-menu-item>
+        <!--<md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="$ctrl.toggleFullScreen()">
+                <md-icon class="material-icons">face</md-icon>
+                <span translate="userMenu.fullScreen"></span>
+            </md-button>
+        </md-menu-item>-->
+        <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="$ctrl.omniOpen($event)">
+                <md-icon class="material-icons" md-menu-align-target>error</md-icon>
+                <span translate="userMenu.issue"></span>
             </md-button>
         </md-menu-item>
         <md-menu-divider></md-menu-divider>

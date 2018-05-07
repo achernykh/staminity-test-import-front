@@ -14,6 +14,7 @@ const ActivityChartComponent: IComponentOptions = {
         change: "<",
         changeMeasure: "<",
         sport: "<",
+        step: "<", // средний шаг между elapsedDuration (без учета пауз и остановок)
         autoZoom: "<",
         zoomInClick: "<",
         zoomOutClick: "<",

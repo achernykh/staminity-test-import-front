@@ -4,7 +4,7 @@
                       navigation-bar="false"
                       left-bar="false">
     <st-application-frame-title>
-        <span class="md-title" translate="dashboard.fullTitle"></span>
+        <span class="md-title" translate="{{$ctrl.clubUri ? 'dashboard.clubfullTitle' : 'dashboard.coachfullTitle'}}"></span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <span class="md-title" hide show-gt-sm translate="dashboard.week" translate-values="{date: $ctrl.toolbarDate()}"></span>
     </st-application-frame-title>
@@ -63,7 +63,7 @@
             <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
             <p flex="none" class="md-body-1 md-dark" translate="dashboard.loading"></p>
         </section>
-        <section class="dashboard__content" ng-if="!$ctrl.isLoadingData" layout="column" layout-align="start center">
+        <section class="dashboard__content" ng-if="!$ctrl.isLoadingData && $ctrl.dashboard.calendar" layout="column" layout-align="start center">
             <md-toolbar flex="none" class="dashboard-header md-caption md-dark md-whiteframe-1dp bg-grey-300" hide show-gt-sm>
                 <div class="athlete" translate="dashboard.athlete"></div>
                 <div class="day" style="text-transform: capitalize" ng-repeat="day in $ctrl.weekdayNames">{{day}}</div>

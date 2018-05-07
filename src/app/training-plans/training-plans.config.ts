@@ -1,4 +1,4 @@
-import {StateDeclaration, StateProvider} from "angular-ui-router";
+import {StateDeclaration, StateProvider} from "@uirouter/angularjs";
 import {DefaultTemplate, DisplayView, supportLng} from "../core/display.constants";
 import {_translateTrainingPlans} from "./training-plans.translate";
 

@@ -195,8 +195,9 @@ export class CalendarCtrl implements IComponentController{
                                 this.calendar.delete(item, item.parentId && message.value.parentId || null);
                             }
                             this.calendar.post(message.value as ICalendarItem, message.value.parentId);
+                            this.$scope.$applyAsync();
                         } else {
-                            console.info('training plan builder: item already exist');
+                            console.info('calendar: item already exist');
                         }
                         break;
                         /**this.calendar.delete(this.calendar.searchItem(message.value.calendarItemId), message.value.parentId);
@@ -239,7 +240,9 @@ export class CalendarCtrl implements IComponentController{
      * @param date
      * @returns {{dateStart: string, currentUser: IUserProfile, owner: (IUserProfile|IUserProfileShort), popupMode: boolean, formMode: FormMode, trainingPlanMode: boolean, planId: null}}
      */
-    private getOptions(mode: FormMode = FormMode.Post, date: string = new Date().toISOString()): ICalendarItemDialogOptions {
+    private getOptions(
+        mode: FormMode = FormMode.Post,
+        date: string = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss')): ICalendarItemDialogOptions {
         return {
             dateStart: date,
             currentUser: this.currentUser,

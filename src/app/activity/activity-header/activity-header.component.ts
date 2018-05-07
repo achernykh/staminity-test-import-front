@@ -43,9 +43,13 @@ export class ActivityHeaderCtrl implements IComponentController {
         this.item.layout[key] = !this.item.layout[key];
         window.localStorage.setItem(key, JSON.stringify(this.item.layout[key]));
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
 }
 
-const ActivityHeaderComponent:IComponentOptions = {
+export const ActivityHeaderComponent:IComponentOptions = {
     require: {
         item: '^calendarItemActivity'
     },

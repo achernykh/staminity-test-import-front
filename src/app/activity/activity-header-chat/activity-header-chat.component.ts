@@ -8,7 +8,7 @@ import CommentService from "../../core/comment.service";
 import MessageService from "../../core/message.service";
 import "./activity-header-chat.component.scss";
 
-class ActivityHeaderChatCtrl implements IComponentController {
+export class ActivityHeaderChatCtrl implements IComponentController {
 
     data: any;
     activityId: number;
@@ -16,15 +16,17 @@ class ActivityHeaderChatCtrl implements IComponentController {
     user: IUserProfile;
     currentUser: IUserProfile;
     coach: boolean;
-
-    private comments: IObjectComment[] = [];
-    private text: string = null;
-    private readonly commentType: string = "activity";
-    private inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
+    comments: IObjectComment[] = [];
+    text: string = null;
+    readonly commentType: string = "activity";
+    inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
     onUpdate: (response: Object) => IPromise<void>;
     static $inject = ["CommentService", "message", "$scope"];
 
-    constructor(private comment: CommentService, private message: MessageService, private $scope: IScope) {
+    constructor(
+        public comment: CommentService,
+        public message: MessageService,
+        public $scope: IScope) {
         this.comment.comment$
             .filter((item) => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
                     item.value.userProfile.userId !== this.currentUser.userId)
@@ -32,7 +34,11 @@ class ActivityHeaderChatCtrl implements IComponentController {
     }
 
     $onInit() {
-        this.comment.get(this.commentType, this.activityId, true, 50)
+        this.load();
+    }
+
+    load () {
+        return this.comment.get(this.commentType, this.activityId, true, 50)
             .then((result) => this.comments = result, (error) => this.message.toastError(error))
             .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
@@ -56,6 +62,10 @@ class ActivityHeaderChatCtrl implements IComponentController {
     localDate(date) {
         console.log("date: ", date, moment.utc(date).format("DD MMM HH:mm"), new Date().getTimezoneOffset());
         return moment(date).add("minutes", -1 * (new Date().getTimezoneOffset())).format("DD MMM HH:mm");
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 }
 

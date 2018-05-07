@@ -3,7 +3,7 @@ import { IGroupProfile } from "../../../api/group/group.interface";
 import { IActivityCategory, IActivityTemplate } from "../../../api/reference/reference.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
 import { activityTypes, getType } from "../activity/activity.constants";
-import { measureUnit, measureValue } from "../share/measure/measure.constants";
+import { measureUnit, measureValue } from "../share/measure/measure.functions";
 import { path } from "../share/utility/path";
 
 type ActivityReference = IActivityCategory | IActivityTemplate;
@@ -47,6 +47,20 @@ export const templatesFilters = {
     activityType: ({ activityType }: ReferenceFilterParams) => (template: IActivityTemplate) => !activityType || getTemplateActivityTypeId(template) === activityType.id,
     category: ({ category }: ReferenceFilterParams) => (template: IActivityTemplate) => !category || getTemplateActivityCategoryId(template) === category.id,
     isActive: ({ }: ReferenceFilterParams) =>  (template: IActivityTemplate) => template.visible,
+};
+
+export const categoriesReorder = (categories: IActivityCategory[], order: number[]): IActivityCategory[] => {
+    return categories.map((category) => ({
+        ...category,
+        sortOrder: order.indexOf(category.id)
+    }));
+};
+
+export const templatesReorder = (templates: IActivityTemplate[], order: number[]): IActivityTemplate[] => {
+    return templates.map((template) => ({
+        ...template,
+        sortOrder: order.indexOf(template.id)
+    }));
 };
 
 export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string): string => {

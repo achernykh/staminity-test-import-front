@@ -6,22 +6,25 @@ import { CalendarItemDialogService } from "../../calendar-item-dialog.service";
 import { ICalendarItemDialogOptions } from "../../calendar-item-dialog.interface";
 import { ICompetitionConfig } from "../calendar-item-competition.config";
 
-class CompetitionSingleStageCtrl implements IComponentController {
+export class CompetitionSingleStageCtrl implements IComponentController {
 
     // bind
     type: string;
     distanceType: string;
     items: Array<CompetitionItems>;
     options: ICalendarItemDialogOptions;
+    isView: boolean;
     onChange: () => Promise<any>;
 
     // private
     private readonly opposite = {
         value: {
+            duration: 'distanceLength',
             movingDuration: 'distanceLength',
             distance: 'movingDurationLength'
         },
         unit: {
+            duration: 'distance',
             movingDuration: 'distance',
             distance: 'movingDuration'
         }
@@ -34,9 +37,7 @@ class CompetitionSingleStageCtrl implements IComponentController {
 
     }
 
-    $onInit() {
-
-    }
+    $onInit() { }
 
     open (e: Event, item: Activity): void {
         this.calendarItemDialog.activity(e, this.options, item)
@@ -79,6 +80,7 @@ export const CompetitionSingleStageComponent:IComponentOptions = {
         type: '<',
         distanceType: '<',
         items: '<',
+        isView: '<',
         options: '<',
         onChange: '&'
     },

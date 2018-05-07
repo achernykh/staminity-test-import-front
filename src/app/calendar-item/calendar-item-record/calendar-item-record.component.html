@@ -1,6 +1,6 @@
 <div flex class="calendar-item-record md-whiteframe-8dp" layout="column"
      ng-class="{'full-screen': $ctrl.fullScreenMode}">
-    <md-toolbar flex="none" class="md-primary">
+    <md-toolbar flex="none" class="md-primary" ng-if="!$ctrl.isIonic">
         <div class="md-toolbar-tools">
             <md-menu md-position-mode="target-right target" md-offset="0 60" md-position-mode="target-right target">
                 <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
@@ -8,6 +8,19 @@
                     <md-icon class="material-icons">menu</md-icon>
                 </md-button>
                 <md-menu-content width="4">
+                    <md-menu-item ng-if="$ctrl.record.view.isTrainingPlan && !$ctrl.record.isSample">
+                        <md-button ng-click="$ctrl.setSample(true)">
+                            <md-icon class="material-icons" md-menu-align-target ng-bind="'star'"></md-icon>
+                            <span translate="activity.action.setSample"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="$ctrl.record.view.isTrainingPlan && $ctrl.record.isSample">
+                        <md-button ng-click="$ctrl.setSample(false)">
+                            <md-icon class="material-icons" md-menu-align-target ng-bind="'star_border'"></md-icon>
+                            <span translate="activity.action.unsetSample"></span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
                     <md-menu-item>
                         <md-button ng-click="!$ctrl.record.view.isTrainingPlan ?
                         $ctrl.onDelete() :
@@ -72,7 +85,7 @@
         <!-- Режим просмотра -->
         <md-list ng-if="$ctrl.record.view.isView">
             <md-list-item>
-                <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
+                <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
                 <p flex class="md-caption" ng-if="$ctrl.record.view.isView">{{::'record.' + $ctrl.record.recordHeader.type | translate}}</p>
             </md-list-item>
             <md-list-item>
@@ -85,7 +98,7 @@
             <md-list flex="none" class="md-dense slim-input bg-grey-050">
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
-                        <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
+                        <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
                         <md-select flex ng-model="$ctrl.record.recordHeader.type" class="icon">
                             <md-option ng-repeat="type in $ctrl.config.types track by $index"
                                        value="{{type}}">{{'record.' + type | translate}}
@@ -225,7 +238,7 @@
         </form>
         <md-subheader><span translate="record.description"></span></md-subheader>
         <div flex="auto" class="description">
-            <ng-quill-editor 
+            <ng-quill-editor
                 ng-if="$ctrl.fullScreenMode"
                 ng-model="$ctrl.record.recordHeader.description"
                 placeholder="{{'record.descriptionPlaceholder' | translate}}"
@@ -235,7 +248,7 @@
                 read-only="$ctrl.record.view.isView"
                 st-quill-post-image
             ></ng-quill-editor>
-            <ng-quill-editor 
+            <ng-quill-editor
                 ng-if="!$ctrl.fullScreenMode"
                 ng-model="$ctrl.record.recordHeader.description"
                 placeholder="{{'record.descriptionPlaceholder' | translate}}"
@@ -269,7 +282,7 @@
         <md-button ng-if="!$ctrl.record.view.isView"
                    type="submit"
                    ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
-                   ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
+                   ng-disabled="($ctrl.record.view.isPut && !$ctrl.recordForm.$dirty) || $ctrl.inAction"
                    translate="activity.action.save"
                    ng-click="$ctrl.recordForm.$valid ? $ctrl.saveTrainingPlanRecord() : null">
         </md-button>

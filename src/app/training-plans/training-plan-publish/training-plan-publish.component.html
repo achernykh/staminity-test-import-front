@@ -1,0 +1,48 @@
+<md-toolbar flex="none" class="md-default">
+    <div class="md-toolbar-tools">
+        <h2 class="" translate="trainingPlans.publish.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<div ng-if="!$ctrl.dataLoading" flex="auto" layout="column" layout-align="center center">
+    <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+    <p flex="none" class="md-body-1 md-dark" translate="trainingPlans.loading"></p>
+</div>
+<md-dialog-content ng-if="$ctrl.dataLoading" flex="auto" layout="column" class="bg-grey-050" style="width: 100%">
+    <md-icon flex="none" md-svg-src="/assets/landing/rocket-launch.svg" class="s96" style="margin-top: 16px"></md-icon>
+    <div flex="none" class="md-padding">
+        <p class="md-body-2 md-dark center" translate="trainingPlans.publish.check.title"></p>
+        <p ng-repeat-start="rule in $ctrl.rules" ng-if="$ctrl[rule]">
+            <md-icon class="material-icons" style="margin-right: 20px">check_box</md-icon>
+            <span class="md-body-1" translate="trainingPlans.publish.check.{{rule}}Success" translate-values="$ctrl.plan"></span>
+        </p>
+        <p ng-repeat-end ng-if="!$ctrl[rule]">
+            <md-icon class="material-icons" style="margin-right: 20px">check_box_outline_blank</md-icon>
+            <span class="md-body-2" md-colors="{color: 'default-warn'}"
+                  translate="trainingPlans.publish.check.{{rule}}Fail" translate-values="$ctrl.plan"></span>
+        </p>
+        <!--<p class="md-body-2 md-dark center" translate="trainingPlans.publish.status"></p>
+        <p>
+            <md-icon class="material-icons" style="margin-right: 20px">check</md-icon>
+            <span class="md-body-1" translate="trainingPlans.publish.currentVerison"></span>
+        </p>-->
+    </div>
+    <div flex></div>
+</md-dialog-content>
+<md-dialog-actions ng-if="$ctrl.dataLoading" flex="none" layout="row" style="background: white; width: 100%;">
+    <span flex></span>
+    <md-button class="md-accent" ng-if="$ctrl.plan.storeVersion"
+               ng-click="$ctrl.unpublish()"
+               translate="trainingPlans.actions.unpublish">
+    </md-button>
+    <md-button class="md-primary"
+               ng-class="{'md-warn': false}"
+               ng-disabled="true || !$ctrl.profile || !$ctrl.version || !$ctrl.icon || !$ctrl.background || !$ctrl.items"
+               ng-click="$ctrl.publish()"
+               translate="trainingPlans.actions.publish">
+    </md-button>
+</md-dialog-actions>

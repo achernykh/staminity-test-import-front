@@ -1,6 +1,6 @@
 import './training-plans-list.component.scss';
 import { IComponentOptions, IComponentController, IPromise, IScope } from 'angular';
-import { StateService } from 'angular-ui-router';
+import { StateService } from '@uirouter/angularjs';
 import { TrainingPlansList } from "./training-plans-list.datamodel";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { ITrainingPlanSearchRequest, ITrainingPlanSearchResult } from "@api/trainingPlans";
@@ -14,6 +14,7 @@ class TrainingPlansListCtrl implements IComponentController {
 
     // bind
     plans: TrainingPlansList;
+    customer: boolean;
     filter: ITrainingPlanSearchRequest;
     onEvent: (response: Object) => IPromise<void>;
 
@@ -55,6 +56,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     getTrainingPlanList(): Array<TrainingPlan> {
+        debugger;
         return this.plans.list
             .filter(p =>
                 (!this.filter['isPublic'] || (this.filter['isPublic'] && p.isPublic)) &&
@@ -62,7 +64,12 @@ class TrainingPlansListCtrl implements IComponentController {
                 (!this.filter.type || this.filter.type === 'all' || (this.filter.type && p.type.indexOf(this.filter.type) !== -1)) &&
                 (!this.filter.distanceType || this.filter.distanceType === 'all' || (this.filter.distanceType && p.distanceType.indexOf(this.filter.distanceType) !== -1)) &&
                 (!this.filter.tags || (this.filter.tags && this.filter.tags.every(t => p.tags.indexOf(t) !== -1))) &&
-                (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))));
+                (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))) &&
+                (!this.filter.weekCountFrom || (this.filter.weekCountFrom && p.weekCount >= this.filter.weekCountFrom)) &&
+                (!this.filter.weekCountTo || (this.filter.weekCountTo && p.weekCount <= this.filter.weekCountTo)) &&
+                (!this.filter.hasConsultations || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasConsultations') && p.customData.hasConsultations)) &&
+                (!this.filter.hasOfflineTraining || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasOfflineTraining') && p.customData.hasOfflineTraining)) &&
+                (!this.filter.hasStructuredActivities || p.isStructured));
     }
 
     post (env: Event) {
@@ -71,6 +78,27 @@ class TrainingPlansListCtrl implements IComponentController {
 
     view (env: Event, plan: TrainingPlan) {
         this.open(env, FormMode.View, plan);
+    }
+
+    publish (env: Event, plan: TrainingPlan) {
+        this.trainingPlanDialogService.publish(env, plan)
+            .then(r => {
+                debugger;
+                switch (r.mode) {
+                    case FormMode.Post: {
+                        Object.assign(plan,r.plan);
+                        break;
+                    }
+                    case FormMode.Delete: {
+                        Object.assign(plan,r.plan);
+                        break;
+                    }
+                }
+            });
+    }
+
+    action (env: Event, plan: TrainingPlan): void {
+        this.customer ? this.$state.go('training-plan-preview', {planId: plan.id}) : this.edit(env, plan);
     }
 
     edit (env: Event, plan) {
@@ -94,9 +122,8 @@ class TrainingPlansListCtrl implements IComponentController {
         this.$state.go('training-plan-builder-id', {planId: planId});
     }
 
-    plan (planId: number) {
-        debugger;
-        this.$state.go('training-plan-id', {planId: planId});
+    page (planId: number, state: string) {
+        this.$state.go(state, {planId: planId});
     }
 
     private updateList (list: ITrainingPlanSearchResult): void {
@@ -118,7 +145,7 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     private assignment (env: Event, plan: TrainingPlan): void {
-        this.trainingPlanDialogService.assignment(env, plan)
+        this.trainingPlanDialogService.assignment(env, plan, this.customer)
             .then(response => {debugger;}, error => {debugger;});
     }
 
@@ -141,6 +168,7 @@ class TrainingPlansListCtrl implements IComponentController {
 const TrainingPlansListComponent: IComponentOptions = {
     bindings: {
         plans: '<',
+        customer: '<', // покупатель?
         update: '<',
         filter: '<',
         onEvent: '&'

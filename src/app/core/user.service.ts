@@ -8,7 +8,7 @@ import {
     ISystemMessage
 } from '../../../api';
 import {SocketService, SessionService, getUser, getCurrentUserId} from './index';
-import {PostData, PostFile, IRESTService} from './rest.service';
+import {PostData, PostFile, RESTService} from './rest.service';
 import { IHttpPromise, IHttpPromiseCallbackArg, copy } from 'angular';
 import {Observable} from "rxjs";
 import ReferenceService from "../reference/reference.service";
@@ -30,8 +30,8 @@ export default class UserService {
     constructor(
         private SessionService: SessionService,
         private SocketService: SocketService,
-        private RESTService:IRESTService,
-        private ReferenceService: ReferenceService
+        private RESTService: RESTService,
+        private ReferenceService: ReferenceService // only for init?
     ) {
         this.SessionService.getObservable()
             .map(getCurrentUserId)
@@ -116,7 +116,7 @@ export default class UserService {
     getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
-        ) : 
+        ) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
         /*
@@ -133,8 +133,8 @@ export default class UserService {
      * @returns {Promise<T>}
      */
     putProfile(userChanges: IUserProfile) : Promise<IUserProfile> {
-        let needRefresh: boolean = userChanges.hasOwnProperty('trainingZones') || userChanges.hasOwnProperty('public');
-
+        debugger;
+        let needRefresh: boolean = Object.keys(userChanges).length > 4;//userChanges.hasOwnProperty('trainingZones') || userChanges.hasOwnProperty('public');
         return this.SocketService.send(new PutUserRequest(userChanges))
         .then((result) => result.value)
         .then(({ revision }) => {

@@ -1,5 +1,5 @@
 import * as _connection from "../env.js";
-import { StateService } from "angular-ui-router";
+import { StateService } from "@uirouter/angularjs";
 import { SessionService, IConnectionSettings, Deferred } from "../index";
 import { Observable, Subject, Subscription } from "rxjs/Rx";
 import LoaderService from "../../share/loader/loader.service";
@@ -12,26 +12,30 @@ export class SocketService {
     // public
     connections: Subject<boolean> = new Subject(); // наблюдаемая переменная которая следит за открытием/закрытием соединения с сокетом
     messages: Subject<any> = new Subject(); // наблюдаемая переменная в которую транслируются все данные из сокета
+    backgroundState: boolean = false; // отслеживание состояния приложения
+    internetState: boolean = navigator.onLine; // отслеживание состояния сети интернет
+    socketStarted: boolean = null; // состояние соединения с сервером
+    buffer: Array<IWSRequest | IWSResponse> = [];
 
     // private
     private ws: WebSocketSubject<Object>; // наблюдаемая переменная WebSocketSubject
     private socket: Subscription; // переменная для подписки на ws
     private initRequest: Deferred<boolean>;// new Deferred<boolean>()
-    private socketStarted: boolean = null;
     private requests: Array<Deferred<any>> = []; // буфер запросов к серверу
     private requestId: number = 1;
     private lastMessageTimestamp: number = null; // время получения последнего сообщения от сервера, в том числе hb
     private pendingIntervalLink: any; //
+    private bufferMaxLength: number = 50;
 
     static $inject = ['ConnectionSettingsConfig', 'SessionService', 'LoaderService', '$state', 'message'];
 
     constructor (private settings: IConnectionSettings,
-                 private session: SessionService,
+                 public session: SessionService,
                  private loader: LoaderService,
                  private $state: StateService,
-                 private messageService: MessageService) {
+                 public messageService: MessageService) {
 
-        this.connections.subscribe((status: boolean) => this.socketStarted = status);
+        this.connections.subscribe(status => this.socketStarted = status);
     }
 
     /**
@@ -40,59 +44,45 @@ export class SocketService {
      * @returns {Promise<boolean>}
      */
     init (): Promise<boolean> {
-        console.info(`socket service: init start`);
         if ( this.socketStarted ) { return Promise.resolve(true);}
         if (!this.initRequest) {
             this.initRequest = new Deferred<boolean>();
             setTimeout(() => {
-                console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
+                //console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
+                // Если сессия открыта и это был первый запрос по сессии, то
+                // возращаем resolve по первому запросу
                 if ( this.socketStarted && this.initRequest ) {
                     this.initRequest.resolve(true);
-                } else if ( this.initRequest ) {
+                } else if ( this.initRequest ) { // если сессия не открыта за время таймаута, то возращаем reject
                     this.initRequest.reject(false);
                 }
             }, this.settings.delayOnOpen);
         }
-        this.open();
+        this.open(); // попытка открытия сессии
         return this.initRequest.promise;
-
-        /**return new Promise<boolean>((resolve, reject) => {
-            setTimeout(() => {
-                console.info(`socket service: init end by timeout, status=${this.socketStarted}`);
-                if ( this.socketStarted ) {
-                    // Свзяь с сервером есть
-                    //this.connections.next(true);
-                    //console.log('socket: resolve true');
-                    return resolve(true);
-                } else {
-                    // Свзязи с сервером нет
-                    //this.connections.next(false);
-                    //console.log('socket: reject false');
-                    return reject(false);
-                }
-            }, this.settings.delayOnOpen);
-        });**/
     }
     /**
      * Открытие сессии
      * @param token
      */
     open (token: string = this.session.getToken()): void {
-        if ( this.socket && !this.socket.closed ) { return; }
-
+        if ( this.socket && !this.socket.closed ) { return; } // already open
         try {
             this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
             this.socket = this.ws.subscribe({
                 next: (message: IWSResponse) => {
+                    // Если сессия находится в статусе закрыта, то при первом удачном получение сообщения
+                    // переводим статус сессии в открыта
                     if ( !this.socketStarted ) {
+                        console.debug('socket service: connection open');
                         this.connections.next(true);
                     }
                     if (this.initRequest) {
                         this.initRequest.resolve(true);
                     }
-                    this.messages.next(message);
-                    this.response(message);
-                    this.check();
+                    this.messages.next(message); // передаем сообщение в публичный поток
+                    this.response(message); // обрабатываем полученное сообщение
+                    this.check(); // check connection with server by heartBeat & any messages
                 },
                 error: () => this.close(),
                 complete: () => this.close()
@@ -116,11 +106,18 @@ export class SocketService {
         setTimeout(() => {
             let now = Date.now();
             if ( this.lastMessageTimestamp && (now - this.lastMessageTimestamp) >= this.settings.delayOnHeartBeat ) {
-                this.connections.next(false);
-                this.socket.unsubscribe();
-                this.pendingSession();
+                this.reopen();
             }
         }, this.settings.delayOnHeartBeat);
+    }
+
+    /**
+     * Переотркытие сессии
+     */
+    public reopen (): void {
+        this.connections.next(false);
+        if (this.socket) { this.socket.unsubscribe(); }
+        this.init().then(() => {}, () => this.pendingSession());
     }
 
     /**
@@ -137,6 +134,7 @@ export class SocketService {
      * @param message
      */
     public response (message: IWSResponse) {
+        this.storage(message);
         if ( message.hasOwnProperty('requestId') && this.requests[message.requestId] ) {
             let request: Deferred<any> = this.requests[message.requestId];
             this.loader.hide();
@@ -149,7 +147,7 @@ export class SocketService {
         } else if ( message.hasOwnProperty('errorMessage') && message.errorMessage === 'badToken' ) {
             this.close();
             this.messageService.toastInfo(message.errorMessage);
-            this.$state.go('signin');
+            this.$state.go('signin'); // need check for mobile app
         }
     }
 
@@ -157,7 +155,9 @@ export class SocketService {
      * Закрытие сессии
      */
     close () {
-        this.ws.complete();
+        console.debug('socket service: close');
+        this.connections.next(false);
+        if (this.ws) { this.ws.complete(); }
         this.initRequest = null;
         this.lastMessageTimestamp = null;
         if (this.pendingIntervalLink) {
@@ -172,18 +172,19 @@ export class SocketService {
      * @returns {any}
      */
     public send (request: IWSRequest): Promise<any> {
-        console.info(`socket service: send request ${request.requestType}`);
         /**
          * Можно будет раскоментировать после перехода на Angular 4
          */
         if ( !this.socketStarted ) { // если соединение не установлено
             //return Promise.reject('internetConnectionLost');
         }
-        if ( !this.session.getToken() ) { // если пользователь не авторизован
-            return Promise.reject('userNotAuthorized');
-        }
+        // если пользователь не авторизован
+        if ( !this.session.getToken() ) { return Promise.reject('userNotAuthorized');}
+        if ( this.backgroundState ) { return Promise.reject('applicationInBackgroundMode');}
+
         request.requestId = this.requestId++;
         this.requests[request.requestId] = new Deferred<boolean>();
+        this.storage(request);
         /**
          * После перехода на Angular 4 можно будет перенести инициализацию веб-сокета в конфигурацию модуля, а сейчас
          * функция init() вернет сразу success, если сессия доступна, или асинхронно запустит ее создание и полученный
@@ -207,5 +208,16 @@ export class SocketService {
                 throw new Error('internetConnectionLost');
             }
         );
+    }
+
+    /**
+     * Сохраняем историю входящих и исходящих запросов
+     * @param item
+     */
+    private storage (item: IWSRequest | IWSResponse): void {
+        this.buffer.push(Object.assign(item, {timestamp: new Date().toLocaleTimeString()}));
+        if (this.buffer.length >= this.bufferMaxLength) {
+            this.buffer.splice(this.bufferMaxLength - 1);
+        }
     }
 }

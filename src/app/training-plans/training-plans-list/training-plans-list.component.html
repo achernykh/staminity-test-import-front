@@ -1,43 +1,58 @@
-<md-list id="training-plans-list__table" class="training-plans-list md-dense" ng-if="$ctrl.totalFound > 0 || $ctrl.plans.list.length > 0">
-    <!--<md-subheader ng-if="$ctrl.totalFound > 0">
-        <span translate="trainingPlans.filterResult"></span>
-        <span ng-bind="$ctrl.totalFound"></span>
-    </md-subheader>-->
+<md-list id="training-plans-list__table"
+         class="training-plans-list md-dense bg-grey-100"
+         ng-if="$ctrl.totalFound > 0 || $ctrl.plans.list.length > 0">
     <md-list-item class="md-2-line"
-                  ng-click="$ctrl.edit($event, plan)"
+                  ng-click="$ctrl.action($event, plan)"
                   ng-repeat-start="plan in $ctrl.getTrainingPlanList() track by plan.id">
-
-        <div class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
+        <img ng-if="plan.icon" ng-src="{{'/plan/icon/' | image:plan.icon }}" class="md-avatar" alt="avatar" />
+        <div  ng-if="!plan.icon" class="md-avatar calendar-item-competition-icon color-{{::plan.type}}"
              layout="row" layout-align="center center">
             <md-icon class="s24 md-light"
                      md-svg-src="/assets/icon/{{::plan.type}}.svg">
             </md-icon>
             <div class="public"></div>
         </div>
-
         <div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
-            <h3> {{ plan.name }} </h3>
-            <p class="md-caption keywords">
-                <span class="keyword" ng-if="plan.distanceType"
+            <p class="md-body-2" style="line-height: 20px"> {{ plan.name }} </p>
+            <p class="md-caption md-truncate" style="font-weight: 400">
+                <span class="tag" ng-if="plan.distanceType"
                       md-colors="{background: 'accent-300'}">
                     {{'competition.distanceType.' + plan.type + '.' + plan.distanceType | translate}}</span>
-                <span class="keyword" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-300'}">
+                <span class="tag" ng-repeat="tag in plan.tags" md-colors="{background: 'primary-300'}">
                     {{'trainingPlans.tags.' + tag | translate}}</span>
-                <span class="keyword" ng-repeat="word in plan.keywords" ng-bind="word"></span>
+                <span class="tag" ng-repeat="word in plan.keywords" ng-bind="word"></span>
             </p>
         </div>
-        <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
-            <md-icon class="material-icons">landscape</md-icon>
-        </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.assignment($event, plan)">
-            <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
-            <span translate="trainingPlans.actions.assignment"></span>
-        </md-button>
-        <md-button class="md-secondary md-icon-button" ng-click="$ctrl.calendar(plan.id)">
-            <md-icon class="material-icons">date_range</md-icon>
+        <md-button ng-if="plan.isPublished"
+                   class="md-secondary"
+                   ng-class="{'md-accent md-hue-2': plan.hasUpdateForStore}"
+                   ng-disabled="!plan.hasUpdateForStore"
+                   ng-click="$ctrl.publish($event, plan)">
+            <md-tooltip ng-bind="(plan.hasUpdateForStore ? 'trainingPlans.hasUpdateForStore' : 'trainingPlans.published') | translate"></md-tooltip>
+            <md-icon class="material-icons">shopping_cart</md-icon>
+            <span ng-if="plan.storeVersion">V {{plan.storeVersion}}</span>
+
         </md-button>
 
-        <md-menu class="md-secondary">
+        <span class="md-secondary md-body-1 md-dark" ng-if="$ctrl.customer && plan.state === 'P'" translate="trainingPlans.state.pending"></span>
+        <md-icon class="md-secondary material-icons" ng-if="plan.propagateMods">sync</md-icon>
+        <!--<md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.publish($event, plan)">
+            <md-icon class="material-icons">publish</md-icon>
+        </md-button>
+        <md-button class="md-secondary md-icon-button" ng-if="plan.isPublic" ng-click="$ctrl.plan(plan.id)">
+            <md-icon class="material-icons">pageview</md-icon>
+        </md-button> -->
+        <md-button ng-if="$ctrl.customer" class="md-secondary md-icon-button"
+                   ng-disabled="plan.state === 'P'"
+                   ng-click="$ctrl.assignment($event, plan)">
+            <md-icon class="material-icons" md-menu-align-target>group_add</md-icon>
+            <span translate="trainingPlans.actions.assignment"></span>
+        </md-button><!--
+        <md-button class="md-secondary md-icon-button" ng-if="!$ctrl.customer" ng-click="$ctrl.calendar(plan.id)">
+            <md-icon class="material-icons">date_range</md-icon>
+        </md-button>-->
+
+        <md-menu class="md-secondary" ng-if="!$ctrl.customer">
             <md-button class="md-icon-button " ng-click="$mdOpenMenu($event)" aria-label="More">
                 <md-icon class="material-icons md-18"
                          aria-label="More">more_vert
@@ -56,10 +71,23 @@
                         <span translate="trainingPlans.actions.appoint"></span>
                     </md-button>
                 </md-menu-item>
+                <md-divider></md-divider>
                 <md-menu-item ng-if="plan.isPublic">
-                    <md-button ng-click="$ctrl.plan(plan.id)">
-                        <md-icon class="material-icons" md-menu-align-target>landscape</md-icon>
-                        <span translate="trainingPlans.actions.view"></span>
+                    <md-button ng-click="$ctrl.publish($event, plan)">
+                        <md-icon class="material-icons">publish</md-icon>
+                        <span translate="trainingPlans.actions.publish"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="plan.isPublic && plan.storeVersion">
+                    <md-button ng-click="$ctrl.page(plan.id, 'plan')">
+                        <md-icon class="material-icons" md-menu-align-target>pageview</md-icon>
+                        <span translate="trainingPlans.actions.viewStore"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item ng-if="plan.isPublic">
+                    <md-button ng-click="$ctrl.page(plan.id, 'training-plan-preview')">
+                        <md-icon class="material-icons" md-menu-align-target>pageview</md-icon>
+                        <span translate="trainingPlans.actions.viewHistory"></span>
                     </md-button>
                 </md-menu-item>
                 <md-divider></md-divider>
@@ -76,7 +104,7 @@
     <md-divider ng-repeat-end></md-divider>
 </md-list>
 
-<div class="training-plans-list__create">
+<div class="training-plans-list__create" ng-if="!$ctrl.customer">
     <md-button id="training-plans-list__fab"
                ng-click="$ctrl.post($event)"
                class="md-fab md-accent md-hue-2 animated bounce zoomIn">

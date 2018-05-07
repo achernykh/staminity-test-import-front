@@ -1,5 +1,5 @@
 import { IComponentController, IComponentOptions, ILocationService} from "angular";
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angularjs";
 import { Observable } from "rxjs/Observable";
 import {IUserProfile} from "../../../../api";
 import {IAuthService} from "../../auth/auth.service";
@@ -7,6 +7,7 @@ import {SessionService} from "../../core";
 import DisplayService from "../../core/display.service";
 import "./landingpage.component.scss";
 import { saveUtmParams } from "../../share/location/utm.functions";
+import { OmniService } from "../../share/omni/omni.service";
 
 class LandingPageCtrl implements IComponentController {
 

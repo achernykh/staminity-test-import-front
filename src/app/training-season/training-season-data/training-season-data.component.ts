@@ -29,7 +29,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
 
     constructor (private $scope: IScope,
                  private $mdEditDialog: any,
-                 private $filter: IFilterService,
+                 private $filter: any,
                  private trainingSeason: TrainingSeasonService,
                  private periodizationService: PeriodizationService) {
 
@@ -81,7 +81,7 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     change (cycle: Microcycle, pos?: number): void {
-        if ( cycle.mesocycle.id ) {
+        if ( cycle.mesocycle && cycle.mesocycle.id ) {
             cycle.mesocycle = Object.assign({},this.getMesocycle(cycle.mesocycle.id));
         } else { return; }
         //if ( pos >= 0) { this.recalcMesoWeekNumber(); }
@@ -151,15 +151,14 @@ class TrainingSeasonDataCtrl implements IComponentController {
     }
 
     editDurationValue (event: Event, cycle: any): void {
-
         let _this = this;
         event.stopPropagation(); // in case autoselect is enabled
-
+        let translate: any = this.$filter('translate') as any;
         let editDialog = {
             modelValue: cycle.durationValue,
-            placeholder: this.$filter('translate')(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
+            placeholder: translate(`trainingSeason.inputPlaceholder.${cycle.durationMeasure}`),
             save: function (input) {
-                if (!Number(input.$modelValue.replace(/\,/g,'.'))) {
+                if (typeof input.$modelValue === 'string' && !Number(input.$modelValue.replace(/\,/g,'.'))) {
                     input.$invalid = true;
                     //return Promise.reject();
                     throw new Error('please provide number');
@@ -174,11 +173,9 @@ class TrainingSeasonDataCtrl implements IComponentController {
                 //'md-maxlength': 30
             }
         };
-
         let promise: Promise<any>;
         //promise = this.$mdEditDialog.large(editDialog);
         promise = this.$mdEditDialog.small(editDialog);
-
         promise.then(function (ctrl) {
             let input = ctrl.getInput();
             input.$viewChangeListeners.push(function () {

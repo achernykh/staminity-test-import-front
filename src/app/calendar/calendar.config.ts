@@ -1,4 +1,4 @@
-import {StateProvider, StateDeclaration, StateService} from 'angular-ui-router';
+import {StateProvider, StateDeclaration, StateService} from '@uirouter/angularjs';
 import {_translate} from './calendar.translate';
 import { DisplayView, DefaultTemplate } from "../core/display.constants";
 import UserService from "../core/user.service";

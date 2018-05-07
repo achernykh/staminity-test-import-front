@@ -10,7 +10,7 @@ import {Subject} from "rxjs/Rx";
 import AuthService from "@app/auth/auth.service";
 import { saveUtmParams } from "../share/location/utm.functions";
 
-class SearchCtrl implements IComponentController {
+export class SearchCtrl implements IComponentController {
 
     // bind
     data: any;
@@ -28,9 +28,9 @@ class SearchCtrl implements IComponentController {
     private defaultState: string = 'coaches';
     private currentState: string = null;
     private stateParam: string = 'state';
-    private usersFilter: SearchParams = {};
-    private coachesFilter: SearchParams = {};
-    private coachesAndClubsFilter: Array<SearchParams>;
+    usersFilter: SearchParams = {};
+    coachesFilter: SearchParams = {};
+    coachesAndClubsFilter: Array<SearchParams>;
     private usersFilterChange: number = 0;
     private coachesFilterChange: number = 0;
     private clubsFilterChange: number = 0;
@@ -46,7 +46,7 @@ class SearchCtrl implements IComponentController {
                 private $stateParams: any,
                 private $location: ILocationService,
                 private authService: AuthService,
-                private searchService: SearchService,
+                public searchService: SearchService,
                 private message: MessageService) {
 
         saveUtmParams($location.search());

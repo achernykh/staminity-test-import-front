@@ -1,5 +1,5 @@
 import {IComponentController, IComponentOptions} from "angular";
-import {MapOptions} from "leaflet";
+import {MapOptions, GeoJSON} from "leaflet";
 import "./activity-route.component.scss";
 import ActivityRouteDatamodel from "./activity-route.datamodel";
 
@@ -30,8 +30,8 @@ class ActivityRouteCtrl implements IComponentController {
         this.leafletData.getMap()
             .then((map) => {
                 map.fitBounds(this.select.length === 0 ?
-                    this.map.route.map((e) => L.GeoJSON.coordsToLatLng([e.lng, e.lat])) :
-                    this.map.selectCoordinates.map((e) => L.GeoJSON.coordsToLatLng([e.lng, e.lat])));
+                    this.map.route.map((e) => GeoJSON.coordsToLatLng([e.lng, e.lat])) :
+                    this.map.selectCoordinates.map((e) => GeoJSON.coordsToLatLng([e.lng, e.lat])));
                 map.invalidateSize();
             });
     }

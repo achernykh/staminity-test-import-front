@@ -1,4 +1,4 @@
-import {StateDeclaration, StateProvider} from "angular-ui-router";
+import {StateDeclaration, StateProvider} from "@uirouter/angularjs";
 import {DefaultTemplate, DisplayView} from "../core/display.constants";
 import {_translateSearch} from "./search.translate";
 //import {ITranslateProvider} from "angular-translate";

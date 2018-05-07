@@ -5,8 +5,10 @@ import { CalendarItemActivityCtrl } from '../calendar-item-activity.component';
 export const ActivityCompactComponent: IComponentOptions = {
     bindings: {
         view: '<',
+        disableActions: '<',
         selected: '<',
         data: '<',
+        id: '<',
         options: '<',
         onCancel: '&',
         onAnswer: '&'

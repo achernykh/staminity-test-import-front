@@ -36,6 +36,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     // Дополнительные поля для отрисовки в бэке
     isSelected: boolean; // сегмент выделен
     distance: IDurationMeasure;
+    duration: IDurationMeasure;
     movingDuration: IDurationMeasure;
     heartRate: IIntensityMeasure;
     power: IIntensityMeasure;
@@ -55,7 +56,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
     ];
 
     hasRecalculate: boolean = false;
-    keys: string[] = ["params", "calcMeasures", "isSelected", "distance", "movingDuration",
+    keys: string[] = ["params", "calcMeasures", "isSelected", "distance", "duration", "movingDuration",
         "heartRate", "power", "speed", "speed", "zones", "limit", "opposite", "index", "ftpMeasures", "keys",
         "hasRecalculate", "totalMeasures"];
 
@@ -63,6 +64,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
         super(type, params);
 
         this.distance = this.distance || new DurationMeasure();
+        this.duration = this.duration || new DurationMeasure();
         this.movingDuration = this.movingDuration || new DurationMeasure();
 
         this.heartRate = this.heartRate || new IntensityMeasure();
@@ -75,7 +77,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     private prepareDuration() {
 
-        ["distance", "movingDuration"].forEach((m) => !this[m].durationValue && Object.assign(this[m], {
+        ["distance", "duration", "movingDuration"].forEach((m) => !this[m].durationValue && Object.assign(this[m], {
             durationValue: (this.durationMeasure === m && this.durationValue) || null,
         }));
     }
@@ -143,6 +145,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
             isSelected: this.isSelected,
 
             distance: this.distance,
+            duration: this.duration,
             movingDuration: this.movingDuration,
             heartRate: this.heartRate,
             speed: this.speed,
@@ -215,7 +218,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     approxCalc(measure, ftp: {[measure: string]: number}): any[] {
 
-        if (this.durationMeasure === "movingDuration" &&
+        if ((this.durationMeasure === "duration" || this.durationMeasure === "movingDuration") &&
             this.intensityMeasure === "speed") {
             return [this.durationValue,
                 this.durationValue * (this.intensityLevelFrom + this.intensityLevelTo) / 2,
@@ -227,7 +230,7 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
                 this.durationValue,
                 false, false];
 
-        } else if (this.durationMeasure === "movingDuration" &&
+        } else if ((this.durationMeasure === "duration" || this.durationMeasure === "movingDuration") &&
             (this.intensityMeasure === "heartRate" || this.intensityMeasure === "power")) {
             const speed: number = this.approxSpeed(measure, ftp);
             return [this.durationValue, this.durationValue * speed, false, true];

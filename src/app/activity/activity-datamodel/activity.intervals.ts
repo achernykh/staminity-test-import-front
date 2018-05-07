@@ -90,7 +90,11 @@ export class ActivityIntervals {
                 if(typeof i === 'object') {
                     switch (i['type']) {
                         case 'P': {
-                            this.setParams(i['type'], i['pos'], {calcMeasures: i['calcMeasures']});
+                            this.setParams(i['type'], i['pos'], {
+                                calcMeasures: i['calcMeasures'],
+                                startTimestamp: i['startTimestamp'],
+                                endTimestamp: i['endTimestamp']
+                            });
                             break;
                         }
                         case 'G': {
@@ -231,7 +235,7 @@ export class ActivityIntervals {
      * @param params
      */
     setValue(type: string = 'P', id: string | number, params: Object):void {
-
+        debugger;
         let i: number = this.find(type,id);
         if (i !== -1) {
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];

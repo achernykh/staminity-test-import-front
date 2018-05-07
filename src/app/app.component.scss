@@ -1,14 +1,4 @@
-@import '../sass/color'; // цвета используемых палитр google-material
-@import '../sass/size'; // переменные для постояние стилей компоеннтов
-@import '../sass/animation'; // настройка animated.css
-@import '../sass/interactions'; // стилизация взаимодействий (курсоры, hover, ...)
-@import '../sass/font'; // кастомизация стардартных шрифтов material design
-@import '../sass/icon'; // google material icon + различные форматы и цвета
-@import "../sass/layout"; // фикс стандартных angular material параметров, например добаление flex-2
-@import "../sass/form"; // кастимозация типовых элементов для собственной концепции дизайна, фикс стандартных стилей
-@import '../sass/base'; // mixin transition, border-radius... + мусор, который надо чистить
-@import "../sass/material-fix";
-
+@import "../sass/index";
 //----------------------------------------------------------------------------------------------------------------------
 // Окно большинства Представлений представляет собой область экрана, параметры которой:
 // 1) на 60px отсупает от верхнего края экрана - там расолжен header с названием Представления, кнопкой меню
@@ -34,13 +24,13 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 body {
-	@media (max-width: 960px) {
+	/*@media (max-width: 960px) {
 		position: fixed;
 		left: 0;
 		right: 0;
 		top: 0;
 		bottom: 0;
-	}
+	}*/
 }
 
 .app-layer {
@@ -117,7 +107,7 @@ section.margin {
 	}
 }
 
-ng-quill-editor {
+ng-quill-editor, .quill {
 	display: block;
 	font-family: Roboto !important;
 
@@ -144,8 +134,14 @@ ng-quill-editor {
 		border-bottom: 1px solid #ccc !important;
 	}
 
-	.ql-snow .ql-editor img {
+	.ql-snow .ql-editor img, &.quill-data img {
 		//width: 100% !important;
+		max-width: 100%;
+		height: auto;
+	}
+
+	.ql-snow .ql-editor iframe, &.quill-data iframe {
+		width: 100%;
 	}
 
 	.ql-editor .ql-video {
@@ -153,9 +149,20 @@ ng-quill-editor {
 	}
 
 	.ql-editor ol, .ql-editor ul {
-		padding-left: 0px !important;
+		padding-left: 0 !important;
 	}
 
+	.ql-snow .ql-editor p {
+		-webkit-margin-before: 0.5em;
+		-webkit-margin-after: 0.5em;
+		-webkit-margin-start: 0;
+		-webkit-margin-end: 0;
+	}
+
+}
+
+iframe {
+	border: none;
 }
 
 

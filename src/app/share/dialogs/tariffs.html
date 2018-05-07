@@ -15,7 +15,7 @@
 
             <md-list-item ng-repeat="tariff in tariffs" layout="row" layout-align="center center">
                 <span flex>{{ 'dialogs.' + tariff | translate }}</span>
-                <md-switch ng-model="isChecked(tariff)" ng-model-options="{getterSetter: true}" ng-disabled="tariffsBySelf.includes(tariff)"></md-switch>
+                <md-switch ng-model="isChecked(tariff)"ng-model-options="{getterSetter: true}" ng-disabled="tariffsBySelf.includes(tariff)"></md-switch>
             </md-list-item>
 
             <md-list-item ng-if="tariffsBySelf.length" layout="row" layout-align="center center">

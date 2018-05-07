@@ -1,3 +1,5 @@
+@import "color";
+
 // https://github.com/angular/material/issues/1967
 .md-dialog-container {
     position: fixed;
@@ -32,3 +34,17 @@ md-toolbar.md-default {
 md-sidenav.st-fixed {
   position: fixed;
 }
+
+//
+md-toast.md-center {
+  position: fixed !important;
+  bottom: 0;
+  left: 50%;
+}
+
+md-toast.md-left, md-toast.md-bottom {
+  position: fixed !important;
+  bottom: 0;
+}
+
+md-toast.md-warn .md-toast-text {  color: $red-500;  }

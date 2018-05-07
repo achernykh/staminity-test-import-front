@@ -110,6 +110,7 @@
                            data="$ctrl.chartData.data"
                            x="$ctrl.chartX"
                            smooth="$ctrl.smooth"
+                           step="$ctrl.chartData.avgStep"
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"
                            sport="$ctrl.item.activity.header.sportBasic"
@@ -174,7 +175,7 @@
                          max="$ctrl.chartData.max"
                          selected="$ctrl.item.selectedTimestamp"
                          sport="$ctrl.item.activity.header.sportBasic"
-                         zones="$ctrl.item.user.trainingZones"
+                         zones="$ctrl.item.options.owner.trainingZones"
                          on-selected="$ctrl.item.selectIntervalIndex(initiator,selection)">Data table...
     </measure-split-table>
 

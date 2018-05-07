@@ -1,6 +1,6 @@
 import * as angular from "angular";
 import {IComponentController, IComponentOptions, IPromise} from "angular";
-import {LocationServices, StateService} from "angular-ui-router";
+import {LocationServices, StateService} from "@uirouter/angularjs";
 import { Observable } from "rxjs/Observable";
 import {Subject} from "rxjs/Rx";
 import {IGroupMembershipRequest, INotification, IUserProfile, Notification} from "../../../../api";

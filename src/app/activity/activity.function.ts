@@ -8,6 +8,7 @@ import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {ITrainingZonesType, IUserProfile, ITrainingZones} from "../../../api/user/user.interface";
 import {getFTP, profileShort} from "../core/user.function";
 import moment from 'moment/min/moment-with-locales.js';
+import {IActivityInterval, IActivityIntervals} from "@api/activity";
 
 export class MeasureChartData {
 

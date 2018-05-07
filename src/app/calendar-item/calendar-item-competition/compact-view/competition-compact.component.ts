@@ -2,7 +2,7 @@ import './competition-compact.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import { CalendarItemCompetitionCtrl } from "../calendar-item-competition.component";
 
-const CompetitionCompactComponent:IComponentOptions = {
+export const CompetitionCompactComponent:IComponentOptions = {
     bindings: {
         index: '<',
         item: '<',

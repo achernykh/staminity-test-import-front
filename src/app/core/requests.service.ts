@@ -23,7 +23,7 @@ export default class RequestsService {
     public resetRequests = () => {
         this.getMembershipRequest(0, 100)
         .then((requests) => { 
-            this.requests = requests.sort(requestsOrder); 
+            this.requests = requests.sort(requestsOrder);
             this.requestsChanges.next(this.requests);
         });
     }
@@ -52,6 +52,11 @@ export default class RequestsService {
             .filter((message) => message.type === 'groupMembershipRequest')
             .map((message) => message.value)
             .share();
+    }
+
+    get badge (): number {
+        return this.requests.filter(r =>
+            r.receiver.userId === this.SessionService.getUser().userId && !r.updated).length;
     }
 
     clear (): void {

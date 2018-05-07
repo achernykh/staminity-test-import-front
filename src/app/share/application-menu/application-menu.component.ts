@@ -1,6 +1,6 @@
 import * as angular from "angular";
 import { IComponentController, IComponentOptions, IScope} from "angular";
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angularjs";
 import {Subject} from "rxjs/Rx";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {IAuthService} from "../../auth/auth.service";
@@ -32,7 +32,6 @@ class ApplicationMenuCtrl implements IComponentController {
         session.getObservable()
         .takeUntil(this.destroy)
         .map(getUser)
-
         .subscribe((profile) => this.user = angular.copy(profile));
 
         session.getObservable()

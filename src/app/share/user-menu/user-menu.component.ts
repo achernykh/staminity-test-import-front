@@ -1,11 +1,13 @@
 import './user-menu.component.scss';
 import { IComponentController, IComponentOptions, ILocationService} from "angular";
-import {StateService} from "angular-ui-router";
+import {StateService} from "@uirouter/angularjs";
 import { Subject } from "rxjs/Rx";
 import {IUserProfile} from "../../../../api";
 import { getUser, SessionService } from "../../core";
 import DisplayService from "../../core/display.service";
 import { UserMenuSettings } from "../application-menu/application-menu.constants";
+import { OmniService } from "../omni/omni.service";
+import MessageService from "../../core/message.service";
 
 class UserMenuCtrl implements IComponentController {
 
@@ -13,7 +15,7 @@ class UserMenuCtrl implements IComponentController {
     private user: IUserProfile;
     private destroy = new Subject();
 
-    static $inject = ["$mdSidenav", "$mdMedia", "$location", "SessionService", "$state", "DisplayService"];
+    static $inject = ["$mdSidenav", "$mdMedia", "$location", "SessionService", "$state", "DisplayService", "OmniService", 'message'];
 
     constructor(
         private $mdSidenav: any,
@@ -22,6 +24,8 @@ class UserMenuCtrl implements IComponentController {
         private SessionService: SessionService,
         private $state: StateService,
         private display: DisplayService,
+        private omniService: OmniService,
+        private message: MessageService
     ) {
         SessionService.getObservable()
         .takeUntil(this.destroy)
@@ -41,6 +45,11 @@ class UserMenuCtrl implements IComponentController {
         $mdOpenMenu(ev);
     }
 
+    omniOpen(e: Event) {
+        this.omniService.open(e)
+            .then(_=> this.message.toastInfo('omniMessagePost'), e => this.message.toastError('omniMessagePostError'));
+    }
+
     transitionToState(url) {
         if (this.$state.current.name === url) {
             return;
@@ -54,6 +63,10 @@ class UserMenuCtrl implements IComponentController {
                 this.$state.go(url, {uri: this.user.public.uri});
             }
         }
+    }
+
+    toggleFullScreen(): void {
+        //document.requestFullScreen();
     }
 }
 

@@ -46,4 +46,32 @@
       width: 100%;
     }
   }
+
+  &__list, &__table {
+    //border-radius: 3px;
+    //margin: 0px 4px 8px 4px;
+    min-width: 200px;
+    //padding-bottom: 0px;
+    height: 60px;
+
+    .calendar-item-record-icon {
+      margin-right: 16px;
+    }
+    .calendar-item-record-header {
+      height: 100%;
+      border-radius: 3px;
+      margin: 0;
+    }
+    .name {
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      line-height: 16px;
+      max-height: 16px;
+    }
+
+  }
 }

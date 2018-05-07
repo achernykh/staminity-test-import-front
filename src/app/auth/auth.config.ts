@@ -1,4 +1,4 @@
- import {StateDeclaration, StateProvider, StateService} from "angular-ui-router";
+ import {StateDeclaration, StateProvider, StateService} from "@uirouter/angularjs";
  import {SessionService} from "../core";
  import {_display_view, DisplayView} from "../core/display.constants";
  import {_translate} from "./auth.translate";

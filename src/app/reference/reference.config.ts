@@ -1,9 +1,7 @@
 import { merge } from "angular";
-import { StateDeclaration, StateProvider, StateService } from "angular-ui-router";
-
+import { StateDeclaration, StateProvider, StateService } from "@uirouter/angularjs";
 import { IGroupProfile } from "../../../api/group/group.interface";
 import { IUserProfile } from "../../../api/user/user.interface";
-
 import AuthService from "../auth/auth.service";
 import { isMember } from "../club/club.datamodel";
 import {SessionService} from "../core";

@@ -1,19 +1,21 @@
-<md-dialog class="iframe-dialog">
-    <md-toolbar>
+<md-dialog id="iframe" class="iframe-dialog">
+    <md-toolbar ng-if="$ctrl.title">
         <div class="md-toolbar-tools">
-            <h2 >{{ $ctrl.title }}</h2>
+            <h2>{{$ctrl.title | translate}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="$ctrl.close()">
                 <md-icon class="material-icons">close</md-icon>
             </md-button>
         </div>
     </md-toolbar>
-
-    <md-dialog-content>
-
-        <iframe ng-attr-src="{{$ctrl.trust($ctrl.url)}}" sandbox="allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts" seamless="seamless" height="560px" scrolling="auto" align="middle">
-            
+    <md-dialog-content style="overflow: hidden; min-width: 380px;">
+        <iframe ng-attr-src="{{$ctrl.trust($ctrl.url)}}"
+                sandbox="allow-forms allow-popups allow-pointer-lock allow-same-origin allow-scripts"
+                seamless="seamless"
+                height="600"
+                scrolling="auto"
+                align="middle"
+                style="width: 100%;">
         </iframe> 
-
     </md-dialog-content>
 </md-dialog>

@@ -4,10 +4,10 @@ import {
     ResetPasswordRequest, PutUserInviteRequest
 } from '../../../api/';
 import {SessionService, SocketService} from "../core";
-import {PostData, IRESTService} from '../core/rest.service';
+import {PostData, RESTService} from '../core/rest.service';
 import {IHttpPromise, IHttpPromiseCallbackArg, IPromise} from 'angular';
 import GroupService from "../core/group.service";
-import {toDay} from "../activity/activity.datamodel";
+import {toDay} from "../activity/activity-datamodel/activity.datamodel";
 import ReferenceService from "../reference/reference.service";
 import NotificationService from "../share/notification/notification.service";
 import RequestsService from "../core/requests.service";
@@ -25,7 +25,7 @@ export interface IAuthService {
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPlanAthletes(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
-    signIn(request:Object):IPromise<void>;
+    signIn(request:Object): Promise<any>;
     signUp(request:Object):IHttpPromise<{}>;
     signOut():void;
     confirm(request:Object):IHttpPromise<{}>;
@@ -44,7 +44,7 @@ export default class AuthService implements IAuthService {
 
     constructor(
         private SessionService: SessionService,
-        private RESTService:IRESTService,
+        private RESTService: RESTService,
         private SocketService: SocketService,
         private GroupService:GroupService,
         private referenceService: ReferenceService,
@@ -86,24 +86,26 @@ export default class AuthService implements IAuthService {
     }
 
     isMyAthlete(user: IUserProfile = null) : Promise<any> {
-        if (!user) {
-            throw 'userNotFound';
+        if (!user) { return Promise.reject('userNotFound'); }
+        if (!this.SessionService.getUser().connections.hasOwnProperty('allAthletes') ||
+            !   this.SessionService.getUser().connections.allAthletes.groupMembers) { return Promise.reject('coachConnectionsNotFound'); }
+
+        if ( this.SessionService.getUser().connections.allAthletes.groupMembers.some(a => a.userId === user.userId) ) {
+            return Promise.resolve();
+        } else {
+            return Promise.reject('forbidden_InsufficientRights');
         }
 
-        let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
+        /**let groupId = this.SessionService.getUser().connections['allAthletes'].groupId;
         if (groupId) {
             return this.GroupService.getManagementProfile(groupId, 'coach')
                 .then((result) => {
                     let athletes: Array<any> = result.members;
                     if (!athletes || !athletes.some(member => member.userProfile.userId === user.userId)) {
-                        throw 'forbidden_InsufficientRights';
-                    } else {
-                        return true;
-                    }
+                        return Promise.reject('forbidden_InsufficientRights');
+                    } else { return Promise.resolve(); }
                 });
-        } else {
-            throw 'groupNotFound';
-        }
+        } else { return Promise.reject('groupNotFound'); }**/
     }
 
     isMyClub(uri: string) : Promise<any> {
@@ -132,7 +134,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    signUp(request) : IHttpPromise<{}> {
+    signUp(request) : IHttpPromise<any> {
         return this.RESTService.postData(new PostData('/signup', request));
     }
 
@@ -141,26 +143,33 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>|Promise<TResult2|TResult1>|Promise<TResult>|*|Promise.<TResult>}
      */
-    signIn(request) : IPromise<void> {
+    signIn(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/signin', request))
-            .then((response: IHttpPromiseCallbackArg<any>) => {
+            .then((response: IHttpPromiseCallbackArg<any>) =>
+                response.data.hasOwnProperty('userProfile') &&
+                response.data.hasOwnProperty('token') &&
+                this.signedIn(response.data));
+            /*.then(profile => )
                 if(response.data.hasOwnProperty('userProfile') && response.data.hasOwnProperty('token')) {
                     this.signedIn(response.data);
                     return response.data['userProfile'];
-                } else {
-                    throw new Error('dataError');
-                }
-            });
+                } else { throw new Error('dataError');}})
+            .then(() => this.signedIn());*/
     }
 
-    signedIn(sessionData: any) {
+    signedIn(sessionData: any): Promise<any> {
         this.SessionService.set(sessionData);
-        this.SocketService.open(sessionData['token']);
-        this.referenceService.resetCategories();
-        this.referenceService.resetTemplates();
-        this.notificationService.resetNotifications();
-        this.requestService.resetRequests();
-        this.userService.resetConnections();
+        return this.SocketService.init()
+            .then( _ => {
+                this.referenceService.resetCategories();
+                this.referenceService.resetTemplates();
+                this.notificationService.resetNotifications();
+                this.requestService.resetRequests();
+                this.userService.resetConnections();
+            }, _ => {
+                throw new Error('auth signin: ws connections disable');
+            })
+            .then( _ => this.SessionService.getUser());
     }
 
     signOut() {

@@ -22,13 +22,14 @@ export const membersFilters: Array<Filter<MembersFilterParams, IGroupManagementP
 export const membersOrderings: {
     [key: string]: (member: IGroupManagementProfileMember) => string | number;
 } = {
-    username: (member) => `${member.userProfile.public.firstName} ${member.userProfile.public.lastName}`,
+    username: (member) => `${member.userProfile.public.lastName} ${member.userProfile.public.firstName}`,
     tariff: (member) => member["billing"] && member["billing"].map((t) => t.tariffCode).join(","),
     city: (member) => member.userProfile.public["city"],
     ageGroup: (member) => member.userProfile.public["sex"],
     roles: (member) => member.roleMembership.join(" "),
     coaches: (member) => member.coaches.join(","),
     athletes: (member) => this.athletes(member).map((a) => a.userProfile.userId).join(","),
+    ftpWatt: (member) => member.userProfile.trainingZones['power']['bike'].FTP || member.userProfile.trainingZones['power']['default'].FTP
 };
 
 /**

@@ -1,0 +1,17 @@
+<div class="user-settings-header__background"
+     style="background-image: url({{$ctrl.owner.public.background | userBackground}})">
+    <userpic class="user-settings-header__avatar size-60 border-light"
+             ng-mouseover="show=true" ng-mouseleave="show=false"
+             profile="$ctrl.owner"
+             is-premium="$ctrl.owner.isPremium" unlink="true">
+        <md-button ng-click="$ctrl.uploadAvatar()"
+                   ng-show='show && ($ctrl.currentUser.userId === $ctrl.owner.userId)'
+                   class="user-settings-header__edit-avatar">{{ 'form.edit' | translate }}</md-button>
+    </userpic>
+    <div>
+        <md-button ng-click="$ctrl.uploadBackground()"
+                   ng-show='$ctrl.currentUser.userId === $ctrl.owner.userId'
+                   class="user-settings-header__edit-background flat">{{ 'form.edit' | translate }}</md-button>
+    </div>
+    <div class="user-settings-header__username md-title">{{ $ctrl.owner | userName }}</div>
+</div>

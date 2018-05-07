@@ -1,0 +1,22 @@
+<form name="$ctrl.form">
+    <md-list class="md-dense section">
+        <md-list-item ng-repeat-start="group in $ctrl.datamodel.groups">
+            <div class="md-subheader-inner user-setting-privacy__subheader">
+                <div class="" translate="{{'user.settings.privacy.groups.'+group.key | translate }}"></div>
+                <div class="hint secondary dark" translate="{{'user.settings.privacy.groups.'+ group.key + 'Hint' | translate }}"></div>
+            </div>
+        </md-list-item>
+        <md-list-item ng-repeat-end>
+            <md-select flex class="" ng-model="group.setup" ng-change="$ctrl.form.$setDirty(true)" arial-label="Privacy Level">
+                <md-option class="" ng-value="level.id" ng-repeat="level in $ctrl.privacyLevels" translate="{{::'user.settings.privacy.level.id' + level.id | translate}}"></md-option>
+            </md-select>
+        </md-list-item>
+    </md-list>
+</form>
+
+<div class="user-settings__fab">
+    <md-button class="md-fab md-accent md-hue-2"
+               ng-disabled="!$ctrl.form.$dirty" ng-class="{'md-warn': !$ctrl.form.$valid}" ng-click="$ctrl.submit()">
+        <md-icon class="material-icons">save</md-icon>
+    </md-button>
+</div>

@@ -16,6 +16,7 @@ interface IActivityMetrics<T> {
     speed: T;
     heartRate: T;
     altitude: T;
+    elapsedDuration: T;
 }
 
 export interface ITimestampInterval {
@@ -29,11 +30,14 @@ export class ActivityChartDatamodel implements IComponentController {
     private data: Array<IActivityMetrics<number>>;
     private selectIntervals: ITimestampInterval[];
 
-    constructor(measures, private originalData: Array<IActivityMetrics<number>>, x, select = [], smooth) {
+    constructor(measures, private originalData: Array<IActivityMetrics<number>>, x, select = [], public smooth) {
         this.measures = measures;
         //this.data = data;
         this.data = [];
-        originalData.map((d,i) => i % smooth === 0 && this.data.push(d));
+        this.smooth = originalData.length &&
+            originalData[originalData.length - 1].elapsedDuration <= 30 * 60 ? 1 :
+            Math.ceil(smooth / Math.sqrt(60*60/originalData[originalData.length - 1].elapsedDuration)) || smooth;
+        originalData.map((d,i) => i % this.smooth === 0 && this.data.push(d));
         this.selectIntervals = select || [];
     };
 

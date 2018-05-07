@@ -1,15 +1,23 @@
-import { StateDeclaration } from "angular-ui-router";
+import { StateDeclaration } from "@uirouter/angularjs";
 import { SessionService } from "../core";
 import { TrainingPlansService } from "./training-plans.service";
 
-const trainingPlanSearch: any = {
-    name: 'training-plans-search',
-    url: '/training-plans/search',
+const trainingPlanStore: any = {
+    name: 'training-plans-store',
+    url: '/training-plans/store',
+    params: {
+        state: null,
+        ownerId: null,
+        tags: null,
+        type: null,
+        distanceType: null,
+        lang: null
+    },
     loginRequired: false,
     authRequired: [],
     views: {
         "application": {
-            component: 'trainingPlansSearch'
+            component: 'trainingPlansStore'
         }
     }
 };
@@ -42,15 +50,32 @@ const trainingPlanBuilderId: any = {
     }
 };
 
-const trainingPlanId: any = {
-    name: 'training-plan-id',
-    url: '/training-plan/?planId',
+const trainingPlanPreview: any = {
+    name: 'training-plan-preview',
+    url: '/training-plan-preview/?planId',
     loginRequired: false,
     authRequired: [],
     resolve: {
         currentUser: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
-        plan: ['$stateParams', 'TrainingPlansService', ($stateParams, trainingPlansService: TrainingPlansService) =>
-            trainingPlansService.get(Number($stateParams.planId))]
+        planId: ['$stateParams', ($stateParams) => JSON.parse($stateParams.planId)],
+        store: () => false
+    },
+    views: {
+        "application": {
+            component: 'stTrainingPlan'
+        }
+    }
+};
+
+const trainingPlanLanding: any = {
+    name: 'plan',
+    url: '/plan/?planId',
+    loginRequired: false,
+    authRequired: [],
+    resolve: {
+        currentUser: ['SessionService', (SessionService: SessionService) => SessionService.getUser()],
+        planId: ['$stateParams', ($stateParams) => JSON.parse($stateParams.planId)],
+        store: () => true
     },
     views: {
         "application": {
@@ -60,4 +85,4 @@ const trainingPlanId: any = {
 };
 
 export const trainingPlansState: Array<StateDeclaration> =
-    [trainingPlanSearch, trainingPlanBuilder, trainingPlanBuilderId, trainingPlanId];
+    [trainingPlanStore, trainingPlanBuilder, trainingPlanBuilderId, trainingPlanPreview, trainingPlanLanding];

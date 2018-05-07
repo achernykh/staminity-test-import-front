@@ -21,7 +21,7 @@ interface Select {
 interface SelectionOptions<T> {
     [index: string]: any;
 }
-class ActivityHeaderDetailsCtrl implements IComponentController {
+export class ActivityHeaderDetailsCtrl implements IComponentController {
 
     hasImport: boolean;
     hasDetails: boolean;

@@ -1,17 +1,20 @@
 <form flex="auto" layout="column" name="$ctrl.item.assignmentForm">
-<activity-assignment ng-if="!$ctrl.item.showTemplate"
-                     flex="auto" layout="column" class="activity-assignment"
-                     plan="$ctrl.item.activity.intervals.PW"
-                     actual="$ctrl.item.activity.intervals.W.calcMeasures"
-                     sport="$ctrl.item.activity.header.sportBasic"
-                     form="$ctrl.item.assignmentForm"
-                     editable="!$ctrl.item.activity.view.isView"
-                     ftp-mode="$ctrl.item.ftpMode"
-                     change="$ctrl.item.templateChangeCount"
-                     on-change="$ctrl.onChangeForm(plan,actual,form)">
-</activity-assignment>
+    <activity-assignment ng-if="!$ctrl.item.showTemplate"
+                         flex="auto" layout="column" class="activity-assignment"
+                         plan="$ctrl.item.activity.intervals.PW"
+                         actual="$ctrl.item.activity.intervals.W.calcMeasures"
+                         sport="$ctrl.item.activity.header.sportBasic"
+                         form="$ctrl.item.assignmentForm"
+                         editable="!$ctrl.item.activity.view.isView"
+                         ftp-mode="$ctrl.item.ftpMode"
+                         change="$ctrl.item.templateChangeCount"
+                         on-change="$ctrl.onChangeForm(plan,actual,form)">
+    </activity-assignment>
 
-<activity-assignment-buttons></activity-assignment-buttons>
+    <activity-assignment-buttons
+            is-form-valid="$ctrl.item.assignmentForm.$valid"
+            flex="none">
+    </activity-assignment-buttons>
 </form>
 
 

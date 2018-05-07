@@ -120,6 +120,7 @@ export const translateCompetition = {
             delete: "Delete competition"
         },
         types: {
+            all: 'All',
             triathlon: "Triathlon",
             run: "Running",
             bike: "Cycling",
@@ -128,6 +129,7 @@ export const translateCompetition = {
         },
         distanceType: {
             label: "Competition type",
+            all: 'All',
             run: {
                 'marathon': "Marathon",
                 'halfMarathon': "Half marathon",

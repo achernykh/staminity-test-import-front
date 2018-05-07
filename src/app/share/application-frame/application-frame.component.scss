@@ -12,8 +12,8 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
   /**
   Шаблон с Навигационной панелью
    */
-  &[nav-bar] {
-    
+  &.nav-bar {
+
     .st-application-frame__primary-toolbar {
       height: $app-max-bar-height-mobile;
       @media (min-width: 960px) { height: $app-max-bar-height; }
@@ -72,7 +72,7 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     }
 
     // Шаблон профиля с навигационной панелью
-    &[nav-bar] {
+    &.nav-bar, &[nav-bar] {
       .st-profile-template__header > .info {
         height: calc(100% - 48px);
         overflow: hidden;

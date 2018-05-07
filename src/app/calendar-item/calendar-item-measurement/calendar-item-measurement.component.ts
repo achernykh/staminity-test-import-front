@@ -10,7 +10,7 @@ import { FormMode } from "../../application.interface";
 const _FEELING: Array<string> = [ 'sentiment_very_satisfied', 'sentiment_satisfied', 'sentiment_neutral',
     'sentiment_dissatisfied', 'sentiment_very_dissatisfied' ];
 
-class CalendarItemMeasurementCtrl {
+export class CalendarItemMeasurementCtrl {
 
     // bind
     data: ICalendarItem;
@@ -18,6 +18,7 @@ class CalendarItemMeasurementCtrl {
 
     // private
     measurement: CalendarItem;
+    private inAction: boolean = false;
 
 
     private feeling: Array<string> = _FEELING;
@@ -28,29 +29,31 @@ class CalendarItemMeasurementCtrl {
 
     constructor (private CalendarService: CalendarService,
                  private SessionService: SessionService,
-                 private message: IMessageService) {
+                 public message: IMessageService) {
     }
 
     $onInit () {
-        debugger;
         this.measurement = new CalendarItem(this.data, this.options);
         this.measurement.prepare();
     }
 
     save () {
+        this.inAction = true;
         if (this.measurement.view.isPost) {
             this.CalendarService.postItem(this.measurement.package())
                 .then(response => this.measurement.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo('measurementCreated'))
                 .then(() => this.onAnswer({ formMode: FormMode.Post, item: this.measurement }),
-                    error => this.message.toastError(error));
+                    error => this.message.toastError(error))
+                .then(() => this.inAction = false);
         }
         if (this.measurement.view.isPut) {
             this.CalendarService.putItem(this.measurement.package())
                 .then(response => this.measurement.compile(response)) // сохраняем id, revision в обьекте
                 .then(() => this.message.toastInfo('measurementUpdated'))
                 .then(() => this.onAnswer({ formMode: FormMode.Put, item: this.measurement }),
-                    error => this.message.toastError(error));
+                    error => this.message.toastError(error))
+                .then(() => this.inAction = false);
         }
     }
 
@@ -60,6 +63,10 @@ class CalendarItemMeasurementCtrl {
                 this.message.toastInfo('measurementDeleted');
                 this.onAnswer({ formMode: FormMode.Delete, item: this.measurement });
             }, error => this.message.toastError(error));
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 }
 

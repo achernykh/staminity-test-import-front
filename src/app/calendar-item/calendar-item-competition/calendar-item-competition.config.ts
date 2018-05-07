@@ -1,6 +1,6 @@
 export interface ICompetitionStageConfig {
     activityTypeId: number;
-    durationMeasure: 'distance' | 'movingDuration';
+    durationMeasure: 'distance' | 'duration' | 'movingDuration';
     durationValue?: number;
     distanceLength?: number;
     movingDurationLength?: number;
@@ -25,7 +25,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'marathon',
             stages: [{
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 42.195*1000
                 }
             ]

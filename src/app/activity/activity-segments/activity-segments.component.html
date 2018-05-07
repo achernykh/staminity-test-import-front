@@ -1,4 +1,11 @@
-<md-content flex="auto" layout="column">
+<div ng-if="$ctrl.item.activity.isCompleted && !$ctrl.item.activity.hasIntervalDetails"
+     class="screen-center-block"
+     style="background-color: white; opacity: 0.5; position: absolute; z-index: 100">
+    <div>
+        <img src="/assets/icon/ripple.svg" width="60" height="60"/>
+    </div>
+</div>
+<md-content flex="auto" layout="column" ng-if="!$ctrl.item.activity.isCompleted || ($ctrl.item.activity.isCompleted && $ctrl.item.activity.hasIntervalDetails)">
     <md-list flex="none" class="md-dense slim-input bg-grey-100" layout="column">
         <md-list-item flex="none">
             <div class="md-caption" style="color: #455A64" ng-if="!$ctrl.item.activity.isCompleted">
@@ -13,7 +20,7 @@
                 <span translate="activity.segments.total"></span>
                 <span>{{$ctrl.intervals.W.movingDuration() | measureCalc:$ctrl.item.activity.header.sportBasic:'movingDuration'}}</span>
                 <span>{{$ctrl.intervals.W.distance() | measureCalc:$ctrl.item.activity.header.sportBasic:'distance'}}</span>
-                <span>{{'distance' | measureUnit:$ctrl.item.header.activity.header.sportBasic}}</span>
+                <span>{{'distance' | measureUnit:$ctrl.item.activity.header.sportBasic}}</span>
             </div>
 
             <p class="md-caption md-dark md-secondary" ng-class="{'md-inactive': !$ctrl.ftpMode}"
@@ -27,12 +34,12 @@
     </md-list>
     <!-- Показываем график сегментов если 1) мобильный вид 2) если десктоп и нет детальных данных -->
     <activity-segment-chart flex="none"
-                            ng-if="!$ctrl.item.$mdMedia('gt-sm') || ($ctrl.item.$mdMedia('gt-sm') && !$ctrl.item.activity.hasActualData)"
+                            ng-if="!$ctrl.item.$mdMedia('gt-sm') || $ctrl.item.isIonic || ($ctrl.item.$mdMedia('gt-sm') && !$ctrl.item.activity.hasActualData)"
                             style="margin: 8px 16px; height: 150px"
                             activity-header="$ctrl.intervals.stack"
                             actual-ftp="::$ctrl.item.activity.isCompleted"
                             plan-ftp="true"
-                            duration-measure="movingDuration"
+                            duration-measure="'movingDuration'"
                             view="'mobile'"
                             change="$ctrl.item.changeStructuredAssignment"
                             on-select="$ctrl.onChartSelection(segmentId)">
@@ -59,8 +66,7 @@
     <section ng-if="!$ctrl.item.activity.view.isView" class="action-panel" flex="none"
              layout="row" layout-align="center center">
         <md-button ng-click="$ctrl.addInterval()" flex="33" class="bg-grey-200">
-            <!--<md-icon class="material-icons">add_circle</md-icon>-->
-            <span class="md-caption">&nbsp;Добавить</span>
+            <span class="md-caption" translate="activity.action.add"></span>
             <md-menu flex="none" class="add">
                 <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -69,7 +75,7 @@
                     <md-menu-item ng-repeat="(type,obj) in $ctrl.scenario[$ctrl.item.activity.header.sportBasic] track by $index" ng-if="type !== 'default'">
                         <md-button ng-click="$ctrl.addInterval(type)">
                             <md-icon class="md-dark" md-svg-src="/assets/icon/duration.svg"></md-icon>
-                            <span class="md-caption" translate="activity.segments.add.{{type}}"></span>
+                            <span class="md-caption" style="margin-left: 8px" translate="activity.segments.add.{{type}}"></span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -83,7 +89,7 @@
             <span class="md-caption" translate="activity.segments.key"></span>
         </md-checkbox>
         <md-button ng-if="$ctrl.selectedInterval().length > 0" ng-click="$ctrl.delete()" flex="33" class="bg-grey-200">
-            <md-icon class="material-icons">delete</md-icon><span class="md-caption" translate="activity.delete"></span>
+            <md-icon class="material-icons">delete</md-icon><span class="md-caption" translate="activity.action.delete"></span>
         </md-button>
     </section>
     <md-divider></md-divider>
@@ -102,5 +108,8 @@
                            on-change="$ctrl.update(reason)">
     </structured-assignment>
 </md-content>
-<activity-assignment-buttons></activity-assignment-buttons>
+<activity-assignment-buttons
+        is-form-valid="$ctrl.item.assignmentForm.$valid"
+        flex="none">
+</activity-assignment-buttons>
 </form>

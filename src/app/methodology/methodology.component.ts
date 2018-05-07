@@ -128,7 +128,6 @@ class MethodologyCtrl implements IComponentController {
         if (this.navBarStates.indexOf(state) === -1) { return; }
         this.currentState = state;
         this.$location.search('state', state);
-        //this.$scope.$applyAsync();
     }
 
     private setPeriodizationData (schemes: Array<IPeriodizationScheme>, id: number): void {

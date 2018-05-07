@@ -1,7 +1,6 @@
 import './activity-segments.component.scss';
 import {IComponentOptions, IComponentController, IPromise} from 'angular';
 import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {Interval} from "../activity.datamodel";
 import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../activity-datamodel/activity.interval-g";
 import {ActivityIntervalFactory} from "../activity-datamodel/activity.functions";
@@ -104,7 +103,7 @@ class ActivitySegmentsCtrl implements IComponentController {
      */
     addInterval(scenarioType: string = 'default') {
         let sport: string = this.item.activity.header.sportBasic;
-        let ftp:{[measure: string] : number} = getFtpBySport(this.item.user.trainingZones, sport);
+        let ftp:{[measure: string] : number} = getFtpBySport(this.item.options.owner.trainingZones, sport);
         let interval: ActivityIntervalP;
         let pos: number = null;
         let scenario: any = getSegmentTemplates();
@@ -172,6 +171,10 @@ class ActivitySegmentsCtrl implements IComponentController {
     ftpModeChange(mode: FtpState) {
         this.ftpMode = mode;
         this.item.ftpMode = mode;
+    }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
     }
 
 }

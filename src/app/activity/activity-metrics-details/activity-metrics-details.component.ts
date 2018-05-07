@@ -6,7 +6,7 @@ import {isPace, getSportLimit} from "../../share/measure/measure.constants";
 import {MeasureChartData} from "../activity.function";
 import {IChartMeasureData} from "../activity-datamodel/activity.details";
 
-class ActivityMetricsDetailsCtrl implements IComponentController {
+export class ActivityMetricsDetailsCtrl implements IComponentController {
 
     private hasDetails: boolean = false;
     private completeDetails: boolean = false;

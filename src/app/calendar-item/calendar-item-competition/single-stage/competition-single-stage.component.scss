@@ -30,7 +30,8 @@
 
 
   table {
-    padding: 16px;
+    margin: 16px;
+    width: calc(100% - 32px);
   }
 
   table.md-table:not(.md-row-select) td.md-cell:first-child,

@@ -1,4 +1,4 @@
-import {Ng1StateDeclaration, StateProvider} from "angular-ui-router";
+import {Ng1StateDeclaration, StateProvider} from "@uirouter/angularjs";
 import {ICalendarItem} from "../../../api/calendar/calendar.interface";
 import {CalendarService} from "../calendar/calendar.service";
 import {DefaultTemplate, DisplayView} from "../core/display.constants";

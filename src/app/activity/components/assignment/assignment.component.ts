@@ -40,9 +40,8 @@ class ActivityAssignmentCtrl implements IComponentController {
      * В данной функции делаются комплексные проверки
      */
     checkForm (form?: INgModelController) {
-
         this.item.assignmentForm.$setValidity('needDuration',
-            this.item.activity.movingDuration > 0 || this.item.activity.distance > 0);
+            this.item.activity.duration > 0 || this.item.activity.distance > 0);
     }
 
     /**

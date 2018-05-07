@@ -156,7 +156,7 @@ class DashboardDayCtrl implements IComponentController {
             parent: element(document.body),
             targetEvent: $event,
             locals: {
-                date: new Date(date), // дата дня в формате ГГГГ-ММ-ДД
+                date: moment(date).startOf('day').format('YYYY-MM-DDTHH:mm:ss'),//new Date(date), // дата дня в формате ГГГГ-ММ-ДД
                 user: this.owner,
                 event: $event
             },

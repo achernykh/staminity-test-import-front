@@ -1,7 +1,7 @@
-<activity-header flex="auto" flex-gt-sm="none" layout="column" style="background-color: indianred"
+<activity-header ng-show="!$ctrl.showSelectTemplate && !$ctrl.showSelectAthletes"
+                 flex="auto" flex-gt-sm="none" layout="column" style="background-color: indianred"
                  class="md-whiteframe-12dp"
                  ng-class="{'single': $ctrl.mode === 'post' || !$ctrl.activity.hasDetails}">
-
 </activity-header>
 
 <activity-interval-overview ng-if="$ctrl.showIntervalOverview"
@@ -11,11 +11,11 @@
 </activity-interval-overview>
 
 
-<activity-metrics-details flex="auto" layout="column" hide show-gt-sm layout="column"
+<activity-metrics-details ng-if="$ctrl.$mdMedia('gt-sm') && !$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData) && !$ctrl.isIonic"
+                          flex="auto" layout="column" hide show-gt-sm layout="column"
                           has-details="!$ctrl.activity.details.isEmpty"
                           hide-smooth-on-chart="$ctrl.layout.hideSmoothOnChart"
-                          has-intervals=""
-                          ng-if="!$ctrl.activity.view.isPost && ($ctrl.activity.hasActualData)">
+                          has-intervals="">
 
 </activity-metrics-details>
 <md-button flex="none" class="md-fab md-mini md-accent md-hue-2" aria-label="close" hide show-gt-sm
