@@ -5,8 +5,8 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 class CalendarItemAthleteSelectorCtrl implements IComponentController {
 
     public coach: any; //IUserProfile
-    private athletes: Array<{profile: IUserProfile, active: boolean}> = [];
-    private recalculateMode: boolean;
+    private list: Array<{profile: IUserProfile, active: boolean}> = [];
+    private mode: boolean;
     public onSelect: (response: {list: Array<{profile: IUserProfile, active: boolean}>, mode: boolean}) => IPromise<void>;
     static $inject = [];
 
@@ -18,7 +18,7 @@ class CalendarItemAthleteSelectorCtrl implements IComponentController {
     }
 
     onBack() {
-        this.onSelect({list: this.athletes, mode: this.recalculateMode});
+        this.onSelect({list: this.list, mode: this.mode});
     }
 }
 
