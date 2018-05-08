@@ -9,7 +9,6 @@ import { IActivityIntervalPW, ICalcMeasures } from "../../../../api/activity/act
 export class ActivityHeaderOverviewCtrl implements IComponentController {
 
     private item: CalendarItemActivityCtrl;
-    public mode: string;
     public activity: Activity;
     public intervalPW: ActivityIntervalPW;
     public intervalW: ActivityIntervalW;
@@ -22,7 +21,6 @@ export class ActivityHeaderOverviewCtrl implements IComponentController {
 
     $onInit() {
         // для удобства верстки создаем быстрый путь к данным
-        this.mode = this.item.mode;
         this.activity = this.item.activity;
         this.intervalPW = this.item.activity.intervals.PW;
         this.intervalW = this.item.activity.intervals.W;

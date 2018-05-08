@@ -78,7 +78,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     activityType: IActivityType;
     activityCategory: IActivityCategory;
     details: IActivityDetails;
-    mode: string;
+    mode: FormMode;
     activity: Activity;
     user: IUserProfile;
     tab: string;
@@ -169,7 +169,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     $onChanges(changes) {
         if(changes.mode && !changes.mode.isFirstChange()) {
-            this.changeMode(changes.mode);
+            this.changeMode();
+        }
+        if(changes.pushSave && !changes.pushSave.isFirstChange()) {
+            this.onSave();
+        }
+        if(changes.pushReset && !changes.pushReset.isFirstChange()) {
+            this.onReset(this.mode);
         }
         if (changes.id && !changes.id.isFirstChange() && this.id) {
             this.$onInit();
@@ -377,13 +383,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.destroy.complete();
     }
 
-    changeMode(mode:string) {
-        this.mode = mode;
-        if (mode === 'put' && !this.activity.categoriesList.length) {
+    changeMode() {
+        //this.mode = mode;
+        this.activity.view.isPut = this.mode === FormMode.Put;
+        /**if (mode === 'put' && !this.activity.categoriesList.length) {
             this.ActivityService.getCategory()
                 .then(list => this.activity.categoriesList = list,
                     error => this.message.toastError(error));
-        }
+        }**/
     }
 
     /**
@@ -534,13 +541,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    onReset(mode: string) {
+    onReset(mode: FormMode) {
         if (this.template) {
             this.onCancel();
         }
 
         this.mode = mode;
-        if(mode === 'post') {
+        if(mode ===  FormMode.Post) {
             this.onCancel();
         } else {
             if(this.activity.isStructured && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
@@ -800,6 +807,8 @@ export const CalendarItemActivityComponent: IComponentOptions = {
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
         template: '=?',
+        pushSave: '<',
+        pushReset: '<',
         onCancel: '&',
         onAnswer: '&'
     },
