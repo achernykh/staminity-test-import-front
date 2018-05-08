@@ -1016,11 +1016,11 @@ export const translateUser = {
                 calculation: {
                     method: 'Method',
                     choose: 'Choose available method',
-                    lactateThreshold: 'FTP',
+                    lactateThreshold: 'LT - lactate threshold',
                     restingAndMax: 'Min and max',
                     max: 'Max',
-                    powerThreshold: 'power FTP',
-                    paceThreshold: 'speed/pace FTP',
+                    powerThreshold: 'LT Power',
+                    paceThreshold: 'LT speed/pace',
                     custom: 'Manual',
 
                     JoeFrielHeartRateRunning7: 'Joe Friel, 7 HR zones for running',

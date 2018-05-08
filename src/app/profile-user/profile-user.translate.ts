@@ -41,21 +41,21 @@ export const _translate = {
         shortTitle: "Profile",
         coach: 'Coach',
         premium: 'Premium',
-        about: "About",
+        about: "About yourself",
         price: "Conditions",
         athletes: "Athletes",
-        isFree: "Available for new students",
+        isFree: "Available for new athletes",
         action: {
             joinToCoach: 'Join coach',
-            joinToCoachDisable: 'Closed for new athletes',
+            joinToCoachDisable: 'Unavailable for new athletes',
             isYourCoach: 'Your coach',
             coachRequestWaiting: 'Your request has been sent ▾',
             coachRequestCancel: 'Cancel your request',
             leaveCoach: 'Leave coach',
-            requestLeaveWaiting: "You've sent leave coach request",
+            requestLeaveWaiting: "You have sent a request to leave coach",
             requestLeaveCancel: 'Cancel your request',
             startFollow: 'Follow',
-            startFriend: 'Add friend'
+            startFriend: 'Add to friends'
         },
         connections: {
             header: 'Connections',
@@ -68,7 +68,7 @@ export const _translate = {
             groups: 'Groups: '
         },
         contact: {
-            header: 'Contacts for new athletes',
+            header: 'Contact details',
             phone: 'Phone: ',
             email: 'Email: '
         }

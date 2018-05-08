@@ -169,14 +169,14 @@ export const translateActivity = {
         },
         athleteSelector: {
             title: "Select athlete",
-            recalculate: "Recalculate from FTP",
+            recalculate: "Recalculate based on LT",
         },
         plan: 'Planned',
         actual: 'Completed',
         measureUnitFull: 'Unit',
         measureUnitShort: 'Unit',
         completeShort: 'Comp',
-        percentFTP: '%FTP',
+        percentFTP: '%LT',
         ftpMode: {
             on: 'ON',
             off: 'OFF'
