@@ -142,9 +142,9 @@ export const translateActivity = {
         },
         details: {
             measures: {
-                title: 'Measures min/avg/max',
-                general: 'General measures',
-                code: 'Measure(unit)',
+                title: 'Indicators min/avg/max',
+                general: 'General indicators',
+                code: 'Indicator (unit)',
                 unit: 'Unit',
                 min: 'Min',
                 avg: 'Avg',
@@ -162,7 +162,7 @@ export const translateActivity = {
             },
             chart: {
                 title: 'Chart',
-                measures: "Measures chart",
+                measures: "Indicators chart",
                 segments: "Segments chart",
 
             },
@@ -213,7 +213,7 @@ export const translateActivity = {
             title: 'Template',
             placeholder: 'Choose template',
             enable: 'Templates available',
-            empty: 'Templates not available',
+            empty: 'No templates available',
             favorite: 'Favorite',
             namePlaceholder: 'Name required',
             code: 'Template {{code}}'
@@ -227,9 +227,9 @@ export const translateActivity = {
         },
         error: {
             required: 'Required',
-            needDuration: 'Need duration or distance',
-            singleDuration: 'Please leave duration or distance',
-            singleIntensity: 'Only one intensity measure could be set',
+            needDuration: 'Set duration or distance',
+            singleDuration: 'Please set duration or distance',
+            singleIntensity: 'Only one intensity indicator can be set',
             needPermissionForFeature: 'Premium tariff required to create future activities'
         },
         loading: 'Loading',
@@ -254,7 +254,7 @@ export const translateSport = {
         bike: 'Велосипед',
         trackBike: 'Велотрек',
         indoorBike: 'Велостанок',
-        strength: 'Тренажерный зал',
+        strength: 'Силовая тренировка',
         ski: 'Лыжи',
         other: 'Прочее',
         transition: 'Транзитка',
@@ -277,7 +277,7 @@ export const translateSport = {
         bike: 'Bike',
         trackBike: 'Track bike',
         indoorBike: 'Indoor bike',
-        strength: 'Strength',
+        strength: 'Strength training',
         ski: 'Ski',
         other: 'Other',
         transition: 'Transition',
