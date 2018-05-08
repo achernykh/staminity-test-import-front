@@ -693,8 +693,7 @@ export const _translateMessage = {
         },
         duplicateUserProfileURI: { // ошибка от бэка при сохранении изменений настроек
             title: 'Error',
-            text: 'Please choose another shortname (uri) for your profile. Settings have not been saved'
-        },
+            text: 'Please choose another nickname (uri). Settings have not been saved'        },
         badPasswordString: { // ошибка от бэка при изменении пароля
             title: 'Error',
             text: 'Password strings does not match. Please check and try again'

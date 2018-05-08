@@ -130,7 +130,7 @@ export const _MEASURE_TRANSLATE = {
         waterPercent: "Water(%)",
         percentFat: "Fat(%)",
         musculeMass: "Muscle mass(kg)",
-        pulse: "Rest HR",
+        pulse: "Resting HR",
         pulseCost: 'Beats per km',
         orthostaticPulse: 'Orthostatic probe',
         sleepQuality: "Sleep quality",
