@@ -202,7 +202,7 @@ export class DashboardCtrl implements IComponentController {
                 break;
             }
             case FormMode.Put: {
-                this.onDeleteItem(item);
+                this.onDeleteItem(this.searchItem(item.calendarItemId));
                 this.onPostItem(item);
                 break;
             }
