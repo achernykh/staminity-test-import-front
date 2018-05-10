@@ -327,8 +327,8 @@ export const translateAnalytics = {
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         },
         completePercent: {
-            title: "Complete percent",
-            shortDescription: "Planned activity complete percent ",
+            title: "Percent of completion",
+            shortDescription: "Percent of planned activities completion",
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         }
     },
