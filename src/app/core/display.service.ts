@@ -27,6 +27,18 @@ export default class DisplayService {
             .map(getDisplay)
             .distinctUntilChanged()
             .subscribe(this.handleChanges);
+
+        // https://www.w3.org/TR/2016/CR-orientation-event-20160818/
+        window.addEventListener("deviceorientation", (e: DeviceOrientationEvent) => {
+            console.debug('deviceorientation', e);
+            if (Math.abs(e.gamma) === 0) {
+                // portait
+            }
+            if (Math.abs(e.gamma) === -90) {
+                // landscape
+            }
+            // process event.alpha, event.beta and event.gamma
+        }, true);
     }
 
     getLocale (): string {
