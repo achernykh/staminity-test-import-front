@@ -13,7 +13,7 @@
         <span class="md-title" translate="trainingSeason.fullTitle"></span>
         <md-icon class="material-icons" aria-label="Back">keyboard_arrow_right</md-icon>
         <span class="button" ng-click="$ctrl.isListState = true">{{$ctrl.owner | userName:'compact'}}</span>
-        <md-menu ng-if="$ctrl.isListState && $ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+        <md-menu ng-if="$ctrl.isListState && $ctrl.auth.isCoach() && $ctrl.athletes.length > 0">
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
