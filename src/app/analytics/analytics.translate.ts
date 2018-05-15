@@ -187,10 +187,10 @@ export const translateAnalytics = {
             },
             periods: {
                 placeholder: "Period",
-                startDate: "Start period",
-                endDate: "End period",
+                startDate: "Start date",
+                endDate: "End date",
             },
-            go: "Reload",
+            go: "Refresh",
         },
         defaultCharts: "Available charts",
         params: {
@@ -227,17 +227,17 @@ export const translateAnalytics = {
             title: "Settings",
             params: "Params",
             layout: "Layout",
-            globalParams: "Use global params",
+            globalParams: "Use general params",
             saveContext: "Save settings",
             restoreContext: "Reset settings",
             authRoles: "Role",
-            aboutRoles: "Available charts depends on your tariff",
+            aboutRoles: "Available charts depend on your tariff",
             aboutStorage: "Save charts, filters and settings",
             save: "Save",
 
         },
         localFilter: "Filter",
-        globalParams: "Global params: {{value | translate | lowercase}}",
+        globalParams: "General params: {{value | translate | lowercase}}",
         // Переводы преднастроенных отчетов
         actualMovingDuration: {
             //  title: "Время тренировок {{'analytics.params.' + measureName | translate}}",
@@ -252,8 +252,8 @@ export const translateAnalytics = {
 
         },
         activityMeasuresSelected: {
-            title: "Activity measures",
-            shortDescription: "Activity measures",
+            title: "Activity indicators",
+            shortDescription: "Activity indicators",
             description: "Duration/distance: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         },
         activityMeasuresTL: {
@@ -327,8 +327,8 @@ export const translateAnalytics = {
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         },
         completePercent: {
-            title: "Complete percent",
-            shortDescription: "Planned activity complete percent ",
+            title: "Percent of completion",
+            shortDescription: "Percent of planned activities completion",
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         }
     },

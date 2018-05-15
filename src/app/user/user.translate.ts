@@ -955,7 +955,7 @@ export const translateUser = {
                 autoPayment: 'Charge automatically'
             },
             sync: {
-                header: 'Syncronisation settings',
+                header: 'Synchronisation settings',
                 garmin: 'Garmin Connect',
                 strava: 'Strava',
                 polar: 'Polar Flow',
@@ -971,7 +971,7 @@ export const translateUser = {
                     onSyncing: {
                         button: 'Change',
                         title: 'Sync...',
-                        text: "Initial syncronisation"},
+                        text: "Initial synchronisation"},
                     onSyncComplete: {
                         button: 'Change',
                         title: 'Synced',
