@@ -154,7 +154,7 @@ export const translateUser = {
                 isIndividual: "Физическое лицо",
                 individual: "Да",
                 notIndividual: "Нет, я ИП или представитель юридического лица",
-                agree: 'Я прочитал и принимаю условия <a href="https://legal.staminity.com/ru/offer-author-individual.html">Договора с авторами планов-физическими лицами</a> и <a href="https://legal.staminity.com/ru/offer-author-buyer.html">Договора между Автором и Покупателем тренировочных планов</a>',
+                agree: 'Я прочитал и принимаю условия <a href="https://legal.staminity.com/ru/offer-author-individual.html">Лицензионного договора с авторами планов-физическими лицами</a> и <a href="https://legal.staminity.com/ru/offer-author-buyer.html">Договора между Автором и Покупателем тренировочных планов</a>',
                 email: "E-mail",
                 companyName: "Полное наименование компании / ИП",
                 inn: "ИНН",
