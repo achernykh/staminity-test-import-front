@@ -32,6 +32,9 @@ export let _translate = {
             remember: "Запомнить меня",
             reset: "Восстановление пароля"
         },
+        signout: {
+            shortTitle: "Выйти",
+        },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
             fullTitle: "Подтверждение регистрации",
@@ -104,6 +107,9 @@ export let _translate = {
             button: "Sign in",
             remember: "Remember me",
             reset: "Forgot my password"
+        },
+        signout: {
+            shortTitle: "Sign out",
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
