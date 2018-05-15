@@ -326,10 +326,6 @@ export const _translateTrainingPlans = {
             fullTitle: 'Training plan',
             shortTitle: 'Plan',
         },
-        store: {
-            fullTitle: 'Training plan search',
-            shortTitle: 'Plan search',
-        },
         filter: 'Filter',
         filterResult: 'Found {{total}} plan(s)',
 
