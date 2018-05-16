@@ -222,8 +222,8 @@ export const _translateTrainingPlans = {
             syncDescription: 'Подробнее о загрузке факта выполнения тренировок в Staminity см. в справке: <a href="https://help.staminity.com/ru/questions/activity-auto-sync.html">"Как загружать выполненные тренировки"</a>',
             chart: 'График нагрузки',
             effortStat: {
-                metricsByDuration: 'Тренировочный обьем по неделям (часы)',
-                metricsByDistance: 'Тренировочный обьем по неделям (км)'
+                metricsByDuration: 'Тренировочный объем по неделям (часы)',
+                metricsByDistance: 'Тренировочный объем по неделям (км)'
             },
             howItWorks: 'Как работать с планом',
             howItWorksDescription: '<ol type="1"><li>Вы выбираете план и присваиваете его в нужные даты</li><li>Подключаете автоматическую загрузку тренировок из Garmin или Strava</li><li>Выполняете тренировки и отслеживаете прогресс. Ваш план всегда под рукой, с компьютера или смартфона</li><li>Приобретенный план остается у вас и его всегда можно применить в другие даты</li></ol>',
@@ -424,7 +424,8 @@ export const _translateTrainingPlans = {
             label: 'Description'
         },
         keywords: {
-            label: 'Keywords'
+            label: 'Keywords',
+            placeholder: 'Keywords'
         },
         isStructured: {
             label: 'Structured activities'
