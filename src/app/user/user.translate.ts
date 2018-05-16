@@ -653,8 +653,8 @@ export const translateUser = {
                     card: "{{identityString}}, till {{expireDate}}",
                     addCard: "Add new card",
                     removeCard: "Remove card",
-                    isDefault: "Defauld",
-                    addCardMessage: "To add new card we charge it for small amount of money, less than 1 RUB. This amount doesn't return to your card.",
+                    isDefault: "Default",
+                    addCardMessage: "To add new card we charge it for small amount of money, less than 1 RUB. This amount will not be returned to your card.",
                 },
                 sales: {
                     label: "Training plans purchases",
