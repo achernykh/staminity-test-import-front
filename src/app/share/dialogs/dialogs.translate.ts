@@ -62,7 +62,7 @@ export let translateDialogs = {
         deleteTrainingPlan: "Вы хотите удалить тренировочный план? Эту операцию отменить невозможно",
         deleteSelectedAssignment: "Удалить присвоение плана? Все невыполненные тренировки будут удалены из календаря спортсмена",
         unpublishTrainingPlan: "Снять план с публикации? Тренировочный план будет удален из магазина планов и недоступен для приобретения",
-        publishTrainingPlan: "Опубликовать план? Тренировочный план будет доступен в магазине",
+        publishTrainingPlan: "Опубликовать план или его изменения? Актуальная версия плана будет доступна в магазине",
 
         // split and merge
         mergeActivity: "Объединить плановую и фактическую тренировки?",
@@ -139,8 +139,8 @@ export let translateDialogs = {
         // план
         deleteTrainingPlan: "Do you want to delete training plan? This operation cannot be undone",
         deleteSelectedAssignment: "Delete training plan assignment? All incompleted activities will be deleted from athlete's calendar",
-        unpublishTrainingPlan: "Remove training plan from store?",
-        publishTrainingPlan: "Publish new traning plan version in Store?",
+        unpublishTrainingPlan: "Remove training plan from store? The training plan will be unavailable for any future purchases",
+        publishTrainingPlan: "Publish the training plan or it's new version in Store?",
 
         // split and merge
         mergeActivity: "Merge planned and completed activity?",

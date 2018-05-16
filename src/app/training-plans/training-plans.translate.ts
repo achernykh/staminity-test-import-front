@@ -47,14 +47,14 @@ export const _translateTrainingPlans = {
             signupAndAddFree: "Зарегистрироваться и добавить бесплатно",
             signinAndPay: "Войти и купить",
             signinAndAddFree: "Войти и добавить бесплатно",
-            viewStore: "Страница плана (опубликованная версия)",
-            viewHistory: "Страница плана (текущая версия)",
+            viewStore: "Предпросмотр (версия из Магазина)",
+            viewHistory: "Предпросмотр (текущая версия)",
 
         },
         plan: 'Тренировочный план',
         // поля плана
         isPublic: {
-            label: 'План для публикации в магазине'
+            label: 'Для публикации в магазине'
         },
         name: {
             label: 'Название',
@@ -219,12 +219,13 @@ export const _translateTrainingPlans = {
             devices: 'Необходимые устройства',
             needHeartRateBelt: 'Датчик пульса',
             needPowermeter: 'Датчик мощности',
-            syncDescription: 'Подробнее о загрузке факта выполнения тренировок в Staminity см. в справке: <a href="https://help.staminity.com/ru/questions/activity-auto-sync.html">"Как загружать выполненные тренировки"</a>',            chart: 'График нагрузки',
+            syncDescription: 'Подробнее о загрузке факта выполнения тренировок в Staminity см. в справке: <a href="https://help.staminity.com/ru/questions/activity-auto-sync.html">"Как загружать выполненные тренировки"</a>',
+            chart: 'График нагрузки',
             effortStat: {
-                metricsByDuration: 'Тренировочный обьем по неделям (часы)',
-                metricsByDistance: 'Тренировочный обьем по неделям (км)'
+                metricsByDuration: 'Тренировочный объем по неделям (часы)',
+                metricsByDistance: 'Тренировочный объем по неделям (км)'
             },
-            howItWorks: 'Как это работает?',
+            howItWorks: 'Как работать с планом',
             howItWorksDescription: '<ol type="1"><li>Вы выбираете план и присваиваете его в нужные даты</li><li>Подключаете автоматическую загрузку тренировок из Garmin или Strava</li><li>Выполняете тренировки и отслеживаете прогресс. Ваш план всегда под рукой, с компьютера или смартфона</li><li>Приобретенный план остается у вас и его всегда можно применить в другие даты</li></ol>',
             samples: 'Примеры записей плана',
             samplesDescription: '',
@@ -236,7 +237,7 @@ export const _translateTrainingPlans = {
         },
         planDontHaveItemsForAssignment: "В плане нет тренировок для присвоения",
         info: {
-            disableEditAssignPlan: "disable edit assign plan"
+            disableEditAssignPlan: ""
         },
         order: {
             needAccount: 'Для покупки плана необходимо войти в систему',
@@ -268,7 +269,7 @@ export const _translateTrainingPlans = {
             title: "Публикация плана"
         },
         monetization: {
-            label: 'Указать стоимость плана'
+            label: 'Платный план'
         },
         commerceConditions: 'Комиссия Staminity - 30% от цены плана. На вашем балансе будет отражена сумма <strong>{{(value * 0.7) | number:0}} {{currency}}</strong> с каждой покупки',
         currency: {
@@ -319,7 +320,10 @@ export const _translateTrainingPlans = {
 
         },
         samplesHowTo: 'Примеры тренировок помогут покупателям оценить Ваш подход. Отметьте нужные тренировки и события как примеры',
-        hasUpdateForStore: "Есть неопубликованные изменения"
+        hasUpdateForStore: "Есть неопубликованные изменения",
+        pay: {
+            title: 'Оплатить'
+        }
     },
     en: {
         builder: {
@@ -369,14 +373,14 @@ export const _translateTrainingPlans = {
             signupAndAddFree: "Signup and add free",
             signinAndPay: "Signin and purchase",
             signinAndAddFree: "Signin and add free",
-            viewStore: "Preview in Store (published version)",
-            viewHistory: "Preview in Store (current version)",
+            viewStore: "Store preview (published version)",
+            viewHistory: "Store preview (current version)",
         },
 
         plan: 'Training plan',
         // поля плана
         isPublic: {
-            label: 'For publish in Store'
+            label: 'Available for publication in Store'
         },
         name: {
             label: 'Name',
@@ -420,7 +424,8 @@ export const _translateTrainingPlans = {
             label: 'Description'
         },
         keywords: {
-            label: 'Keywords'
+            label: 'Keywords',
+            placeholder: 'Keywords'
         },
         isStructured: {
             label: 'Structured activities'
@@ -521,7 +526,7 @@ export const _translateTrainingPlans = {
         },
         landing: {
             weekCount: 'Week count {{count}}',
-            description: 'Description',
+            description: 'Overview',
             targetAudience: 'Target audience',
             calendarDates: 'Calendar dates',
             flexCalendarDates: 'The plan is designed for {{weekCount}} weeks of training and could be assigned from/to any necessary date.',
@@ -529,7 +534,7 @@ export const _translateTrainingPlans = {
             propagateMods: 'This plan is dynamic. The Author could change this plan and these changes will be transferred to your calendar. ',
             assignOpportunities: 'You also could assign this plan from/to any other date you need.  ',
             regularWeek: 'Regular week',
-            weekActivities: 'On average in the training week {{avg | stNumberCeil}} activities, min - {{min | stNumberCeil}}, max - {{max | stNumberCeil}}',
+            weekActivities: 'There are {{avg | stNumberCeil}} activities in training week on average, min - {{min | stNumberCeil}}, max - {{max | stNumberCeil}}',
             weekDuration: "Duration of activities per week (hours): average - {{avg / 60 / 60 | number:1}}, min - {{min / 60 / 60 | number:1}}, max - {{max / 60 /60 | number:1}}",
             weekDistance: "Distance of activities per week (km): average -  {{avg | measureCalc:'default':'distance' | number:0}}, min - {{min | measureCalc:'default':'distance' | number:0}}, max - {{max | measureCalc:'default':'distance' | number:0}}",
             offlineTraining: "Workouts under the Author's supervision",
@@ -537,15 +542,15 @@ export const _translateTrainingPlans = {
             structuredActivity: 'Structured activities',
             structuredActivityOpportunities: 'Structured activities allow to divide activity plan for several segments. Every segment contains planned values for distance/duration and intensity level',
             devices: 'Required devices',
-            needHeartRateBelt: 'Heart rate meter',
+            needHeartRateBelt: 'Heart rate monitor',
             needPowermeter: 'Power meter',
             syncDescription: 'See details about completed activities upload to Staminity in <a href="https://help.staminity.com/en/questions/activity-auto-sync.html">"Staminity Help Center"</a>',
-            chart: 'Chart',
+            chart: 'Fitness summary',
             effortStat: {
                 metricsByDuration: 'Planned duration (hours) of activities',
                 metricsByDistance: 'Planned distance (km) of activities'
             },
-            howItWorks: 'How it works?',
+            howItWorks: 'How it works',
             howItWorksDescription: '<ol type="1"><li>Choose the training plan and decide when you want to start training</li><li>Set up activity auto upload to Staminity from Garmin or Strava</li><li>Follow the instructions from training plan, complete activities and analyse progress in Staminity. Your plan will be always with you, from desktop or smartphone. </li><li> You could use one plan several times, if necessary</li></ol>',
             samples: 'Samples of activities and events',
             samplesDescription: '',
@@ -557,7 +562,7 @@ export const _translateTrainingPlans = {
             },
         planDontHaveItemsForAssignment: "Plan has no items to assign",
         info: {
-            disableEditAssignPlan: "disable edit assign plan"
+            disableEditAssignPlan: ""
             },
         order: {
             needAccount: 'You have to be signed in to purchase the plan',
@@ -588,7 +593,7 @@ export const _translateTrainingPlans = {
             title: "Training plan publication"
         },
         monetization: {
-            label: 'Set the price'
+            label: 'Paid plan'
         },
         commerceConditions: 'Staminity commission - 30% from training plan price. You will receive <strong>{{(value * 0.7) | number:0}} {{currency}}</strong> from each purchase',
         currency: {
@@ -638,6 +643,9 @@ export const _translateTrainingPlans = {
                 guestText: 'Congratulations, you have successfully purchased the Training plan! Next steps: <ol type="1"><li>Sign in to Staminity</li><li>Go to "Purchases" in "Training plan store" view</li><li>Assign the plan from / to necessary date </li><li>Find out the planned activities in your calendar and follow the instructions</li></ol>'
             },
         samplesHowTo: 'Activities and events samples could help users to understand your training approach and your instructions. Mark necessary activities and events as samples',
-        hasUpdateForStore: "Has unpublished changes"
+        hasUpdateForStore: "Has unpublished changes",
+        pay: {
+            title: 'Payment details'
+        }
     }
 };

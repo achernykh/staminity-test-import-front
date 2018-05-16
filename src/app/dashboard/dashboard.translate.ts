@@ -16,8 +16,8 @@ export const translateDashboard = {
         loading: 'Загрузка ...'
     },
     en: {
-        fullTitle: "Coach dashboard",
-        shortTitle: "Dashboard",
+        coachfullTitle: "Coach dashboard",
+        coachshortTitle: "Dashboard",
         clubfullTitle: "Club athletes",
         clubhortTitle: "Athletes",
         today: "Today",
