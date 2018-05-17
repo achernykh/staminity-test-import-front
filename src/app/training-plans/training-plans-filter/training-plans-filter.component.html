@@ -22,6 +22,24 @@
                                ng-change="$ctrl.change()"
                                ng-model="$ctrl.filter.isPublic"></md-switch>
                 </md-list-item>
+                <!-- Автор плана -->
+                <md-list-item layout="row" layout-align="space-between start">
+                    <md-icon flex="none" class="material-icons md-dark dense">person</md-icon>
+                    <md-contact-chips
+                            flex="auto"
+                            class="dense"
+                            ng-model="$ctrl.owner"
+                            ng-change="$ctrl.changeOwner()"
+                            md-contacts="$ctrl.ownerSearch($query)"
+                            md-contact-name="name"
+                            md-contact-image="icon"
+                            md-contact-email="about"
+                            md-require-match="true"
+                            md-highlight-flags="i"
+                            filter-selected="true"
+                            placeholder="{{'trainingPlans.owner.label' | translate}}">
+                    </md-contact-chips>
+                </md-list-item>
                 <!-- Название плана -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">

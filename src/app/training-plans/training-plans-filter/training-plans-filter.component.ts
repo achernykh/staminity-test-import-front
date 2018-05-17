@@ -6,6 +6,8 @@ import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dia
 import { TrainingPlanConfig } from "@app/training-plans/training-plan/training-plan.config";
 import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
 import { supportLng } from "../../core/display.constants";
+import { SearchService } from "../../search/search.service";
+import { SearchResultByUser } from "../../search/search";
 
 class TrainingPlansFilterCtrl implements IComponentController {
 
@@ -16,17 +18,19 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
     // public
     // private
+    private owner: Array<SearchResultByUser> = [];
     private panel: 'plans' | 'events' | 'hide' = 'plans';
     private weekCountRange: number;
     private supportLanguages: Array<string> = supportLng;
 
     // inject
-    static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig'];
+    static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService'];
 
     constructor (
         private trainingPlanDialogService: TrainingPlanDialogService,
         private config: TrainingPlanConfig,
-        private competitionConfig: ICompetitionConfig) {
+        private competitionConfig: ICompetitionConfig,
+        private searchService: SearchService) {
 
     }
 
@@ -36,6 +40,9 @@ class TrainingPlansFilterCtrl implements IComponentController {
         //this.filter.lang = this.filter.lang || [];
         if (this.filter.weekCountFrom) {
             this.weekCountRange = this.config.weekRanges.findIndex(r => r[0] === this.filter.weekCountFrom);
+        }
+        if (this.filter.ownerId) {
+            this.getOwner(this.filter.ownerId);
         }
         //this.onChangeFilter({filter: this.filter});
     }
@@ -82,6 +89,19 @@ class TrainingPlansFilterCtrl implements IComponentController {
         return this.view === 'search';
     }
 
+    private changeOwner(): void {
+        debugger;
+    }
+
+    // async owner
+    private ownerSearch (criteria): Promise<any> {
+        return this.searchService.request('byParams', {objectType: 'user', name: criteria});
+    }
+
+    private getOwner (id: number) {
+        this.searchService.request('byParams', {objectType: 'user', userId: Number(id)})
+            .then(r => this.owner = r as Array<SearchResultByUser>);
+    }
 }
 
 const TrainingPlansFilterComponent: IComponentOptions = {
