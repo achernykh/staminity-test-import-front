@@ -26,7 +26,7 @@ export const _translateTrainingPlans = {
             create: 'Создать',
             edit: 'Изменить',
             save: 'Сохранить',
-            view: 'Посмотреть',
+            view: 'Открыть',
             appoint: 'Присвоить...',
             calendar: 'Запланировать тренировки',
             assignment: 'Присвоения',
@@ -99,7 +99,8 @@ export const _translateTrainingPlans = {
         },
         keywords: {
             label: 'Ключевые слова',
-            placeholder: 'Ключевые слова'
+            placeholder: 'Ключевые слова',
+            secondaryPlaceholder: 'ещё...'
         },
         isStructured: {
             label: 'Структурированные тренировки'
@@ -193,7 +194,7 @@ export const _translateTrainingPlans = {
                 store: 'Все планы',
                 purchases: 'Покупки'
             },
-            free: 'Подключить бесплатно',
+            free: 'Добавить бесплатно',
             price: 'Купить {{price}} {{currency}}',
             name: 'Название',
             author: 'Автор',
@@ -368,11 +369,11 @@ export const _translateTrainingPlans = {
             myPlans: 'My plans',
             go: 'Go to Purchased plans',
             pay: 'Purchase',
-            addFree: 'Add free',
+            addFree: 'Take for free',
             signupAndPay: "Signup and purchase",
-            signupAndAddFree: "Signup and add free",
+            signupAndAddFree: "Signup and take for free",
             signinAndPay: "Signin and purchase",
-            signinAndAddFree: "Signin and add free",
+            signinAndAddFree: "Signin and take for free",
             viewStore: "Store preview (published version)",
             viewHistory: "Store preview (current version)",
         },
@@ -425,7 +426,8 @@ export const _translateTrainingPlans = {
         },
         keywords: {
             label: 'Keywords',
-            placeholder: 'Keywords'
+            placeholder: 'Keywords',
+            secondaryPlaceholder: 'more...'
         },
         isStructured: {
             label: 'Structured activities'
@@ -518,7 +520,7 @@ export const _translateTrainingPlans = {
                 store: 'All plans',
                 purchases: 'Purchases'
             },
-            free: 'Add free',
+            free: 'Take for free',
             price: 'Buy {{price}} {{currency}}',
             name: 'Name',
             author: 'Author',
