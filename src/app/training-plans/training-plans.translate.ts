@@ -323,6 +323,9 @@ export const _translateTrainingPlans = {
         hasUpdateForStore: "Есть неопубликованные изменения",
         pay: {
             title: 'Оплатить'
+        },
+        owner: {
+            label: 'Автор'
         }
     },
     en: {
@@ -646,6 +649,9 @@ export const _translateTrainingPlans = {
         hasUpdateForStore: "Has unpublished changes",
         pay: {
             title: 'Payment details'
+        },
+        owner: {
+            label: 'Author'
         }
     }
 };

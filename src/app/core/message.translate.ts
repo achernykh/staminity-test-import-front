@@ -653,7 +653,12 @@ export const _translateMessage = {
         omniMessagePostError: {
             title: '',
             text: "Ваше обращение не отправлено. Попробуйте еще раз или оставьте заявку на support.staminity.com"
+        },
+        storeItemNofFound: {
+            title: '',
+            text: "План не найден"
         }
+
 
     },
 	en: {
@@ -1307,6 +1312,10 @@ export const _translateMessage = {
         omniMessagePostError: {
             title: '',
             text: "Your request wasn't sent. Please try again or leave us a request at support.staminity.com"
+        },
+        storeItemNofFound: {
+            title: '',
+            text: "Training plan not found"
         }
     }
 };
