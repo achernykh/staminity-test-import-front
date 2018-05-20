@@ -77,7 +77,7 @@ export const _translateRecord = {
         sickness: 'Sickness',
         vitamins: 'Supplements',
         warning: 'Problem',
-        female: 'Female cycle',
+        female: 'Menstrual cycle',
         diet: 'Diet',
         bar: 'Disruption',
         travel: 'Travel',
@@ -110,7 +110,7 @@ export const _translateRecord = {
             Y: 'y'
         },
         endType: {
-            label: 'End repeat',
+            label: 'Stop repeating',
             D: 'On date',
             C: 'After'
         },

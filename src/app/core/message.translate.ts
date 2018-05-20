@@ -657,7 +657,12 @@ export const _translateMessage = {
         trainingPlanAssignComplete: {
             title: '',
             text: "Тренировочный план присвоен"
+        },
+        storeItemNofFound: {
+            title: '',
+            text: "План не найден"
         }
+
 
     },
 	en: {
@@ -1315,6 +1320,10 @@ export const _translateMessage = {
         trainingPlanAssignComplete: {
             title: '',
             text: "Training plan has been assigned"
+        },
+        storeItemNofFound: {
+            title: '',
+            text: "Training plan not found"
         }
     }
 };
