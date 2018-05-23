@@ -77,6 +77,16 @@ export const _activity_measurement_view = {
     strength: {
 
     },
+    rowing: {
+        speed: {
+            unit: 'minp500m',
+            fixed: 0
+        },
+        adjustedSpeed: {
+            unit: 'minp500m',
+            fixed: 0
+        }
+    },
     other: {
         speed: {
             unit: 'kmph',
@@ -299,10 +309,10 @@ export const measurementUnitDisplay = (sport, measure) =>
 export const measurementFixed = (measure) => _measurement[measure].fixed;
 
 // Перечень показателей релевантных для пересчета скорости в темп (10км/ч = 6:00 мин/км)
-export const _measurement_pace_unit = ['minpkm','minp100m'];
+export const _measurement_pace_unit = ['minpkm','minp100m','minp500m'];
 
 export const isDuration = (unit) => ['min'].indexOf(unit) !== -1;
-export const isPace = (unit) => ['mps','minpkm','minp100m'].indexOf(unit) !== -1;
+export const isPace = (unit) => ['mps','minpkm','minp100m','minp500m'].indexOf(unit) !== -1;
 export const typeOf = (unit) => (isDuration(unit) && 'duration') || (isPace(unit) && 'pace') || 'number';
 
 export const validators = (sport,measure) => {
@@ -374,10 +384,14 @@ export const _measurement_calculate = {
     minp100m: {
         mps: (x) => !!x ? (60 * 60) / (x * 3.6 * 10) : 0
     },
+    minp500m: {
+        mps: (x) => !!x ? (60 * 60) / (x * 3.6 * 10 / 5) : 0
+    },
     mps: {
         kmph: (x) => !!x ? x * 3.60 : 0,
         minpkm: (x) => !!x ? (60 * 60) / (x * 3.6) : 0,
-        minp100m: (x) => !!x ? (60 * 60) / (x * 3.6 * 10) : 0
+        minp100m: (x) => !!x ? (60 * 60) / (x * 3.6 * 10) : 0,
+        minp500m: (x) => !!x ? (60 * 60) / (x * 3.6 * 10 / 5) : 0
     },
     minpkm: {
         mps: (x) => !!x ? (60 * 60) / (x * 3.6) : 0

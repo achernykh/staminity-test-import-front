@@ -8,6 +8,7 @@ export const _MEASURE_TRANSLATE = {
         kmph: "км/ч",
         minpkm: "/км",
         minp100m: "/100м",
+        minp500m: "/500м",
         minpml: '/мл',
         bpm: "уд/мин",
         min: "мин",
