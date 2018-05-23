@@ -47,7 +47,7 @@
     <st-application-frame-left-bar ng-if="$ctrl.currentState === 'store'">
         <training-plans-filter class="training-plans-search__filter"
                                filter="$ctrl.storePlansFilter"
-                               view="search"
+                               view="'search'"
                                on-change-filter="$ctrl.changeStorePlansFilter(filter)">
         </training-plans-filter>
     </st-application-frame-left-bar>

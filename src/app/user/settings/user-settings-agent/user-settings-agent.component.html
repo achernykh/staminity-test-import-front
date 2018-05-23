@@ -103,12 +103,11 @@
                 </md-input-container>
             </md-list-item>
             <md-list-item layout="row">
-                <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label translate="user.settings.agent.agree" class="user-settings-agent__agree-label"></label>
-                    <md-checkbox class="md-body-1 md-primary" name="agree" ng-model="$ctrl.datamodel.agrApproved" required></md-checkbox>
-                    <div ng-messages="$ctrl.form.agree.$error" role="alert">
-                        <div ng-message-exp="['required']" translate="form.required"></div>
-                    </div>
+                <md-input-container flex="100" class="no-message" layout-align="center start">
+                    <label translate="user.settings.agent.agree"
+                           class="user-settings-agent__agree-label"></label>
+                    <md-checkbox class="md-body-1 md-primary" name="agree"
+                                 ng-model="$ctrl.datamodel.agrApproved" required></md-checkbox>
                 </md-input-container>
             </md-list-item>
         </div>

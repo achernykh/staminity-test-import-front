@@ -83,6 +83,7 @@
       height: 24px;
       img {
         height: 24px !important;
+        width: 24px !important;
         border-radius: 12px !important;
       }
       .md-contact-name {
@@ -111,6 +112,7 @@
 .md-virtual-repeat-container.md-autocomplete-suggestions-container {
   .md-contact-suggestion img {
     height: 32px;
+    width: 32px;
     border-radius: 16px;
   }
   .md-contact-name {

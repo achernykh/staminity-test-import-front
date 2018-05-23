@@ -56,6 +56,7 @@ class TrainingPlansStoreCtrl implements IComponentController {
     }
 
     $onInit (): void {
+        debugger;
         this.prepareUrlParams();
         this.prepareStates();
     }
@@ -76,7 +77,9 @@ class TrainingPlansStoreCtrl implements IComponentController {
 
     private prepareStates(): void {
         this.setState(this.$stateParams.hasOwnProperty('state') &&
-            this.$stateParams.state ? this.$stateParams.state : this.currentState);
+            this.$stateParams.state || this.$location.search().state ?
+                this.$stateParams.state || this.$location.search().state :
+                this.currentState);
     }
 
     private setState (state: string): void {

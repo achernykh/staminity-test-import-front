@@ -56,7 +56,6 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     getTrainingPlanList(): Array<TrainingPlan> {
-        debugger;
         return this.plans.list
             .filter(p =>
                 (!this.filter['isPublic'] || (this.filter['isPublic'] && p.isPublic)) &&
@@ -146,7 +145,7 @@ class TrainingPlansListCtrl implements IComponentController {
 
     private assignment (env: Event, plan: TrainingPlan): void {
         this.trainingPlanDialogService.assignment(env, plan, this.customer)
-            .then(response => {debugger;}, error => {debugger;});
+            .then(r => this.message.toastInfo('trainingPlanAssignComplete'), e => e && this.message.toastError(e));
     }
 
     private update (): void {

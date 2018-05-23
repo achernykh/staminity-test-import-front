@@ -5,6 +5,7 @@ import { TrainingPlansService } from "../training-plans.service";
 import MessageService from "@app/core/message.service";
 import { IUserProfile } from "@api/user";
 import { FormMode } from "../../application.interface";
+import {AgentService} from "../../user/settings/agent.service";
 
 class TrainingPlanPublishCtrl implements IComponentController {
 
@@ -17,14 +18,16 @@ class TrainingPlanPublishCtrl implements IComponentController {
 
     // private
     private dataLoading: boolean = false;
+    private isProfileComplete: boolean = null;
     private rules = ['profile', 'version', 'icon', 'background', 'items' ];
-    static $inject = ['$scope', 'TrainingPlansService', 'message','dialogs'];
+    static $inject = ['$scope', 'TrainingPlansService', 'message','dialogs', 'AgentService'];
 
     constructor(
         private $scope: IScope,
         private trainingPlansService: TrainingPlansService,
         private message: MessageService,
-        private dialogs) {
+        private dialogs,
+        private agentService: AgentService) {
 
     }
 
@@ -32,8 +35,12 @@ class TrainingPlanPublishCtrl implements IComponentController {
         this.getPlanDetails();
     }
 
+    set profile (value: boolean) {
+        this.isProfileComplete = value;
+    }
+
     get profile (): boolean {
-        return true;
+        return this.isProfileComplete;
     }
 
     get version (): boolean {
@@ -77,6 +84,8 @@ class TrainingPlanPublishCtrl implements IComponentController {
     private getPlanDetails (): void {
         this.trainingPlansService.get(this.plan.id)
             .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
+            .then(_ => this.agentService.getAgentProfile())
+            .then(p => this.isProfileComplete = p.isCompleted && p.isActive)
             .then(() => this.dataLoading = true);
     }
 

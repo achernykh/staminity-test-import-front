@@ -162,7 +162,7 @@
                 <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.customData.consultationsDescription"></p>
             </div>
         </div>
-        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasStructuredActivity">
+        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.isStructured">
             <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
             <div flex layout="column">
                 <p flex class="title md-subhead" translate="trainingPlans.landing.structuredActivity"></p>

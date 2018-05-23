@@ -77,7 +77,7 @@
                 </md-list-item>
             </md-list>
         </md-card>
-        <md-card class="user-settings-main__card">
+        <md-card class="user-settings-main__card" ng-if="$ctrl.agentProfile.isComplete">
             <md-list>
                 <md-list-item ui-sref="user-settings.sales({userId: $ctrl.owner.userId})">
                     <div layout="column">

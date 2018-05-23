@@ -24,14 +24,15 @@ class TrainingPlansFilterCtrl implements IComponentController {
     private supportLanguages: Array<string> = supportLng;
 
     // inject
-    static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService'];
+    static $inject = ['$scope', 'TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService'];
 
     constructor (
+        private $scope,
         private trainingPlanDialogService: TrainingPlanDialogService,
         private config: TrainingPlanConfig,
         private competitionConfig: ICompetitionConfig,
         private searchService: SearchService) {
-
+        $scope.owner = []; // для fix бага с ng-change в md-contact-chips
     }
 
     $onInit () {
@@ -89,8 +90,9 @@ class TrainingPlansFilterCtrl implements IComponentController {
         return this.view === 'search';
     }
 
-    private changeOwner(): void {
-        debugger;
+    private changeOwner(owner: Array<SearchResultByUser> = this.$scope.owner): void {
+        this.filter.ownerId = owner && owner[0] && owner[0].userId || undefined;
+        this.onChangeFilter({filter: this.filter});
     }
 
     // async owner
@@ -100,7 +102,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
 
     private getOwner (id: number) {
         this.searchService.request('byParams', {objectType: 'user', userId: Number(id)})
-            .then(r => this.owner = r as Array<SearchResultByUser>);
+            .then(r => this.$scope.owner = r as Array<SearchResultByUser>);
     }
 }
 

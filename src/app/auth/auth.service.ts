@@ -14,8 +14,6 @@ import RequestsService from "../core/requests.service";
 import UserService from "../core/user.service";
 import * as _connection from "../core/env.js";
 
-
-
 export interface IAuthService {
     isAuthenticated():boolean;
     isAuthorized(roles:Array<string>, strict?: boolean):boolean;

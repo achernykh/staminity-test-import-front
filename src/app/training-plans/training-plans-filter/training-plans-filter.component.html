@@ -23,19 +23,20 @@
                                ng-model="$ctrl.filter.isPublic"></md-switch>
                 </md-list-item>
                 <!-- Автор плана -->
-                <md-list-item layout="row" layout-align="space-between start">
+                <md-list-item layout="row" layout-align="space-between start" ng-if="$ctrl.view === 'search'">
                     <md-icon flex="none" class="material-icons md-dark dense">person</md-icon>
                     <md-contact-chips
                             flex="auto"
                             class="dense"
-                            ng-model="$ctrl.owner"
+                            ng-model="owner"
                             ng-change="$ctrl.changeOwner()"
                             md-contacts="$ctrl.ownerSearch($query)"
                             md-contact-name="name"
                             md-contact-image="icon"
-                            md-contact-email="about"
+                            md-contact-email=""
                             md-require-match="true"
                             md-highlight-flags="i"
+                            md-max-chips="1"
                             filter-selected="true"
                             placeholder="{{'trainingPlans.owner.label' | translate}}">
                     </md-contact-chips>
