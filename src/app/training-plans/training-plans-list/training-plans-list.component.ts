@@ -68,7 +68,7 @@ class TrainingPlansListCtrl implements IComponentController {
                 (!this.filter.weekCountTo || (this.filter.weekCountTo && p.weekCount <= this.filter.weekCountTo)) &&
                 (!this.filter.hasConsultations || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasConsultations') && p.customData.hasConsultations)) &&
                 (!this.filter.hasOfflineTraining || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasOfflineTraining') && p.customData.hasOfflineTraining)) &&
-                (!this.filter.hasStructuredActivities || p.isStructured));
+                (!this.filter.isStructured || p.isStructured));
     }
 
     post (env: Event) {

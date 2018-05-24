@@ -7,6 +7,7 @@ import { TrainingPlansService } from "@app/training-plans/training-plans.service
 import { TrainingPlan } from "@app/training-plans/training-plan/training-plan.datamodel";
 import { ITrainingPlanAssignment } from "../../../../../api/trainingPlans/training-plans.interface";
 import MessageService from "../../../core/message.service";
+import { FormMode } from "../../../application.interface";
 
 class TrainingPlanAssignmentFormCtrl implements IComponentController {
 
@@ -15,6 +16,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     athletes: Array<IUserProfile>;
     onBack: () => Promise<any>;
     onCancel: () => Promise<any>;
+    onSave: (response: {mode: FormMode, assign: ITrainingPlanAssignmentRequest}) => Promise<any>;
 
     // private
     private readonly applyModeTypes: Array<string> = ['P', 'I'];
@@ -29,7 +31,6 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     $onInit() {
-        debugger;
         if (!this.assign) {
             this.data = Object.assign({
                 userId: this.athletes.length === 1 ? [this.athletes[0].userId] : [],
@@ -69,7 +70,7 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     save (): void {
-        this.trainingPlansService.modifyAssignment(this.plan.id, {
+        let assign: ITrainingPlanAssignmentRequest = {
             mode: 'I',
             id: this.data.id,
             userId: this.data.userId && [...this.data.userId].map(id => Number(id)),
@@ -79,7 +80,9 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
             enabledSync: this.enabledSync,
             applyFromDate: this.data.applyFromDate && moment(this.data.applyFromDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
             applyToDate: this.data.applyToDate && moment(this.data.applyToDate).utc().add(moment().utcOffset(),'minutes').format('YYYY-MM-DDTHH:mm:ss') || null,
-        }).then(response => this.onCancel(), error => this.message.toastError(error));
+        };
+        this.trainingPlansService.modifyAssignment(this.plan.id, assign)
+            .then(response => this.onSave({mode: FormMode.Post, assign: assign}), e => e && this.message.toastError(e));
     }
 
     private onlyFirstPlanDaysPredicate (date: Date): boolean {
@@ -99,7 +102,8 @@ export const TrainingPlanAssignmentFormComponent:IComponentOptions = {
         assign: '<',
         athletes: '<',
         onBack: '&',
-        onCancel: '&'
+        onCancel: '&',
+        onSave: '&',
     },
     require: {
         //component: '^component'

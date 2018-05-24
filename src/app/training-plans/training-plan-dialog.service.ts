@@ -247,7 +247,7 @@ export class TrainingPlanDialogService {
             controller: ["$scope", "$mdDialog", ($scope, $mdDialog) => {
                 $scope.hide = () => $mdDialog.hide();
                 $scope.cancel = () => $mdDialog.cancel();
-                $scope.answer = (mode, plan) => $mdDialog.hide({mode, plan});
+                $scope.answer = (mode, assign) => $mdDialog.hide({mode, assign});
             }],
             controllerAs: "$ctrl",
             template: `<md-dialog id="training-plan-assignment" aria-label="Training Plan Assignment Form">
@@ -256,7 +256,7 @@ export class TrainingPlanDialogService {
                                     state="$ctrl.state"
                                     plan="$ctrl.plan"
                                     athletes="$ctrl.athletes"
-                                    on-cancel="cancel()" on-save="answer(mode,plan)">
+                                    on-cancel="cancel()" on-save="answer(mode,assign)">
                             </st-training-plan-assignment>
                        </md-dialog>`,
             parent: angular.element(document.body),

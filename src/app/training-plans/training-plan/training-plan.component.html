@@ -24,10 +24,10 @@
             <md-button ng-if="!$ctrl.plan.state" flex="none"
                        class="button-action md-accent md-hue-3 md-raised"
                        ng-click="$ctrl.order($event)">
-                <span ng-if="$ctrl.plan.monetization" class="md-title md-light"
+                <span ng-if="$ctrl.plan.price > 0" class="md-title md-light"
                       translate="trainingPlans.store.price"
                       translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
-                <span ng-if="!$ctrl.plan.monetization" class="md-light" translate="trainingPlans.store.free"></span>
+                <span ng-if="!$ctrl.plan.price" class="md-light" translate="trainingPlans.store.free"></span>
             </md-button>
         </div>
     </md-toolbar>
@@ -92,10 +92,10 @@
         <md-button ng-if="!$ctrl.plan.state"
                    flex="none"
                    class="button-action md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
-            <span ng-if="$ctrl.plan.monetization" class="md-title md-light"
+            <span ng-if="$ctrl.plan.price > 0" class="md-title md-light"
                   translate="trainingPlans.store.price"
                   translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
-            <span ng-if="!$ctrl.plan.monetization" class="md-title md-light" translate="trainingPlans.store.free"></span>
+            <span ng-if="!$ctrl.plan.price" class="md-title md-light" translate="trainingPlans.store.free"></span>
         </md-button>
     </section>
     <!-- Что включено в план? -->

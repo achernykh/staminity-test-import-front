@@ -1,6 +1,8 @@
 export const translateGeneral = {
     ru: {
         staminity: "Стаминити",
+        ru: 'Русский',
+        en: 'English',
         true: "Да",
         false: "Нет",
         week: "По неделям",
@@ -24,6 +26,8 @@ export const translateGeneral = {
     },
     en: {
         staminity: "Staminity",
+        ru: 'Русский',
+        en: 'English',
         true: "Yes",
         false: "No",
         week: "Week",

@@ -56,7 +56,6 @@ class TrainingPlansStoreCtrl implements IComponentController {
     }
 
     $onInit (): void {
-        debugger;
         this.prepareUrlParams();
         this.prepareStates();
     }

@@ -4,7 +4,7 @@ import { TrainingPlansService } from "./training-plans.service";
 
 const trainingPlanStore: any = {
     name: 'training-plans-store',
-    url: '/training-plans/store?state',
+    url: '/training-plans-store?state',
     params: {
         state: null,
         ownerId: null,
@@ -69,7 +69,7 @@ const trainingPlanPreview: any = {
 
 const trainingPlanLanding: any = {
     name: 'plan',
-    url: '/plan/?planId',
+    url: '/plan/:planId',
     loginRequired: false,
     authRequired: [],
     resolve: {

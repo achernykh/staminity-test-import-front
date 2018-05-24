@@ -33,4 +33,12 @@ export class TrainingPlansList implements ITrainingPlans {
             this.list.splice(id, 1);
         }
     }
+
+    get notPublishedItems (): number {
+        return this.list && this.list.filter(p => p.isPublic && !p.isPublished).length || 0;
+    }
+    get publishedItems (): number {
+        return this.list && this.list.filter(p => p.isPublic && p.isPublished).length || 0;
+    }
+
 };

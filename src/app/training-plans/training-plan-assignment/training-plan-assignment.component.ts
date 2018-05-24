@@ -70,7 +70,8 @@ export const TrainingPlanAssignmentComponent:IComponentOptions = {
         plan: '<',
         state: '<',
         athletes: '<',
-        onCancel: '&'
+        onCancel: '&',
+        onSave: '&',
     },
     controller: TrainingPlanAssignmentCtrl,
     template: require('./training-plan-assignment.component.html') as string

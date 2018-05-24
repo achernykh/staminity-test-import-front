@@ -43,5 +43,5 @@
                                   assign="$ctrl.assign"
                                   athletes="$ctrl.athletes"
                                   on-back="$ctrl.isListState = true"
-                                  on-cancel="$ctrl.onCancel()">
+                                  on-cancel="$ctrl.onCancel()" on-save="$ctrl.onSave({mode: mode,assign: assign})">
 </st-training-plan-assignment-form>
