@@ -56,7 +56,6 @@ class TrainingPlansListCtrl implements IComponentController {
     }
 
     getTrainingPlanList(): Array<TrainingPlan> {
-        debugger;
         return this.plans.list
             .filter(p =>
                 (!this.filter['isPublic'] || (this.filter['isPublic'] && p.isPublic)) &&

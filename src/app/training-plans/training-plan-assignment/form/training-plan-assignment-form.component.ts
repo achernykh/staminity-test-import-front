@@ -29,7 +29,6 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     $onInit() {
-        debugger;
         if (!this.assign) {
             this.data = Object.assign({
                 userId: this.athletes.length === 1 ? [this.athletes[0].userId] : [],
@@ -83,8 +82,8 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     private onlyFirstPlanDaysPredicate (date: Date): boolean {
-        //console.debug('check calendar date', date.getDay(), new Date(this.plan.startDate).getDay());
-        return this.data.applyMode === 'I' || date.getDay() === new Date(this.plan.firstDate).getDay();
+        //console.debug('check calendar date', date, date.getDay(), this.plan.firstDate, this.plan.firstDate.getDay());
+        return this.data.applyMode === 'I' || date.getDay() === this.plan.firstDate.getDay();
     };
 
     get enabledSync (): boolean {
