@@ -9,7 +9,7 @@
         <span class="md-title" hide show-gt-sm>{{$ctrl.calendar.currentWeek.toolbarDate}}</span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
         <span class="button" hide show-gt-sm>{{$ctrl.owner | userName:'compact'}}</span>
-        <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0"  hide show-gt-sm>
+        <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
@@ -90,7 +90,7 @@
         </span>
         </section>
         <section class="mobile" hide show-xs show-sm>
-            <md-menu ng-if="$ctrl.currentUser.public.isCoach && $ctrl.athletes.length > 0">
+            <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0">
                 <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                     <md-icon class="material-icons">person_add</md-icon>
                 </md-button>

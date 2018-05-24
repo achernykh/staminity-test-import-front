@@ -18,6 +18,7 @@ import {
 import { profileShort } from "../../core/user.function";
 import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
+import AuthService from "@app/auth/auth.service";
 
 export enum TrainingSeasonViewState {
     List,
@@ -44,7 +45,7 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
 
     // inject
     static $inject = ['$scope', '$location', '$mdMedia', '$stateParams', 'CalendarService', 'TrainingSeasonService',
-        'TrainingSeasonDialogService', 'message', 'CalendarItemDialogService'];
+        'TrainingSeasonDialogService', 'message', 'CalendarItemDialogService', 'AuthService'];
 
     constructor (private $scope: IScope,
                  private $location: ILocationService,
@@ -53,7 +54,9 @@ class TrainingSeasonBuilderCtrl implements IComponentController {
                  private calendarService: CalendarService,
                  private trainingSeasonService: TrainingSeasonService,
                  private trainingSeasonDialog: TrainingSeasonDialogSerivce,
-                 private messageService: MessageService, private calendarItemDialog: CalendarItemDialogService) {
+                 private messageService: MessageService,
+                 private calendarItemDialog: CalendarItemDialogService,
+                 private auth: AuthService) {
 
     }
 

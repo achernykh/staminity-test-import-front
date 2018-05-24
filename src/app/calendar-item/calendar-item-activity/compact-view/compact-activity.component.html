@@ -1,31 +1,34 @@
 <div class="activity-compact" ng-switch="$ctrl.view">
     <!-- Элемент списка -->
+    <!-- Для списка не используется one-way-binding, так как в мобильной верстке скроле всплывают ошибки отображения.
+    Можно воспроизвести и если проскролить вверх в прошлое, а потом вернуться скролом в низ в будущее. Плановые тренировки
+    будут окрашены в цвета прошлых тренировок, также будут выведены прошлые данные -->
     <section ng-switch-when="list" class="activity-compact__list"
              ng-click="$ctrl.disableActions || $ctrl.open($event)">
-        <header class="layout-row layout-align-start-center calendar-item-activity-header {{::$ctrl.activity.status}} list-view"
+        <header class="layout-row layout-align-start-center calendar-item-activity-header {{$ctrl.activity.status}} list-view"
                 ng-class="{selected: $ctrl.selected}">
             <div flex="none" layout="row" layout-align="center center"
                  class="calendar-item-activity-icon color-{{$ctrl.activity.header.sportBasic}} bg-circle-32"
                  ng-class="{color: !$ctrl.activity.isCompleted || !$ctrl.activity.isSpecified}">
                 <md-icon class="material-icons md-light md-18" aria-label="icon"
-                         md-svg-src="{{::$ctrl.activity.header.sportUrl}}"></md-icon>
+                         md-svg-src="{{$ctrl.activity.header.sportUrl}}"></md-icon>
             </div>
             <div flex="auto" layout="column">
                 <section flex layout="row" layout-align="start center"
-                         ng-class="::{'md-dark' : $ctrl.activity.isDarkColor}"
+                         ng-class="{'md-dark' : $ctrl.activity.isDarkColor}"
                          class="md-caption md-active center">
                     <div flex="none" class="line-14" ng-if="::$ctrl.activity.header.category"
-                         ng-bind-template="{{::$ctrl.activity.header.category | categoryCode}}"></div>
+                         ng-bind-template="{{$ctrl.activity.header.category | categoryCode}}"></div>
                 </section>
                 <section flex layout="row" layout-align="start center"
-                         ng-class="::{'md-dark' : $ctrl.activity.isDarkColor}"
+                         ng-class="{'md-dark' : $ctrl.activity.isDarkColor}"
                          class="md-title-small md-active center tight-10">
                     <span flex="none" ng-if="::$ctrl.activity.movingDuration">
-                    {{::$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}&nbsp;&nbsp;
+                    {{$ctrl.activity.movingDuration | measureCalc:$ctrl.activity.header.sportBasic:'movingDuration'}}&nbsp;&nbsp;
                     </span>
                     <div flex="none" ng-if="::$ctrl.activity.distance">
-                        {{::$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
-                        {{::'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
+                        {{$ctrl.activity.distance | measureCalc:$ctrl.activity.header.sportBasic:'distance'}}
+                        {{'distance' | measureUnit:$ctrl.activity.header.sportBasic | translate}}
                     </div>
                 </section>
             </div>

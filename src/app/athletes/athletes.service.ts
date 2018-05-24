@@ -44,13 +44,13 @@ export class AthletesService {
      * @param members: Array<Member>
      * @returns {Promise<any>}
      */
-    editTariffs(user: IUserProfile, management: IGroupManagementProfile, members: IGroupManagementProfileMember[]): Promise<any> {
+    editTariffs(user: IUserProfile, management: IGroupManagementProfile, members: IGroupManagementProfileMember[], $scope?: any): Promise<any> {
         const byUs = tariffsByUser(user.userId) (members[0]);
         const bySelf = tariffsNotByUser(user.userId) (members[0]);
 
         console.log('editTariffs', user.connections.Athletes.groupId, management.groupId);
 
-        return this.dialogs.tariffs(["Premium"], byUs, bySelf, "dialogs.byCoach")
+        return this.dialogs.tariffs(["Premium"], byUs, bySelf, "dialogs.byCoach", $scope)
             .then((selectedTariffs) => {
                 const addTariffs = arrays.difference(selectedTariffs, byUs);
                 const removeTariffs = arrays.difference(byUs, selectedTariffs);

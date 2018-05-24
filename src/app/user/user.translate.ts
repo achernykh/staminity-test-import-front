@@ -955,7 +955,7 @@ export const translateUser = {
                 autoPayment: 'Charge automatically'
             },
             sync: {
-                header: 'Syncronisation settings',
+                header: 'Synchronisation settings',
                 garmin: 'Garmin Connect',
                 strava: 'Strava',
                 polar: 'Polar Flow',
@@ -971,7 +971,7 @@ export const translateUser = {
                     onSyncing: {
                         button: 'Change',
                         title: 'Sync...',
-                        text: "Initial syncronisation"},
+                        text: "Initial synchronisation"},
                     onSyncComplete: {
                         button: 'Change',
                         title: 'Synced',
@@ -1016,11 +1016,11 @@ export const translateUser = {
                 calculation: {
                     method: 'Method',
                     choose: 'Choose available method',
-                    lactateThreshold: 'FTP',
+                    lactateThreshold: 'LT - lactate threshold',
                     restingAndMax: 'Min and max',
                     max: 'Max',
-                    powerThreshold: 'power FTP',
-                    paceThreshold: 'speed/pace FTP',
+                    powerThreshold: 'LT Power',
+                    paceThreshold: 'LT speed/pace',
                     custom: 'Manual',
 
                     JoeFrielHeartRateRunning7: 'Joe Friel, 7 HR zones for running',

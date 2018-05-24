@@ -43,7 +43,6 @@
 
     <st-application-frame-toolbar layout="row">
         <section class="desktop" hide show-gt-sm layout="row">
-
             <md-input-container style="width: {{$ctrl.showSearch ? '150px' : '0'}}; padding:0; margin: 0;" class="animated no-message">
                 <input  style="color: white; margin: 0 16px;" class="md-body-1"
                         ng-model="$ctrl.search"
@@ -59,7 +58,7 @@
             </md-button>
 
             <section flex="none" layout="row" layout-align="start center"
-                     class="calendar-operations" hide show-gt-md>
+                     class="calendar-operations">
                 <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
                 <md-button class=" md-icon-button" ng-disabled="!$ctrl.checked.length || !$ctrl.isEditCoachesAvailable()" ng-click="$ctrl.editCoaches()">
                     <md-tooltip md-direction="bottom">{{ 'users.toolbar.coaches' | translate }}</md-tooltip>

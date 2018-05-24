@@ -7,12 +7,12 @@ import { TrainingPlanConfig } from "@app/training-plans/training-plan/training-p
 import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
 import { supportLng } from "../../core/display.constants";
 
-class TrainingPlansFilterCtrl implements IComponentController {
+export class TrainingPlansFilterCtrl implements IComponentController {
 
     // bind
     filter: ITrainingPlanSearchRequest;
     view: string;
-    onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => IPromise<void>;
+    onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => Promise<void>;
 
     // public
     // private
@@ -21,10 +21,9 @@ class TrainingPlansFilterCtrl implements IComponentController {
     private supportLanguages: Array<string> = supportLng;
 
     // inject
-    static $inject = ['TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig'];
+    static $inject = ['trainingPlanConfig', 'CompetitionConfig'];
 
     constructor (
-        private trainingPlanDialogService: TrainingPlanDialogService,
         private config: TrainingPlanConfig,
         private competitionConfig: ICompetitionConfig) {
 
@@ -50,6 +49,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     set distanceType (distanceType: any) {
+        distanceType = JSON.parse(distanceType);
         distanceType.hasOwnProperty('code') ?
             this.filter.distanceType = distanceType.code : this.filter.distanceType = distanceType;
     }

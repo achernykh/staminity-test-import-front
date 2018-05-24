@@ -126,8 +126,7 @@ export let translateDialogs = {
         deleteActualActivity: "Delete selected completed activities? Action can not be undone",
         deletePlanActivity: "Delete selected planned activities? Action can not be undone",
         moveActualActivity: "Transfer completed activity is not possible. Do you want to create new planned activity?",
-        updateIntensity: "Athlete's FTP may be different. Recalculate planned intensity (HR, Speed/pace, Power) from athlete's FTP?",
-
+        updateIntensity: "Athlete's LT may differ. Recalculate planned intensity (HR, Speed/pace, Power) based on athlete's LT?",
         // Операции с соревнованиями
         deleteActualCompetition: 'Delete competition? Every connected completed activity will be deleted. This action cannot be undone',
 
