@@ -18,6 +18,8 @@ export const activityTypes: IActivityType[] = [
     {id: 16, code: "bikeToRun", typeBasic: "transition", enabled: false, isBasic: false},
     {id: 17, code: "swimToRun", typeBasic: "transition", enabled: false, isBasic: false},
     {id: 18, code: "ski", typeBasic: "ski", enabled: true, isBasic: true},
+    {id: 24, code: "rowing", typeBasic: "rowing", enabled: true, isBasic: true},
+    {id: 25, code: "rowingIndoor", typeBasic: "rowing", enabled: true, isBasic: false},
     {id: 1, code: "other", typeBasic: "other", enabled: true, isBasic: true},
 ];
 
