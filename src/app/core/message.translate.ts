@@ -1278,7 +1278,7 @@ export const _translateMessage = {
         },
         differentBasicActivityTypes: {
             title: '',
-            text: 'Merge cannot be done: different activity types'
+            text: 'Merge cannot be done: different sports'
         },
         errorCompleteIntervals: {
             title: '',

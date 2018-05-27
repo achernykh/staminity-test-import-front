@@ -324,7 +324,9 @@ export const _translateTrainingPlans = {
         hasUpdateForStore: "Есть неопубликованные изменения",
         pay: {
             title: 'Оплатить'
-        }
+        },
+        published: 'Опубликованы в магазине',
+        unpublished: 'Не опубликованы в магазине'
     },
     en: {
         builder: {
@@ -388,8 +390,8 @@ export const _translateTrainingPlans = {
             placeholder: 'Set training plan name'
         },
         type: {
-            label: 'Activity type',
-            placeholder: 'Select activity type'
+            label: 'Sport',
+            placeholder: 'Select sport'
         },
         distanceType: {
             label: 'Distance type',
@@ -648,6 +650,8 @@ export const _translateTrainingPlans = {
         hasUpdateForStore: "Has unpublished changes",
         pay: {
             title: 'Payment details'
-        }
+        },
+        published: 'Published in the Store',
+        unpublished: 'Not published in the Store'
     }
 };

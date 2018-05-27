@@ -111,7 +111,7 @@ export const translateCompetition = {
             label: "Name"
         },
         type: {
-            label: "Activity type"
+            label: "Sport"
         },
         action: {
             post: "Create competition",

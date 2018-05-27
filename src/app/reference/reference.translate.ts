@@ -61,7 +61,7 @@ export const en = {
             fullTitle: "Club templates and categories",
             shortTitle: "Club templates and categories",
         },
-        sport: "Activity type",
+        sport: "Sport",
         edit: "Edit",
         templates: {
             singular: "Template",
