@@ -14,16 +14,19 @@ export class SessionService {
 
     private session: BehaviorSubject<ISession>;
 
-    static $inject = [ 'storage' ];
+    static $inject = [ 'storage', 'configAuthData' ];
 
-    constructor (private storage: StorageService) {
-        let session = storage.get('session') || {};
-        this.session = new BehaviorSubject<ISession>(session);
+    constructor (private storage: StorageService, private configAuthData: any ) {
+        debugger;
+        // поддержка старого решения с синхронным получением данных в localStorage
+        this.session = new BehaviorSubject<ISession>(this.configAuthData || this.storage.get('session') || {});
+        this.storage.getItem('session').then(d => this.session.next(d || {}));
     }
 
     set (session: ISession = {}) {
-        this.storage.set('session', session);
-        this.session.next(session);
+        //this.storage.set('session', session);
+        this.storage.setItem('session', session).then(d => this.session.next(d));
+        //this.session.next(session);
     }
 
     refresh (changes: Object) {

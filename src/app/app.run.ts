@@ -7,6 +7,7 @@ import { SocketService } from "./core/socket/socket.service";
 import { IStaminityState } from "./application.interface";
 import DisplayService from "./core/display.service";
 import UserService from "./core/user.service";
+import {StorageService} from "@app/core";
 
 function run(
     $transitions: TransitionService,
@@ -16,15 +17,14 @@ function run(
     LoaderService: LoaderService,
     AuthService: AuthService,
     message: MessageService,
+    storage: StorageService, // not used, just force DisplayService being initialized
     DisplayService: DisplayService, // not used, just force DisplayService being initialized
     UserService: UserService, // not used, just force UserService being initialized,
     socket: SocketService
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
-
     const workerController = path(["serviceWorker", "controller"]) (navigator);
-
     if (workerController) {
         const checkWorkerState = () => {
             console.log("checkWorkerState", workerController);
@@ -47,7 +47,6 @@ function run(
         checkWorkerState();
         workerController.onstatechange = checkWorkerState;
     }
-
     $transitions.onBefore({to: "*", from: "*"}, (state) => {
         const routeTo = Object.assign(state.$to()) as IStaminityState;
 
@@ -64,12 +63,10 @@ function run(
         LoaderService.show();
         //return routeTo.authRequired ? socket.init() : true;
     });
-
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
         //omniSetup(state.$from().name, state.$to().name);
         LoaderService.hide();
     });
-
     $state.defaultErrorHandler((error) => {
         console.error(error);
         //message.systemWarning(error.detail);

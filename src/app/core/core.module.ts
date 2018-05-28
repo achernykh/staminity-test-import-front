@@ -15,7 +15,7 @@ import SystemMessageService from "./sysmessage.service.js";
 import UserService from "./user.service";
 import { ImagesService } from "./images.service";
 
-const Core = module("staminity.core", ["staminity.share", "ui.router", "pascalprecht.translate"])
+const Core = module("staminity.core", [])
     .constant("ConnectionSettingsConfig", ConnectionSettings)
     .service("SocketService", SocketService)
     .service("RESTService", RESTService)
