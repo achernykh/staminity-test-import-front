@@ -6,12 +6,21 @@
 </div>
 
 <section flex="none" class="chart" ng-if="!$ctrl.item.$mdMedia('gt-sm') || $ctrl.item.isIonic"
-         ng-switch="$ctrl.completeDetails" layout="column" style="margin-top: 8px; margin-right: 8px; height: 30vh">
+         ng-switch="$ctrl.completeDetails" layout="column" style="margin-top: 8px; margin-right: 8px; height: 35vh">
 
-    <div flex="none" class="loading-chart" ng-switch-when="false"
+    <div flex="auto" class="loading-chart" ng-switch-when="false"
          layout="column" layout-align="center center">
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
         <p flex="none" class="md-caption md-dark center">loading...</p>
+    </div>
+    <div flex="none" layout="row" layout-align="center between-center" ng-switch-when="true">
+        <md-button flex="none"
+                   ng-repeat="measure in $ctrl.chartData.measuresY track by $index" class="md-secondary md-icon-button"
+                   ng-click="$ctrl.changeChartMetrics(measure)">
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg"
+                     ng-class="{'md-inactive': !$ctrl.chartData.measures[measure].show}"
+                     class="md-dark fill-measure {{measure}}"></md-icon>
+        </md-button>
     </div>
     <activity-metrics-char ng-cloak
                            flex="auto" ng-switch-when="true"
@@ -27,6 +36,7 @@
                            on-selected="$ctrl.onSelectionRange(select)">{{'activity.details.chart.title' | translate}}...
     </activity-metrics-char>
 </section>
+
 <md-divider></md-divider>
 
 

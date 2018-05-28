@@ -287,6 +287,11 @@ const sportLimit = {
             min: 1
         }
     },
+    rowing: {
+        speed: {
+            min: 1
+        }
+    },
     other: {
         speed: {
             min: 1

@@ -9,7 +9,6 @@ export class StorageService {
 
     constructor() {
         this.storage = window[this.location];
-        //localForage.setDriver([localForage.INDEXEDDB, localForage.WEBSQL, localForage.LOCALSTORAGE]);
     }
 
     get(key: string): any {

@@ -159,7 +159,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private ActivityService: ActivityService,
         private AuthService: IAuthService,
         public message: IMessageService,
-        private $mdMedia: any,
+        public $mdMedia: any,
         private $mdDialog: any,
         private dialogs: any,
         private ReferenceService: ReferenceService,

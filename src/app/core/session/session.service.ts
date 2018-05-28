@@ -17,16 +17,20 @@ export class SessionService {
     static $inject = [ 'storage', 'configAuthData' ];
 
     constructor (private storage: StorageService, private configAuthData: any ) {
-        debugger;
         // поддержка старого решения с синхронным получением данных в localStorage
         this.session = new BehaviorSubject<ISession>(this.configAuthData || this.storage.get('session') || {});
-        this.storage.getItem('session').then(d => this.session.next(d || {}));
+        //this.storage.getItem('session').then(d => this.session.next(d || {}));
     }
 
     set (session: ISession = {}) {
         //this.storage.set('session', session);
         this.storage.setItem('session', session).then(d => this.session.next(d));
         //this.session.next(session);
+    }
+
+    // async set item (use un auth.signedIn)
+    setItem (session: ISession = {}): Promise<any> {
+        return this.storage.setItem('session', session).then(d => this.session.next(d));
     }
 
     refresh (changes: Object) {

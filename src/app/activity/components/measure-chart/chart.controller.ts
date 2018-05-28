@@ -145,7 +145,7 @@ class ActivityChartController implements IComponentController {
         this.config.minAspectRation = (this.$mdMedia("gt-md") && 0.45) ||
             (this.$mdMedia("gt-lg") && 0.35) || this.config.minAspectRation;
         // настраиваем пока двух шкал под два первых активных показателя
-
+        this.config.measuresLimit = (this.$mdMedia("gt-md") && 10) || this.config.measuresLimitMin;
     }
 
     private redraw() {

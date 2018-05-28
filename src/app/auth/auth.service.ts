@@ -158,17 +158,16 @@ export default class AuthService implements IAuthService {
     }
 
     signedIn(sessionData: any): Promise<any> {
-        this.SessionService.set(sessionData);
-        return this.SocketService.init()
-            .then( _ => {
+        return this.SessionService.setItem(sessionData)
+            .then(_ => console.debug('auth signedIn with token', this.SessionService.getToken()))
+            .then(_ => this.SocketService.init())
+            .then(_ => {
                 this.referenceService.resetCategories();
                 this.referenceService.resetTemplates();
                 this.notificationService.resetNotifications();
                 this.requestService.resetRequests();
                 this.userService.resetConnections();
-            }, _ => {
-                throw new Error('auth signin: ws connections disable');
-            })
+            }, _ => { throw new Error('auth signin: ws connections disable');})
             .then( _ => this.SessionService.getUser());
     }
 
