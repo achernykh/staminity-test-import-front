@@ -33,6 +33,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
     options: ['hasOfflineTraining', 'hasConsultations', 'isStructured'],
     tags: ['beginner', 'advanced', 'pro', 'powerMeter', 'hrBelt', 'weightLoss', 'fitness', 'health'],
     weekRanges: [
+        [null,null],
         [1,8],
         [9,12],
         [13,18],

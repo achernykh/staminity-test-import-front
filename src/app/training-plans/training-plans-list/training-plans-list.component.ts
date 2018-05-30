@@ -64,8 +64,8 @@ class TrainingPlansListCtrl implements IComponentController {
                 (!this.filter.distanceType || this.filter.distanceType === 'all' || (this.filter.distanceType && p.distanceType.indexOf(this.filter.distanceType) !== -1)) &&
                 (!this.filter.tags || (this.filter.tags && this.filter.tags.every(t => p.tags.indexOf(t) !== -1))) &&
                 (!this.filter.keywords || (this.filter.keywords && this.filter.keywords.every(t => p.keywords.indexOf(t) !== -1))) &&
-                (!this.filter.weekCountFrom || (this.filter.weekCountFrom && p.weekCount >= this.filter.weekCountFrom)) &&
-                (!this.filter.weekCountTo || (this.filter.weekCountTo && p.weekCount <= this.filter.weekCountTo)) &&
+                (!this.filter.weekCountFrom || this.filter.weekCountFrom === null || (this.filter.weekCountFrom && p.weekCount >= this.filter.weekCountFrom)) &&
+                (!this.filter.weekCountTo || this.filter.weekCountFrom === null || (this.filter.weekCountTo && p.weekCount <= this.filter.weekCountTo)) &&
                 (!this.filter.hasConsultations || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasConsultations') && p.customData.hasConsultations)) &&
                 (!this.filter.hasOfflineTraining || (p.hasOwnProperty('customData') && p.customData.hasOwnProperty('hasOfflineTraining') && p.customData.hasOfflineTraining)) &&
                 (!this.filter.isStructured || p.isStructured));

@@ -20,7 +20,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
     // private
     private owner: Array<SearchResultByUser> = [];
     private panel: 'plans' | 'events' | 'hide' = 'plans';
-    private weekCountRange: number;
+    private weekCountRange: any;
     private supportLanguages: Array<string> = supportLng;
 
     // inject

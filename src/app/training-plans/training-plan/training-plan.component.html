@@ -116,7 +116,7 @@
                 <p flex class="text md-subhead md-dark">
                     <span ng-if="$ctrl.plan.isFixedCalendarDates"
                           translate="trainingPlans.landing.fixCalendarDates"
-                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
+                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstDate, finish: $ctrl.plan.endDate}">
                     </span>
                     <span ng-if="!$ctrl.plan.isFixedCalendarDates"
                           translate="trainingPlans.landing.flexCalendarDates"

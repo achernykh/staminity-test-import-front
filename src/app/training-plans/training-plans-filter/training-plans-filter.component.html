@@ -135,9 +135,10 @@
                                             ng-change="$ctrl.changeRange($ctrl.config.weekRanges[$ctrl.weekCountRange], 'weekCount')" flex="100">
                                 <md-radio-button ng-repeat="range in [0,1,2,3] track by $index"
                                                  value="{{range}}" class="md-primary">
-                                    <span>{{$ctrl.config.weekRanges[range][0]}}</span>
-                                    <span ng-if="!$last">&nbsp;-&nbsp;</span>
-                                    <span ng-if="!$last">{{$ctrl.config.weekRanges[range][1]}}</span>
+                                    <span ng-if="$first" translate="trainingPlans.weekCount.all"></span>
+                                    <span ng-if="!$first">{{$ctrl.config.weekRanges[range][0]}}</span>
+                                    <span ng-if="!$first && !$last">&nbsp;-&nbsp;</span>
+                                    <span ng-if="!$first && !$last">{{$ctrl.config.weekRanges[range][1]}}</span>
                                     <span ng-if="$last">+</span>
                                 </md-radio-button>
                             </md-radio-group>
