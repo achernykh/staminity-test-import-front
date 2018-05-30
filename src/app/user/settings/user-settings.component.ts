@@ -37,8 +37,12 @@ class UserSettingsCtrl implements IComponentController {
             }
             this.$scope.$applyAsync();
         });
-        agentService.updates.subscribe((agentProfile) => {
+        agentService.updatesProfile.subscribe((agentProfile) => {
             this.agentProfile = agentProfile;
+            this.$scope.$applyAsync();
+        });
+        agentService.updatesEnvironment.subscribe(e => {
+            this.agentEnvironment = e;
             this.$scope.$applyAsync();
         });
     }

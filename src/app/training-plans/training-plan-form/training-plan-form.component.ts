@@ -63,7 +63,7 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     private changeCommerce (): void {
         if (this.plan.isPublic && !this.plan.icon) {
-            this.plan.icon = this.plan.authorProfile.public.avatar;
+            //this.plan.icon = this.plan.authorProfile.public.avatar;
         }
     }
 

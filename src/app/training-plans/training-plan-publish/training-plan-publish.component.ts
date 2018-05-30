@@ -19,7 +19,7 @@ class TrainingPlanPublishCtrl implements IComponentController {
     // private
     private dataLoading: boolean = false;
     private isProfileComplete: boolean = null;
-    private rules = ['profile', 'version', 'icon', 'background', 'items' ];
+    private rules = ['profile', 'isNotDynamic', 'version', 'icon', 'background', 'items' ];
     static $inject = ['$scope', 'TrainingPlansService', 'message','dialogs', 'AgentService'];
 
     constructor(
@@ -41,6 +41,10 @@ class TrainingPlanPublishCtrl implements IComponentController {
 
     get profile (): boolean {
         return this.isProfileComplete;
+    }
+
+    get isNotDynamic (): boolean {
+        return this.plan.isFixedCalendarDates;
     }
 
     get version (): boolean {

@@ -82,7 +82,6 @@ class TrainingPlansListCtrl implements IComponentController {
     publish (env: Event, plan: TrainingPlan) {
         this.trainingPlanDialogService.publish(env, plan)
             .then(r => {
-                debugger;
                 switch (r.mode) {
                     case FormMode.Post: {
                         Object.assign(plan,r.plan);
