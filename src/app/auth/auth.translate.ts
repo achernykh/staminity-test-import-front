@@ -22,7 +22,8 @@ export let _translate = {
             fullTitle: "Регистрация нового пользователя",
             shortTitle: "Регистрация",
             coach: "Я тренер",
-            button: "Регистрация"
+            button: "Регистрация",
+            social: 'Регистрация через '
         },
         // Окно входа в сервис
         signin: {
@@ -30,7 +31,8 @@ export let _translate = {
             shortTitle: "Войти",
             button: "Войти",
             remember: "Запомнить меня",
-            reset: "Восстановление пароля"
+            reset: "Восстановление пароля",
+            social: 'Войти через '
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
@@ -95,7 +97,8 @@ export let _translate = {
             fullTitle: "New user sign up",
             shortTitle: "Sign up",
             coach: "I am a coach",
-            button: "Sign up"
+            button: "Sign up",
+            social: 'Sign up with '
         },
         // Окно входа в сервис
         signin: {
@@ -103,7 +106,8 @@ export let _translate = {
             shortTitle: "Sign in",
             button: "Sign in",
             remember: "Remember me",
-            reset: "Forgot my password"
+            reset: "Forgot my password",
+            social: 'Sign in with '
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {

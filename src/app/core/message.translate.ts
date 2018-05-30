@@ -1055,7 +1055,7 @@ export const _translateMessage = {
         },
         inviteSuccess: { // тренер отправил запрос на подключение для новых пользователей сервиса
             title: "",
-            text: "You have successfully sent an ivites to athletes"
+            text: "You have successfully sent invites to athletes"
         },
         forbidden_cannotConnectToCoach_coachTariffRequired: {
             title: "Error",

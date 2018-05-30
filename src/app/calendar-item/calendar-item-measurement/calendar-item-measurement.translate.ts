@@ -25,7 +25,7 @@ export const _measurement = {
     en: {
         toolbar: {
             title: 'Measurement',
-            delete: 'Deleta',
+            delete: 'Delete',
             close: 'Close',
             settings: 'Settings',
             save: 'Save'
