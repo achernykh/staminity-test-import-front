@@ -1,5 +1,5 @@
 <!-- Панель для Тренировки -->
-<md-dialog-actions ng-if="!($ctrl.item.activity.view.isTrainingPlan || $ctrl.item.activity.view.isTemplate || $ctrl.isIonic)"
+<md-dialog-actions ng-if="!($ctrl.item.activity.view.isTrainingPlan || $ctrl.item.activity.view.isTemplate)"
                    flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="$ctrl.item.activity.view.isView && $ctrl.item.activity.isSpecified && !$ctrl.item.isIonic"
@@ -22,7 +22,7 @@
     </md-button>
 </md-dialog-actions>
 <!-- Панель для Шаблона тренировки -->
-<md-dialog-actions ng-if="$ctrl.item.activity.view.isTemplate && !$ctrl.isIonic"
+<md-dialog-actions ng-if="$ctrl.item.activity.view.isTemplate"
                    flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="$ctrl.item.activity.view.isView"
@@ -37,7 +37,7 @@
     </md-button>
 </md-dialog-actions>
 <!-- Панель для Тренировки в Долгосрочном плане -->
-<md-dialog-actions ng-if="$ctrl.item.activity.view.isTrainingPlan && !$ctrl.isIonic"
+<md-dialog-actions ng-if="$ctrl.item.activity.view.isTrainingPlan"
                    flex="none" layout="row" style="background: white">
     <span flex></span>
     <md-button ng-if="!$ctrl.item.activity.view.isView"
