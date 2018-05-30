@@ -128,9 +128,9 @@ export const translateMethodology = {
         },
         accessLock: {
             trainingPlans: "Please fill up your coach profile to create training plans. You could add necessary data in Settings. Find out more in <a href='https://help.staminity.com/ru/coaches/coach-profile.html'>Staminity Help Center</a>",
-            periodization: 'Periodisation schemes management and Training season plan creation is available only for users with Premium and Coach tariffs. You could add tariff subscription in Settings',
-            categories: 'Activity category manaagement is available only for users with Premium and Coach tariffs. You could add tariff subscription in Settings.',
-            templates: 'Activity templates manaagement is available only for users with Premium and Coach tariffs. You could add tariff subscription in Settings.'
+            periodization: 'Periodization schemes management and Training season plan creation is available only for users with Premium or Coach tariffs enabled. You can enable tariff in Settings',
+            categories: 'Activity category management is available only for users with Premium or Coach tariffs enabled. You can enable tariff in Settings',
+            templates: 'Activity templates management is available only for users with Premium or Coach tariffs enabled. You can enable tariff in Settings'
         },
         // периодизация
         periodization: {

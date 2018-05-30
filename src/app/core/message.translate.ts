@@ -640,11 +640,11 @@ export const _translateMessage = {
         },
         trainingPlanPublishSuccess: {
             title: '',
-            text: 'Тренировочный план опубликован в магазине'
+            text: 'Тренировочный план опубликован и доступен в Магазине планов'
         },
         trainingPlanUnpublishSuccess: {
             title: '',
-            text: 'Публикация плана отменена'
+            text: 'Публикация тренировочного плана отменена'
         },
         omniMessagePost: {
             title: '',
@@ -653,6 +653,10 @@ export const _translateMessage = {
         omniMessagePostError: {
             title: '',
             text: "Ваше обращение не отправлено. Попробуйте еще раз или оставьте заявку на support.staminity.com"
+        },
+        trainingPlanAssignComplete: {
+            title: '',
+            text: "Тренировочный план присвоен"
         }
 
     },
@@ -1051,7 +1055,7 @@ export const _translateMessage = {
         },
         inviteSuccess: { // тренер отправил запрос на подключение для новых пользователей сервиса
             title: "",
-            text: "You have successfully sent an ivites to athletes"
+            text: "You have successfully sent invites to athletes"
         },
         forbidden_cannotConnectToCoach_coachTariffRequired: {
             title: "Error",
@@ -1274,7 +1278,7 @@ export const _translateMessage = {
         },
         differentBasicActivityTypes: {
             title: '',
-            text: 'Merge cannot be done: different activity types'
+            text: 'Merge cannot be done: different sports'
         },
         errorCompleteIntervals: {
             title: '',
@@ -1294,11 +1298,11 @@ export const _translateMessage = {
         },
         trainingPlanPublishSuccess: {
             title: '',
-            text: 'Training plan successfully published and available in Store'
+            text: 'Training plan has been successfully published and available in the Store'
         },
         trainingPlanUnpublishSuccess: {
             title: '',
-            text: 'Training plan publication cancelled'
+            text: 'Training plan has been removed from the Store'
         },
         omniMessagePost: {
             title: '',
@@ -1307,6 +1311,10 @@ export const _translateMessage = {
         omniMessagePostError: {
             title: '',
             text: "Your request wasn't sent. Please try again or leave us a request at support.staminity.com"
+        },
+        trainingPlanAssignComplete: {
+            title: '',
+            text: "Training plan has been assigned"
         }
     }
 };

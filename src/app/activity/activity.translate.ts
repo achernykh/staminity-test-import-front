@@ -186,7 +186,7 @@ export const translateActivity = {
         descriptionPlaceholder: '...',
         assignment: {
             title: 'Workout plan',
-            needSport: 'Choose activity type and category',
+            needSport: 'Set sport and category',
             categoryLabel: 'Choose activity category',
             structured: 'Structured'
         },

@@ -180,7 +180,7 @@ export const translateAnalytics = {
                 placeholder: "User",
             },
             activityTypes: {
-                placeholder: "Activity types",
+                placeholder: "Sports",
             },
             activityCategories: {
                 empty: "Category",
@@ -308,12 +308,12 @@ export const translateAnalytics = {
         },
         DistanceByActivityTypeByPeriods: {
             title: "Completed distance/duration",
-            shortDescription: "Completed distance/duration by activity types",
+            shortDescription: "Completed distance/duration by sports",
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         },
         DistanceByActivityTypes: {
             title: "Completed distance/duration (piechart)",
-            shortDescription: "Completed distance/duration by activity types",
+            shortDescription: "Completed distance/duration by sports",
             description: "Measure: {{measureName | translate | lowercase}}",
         },
         measurementsByPeriods: {
