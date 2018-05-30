@@ -66,7 +66,7 @@ export class CalendarService {
         return this.SocketService.send(new DeleteCalendarItemRequest(mode,items, rmParams));
     }
 
-    postFile(file: any, activityId?:number):IHttpPromise<any> {
+    postFile(file: any, activityId?:number): Promise<any> {
         return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
             .then((response) => response.data);
     }

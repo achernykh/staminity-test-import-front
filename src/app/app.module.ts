@@ -26,7 +26,7 @@ import Analytics from "./analytics/analytics.module";
 import { Methodology } from './methodology/methodology.module';
 import { TrainingSeason } from './training-season';
 import { User } from './user';
-import {StorageService} from "@app/core";
+import {StorageService, ISession} from "@app/core";
 
 const vendors = [
     'pascalprecht.translate', // translate
@@ -83,21 +83,28 @@ const submodules = [
 	strictDi: true
 });**/
 
+const getUserSession = (key: string = 'session'): Promise<ISession> => localForage.getItem('session');
+
+const getRootModule = (session: ISession) => {
+    return module('staminity.application', [...vendors, ...submodules] )
+        .constant('configAuthData', session || window.localStorage.getItem('session') || {})
+        .component('staminityApplication', AppComponent)
+        .config(configure)
+        .run(run)
+        .name
+};
+
+const bootstrapApplication = (module) =>
+    angular.element(document).ready(_ => bootstrap(document, [module], {strictDi: true}));
+
 // async bootstrap
 Promise.resolve()
-    .then(_ => console.log('run async bootstrap'))
-    .then(_ => localForage.config({
-        driver: [localForage.WEBSQL, localForage.INDEXEDDB, localForage.LOCALSTORAGE],
-        name: 'StaminityDB'}))
-    .then(_ => localForage.getItem('session'))
-    .then(session => module('staminity.application', [...vendors, ...submodules] )
-            .constant('configAuthData', session || {})
-            .component('staminityApplication', AppComponent)
-            .config(configure)
-            .run(run)
-            .name)
-    .then(root => angular.element(document)
-        .ready(_ => bootstrap(document, [root], {strictDi: true})));
+    .then(_ => getUserSession())
+    .then(s => getRootModule(s))
+    .then(r => bootstrapApplication(r));
 
+/**.then(_ => localForage.config({
+        driver: [localForage.WEBSQL, localForage.INDEXEDDB, localForage.LOCALSTORAGE],
+        name: 'StaminityDB'}))**/
 // check auth status
 //export default root;

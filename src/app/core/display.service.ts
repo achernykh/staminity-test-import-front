@@ -4,7 +4,7 @@ import { getUser, ISession, SessionService } from "./index";
 import UserService from "./user.service";
 
 const getDisplay = (session: ISession): string => path([getUser, "display"])(session) || {};
-const getLocale = (session: ISession): string => path([getUser, "display", "language"])(session) || "ru";
+const getLocale = (session: ISession): string => path([getUser, "display", "language"])(session) || (window.navigator.language as string).substring(0,2) || "ru";
 const getUnits = (session: ISession): string => path([getUser, "display", "units"])(session) || "metric";
 const getTimezone = (session: ISession): string => path([getUser, "display", "timezone"])(session) || "+00:00";
 const getFirstDayOfWeek = (session: ISession): number => path([getUser, "display", "firstDayOfWeek"])(session) || 0;
@@ -42,7 +42,9 @@ export default class DisplayService {
     }
 
     getLocale (): string {
-        return getLocale(this.sessionService.get());
+        return this.sessionService.getToken() ?
+            getLocale(this.sessionService.get()) :
+            this.$translate.use() || (window.navigator.language as string).substring(0,2) || "en";
     }
 
     setLocale(locale: string): Promise<any> {

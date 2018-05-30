@@ -203,17 +203,17 @@ export class TrainingPlansService {
      * @param file
      * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
      */
-    setAvatar(planId: number, file: any): IHttpPromise<any> {
+    setAvatar(planId: number, file: any): Promise<any> {
         return this.RESTService.postFile(new PostFile(`/plan/icon/${planId}`, file));
     }
 
     /**
      * Аплоад фонового изоражения клуба
-     * @param groupId
+     * @param planId
      * @param file
      * @returns {Promise<IGroupProfile>|Promise<T>|PromiseLike<IGroupProfile>|Promise<TResult2|IGroupProfile>}
      */
-    setBackground(planId: number, file: any): IHttpPromise<any> {
+    setBackground(planId: number, file: any): Promise<any> {
         return this.RESTService.postFile(new PostFile(`/plan/background/${planId}`, file));
     }
 }

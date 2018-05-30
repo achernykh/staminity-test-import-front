@@ -101,8 +101,8 @@ export class PostFile implements IPostFileRequest {
 }
 
 export interface IRESTService {
-    postData(request: IPostDataRequest): IHttpPromise<{}>;
-    postFile(request: IPostFileRequest): IHttpPromise<{}>;
+    postData(request: IPostDataRequest): Promise<any>;
+    postFile(request: IPostFileRequest): Promise<any>;
 }
 
 export class RESTService implements IRESTService {
@@ -116,7 +116,7 @@ export class RESTService implements IRESTService {
         //this.SessionService = SessionService;
     }
 
-    postData(request: IPostDataRequest): IHttpPromise<{}> {
+    postData(request: IPostDataRequest): Promise<any> {
         this.loader.show();
 
         const token: string = this.SessionService.getToken();
@@ -147,7 +147,7 @@ export class RESTService implements IRESTService {
             });
     }
 
-    postFile(request: IPostFileRequest): IHttpPromise<{}> {
+    postFile(request: IPostFileRequest): Promise<any> {
         this.loader.show();
         request.headers.Authorization += this.SessionService.getToken();
         return this.$http(request)

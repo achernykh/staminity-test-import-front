@@ -143,7 +143,7 @@ export class CalendarWeekData {
     private _total: ICalendarWeekTotal;
     private _items: ICalendarItem[] = [];
 
-    private readonly primarySport: [string] = ["run", "bike", "swim"];
+    private readonly primarySport: [string] = ["run", "bike", "swim", "ski", "rowing", "other"];
     private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 
     constructor(week: ICalendarWeek) {
