@@ -23,7 +23,8 @@ export let _translate = {
             shortTitle: "Регистрация",
             coach: "Я тренер",
             button: "Регистрация",
-            social: 'Регистрация через '
+            social: 'Регистрация через ',
+            signinLink: "<a href='https://staminity.com/signin'>Уже есть аккаунт</a>"
         },
         // Окно входа в сервис
         signin: {
@@ -32,7 +33,9 @@ export let _translate = {
             button: "Войти",
             remember: "Запомнить меня",
             reset: "Восстановление пароля",
-            social: 'Войти через '
+            social: 'Войти через ',
+            signupLink: "<a href='https://staminity.com/signup'>Создать аккаунт</a>"
+
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
@@ -98,7 +101,8 @@ export let _translate = {
             shortTitle: "Sign up",
             coach: "I am a coach",
             button: "Sign up",
-            social: 'Sign up with '
+            social: 'Sign up with ',
+            signinLink: "<a href='https://staminity.com/signin'>Sign in</a>"
         },
         // Окно входа в сервис
         signin: {
@@ -107,7 +111,8 @@ export let _translate = {
             button: "Sign in",
             remember: "Remember me",
             reset: "Forgot my password",
-            social: 'Sign in with '
+            social: 'Sign in with ',
+            signupLink: "<a href='https://staminity.com/signup'>Create new account</a>"
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
