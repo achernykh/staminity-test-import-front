@@ -662,7 +662,6 @@ export const _translateMessage = {
             title: 'Ошибка',
             text: "Аккаунт с таким e-mail отсутствует в Staminity"
         }
-
     },
 	en: {
         null: {

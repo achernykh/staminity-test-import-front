@@ -116,7 +116,8 @@ export const _translateTrainingPlans = {
             pending: 'Заказан'
         },
         weekCount: {
-            label: 'Количество недель'
+            label: 'Количество недель',
+            all: 'Все'
         },
         options: {
             label: 'Опции',
@@ -265,6 +266,8 @@ export const _translateTrainingPlans = {
                 backgroundFail: "Основное изображение установлено: НЕТ. Загрузите его на вкладке 'Магазин' в карточке плана",
                 itemsSuccess: 'Достаточно тренировок для публикации: ДА',
                 itemsFail: 'Достаточно тренировок для публикации: НЕТ. Добавьте не менее 10 тренировок',
+                isNotDynamicSuccess: 'План не обновляемый: ДА',
+                isNotDynamicFail: 'План не обновляемый: НЕТ. Публикация обновляемых планов невозможна'
 
             },
             title: "Публикация плана"
@@ -445,7 +448,8 @@ export const _translateTrainingPlans = {
             pending: 'Ordered'
         },
         weekCount: {
-            label: 'Week count'
+            label: 'Week count',
+            all: 'All'
         },
         options: {
             label: 'Options',
@@ -593,6 +597,9 @@ export const _translateTrainingPlans = {
                     backgroundFail: "Training plan has the background image: FAIL. Please check the Store tab of the Plan",
                     itemsSuccess: 'Training plan has enough items: SUCCESS',
                     itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
+                    isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
+                    isNotDynamicFail: 'Training plan is not dynamic: FAIL. Dynamic plan publication is forbidden'
+
             },
             title: "Training plan publication"
         },
