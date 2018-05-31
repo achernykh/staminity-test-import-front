@@ -56,7 +56,7 @@ export let _translateSearch = {
             label: 'Name'
         },
         activityTypes: {
-            label: 'Activity types'
+            label: 'Sports'
         }
     },
 };

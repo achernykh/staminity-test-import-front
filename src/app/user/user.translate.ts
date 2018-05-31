@@ -597,11 +597,11 @@ export const translateUser = {
                 priceFull: 'Describe your services to client and pricing options',
                 contact: 'Contacts',
                 contactFull: 'How new athletes may contact you',
-                athletes: 'Students',
-                athletesFull: 'Any information about your students: their achievements, records, etc',
-                isFree: 'Availability for new students:',
-                isFreeTrue: 'Yes, i am available',
-                isFreeFalse: 'No, i am not available',
+                athletes: 'Athletes',
+                athletesFull: 'Any information about your athletes: their achievements, records, etc',
+                isFree: 'Availability for new athletes:',
+                isFreeTrue: 'Yes, I am available',
+                isFreeFalse: 'No, I am not available',
                 contacts: {
                     header:'Personal contacts (only for you and your coach)',
                     extEmail: 'Personal email',
@@ -635,8 +635,8 @@ export const translateUser = {
                 statusIncomplete: "Coach profile incomplete, you're not available for search",
                 isCoach: 'Coach',
                 status: {
-                    addCoachTariff: "To became Coach please add trial Coach tariff",
-                    off: "You're not the coach",
+                    addCoachTariff: "To become a Coach please add trial Coach tariff",
+                    off: "You're not a coach",
                     coachTariffEnabled: "You are the coach. Disabling in not possible while 'Coach' tariff is active.",
                     planSellerEnabled: "You are the coach. Disabling in not possible while you want to publish training plans",
                     on: "You are the coach",
@@ -790,10 +790,10 @@ export const translateUser = {
                 cancel: 'Cancel',
                 open: 'Open',
                 monthly: 'Monthly',
-                yearly: 'Yearly',
+                yearly: 'Annually',
                 periodically: {
                     1: 'Monthly',
-                    12: 'Yearly'
+                    12: 'Annually'
                 },
                 term: {
                     1: 'month',
@@ -801,8 +801,8 @@ export const translateUser = {
                 },
                 terms: {
                     1: 'Monthly',
-                    12: 'Yearly',
-                    14: 'Yearly'
+                    12: 'Annually',
+                    14: 'Annually'
                 },
                 dayly: 'day',
                 subscriptionFees: 'Subscription fee',
@@ -824,8 +824,8 @@ export const translateUser = {
                 isOn: 'On',
                 isOff: 'Off',
                 agreementMessage: "I have read and agree with ",
-                agreementLink: "tariff conditions",
-                conditions: 'Tariff conditions',
+                agreementLink: "Terms of subscription",
+                conditions: "Terms of subscription",
                 conditionsText: `
     Calculated tariff's fees for "{{tariff}}" tariff will be added to your existed invoice.
 
@@ -852,7 +852,7 @@ export const translateUser = {
                     "Athletes": '{{count}} athletes',
                     "ClubAthletes": '{{count}} club athletes',
                     "CoachByClub": "{{count}} coaches",
-                    "PremiumByCoach": "{{count}} Premium athlethes",
+                    "PremiumByCoach": "{{count}} Premium athletes",
                     "PremiumByClub": "{{count}} Premium by club athletes"
                 },
                 group: {

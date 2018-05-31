@@ -47,8 +47,7 @@ export let _translate = {
             },
             mobile: {
                 title: "Со смартфона",
-                description: 'Для браузера смартфона и планшета создана <a flex href="https://help.staminity.com/ru/basics/staminity-for-mobile.html">специальная версия сайта для мобильных устройств</a><br>' +
-                "Доступны бета-версии приложений для IOS и Android",
+                description: 'Доступны версии приложения для IOS и Android, а также специальная версия сайта для смартфонов и планшетов. <a flex href="https://help.staminity.com/ru/basics/staminity-for-mobile.html">Узнать подробнее</a><br>',
             },
         },
         scheme: {

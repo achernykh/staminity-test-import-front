@@ -661,6 +661,10 @@ export const _translateMessage = {
         storeItemNofFound: {
             title: '',
             text: "План не найден"
+        },
+        forbidden_need_signUp: {
+            title: 'Ошибка',
+            text: "Аккаунт с таким e-mail отсутствует в Staminity"
         }
 
 
@@ -1060,7 +1064,7 @@ export const _translateMessage = {
         },
         inviteSuccess: { // тренер отправил запрос на подключение для новых пользователей сервиса
             title: "",
-            text: "You have successfully sent an ivites to athletes"
+            text: "You have successfully sent invites to athletes"
         },
         forbidden_cannotConnectToCoach_coachTariffRequired: {
             title: "Error",
@@ -1283,7 +1287,7 @@ export const _translateMessage = {
         },
         differentBasicActivityTypes: {
             title: '',
-            text: 'Merge cannot be done: different activity types'
+            text: 'Merge cannot be done: different sports'
         },
         errorCompleteIntervals: {
             title: '',
@@ -1324,6 +1328,11 @@ export const _translateMessage = {
         storeItemNofFound: {
             title: '',
             text: "Training plan not found"
+        },
+        forbidden_need_signUp: {
+            title: 'Error',
+            text: "Account does not exist"
         }
+
     }
 };
