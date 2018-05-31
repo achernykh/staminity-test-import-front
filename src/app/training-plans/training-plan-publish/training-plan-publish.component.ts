@@ -44,7 +44,7 @@ class TrainingPlanPublishCtrl implements IComponentController {
     }
 
     get isNotDynamic (): boolean {
-        return this.plan.isFixedCalendarDates;
+        return !this.plan.propagateMods;
     }
 
     get version (): boolean {

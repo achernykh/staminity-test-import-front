@@ -18,7 +18,7 @@ class UserSettingsCardsCtrl {
 
     // public
     form: any;
-    currencies = ['RUB', 'USD', 'EUR'];
+    currencies = ['RUB'];//['RUB', 'USD', 'EUR'];
 
     static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'AgentService', 'quillConfig', '$scope'];
 

@@ -13,7 +13,10 @@
             <div class="public"></div>
         </div>
         <div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
-            <p class="md-body-2" style="line-height: 20px"> {{ plan.name }} </p>
+            <p class="md-body-2" style="line-height: 20px">
+                <span>{{ plan.name }}</span>
+                <span ng-if="plan.storeVersion">(#{{plan.storeVersion}})</span>
+            </p>
             <p class="md-caption md-truncate" style="font-weight: 400">
                 <span class="tag" ng-if="plan.distanceType"
                       md-colors="{background: 'accent-300'}">
@@ -219,7 +222,7 @@
             <div class="md-list-item-text" ng-class="{'md-offset': phone.options.offset }">
                 <p class="md-body-2" style="line-height: 20px">
                     <span>{{ plan.name }}</span>
-                    <span ng-if="plan.storeVersion">(ver: {{plan.storeVersion}})</span>
+                    <span ng-if="plan.storeVersion">(#{{plan.storeVersion}})</span>
                 </p>
                 <p class="md-caption md-truncate" style="font-weight: 400">
                 <span class="tag" ng-if="plan.distanceType"

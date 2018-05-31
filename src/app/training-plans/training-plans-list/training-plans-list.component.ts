@@ -88,7 +88,7 @@ class TrainingPlansListCtrl implements IComponentController {
                         break;
                     }
                     case FormMode.Delete: {
-                        Object.assign(plan,r.plan);
+                        Object.assign(plan,r.plan, {storeRevision: null});
                         break;
                     }
                 }

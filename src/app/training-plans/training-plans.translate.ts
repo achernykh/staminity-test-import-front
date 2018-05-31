@@ -16,7 +16,7 @@ export const _translateTrainingPlans = {
         },
         loading: "Загрузка",
         form: {
-          title: 'Тренировочный план'
+            title: 'Тренировочный план'
         },
 
         // действия
@@ -329,8 +329,7 @@ export const _translateTrainingPlans = {
             title: 'Оплатить'
         },
         published: 'Опубликованы в магазине',
-        unpublished: 'Не опубликованы в магазине'
-        },
+        unpublished: 'Не опубликованы в магазине',
         owner: {
             label: 'Автор'
         }
@@ -462,8 +461,7 @@ export const _translateTrainingPlans = {
             hasOfflineTraining: "Workouts under the Author's supervision"
         },
         assignment: {
-            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. </br>" +
-            "Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
+            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. </br>Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
             action: {
                 delete: 'Remove assignment',
                 post: 'New assignment',
@@ -571,17 +569,17 @@ export const _translateTrainingPlans = {
             authorPlans: 'More from the Author',
             similarPlans: 'Similar plans',
             more: 'Show more'
-            },
+        },
         planDontHaveItemsForAssignment: "Plan has no items to assign",
         info: {
             disableEditAssignPlan: ""
-            },
+        },
         order: {
             needAccount: 'You have to be signed in to purchase the plan',
             tabs: {
                 signin: 'I already have an account',
                 signup: 'Create new account'
-                },
+            },
             confirmation: 'I agree with <a href="https://legal.staminity.com/en/offer-plan-buyer.html">Training plans purchase policy (for acquirers) </a> and accept the <a href="https://legal.staminity.com/en/offer-author-buyer.html">Agreement between the training plan Author and the plan Acquirer</a>',
             confirmationSignup: 'By signing up i accept <a href="https://legal.staminity.com/en/license.html">The licence agreement (public offer) </a> and agree with <a href="https://legal.staminity.com/en/terms.html">the Website use policy</a>',
             priceLabel: "Price",
@@ -591,19 +589,18 @@ export const _translateTrainingPlans = {
         publish: {
             check: {
                 title: 'Check-list for training plan publication',
-                    versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
-                    versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
-                    profileSuccess: 'Your plan seller profile is completed: SUCCESS',
-                    profileFail: 'Your Plan seller profile is coompleted: FAIL. Please check the Training plan seller section in Settings',
-                    iconSuccess: "Training plan has an image: SUCCESS",
-                    iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
-                    backgroundSuccess: "Training plan has the background image: SUCCESS.",
-                    backgroundFail: "Training plan has the background image: FAIL. Please check the Store tab of the Plan",
-                    itemsSuccess: 'Training plan has enough items: SUCCESS',
-                    itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
-                    isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
-                    isNotDynamicFail: 'Training plan is not dynamic: FAIL. Dynamic plan publication is forbidden'
-
+                versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
+                versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
+                profileSuccess: 'Your plan seller profile is completed: SUCCESS',
+                profileFail: 'Your Plan seller profile is coompleted: FAIL. Please check the Training plan seller section in Settings',
+                iconSuccess: "Training plan has an image: SUCCESS",
+                iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
+                backgroundSuccess: "Training plan has the background image: SUCCESS.",
+                backgroundFail: "Training plan has the background image: FAIL. Please check the Store tab of the Plan",
+                itemsSuccess: 'Training plan has enough items: SUCCESS',
+                itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
+                isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
+                isNotDynamicFail: 'Training plan is not dynamic: FAIL. Dynamic plan publication is forbidden'
             },
             title: "Training plan publication"
         },
@@ -614,7 +611,7 @@ export const _translateTrainingPlans = {
         currency: {
             label: 'Currency',
             placeholder: 'Select currency'
-            },
+        },
         price: {
             label: 'Price',
             placeholder: 'Set the price'
@@ -652,11 +649,11 @@ export const _translateTrainingPlans = {
             placeholder: 'Describe your usage of structured activities in the training plan'
         },
         forUploadNeedSave: 'To upload images please save the plan',
-            success: {
-                title: 'Purchase success',
-                authText: 'Congratulations, you have successfully purchased the Training plan! Go to "Purchases" tab in Store to assign it.',
-                guestText: 'Congratulations, you have successfully purchased the Training plan! Next steps: <ol type="1"><li>Sign in to Staminity</li><li>Go to "Purchases" in "Training plan store" view</li><li>Assign the plan from / to necessary date </li><li>Find out the planned activities in your calendar and follow the instructions</li></ol>'
-            },
+        success: {
+            title: 'Purchase success',
+            authText: 'Congratulations, you have successfully purchased the Training plan! Go to "Purchases" tab in Store to assign it.',
+            guestText: 'Congratulations, you have successfully purchased the Training plan! Next steps: <ol type="1"><li>Sign in to Staminity</li><li>Go to "Purchases" in "Training plan store" view</li><li>Assign the plan from / to necessary date </li><li>Find out the planned activities in your calendar and follow the instructions</li></ol>'
+        },
         samplesHowTo: 'Activities and events samples could help users to understand your training approach and your instructions. Mark necessary activities and events as samples',
         hasUpdateForStore: "Has unpublished changes",
         pay: {
@@ -664,7 +661,6 @@ export const _translateTrainingPlans = {
         },
         owner: {
             label: 'Author'
-        }
         },
         published: 'Published in the Store',
         unpublished: 'Not published in the Store'
