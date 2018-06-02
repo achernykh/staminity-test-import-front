@@ -329,7 +329,10 @@ export const _translateTrainingPlans = {
             title: 'Оплатить'
         },
         published: 'Опубликованы в магазине',
-        unpublished: 'Не опубликованы в магазине'
+        notPublished: 'Не опубликованы в магазине',
+        lang: {
+            label: 'Язык'
+        }
     },
     en: {
         builder: {
@@ -659,6 +662,9 @@ export const _translateTrainingPlans = {
             title: 'Payment details'
         },
         published: 'Published in the Store',
-        unpublished: 'Not published in the Store'
+        notPublished: 'Not published in the Store',
+        lang: {
+            label: 'Language'
+        }
     }
 };
