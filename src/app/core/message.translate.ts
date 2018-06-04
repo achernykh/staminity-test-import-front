@@ -479,8 +479,8 @@ export const _translateMessage = {
 			text: "Тариф не найден"
 		},
 		successUnsubscribeTariff: {
-			title: "Внимание!",
-			text: "Запрос на отключение тарифа успешно обработан."
+			title: "",
+			text: "Запрос на отключение тарифа отправлен"
 		},
 		groupMyAthletesNotEmpty: {
 			title: "Ошибка",
