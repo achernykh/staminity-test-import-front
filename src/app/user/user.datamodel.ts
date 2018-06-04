@@ -44,7 +44,7 @@ export class User implements IUserProfile {
     }
 
     get location (): string {
-        return `${this.personal && this.personal.country || ''}${this.personal && this.personal.city || ''}`;
+        return `${this.personal && this.personal.country || '-'} ${this.personal && this.personal.city || '-'}`;
     }
 
     get avatarPath (): string {

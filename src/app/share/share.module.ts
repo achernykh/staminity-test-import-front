@@ -49,6 +49,7 @@ import { measureValue, measureUnit, measureCalcInterval, measureSave, measureEdi
 import { autoFocus } from "./directives/autofocus.directive";
 import { onFiles } from "./directives/onfiles.directive";
 import { truncateFilter } from "./text/truncate.filter";
+import { toUppercase } from "./text/text.functions";
 
 // import
 
@@ -214,6 +215,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .component('stApplicationUserToolbar', ApplicationUserToolbarComponent)
     .filter('htmlToPlainText', htmlToPlainText)
     .filter('stMeasurePrintIntensity', measurePrintIntensity)
+    .filter('stUppercase', toUppercase)
     .component('staminityBackground', BackgroundComponent)
     .component('staminityHeader', HeaderComponent)
     .component('userMenu', UserMenuComponent)
