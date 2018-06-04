@@ -95,6 +95,7 @@ export const translateUser = {
                     removeCard: "Удалить",
                     isDefault: "По-умолчанию",
                     addCardMessage: "Для привязки карты с нее будет списана сумма в пределах одного рубля. Данная сумма не будет возвращена на карту.",
+                    name: ''
                 },
                 sales: {
                     label: "Продажи тренировочных планов",
@@ -659,6 +660,7 @@ export const translateUser = {
                     removeCard: "Remove card",
                     isDefault: "Default",
                     addCardMessage: "To add new card we charge it for small amount of money, less than 1 RUB. This amount will not be returned to your card.",
+                    name: ''
                 },
                 sales: {
                     label: "Training plans purchases",

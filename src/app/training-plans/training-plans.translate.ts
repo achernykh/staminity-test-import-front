@@ -30,7 +30,7 @@ export const _translateTrainingPlans = {
             appoint: 'Присвоить...',
             calendar: 'Запланировать тренировки',
             assignment: 'Присвоения',
-            publish: 'Опубликовать',
+            publish: 'Публикация',
             unpublish: 'Снять с публикации',
             setIcon: 'Изменить',
             setBackground: 'Изменить фон',
@@ -270,7 +270,9 @@ export const _translateTrainingPlans = {
                 isNotDynamicFail: 'План не обновляемый: НЕТ. Публикация обновляемых планов невозможна'
 
             },
-            title: "Публикация плана"
+            title: "Публикация плана",
+            commit: 'Опубликовать',
+            cancel: 'Снять с публикации'
         },
         monetization: {
             label: 'Платный план'
@@ -369,7 +371,7 @@ export const _translateTrainingPlans = {
             appoint: 'Assignments',
             calendar: 'Create plan items',
             assignment: 'Assignments',
-            publish: 'Publish',
+            publish: 'Publication',
             unpublish: 'Unpublish',
             setIcon: 'Edit',
             setBackground: 'Edit background',
@@ -607,7 +609,9 @@ export const _translateTrainingPlans = {
                 isNotDynamicFail: 'Training plan is not dynamic: FAIL. Publication of dynamic plan is forbidden'
 
             },
-            title: "Training plan publication"
+            title: "Training plan publication",
+            commit: 'Publish',
+            cancel: 'Unpublish'
         },
         monetization: {
             label: 'Paid plan'
