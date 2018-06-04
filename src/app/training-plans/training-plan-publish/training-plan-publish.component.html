@@ -37,12 +37,12 @@
     <span flex></span>
     <md-button class="md-accent" ng-if="$ctrl.plan.storeVersion"
                ng-click="$ctrl.unpublish()"
-               translate="trainingPlans.actions.unpublish">
+               translate="trainingPlans.publish.cancel">
     </md-button>
     <md-button class="md-primary"
                ng-class="{'md-warn': false}"
                ng-disabled="!$ctrl.profile || !$ctrl.isNotDynamic || !$ctrl.version || !$ctrl.icon || !$ctrl.background || !$ctrl.items"
                ng-click="$ctrl.publish()"
-               translate="trainingPlans.actions.publish">
+               translate="trainingPlans.publish.commit">
     </md-button>
 </md-dialog-actions>
