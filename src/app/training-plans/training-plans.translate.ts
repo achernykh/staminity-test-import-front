@@ -332,7 +332,7 @@ export const _translateTrainingPlans = {
         unpublished: 'Не опубликованы в магазине',
         owner: {
             label: 'Автор'
-        }
+        },
         notPublished: 'Не опубликованы в магазине',
         lang: {
             label: 'Язык'

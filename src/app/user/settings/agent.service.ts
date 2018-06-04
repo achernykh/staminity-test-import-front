@@ -170,6 +170,7 @@ export class AgentService {
                 'MNT_DESCRIPTION=', 
                 'process=Submit'
             ].join('&');
+            console.debug('agent service add card url', url);
 
             localStorage.setItem('moneta-result', '');
 
