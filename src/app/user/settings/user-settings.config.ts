@@ -58,7 +58,7 @@ function configure(
         requiredUrlParams: ["response_type", "client_id", "redirect_uri", "display", "scope", "v"],
         scopeDelimiter: ",",
         oauthType: "2.0",
-        v: "5.37",
+        v: "5.74",
     });
 
     // Generic OAuth 2.0
