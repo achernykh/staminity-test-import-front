@@ -999,7 +999,7 @@ export const _translateMessage = {
 
         activityTemplateCreated: {
             title: "",
-            text: "New template have been created"
+            text: "New template has been created"
         },
         forbidden_ExistsRelatedActivity: {
             title: "Action forbidden",
