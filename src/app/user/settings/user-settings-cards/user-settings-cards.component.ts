@@ -86,7 +86,10 @@ class UserSettingsCardsCtrl {
      * @returns {Promise<any>}
      */
     removeAccount(account: IAgentExtAccount): Promise<any> {
-        return this.dialogs.confirm()
+        return this.dialogs.confirm({
+            title: "user.settings.agent.cards.deleteCardTitle",
+            text: "user.settings.agent.cards.deleteCardMessage",
+        })
         .then(() => this.agentService.deleteAgentExtAccount(account))
         .then(() => {
             this.reload();
@@ -99,7 +102,10 @@ class UserSettingsCardsCtrl {
      * @returns {Promise<any>}
      */
     setDefaultAccount(account: IAgentExtAccount): Promise<any> {
-        return this.dialogs.confirm()
+        return this.dialogs.confirm({
+            title: "user.settings.agent.cards.defaultCardTitle",
+            text: "user.settings.agent.cards.defaultCardMessage",
+        })
         .then(() => this.agentService.putAgentExtAccount({ ...account, isDefault: true }))
         .then(() => {
             this.reload();
