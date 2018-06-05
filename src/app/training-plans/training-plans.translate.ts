@@ -247,8 +247,8 @@ export const _translateTrainingPlans = {
                 signin: 'У меня уже есть аккаунт',
                 signup: 'Создать аккаунт'
             },
-            confirmation: "Я согласен с Условиями покупки плана и принимаю Договор-оферту купли-продажи плана между Автором плана и Покупателем",
-            confirmationSignup: "Регистрируясь, я принимаю <a href=\'https://legal.staminity.com/ru/license.html\'>Публичную оферту</a> и соглашаюсь с <a href=\'https://legal.staminity.com/ru/terms.html\'>Условиями использования</a> сайта",
+            confirmation: 'Я прочитал и принимаю условия <a href="https://legal.staminity.com/ru/offer-plan-buyer.html">Соглашения с Покупателями тренировочных планов</a> и <a href="https://legal.staminity.com/ru/offer-author-buyer.html">Договора между Автором и Покупателем тренировочного плана</a>',
+            confirmationSignup: 'Регистрируясь, я принимаю <a href="https://legal.staminity.com/ru/license.html">Публичную оферту</a> и соглашаюсь с <a href="https://legal.staminity.com/ru/terms.html">Условиями использования</a> сайта',
             priceLabel: "Цена",
             free: "Бесплатно",
             price: "{{price}} {{currency}}"
