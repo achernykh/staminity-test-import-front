@@ -13,7 +13,7 @@ export class MembersList implements IGroupManagementProfile {
     ) {
         this.groupId = management.groupId;
         this.availableGroups = management.availableGroups;
-        this.members = management.members.map((member) => new Member(this, member));
+        this.members = management.members &&  management.members.length > 0 && management.members.map((member) => new Member(this, member));
     }
 
     /**
@@ -22,7 +22,7 @@ export class MembersList implements IGroupManagementProfile {
      * @returns {Member}
     */
     getMember = (userId: number): Member => {
-        return this.members.find((member) => member.getUserId() === userId);
+        return this.members && this.members.find((member) => member.getUserId() === userId);
     }
 
     /**
@@ -30,7 +30,7 @@ export class MembersList implements IGroupManagementProfile {
      * @returns {Array<Member>}
     */
     getCoaches = (): Member[] => {
-        return this.members.filter((member) => member.hasClubRole("ClubCoaches"));
+        return this.members && this.members.filter((member) => member.hasClubRole("ClubCoaches"));
     }
 
     /**
@@ -38,7 +38,7 @@ export class MembersList implements IGroupManagementProfile {
      * @returns {Array<Member>}
     */
     getAthletes = (): Member[] => {
-        return this.members.filter((member) => member.hasClubRole("ClubAthletes"));
+        return this.members && this.members.filter((member) => member.hasClubRole("ClubAthletes"));
     }
 
     /**
@@ -47,7 +47,7 @@ export class MembersList implements IGroupManagementProfile {
      * @returns {Array<Member>}
     */
     getAthletesByCoachId = (userId: number): Member[] => {
-        return this.members.filter((member) => member.coaches.indexOf(userId) !== -1);
+        return this.members && this.members.filter((member) => member.coaches.indexOf(userId) !== -1);
     }
 
     /**

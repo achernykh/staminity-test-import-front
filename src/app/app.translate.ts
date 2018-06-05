@@ -20,7 +20,9 @@ export const translateGeneral = {
         clubExpireIn: 'Клуб: осталось {{days}} дн',
         expiredPremium: 'Премиум отключен',
         expiredCoach: 'Тренер отключен',
-        expiredClub: 'Клуб отключен'
+        expiredClub: 'Клуб отключен',
+        loading: 'Загрузка...',
+        pullToRefresh: 'Потяните для обновления',
     },
     en: {
         staminity: "Staminity",
@@ -43,7 +45,9 @@ export const translateGeneral = {
         clubExpireIn: 'Club: {{days | number}} days left',
         expiredPremium: 'Premium expired',
         expiredCoach: 'Coach expired',
-        expiredClub: 'Club expired'
+        expiredClub: 'Club expired',
+        loading: 'Loading...',
+        pullToRefresh: 'Pull to refresh',
     },
 };
 

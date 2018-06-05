@@ -14,6 +14,7 @@ import {
 import { IBillingTariff, IBill } from "@api/billing";
 import { fullImageUrl } from "../share/image/image.functions";
 import { IUserManagementProfile } from "../../../api/group/group.interface";
+import { Club } from "../club/club.datamodel";
 
 export class User implements IUserProfile {
 
@@ -92,6 +93,21 @@ export class User implements IUserProfile {
         return this.connections.hasOwnProperty('Athletes') &&
             this.connections.Athletes.hasOwnProperty('availableInteractions') &&
             this.connections.Athletes.availableInteractions.btnLeaveGroup;
+    }
+
+    get coaches (): Array<User> {
+        return this.connections.hasOwnProperty('Coaches') &&
+            this.connections.Coaches.groupMembers.map(m => new User(m));
+    }
+
+    get clubs (): Array<Club> {
+        return this.connections.hasOwnProperty('Clubs') &&
+            this.connections.Clubs.map(с => new Club(с));
+    }
+
+    get athletes (): Array<User> {
+        return this.connections.hasOwnProperty('allAthletes') &&
+            this.connections.allAthletes.groupMembers.map(a => new User(a));
     }
 
 }
