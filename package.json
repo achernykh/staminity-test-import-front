@@ -5,7 +5,7 @@
     "url": "https://aachernykh@bitbucket.org/aachernykh/staminity-frontend.git"
   },
   "license": "MIT",
-  "version": "2.1.25",
+  "version": "2.1.26",
   "description": "Staminity application",
   "main": "index.html",
   "scripts": {
