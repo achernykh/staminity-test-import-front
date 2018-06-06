@@ -4,8 +4,8 @@ var protocol = {
   ws: 'wss://',
   rest: 'https://'
 };
-var server = 'app.staminity.com';
-var content = 'https://app.staminity.com';
+var server = 'testapp.staminity.com:443';
+var content = 'https://testapp.staminity.com:443';
 var frontend = 'https://dev2.staminity.com/';
 
 
