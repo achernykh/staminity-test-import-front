@@ -1,6 +1,9 @@
 export const translateActivity = {
   ru: {
       title: 'Тренировка',
+      toolbar: {
+          title: 'Тренировка',
+      },
       action: {
           save: 'Сохранить',
           toTemplate: 'В Шаблон',
@@ -120,6 +123,9 @@ export const translateActivity = {
   },
     en: {
         title: 'Activity',
+        toolbar: {
+            title: 'Activity',
+        },
         action: {
             save: 'Save',
             toTemplate: 'Save as template',
