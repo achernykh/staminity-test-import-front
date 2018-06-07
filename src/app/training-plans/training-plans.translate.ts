@@ -199,7 +199,11 @@ export const _translateTrainingPlans = {
             price: 'Купить {{price}} {{currency}}',
             name: 'Название',
             author: 'Автор',
-            title: 'Приобрести тренировочный план'
+            title: 'Приобрести тренировочный план',
+            info: 'Название',
+            rate: 'Рейтинг',
+            weeks: 'Недель',
+            hours: 'Часов',
         },
         landing: {
             weekCount: 'Недель подготовки {{count}}',
@@ -538,7 +542,11 @@ export const _translateTrainingPlans = {
             price: 'Buy {{price}} {{currency}}',
             name: 'Name',
             author: 'Author',
-            title: 'Purchase training plan'
+            title: 'Purchase training plan',
+            info: 'Name',
+            rate: 'Rating',
+            weeks: 'Weeks',
+            hours: 'Hours',
         },
         landing: {
             weekCount: 'Week count {{count}}',
