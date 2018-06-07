@@ -57,22 +57,22 @@ export const translateManagement = {
                 title: "Изменить роли",
                 text: {
                     addOne: {
-                        ClubAthletes: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Спортсмен</a>"? ' +
-                        'Сумма ежедневных начислений в счете клуба может быть увеличена в соответствии с условиями <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >тарифного плана "Клуб"</a>',
-                        ClubCoaches: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Тренер</a>"? ' +
-                        'При отсутствии у выбранных членов клуба тарифного плана "Тренер", он будет подключен за счет клуба с сегодняшнего дня.',
-                        ClubManagement: 'Подключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Администратор</a>"?',
+                        ClubAthletes: 'Подключить роль "Спортсмен" члену клуба?' +
+                        'Количество спортсменов клуба влияет на размер начислений по тарифному плану "Клуб"',
+                        ClubCoaches: 'Подключить роль "Тренер" члену клуба?' +
+                        'При отсутствии у выбранных членов клуба тарифного плана "Тренер", тариф будет подключен за счет клуба с сегодняшнего дня.',
+                        ClubManagement: 'Подключить роль "Администратор"? Роль может быть подключена только тренерам клуба',
                     },
                     addMany: "Добавить роли {{roles}} выбранным членам клуба? " +
-                    'Сумма ежедневных начислений в счете клуба может быть увеличена в соответствии с условиями <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >тарифного плана "Клуб"</a>',
+                    'Количество спортсменов и тренеров клуба влияет на размер начислений по тарифному плану "Клуб"',
                     removeOne: {
-                        ClubAthletes: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Спортсмен</a>"? Будет удалена связь с тренерами клуба и отключен доступ клуба к дневнику тренировок. ' +
+                        ClubAthletes: 'Отключить роль "Спортсмен"? Будет удалена связь с тренерами клуба и отключен доступ клуба к дневнику тренировок. ' +
                         "Сумма ежедневных начислений за спортсменов клуба будет пересчитана с завтрашнего дня",
-                        ClubCoaches: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Тренер</a>"? Будет также отключен тариф "Тренер", подключенный за счет клуба',
-                        ClubManagement: 'Отключить роль "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Администратор</a>"?',
+                        ClubCoaches: 'Отключить роль "Тренер"? Будет также отключен тариф "Тренер", подключенный за счет клуба',
+                        ClubManagement: 'Отключить роль "Администратор"?',
                     },
                     removeMany: 'Отключить роли {{roles}} выбранным членам клуба? Сумма ежедневных начислений по тарифному плану "Клуб" будет пересчитана с завтрашнего дня',
-                    addAndRemove: 'Изменить <a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >роли в клубе</a>? Подключить роли: {{addRoles}}, отключить роли: {{removeRoles}}.',
+                    addAndRemove: 'Изменить роли в клубе? Подключить роли: {{addRoles}}, отключить роли: {{removeRoles}}.',
                 },
                 confirm: "Да",
                 cancel: "Нет",
@@ -129,11 +129,11 @@ export const translateManagement = {
             confirm: {
                 title: "Change tariffs",
                 text: {
-                    addOne: "Add tariff {{tariffCodes}} by club? The cost will be accrued daily and include in club bill from today.",
-                    removeOne: "Remove tariff {{tariffCodes}} previously added by club? Club will stop paying for this tariff from tomorrow",
-                    addMany: "Add tariffs {{tariffCodes}} by club? The cost will be accrued daily and include in club bill from today.",
-                    removeMany: "Remove tariffs  {{tariffCodes}}, previously added by club? Club will stop paying for these tariffs from tomorrow",
-                    addAndRemove: "Add and remove tariffs paid by club? Add tariffs: {{addTariffCodes}}, remove tariffs: {{removeTariffCodes}}",
+                    addOne: "Enable tariff {{tariffCodes}} paid by club? The cost will be accrued daily and include in club invoice from today.",
+                    removeOne: "Disable tariff {{tariffCodes}} previously enables by club? Club will stop paying for this tariff from tomorrow",
+                    addMany: "Enable tariffs {{tariffCodes}} paid by club? The cost will be accrued daily and include in club invoice from today.",
+                    removeMany: "Disable tariffs  {{tariffCodes}}, previously added by club? Club will stop paying for these tariffs from tomorrow",
+                    addAndRemove: "Change tariffs paid by club? Enable tariffs: {{addTariffCodes}}, disable tariffs: {{removeTariffCodes}}",
                 },
                 confirm: "Confirm",
                 cancel: "Cancel",
@@ -144,22 +144,22 @@ export const translateManagement = {
                 title: "Change roles",
                 text: {
                     addOne: {
-                        ClubAthletes: 'Add role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Athlete</a>"? ' +
-                        'Club bill daily accruals amount could be increased according to <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >Club tariff</a> conditions',
-                        ClubCoaches: 'Add role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club coach</a>"? ' +
-                        'Coach tariff required. If selected club members do not have their own Coach tariff, the tariff will be added by club from today',
-                        ClubManagement: 'Add role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club admin</a>"?',
+                        ClubAthletes: 'Add role "Club athlete"? ' +
+                        'Club invoice daily accruals amount may be increased according to Club tariff terms of subscription',
+                        ClubCoaches: 'Add role "Club coach"? ' +
+                        'Coach tariff required. If selected club members do not have their own Coach tariff, the tariff will be enabled by club from today',
+                        ClubManagement: 'Add role "Club administrator"? The role could be added only for club coaches',
                     },
                     addMany: "Add roles {{roles}} to selected club members? " +
-                    'Club bill daily accruals amount could be increased according to <a href="https://help.staminity.com/ru/tariffs/club.html" target="_blank" >Club tariff</a> conditions',
+                    'Club invoice daily accruals amount could be increased according to Club tariff terms of subscription',
                     removeOne: {
-                        ClubAthletes: 'Remove role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Athlete</a>"? The link with club coaches will be lost' +
-                        "Club bill daily accruals amount will be recalculated from tomorrow. ",
-                        ClubCoaches: 'Remove role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club coach</a>"? Coach tariff, added by club, will also be removed.',
-                        ClubManagement: 'Remove role "<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >Club admin</a>"?',
+                        ClubAthletes: 'Remove role "Club Athlete"? The connections to the club coaches will be removed' +
+                        "Club invoice daily accruals amount will be recalculated from tomorrow. ",
+                        ClubCoaches: 'Remove role "Club coach"? Coach tariff, enabled by club, will also be removed.',
+                        ClubManagement: 'Remove role "Club administrator"?',
                     },
-                    removeMany: 'Remove roles {{roles}} to selected club members? Club bill daily accruals amount will be recalculated from tomorrow.',
-                    addAndRemove: 'Change club<a href="https://help.staminity.com/ru/clubs/club-roles.html#clubroles" target="_blank" >roles</a>? Add roles: {{addRoles}}, remove roles: {{removeRoles}}.',
+                    removeMany: 'Remove roles {{roles}} to selected club members? Club invoice daily accruals amount will be recalculated from tomorrow.',
+                    addAndRemove: 'Change club roles for selected club members? Add roles: {{addRoles}}, remove roles: {{removeRoles}}.',
                 },
                 confirm: "Confirm",
                 cancel: "Cancel",
