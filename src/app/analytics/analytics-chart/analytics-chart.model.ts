@@ -170,11 +170,10 @@ export class AnalyticsChart implements IAnalyticsChart {
         metrics.map((m) => {
             const metric: any[] = [];
             m.map((value, i) => {
-                const params: IChartMeasure = this.charts[ind].series.filter((s) => s.idx === i)[0] ||
+                const params: IChartMeasure =
+                    this.charts[ind].series.filter((s) => s.idx === i)[0] ||
                     this.charts[ind].measures.filter((s) => s.idx === i)[0];
-
                 value === "NaN" || value === "Infinity" ? value = null : value = value;
-
                 if (params) {
                     if (value === null) {
                         metric.push(value);

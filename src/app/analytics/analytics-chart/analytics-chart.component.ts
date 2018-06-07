@@ -180,8 +180,6 @@ class AnalyticsChartCtrl implements IComponentController {
         globalParams.users = [Number(this.filter.users.model)];
         globalParams.periods = this.filter.periods.model !== "customPeriod" ? periodByType(this.filter.periods.model) : this.filter.periods.data.model;
 
-        debugger;
-
         this.chart.charts.map((c, i) => c.params = {
             users:
                 (this.chart.globalParams && globalParams.users) ||
