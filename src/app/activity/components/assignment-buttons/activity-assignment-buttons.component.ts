@@ -16,6 +16,10 @@ class ActivityAssignmentButtonsCtrl implements IComponentController {
 
     }
 
+    onReset () {
+        this.item.onReset();
+    }
+
     onSave(){
         this.item.options.templateMode ? this.item.onSaveTemplate() : this.item.onSave();
     }

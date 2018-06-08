@@ -16,7 +16,8 @@ import { UserSettingsPasswordCtrl } from './user-settings-password/user-settings
 
 export class AgentService {
 
-    public updates = new Subject<IAgentProfile>();
+    public updatesProfile = new Subject<IAgentProfile>();
+    public updatesEnvironment = new Subject<IAgentEnvironment>();
 
     static $inject = ['SocketService', '$mdDialog', 'message', 'dialogs'];
 
@@ -47,7 +48,7 @@ export class AgentService {
         .then(() => {
             this.getAgentProfile()
             .then((agentProfile) => {
-                this.updates.next(agentProfile);
+                this.updatesProfile.next(agentProfile);
             });
         })
         .catch((info) => { 
@@ -83,9 +84,9 @@ export class AgentService {
      */
     postAgentWithdrawal(request: IAgentWithdrawal): Promise<any> {
         return this.SocketService.send(new PostAgentWithdrawal(request))
-       .catch((info) => { 
-           this.message.systemWarning(info); 
-       }); 
+            .then(_ => this.getAgentEnvironment())
+            .then(e => this.updatesEnvironment.next(e))
+            .catch(e => e && this.message.systemWarning(e));
     }
 
     // /**
@@ -169,6 +170,7 @@ export class AgentService {
                 'MNT_DESCRIPTION=', 
                 'process=Submit'
             ].join('&');
+            console.debug('agent service add card url', url);
 
             localStorage.setItem('moneta-result', '');
 

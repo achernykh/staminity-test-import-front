@@ -26,10 +26,10 @@
         </p>
         <p>
             <span class="md-body-2" translate="trainingPlans.order.priceLabel"></span>
-            <span class="md-body-1" ng-if="$ctrl.plan.monetization"
+            <span class="md-body-1" ng-if="$ctrl.plan.price > 0"
                   translate="trainingPlans.order.price"
                   translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
-            <span class="md-body-1" ng-if="!$ctrl.plan.monetization"
+            <span class="md-body-1" ng-if="!$ctrl.plan.price"
                   translate="trainingPlans.order.free"></span>
         </p>
         <div layout="row" layout-align="start center">

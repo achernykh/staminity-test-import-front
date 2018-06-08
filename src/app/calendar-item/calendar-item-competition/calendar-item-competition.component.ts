@@ -129,7 +129,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
                 .then(response => this.competition.compile(response),
                     error => {this.message.toastError(error); throw new Error(error);})
                 .then(() => this.competition.setParentId())
-                .then(() => Object.assign({}, this.competition, {items: null, calendarItems: []}))
+                .then(() => Object.assign({}, this.competition.build(), {items: null, calendarItems: []}))
                 .then(competition => this.onAnswer({ formMode: FormMode.Post, item: competition}))
                 .then(() => this.saveItems())
                 .then(() => { this.message.toastInfo('competitionCreated'); this.onCancel(); }, error => {});
@@ -140,7 +140,7 @@ export class CalendarItemCompetitionCtrl implements IComponentController {
             this.calendarService.putItem(this.competition.build())
                 .then(response => this.competition.compile(response),
                     error => { this.message.toastError(error); throw new Error(error);})
-                .then(() => Object.assign({}, this.competition, {calendarItems: this.competition.items.map(i => i.item.build())}))
+                .then(() => Object.assign({}, this.competition.build(), {calendarItems: this.competition.items.map(i => i.item.build())}))
                 .then(competition => this.onAnswer({ formMode: FormMode.Put, item: competition }))
                 .then(() => this.saveItems())
                 .then(() => {

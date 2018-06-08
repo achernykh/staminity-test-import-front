@@ -20,8 +20,9 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     // private
     private plan: TrainingPlan;
-    private planForm: INgModelController;
-    private commerceForm: INgModelController;
+    private planForm: any;
+    private commerceForm: any;
+    private descriptionForm: INgModelController;
     private dataLoading: boolean = false;
 
     //inject
@@ -51,7 +52,9 @@ class TrainingPlanFormCtrl implements IComponentController {
     }
 
     get isFormDirty (): boolean {
-        return this.planForm.$dirty || (this.plan.isPublic && this.commerceForm.$dirty);
+        return this.planForm.$dirty ||
+            (this.commerceForm && this.commerceForm.$dirty) ||
+            (this.descriptionForm && this.descriptionForm.$dirty);
     }
 
     get isFormValid (): boolean {
@@ -60,15 +63,22 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     private changeCommerce (): void {
         if (this.plan.isPublic && !this.plan.icon) {
-            this.plan.icon = this.plan.authorProfile.public.avatar;
-
+            //this.plan.icon = this.plan.authorProfile.public.avatar;
         }
+    }
+
+    private changeMonetization (value): void {
+        if (!value) {this.plan.price = 0;}
+    }
+
+    private changeDescription (): void {
+        this.descriptionForm.$setDirty();
     }
 
     save (): void {
         if (!this.planForm.$valid || !this.commerceForm.$valid) {
-            this.planForm.$validate();
-            this.commerceForm.$validate();
+            this.planForm.$setSubmitted();
+            this.commerceForm.$setSubmitted();
             return;
         }
 

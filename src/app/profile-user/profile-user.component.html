@@ -193,6 +193,21 @@
         </div>
     </md-card>
 
+    <md-card class="profile-content md-body-1" layout-padding="8" style="margin-top: 20px"
+             ng-show="$ctrl.hasPlans">
+        <div class="md-caption" translate="user.trainingPlans"></div>
+        <st-training-plans-store-items search-params="$ctrl.authorSearch"
+                                       card-view="true"
+                                       update="$ctrl.update"
+                                       limit="10"
+                                       view="'column'"
+                                       on-result="$ctrl.checkPlanData(list, length)">
+        </st-training-plans-store-items>
+        <md-button flex="none" class="store" ui-sref="training-plans-store({{$ctrl.authorSearch}})">
+            <span translate="trainingPlans.landing.more"></span>
+        </md-button>
+    </md-card>
+
     <summary-statistics user="$ctrl.user" auth="$ctrl.auth"/>
 
 </application-frame>

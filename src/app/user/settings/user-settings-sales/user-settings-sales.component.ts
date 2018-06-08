@@ -17,7 +17,7 @@ class UserSettingsSalesCtrl {
 
     // public
     form: any;
-    currencies = ['RUB', 'USD'];
+    currencies = ['RUB'];//['RUB', 'USD'];
 
     static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'AgentService', 'quillConfig', '$scope'];
 
@@ -41,7 +41,7 @@ class UserSettingsSalesCtrl {
     getTotal(currency: string): number {
         return this.transactions
         .filter((transaction) => transaction.account.currency === currency)
-        .reduce((sum, transaction) => sum + transaction.grossAmount, 0);
+        .reduce((sum, transaction) => sum + transaction.netAmount, 0);
     }
 }
 

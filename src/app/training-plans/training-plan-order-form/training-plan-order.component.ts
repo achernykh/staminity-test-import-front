@@ -68,7 +68,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
                     this.authService.signIn(this.credentials) :
                     this.authService.signUp(this.credentials))
                 .then(_ => this.trainingPlansService.getStoreItemAsGuest(this.plan.id, this.credentials.email),
-                    e => { this.error = e; throw e; })
+                    e => { debugger; this.error = e.errorMessage || e; throw this.error; })
                 .then(r => this.plan = new TrainingPlan(r), e => { throw e; });
     }
 
@@ -87,7 +87,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
                 } else {
                     throw Promise.reject('badPlanProduct');
                 }
-            }, e => {throw Promise.reject(e);})
+            }, e => {throw e;})
             .then(r => this.onSuccess({message: r, email: this.user.userId ? null : this.credentials.email}),
                 e => {if (e) { this.error = e; } this.enabled = true;})
             .then(_ => this.$scope.$applyAsync());

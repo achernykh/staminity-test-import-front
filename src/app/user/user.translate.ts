@@ -95,6 +95,12 @@ export const translateUser = {
                     removeCard: "Удалить",
                     isDefault: "По-умолчанию",
                     addCardMessage: "Для привязки карты с нее будет списана сумма в пределах одного рубля. Данная сумма не будет возвращена на карту.",
+                    name: '',
+                    deleteCardTitle: "Удалить карту",
+                    deleteCardMessage: "Удалить данные карты? После удаления карту будет нельзя использовать для вывода средств",
+                    defaultCardTitle: 'Установить по-умолчанию',
+                    defaultCardMessage: 'Установить признак "по умолчанию" для выбранной карты? Карта по-умолчанию используется для вывода средств'
+
                 },
                 sales: {
                     label: "Продажи тренировочных планов",
@@ -436,6 +442,9 @@ export const translateUser = {
                 },
                 startDate: {
                     hint: 'Дата начала синхронизации'
+                },
+                actions: {
+                    stop: 'Отключить'
                 }
             },
             zones: {
@@ -483,6 +492,10 @@ export const translateUser = {
             notification: {
                 header: 'Уведомления',
                 hint: 'Настройки уведомлений',
+
+                web: 'Браузер',
+                email: 'Почта',
+                mobile: 'Телефон',
 
                 //notificationGroup
                 user: 'Для всех пользователей',
@@ -652,9 +665,14 @@ export const translateUser = {
                     none: "No cards or bank accounts",
                     card: "{{identityString}}, till {{expireDate}}",
                     addCard: "Add new card",
-                    removeCard: "Remove card",
+                    removeCard: "Delete card",
                     isDefault: "Default",
                     addCardMessage: "To add new card we charge it for small amount of money, less than 1 RUB. This amount will not be returned to your card.",
+                    name: '',
+                    deleteCardTitle: "Delete card",
+                    deleteCardMessage: "Do you want to delete card? Deleted cart cannot be used for withdrawal",
+                    defaultCardTitle: 'Set as default',
+                    defaultCardMessage: 'Do you want to set this card as default?'
                 },
                 sales: {
                     label: "Training plans purchases",
@@ -994,6 +1012,9 @@ export const translateUser = {
                 },
                 startDate: {
                     hint: 'Sync start date'
+                },
+                actions: {
+                    stop: 'Disable'
                 }
             },
             zones: {

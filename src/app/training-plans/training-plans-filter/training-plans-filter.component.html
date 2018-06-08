@@ -22,6 +22,25 @@
                                ng-change="$ctrl.change()"
                                ng-model="$ctrl.filter.isPublic"></md-switch>
                 </md-list-item>
+                <!-- Автор плана -->
+                <md-list-item layout="row" layout-align="space-between start" ng-if="$ctrl.view === 'search'">
+                    <md-icon flex="none" class="material-icons md-dark dense">person</md-icon>
+                    <md-contact-chips
+                            flex="auto"
+                            class="dense"
+                            ng-model="owner"
+                            ng-change="$ctrl.changeOwner()"
+                            md-contacts="$ctrl.ownerSearch($query)"
+                            md-contact-name="name"
+                            md-contact-image="icon"
+                            md-contact-email=""
+                            md-require-match="true"
+                            md-highlight-flags="i"
+                            md-max-chips="1"
+                            filter-selected="true"
+                            placeholder="{{'trainingPlans.owner.label' | translate}}">
+                    </md-contact-chips>
+                </md-list-item>
                 <!-- Название плана -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
@@ -116,9 +135,10 @@
                                             ng-change="$ctrl.changeRange($ctrl.config.weekRanges[$ctrl.weekCountRange], 'weekCount')" flex="100">
                                 <md-radio-button ng-repeat="range in [0,1,2,3] track by $index"
                                                  value="{{range}}" class="md-primary">
-                                    <span>{{$ctrl.config.weekRanges[range][0]}}</span>
-                                    <span ng-if="!$last">&nbsp;-&nbsp;</span>
-                                    <span ng-if="!$last">{{$ctrl.config.weekRanges[range][1]}}</span>
+                                    <span ng-if="$first" translate="trainingPlans.weekCount.all"></span>
+                                    <span ng-if="!$first">{{$ctrl.config.weekRanges[range][0]}}</span>
+                                    <span ng-if="!$first && !$last">&nbsp;-&nbsp;</span>
+                                    <span ng-if="!$first && !$last">{{$ctrl.config.weekRanges[range][1]}}</span>
                                     <span ng-if="$last">+</span>
                                 </md-radio-button>
                             </md-radio-group>

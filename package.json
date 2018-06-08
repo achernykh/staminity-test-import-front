@@ -5,7 +5,7 @@
     "url": "https://aachernykh@bitbucket.org/aachernykh/staminity-frontend.git"
   },
   "license": "MIT",
-  "version": "2.1.20",
+  "version": "2.1.21",
   "description": "Staminity application",
   "main": "index.html",
   "scripts": {
@@ -126,7 +126,7 @@
     "angular-drag-and-drop-lists": "^2.0.0",
     "angular-dynamic-locale": "^0.1.32",
     "angular-i18n": "^1.6.4",
-    "angular-material": "^1.1.4",
+    "angular-material": "^1.1.9",
     "angular-material-data-table": "^0.10.10",
     "angular-messages": "^1.6.4",
     "angular-read-more": "^1.0.7",

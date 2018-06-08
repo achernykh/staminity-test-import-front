@@ -12,20 +12,12 @@
                 </div>
             </md-input-container>
         </md-list-item>
-        <md-list-item layout="row" layout-wrap layout-align="start center">
-            <md-input-container class="no-message">
-                <div flex="none" class="md-caption" translate="user.settings.agent.isIndividual"></div>
-                <div flex="auto" style="margin-left: 20px">
-                    <md-radio-group name="isIndividual" class="md-primary" ng-model="$ctrl.datamodel.isIndividual" layout="row" layout-align="end center" required>
-                        <md-radio-button ng-value="true"><span translate="user.settings.agent.individual"></span></md-radio-button>
-                        <md-radio-button ng-value="false"><span translate="user.settings.agent.notIndividual"></span></md-radio-button>
-                    </md-radio-group>
-                </div>
-                <div ng-messages="$ctrl.form.isIndividual.$error" role="alert">
-                    <div ng-message-exp="['required']" translate="form.required"></div>
-                </div>
-            </md-input-container>
-        </md-list-item>
+        <p class="md-caption md-padding" translate="user.settings.agent.isIndividual"></p>
+        <md-radio-group name="isIndividual" class="md-primary" style="display: block; padding: 0 16px"
+                        ng-model="$ctrl.datamodel.isIndividual" required>
+            <md-radio-button ng-value="true"><span translate="user.settings.agent.individual"></span></md-radio-button>
+            <md-radio-button ng-value="false"><span translate="user.settings.agent.notIndividual"></span></md-radio-button>
+        </md-radio-group>
 
         <div ng-if="$ctrl.datamodel.residentCountry && $ctrl.datamodel.residentCountry !== 'RU'">
             <md-list-item layout="row">
@@ -102,15 +94,19 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item layout="row">
-                <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label translate="user.settings.agent.agree" class="user-settings-agent__agree-label"></label>
-                    <md-checkbox class="md-body-1 md-primary" name="agree" ng-model="$ctrl.datamodel.agrApproved" required></md-checkbox>
-                    <div ng-messages="$ctrl.form.agree.$error" role="alert">
-                        <div ng-message-exp="['required']" translate="form.required"></div>
-                    </div>
+            <div class="md-padding" layout="row" layout-align="start center">
+                <md-checkbox flex="none" class="md-primary" name="agree"
+                             ng-model="$ctrl.datamodel.agrApproved" required></md-checkbox>
+                <p class="md-caption" translate="user.settings.agent.agree"></p>
+            </div>
+            <!--<md-list-item layout="row">
+                <md-input-container flex="100" class="no-message" layout-align="center start">
+                    <label translate="user.settings.agent.agree"
+                           class="user-settings-agent__agree-label"></label>
+                    <md-checkbox class="md-body-1 md-primary" name="agree"
+                                 ng-model="$ctrl.datamodel.agrApproved" required></md-checkbox>
                 </md-input-container>
-            </md-list-item>
+            </md-list-item>-->
         </div>
     </form>
 </md-list>

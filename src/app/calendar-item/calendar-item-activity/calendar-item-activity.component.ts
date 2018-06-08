@@ -38,6 +38,7 @@ import { ICalendarItemDialogOptions } from "../calendar-item-dialog.interface";
 import { TrainingPlansService } from "@app/training-plans/training-plans.service";
 import { FormMode } from "../../application.interface";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
+import { deepCopy } from "../../share/data/data.finctions";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -78,7 +79,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     activityType: IActivityType;
     activityCategory: IActivityCategory;
     details: IActivityDetails;
-    mode: string;
+    mode: FormMode;
     activity: Activity;
     user: IUserProfile;
     tab: string;
@@ -169,7 +170,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     $onChanges(changes) {
         if(changes.mode && !changes.mode.isFirstChange()) {
-            this.changeMode(changes.mode);
+            this.changeMode();
+        }
+        if(changes.pushSave && !changes.pushSave.isFirstChange()) {
+            this.onSave();
+        }
+        if(changes.pushReset && !changes.pushReset.isFirstChange()) {
+            this.onReset(this.mode);
         }
         if (changes.id && !changes.id.isFirstChange() && this.id) {
             this.$onInit();
@@ -195,7 +202,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.currentUser = this.options.currentUser;
             this.user = this.options.owner;
         }
-        this.activity = new Activity(this.data, this.options);
+        this.activity = new Activity(deepCopy(this.data) as ICalendarItem, deepCopy(this.options) as ICalendarItemDialogOptions);
         this.segmentChart = this.activity.formChart();
 
         if (this.activity.bottomPanel === 'data') {
@@ -377,13 +384,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.destroy.complete();
     }
 
-    changeMode(mode:string) {
-        this.mode = mode;
-        if (mode === 'put' && !this.activity.categoriesList.length) {
+    changeMode() {
+        //this.mode = mode;
+        this.activity.view.isPut = this.mode === FormMode.Put;
+        /**if (mode === 'put' && !this.activity.categoriesList.length) {
             this.ActivityService.getCategory()
                 .then(list => this.activity.categoriesList = list,
                     error => this.message.toastError(error));
-        }
+        }**/
     }
 
     /**
@@ -534,13 +542,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
     }
 
-    onReset(mode: string) {
+    onReset(mode: FormMode = this.options.formMode) {
         if (this.template) {
             this.onCancel();
         }
 
         this.mode = mode;
-        if(mode === 'post') {
+        if(mode ===  FormMode.Post) {
             this.onCancel();
         } else {
             if(this.activity.isStructured && this.activity.activityHeader.intervals.some(i => i.type === 'P')) {
@@ -548,17 +556,18 @@ export class CalendarItemActivityCtrl implements IComponentController{
             } else {
                 let tempDetails: ActivityDetails = this.activity.details || null;
                 let tempIntervalDetails: Array<ActivityIntervalL> = this.activity.intervals.L || null;
-                this.activity.prepare();
+                //this.activity.prepare();
+                this.activity = new Activity(this.data, this.options);
+                this.templateChangeCount ++;
 
                 if(tempDetails) {
                     this.activity.details = tempDetails;
                 }
-
                 if(tempIntervalDetails) {
                     this.activity.intervals.add(tempIntervalDetails);
                 }
-
                 this.structuredMode = this.activity.isStructured;
+                this.activity.view.isPut = false;
             }
         }
     }
@@ -581,7 +590,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then((response)=> {
                         this.activity.compile(response);// сохраняем id, revision в обьекте
                         this.message.toastInfo('activityCreated');
-                        this.onAnswer({formMode: FormMode.Post, item: this.activity.build()});
+                        this.onAnswer({formMode: FormMode.Post, item: this.activity.build(profileShort(athlete.profile))});
                     }, error => this.message.toastError(error))
                     .then(() => this.inAction = false);
             });
@@ -800,6 +809,8 @@ export const CalendarItemActivityComponent: IComponentOptions = {
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
         template: '=?',
+        pushSave: '<',
+        pushReset: '<',
         onCancel: '&',
         onAnswer: '&'
     },

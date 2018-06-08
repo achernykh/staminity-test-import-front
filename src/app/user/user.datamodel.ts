@@ -76,16 +76,22 @@ export class User implements IUserProfile {
     }
 
     get isJoinToCoach () {
-        return this.connections.Athletes.availableInteractions.btnJoinGroup && !this.isYourCoach &&
+        return this.connections.hasOwnProperty('Athletes') &&
+            this.connections.Athletes.hasOwnProperty('availableInteractions') &&
+            this.connections.Athletes.availableInteractions.btnJoinGroup && !this.isYourCoach &&
             (this.hasOwnProperty('private') && this.private.hasOwnProperty('isFree') || !this.hasOwnProperty('private'));
     }
 
     get isCoachRequestCancel () {
-        return this.connections.Athletes.availableInteractions.btnCancelJoinGroup;
+        return this.connections.hasOwnProperty('Athletes') &&
+            this.connections.Athletes.hasOwnProperty('availableInteractions') &&
+            this.connections.Athletes.availableInteractions.btnCancelJoinGroup;
     }
 
     get isLeaveCoach () {
-        return this.connections.Athletes.availableInteractions.btnLeaveGroup;
+        return this.connections.hasOwnProperty('Athletes') &&
+            this.connections.Athletes.hasOwnProperty('availableInteractions') &&
+            this.connections.Athletes.availableInteractions.btnLeaveGroup;
     }
 
 }

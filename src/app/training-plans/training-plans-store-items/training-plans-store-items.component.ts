@@ -18,7 +18,7 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
     update: number;
     limit: number;
     excludeOwner: number;
-    onEvent: (response: Object) => Promise<void>;
+    onResult: (response: {list, length}) => Promise<void>;
 
     // private
     private plans: TrainingPlansList;
@@ -57,7 +57,8 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
         this.trainingPlansService.store(this.searchParams)
             .then(result => this.prepareList(result), error => {debugger;})
             //.then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
-            .then(_ => this.isLoadingData = false);
+            .then(_ => this.isLoadingData = false)
+            .then(_ => this.onResult({list: this.plans.list, length: this.plans.list.length}));
 
     }
 
@@ -73,7 +74,7 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     open (e: Event, item: TrainingPlan): void {
         if (this.$mdMedia('gt-sm')) {
-            window.open(`${window.location.protocol}//${window.location.host}/plan/?planId=${item.id}`);
+            window.open(`${window.location.protocol}//${window.location.host}/plan/${item.id}`);
         } else {
             this.$state.go('plan', {planId: item.id});
         }
@@ -107,8 +108,9 @@ export const TrainingPlansStoreItemsComponent:IComponentOptions = {
         cardView: '<',
         update: '<',
         limit: '<',
+        view: '=',
         excludeOwner: '<',
-        onEvent: '&'
+        onResult: '&'
     },
     require: {
         //component: '^component'

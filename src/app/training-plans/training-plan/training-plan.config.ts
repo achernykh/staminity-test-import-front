@@ -1,8 +1,10 @@
 import { IChart } from "../../../../api/statistics/statistics.interface";
+import { supportLng } from "../../core/display.constants";
 const paletteSports = ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"];
 
 export interface TrainingPlanConfig {
-    types: Array<string>;
+    lang: string[];
+    types: string[];
     distanceTypes: {
         [type: string]: Array<string>;
     };
@@ -13,13 +15,14 @@ export interface TrainingPlanConfig {
     defaultSettings: {
         type: string,
         distanceType: string,
-        tags: Array<string>
+        tags: string[]
     };
     metricsByDurationChart: IChart;
     metricsByDistanceChart: IChart;
 }
 
 export const trainingPlanConfig: TrainingPlanConfig = {
+    lang: supportLng,
     types: ['triathlon', 'run', 'bike', 'swim', 'other'],
     distanceTypes: {
         triathlon: ['olympic', 'fullDistance', 'halfDistance', 'sprint', 'superSprint', 'other'],
@@ -30,6 +33,7 @@ export const trainingPlanConfig: TrainingPlanConfig = {
     options: ['hasOfflineTraining', 'hasConsultations', 'isStructured'],
     tags: ['beginner', 'advanced', 'pro', 'powerMeter', 'hrBelt', 'weightLoss', 'fitness', 'health'],
     weekRanges: [
+        [null,null],
         [1,8],
         [9,12],
         [13,18],

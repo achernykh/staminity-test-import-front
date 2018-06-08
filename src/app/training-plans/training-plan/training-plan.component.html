@@ -24,10 +24,10 @@
             <md-button ng-if="!$ctrl.plan.state" flex="none"
                        class="button-action md-accent md-hue-3 md-raised"
                        ng-click="$ctrl.order($event)">
-                <span ng-if="$ctrl.plan.monetization" class="md-title md-light"
+                <span ng-if="$ctrl.plan.price > 0" class="md-title md-light"
                       translate="trainingPlans.store.price"
                       translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
-                <span ng-if="!$ctrl.plan.monetization" class="md-light" translate="trainingPlans.store.free"></span>
+                <span ng-if="!$ctrl.plan.price" class="md-light" translate="trainingPlans.store.free"></span>
             </md-button>
         </div>
     </md-toolbar>
@@ -92,10 +92,10 @@
         <md-button ng-if="!$ctrl.plan.state"
                    flex="none"
                    class="button-action md-accent md-hue-3 md-raised" ng-click="$ctrl.order($event)">
-            <span ng-if="$ctrl.plan.monetization" class="md-title md-light"
+            <span ng-if="$ctrl.plan.price > 0" class="md-title md-light"
                   translate="trainingPlans.store.price"
                   translate-values="{price: $ctrl.plan.price, currency: $ctrl.plan.currency}"></span>
-            <span ng-if="!$ctrl.plan.monetization" class="md-title md-light" translate="trainingPlans.store.free"></span>
+            <span ng-if="!$ctrl.plan.price" class="md-title md-light" translate="trainingPlans.store.free"></span>
         </md-button>
     </section>
     <!-- Что включено в план? -->
@@ -116,7 +116,7 @@
                 <p flex class="text md-subhead md-dark">
                     <span ng-if="$ctrl.plan.isFixedCalendarDates"
                           translate="trainingPlans.landing.fixCalendarDates"
-                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstCalendarItem.dateStart, finish: $ctrl.plan.lastCalendarItem.dateStart}">
+                          translate-values="{weekCount: $ctrl.plan.weekCount, start: $ctrl.plan.firstDate, finish: $ctrl.plan.endDate}">
                     </span>
                     <span ng-if="!$ctrl.plan.isFixedCalendarDates"
                           translate="trainingPlans.landing.flexCalendarDates"
@@ -162,7 +162,7 @@
                 <p flex class="text md-subhead md-dark" ng-bind="$ctrl.plan.customData.consultationsDescription"></p>
             </div>
         </div>
-        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.customData.hasStructuredActivity">
+        <div class="item" layout="row" layout-align="start start" ng-if="$ctrl.plan.isStructured">
             <md-icon flex="none" md-svg-src="/assets/landing/to-do.svg" class="s64"></md-icon>
             <div flex layout="column">
                 <p flex class="title md-subhead" translate="trainingPlans.landing.structuredActivity"></p>
@@ -207,7 +207,7 @@
             <div flex="none">
                 <img flex="none" width="100%" src="/assets/picture/lp-devices-01.png">
             </div>
-            <p flex="none" class="md-body-1" translate="trainingPlans.landing.howItWorksDescription"></p>
+            <p flex="none" class="md-subhead md-dark" translate="trainingPlans.landing.howItWorksDescription"></p>
         </div>
     </section>
     <section id="samples" class="landing-block info" flex="none"
@@ -235,18 +235,18 @@
                 </div>
             </a>
         </div>
-        <p class="md-body-1" translate="trainingPlans.landing.authorPlaceholder"></p>
+        <p class="md-subhead" translate="trainingPlans.landing.authorPlaceholder"></p>
         <h2 flex="none" class="name md-display-1 md-dark font-black center" style="margin: 0"
             ng-bind="$ctrl.plan.authorProfile | userName"></h2>
         <div flex="none" class="md-padding md-subhead md-dark quill quill-data"
              ng-bind-html="$ctrl.plan.authorExt.about">
         </div>
         <div>
-            <span class="md-body-2 md-dark" translate="user.contact.email"></span>
-            <span class="md-body-1 md-dark" ng-bind="$ctrl.plan.authorExt.email"></span>
+            <span class="title md-subhead md-dark" translate="user.contact.email"></span>
+            <span class="md-subhead md-dark" ng-bind="$ctrl.plan.authorExt.email"></span>
             <br>
-            <span class="md-body-2 md-dark" translate="user.contact.phone"></span>
-            <span class="md-body-1 md-dark" ng-bind="$ctrl.plan.authorExt.phone"></span>
+            <span class="title md-subhead md-dark" translate="user.contact.phone"></span>
+            <span class="md-subhead md-dark" ng-bind="$ctrl.plan.authorExt.phone"></span>
         </div>
     </section>
     <section id="authorSearch" class="landing-block bg-grey-100" flex="none" layout="column"

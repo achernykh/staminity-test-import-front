@@ -1,3 +1,4 @@
+export const notificationsProvider = ['email', 'mobile', 'web'];
 export const activities = ['run', 'swim', 'bike', 'triathlon', 'ski'];
 
 export const countriesList = {

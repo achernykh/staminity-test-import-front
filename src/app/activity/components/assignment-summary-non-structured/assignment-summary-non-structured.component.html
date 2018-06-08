@@ -73,7 +73,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure, 'actual')"
-                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
+                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
@@ -85,7 +85,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure, 'actual')"
-                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
+                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                             <input ng-if="!$ctrl.isInterval(measure)" measure-input
                                    ng-model="$ctrl.actual[measure]['value']"
                                    name="actual_{{::measure}}"
@@ -93,7 +93,7 @@
                                    ng-attr-sport={{$ctrl.sport}} interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure, 'actual')"
-                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
+                                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
                     <td md-cell ng-if="!($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
