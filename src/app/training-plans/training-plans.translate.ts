@@ -116,7 +116,8 @@ export const _translateTrainingPlans = {
             pending: 'Заказан'
         },
         weekCount: {
-            label: 'Количество недель'
+            label: 'Количество недель',
+            all: 'Все'
         },
         options: {
             label: 'Опции',
@@ -257,14 +258,16 @@ export const _translateTrainingPlans = {
                 title: 'Чек-лист публикации тренировочного плана',
                 versionSuccess: 'Изменения для публикации: ДА. Текущая версия {{histVersion}}#{{revision}}, версия в магазине {{storeVersion}}#{{storeRevision}}',
                 versionFail: 'Изменения для публикации: НЕТ. Текущая версия {{histVersion}}#{{revision}} совпадает с версией в магазине: {{storeVersion}}#{{storeRevision}}',
-                profileSuccess: 'Заполнен профиль продавца планов: ДА',
-                profileFail: 'Заполнен профиль продавца планов: НЕТ. Проверьте соответствующий раздел в Настройках',
+                profileSuccess: 'Заполнен профиль автора планов: ДА',
+                profileFail: 'Заполнен профиль автора планов: НЕТ. Проверьте соответствующий раздел в Настройках',
                 iconSuccess: "Изображение плана установлено: ДА",
                 iconFail: "Изображение плана установлено: НЕТ. Загрузите его на вкладке 'Магазин' в карточке плана",
                 backgroundSuccess: "Основное изображение плана загружено: ДА",
                 backgroundFail: "Основное изображение установлено: НЕТ. Загрузите его на вкладке 'Магазин' в карточке плана",
                 itemsSuccess: 'Достаточно тренировок для публикации: ДА',
                 itemsFail: 'Достаточно тренировок для публикации: НЕТ. Добавьте не менее 10 тренировок',
+                isNotDynamicSuccess: 'План не обновляемый: ДА',
+                isNotDynamicFail: 'План не обновляемый: НЕТ. Публикация обновляемых планов невозможна'
 
             },
             title: "Публикация плана"
@@ -326,7 +329,10 @@ export const _translateTrainingPlans = {
             title: 'Оплатить'
         },
         published: 'Опубликованы в магазине',
-        unpublished: 'Не опубликованы в магазине'
+        notPublished: 'Не опубликованы в магазине',
+        lang: {
+            label: 'Язык'
+        }
     },
     en: {
         builder: {
@@ -445,7 +451,8 @@ export const _translateTrainingPlans = {
             pending: 'Ordered'
         },
         weekCount: {
-            label: 'Week count'
+            label: 'Week count',
+            all: 'All'
         },
         options: {
             label: 'Options',
@@ -585,14 +592,17 @@ export const _translateTrainingPlans = {
                 title: 'Check-list for training plan publication',
                     versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
                     versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
-                    profileSuccess: 'Your plan seller profile is completed: SUCCESS',
-                    profileFail: 'Your Plan seller profile is coompleted: FAIL. Please check the Training plan seller section in Settings',
+                    profileSuccess: 'Plan Author profile is completed: SUCCESS',
+                    profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan seller section in Settings',
                     iconSuccess: "Training plan has an image: SUCCESS",
                     iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
                     backgroundSuccess: "Training plan has the background image: SUCCESS.",
                     backgroundFail: "Training plan has the background image: FAIL. Please check the Store tab of the Plan",
                     itemsSuccess: 'Training plan has enough items: SUCCESS',
                     itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
+                    isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
+                    isNotDynamicFail: 'Training plan is not dynamic: FAIL. Publication of dynamic plan is forbidden'
+
             },
             title: "Training plan publication"
         },
@@ -652,6 +662,9 @@ export const _translateTrainingPlans = {
             title: 'Payment details'
         },
         published: 'Published in the Store',
-        unpublished: 'Not published in the Store'
+        notPublished: 'Not published in the Store',
+        lang: {
+            label: 'Language'
+        }
     }
 };

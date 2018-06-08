@@ -7,7 +7,7 @@ export const translateAthletes = {
             search: "Поиск: '{{search}}'",
         },
         columns: {
-            username: "Cпортсмен",
+            username: "Спортсмен",
             club: "Клуб",
             tariff: "Тариф",
             city: "Город",
@@ -58,7 +58,7 @@ export const translateAthletes = {
             tariffs: "Tariffs",
             remove: "Remove",
         },
-        selected: "Choose {{count}} athlete(s)",
+        selected: "{{count}} athlete(s)",
         tariffs: {
             Coach: "Coach",
             Premium: "Premium",
@@ -69,8 +69,8 @@ export const translateAthletes = {
             confirm: {
                 title: "Change tariffs",
                 text: {
-                    addOne: "Do you want to add {{tariffCode}} tariff to selected athletes? Tariff rate will be added to your bill on daily basis.",
-                    removeOne: "You want to switch off {{tariffCode}} tariff from your athletes?",
+                    addOne: "Do you want to enable {{tariffCode}} tariff for selected athletes? Tariff rate will be added to your invoice on daily basis.",
+                    removeOne: "You want to disable {{tariffCode}} tariff for your athletes?",
                 },
                 confirm: "Confirm",
                 cancel: "Cancel",
