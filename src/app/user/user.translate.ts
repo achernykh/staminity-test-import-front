@@ -442,6 +442,9 @@ export const translateUser = {
                 },
                 startDate: {
                     hint: 'Дата начала синхронизации'
+                },
+                actions: {
+                    stop: 'Отключить'
                 }
             },
             zones: {
@@ -1009,6 +1012,9 @@ export const translateUser = {
                 },
                 startDate: {
                     hint: 'Sync start date'
+                },
+                actions: {
+                    stop: 'Disable'
                 }
             },
             zones: {
