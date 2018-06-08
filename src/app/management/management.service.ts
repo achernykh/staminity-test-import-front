@@ -155,7 +155,7 @@ export class ManagementService {
                 const addRoles = arrays.difference(roles, checkedRoles);
                 const removeRoles = arrays.difference(checkedRoles, roles);
                 if (addRoles.length || removeRoles.length) {
-                    return this.dialogs.confirmAdvance({
+                    return this.dialogs.confirm({
                         title: this.$translate.instant(`users.editRoles.confirm.title`),
                         text: getEditRolesMessage(this.$translate) (addRoles, removeRoles),
                         confirm: this.$translate.instant(`users.editRoles.confirm.confirm`),
