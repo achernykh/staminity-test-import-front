@@ -11,6 +11,12 @@ import { groupBy, orderBy, pipe, prop } from "../../share/util.js";
 export const periodByType = (type: string): IReportPeriod[] => {
     const format: string = "YYYYMMDD";
     switch (type) {
+        case "last12months": {
+            return [{
+                startDate: moment().add(-12,'month').startOf("month").format(format),
+                endDate: moment().endOf("month").format(format),
+            }];
+        }
         case "thisYear": {
             return [{
                 startDate: moment().startOf("year").format(format),

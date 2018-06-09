@@ -1,13 +1,5 @@
-import {IAnalyticsChart, AnalyticsChartLayout} from "../analytics/analytics-chart/analytics-chart.model";
+import { IAnalyticsChart, AnalyticsChartLayout } from "../analytics/analytics-chart/analytics-chart.model";
 export const homeChartsConfig: IAnalyticsChart[] = [
-    /**
-     * 4. Фактическое расстояние по тренировкам
-     * Фильтры:
-     * а) атлет
-     * Признаки:
-     * а) нарастояющим итогом - да/нет
-     * б) группировка по дням / по неделям / по месяцам
-     */
     {
         order: 4,
         active: true,
@@ -27,7 +19,44 @@ export const homeChartsConfig: IAnalyticsChart[] = [
             param: "seriesDateTrunc",
         }],
         description: "actualDistance.description",
-        globalParams: true,
+        globalParams: false,
+        localParams: {
+            users: {
+                type: "checkbox",
+                area: "params",
+                name: "users",
+                text: "users",
+                model: "me",
+                options: [],
+            },
+            activityTypes: {
+                type: "checkbox",
+                area: "params",
+                name: "activityTypes",
+                text: "activityTypes",
+                model: [2],
+            },
+            activityCategories: {
+                type: "checkbox",
+                area: "params",
+                name: "activityCategories",
+                text: "activityCategories",
+                model: [],
+            },
+            periods: {
+                type: "date",
+                area: "params",
+                name: "periods",
+                text: "periods",
+                model: "last12months",
+                options: [
+                    "thisYear",
+                    "thisMonth",
+                    "thisWeek",
+                    "customPeriod",
+                ],
+            }
+        },
         settings: [
             {
                 ind: [0],
@@ -98,9 +127,8 @@ export const homeChartsConfig: IAnalyticsChart[] = [
                     "color": "rgba(0,0,0,0.5)",
                 },
                 "colorPalette": false,
-                ticksMinDistance: 50,
             },
-            series : [{
+            series: [{
                 label: "Период",
                 unit: "",
                 xAxis: true,
@@ -117,13 +145,13 @@ export const homeChartsConfig: IAnalyticsChart[] = [
                 valueType: "value",
                 groupByIntervalLength: 1,
             }],
-            measures : [{
+            measures: [{
                 label: "Расстояние",
                 unit: "км",
                 chartType: "area",
                 smoothSettings: "curveCardinal",
                 stacked: false,
-                cumulative: true,
+                cumulative: false,
                 tooltipType: "icon",
                 minValue: 0,
                 legend: false,
@@ -131,21 +159,22 @@ export const homeChartsConfig: IAnalyticsChart[] = [
                 avgValueLine: false,
                 scaleVisible: true,
                 calculateTotals: "",
-                lineColor: "#AD1457", // deep-orange-300
+                lineColor: "#607D8B", // deep-orange-300
                 lineStyle: "solid",
-                lineWidth: 1,
+                lineWidth: 2,
                 fillType: "gradient",
+                fillColor: "#CFD8DC", // deep-orange-200
                 gradient: [{
                     offset: "0%",
-                    color: "#6200EA", // deep-orange-50
-                    opacity: 0.1,
+                    color: "#CFD8DC", // deep-orange-50
+                    opacity: 0.2,
                 }, {
                     offset: "100%",
-                    color: "#AD1457", // deep-orange-300
-                    opacity: 0.8,
+                    color: "#607D8B", // deep-orange-300
+                    opacity: 0.6,
                 }],
-                markerColor: "#AD1457", // deep-orange-300
-                avgValueLineColor: "#AD1457", //
+                markerColor: "#455A64", // deep-orange-300
+                avgValueLineColor: "#455A64", //
                 avgValueLineStyle: "dashed",
                 idx: 1,
                 measureSource: "activity.actual.measure",

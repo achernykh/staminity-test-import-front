@@ -50,6 +50,7 @@ import { autoFocus } from "./directives/autofocus.directive";
 import { onFiles } from "./directives/onfiles.directive";
 import { truncateFilter } from "./text/truncate.filter";
 import { toUppercase } from "./text/text.functions";
+import { countToDirective } from "./animation/count-to.directive";
 
 // import
 
@@ -239,6 +240,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .directive('measureInput', ['$filter', MeasurementInput])
     .directive('compareTo', compareTo) // сравниваем значение в поля ввода (пароли)
     .directive('stQuillPostImage', stQuillPostImage)
+    .directive('countTo', ['$timeout', countToDirective])
     .filter('truncate', truncateFilter)
     .filter('stringToDate', stringToDate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)

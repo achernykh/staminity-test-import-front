@@ -33,6 +33,7 @@ import ActivitySummaryInfoComponent from "./components/summary-info/summary-info
 import MeasureMainButtonComponent from "./measure-main-button/measure-main-button.component";
 import MeasuresAvgTableComponent from "./measures-avg-table/measures-avg-table.component";
 import { activityTypeExistInBasicType } from "./filters/activity-type-in-basic-type.filter";
+import { activityTypeCodeById } from "./filters/activity-type-by-id.filter";
 
 export const ActivityModule = module("staminity.activity", [])
     .service("ActivityService", ActivityService)
@@ -66,6 +67,7 @@ export const ActivityModule = module("staminity.activity", [])
     .component("assignmentSummaryStructured", AssignmentSummaryStructuredComponent)
     .component("activityIntervalOverview", ActivityIntervalOverviewComponent)
     .filter("activityTypeExistInBasicType", activityTypeExistInBasicType)
+    .filter('activityTypeCodeById', activityTypeCodeById)
     /*.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
     .config(['$translateProvider', ($translate) =>
         $translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])*/
