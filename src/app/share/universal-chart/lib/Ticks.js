@@ -32,7 +32,7 @@ class Ticks {
      */
     rarefy() {
 
-        this._rarefyLabels();
+        this._rarefyLabels();x
         this._rarefyTicks();
     }
 
