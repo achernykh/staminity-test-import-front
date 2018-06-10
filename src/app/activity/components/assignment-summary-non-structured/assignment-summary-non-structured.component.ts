@@ -148,6 +148,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             strength: [durationMeasure,'distance','heartRate'],
             transition: [durationMeasure,'distance','heartRate', 'speed'],
             ski: [durationMeasure,'distance','heartRate', 'speed'],
+            rowing: [durationMeasure,'distance','heartRate', 'speed'],
             other: [durationMeasure,'distance','heartRate', 'speed'],
             default: [durationMeasure,'distance','heartRate', 'speed'],
         };

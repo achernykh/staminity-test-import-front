@@ -5,16 +5,23 @@ import {
 } from "../../../api";
 import { SocketService } from "../core";
 import { UserSettingsProviderCtrl } from "./settings/user-settings-provider/user-settings-provider.dialog";
+import { Subject } from "rxjs/Rx";
+import { IUserExternalAccount } from "../../../api/user/user.interface";
 
 export default class SyncAdaptorService {
 
-    static $inject = ["SocketService", "$mdDialog", "$auth"];
+    public updates = new Subject<{action: string, value: IUserExternalAccount}>();
+    static $inject = ["SocketService", "$mdDialog", "$auth", "SocketService"];
 
     constructor(
         private SocketService: SocketService,
         private $mdDialog: any,
-        private $auth: any
-    ) {
+        private $auth: any,
+        private socket: SocketService) {
+
+        this.socket.messages
+            .filter(m => m.type === "userExternalAccount")
+            .subscribe(m => this.updates.next({action: m.action, value: m.value as IUserExternalAccount}));
 
     }
 

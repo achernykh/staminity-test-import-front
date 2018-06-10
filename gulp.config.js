@@ -59,22 +59,22 @@ const backend = {
     build: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'testapp.staminity.com:443',
-        content: 'https://testapp.staminity.com:443',
+        server: 'testapp.staminity.com',
+        content: 'https://testapp.staminity.com',
         frontend: 'https://dev2.staminity.com/'
     },
     dev1: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'testapp.staminity.com:443',
-        content: 'https://testapp.staminity.com:443',
+        server: 'testapp.staminity.com',
+        content: 'https://testapp.staminity.com',
         frontend: 'http://dev1.staminity.com/'
     },
     dev2: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'testapp.staminity.com:443',
-        content: 'https://testapp.staminity.com:443',
+        server: 'testapp.staminity.com',
+        content: 'https://testapp.staminity.com',
         frontend: 'http://dev2.staminity.com/'
     },
     dev3: {
@@ -95,7 +95,7 @@ const backend = {
         protocol_ws: 'ws://',
         protocol_rest: 'http://',
         server: 'node51397-env-7312598.mircloud.ru:11123',
-        content: 'http://testapp.staminity.com:8080',
+        content: 'http://testapp.staminity.com:443',
         frontend: 'http://node51402-env-1004830.mircloud.ru:11159/'
     },
 };

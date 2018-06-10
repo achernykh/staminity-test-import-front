@@ -36,6 +36,8 @@ export class ActivityHeaderDetailsCtrl implements IComponentController {
     private readonly intervalTypes = ['P','L','U'];
     private intervals: SelectionOptions<Select> = {};
     private changes: number = 0;
+    private change: number = 0; // chart measure change
+    public changeMeasure: string = null;
     private selectedIntervals: Array<string> = [];
 
     static $inject = [];
@@ -84,13 +86,33 @@ export class ActivityHeaderDetailsCtrl implements IComponentController {
             this.selectedIntervals = this.calculateIndex(this.selectionIndex);
         }
         if(changes.hasOwnProperty('hasDetails') && changes.hasDetails.currentValue && !this.completeDetails) {
-            this.chartData = this.item.activity.details.chartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures);
+            //this.chartData = this.item.activity.details.chartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures);
+            this.prepareChartData();
             this.completeDetails = true;
             this.prepareIntervals();
         }
         if(changes.hasOwnProperty('hasImport') && changes.hasImport.currentValue) {
             this.prepareIntervals();
         }
+    }
+
+    private prepareChartData () {
+        if (!this.item.$mdMedia('gt-sm') || this.item.isIonic) {
+            this.chartData = this.item.activity.details.chartData(this.item.activity.header.sportBasic, this.item.activity.intervals.W.calcMeasures);
+            let count: number = 0;
+            Object.keys(this.chartData.measures).map(m => this.chartData.measures[m].show && count++ &&
+                (count > 2 ? this.chartData.measures[m].show = false : this.chartData.measures[m].show = true));
+        }
+    }
+
+    changeChartMetrics(measure) {
+        this.chartData.measures[measure]['show'] = !this.chartData.measures[measure]['show'];
+        this.changeMeasure = measure;
+        let measuresCount = Object.keys(this.chartData.measures).filter(m => this.chartData.measures[m]['show']).length;
+        if (measuresCount > 2 && this.chartData.measures[measure]['show']) {
+            this.chartData.measures[Object.keys(this.chartData.measures).filter(m => this.chartData.measures[m]['show'] && m !== measure)[0]].show = false;
+        }
+        this.change++;
     }
 
     changeSelect() {

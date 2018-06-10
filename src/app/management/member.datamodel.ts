@@ -16,7 +16,11 @@ export class Member implements IGroupManagementProfileMember {
         public member: IGroupManagementProfileMember,
     ) {
         this.userProfile = member.userProfile;
-        this.profile = new User(member.userProfile);
+        this.profile = new User(Object.assign(member.userProfile, {personal: {
+            birthday: member.userProfile.birthday,
+            country: member.userProfile.country,
+            city: member.userProfile.city
+        }}));
         this.roleMembership = member.roleMembership;
         this.coaches = member.coaches;
     }

@@ -5,6 +5,7 @@ import {translateForm,translateGeneral} from "./app.translate";
 import { IUserProfile } from "../../api/user/user.interface";
 import AuthService from "./auth/auth.service";
 import { SocketService } from "@app/core";
+import * as localForage from "localforage";
 
 function configure(
 	$compileProvider: ICompileProvider,
@@ -160,8 +161,6 @@ function configure(
 	$translateProvider.translations('ru', {form: translateForm['ru']});
 	$translateProvider.translations('en', translateGeneral['en']);
 	$translateProvider.translations('ru', translateGeneral['ru']);
-
-	console.log('config complete');
 }
 
 configure.$inject = [

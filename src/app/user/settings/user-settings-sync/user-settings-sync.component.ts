@@ -36,6 +36,7 @@ export const syncStatus = (last, state) => {
         onSyncCreate: {
             code: "onSyncCreate",
             switch: true,
+            async: true,
         },
         onSyncPendingRequest: {
             code: "onSyncCreate",
@@ -44,6 +45,11 @@ export const syncStatus = (last, state) => {
         onCheckRequisites: {
             code: "onSyncCreate",
             switch: true,
+        },
+        offSyncDeleted: {
+            code: "offSyncDeleted",
+            switch: false,
+            async: true,
         },
     };
 
@@ -86,6 +92,12 @@ export const syncStatus = (last, state) => {
     if (state === "CheckRequisites") {
         return status.onCheckRequisites;
     }
+
+    //  Статус 9: Ожидается подтверждение удаления
+    if (state === "Deleted") {
+        return status.offSyncDeleted;
+    }
+
 };
 
 export const syncAdaptors = [ 

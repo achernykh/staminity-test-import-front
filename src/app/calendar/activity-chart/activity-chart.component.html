@@ -3,8 +3,8 @@
      style="transform: scale(1, -1); margin-top: 8px; max-height: 30px; overflow: visible; width: 100%">
     <defs>
         <linearGradient id="{{::$ctrl.status}}" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%"  ng-attr-stop-color="{{::$ctrl.color[0]}}"/>
-            <stop offset="100%" ng-attr-stop-color="{{::$ctrl.color[1]}}"/>
+            <stop offset="0%"  ng-attr-stop-color="{{::$ctrl.color[0]}}" stop-opacity="0"/>
+            <stop offset="100%" ng-attr-stop-color="{{::$ctrl.color[1]}}" stop-opacity="1"/>
         </linearGradient>
     </defs>
     <path ng-attr-d="{{::$ctrl.d}}"

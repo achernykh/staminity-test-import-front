@@ -5,14 +5,14 @@ import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
 
 
 export default class DialogsService {
-    
+
     constructor ($mdDialog, $mdMedia, BillingService, message) {
         this.$mdDialog = $mdDialog;
         this.$mdMedia = $mdMedia;
         this.BillingService = BillingService;
         this.message = message;
     }
-    
+
     uploadPicture () {
         return this.$mdDialog.show({
             multiple: true,
@@ -31,7 +31,7 @@ export default class DialogsService {
             clickOutsideToClose: true
         });
     }
-    
+
     confirm (messages, value = null) {
         return this.$mdDialog.show({
             multiple: true,
@@ -41,6 +41,11 @@ export default class DialogsService {
             parent: angular.element(document.body),
             clickOutsideToClose: true
         });
+    }
+
+    // for ionic
+    confirmAdvance (messages, value) {
+        return this.confirm(messages, value);
     }
 
     usersList (users, title) {
@@ -54,7 +59,7 @@ export default class DialogsService {
             fullscreen: !this.$mdMedia('gt-sm')
         });
     }
-    
+
     tariffs (tariffs, byClub, bySelf, message) {
         return this.$mdDialog.show({
             controller: TariffsController,
@@ -64,7 +69,7 @@ export default class DialogsService {
             clickOutsideToClose: true
         });
     }
-    
+
     selectUsers (users, selectedUsers, message) {
         return this.$mdDialog.show({
             controller: SelectUsersController,
@@ -74,7 +79,7 @@ export default class DialogsService {
             clickOutsideToClose: true
         });
     }
-    
+
     roles (roles, selectedRoles) {
         return this.$mdDialog.show({
             controller: RolesController,
@@ -231,11 +236,11 @@ DialogsService.$inject = ['$mdDialog', '$mdMedia', 'BillingService', 'message'];
 
 function ConfirmDialogController($scope, $mdDialog, messages, value) {
     $scope.messages = messages;
-    
+
     $scope.cancel = () => {
         $mdDialog.cancel();
     };
-    
+
     $scope.confirm = () => {
         $mdDialog.hide(value);
     };
@@ -256,17 +261,17 @@ function UploadPictureDialogController($scope, $mdDialog) {
         reader.onload = (event) => $scope.$apply(onLoad(event)); // результат загрузки передаем в src для вывод картинки на экран
         reader.readAsDataURL(file); //сохраняем загрузку
     };
-    
+
     $scope.src = () => src;
-    
+
     $scope.hide = () => {
         $mdDialog.hide();
     };
-    
+
     $scope.cancel = () => {
         $mdDialog.cancel();
     };
-    
+
     $scope.upload = () => {
         $mdDialog.hide(file);
     };
@@ -333,14 +338,14 @@ const isChecked = (list) => (item) => (isChecked) => {
     } else {
         let index = list.indexOf(item);
         list.splice(index, 1);
-    }        
+    }
 };
 
 
 function RolesController ($scope, $mdDialog, roles, selectedRoles) {
     $scope.roles = roles;
     $scope.selectedRoles = selectedRoles.slice();
-    $scope.isChecked = isChecked($scope.selectedRoles);    
+    $scope.isChecked = isChecked($scope.selectedRoles);
     $scope.commit = () => { $mdDialog.hide($scope.selectedRoles) };
     $scope.cancel = () => { $mdDialog.hide() };
 }
@@ -431,8 +436,8 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     this.submit = function () {
         let trial = this.billing.trialConditions.isAvailable;
         BillingService.enableTariff(
-            tariff.tariffId, 
-            user.userId, 
+            tariff.tariffId,
+            user.userId,
             this.fee.term,
             this.autoRenewal,
             trial,
@@ -582,7 +587,7 @@ function TariffDetailsController ($scope, $mdDialog, dialogs, BillingService, me
 
     this.submit = () => {
         BillingService.updateTariff(
-            tariff.tariffId, 
+            tariff.tariffId,
             this.autoRenewal,
             maybe(this.activePromo) (prop('code')) (),
             this.fixedFeeTerm(),
@@ -684,12 +689,12 @@ function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {
     this.fee = fee;
     this.bill = bill;
 
-    this.viewObjectsList = (entry) => { 
+    this.viewObjectsList = (entry) => {
         dialogs.usersList(entry.varObjects, 'feeObjects');
     };
 
-    this.close = () => { 
-        $mdDialog.hide(); 
+    this.close = () => {
+        $mdDialog.hide();
     };
 
     console.log('FeeDetailsController', this);

@@ -52,13 +52,13 @@ function configure(
         redirectUri: window.location.origin + "/",
         clientId: "6031874",
         authorizationEndpoint: "https://oauth.vk.com/authorize",
-        scope: "friends, email",
+        scope: "email",
         display: "popup",
         responseType: "code",
         requiredUrlParams: ["response_type", "client_id", "redirect_uri", "display", "scope", "v"],
         scopeDelimiter: ",",
         oauthType: "2.0",
-        v: "5.37",
+        v: "5.74",
     });
 
     // Generic OAuth 2.0

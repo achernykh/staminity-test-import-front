@@ -4,7 +4,7 @@ import { getUser, ISession, SessionService } from "./index";
 import UserService from "./user.service";
 
 const getDisplay = (session: ISession): string => path([getUser, "display"])(session) || {};
-const getLocale = (session: ISession): string => path([getUser, "display", "language"])(session) || "ru";
+const getLocale = (session: ISession): string => path([getUser, "display", "language"])(session) || (window.navigator.language as string).substring(0,2) || "ru";
 const getUnits = (session: ISession): string => path([getUser, "display", "units"])(session) || "metric";
 const getTimezone = (session: ISession): string => path([getUser, "display", "timezone"])(session) || "+00:00";
 const getFirstDayOfWeek = (session: ISession): number => path([getUser, "display", "firstDayOfWeek"])(session) || 0;
@@ -27,10 +27,24 @@ export default class DisplayService {
             .map(getDisplay)
             .distinctUntilChanged()
             .subscribe(this.handleChanges);
+
+        // https://www.w3.org/TR/2016/CR-orientation-event-20160818/
+        /**window.addEventListener("deviceorientation", (e: DeviceOrientationEvent) => {
+            console.debug('deviceorientation', e);
+            if (Math.abs(e.gamma) === 0) {
+                // portait
+            }
+            if (Math.abs(e.gamma) === -90) {
+                // landscape
+            }
+            // process event.alpha, event.beta and event.gamma
+        }, true);**/
     }
 
     getLocale (): string {
-        return getLocale(this.sessionService.get());
+        return this.sessionService.getToken() ?
+            getLocale(this.sessionService.get()) :
+            this.$translate.use() || (window.navigator.language as string).substring(0,2) || "en";
     }
 
     setLocale(locale: string): Promise<any> {

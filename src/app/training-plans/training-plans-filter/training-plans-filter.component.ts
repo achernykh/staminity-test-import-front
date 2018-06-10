@@ -9,12 +9,12 @@ import { supportLng } from "../../core/display.constants";
 import { SearchService } from "../../search/search.service";
 import { SearchResultByUser } from "../../search/search";
 
-class TrainingPlansFilterCtrl implements IComponentController {
+export class TrainingPlansFilterCtrl implements IComponentController {
 
     // bind
     filter: ITrainingPlanSearchRequest;
     view: string;
-    onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => IPromise<void>;
+    onChangeFilter: (response: { filter: ITrainingPlanSearchRequest }) => Promise<void>;
 
     // public
     // private
@@ -58,6 +58,7 @@ class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     set distanceType (distanceType: any) {
+        distanceType = JSON.parse(distanceType);
         distanceType.hasOwnProperty('code') ?
             this.filter.distanceType = distanceType.code : this.filter.distanceType = distanceType;
     }

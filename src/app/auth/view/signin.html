@@ -11,10 +11,10 @@
           novalidate name="$ctrl.signinForm">
         <div layout="column" class="social-buttons">
             <md-button ng-repeat="provider in ['facebook','google','vkontakte']"
-                       ng-click="$ctrl.OAuth(provider)" ng-disabled="!$ctrl.enabled"
+                       ng-click="$ctrl.OAuth('signIn', provider)" ng-disabled="!$ctrl.enabled"
                        class="social-button {{::provider}}">
                 <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
-                <span translate="Вход через"></span>&nbsp;<span translate="{{::provider}}"></span>
+                <span translate="auth.signin.social"></span>&nbsp;<span translate="{{::provider}}"></span>
             </md-button>
         </div>
         <div class="md-caption md-light md-inactive center" translate="auth.socialOr"></div>

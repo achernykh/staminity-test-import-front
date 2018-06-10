@@ -1,6 +1,9 @@
 export const translateActivity = {
   ru: {
       title: 'Тренировка',
+      toolbar: {
+          title: 'Тренировка',
+      },
       action: {
           save: 'Сохранить',
           toTemplate: 'В Шаблон',
@@ -120,6 +123,9 @@ export const translateActivity = {
   },
     en: {
         title: 'Activity',
+        toolbar: {
+            title: 'Activity',
+        },
         action: {
             save: 'Save',
             toTemplate: 'Save as template',
@@ -256,6 +262,8 @@ export const translateSport = {
         indoorBike: 'Велостанок',
         strength: 'Силовая тренировка',
         ski: 'Лыжи',
+        rowing: 'Гребля',
+        rowingIndoor: 'Гребля тренажер',
         other: 'Прочее',
         transition: 'Транзитка',
         swimToBike: 'Транзитка: плавание-вел',
@@ -280,6 +288,8 @@ export const translateSport = {
         strength: 'Strength training',
         ski: 'Skiing',
         other: 'Other',
+        rowing: 'Rowing',
+        rowingIndoor: 'Rowing indoor',
         transition: 'Transition',
         swimToBike: 'Transition: Swim to bike',
         bikeToRun: 'Transition: Bike to run',

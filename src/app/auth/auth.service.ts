@@ -24,13 +24,13 @@ export interface IAuthService {
     isActivityPlanAthletes(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
     signIn(request:Object): Promise<any>;
-    signUp(request:Object):IHttpPromise<{}>;
+    signUp(request:Object):Promise<any>;
     signOut():void;
-    confirm(request:Object):IHttpPromise<{}>;
-    resetPassword(email: string):IHttpPromise<{}>;
-    setPassword(password:string,token:string):IHttpPromise<{}>;
+    confirm(request:Object):Promise<any>;
+    resetPassword(email: string): Promise<any>;
+    setPassword(password:string,token:string): Promise<any>;
     inviteUsers(group: number, users: Array<Object>):Promise<any>;
-    putInvite(credentials: UserCredentials):IHttpPromiseCallbackArg<any>;
+    putInvite(credentials: UserCredentials): Promise<any>;
 }
 
 export default class AuthService implements IAuthService {
@@ -132,7 +132,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    signUp(request) : IHttpPromise<any> {
+    signUp(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/signup', request));
     }
 
@@ -156,17 +156,16 @@ export default class AuthService implements IAuthService {
     }
 
     signedIn(sessionData: any): Promise<any> {
-        this.SessionService.set(sessionData);
-        return this.SocketService.init()
-            .then( _ => {
+        return this.SessionService.setItem(sessionData)
+            .then(_ => console.debug('auth signedIn with token', this.SessionService.getToken()))
+            .then(_ => this.SocketService.init())
+            .then(_ => {
                 this.referenceService.resetCategories();
                 this.referenceService.resetTemplates();
                 this.notificationService.resetNotifications();
                 this.requestService.resetRequests();
                 this.userService.resetConnections();
-            }, _ => {
-                throw new Error('auth signin: ws connections disable');
-            })
+            }, _ => { throw new Error('auth signin: ws connections disable');})
             .then( _ => this.SessionService.getUser());
     }
 
@@ -183,7 +182,7 @@ export default class AuthService implements IAuthService {
      * @param request
      * @returns {Promise<any>}
      */
-    confirm(request) : IHttpPromise<{}> {
+    confirm(request) : Promise<any> {
         return this.RESTService.postData(new PostData('/confirm', request));
     }
 
@@ -192,7 +191,7 @@ export default class AuthService implements IAuthService {
      * @param email
      * @returns {IPromise<TResult>}
      */
-    resetPassword(email: string) : IHttpPromise<{}>{
+    resetPassword(email: string) : Promise<{}>{
         return this.RESTService.postData(new ResetPasswordRequest(email))
             .then(result => result['data']);
     }
@@ -202,9 +201,9 @@ export default class AuthService implements IAuthService {
      * @param password
      * @returns {Promise<any>}
      */
-    setPassword(password: string, token: string = this.SessionService.getToken()) : IHttpPromise<{}> {
+    setPassword(password: string, token: string = this.SessionService.getToken()) : Promise<any> {
         return this.RESTService.postData(new SetPasswordRequest(password, token))
-            .then((result) => result['data']); // Ожидаем system message
+            .then(r => r['data']); // Ожидаем system message
     }
 
     /**

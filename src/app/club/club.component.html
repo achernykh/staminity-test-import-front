@@ -10,17 +10,18 @@
             <md-button ng-if="$ctrl.club.availableInteractions.btnJoinGroup"
                        ng-click="$ctrl.join()" class="md-raised md-primary"
                        style="padding: 0 7px; border-radius: 2px; background-color: #ff5722; font-size: 14px; text-transform: none;">
-                Вступить в клуб
+                <span translate="club.actions.startClub"></span>
             </md-button>
             
             <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelJoinGroup">
                 <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                Заявка отправлена ▾
+                    <span translate="club.actions.clubRequestWaiting"></span>
+                    <span> ▾</span>
                 </md-button>
                 <md-menu-content>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.cancel()">
-                        Отменить заявку
+                        <span translate="club.actions.clubRequestCancel"></span>
                     </md-button>
                 </md-menu-item>
                 </md-menu-content>
@@ -28,12 +29,13 @@
             
             <md-menu ng-if="$ctrl.club.availableInteractions.btnLeaveGroup">
                 <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                Ваш клуб ▾
+                    <span translate="club.actions.isYourClub"></span>
+                    <span> ▾</span>
                 </md-button>
                 <md-menu-content>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.leave()">
-                        Покинуть клуб
+                        <span translate="club.actions.leaveClub"></span>
                     </md-button>
                 </md-menu-item>
                 </md-menu-content>
@@ -41,12 +43,13 @@
             
             <md-menu ng-if="$ctrl.club.availableInteractions.btnCancelLeaveGroup">
                 <md-button ng-click="$ctrl.openMenu($mdOpenMenu, $event)">
-                Вы отправили заявку на выход ▾
+                    <span translate="club.actions.clubRequestWaiting"></span>
+                    <span> ▾</span>
                 </md-button>
                 <md-menu-content>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.cancel()">
-                        Отменить заявку
+                        <span translate="club.actions.clubRequestCancel"></span>
                     </md-button>
                 </md-menu-item>
                 </md-menu-content>
@@ -105,14 +108,14 @@
         </ng-quill-editor>
         <div style="white-space: pre-wrap;">{{'user.settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'user.settings.personalInfo.isFreeTrue' : 'user.settings.personalInfo.isFreeFalse' | translate}}</div>
 
-        <div class="md-caption">Состав</div>
+        <div class="md-caption" translate="club.staff"></div>
         <div ng-if="$ctrl.club.innerGroups">
             <md-button ng-disabled="!$ctrl.club.innerGroups.ClubCoaches.groupMembers.length" ng-click="$ctrl.showCoaches()">
-                <span>Тренеры:</span> 
+                <span translate="user.connections.coaches"></span><span>:</span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubCoaches.groupMembersCount || '-' }}</span> 
             </md-button>                    
             <md-button ng-disabled="!$ctrl.club.innerGroups.ClubAthletes.groupMembers.length" ng-click="$ctrl.showAthletes()">
-                <span>Спортсмены:</span> 
+                <span translate="user.connections.athletes"></span><span>:</span>
                 <span style="color:rgba(0, 0, 0, 0.38)">{{ $ctrl.club.innerGroups.ClubAthletes.groupMembersCount || '-' }}</span>
             </md-button>
         </div>

@@ -93,6 +93,8 @@ export interface IActivityChartSettings {
     // if true will resize on window resize according to
     // the new container size
     autoResizable: boolean;
+    measuresLimit: number; // max of measures on chart
+    measuresLimitMin: number;
     // chart anomation settings on load and data changes
     animation: IAnimationSettigs;
     selectAnimation: IAnimationSettigs;

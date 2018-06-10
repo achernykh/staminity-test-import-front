@@ -90,29 +90,29 @@
 
     <div ng-repeat="sport in $ctrl.data.primarySport track by $index"
          ng-if="!$ctrl.compactView">
-        <div ng-if="::$ctrl.data.hasTotalBySport(sport)">
+        <div ng-if="$ctrl.data.hasTotalBySport(sport)">
             <md-divider></md-divider>
             <section layout="row" class="sport-sum">
                 <md-icon flex="none" md-svg-src="assets/icon/{{::sport}}.svg" class="s18 dark-active"></md-icon>
                 <div flex layout="column" class="md-body-1 secondary dark">
                     <div flex="none" layout="row" layout-align="space-between center">
-                        <div flex="none">{{::($ctrl.data.total[sport].fact.movingDuration | measureCalc:sport:'movingDuration')}}&nbsp</div>
+                        <div flex="none">{{($ctrl.data.total[sport].fact.movingDuration | measureCalc:sport:'movingDuration')}}&nbsp</div>
                         <div ></div>
                         <div flex="none" class="disable dark">
-                            <span>{{::($ctrl.data.total[sport].plan.movingDuration | measureCalc:sport:'movingDuration')}}</span>
+                            <span>{{($ctrl.data.total[sport].plan.movingDuration | measureCalc:sport:'movingDuration')}}</span>
                         </div>
                     </div>
                     <div flex="none" class="status-bar">
-                        <div ng-if="::(!!$ctrl.data.total[sport].fact.movingDuration || !!$ctrl.data.total[sport].plan.movingDuration)"
-                             class="progress {{::$ctrl.data.totalStatus(sport)}}"
+                        <div ng-if="(!!$ctrl.data.total[sport].fact.movingDuration || !!$ctrl.data.total[sport].plan.movingDuration)"
+                             class="progress {{$ctrl.data.totalStatus(sport)}}"
                              style="width: {{::$ctrl.data.totalPercentByCount(sport)}}%"></div>
                     </div>
                     <div flex="none" layout="row" layout-align="space-between center">
-                        <div flex="none">{{::($ctrl.data.total[sport].fact.distance | measureCalc:sport:'distance')}}&nbsp</div>
+                        <div flex="none">{{($ctrl.data.total[sport].fact.distance | measureCalc:sport:'distance')}}&nbsp</div>
                         <div></div>
                         <div flex="none" class="disable dark">
-                            <span>{{::($ctrl.data.total[sport].plan.distance | measureCalc:sport:'distance')}}</span>
-                            <span>{{::('distance' | measureUnit:sport | translate)}}</span>
+                            <span>{{($ctrl.data.total[sport].plan.distance | measureCalc:sport:'distance')}}</span>
+                            <span>{{('distance' | measureUnit:sport | translate)}}</span>
                         </div>
                     </div>
                 </div>

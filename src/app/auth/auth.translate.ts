@@ -37,6 +37,9 @@ export let _translate = {
             signupLink: "<a href='https://staminity.com/signup'>Создать аккаунт</a>"
 
         },
+        signout: {
+            shortTitle: "Выйти",
+        },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {
             fullTitle: "Подтверждение регистрации",
@@ -113,6 +116,9 @@ export let _translate = {
             reset: "Forgot my password",
             social: 'Sign in with ',
             signupLink: "<a href='https://staminity.com/signup'>Create new account</a>"
+        },
+        signout: {
+            shortTitle: "Sign out",
         },
         // Окно подтверждения успешной регистрации. Добавил сюда же текст на экране
         confirm: {

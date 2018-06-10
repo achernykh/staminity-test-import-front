@@ -67,6 +67,7 @@ export class SocketService {
      */
     open (token: string = this.session.getToken()): void {
         if ( this.socket && !this.socket.closed ) { return; } // already open
+        if (!token) {console.error('socket service: ws open error with token=', token); return;}
         try {
             this.ws = Observable.webSocket(_connection.protocol.ws + _connection.server + '/' + token);
             this.socket = this.ws.subscribe({

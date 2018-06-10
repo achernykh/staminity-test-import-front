@@ -11,7 +11,7 @@ import { TrainingPlanDialogService } from "../training-plan-dialog.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { StateService} from "angular-ui-router";
 
-class TrainingPlansStoreItemsCtrl implements IComponentController {
+export class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     searchParams: ITrainingPlanSearchRequest;
     cardView: boolean;
@@ -44,12 +44,16 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     $onChanges (changes): void {
         if (this.searchParams && changes.hasOwnProperty('update') && !changes['update'].isFirstChanges) {
-            if (this.searchParams.type === 'all') { this.searchParams.type = null; }
-            if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
-            if (this.searchParams.weekCountFrom) { this.searchParams.weekCountFrom = Number(this.searchParams.weekCountFrom); }
-            if (this.searchParams.weekCountTo) { this.searchParams.weekCountTo = Number(this.searchParams.weekCountTo); }
+            this.prepareSearchParams();
             this.prepareData();
         }
+    }
+
+    prepareSearchParams () {
+        if (this.searchParams.type === 'all') { this.searchParams.type = null; }
+        if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
+        if (this.searchParams.weekCountFrom) { this.searchParams.weekCountFrom = Number(this.searchParams.weekCountFrom); }
+        if (this.searchParams.weekCountTo) { this.searchParams.weekCountTo = Number(this.searchParams.weekCountTo); }
     }
 
     prepareData () {
@@ -58,6 +62,7 @@ class TrainingPlansStoreItemsCtrl implements IComponentController {
             .then(result => this.prepareList(result), error => {debugger;})
             //.then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
             .then(_ => this.isLoadingData = false)
+            .then(_ => this.$scope.$applyAsync())
             .then(_ => this.onResult({list: this.plans.list, length: this.plans.list.length}));
 
     }

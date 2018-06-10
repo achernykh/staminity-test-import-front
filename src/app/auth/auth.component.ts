@@ -5,6 +5,9 @@ import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
 import "./auth.component.scss";
 import {gaEmailSignup, gaSocialSignup} from "../share/google/google-analitics.functions";
+import AuthService from "@app/auth/auth.service";
+import {ISystemMessage} from "@api/core";
+import DisplayService from "@app/core/display.service";
 
 class AuthCtrl implements IComponentController {
 
@@ -13,16 +16,17 @@ class AuthCtrl implements IComponentController {
     private credentials: Object = null;
     private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-    static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth"];
+    static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth", 'DisplayService'];
 
     constructor(
-        private AuthService: any,
+        private AuthService: AuthService,
         private SessionService: SessionService,
         private $state: StateService,
         private $stateParams: any,
         private $location: ILocationService,
         private message: IMessageService,
-        private $auth: any) {
+        private $auth: any,
+        private displayService: DisplayService) {
     }
 
     get device (): string {
@@ -52,7 +56,7 @@ class AuthCtrl implements IComponentController {
         if (this.$state.$current.name === "confirm") {
             if (this.$location["$$search"].hasOwnProperty("request")) {
                 this.AuthService.confirm({request: this.$location["$$search"].request})
-                    .then((message) => {
+                    .then((message: ISystemMessage) => {
                         this.message.systemSuccess(message.title);
                         this.$state.go("signin");
                     }, (error) => {
@@ -77,7 +81,7 @@ class AuthCtrl implements IComponentController {
                 units: "metric",
                 firstDayOfWeek: 1,
                 timezone: "Europe/Moscow",
-                language: "ru",
+                language: this.displayService.getLocale(),
             },
             email: this.$stateParams.hasOwnProperty("email") && this.$stateParams.email || "",
             password: "",
@@ -94,12 +98,8 @@ class AuthCtrl implements IComponentController {
     signin(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.signIn({device: this.device, email: credentials.email, password: credentials.password})
-            .finally(() => this.enabled = true)
-            .then((profile: IUserProfile) => {
-                this.redirect("calendar", {uri: profile.public.uri});
-            }, (error) => {
-                this.message.systemError(error);
-            });
+            .then(profile => this.redirect("calendar", {uri: profile.public.uri}), e => this.message.systemError(e))
+            .then(_ => this.enabled = true);
     }
 
     /**
@@ -109,14 +109,15 @@ class AuthCtrl implements IComponentController {
     signup(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.signUp(Object.assign({}, credentials, {utm: {...this.getUtmParams()}}))
-            .finally(() => this.enabled = true)
-            .then((message) => {
+            //.finally(() => this.enabled = true)
+            .then((m: ISystemMessage) => this.message.systemSuccess(m.title), e => {throw e;})
+            .then(_ => gaEmailSignup() && (this.showConfirm = true), e => this.message.systemWarning(e))
+            .then(_ => this.enabled = true);
+            /**.then((message) => {
                 this.showConfirm = true;
                 gaEmailSignup();
                 this.message.systemSuccess(message.title);
-            }, (error) => {
-                this.message.systemWarning(error);
-            });
+            }, e => this.message.systemWarning(e));**/
     }
 
     /**
@@ -126,7 +127,7 @@ class AuthCtrl implements IComponentController {
     reset(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.resetPassword(credentials.email)
-            .then((message) => this.message.systemSuccess(message.title), (error) => this.message.systemWarning(error))
+            .then((m: ISystemMessage) => this.message.systemSuccess(m.title), (error) => this.message.systemWarning(error))
             .then(() => this.enabled = true);
     }
 
@@ -137,9 +138,9 @@ class AuthCtrl implements IComponentController {
     setpass(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.setPassword(credentials.password, this.$location["$$search"].request)
-            .then((message) => this.message.systemSuccess(message.title), (error) => this.message.systemWarning(error))
-            .then(() => this.enabled = true)
-            .then(() => this.$state.go("signin"));
+            .then((m: ISystemMessage) => this.message.systemSuccess(m.title), e => this.message.systemWarning(e))
+            .then(_ => this.enabled = true)
+            .then(_ => this.$state.go("signin"));
     }
 
     /**
@@ -148,17 +149,19 @@ class AuthCtrl implements IComponentController {
     putInvite(credentials) {
         this.enabled = false;
         this.AuthService.putInvite(Object.assign(credentials, {token: this.$location["$$search"].request}))
-            .finally(() => this.enabled = true)
+            //.finally(() => this.enabled = true)
             .then((sessionData) => {
                 this.AuthService.signedIn(sessionData);
                 this.redirect("calendar", {uri: sessionData.userProfile.public.uri});
             }, (error) => {
                 this.message.systemWarning(error.errorMessage || error);
-            });
+            })
+            .then(_ => this.enabled = true);
     }
 
-    OAuth(provider: string) {
+    OAuth(flowType: string, provider: string) {
         let data = Object.assign({
+            flowType: flowType,
             device: this.device,
             postAsExternalProvider: false,
             provider,
@@ -168,19 +171,23 @@ class AuthCtrl implements IComponentController {
         });
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.$auth.link(provider, {internalData: data})
-            .finally(() => this.enabled = true)
-            .then((response: IHttpPromiseCallbackArg<{data: {userProfile: IUserProfile, systemFunctions: any}}>) => {
-                const sessionData = response.data.data;
-                gaSocialSignup();
-                this.AuthService.signedIn(sessionData);
-                this.redirect("calendar", {uri: sessionData.userProfile.public.uri});
-            }, (error) => {
-                if (error.hasOwnProperty("stack") && error.stack.indexOf("The popup window was closed") !== -1) {
-                    this.message.toastInfo("userCancelOAuth");
-                } else {
-                    this.message.systemWarning(error.data.errorMessage || error.errorMessage || error);
-                }
-            }).catch((response) => this.message.systemError(response));
+            //.finally(() => this.enabled = true)
+            .then((r: IHttpPromiseCallbackArg<any>) => this.AuthService.signedIn(r.data.data))
+            .then(_ => this.redirect("calendar", {uri: this.SessionService.getUser().public.uri}), e => this.errorHandler(e))
+            .then(_ => gaSocialSignup())
+            .then(_ => this.enabled = true)
+    }
+
+    errorHandler (e) {
+        if (e.hasOwnProperty("stack") && e.stack.indexOf("The popup window was closed") !== -1) {
+            this.message.toastInfo("userCancelOAuth");
+        } else if (e.errorMessage === 'forbidden_need_signUp' || e.data.errorMessage === 'forbidden_need_signUp') {
+            this.message.systemWarning(e.errorMessage || e.data.errorMessage);
+            this.$state.go('signup');
+        } else {
+            this.message.systemWarning(e.data.errorMessage || e.errorMessage || e);
+        }
+        throw e;
     }
 
     redirect(state: string = "calendar", params: Object): void {

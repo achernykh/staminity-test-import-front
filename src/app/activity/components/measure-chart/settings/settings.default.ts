@@ -7,6 +7,8 @@ const DefaultChartSettings: IActivityChartSettings = {
     labelOffset: 40,
     tooltipOffset: 30,
     autoResizable: true,
+    measuresLimit: 10,
+    measuresLimitMin: 2,
     defaultMode: ActivityChartMode.elapsedDuration,
     animation: {
         duration: 100,

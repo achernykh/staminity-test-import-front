@@ -160,6 +160,7 @@ export class ManagementService {
                         text: getEditRolesMessage(this.$translate) (addRoles, removeRoles),
                         confirm: this.$translate.instant(`users.editRoles.confirm.confirm`),
                         cancel: this.$translate.instant(`users.editRoles.confirm.cancel`),
+                        info: this.$translate.instant(`users.editRoles.confirm.info`),
                     }, roles);
                 }
             })

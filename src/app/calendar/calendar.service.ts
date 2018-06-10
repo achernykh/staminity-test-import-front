@@ -25,7 +25,7 @@ export class CalendarService {
      * @param end
      * @returns {Promise<TResult>}
      */
-    getCalendarItem(start:Date, end:Date, userId?:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
+    getCalendarItem(start: Date | string, end: Date | string, userId?:number, groupId?:number, itemId?:number):Promise<Array<ICalendarItem>> {
         return this.SocketService.send(new GetCalendarItemRequest(start, end, userId, groupId, itemId));
             /*.then((result) => {
                 console.log('getCalendarItem=', result)
@@ -66,7 +66,7 @@ export class CalendarService {
         return this.SocketService.send(new DeleteCalendarItemRequest(mode,items, rmParams));
     }
 
-    postFile(file: any, activityId?:number):IHttpPromise<any> {
+    postFile(file: any, activityId?:number): Promise<any> {
         return this.RESTService.postFile(new PostFile(`/api/private/upload`,file, { activityId: activityId}))
             .then((response) => response.data);
     }
