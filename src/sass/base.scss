@@ -18,6 +18,12 @@ $gt-sm: 960px;
   -ms-border-radius: $radius-property;
 }
 
+.bg-circle-40 {
+  min-width: 40px;
+  height: 40px;
+  @include border-radius(20px);
+}
+
 .bg-circle-32 {
   min-width: 32px;
   height: 32px;

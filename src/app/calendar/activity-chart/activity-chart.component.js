@@ -29,7 +29,7 @@ class CalendarActivityChartCtrl {
             .join(' ');
 
         this.color = this.colors[this.status];
-        this.url = this.$location.absUrl();//.replace(/(\w+)#(\w+)/,$1);//`${this.$location.protocol()}//${this.$location.host()}:${this.$location.port()}${this.$location.path()}`;//
+        this.url = `${window.location.protocol}//${window.location.host}`; //this.$location.absUrl();//.replace(/(\w+)#(\w+)/,$1);//`${this.$location.protocol()}//${this.$location.host()}:${this.$location.port()}${this.$location.path()}`;//
 
         //console.debug('CalendarActivityChartCtrl: $onInit =>', this.d, this.color);
 
