@@ -39,6 +39,7 @@ import { TrainingPlansService } from "@app/training-plans/training-plans.service
 import { FormMode } from "../../application.interface";
 import { CalendarItemDialogService } from "@app/calendar-item/calendar-item-dialog.service";
 import { deepCopy } from "../../share/data/data.finctions";
+import {htmlToPlainText} from "../../share/text/plain-text.filter";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -145,13 +146,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
     private segmentChart: Array<any> = [];
+    private intervalChart: Array<any> = [];
     private bottomPanelData: any = null;
 
-    static $inject = ['$scope', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
+    static $inject = ['$scope', '$sce', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
         'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
 
     constructor(
         public $scope: IScope,
+        private $sce,
         private $translate,
         private calendarService: CalendarService,
         private UserService: UserService,
@@ -203,8 +206,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.user = this.options.owner;
         }
         this.activity = new Activity(deepCopy(this.data) as ICalendarItem, deepCopy(this.options) as ICalendarItemDialogOptions);
-        this.segmentChart = this.activity.formChart();
-
+        if (this.activity.isComing && !this.activity.isCompleted) {this.segmentChart = this.activity.formChart();}
         if (this.activity.bottomPanel === 'data') {
             this.bottomPanelData = this.activity.summaryAvg;
         }
@@ -226,6 +228,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then(response => this.activity.intervals.add(response, 'update'),
                         error => this.message.toastError('errorCompleteIntervals'))
                     .then(_ => this.isLoadingIntervals = false)
+                    .then(_ => this.intervalChart = this.activity.formChart('L', this.activity.intensityMeasure))
                     //.then(() => this.activity.updateIntervals())
                     .then(() => this.changeStructuredAssignment++)
                     .then(() => this.prepareTabPosition());
@@ -792,6 +795,16 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.dialogs.confirm({ text: 'dialogs.splitActivity'})
             .then(_ => this.calendarService.split(this.activity.calendarItemId))
             .then(_ => this.message.toastInfo('activitySplited'));
+    }
+
+    getDescription (lineLimit: number = null, lineLen: number = 100): string {
+        let data: string = this.activity.intervals.PW.trainersPrescription;
+        if (!lineLimit) { return data; }
+        data = htmlToPlainText()(data);
+
+        return data.split(/\n/).length > 0 ?
+            `${data.split(/\n/).slice(0, lineLimit).join('\n').slice(0,-1)}${data.split(/\n/).length > lineLimit ? '...' : ''}` :
+            `${data.substring(0, lineLimit * lineLen)}${data.length > lineLimit * lineLen ? '...' : ''}`;
     }
 
 }

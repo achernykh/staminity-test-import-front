@@ -224,8 +224,9 @@ export class Activity extends CalendarItem {
     }
 
     // TODO Перенести в функции
-    formChart():Array<Array<number>>{
-        return this.intervals.P && this.intervals.chart() || null;
+    formChart(dataType: 'P' | 'L' = 'P', measure: string = null): Array<Array<number>>{
+        return  dataType === 'P' && this.intervals.P && this.intervals.chart() ||
+                dataType === 'L' && this.intervals.L && this.intervals.chart(dataType, measure) || null;
     }
 
     setCategoriesList (categoriesList: Array<IActivityCategory>, userProfile: IUserProfile) {

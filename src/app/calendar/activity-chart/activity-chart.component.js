@@ -6,6 +6,7 @@ class CalendarActivityChartCtrl {
                 'complete-error': ['#F44336', '#C62828'],
                 'dismiss': ['#F44336', '#C62828'],
                 'coming': ['#E0E0E0', '#BDBDBD'],
+                'not-specified': ['#E0E0E0', '#BDBDBD'],
                 'template': ['#EEEEEE', '#E0E0E0']
         };
 
