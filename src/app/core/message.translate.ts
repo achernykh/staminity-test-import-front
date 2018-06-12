@@ -665,6 +665,10 @@ export const _translateMessage = {
         forbidden_need_signUp: {
             title: 'Ошибка',
             text: "Аккаунт с таким e-mail отсутствует в Staminity. Зарегистрируйтесь на сайте"
+        },
+        databaseError: {
+            title: 'Ошибка',
+            text: "Операция не может быть выполнена[database error]. Напишите в поддержку на support.staminity.com"
         }
 
 
@@ -1332,6 +1336,10 @@ export const _translateMessage = {
         forbidden_need_signUp: {
             title: 'Error',
             text: "Account does not exist. Please sign up on our website"
+        },
+        databaseError: {
+            title: 'Error',
+            text: "Operation cannot be completed [database error]. Please ask for support at support.staminity.com"
         }
 
     }
