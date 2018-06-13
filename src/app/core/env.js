@@ -1,11 +1,11 @@
-var build = '631';
-var version = '2.1.21';
+var build = '639';
+var version = '2.1.26';
 var protocol = {
   ws: 'wss://',
   rest: 'https://'
 };
-var server = 'testapp.staminity.com:443';
-var content = 'https://testapp.staminity.com:443';
+var server = 'testapp.staminity.com';
+var content = 'https://testapp.staminity.com';
 var frontend = 'http://dev1.staminity.com/';
 
 

@@ -1,16 +1,16 @@
 import moment from 'moment/min/moment-with-locales.js';
-import { IComponentOptions, IComponentController,ILocationService } from 'angular';
-import { IUserProfile, IUserProfileShort } from "@api/user";
-import { IAgentProfile, IAgentExtAccount, IAgentEnvironment } from "@api/agent";
-import { UserSettingsService } from '../user-settings.service';
-import { AgentService } from '../agent.service';
+import {IComponentOptions, IComponentController, ILocationService} from 'angular';
+import {IUserProfile, IUserProfileShort} from "@api/user";
+import {IAgentProfile, IAgentExtAccount, IAgentEnvironment} from "@api/agent";
+import {UserSettingsService} from '../user-settings.service';
+import {AgentService} from '../agent.service';
 import DisplayService from "../../../core/display.service";
 import './user-settings-cards.component.scss';
 
 class UserSettingsCardsCtrl {
-    
+
     // bind
-    currentUser: IUserProfile; 
+    currentUser: IUserProfile;
     agentProfile: IAgentProfile;
     owner: IUserProfile;
     extAccounts: Array<IAgentExtAccount>;
@@ -22,15 +22,13 @@ class UserSettingsCardsCtrl {
 
     static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'AgentService', 'quillConfig', '$scope'];
 
-    constructor (
-        private displayService: DisplayService,
-        private dialogs: any,
-        private message: any,
-        private userSettingsService: UserSettingsService,
-        private agentService: AgentService,
-        private quillConfig: any,
-        private $scope: any,
-    ) {
+    constructor(private displayService: DisplayService,
+                private dialogs: any,
+                private message: any,
+                private userSettingsService: UserSettingsService,
+                private agentService: AgentService,
+                private quillConfig: any,
+                private $scope: any,) {
         window['UserSettingsCardsCtrl'] = this;
     }
 
@@ -40,10 +38,10 @@ class UserSettingsCardsCtrl {
      */
     reload(): Promise<any> {
         return this.agentService.getAgentExtAccounts()
-        .then((extAccounts) => {
-            this.extAccounts = extAccounts;
-            this.$scope.$apply();
-        });
+            .then((extAccounts) => {
+                this.extAccounts = extAccounts;
+                this.$scope.$apply();
+            });
     }
 
     /**
@@ -71,13 +69,19 @@ class UserSettingsCardsCtrl {
      */
     addAccount(currency: string): Promise<any> {
         return this.dialogs.confirm({
-            title: "user.settings.agent.cards.addCard",
-            text: "user.settings.agent.cards.addCardMessage",
-        })
-        .then(() => this.agentService.addCard(this.currentUser.userId, this.agentEnvironment))
-        .then(() => {
-            this.reload();
-        });
+                title: "user.settings.agent.cards.addCard",
+                text: "user.settings.agent.cards.addCardMessage"})
+            .then(() => this.agentService.addCard(this.currentUser.userId, this.agentEnvironment))
+            .then(r => {
+                console.debug('addAccount success', r);
+                    if (r === 'success') { this.message.toastInfo('addCardSuccess');}
+                    if (r === 'inprocess') { this.message.toastInfo('addCardInprocess');}
+                }, e => {
+                    console.error('addAcount error', e);
+                    if (e && e === 'fail') { this.message.toastError('addCardFail'); }
+                    if (e === 'return' || e === 'cancel') { this.message.toast('addCardUserCancel'); }
+            })
+            .then(() => { this.reload(); });
     }
 
     /**
@@ -90,10 +94,10 @@ class UserSettingsCardsCtrl {
             title: "user.settings.agent.cards.deleteCardTitle",
             text: "user.settings.agent.cards.deleteCardMessage",
         })
-        .then(() => this.agentService.deleteAgentExtAccount(account))
-        .then(() => {
-            this.reload();
-        });
+            .then(() => this.agentService.deleteAgentExtAccount(account))
+            .then(() => {
+                this.reload();
+            });
     }
 
     /**
@@ -106,10 +110,10 @@ class UserSettingsCardsCtrl {
             title: "user.settings.agent.cards.defaultCardTitle",
             text: "user.settings.agent.cards.defaultCardMessage",
         })
-        .then(() => this.agentService.putAgentExtAccount({ ...account, isDefault: true }))
-        .then(() => {
-            this.reload();
-        });
+            .then(() => this.agentService.putAgentExtAccount({...account, isDefault: true}))
+            .then(() => {
+                this.reload();
+            });
     }
 }
 
