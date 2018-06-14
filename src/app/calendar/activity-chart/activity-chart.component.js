@@ -30,7 +30,9 @@ class CalendarActivityChartCtrl {
             .join(' ');
 
         this.color = this.colors[this.status];
-        this.url = window.hasOwnProperty('ionic') ? '' : `${window.location.protocol}//${window.location.host}/`; //this.$location.absUrl();//.replace(/(\w+)#(\w+)/,$1);//`${this.$location.protocol()}//${this.$location.host()}:${this.$location.port()}${this.$location.path()}`;//
+        this.url = window.hasOwnProperty('ionic') ?
+            '' :
+            `${window.location.protocol}//${window.location.host}${window.location.pathname}`; //this.$location.absUrl();//.replace(/(\w+)#(\w+)/,$1);//`${this.$location.protocol()}//${this.$location.host()}:${this.$location.port()}${this.$location.path()}`;//
 
         //console.debug('CalendarActivityChartCtrl: $onInit =>', this.d, this.color);
 

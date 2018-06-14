@@ -145,8 +145,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private activityForm: IFormController;
     private calendar: CalendarCtrl;
     private types: Array<IActivityType> = [];
-    private segmentChart: Array<any> = [];
-    private intervalChart: Array<any> = [];
+    private segmentChart: Array<any> = null;
+    private intervalChart: Array<any> = null;
     private bottomPanelData: any = null;
 
     static $inject = ['$scope', '$sce', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
@@ -206,7 +206,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.user = this.options.owner;
         }
         this.activity = new Activity(deepCopy(this.data) as ICalendarItem, deepCopy(this.options) as ICalendarItemDialogOptions);
-        if (this.activity.isComing && !this.activity.isCompleted) {this.segmentChart = this.activity.formChart();}
+        if (this.activity.isStructured) {this.segmentChart = this.activity.formChart();}
         if (this.activity.bottomPanel === 'data') {
             this.bottomPanelData = this.activity.summaryAvg;
         }
