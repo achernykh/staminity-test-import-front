@@ -24,13 +24,15 @@ export class SessionService {
 
     set (session: ISession = {}) {
         //this.storage.set('session', session);
-        this.storage.setItem('session', session).then(d => this.session.next(d));
+        this.session.next(session);
+        this.storage.setItem('session', session).then(d => {}, e => console.error('session set: ', e));
         //this.session.next(session);
     }
 
     // async set item (use un auth.signedIn)
     setItem (session: ISession = {}): Promise<any> {
-        return this.storage.setItem('session', session).then(d => this.session.next(d));
+        this.session.next(session);
+        return this.storage.setItem('session', session).then(d => {});
     }
 
     refresh (changes: Object) {
@@ -57,6 +59,7 @@ export class SessionService {
     }
 
     getCurrentUserId (): number | string {
+        //console.debug('session getUserId', this.get(), getCurrentUserId(this.get()));
         return getCurrentUserId(this.get());
     }
 
@@ -79,6 +82,7 @@ export class SessionService {
     }
 
     getToken (): string {
+        //console.debug('session getToken', this.get(), getToken(this.get()));
         return getToken(this.get());
     }
 

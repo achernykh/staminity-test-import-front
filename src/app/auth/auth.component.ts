@@ -8,12 +8,24 @@ import {gaEmailSignup, gaSocialSignup} from "../share/google/google-analitics.fu
 import AuthService from "@app/auth/auth.service";
 import {ISystemMessage} from "@api/core";
 import DisplayService from "@app/core/display.service";
+import {IUserProfilePublic, IUserProfileDisplay} from "@api/user";
+
+interface UserCredentials {
+    public: IUserProfilePublic;
+    display: IUserProfileDisplay;
+    device: string;
+    email: string;
+    password: string;
+    activatePremiumTrial: boolean;
+    activateCoachTrial: boolean;
+    activateClubTrial: boolean;
+}
 
 class AuthCtrl implements IComponentController {
 
     private enabled: boolean = true;
     private showConfirm: boolean = false;
-    private credentials: Object = null;
+    private credentials: UserCredentials;
     private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
     static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth", 'DisplayService'];
@@ -163,9 +175,10 @@ class AuthCtrl implements IComponentController {
         let data = Object.assign({
             flowType: flowType,
             device: this.device,
+            display: this.credentials.display,
             postAsExternalProvider: false,
             provider,
-            activateCoachTrial: this.credentials["activateCoachTrial"],
+            activateCoachTrial: this.credentials.activateCoachTrial,
             activatePremiumTrial: true,
             utm: {...this.getUtmParams()}
         });

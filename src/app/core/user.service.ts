@@ -267,6 +267,7 @@ export default class UserService {
      * @param permissions
      */
     private updatePermissions(message: {action: string, value: any}):void {
+        console.debug('user updatePermissions', message);
         this.SessionService.setPermissions(message.value);
     }
 
