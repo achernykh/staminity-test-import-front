@@ -65,10 +65,10 @@ class TrainingPlansStoreCtrl implements IComponentController {
         Object.keys(this.$stateParams).map(k => this.$stateParams[k] && (clearStateParams[k] = this.$stateParams[k]));
         let search: Object = Object.assign(this.$location.search(), clearStateParams);
         ['ownerId', 'name', 'type', 'distanceType', 'weekCountFrom', 'weekCountTo'].map(p => this.storePlansFilter[p] = search[p] || null);
-        ['tags','lang'].map(p => search[p] && (this.storePlansFilter[p] =
+        ['tags','lng'].map(p => search[p] && (this.storePlansFilter[p] =
              Array.isArray(search[p]) ? search[p] : [search[p]]));
 
-        //if (!this.storePlansFilter.lang) { this.storePlansFilter.lang = ['ru']; }
+        //if (!this.storePlansFilter.lng) { this.storePlansFilter.lng = ['ru']; }
         this.leftPanel = search['leftPanel'] || this.$mdMedia('gt-sm') ? true : false;
         this.cardView = search['cardView'] || true;
         this.purchasesPlansFilter = this.user ? { ownerId: this.user.userId, purchased: true } : {};
@@ -76,7 +76,9 @@ class TrainingPlansStoreCtrl implements IComponentController {
 
     private prepareStates(): void {
         this.setState(this.$stateParams.hasOwnProperty('state') &&
-            this.$stateParams.state ? this.$stateParams.state : this.currentState);
+            this.$stateParams.state || this.$location.search().state ?
+                this.$stateParams.state || this.$location.search().state :
+                this.currentState);
     }
 
     private setState (state: string): void {

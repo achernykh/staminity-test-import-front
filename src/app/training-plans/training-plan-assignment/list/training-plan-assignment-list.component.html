@@ -23,7 +23,7 @@
             <div class="md-list-item-text" layout="column">
                 <h3 class="md-body-2">{{ assign.user | userName }}</h3>
                 <p translate="trainingPlans.assignment.list.info"
-                   translate-values="{createDate: assign.createDate, version: assign.version,
+                   translate-values="{createdDate: assign.createdDate, version: assign.version,
                    applyMode: 'trainingPlans.assignment.list.applyMode.'+assign.applyMode,
                    applyDateMode: 'trainingPlans.assignment.list.applyDateMode.'+assign.applyDateMode,
                    applyDate: assign.applyDateMode === 'F' ? assign.applyFromDate : assign.applyToDate}"></p>

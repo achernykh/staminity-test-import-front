@@ -11,6 +11,7 @@ export const _translate = {
             delete: 'Удалить',
             post: 'Создать',
             detail: 'Подробно',
+            compact: 'Кратко',
             select: 'Выделить',
             deselect: 'Снять выделение'
         },
@@ -30,6 +31,7 @@ export const _translate = {
             delete: 'Delete',
             post: 'Create',
             detail: 'Details',
+            compact: 'Compact',
             select: 'Select',
             deselect: 'Deselect'
         },

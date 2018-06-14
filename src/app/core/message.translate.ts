@@ -658,10 +658,16 @@ export const _translateMessage = {
             title: '',
             text: "Тренировочный план присвоен"
         },
+        storeItemNofFound: {
+            title: '',
+            text: "План не найден"
+        },
         forbidden_need_signUp: {
             title: 'Ошибка',
             text: "Аккаунт с таким e-mail отсутствует в Staminity. Зарегистрируйтесь на сайте"
         }
+
+
     },
 	en: {
         null: {
@@ -993,7 +999,7 @@ export const _translateMessage = {
 
         activityTemplateCreated: {
             title: "",
-            text: "New template have been created"
+            text: "New template has been created"
         },
         forbidden_ExistsRelatedActivity: {
             title: "Action forbidden",
@@ -1318,6 +1324,10 @@ export const _translateMessage = {
         trainingPlanAssignComplete: {
             title: '',
             text: "Training plan has been assigned"
+        },
+        storeItemNofFound: {
+            title: '',
+            text: "Training plan not found"
         },
         forbidden_need_signUp: {
             title: 'Error',

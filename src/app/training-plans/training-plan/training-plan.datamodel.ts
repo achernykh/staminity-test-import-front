@@ -66,6 +66,8 @@ export class TrainingPlan implements ITrainingPlan {
     };
     state?: 'P' | 'A'; // статус покупки плана [P] - pending [A] - active
     parentId?: number;
+    minItemDate: string;
+    maxItemDate: string;
 
     authorProfile: IUserProfileShort;
     private _startDate: Date;
@@ -134,11 +136,13 @@ export class TrainingPlan implements ITrainingPlan {
     get firstDate (): Date {
         return this.isFixedCalendarDates && this._startDate ||
             (this.firstCalendarItem && moment(this.firstCalendarItem.dateStart).toDate()) ||
-            new Date(moment('3000-01-01').startOf('week').format('YYYY-MM-DD'));
+            (this.minItemDate && moment(this.minItemDate).toDate()) ||
+            moment('3000-01-01').startOf('week').toDate();
     }
 
     get endDate (): Date {
-        return moment(this.lastCalendarItem.dateStart).endOf('week').toDate();
+        return this.lastCalendarItem && moment(this.lastCalendarItem.dateStart).endOf('week').toDate() ||
+            (this.maxItemDate && moment(this.maxItemDate).toDate());
     }
 
     get firstItemCalendarShift (): number {

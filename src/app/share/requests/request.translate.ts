@@ -9,6 +9,7 @@ export let translateRequestPanel = {
         reject: "Отклонить",
         history: "История",
         more: "Загрузить еще",
+        cancel: 'Отменить',
         "JoinClubByUser": {
             action: "Вступить в клуб",
             A: {
@@ -146,6 +147,7 @@ export let translateRequestPanel = {
         reject: "Decline",
         history: "History",
         more: "More",
+        cancel: 'Cancel',
         "JoinClubByUser": {
             action: "Join club",
             A: {

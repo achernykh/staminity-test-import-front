@@ -18,12 +18,12 @@
     .card-grid {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
-
       @media (min-width:  960px) {  grid-template-columns: repeat(2, 1fr); }
       @media (min-width: 1280px) {  grid-template-columns: repeat(3, 1fr); }
       @media (min-width: 1920px) {  grid-template-columns: repeat(5, 1fr); }
-      //grid-gap: 8px;
-      //margin: 8px;
+      &.column {
+        grid-template-columns: repeat(1, 1fr) !important;
+      }
     }
     .card {
       grid-column-end: span 1;

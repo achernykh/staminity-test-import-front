@@ -68,6 +68,54 @@
     }
   }
 
+  md-contact-chips.dense {
+    .md-chips {
+      font-size: 12px;
+      padding-bottom: 0;
+      padding-left: 0;
 
+    }
+    .md-chip-input-container {
+      width: 100px;
+    }
+    md-chip {
+      max-width: 120px;
+      height: 24px;
+      img {
+        height: 24px !important;
+        width: 24px !important;
+        border-radius: 12px !important;
+      }
+      .md-contact-name {
+        height: 24px;
+        line-height: 24px;
+        width: calc(100% - 36px);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .md-chip-remove {
+        width: 24px;
+        height: 24px;
+        md-icon:first-child {
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          min-height: 24px;
+        }
+      }
+    }
+  }
 
+}
+
+.md-virtual-repeat-container.md-autocomplete-suggestions-container {
+  .md-contact-suggestion img {
+    height: 32px;
+    width: 32px;
+    border-radius: 16px;
+  }
+  .md-contact-name {
+    font-size: 12px;
+  }
 }

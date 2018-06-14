@@ -3,11 +3,15 @@ import moment from 'moment/src/moment.js';
 import { id, pipe, groupBy, log, map, entries, fold, filter } from '../share/util.js';
 import './profile-user.component.scss';
 import { saveUtmParams } from "../share/location/utm.functions";
+import { ITrainingPlanSearchRequest } from "../../../api/trainingPlans/training-plans.interface";
 
 
 class ProfileCtrl {
 
-    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService, RequestsService, $location) {
+    //private authorSearch;//: ITrainingPlanSearchRequest;
+
+    constructor ($scope, $mdDialog, dialogs, SessionService, UserService, GroupService, SystemMessageService,
+                 RequestsService, $location, TrainingPlansService) {
         'ngInject';
         this.$scope = Object.assign($scope, { Boolean });
         this.$mdDialog = $mdDialog;
@@ -17,7 +21,7 @@ class ProfileCtrl {
         this.GroupService = GroupService;
         this.message = SystemMessageService;
         this.RequestsService = RequestsService;
-
+        this.trainingPlansService = TrainingPlansService;
         saveUtmParams($location.search());
     }
 
@@ -27,6 +31,14 @@ class ProfileCtrl {
 
         this.subscription = this.RequestsService.requestWithUser(this.user.userId)
         .subscribe(() => { this.update() });
+
+        this.authorSearch = {
+            ownerId: this.me.userId
+        };
+    }
+
+    checkPlanData (list, length) {
+        if (length) {this.hasPlans = true;}
     }
 
     $onDestroy () {
@@ -83,7 +95,7 @@ class ProfileCtrl {
 };
 
 ProfileCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService',
-    'SystemMessageService','RequestsService','$location'];
+    'SystemMessageService','RequestsService','$location','TrainingPlansService'];
 
 const ProfileComponent = {
     bindings: {

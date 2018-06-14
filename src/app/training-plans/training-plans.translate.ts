@@ -16,7 +16,7 @@ export const _translateTrainingPlans = {
         },
         loading: "Загрузка",
         form: {
-          title: 'Тренировочный план'
+            title: 'Тренировочный план'
         },
 
         // действия
@@ -30,7 +30,7 @@ export const _translateTrainingPlans = {
             appoint: 'Присвоить...',
             calendar: 'Запланировать тренировки',
             assignment: 'Присвоения',
-            publish: 'Опубликовать',
+            publish: 'Публикация',
             unpublish: 'Снять с публикации',
             setIcon: 'Изменить',
             setBackground: 'Изменить фон',
@@ -199,7 +199,11 @@ export const _translateTrainingPlans = {
             price: 'Купить {{price}} {{currency}}',
             name: 'Название',
             author: 'Автор',
-            title: 'Приобрести тренировочный план'
+            title: 'Приобрести тренировочный план',
+            info: 'Название',
+            rate: 'Рейтинг',
+            weeks: 'Недель',
+            hours: 'Часов',
         },
         landing: {
             weekCount: 'Недель подготовки {{count}}',
@@ -207,7 +211,7 @@ export const _translateTrainingPlans = {
             targetAudience: 'Целевая аудитория',
             calendarDates: 'Даты плана',
             flexCalendarDates: 'План рассчитан на {{weekCount}} недель и не привязан к конкретным датам. ',
-            fixCalendarDates: "План рассчитан на {{weekCount}} недель, с {{start | date:'short'}} по {{finish | date:'short'}}. ",
+            fixCalendarDates: "План рассчитан на {{weekCount}} недель, с {{start | date:'shortDate'}} по {{finish | date:'shortDate'}}. ",
             propagateMods: 'План обновляемый. Тренер может внести изменения в план и все изменения будут отражены в вашем календаре. ',
             assignOpportunities: 'Вы сможете присвоить план в нужные даты для подготовки к выбранному старту',
             regularWeek: 'Типовая неделя',
@@ -247,8 +251,8 @@ export const _translateTrainingPlans = {
                 signin: 'У меня уже есть аккаунт',
                 signup: 'Создать аккаунт'
             },
-            confirmation: "Я согласен с Условиями покупки плана и принимаю Договор-оферту купли-продажи плана между Автором плана и Покупателем",
-            confirmationSignup: "Регистрируясь, я принимаю <a href=\'https://legal.staminity.com/ru/license.html\'>Публичную оферту</a> и соглашаюсь с <a href=\'https://legal.staminity.com/ru/terms.html\'>Условиями использования</a> сайта",
+            confirmation: 'Я прочитал и принимаю условия <a href="https://legal.staminity.com/ru/offer-plan-buyer.html">Соглашения с Покупателями тренировочных планов</a> и <a href="https://legal.staminity.com/ru/offer-author-buyer.html">Договора между Автором и Покупателем тренировочного плана</a>',
+            confirmationSignup: 'Регистрируясь, я принимаю <a href="https://legal.staminity.com/ru/license.html">Публичную оферту</a> и соглашаюсь с <a href="https://legal.staminity.com/ru/terms.html">Условиями использования</a> сайта',
             priceLabel: "Цена",
             free: "Бесплатно",
             price: "{{price}} {{currency}}"
@@ -270,7 +274,9 @@ export const _translateTrainingPlans = {
                 isNotDynamicFail: 'План не обновляемый: НЕТ. Публикация обновляемых планов невозможна'
 
             },
-            title: "Публикация плана"
+            title: "Публикация плана",
+            commit: 'Опубликовать',
+            cancel: 'Снять с публикации'
         },
         monetization: {
             label: 'Платный план'
@@ -329,6 +335,10 @@ export const _translateTrainingPlans = {
             title: 'Оплатить'
         },
         published: 'Опубликованы в магазине',
+        unpublished: 'Не опубликованы в магазине',
+        owner: {
+            label: 'Автор'
+        },
         notPublished: 'Не опубликованы в магазине',
         lang: {
             label: 'Язык'
@@ -365,7 +375,7 @@ export const _translateTrainingPlans = {
             appoint: 'Assignments',
             calendar: 'Create plan items',
             assignment: 'Assignments',
-            publish: 'Publish',
+            publish: 'Publication',
             unpublish: 'Unpublish',
             setIcon: 'Edit',
             setBackground: 'Edit background',
@@ -461,8 +471,7 @@ export const _translateTrainingPlans = {
             hasOfflineTraining: "Workouts under the Author's supervision"
         },
         assignment: {
-            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. </br>" +
-            "Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
+            info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. </br>Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
             action: {
                 delete: 'Remove assignment',
                 post: 'New assignment',
@@ -533,7 +542,11 @@ export const _translateTrainingPlans = {
             price: 'Buy {{price}} {{currency}}',
             name: 'Name',
             author: 'Author',
-            title: 'Purchase training plan'
+            title: 'Purchase training plan',
+            info: 'Name',
+            rate: 'Rating',
+            weeks: 'Weeks',
+            hours: 'Hours',
         },
         landing: {
             weekCount: 'Week count {{count}}',
@@ -541,7 +554,7 @@ export const _translateTrainingPlans = {
             targetAudience: 'Target audience',
             calendarDates: 'Calendar dates',
             flexCalendarDates: 'The plan is designed for {{weekCount}} weeks of training and could be assigned from/to any necessary date.',
-            fixCalendarDates: "The plan is designed for {{weekCount}} weeks of training, from {{start | date:'short'}} to {{finish | date:'short'}}. ",
+            fixCalendarDates: "The plan is designed for {{weekCount}} weeks of training, from {{start | date:'shortDate'}} to {{finish | date:'shortDate'}}. ",
             propagateMods: 'This plan is dynamic. The Author could change this plan and these changes will be transferred to your calendar. ',
             assignOpportunities: 'You also could assign this plan from/to any other date you need.  ',
             regularWeek: 'Regular week',
@@ -570,17 +583,17 @@ export const _translateTrainingPlans = {
             authorPlans: 'More from the Author',
             similarPlans: 'Similar plans',
             more: 'Show more'
-            },
+        },
         planDontHaveItemsForAssignment: "Plan has no items to assign",
         info: {
             disableEditAssignPlan: ""
-            },
+        },
         order: {
             needAccount: 'You have to be signed in to purchase the plan',
             tabs: {
                 signin: 'I already have an account',
                 signup: 'Create new account'
-                },
+            },
             confirmation: 'I agree with <a href="https://legal.staminity.com/en/offer-plan-buyer.html">Training plans purchase policy (for acquirers) </a> and accept the <a href="https://legal.staminity.com/en/offer-author-buyer.html">Agreement between the training plan Author and the plan Acquirer</a>',
             confirmationSignup: 'By signing up i accept <a href="https://legal.staminity.com/en/license.html">The licence agreement (public offer) </a> and agree with <a href="https://legal.staminity.com/en/terms.html">the Website use policy</a>',
             priceLabel: "Price",
@@ -590,21 +603,23 @@ export const _translateTrainingPlans = {
         publish: {
             check: {
                 title: 'Check-list for training plan publication',
-                    versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
-                    versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
-                    profileSuccess: 'Plan Author profile is completed: SUCCESS',
-                    profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan seller section in Settings',
-                    iconSuccess: "Training plan has an image: SUCCESS",
-                    iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
-                    backgroundSuccess: "Training plan has the background image: SUCCESS.",
-                    backgroundFail: "Training plan has the background image: FAIL. Please check the Store tab of the Plan",
-                    itemsSuccess: 'Training plan has enough items: SUCCESS',
-                    itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
-                    isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
-                    isNotDynamicFail: 'Training plan is not dynamic: FAIL. Publication of dynamic plan is forbidden'
+                versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
+                versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
+                profileSuccess: 'Plan Author profile is completed: SUCCESS',
+                profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan seller section in Settings',
+                iconSuccess: "Training plan has an image: SUCCESS",
+                iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
+                backgroundSuccess: "Training plan has the background image: SUCCESS.",
+                backgroundFail: "Training plan has the background image: FAIL. Please check the Store tab of the Plan",
+                itemsSuccess: 'Training plan has enough items: SUCCESS',
+                itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
+                isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
+                isNotDynamicFail: 'Training plan is not dynamic: FAIL. Publication of dynamic plan is forbidden'
 
             },
-            title: "Training plan publication"
+            title: "Training plan publication",
+            commit: 'Publish',
+            cancel: 'Unpublish'
         },
         monetization: {
             label: 'Paid plan'
@@ -613,7 +628,7 @@ export const _translateTrainingPlans = {
         currency: {
             label: 'Currency',
             placeholder: 'Select currency'
-            },
+        },
         price: {
             label: 'Price',
             placeholder: 'Set the price'
@@ -651,15 +666,18 @@ export const _translateTrainingPlans = {
             placeholder: 'Describe your usage of structured activities in the training plan'
         },
         forUploadNeedSave: 'To upload images please save the plan',
-            success: {
-                title: 'Purchase success',
-                authText: 'Congratulations, you have successfully purchased the Training plan! Go to "Purchases" tab in Store to assign it.',
-                guestText: 'Congratulations, you have successfully purchased the Training plan! Next steps: <ol type="1"><li>Sign in to Staminity</li><li>Go to "Purchases" in "Training plan store" view</li><li>Assign the plan from / to necessary date </li><li>Find out the planned activities in your calendar and follow the instructions</li></ol>'
-            },
+        success: {
+            title: 'Purchase success',
+            authText: 'Congratulations, you have successfully purchased the Training plan! Go to "Purchases" tab in Store to assign it.',
+            guestText: 'Congratulations, you have successfully purchased the Training plan! Next steps: <ol type="1"><li>Sign in to Staminity</li><li>Go to "Purchases" in "Training plan store" view</li><li>Assign the plan from / to necessary date </li><li>Find out the planned activities in your calendar and follow the instructions</li></ol>'
+        },
         samplesHowTo: 'Activities and events samples could help users to understand your training approach and your instructions. Mark necessary activities and events as samples',
         hasUpdateForStore: "Has unpublished changes",
         pay: {
             title: 'Payment details'
+        },
+        owner: {
+            label: 'Author'
         },
         published: 'Published in the Store',
         notPublished: 'Not published in the Store',

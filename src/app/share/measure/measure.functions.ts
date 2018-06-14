@@ -28,7 +28,7 @@ export const measureValue =
      units: string = 'imperial') => {
 
         let session: SessionService = angular.element(document.body).injector().get('SessionService');
-        units = session.getUser().display.units;
+        units = session.getUser().userId && session.getUser().display.units || 'metric';
 
         if ( !!input ) {
             let unit = measurementUnitDisplay(sport, measure);
@@ -68,7 +68,7 @@ export const measureValue =
 export const measureUnit = (measure: string, sport?: string, units?: string): string => {
     let unit;
     let session: SessionService = angular.element(document.body).injector().get('SessionService');
-    units = session.getUser().display.units;
+    units = session.getUser().userId && session.getUser().display.units || 'metric';
     try {
         unit = measurementUnitDisplay(sport, measure);
         unit = (units && units === 'imperial' && _measurement_system_calculate.hasOwnProperty(unit)) ?

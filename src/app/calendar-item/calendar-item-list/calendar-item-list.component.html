@@ -1,7 +1,7 @@
 <section flex="none"
          ng-repeat-start="item in $ctrl.data track by $index"
          ng-switch="item.calendarItemType">
-    <div class="date md-body-1">
+    <div class="date title md-subhead">
         <span translate="activity.dynamicDate" translate-values="$ctrl.getDate(item)"></span>
     </div>
     <st-activity-compact ng-switch-when="activity" class="item"
@@ -20,6 +20,6 @@
     </st-record-compact>
 </section>
 <section ng-repeat-end class="description">
-    <p class="md-caption md-dark quill quill-data" ng-bind-html="$ctrl.getDescription(item)"></p>
+    <p class="md-subhead md-dark quill quill-data" ng-bind-html="$ctrl.getDescription(item)"></p>
     <md-divider></md-divider>
 </section>

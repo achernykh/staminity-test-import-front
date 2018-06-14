@@ -28,6 +28,7 @@ export const translateManagement = {
             coach: "Тренер",
             noCoach: "Без тренера",
             role: "Роль",
+            noRole: 'Без роли'
         },
         cols: {
             username: "Член клуба",
@@ -115,6 +116,7 @@ export const translateManagement = {
             coach: "Coach",
             noCoach: "Without coach",
             role: "Role",
+            noRole: 'Without role'
         },
         cols: {
             username: "Club member",
