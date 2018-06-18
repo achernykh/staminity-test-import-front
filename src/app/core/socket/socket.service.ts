@@ -77,6 +77,27 @@ export class SocketService {
                     if ( !this.socketStarted ) {
                         console.debug('socket service: connection open');
                         this.connections.next(true);
+                        /**setTimeout(_ => {
+                            this.messages.next({
+                                type: "systemFunction",
+                                action: "U",
+                                value: {"new item 4":"2018-06-29"}
+                            });
+                        }, 2000);
+                        setTimeout(_ => {
+                            this.messages.next({
+                                type: "systemFunction",
+                                action: "U",
+                                value: {"new item 5":"2018-06-29"}
+                            });
+                        }, 2000);
+                        setTimeout(_ => {
+                            this.messages.next({
+                                type: "systemFunction",
+                                action: "U",
+                                value: {"new item 6":"2018-06-29"}
+                            });
+                        }, 2000);**/
                     }
                     if (this.initRequest) {
                         this.initRequest.resolve(true);

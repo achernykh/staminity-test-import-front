@@ -62,8 +62,8 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
             .then(result => this.prepareList(result), error => {debugger;})
             //.then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
             .then(_ => this.isLoadingData = false)
-            .then(_ => this.$scope.$applyAsync())
-            .then(_ => this.onResult({list: this.plans.list, length: this.plans.list.length}));
+            .then(_ => this.onResult({list: this.plans.list, length: this.plans.list.length}))
+            .then(_ => this.$scope.$applyAsync());
 
     }
 

@@ -25,6 +25,7 @@ $gt-sm: 960px;
 }
 
 .bg-circle-32 {
+  width: 32px;
   min-width: 32px;
   height: 32px;
   @include border-radius(16px);

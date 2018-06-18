@@ -4,14 +4,14 @@ import { SessionService } from "../core/session/session.service";
 const userSettings: any = {
     name: 'user-settings',
     abstract: true,
-    loginRequired: false,
+    loginRequired: true,
     authRequired: [],
     reloadOnSearch: false,
     params: {
         userId: null,
     },
     resolve: {
-        userId: ["$stateParams", "SessionService", ($stateParams, sessionService) => $stateParams.userId || sessionService.getCurrentUserId()],
+        userId: ["$stateParams", "SessionService", ($stateParams, sessionService: SessionService) => $stateParams.userId || sessionService.getCurrentUserId()],
         owner: ["userId", "UserService", (userId, userService) => userService.getProfile(+userId)],
         agentProfile: ["AgentService", (agentService) => agentService.getAgentProfile()],
         agentEnvironment: ["AgentService", (agentService) => agentService.getAgentEnvironment()],
