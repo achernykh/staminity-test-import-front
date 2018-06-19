@@ -141,7 +141,7 @@ export const homeChartsConfig: IAnalyticsChart[] = [
                 seriesDateTrunc: "month",
                 measureName: "Months",
                 dataType: "date",
-                dateFormat: "DD.MM",
+                dateFormat: "MM",
                 valueType: "value",
                 groupByIntervalLength: 1,
             }],

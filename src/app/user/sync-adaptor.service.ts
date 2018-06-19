@@ -71,7 +71,7 @@ export default class SyncAdaptorService {
         return this.$auth.link(adaptor.provider, {
             internalData: {
                 userId: userId,
-                startDate: moment().subtract(3,'months'),
+                startDate: adaptor.startDate || moment().subtract(3,'months'),
                 postAsExternalProvider: true,
                 provider: adaptor.provider
             }

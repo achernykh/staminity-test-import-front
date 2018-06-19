@@ -1,6 +1,7 @@
 import { IBillingTariff, IBulkGroupMembership, IGroupManagementProfile, IGroupManagementProfileMember, IGroupProfileShort, IUserProfileShort } from "../../../api";
 import { ClubRole, ClubTariff } from "./management.constants";
 import { Member } from "./member.datamodel";
+import { IGroupProfile } from "../../../api/group/group.interface";
 
 export class MembersList implements IGroupManagementProfile {
 
@@ -98,4 +99,14 @@ export class MembersList implements IGroupManagementProfile {
             .filter((bill) => !this.isClubBill(bill))
             .map((bill) => bill.tariffCode);
     }
+
+    getAthletesWithoutClub (exclude: IGroupProfile): Member[] {
+        return this.members.filter(m => exclude.groupMembers.some(u => u.userId === m.profile.userId));
+    }
+
+    getClubAthletes (groupId: number, exclude: IGroupProfile): Member[] {
+        return this.members.filter(m => !exclude.groupMembers.some(u => u.userId === m.profile.userId) &&
+            m.member.hasOwnProperty('clubs') && m.member.clubs.some(c => c.groupId === groupId));
+    }
+
 }

@@ -114,7 +114,6 @@ export function configure ($translateProvider: any,
                            tmhDynamicLocaleProvider: any,
                            $mdDateLocaleProvider: any,) {
     tmhDynamicLocaleProvider.localeLocationPattern("/assets/locale/angular-locale_{{locale}}.js");
-
     $mdDateLocaleProvider.parseDate = (s) => moment(s, "L", true).toDate();
     $mdDateLocaleProvider.formatDate = (date) => moment(date).format("L");
 }

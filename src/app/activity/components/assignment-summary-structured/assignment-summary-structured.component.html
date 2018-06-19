@@ -13,9 +13,9 @@
             <thead ng-if="!$ctrl.options.decapitate" md-head>
             <tr md-row>
                 <th md-column><span></span></th>
-                <th md-column show style="min-width: 50px"><span>Ед.изм</span></th>
-                <th md-column md-numeric style="min-width: 80px"><span>План</span></th>
-                <th md-column md-numeric style="min-width: 55px"><span>Факт</span></th>
+                <th md-column show style="min-width: 50px"><span translate="activity.measureUnitShort"></span></th>
+                <th md-column md-numeric style="min-width: 80px"><span translate="activity.plan"></span></th>
+                <th md-column md-numeric style="min-width: 55px"><span translate="activity.actual"></span></th>
             </tr>
             </thead>
             <tbody md-body>
@@ -37,7 +37,7 @@
     </md-list-item>
     <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sport">
         <md-icon class="material-icons" style="margin-right: 20px">format_list_numbered</md-icon>
-        <p>{{$ctrl.item.activity.intervals.P.length}} сегм</p>
+        <p translate="activity.segmentsCount" translate-values="{num: $ctrl.item.activity.intervals.P.length}"></p>
         <md-icon ng-click="$ctrl.item.changeTab('Segments')"
                  class="md-secondary material-icons">keyboard_arrow_right</md-icon>
     </md-list-item>

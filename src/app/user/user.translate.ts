@@ -1063,6 +1063,10 @@ export const translateUser = {
                 header: 'Notifications',
                 hint: 'Notification settings',
 
+                web: 'Web',
+                email: 'Email',
+                mobile: 'Mobile',
+
                 //notificationGroup
                 user: 'For all users',
                 coach: 'For coaches',

@@ -3,6 +3,12 @@ export const homeTranslate = {
         fullTitle: 'Обзор',
         shortTitle: 'Обзор',
         monthAvg: 'среднее {{value | number:1}}{{unit | translate}}/месяц',
+        charts: {
+            distance: {
+                title: 'Дистанция ({{unit | measureUnit:"default" | translate}})',
+                subtitle: 'За последние 12 месяцев',
+            }
+        }
     },
     en: {
         fullTitle: 'Home',

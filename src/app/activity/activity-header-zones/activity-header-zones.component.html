@@ -11,7 +11,7 @@
     </div>
     <md-list class="md-dense slim-input bg-grey-100">
         <md-list-item ng-repeat-start="limit in ['FTP','maxValue','minValue']" class="md-caption">
-            <p>{{limit}}</p>
+            <p translate="{{::limit}}"></p>
             <p class="md-secondary">
                 {{$ctrl.zones[$ctrl.filter[$ctrl.factor]][$ctrl.sport][limit] | measureCalc:$ctrl.sport:$ctrl.filter[$ctrl.factor]}}</p>
         </md-list-item>

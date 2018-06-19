@@ -24,11 +24,10 @@ export class TrainingPlansFilterCtrl implements IComponentController {
     private supportLanguages: Array<string> = supportLng;
 
     // inject
-    static $inject = ['$scope', 'TrainingPlanDialogService', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService'];
+    static $inject = ['$scope', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService'];
 
     constructor (
         private $scope,
-        private trainingPlanDialogService: TrainingPlanDialogService,
         private config: TrainingPlanConfig,
         private competitionConfig: ICompetitionConfig,
         private searchService: SearchService) {

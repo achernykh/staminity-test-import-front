@@ -58,6 +58,7 @@ export const translateActivity = {
       actual: 'Факт',
       measureUnitFull: 'Показатель(ед.изм)',
       measureUnitShort: 'Ед.Изм',
+      segmentsCount: '{{num}} сег',
       completeShort: 'Вып',
       percentFTP: '%ПАНО',
       ftpMode: {
@@ -181,6 +182,7 @@ export const translateActivity = {
         actual: 'Completed',
         measureUnitFull: 'Unit',
         measureUnitShort: 'Unit',
+        segmentsCount: '{{num}} seg',
         completeShort: 'Comp',
         percentFTP: '%LT',
         ftpMode: {
