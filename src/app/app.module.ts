@@ -1,5 +1,6 @@
 import {module, bootstrap, IModule} from 'angular';
 import * as localForage from "localforage";
+import { dbDataVersion, dbSessionKey, dbDataKey } from './app.constants'
 import 'angular-drag-and-drop-lists/angular-drag-and-drop-lists.js';
 import 'angularjs-scroll-glue/src/scrollglue.js';
 import 'drag-drop-webkit-mobile/ios-drag-drop.js';
@@ -83,11 +84,9 @@ const submodules = [
 	strictDi: true
 });**/
 
-const getUserSession = (key: string = 'session'): Promise<ISession> => localForage.getItem('session');
-
 const getRootModule = (session: ISession) => {
     return module('staminity.application', [...vendors, ...submodules] )
-        .constant('configAuthData', session || window.localStorage.getItem('session') || {})
+        .constant('configAuthData', session)
         .component('staminityApplication', AppComponent)
         .config(configure)
         .run(run)
@@ -99,9 +98,25 @@ const bootstrapApplication = (module) =>
 
 // async bootstrap
 Promise.resolve()
-    .then(_ => getUserSession())
+    .then(_ => checkDB())
     .then(s => getRootModule(s))
     .then(r => bootstrapApplication(r));
+
+const checkDB = (): Promise<ISession> => {
+    return localForage.ready()
+        .then(_ => localForage.getItem(dbDataKey))
+        .then(r => r && localForage.getItem(dbSessionKey) || createDB(), e => {debugger;});
+};
+
+const createDB = (): Promise<ISession> => {
+    return localForage.setItem(dbDataKey, dbDataVersion)
+        .then(_ => {
+            let session: ISession = JSON.parse(window.localStorage.getItem(dbSessionKey));
+            if (session) { window.localStorage.removeItem(dbSessionKey);}
+            return session || {};
+        })
+        .then(s => localForage.setItem(dbSessionKey, s));
+};
 
 /**.then(_ => localForage.config({
         driver: [localForage.WEBSQL, localForage.INDEXEDDB, localForage.LOCALSTORAGE],

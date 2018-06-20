@@ -78,10 +78,12 @@ class TrainingPlanFormCtrl implements IComponentController {
     save (): void {
         if (this.planForm && !this.planForm.$valid) {
             this.planForm.$validate();
+            this.planForm.$setSubmitted();
             return;
         }
         if (this.commerceForm && !this.commerceForm.$valid) {
             this.commerceForm.$validate();
+            this.commerceForm.$setSubmitted();
             return;
         }
 

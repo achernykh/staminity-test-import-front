@@ -459,22 +459,38 @@ export class ActivityIntervals {
      * Формат массива графика = [ '[start, интенсивность с], [finish, интенсивность по]',... ]
      * @returns {any[]}
      */
-    chart():Array<Array<number>> {
+    chart(dataType: 'P' | 'L' = 'P', measure: string = null): Array<Array<number>> {
         let start: number = 0; //начало отсечки на графике
         let finish: number = 0; // конец отсечки на графике
         let maxFtp: number = 0;
         let minFtp: number = 100;
         let data: Array<any> = [];
 
-        this.P.map( interval => {
-            start = finish;
-            finish = start + interval.movingDurationLength;
-            maxFtp = Math.max(interval.intensityByFtpTo, maxFtp); //((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
-            minFtp = Math.min(interval.intensityByFtpFrom, minFtp);
-            data.push([start, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2],
-                [finish, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2]);
-        });
-
+        switch (dataType) {
+            case 'P': {
+                this.P.map( interval => {
+                    start = finish;
+                    finish = start + interval.movingDurationLength;
+                    maxFtp = Math.max(interval.intensityByFtpTo, maxFtp); //((interval.intensityByFtpTo > maxFtp) && interval.intensityByFtpTo) || maxFtp;
+                    minFtp = Math.min(interval.intensityByFtpFrom, minFtp);
+                    data.push([start, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2],
+                        [finish, (interval.intensityByFtpFrom + interval.intensityByFtpTo) / 2]);
+                });
+                break;
+            }
+            case 'L': {
+                this.L.map(interval => {
+                    start = finish;
+                    finish = start + interval.calcMeasures.movingDuration.value;
+                    maxFtp = Math.max(interval.calcMeasures[measure].intensityByFtp, maxFtp);
+                    minFtp = Math.min(interval.calcMeasures[measure].intensityByFtp, minFtp);
+                    data.push(
+                        [start, interval.calcMeasures[measure].intensityByFtp],
+                        [finish, interval.calcMeasures[measure].intensityByFtp]);
+                });
+                break;
+            }
+        }
         minFtp = minFtp * 0.90;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
 

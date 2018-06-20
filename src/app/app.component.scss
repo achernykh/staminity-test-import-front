@@ -107,60 +107,6 @@ section.margin {
 	}
 }
 
-ng-quill-editor, .quill {
-	display: block;
-	font-family: Roboto !important;
-
-	&.hide-toolbar {
-		.ql-toolbar {
-			display: none;
-		}
-	}
-
-	.ql-editor.ql-blank::before {
-		font-style: normal !important;
-	}
-
-	.ql-snow .ql-tooltip {
-		left: 16px !important;
-	}
-
-	.ql-container.ql-snow {
-		border: none;
-	}
-
-	.ql-toolbar.ql-snow {
-		border: none !important;
-		border-bottom: 1px solid #ccc !important;
-	}
-
-	.ql-snow .ql-editor img, &.quill-data img {
-		//width: 100% !important;
-		max-width: 100%;
-		height: auto;
-	}
-
-	.ql-snow .ql-editor iframe, &.quill-data iframe {
-		width: 100%;
-	}
-
-	.ql-editor .ql-video {
-		//width: 100% !important;
-	}
-
-	.ql-editor ol, .ql-editor ul {
-		padding-left: 0 !important;
-	}
-
-	.ql-snow .ql-editor p {
-		-webkit-margin-before: 0.5em;
-		-webkit-margin-after: 0.5em;
-		-webkit-margin-start: 0;
-		-webkit-margin-end: 0;
-	}
-
-}
-
 iframe {
 	border: none;
 }

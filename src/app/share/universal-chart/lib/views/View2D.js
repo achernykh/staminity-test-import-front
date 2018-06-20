@@ -87,8 +87,8 @@ class View2D extends SvgView {
 
         if (config.fillType == 'gradient') {
             return window.hasOwnProperty('ionic') ?
-                `url(${window.location.protocol}//${window.location.host}#${this.getGradientId(i, replicaNumber)})` :
-                `url(#${this.getGradientId(i, replicaNumber)})`;
+                `url(#${this.getGradientId(i, replicaNumber)})` :
+                `url(${window.location.protocol}//${window.location.host}${window.location.pathname}#${this.getGradientId(i, replicaNumber)})`;
         } else {
             return d.color;
         }
