@@ -40,14 +40,44 @@
     <link rel="alternate" href="https://staminity.com/?lang=ru" hreflang="ru"/>
     <link rel="alternate" href="https://staminity.com/?lang=en" hreflang="en"/>
     <script type="application/ld+json">
+        {
+        "@context" : "http://schema.org",
+        "@type" : "Organization",
+        "url" : "https://staminity.com",
+        "name" : "Staminity",
+        "description": "An application for online work with a coach, independent training in cyclic sports and a training diary",
+        "logo": "https://264710.selcdn.ru/assets/images/logo/staminity-logo-1024.png",
+        "areaServed" : "Worldwide",
+        "email" : "support@staminity.com",
+        "brand" : [{
+            "name" : "Staminity",
+            "description": "An application for online work with a coach, independent training in cyclic sports and a training diary"
+        }],
+
+        "sameAs": [
+            "https://www.facebook.com/staminity",
+            "https://instagram.com/staminity_app",
+            "https://vk.com/staminity"
+          ],
+        "contactPoint" : [
             {
-                "@context": "http://schema.org",
-                "@type": "Thing",
-                "name": "Staminity | Стаминити",
-                "url": "https://staminity.com",
-                "description": "Достигайте своих целей в беге, триатлоне и других циклических видах спорта. Для спортсменов, тренеров и клубов"
-            }
-    </script>
+                "@type" : "ContactPoint",
+                "contactType" : "Customer service",
+                "availableLanguage" : ["English","Russian"],
+                "url": "https://support.staminity.com",
+                "email": "support@staminity.com"
+            },
+            {
+                "@type" : "ContactPoint",
+                "contactType" : "Technical support",
+                "availableLanguage" : ["English","Russian"],
+                "url": "https://support.staminity.com",
+                "email": "support@staminity.com"
+            }]
+
+
+        }
+</script>
     <link rel="manifest" href="/manifest.json"/>
 
     <!-- Yandex.Metrika counter -->
