@@ -685,6 +685,10 @@ export const _translateMessage = {
         addCardUserCancel: {
             title: '',
             text: "Операция добавления карты отменена"
+        },
+        agentWithdrawComplete: {
+            title: '',
+            text: "Запрос на вывод средств оформлен. Мы сообщим, когда он будет обработан"
         }
 
 
@@ -1372,6 +1376,10 @@ export const _translateMessage = {
         addCardUserCancel: {
             title: '',
             text: "New card adding request cancelled"
+        },
+        agentWithdrawComplete: {
+            title: '',
+            text: "Withdrawal request created"
         }
 
     }
