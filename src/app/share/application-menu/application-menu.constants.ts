@@ -51,7 +51,7 @@ export const AppMenuSettings = [
         icon: "shopping_cart",
         name: "appMenu.plan",
         link: "training-plans-store",
-        //state: 'soon',
+        state: 'soon',
         hideMobile: false
         //role: [_UserRoles.user, _UserRoles.coach]
     },

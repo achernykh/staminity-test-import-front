@@ -33,7 +33,8 @@ class ProfileCtrl {
         .subscribe(() => { this.update() });
 
         this.authorSearch = {
-            ownerId: this.me.userId
+            ownerId: this.me.userId,
+            purchased: false
         };
     }
 
