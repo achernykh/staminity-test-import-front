@@ -15,19 +15,20 @@ import { countriesList } from './user-settings.constants';
 import { UserSettingsPasswordCtrl } from './user-settings-password/user-settings-password.dialog';
 
 const formCardUrl = (cardData: any): string => {
-    return 'https://demo.moneta.ru/secureCardData.widget?' + [
-            'publicId=a743f28a-8698-43f8-9326-5c40e4edf5d4',
-            'MNT_ID=64994513',
-            `MNT_TRANSACTION_ID=${cardData.MNT_TRANSACTION_ID}`,
-            `redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap`,
-            `MNT_SIGNATURE=${cardData.bindCardSignature}`,
-            'secure%5BCARDNUMBER%5D=required',
-            'secure%5BCARDEXPIRATION%5D=required',
-            'secure%5BCARDCVV2%5D=required',
-            'formTarget=_self',
-            'MNT_DESCRIPTION=',
-            'process=Submit'
-        ].join('&');
+    return  'https://moneta.ru/secureCardData.widget?' + //'https://demo.moneta.ru/secureCardData.widget?' + [
+            [
+                'publicId=78bc2c77-88b9-4023-80e8-6711b7bd94f0',//a743f28a-8698-43f8-9326-5c40e4edf5d4',
+                'MNT_ID=53537936',//64994513',
+                `MNT_TRANSACTION_ID=${cardData.MNT_TRANSACTION_ID}`,
+                `redirectUrl=${encodeURIComponent(protocol.rest + server)}%2Fapi%2Fpayout%2Fmoneta%2FtokenSwap`,
+                `MNT_SIGNATURE=${cardData.bindCardSignature}`,
+                'secure%5BCARDNUMBER%5D=required',
+                'secure%5BCARDEXPIRATION%5D=required',
+                'secure%5BCARDCVV2%5D=required',
+                'formTarget=_self',
+                'MNT_DESCRIPTION=',
+                'process=Submit'
+            ].join('&');
 };
 
 export class AgentService {

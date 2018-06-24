@@ -205,7 +205,6 @@ export class TrainingPlanDialogService {
         //const url = `https://demo.moneta.ru/assistant.widget?MNT_ID=64994513&MNT_AMOUNT=100.15&MNT_CURRENCY_CODE=RUB&MNT_TRANSACTION_ID=test_tran_1&MNT_SIGNATURE=676d53a77f08ec5b46cb6581f2e6f615&MNT_TEST_MODE=1&MNT_DESCRIPTION=`;
 
         const handler = (event) => {
-            debugger;
             const result = localStorage.getItem('moneta-result');
             if (result === 'success') {
                 this.$mdDialog.hide('success');
