@@ -109,7 +109,7 @@ export const _translateTrainingPlans = {
             label: 'Включены консультации'
         },
         hasOfflineTraining: {
-            label: 'Включены занятия с тренером'
+            label: 'Включены очные занятия с тренером'
         },
         state: {
             active: 'Приобретен',
@@ -122,8 +122,8 @@ export const _translateTrainingPlans = {
         options: {
             label: 'Опции',
             isStructured: 'Структурированные тренировки',
-            hasConsultations: 'Консультация с автором',
-            hasOfflineTraining: 'Очные занятия'
+            hasConsultations: 'Консультации с автором',
+            hasOfflineTraining: 'Очные занятия с тренером'
 
         },
         assignment: {
@@ -218,7 +218,7 @@ export const _translateTrainingPlans = {
             weekActivities: 'В неделю в среднем {{avg | stNumberCeil}} тренировок, от {{min | stNumberCeil}} до {{max | stNumberCeil}}',
             weekDuration: "Тренировочных объем в неделю (часов): в среднем - {{avg / 60 / 60 | number:1}}, от {{min / 60 / 60 | number:1}} до {{max / 60 /60 | number:1}}",
             weekDistance: "Тренировочный объем в неделю (км): в среднем {{avg | measureCalc:'default':'distance' | number:0}}, от {{min | measureCalc:'default':'distance' | number:0}} до {{max | measureCalc:'default':'distance' | number:0}}",
-            offlineTraining: 'Очные тренировки',
+            offlineTraining: 'Очные занятия с тренером',
             consultations: 'Консультации с автором',
             structuredActivity: 'Структурированные тренировки',
             structuredActivityOpportunities: 'Структурированные тренировки позволяют разбить план на несколько тренировочных сегментов. Каждый сегмент тренировки содержит план по длительности и интенсивности',
@@ -454,7 +454,7 @@ export const _translateTrainingPlans = {
             label: 'Consultations included'
         },
         hasOfflineTraining: {
-            label: "Workouts under the Author's supervision included"
+            label: "Offline activities included"
         },
         state: {
             active: 'Purchased',
@@ -468,7 +468,7 @@ export const _translateTrainingPlans = {
             label: 'Options',
             isStructured: 'Structured activities',
             hasConsultations: 'Consultations with Author',
-            hasOfflineTraining: "Workouts under the Author's supervision"
+            hasOfflineTraining: "Offline activities"
         },
         assignment: {
             info: "Plan start date: {{firstPlanDate | date:'longDate'}}, first item date: {{firstItemDate | date:'longDate'}}. </br>Plan end date:  {{lastPlanDate | date:'longDate'}}, last item date: {{lastItemDate | date:'longDate'}}",
@@ -561,7 +561,7 @@ export const _translateTrainingPlans = {
             weekActivities: 'There are {{avg | stNumberCeil}} activities in training week on average, min - {{min | stNumberCeil}}, max - {{max | stNumberCeil}}',
             weekDuration: "Duration of activities per week (hours): average - {{avg / 60 / 60 | number:1}}, min - {{min / 60 / 60 | number:1}}, max - {{max / 60 /60 | number:1}}",
             weekDistance: "Distance of activities per week (km): average -  {{avg | measureCalc:'default':'distance' | number:0}}, min - {{min | measureCalc:'default':'distance' | number:0}}, max - {{max | measureCalc:'default':'distance' | number:0}}",
-            offlineTraining: "Workouts under the Author's supervision",
+            offlineTraining: "Offline activities with the coach",
             consultations: 'Consultations with author',
             structuredActivity: 'Structured activities',
             structuredActivityOpportunities: 'Structured activities allow to divide activity plan for several segments. Every segment contains planned values for distance/duration and intensity level',
@@ -606,7 +606,7 @@ export const _translateTrainingPlans = {
                 versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
                 versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
                 profileSuccess: 'Plan Author profile is completed: SUCCESS',
-                profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan seller section in Settings',
+                profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan Author profile in Settings',
                 iconSuccess: "Training plan has an image: SUCCESS",
                 iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
                 backgroundSuccess: "Training plan has the background image: SUCCESS.",
@@ -655,8 +655,8 @@ export const _translateTrainingPlans = {
             placeholder: 'How often and in what way will you contact plan Acquirers'
         },
         offlineTrainingDescription: {
-            label: "Workouts under the Author's supervision",
-            placeholder: 'How often and when you will organize the workouts under your supervision'
+            label: "Offline activities with the coach",
+            placeholder: "How often and when you will organize the offline activities included in the plan's price"
         },
         hasStructuredActivity: {
             label: 'Structured activities included'

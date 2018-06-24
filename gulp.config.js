@@ -66,15 +66,15 @@ const backend = {
     dev1: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'testapp.staminity.com:443',
-        content: 'https://testapp.staminity.com:443',
+        server: 'testapp.staminity.com',
+        content: 'https://testapp.staminity.com',
         frontend: 'http://dev1.staminity.com/'
     },
     dev2: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'testapp.staminity.com:443',
-        content: 'https://testapp.staminity.com:443',
+        server: 'testapp.staminity.com',
+        content: 'https://testapp.staminity.com',
         frontend: 'http://dev2.staminity.com/'
     },
     dev3: {

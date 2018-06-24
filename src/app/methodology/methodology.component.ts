@@ -74,7 +74,7 @@ class MethodologyCtrl implements IComponentController {
     checkAuth (): boolean {
         switch (this.currentState) {
             case 'trainingPlans': {
-                return this.currentUser.public.isCoach && this.currentUser.public.profileComplete;
+                return this.currentUser.public.isCoach;
             }
             case 'periodization': case 'categories': case 'templates': {
                 return this.authService.isAuthorized(['ActivitiesPlan_User', 'ActivitiesPlan_Athletes'], false);
@@ -137,7 +137,8 @@ class MethodologyCtrl implements IComponentController {
 
     private prepareTrainingPlansFilter (): void {
         this.trainingPlansFilter = {
-            ownerId: this.currentUser.userId
+            ownerId: this.currentUser.userId,
+            purchased: false
         };
     }
 

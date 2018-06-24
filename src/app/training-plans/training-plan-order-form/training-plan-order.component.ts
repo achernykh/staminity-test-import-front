@@ -79,7 +79,7 @@ class TrainingPlanOrderCtrl implements IComponentController {
             .then(() => this.user.userId ? Promise.resolve(this.plan) : this.authGuest())
             .then((plan: TrainingPlan) => {
                 if (plan.product) {
-                    if (plan.monetization) {
+                    if (plan.price > 0) {
                         return this.trainingPlansDialog.pay(this.plan.product);
                     } else {
                         return Promise.resolve('getFreeSuccess');

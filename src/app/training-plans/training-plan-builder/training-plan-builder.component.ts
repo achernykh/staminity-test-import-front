@@ -195,6 +195,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                     activityId: response.value.activityId
                 })}))
             .then((item: ICalendarItem) => {
+                debugger;
                 this.calendar.delete(this.calendar.searchItem(item.calendarItemId));
                 this.calendar.post(item);
             });
@@ -262,7 +263,7 @@ class TrainingPlanBuilderCtrl implements IComponentController {
                 break;
             }
         }
-        this.update(mode, item);
+        //this.update(mode, item);
     }
 
     /**

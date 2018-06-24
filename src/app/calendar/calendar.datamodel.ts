@@ -244,7 +244,7 @@ export class Calendar {
         if (w !== -1 && d >= 0 && this.weeks[w]) {
             if (!parentId || item.calendarItemType === 'record') {
                 item['index'] = Number(`${item.calendarItemId}${item.revision}`);
-                console.info('post: item success', item.calendarItemId, item.revision, item['index']);
+                console.info('post: item success', item.calendarItemId, item.revision, item['index'], w);
                 this.weeks[w].subItem[d].data.calendarItems.push(item);
             } else {
                 item['index'] =  Number(`${item["index"] + 1}`);

@@ -147,8 +147,7 @@ export class CalendarWeekData {
     private readonly statusLimit: { warn: number, error: number} = { warn: 10, error: 20 };
 
     constructor(week: ICalendarWeek) {
-        this._items = (week.hasOwnProperty("subItem") && week.subItem) &&
-            this.getItems(week.subItem).filter((i) => i.calendarItemType === "activity");
+        this._items = (week.hasOwnProperty("subItem") && week.subItem) && this.getItems(week.subItem);
 
         this._total =  this._items.length > 0 && this.calcTotal();
         this._summary = this._items.length > 0 && this.calcSummary();
@@ -164,9 +163,9 @@ export class CalendarWeekData {
 
     getItems(days: ICalendarDay[]): ICalendarItem[] {
         const items: ICalendarItem[] = [];
-        days.map((d) =>
-            d.data.calendarItems && d.data.calendarItems.length > 0 && items.push(...d.data.calendarItems));
-        return items;
+        days.map(d => d.data.calendarItems && d.data.calendarItems.length > 0 &&
+            d.data.calendarItems.map(i => i.calendarItemType === 'competition' && items.push(...i.calendarItems) || items.push(i)));
+        return items.length > 0 && items.filter(i => i.calendarItemType === "activity");
     }
 
     calcSummary(): ICalendarWeekSummary {
@@ -224,6 +223,10 @@ export class CalendarWeekData {
     hasSummary(): boolean {
         return this._summary &&
             (this._summary.plan.specified > 0 || this._summary.fact.completed > 0) || false;
+    }
+
+    get hasMoreThenOneSport (): boolean {
+        return this._total && Object.keys(this._total).length > 1;
     }
 
     hasTotalBySport(sport: string): boolean {

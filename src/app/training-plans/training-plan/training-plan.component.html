@@ -134,10 +134,10 @@
                     <ol class="text md-subhead md-dark" style="list-style-type: circle; padding-left: 30px; margin: 16px 0 0 0">
                         <li translate="trainingPlans.landing.weekActivities"
                             translate-values="$ctrl.plan.effortStat.metricsPerWeek.activities"></li>
-                        <li ng-if="$ctrl.plan.isExisteffortState('duration')"
+                        <li ng-if="$ctrl.plan.customData.statisticData === 'metricsByDuration' && $ctrl.plan.isExisteffortState('duration')"
                             translate="trainingPlans.landing.weekDuration"
                             translate-values="$ctrl.plan.effortStat.metricsPerWeek.duration"></li>
-                        <li ng-if="$ctrl.plan.isExisteffortState('distance')"
+                        <li ng-if="$ctrl.plan.customData.statisticData === 'metricsByDistance' && $ctrl.plan.isExisteffortState('distance')"
                             translate="trainingPlans.landing.weekDistance"
                             translate-values="$ctrl.plan.effortStat.metricsPerWeek.distance"></li>
                     </ol>

@@ -665,6 +665,30 @@ export const _translateMessage = {
         forbidden_need_signUp: {
             title: 'Ошибка',
             text: "Аккаунт с таким e-mail отсутствует в Staminity. Зарегистрируйтесь на сайте"
+        },
+        databaseError: {
+            title: 'Ошибка',
+            text: "Операция не может быть выполнена[database error]. Напишите в поддержку на support.staminity.com"
+        },
+        addCardSuccess: {
+            title: '',
+            text: "Новая карта добавлена"
+        },
+        addCardInprocess: {
+            title: '',
+            text: "Запрос на добавление карты получен. Ожидаем подтверждения"
+        },
+        addCardFail: {
+            title: '',
+            text: "Прозошла ошибка при добавлении карты. Проверьте реквизиты карты и повторите попытку"
+        },
+        addCardUserCancel: {
+            title: '',
+            text: "Операция добавления карты отменена"
+        },
+        agentWithdrawComplete: {
+            title: '',
+            text: "Запрос на вывод средств оформлен. Мы сообщим, когда он будет обработан"
         }
 
 
@@ -1332,6 +1356,30 @@ export const _translateMessage = {
         forbidden_need_signUp: {
             title: 'Error',
             text: "Account does not exist. Please sign up on our website"
+        },
+        databaseError: {
+            title: 'Error',
+            text: "Operation cannot be completed [database error]. Please ask for support at support.staminity.com"
+        },
+        addCardSuccess: {
+            title: '',
+            text: "New card has been added"
+        },
+        addCardInprocess: {
+            title: '',
+            text: "New card adding request is processing"
+        },
+        addCardFail: {
+            title: '',
+            text: "New card adding failed. Please check requisites and try again"
+        },
+        addCardUserCancel: {
+            title: '',
+            text: "New card adding request cancelled"
+        },
+        agentWithdrawComplete: {
+            title: '',
+            text: "Withdrawal request created"
         }
 
     }
