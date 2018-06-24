@@ -32,7 +32,7 @@
                     </div>
                 </section>
             </div>
-            <md-menu flex="none" ng-if="!$ctrl.isIonic">
+            <md-menu flex="none" ng-if="!$ctrl.isIonic && !$ctrl.disableActions">
                 <md-button class="md-icon-button" aria-label="More Event" style="margin-right: -12px"
                            ng-click="$mdOpenMenu($event)">
                     <md-icon class="material-icons md-18">more_vert</md-icon>
