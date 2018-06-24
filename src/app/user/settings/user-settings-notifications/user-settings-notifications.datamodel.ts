@@ -12,7 +12,7 @@ export const groups = {
     },
     coach: {
         coachWork: ["athleteActivities", "athleteComments", "athleteConnections", "athleteRequest", "incomingRequestCoach", "zonesAthlete"],
-        trainingPlansSell: ["agentBilling", "trainingPlans"],
+        trainingPlansSell: ["agentBilling", "trainingPlans","trainingPlansFree"],
     },
     club: {
         clubManagement: ["assignClubCoach", "clubRoleAssignment", "clubTariffs", "incomingRequestClub", "membersInOut", "membersRequest"],

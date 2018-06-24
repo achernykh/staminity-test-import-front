@@ -606,7 +606,7 @@ export const _translateTrainingPlans = {
                 versionSuccess: 'The plan has changes for publication: SUCCESS. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
                 versionFail: 'The plan has changes for publication: FAIL. Current version: {{histVersion}}#{{revision}}, Store version: {{storeVersion}}#{{storeRevision}}',
                 profileSuccess: 'Plan Author profile is completed: SUCCESS',
-                profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan seller section in Settings',
+                profileFail: 'Plan Author profile is completed: FAIL. Please check the Training plan Author profile in Settings',
                 iconSuccess: "Training plan has an image: SUCCESS",
                 iconFail: "Training plan has an image: FAIL. Please check the Store tab of the Plan.",
                 backgroundSuccess: "Training plan has the background image: SUCCESS.",
