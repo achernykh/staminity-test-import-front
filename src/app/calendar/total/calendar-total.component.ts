@@ -83,13 +83,13 @@ class CalendarTotalCtrl implements IComponentController {
         if(changes.update){
             this.data = new CalendarWeekData(this.week);
             this.items = [];
-            if(this.week.hasOwnProperty('subItem') && this.week.subItem && this.week.subItem.length > 0) {
+            /**if(this.week.hasOwnProperty('subItem') && this.week.subItem && this.week.subItem.length > 0) {
                 this.week.subItem.forEach(day => day.data.calendarItems && day.data.calendarItems.length > 0 && this.items.push(...day.data.calendarItems));
-            }
-            this.total = calculateCalendarTotals(this.week.subItem);
+            }**/
+            //this.total = calculateCalendarTotals(this.week.subItem);
 
             // Итоги по всем активностям недели
-            this.summary = calculateCalendarSummary(this.total);
+            //this.summary = calculateCalendarSummary(this.total);
         }
     }
 }

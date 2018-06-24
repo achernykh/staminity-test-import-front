@@ -137,7 +137,8 @@ class MethodologyCtrl implements IComponentController {
 
     private prepareTrainingPlansFilter (): void {
         this.trainingPlansFilter = {
-            ownerId: this.currentUser.userId
+            ownerId: this.currentUser.userId,
+            purchased: false
         };
     }
 

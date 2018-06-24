@@ -519,7 +519,7 @@ export class CalendarCtrl implements IComponentController{
                 break;
             }
         }
-        this.update(mode, item);
+        //this.update(mode, item);
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {

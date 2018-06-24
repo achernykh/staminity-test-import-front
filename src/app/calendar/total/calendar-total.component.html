@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div flex="none" class="status-bar">
-                    <div ng-if="!!$ctrl.data.summary.fact.movingDuration || !!$ctrl.summary.data.plan.movingDuration"
+                    <div ng-if="!!$ctrl.data.summary.fact.movingDuration || !!$ctrl.data.summary.data.plan.movingDuration"
                          class="progress {{$ctrl.data.summaryStatus()}}"
                          style="width: {{$ctrl.data.summaryPercentByCount(sport)}}%"></div>
                 </div>
@@ -89,7 +89,7 @@
     </div>
 
     <div ng-repeat="sport in $ctrl.data.primarySport track by $index"
-         ng-if="!$ctrl.compactView">
+         ng-if="!$ctrl.compactView && $ctrl.data.hasMoreThenOneSport">
         <div ng-if="$ctrl.data.hasTotalBySport(sport)">
             <md-divider></md-divider>
             <section layout="row" class="sport-sum">
