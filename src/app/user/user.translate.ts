@@ -510,10 +510,12 @@ export const translateUser = {
                 userStaminity: 'Сервисные сообщения',
                 userTariffs: 'Тарифы и оплата',
                 coachWork: 'Подготовка спортсменов',
-                trainingPlansSell: 'Тренировочные планы',
+                trainingPlansSell: 'Тренировочные планы: Тренер',
+                trainingPlansWork: 'Тренировочные планы: Атлет',
                 clubManagement: 'Управление клубом',
 
                 //notificationSettings
+                trainingPlansAthlete: "Работа по тренировочным планам",
                 sync: "Загрузка тренировок",
                 zones: "Зоны и пороги",
                 clubCoach: "Назначение тренеров в клубе",
@@ -546,10 +548,10 @@ export const translateUser = {
                 trainingPlansFree: "Подключения бесплатных тренировочных планов",
                 zonesAthlete: "Изменения зон и порогов учеников",
                 assignClubCoach: "Назначение тренеров для спортсменов",
+                clubRoleAssignment: "Назначение ролей в клубе",
                 clubTariffs: "Подключение тарифов за счет клуба",
                 incomingRequestClub: "Новые запросы клубу",
                 membersInOut: "Вход/выход из клуба",
-                membersRequest: "Запросы клуба",
 
             },
             templates: {
@@ -1081,10 +1083,12 @@ export const translateUser = {
                 userStaminity: 'Staminity notifications',
                 userTariffs: 'Tariffs and payments',
                 coachWork: 'Work with athletes',
-                trainingPlansSell: 'Training plans sell',
+                trainingPlansSell: 'Training plans: Coach',
+                trainingPlansWork: 'Training plans: Athlete',
                 clubManagement: 'Club management',
 
                 //notificationSettings
+                trainingPlansAthlete: "Work on training plans",
                 sync: "Upload activities",
                 zones: "Zones and thresholds",
                 clubCoach: "Club coach assignment",
@@ -1117,10 +1121,10 @@ export const translateUser = {
                 trainingPlansFree: "Free training plans purchases",
                 zonesAthlete: "Athlete's zones changes",
                 assignClubCoach: "Club coach assignment",
+                clubRoleAssignment: "Club role assignment",
                 clubTariffs: "Paid by club tariffs",
                 incomingRequestClub: "New requests to club",
                 membersInOut: "Club members in/out",
-                membersRequest: "Club members requests",
 
             },
             templates: {

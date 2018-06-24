@@ -9,6 +9,7 @@ export const groups = {
         userSocial: ["comments", "followActivities", "friendActivities", "friendRequests", "groupRequests", "groups", "messages"],
         userTariffs: ["billPayment", "billRecurring", "newBills", "tariffActions", "trial"],
         userStaminity: ["system"],
+        trainingPlansWork: ["trainingPlansAthlete"]
     },
     coach: {
         coachWork: ["athleteActivities", "athleteComments", "athleteConnections", "athleteRequest", "incomingRequestCoach", "zonesAthlete"],
