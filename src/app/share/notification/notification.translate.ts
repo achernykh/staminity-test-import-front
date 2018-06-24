@@ -626,6 +626,7 @@ export const translateNotification = {
         staminityNotification: "{{data[0]}}",
     },
     trainingPlanPurchaseFailed: "Ошибка оплаты плана {{data0}}. Причина: {{data1}}",
+    trainingPlanPurchaseSuccess: "План {{data0}} приобретен успешно",
 
 //    ----------------- ENGLISH ---------------------
 
@@ -1207,5 +1208,6 @@ export const translateNotification = {
          * data[1] - текст сообщения ENG **/
         staminityNotification: "{{data[1]}}",
         trainingPlanPurchaseFailed: "Plan {{data0}} payment error: {{data1}}",
+        trainingPlanPurchaseSuccess: "Plan {{data0}} purchased successfully",
     },
 };
