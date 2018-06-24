@@ -689,6 +689,10 @@ export const _translateMessage = {
         agentWithdrawComplete: {
             title: '',
             text: "Запрос на вывод средств оформлен. Мы сообщим, когда он будет обработан"
+        },
+        trainingPlanPurchaseFailed: {
+            title: '',
+            text: "Приобретение тренировочного плана не удалось. Попробуйте еще раз"
         }
 
 
@@ -1380,6 +1384,10 @@ export const _translateMessage = {
         agentWithdrawComplete: {
             title: '',
             text: "Withdrawal request created"
+        },
+        trainingPlanPurchaseFailed: {
+            title: '',
+            text: "Training plan purchase failed. Please try again"
         }
 
     }
