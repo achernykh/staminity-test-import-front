@@ -22,6 +22,7 @@ export const homeTranslate = {
         shortTitle: 'Home',
         monthAvg: 'avg {{value | number:1}}{{unit | translate}}/month',
         charts: {
+            header: 'Charts',
             distance: {
                 title: 'Distance ({{unit | measureUnit:"default" | translate}})',
                 subtitle: 'For the last year',
