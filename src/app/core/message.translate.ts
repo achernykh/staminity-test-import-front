@@ -693,6 +693,10 @@ export const _translateMessage = {
         trainingPlanPurchaseFailed: {
             title: '',
             text: "Приобретение тренировочного плана не удалось. Попробуйте еще раз"
+        },
+        calendarOnlyForCoach: {
+            title: '',
+            text: "Переход в календарь доступен только для тренера"
         }
 
 
@@ -1388,7 +1392,12 @@ export const _translateMessage = {
         trainingPlanPurchaseFailed: {
             title: '',
             text: "Training plan purchase failed. Please try again"
+        },
+        calendarOnlyForCoach: {
+            title: '',
+            text: "Athlete's calendar is available only for the coach"
         }
+
 
     }
 };
