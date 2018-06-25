@@ -25,7 +25,7 @@ export const homeTranslate = {
             header: 'Charts',
             distance: {
                 title: 'Distance ({{unit | measureUnit:"default" | translate}})',
-                subtitle: 'For the last year',
+                subtitle: 'For the last 12 months',
             }
         },
         dashboard: {
