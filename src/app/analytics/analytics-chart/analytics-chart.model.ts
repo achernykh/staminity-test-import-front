@@ -85,7 +85,7 @@ export class AnalyticsChart implements IAnalyticsChart {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
         }
 
-        if (!this.globalParams && this.localParams && this.isAuthorized) {
+        if (!this.globalParams && this.localParams) {
             this.prepareLocalParams(user);
             this.localParams = new AnalyticsChartFilter(
                 this.globalFilter.user,
