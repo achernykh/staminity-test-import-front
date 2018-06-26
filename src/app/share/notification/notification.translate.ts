@@ -625,8 +625,8 @@ export const translateNotification = {
         * data[1] - текст сообщения ENG **/
         staminityNotification: "{{data[0]}}",
     },
-    trainingPlanPurchaseFailed: "Ошибка оплаты плана {{data0}}. Причина: {{data1}}",
-    trainingPlanPurchaseSuccess: "План {{data0}} приобретен успешно",
+    trainingPlanPurchaseFailed: "Ошибка оплаты плана {{data[0]}}. Причина: {{data[1]}}",
+    trainingPlanPurchaseSuccess: "Поздравляем! Вы успешно приобрели тренировочный план {{data[0]}} от {{data[1]}}",
 
 //    ----------------- ENGLISH ---------------------
 
@@ -1207,7 +1207,7 @@ export const translateNotification = {
          * data[0] - текст сообщения RUS*
          * data[1] - текст сообщения ENG **/
         staminityNotification: "{{data[1]}}",
-        trainingPlanPurchaseFailed: "Plan {{data0}} payment error: {{data1}}",
-        trainingPlanPurchaseSuccess: "Plan {{data0}} purchased successfully",
+        trainingPlanPurchaseFailed: "Plan {{data[0]}} payment error: {{data[1]}}",
+        trainingPlanPurchaseSuccess: "Congratulations! You've successfully purchased training plan '{{data[0]}}' by {{data[1]}}",
     },
 };
