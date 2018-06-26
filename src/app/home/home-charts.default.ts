@@ -149,7 +149,7 @@ export const homeChartsConfig: IAnalyticsChart[] = [
                 label: "Расстояние",
                 unit: "км",
                 chartType: "area",
-                smoothSettings: "curveCardinal",
+                smoothSettings: 'curveBasis',//"curveCardinal",
                 stacked: false,
                 cumulative: false,
                 tooltipType: "icon",
