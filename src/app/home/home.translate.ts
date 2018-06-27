@@ -11,7 +11,8 @@ export const homeTranslate = {
             }
         },
         dashboard: {
-            header: 'Дэшборд тренера'
+            header: 'Дэшборд тренера',
+            athlete:'Атлет'
         },
         today: {
             header: 'Мои тренировки'
@@ -29,7 +30,8 @@ export const homeTranslate = {
             }
         },
         dashboard: {
-            header: 'Dashboard'
+            header: 'Dashboard',
+            athlete: 'Athlete'
         },
         today: {
             header: 'My activities'

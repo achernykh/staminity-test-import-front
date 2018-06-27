@@ -99,6 +99,8 @@ export default class DisplayService {
         this.$translate.use(locale);
         this.tmhDynamicLocale.set(locale);
 
+        console.debug('display service set:', locale, firstDayOfWeek);
+
         moment.locale(locale);
         moment.updateLocale(locale, {
             week: { dow: firstDayOfWeek },
