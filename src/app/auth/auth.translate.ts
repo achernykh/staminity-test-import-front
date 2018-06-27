@@ -78,6 +78,10 @@ export let _translate = {
             newpass: "Новый пароль",
             verifypass: "Подтвердите пароль",
             button: "Изменить"
+        },
+        start: {
+            title: "Добро пожаловать!",
+            subtitle: "Зарегистрируйтесь или войдите в Staminity",
         }
     },
     en: {
@@ -157,6 +161,10 @@ export let _translate = {
             newpass: "New password",
             verifypass: "Confirm your new password",
             button: "Change"
+        },
+        start: {
+            title: "You're welcome!",
+            subtitle: "Please signup or login to Staminity",
         }
     },
 
