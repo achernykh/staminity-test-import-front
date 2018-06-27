@@ -164,7 +164,7 @@ export let _translate = {
         },
         start: {
             title: "You're welcome!",
-            subtitle: "Please signup or login to Staminity",
+            subtitle: "Please Sign up or login to Staminity",
         }
     },
 
