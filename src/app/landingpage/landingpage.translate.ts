@@ -2,8 +2,8 @@ export let _translate = {
     ru: {
         // Стартовая страница
 
-        fullTitle: "Приложение для работы с тренером и календарь тренировок Staminity | Стаминити",
-        shortTitle: "Приложение для работы с тренером и календарь тренировок Staminity | Стаминити",
+        fullTitle: "Приложение для работы с тренером и календарь тренировок | Staminity",
+        shortTitle: "Приложение для работы с тренером и календарь тренировок | Staminity",
         description: "Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов",
         keywords: "программа для работы с тренером, приложение для работы с тренером, приложение для тренера, программа для тренера, работа с тренером, занятия с тренером, бег, триатлон, плавание, календарь тренировок, тренировочный календарь, работа с учениками, Стаминити, Staminity, дистанционная работа с тренером",
         nav: {
@@ -167,16 +167,17 @@ export let _translate = {
                 title: "Помощь и поддержка",
                 link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Справочная система</a>',
                 link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Поддержка пользователей</a>',
-                link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
-                link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
-                link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
+                link3: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Правила использования</a>',
+                link4: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">Оферта</a>',
+                link5: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Конфиденциальность</a>',
+                link6: '<a flex href="https://legal.staminity.com/ru/credits/website-credits.html" target="_blank" class="md-body md-light">Credits</a>',
+
             },
             block3 : {
                 title: "Новости",
-                link1: '<a flex href="http://eepurl.com/cmOSiH" target="_blank" class="md-body md-light">Подписаться на рассылку</a>',
-                link2: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Мы в Facebook</a>',
-                link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Мы Вконтакте</a>',
-                link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Блог</a>',
+                link1: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Мы в Facebook</a>',
+                link2: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Мы Вконтакте</a>',
+                link3: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Блог</a>',
             },
             block4 : {
                 title: "О нас",
@@ -427,22 +428,23 @@ export let _translate = {
                 link2: '<a flex href="#athletes" class="md-body md-light">For athletes</a>',
                 link3: '<a flex href="#coaches" class="md-body md-light">For coaches</a>',
                 link4: '<a flex href="#clubs" class="md-body md-light">For clubs</a>',
-                link5: '<a flex href="#" class="md-body md-light disable">Tariffs</a>',
+                link5: '<a flex href="https://staminity.com/tariffs" class="md-body md-light">Pricing</a>',
             },
             block2 : {
                 title: "Help and support",
                 link1: '<a flex href="https://help.staminity.com/ru/" target="_blank" class="md-body md-light">Help center (RUS)</a>',
-                link2: '<a flex href="http://support.staminity.com/" target="_blank" class="md-body md-light">Customer service</a>',
-                link4: '<a flex href="https://legal.staminity.com/ru/terms.html" target="_blank" class="md-body md-light">Terms of service (RUS)</a>',
-                link5: '<a flex href="https://legal.staminity.com/ru/license.html" target="_blank" class="md-body md-light">License agreement (RUS)</a>',
-                link6: '<a flex href="https://legal.staminity.com/ru/privacy.html" target="_blank" class="md-body md-light">Privacy policy (RUS)</a>',
+                link2: '<a flex href="https://support.staminity.com/l_eng/" target="_blank" class="md-body md-light">Customer service</a>',
+                link3: '<a flex href="https://legal.staminity.com/en/terms.html" target="_blank" class="md-body md-light">Website use policy</a>',
+                link4: '<a flex href="https://legal.staminity.com/en/license.html" target="_blank" class="md-body md-light">License agreement</a>',
+                link5: '<a flex href="https://legal.staminity.com/en/privacy.html" target="_blank" class="md-body md-light">Privacy policy</a>',
+                link6: '<a flex href="https://legal.staminity.com/ru/credits/website-credits.html" target="_blank" class="md-body md-light">Credits</a>',
+
             },
             block3 : {
                 title: "Follow us",
-                link1: '<a flex href="http://eepurl.com/cmOSiH" target="_blank" class="md-body md-light">Subscribe to our newsletter (RUS)</a>',
-                link2: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Folow us on Facebook</a>',
-                link3: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Follow us on VK</a>',
-                link4: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Blog (RUS)</a>',
+                link1: '<a flex href="https://www.facebook.com/staminity/" target="_blank" class="md-body md-light">Folow us on Facebook</a>',
+                link2: '<a flex href="https://vk.com/staminity" target="_blank" class="md-body md-light">Follow us on VK</a>',
+                link3: '<a flex href="http://blog.staminity.com/" target="_blank" class="md-body md-light">Blog (RUS)</a>',
             },
             block4 : {
                 title: "About us",

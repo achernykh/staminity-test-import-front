@@ -1,6 +1,6 @@
 export const translateGeneral = {
     ru: {
-        staminity: "Стаминити",
+        staminity: "Staminity",
         ru: 'Русский',
         en: 'English',
         true: "Да",
@@ -25,6 +25,8 @@ export const translateGeneral = {
         expiredClub: 'Клуб отключен',
         loading: 'Загрузка...',
         pullToRefresh: 'Потяните для обновления',
+        next: 'Далее',
+        done: 'Готово'
     },
     en: {
         staminity: "Staminity",
@@ -52,6 +54,8 @@ export const translateGeneral = {
         expiredClub: 'Club expired',
         loading: 'Loading...',
         pullToRefresh: 'Pull to refresh',
+        next: 'Next',
+        done: 'Done'
     },
 };
 

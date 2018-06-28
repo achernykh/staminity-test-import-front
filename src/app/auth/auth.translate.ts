@@ -24,7 +24,8 @@ export let _translate = {
             coach: "Я тренер",
             button: "Регистрация",
             social: 'Регистрация через ',
-            signinLink: "<a href='https://staminity.com/signin'>Уже есть аккаунт</a>"
+            signinLink: "<a href='https://staminity.com/signin'>Уже есть аккаунт</a>",
+            email: "Зарегистрироваться через e-mail"
         },
         // Окно входа в сервис
         signin: {
@@ -82,7 +83,8 @@ export let _translate = {
         start: {
             title: "Добро пожаловать!",
             subtitle: "Зарегистрируйтесь или войдите в Staminity",
-        }
+        },
+        alreadyHaveAccount: "Уже есть аккаунт? <strong>Войти</strong>"
     },
     en: {
         // Страница auth - только общие поля. Названия окон и отдельных кнопок вынесены в отдельные блоки
@@ -109,7 +111,8 @@ export let _translate = {
             coach: "I am a coach",
             button: "Sign up",
             social: 'Sign up with ',
-            signinLink: "<a href='https://staminity.com/signin'>Sign in</a>"
+            signinLink: "<a href='https://staminity.com/signin'>Sign in</a>",
+            email: "Sign up with e-mail"
         },
         // Окно входа в сервис
         signin: {
@@ -165,7 +168,8 @@ export let _translate = {
         start: {
             title: "You're welcome!",
             subtitle: "Please Sign up or login to Staminity",
-        }
+        },
+        alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>"
     },
 
 };
