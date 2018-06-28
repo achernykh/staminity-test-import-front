@@ -35,7 +35,7 @@ class UniversalChartCtrl implements IComponentController {
 
     $postLink():void {
         let self = this;
-        this.$element.ready(() => setTimeout(_ => self.redraw(), 500));
+        this.$element.ready(() => setTimeout(_ => self.redraw(), 700));
         this.onResize = () => {
             this.chart.remove();
             this.redraw();
