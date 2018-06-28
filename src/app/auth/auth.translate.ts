@@ -25,7 +25,7 @@ export let _translate = {
             button: "Регистрация",
             social: 'Регистрация через ',
             signinLink: "<a href='https://staminity.com/signin'>Уже есть аккаунт</a>",
-            email: "Зарегистрироваться через e-mail"
+            email: "Регистрация по e-mail"
         },
         // Окно входа в сервис
         signin: {
