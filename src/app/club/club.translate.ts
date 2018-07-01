@@ -2,11 +2,11 @@ export const _translate = {
     ru: {
         fullTitle: "Профиль клуба",
         shortTitle: "Профиль",
-        staff: 'Состав',
+        staff: 'Члены клуба',
         actions: {
             isYourClub: 'Ваш клуб',
             startClub: 'Вступить в клуб',
-            clubRequestWaiting: 'Вы отправили заявку на выход',
+            clubRequestWaiting: 'Ваш запрос ожидает одобрения',
             clubRequestCancel: 'Отменить заявку',
             leaveClub: 'Покинуть клуб',
             rejectRequest: 'Отменить заявку',
@@ -15,5 +15,14 @@ export const _translate = {
     en: {
         fullTitle: "Club profile",
         shortTitle: "Profile",
+        staff: 'Club members',
+        actions: {
+            isYourClub: 'This is your club',
+            startClub: 'Join club',
+            clubRequestWaiting: 'Your request is under review',
+            clubRequestCancel: 'Cancel request',
+            leaveClub: 'Leave club',
+            rejectRequest: 'Cancel request',
+        }
     },
 };
