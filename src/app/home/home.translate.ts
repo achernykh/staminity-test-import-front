@@ -8,7 +8,8 @@ export const homeTranslate = {
             distance: {
                 title: 'Дистанция ({{unit | measureUnit:"default" | translate}})',
                 subtitle: 'За последние 12 месяцев',
-            }
+            },
+            dataEmpty: 'Нет данных. Включите загрузку тренировок в настройках',
         },
         dashboard: {
             header: 'Дэшборд тренера',
@@ -27,7 +28,8 @@ export const homeTranslate = {
             distance: {
                 title: 'Distance ({{unit | measureUnit:"default" | translate}})',
                 subtitle: 'For the last 12 months',
-            }
+            },
+            dataEmpty: 'No data to display. Check activity synchronisation settings',
         },
         dashboard: {
             header: 'Dashboard',

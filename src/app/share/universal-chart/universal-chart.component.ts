@@ -9,6 +9,7 @@ import { peaksByTime } from "../measure/measure.filter";
 class UniversalChartCtrl implements IComponentController {
 
     data: IChart;
+    update: number;
     filter: boolean;
     onEvent: (response: Object) => IPromise<void>;
 
@@ -36,7 +37,6 @@ class UniversalChartCtrl implements IComponentController {
     $postLink():void {
         let self = this;
         this.$element.ready(() => self.redraw());
-
         this.onResize = () => {
             this.chart.remove();
             this.redraw();
@@ -48,9 +48,7 @@ class UniversalChartCtrl implements IComponentController {
 
     $onChanges(changes: any) {
         if(changes.hasOwnProperty('update') && !changes.update.isFirstChange()){
-            if(!this.chart){
-                return;
-            }
+            if(!this.chart){ return; }
             setTimeout(() => {
                 this.chart.remove();
                 this.redraw();
@@ -61,6 +59,7 @@ class UniversalChartCtrl implements IComponentController {
     redraw():void {
         this.container = this.$element[0];
         this.prepareMetrics();
+        console.debug('universal chart redraw', this.data, this.container, this.update);
         this.chart = UChartFactory.getInstance(copy(this.data)).renderTo(this.container);
     }
 
