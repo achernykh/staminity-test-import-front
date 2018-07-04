@@ -1,0 +1,53 @@
+$max-toolbar-width: 1000px;
+
+.landing-main {
+  background: white;
+  .md-toolbar-tools {
+    max-width: $max-toolbar-width;
+    margin: 0 auto;
+    padding: 0;
+    img {
+      width: auto;
+      height: 32px;
+    }
+    .links {
+      width: 100%;
+    }
+  }
+
+  &__welcome {
+    background-image: url('/assets/landing/wave-gray-light.svg');
+    background-position: center bottom;
+    background-size: 100% 250px;
+    background-repeat: repeat-x;
+    padding-bottom: 150px;
+    position: relative;
+    &:before {  padding-top: 5%;  }
+    &:after {  padding-bottom: 5%;  }
+    .block {
+      position: relative;
+      max-width: $max-toolbar-width;
+      margin: 0 auto;
+      .text button {
+        margin: 12px 0 0 0;
+        text-transform: initial;
+        padding: 6px 12px;
+      }
+    }
+    .picture {
+      img {
+        max-height: 100%;
+        max-width: 100%;
+        position: relative;
+        margin-top: 32px;
+        vertical-align: bottom;
+        -ms-transform: scale(1.0);
+        transform: scale(1.0);
+        -ms-transform-origin: center top;
+        transform-origin: center top;
+        height: auto!important;
+      }
+    }
+  }
+
+}
