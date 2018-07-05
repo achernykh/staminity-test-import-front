@@ -19,7 +19,9 @@ class TrainingPlanPublishCtrl implements IComponentController {
     // private
     private dataLoading: boolean = false;
     private isProfileComplete: boolean = null;
-    private rules = ['profile', 'isNotDynamic', 'version', 'icon', 'background', 'items' ];
+    private isResidentRus: boolean = null;
+
+    private rules = ['profile', 'residentRusPaidPlan', 'isNotDynamic', 'version', 'icon', 'background', 'items' ];
     static $inject = ['$scope', 'TrainingPlansService', 'message','dialogs', 'AgentService'];
 
     constructor(
@@ -41,6 +43,10 @@ class TrainingPlanPublishCtrl implements IComponentController {
 
     get profile (): boolean {
         return this.isProfileComplete;
+    }
+
+    get residentRusPaidPlan (): boolean {
+        return this.plan.price === 0 || (this.plan.price > 0 && this.isResidentRus) ;
     }
 
     get isNotDynamic (): boolean {
@@ -89,7 +95,10 @@ class TrainingPlanPublishCtrl implements IComponentController {
         this.trainingPlansService.get(this.plan.id)
             .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
             .then(_ => this.agentService.getAgentProfile())
-            .then(p => this.isProfileComplete = p.isCompleted && p.isActive)
+            .then(p => {
+                this.isResidentRus = p.residentCountry === 'ru';
+                this.isProfileComplete = p.isCompleted && p.isActive;
+            })
             .then(() => this.dataLoading = true);
     }
 

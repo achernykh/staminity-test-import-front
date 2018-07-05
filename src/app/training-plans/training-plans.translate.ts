@@ -272,7 +272,7 @@ export const _translateTrainingPlans = {
                 itemsFail: 'Достаточно тренировок для публикации: НЕТ. Добавьте не менее 10 тренировок',
                 isNotDynamicSuccess: 'План не обновляемый: ДА',
                 isNotDynamicFail: 'План не обновляемый: НЕТ. Публикация обновляемых планов невозможна',
-                residentRusPaidPlanSuccess: 'Автор платного плана - резидент РФ: ДА',
+                residentRusPaidPlanSuccess: 'План бесплатный или автор платного плана - резидент РФ: ДА',
                 residentRusPaidPlanFail: 'Автор платного плана - резидент РФ: НЕТ. Публикация платных планов временно доступна только Авторам - резидентам РФ',
 
             },
@@ -617,7 +617,7 @@ export const _translateTrainingPlans = {
                 itemsFail: 'Training plan has enough items: FAIL. Plan should contain more than 10 items',
                 isNotDynamicSuccess: 'Training plan is not dynamic: SUCCESS',
                 isNotDynamicFail: 'Training plan is not dynamic: FAIL. Publication of dynamic plan is forbidden',
-                residentRusPaidPlanSuccess: 'Paid training plan Author is Russian resident: SUCCESS',
+                residentRusPaidPlanSuccess: 'Plan free or paid training plan Author is Russian resident: SUCCESS',
                 residentRusPaidPlanFail: 'Paid training plan Author is Russian resident: FAIL. Publication of paid training plans is temporary available only for Authors from Russia',
 
 
