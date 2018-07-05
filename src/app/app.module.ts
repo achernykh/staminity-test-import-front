@@ -90,7 +90,7 @@ const getRootModule = (session: ISession) => {
         .component('staminityApplication', AppComponent)
         .config(configure)
         .run(run)
-        .name
+        .name;
 };
 
 const bootstrapApplication = (module) =>
@@ -117,9 +117,3 @@ const createDB = (): Promise<ISession> => {
         })
         .then(s => localForage.setItem(dbSessionKey, s));
 };
-
-/**.then(_ => localForage.config({
-        driver: [localForage.WEBSQL, localForage.INDEXEDDB, localForage.LOCALSTORAGE],
-        name: 'StaminityDB'}))**/
-// check auth status
-//export default root;
