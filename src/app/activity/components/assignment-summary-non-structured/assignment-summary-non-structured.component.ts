@@ -65,6 +65,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     };
 
     private measuresBySport;
+    private durationTypes:[string];
+    private intensityTypesBySport;
 
     private trustHTML: string;
 
@@ -141,6 +143,18 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
         // для исторических данных, до перехода movingDuration -> duration
         let durationMeasure = this.plan.durationMeasure === 'movingDuration' ? 'movingDuration' : 'duration';
+        this.durationTypes = [durationMeasure,'distance'];
+        this.intensityTypesBySport = {
+            swim: ['heartRate', 'speed'],
+            bike: ['heartRate', 'speed', 'power'],
+            run: ['heartRate', 'speed'],
+            strength: ['heartRate'],
+            transition: ['heartRate', 'speed'],
+            ski: ['heartRate', 'speed'],
+            rowing: ['heartRate', 'speed', 'power'],
+            other: ['heartRate', 'speed'],
+            default: ['heartRate', 'speed'],
+        };
         this.measuresBySport = {
             swim: [durationMeasure,'distance', 'heartRate','speed'],
             bike: [durationMeasure,'distance','heartRate', 'speed','power'],
@@ -203,10 +217,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     prepareDataForUpdate() {
-        this.plan.durationMeasure =
+        /**this.plan.durationMeasure =
             (!!this.plan.distance['durationValue'] && 'distance') ||
             (!!this.plan.duration['durationValue'] && 'duration') ||
-            (!!this.plan.movingDuration['durationValue'] && 'movingDuration') || null;
+            (!!this.plan.movingDuration['durationValue'] && 'movingDuration') || null;**/
 
         this.plan.durationValue =
             (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure]['durationValue']) || null;
