@@ -1,6 +1,6 @@
 <md-toolbar flex="none" class="{{$ctrl.item.activity.status}}" ng-if="!$ctrl.isIonic">
     <div class="md-toolbar-tools" ng-cloak>
-        <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 6}}"
+        <md-menu flex-order="{{$ctrl.item.activity.view.isPopup ? 1 : 7}}"
                  md-position-mode="target-right target" md-offset="0 60">
             <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)"
                        aria-label="User">
@@ -51,17 +51,30 @@
         </md-menu>
         <h2 flex-order="2" translate="{{::$ctrl.item.options.templateMode ? 'activity.template.title' : 'activity.title'}}"></h2>
         <span flex flex-order="3"></span>
-        <userpic flex-order="4" class="border-light" ng-if="false"
+        <!--<userpic flex-order="4" class="border-light" ng-if="false"
                  profile="$ctrl.item.activity.athletes.first()"
                  is-premium="$ctrl.item.activity.athletes.first().isPremium"
-                 unlink="true"></userpic>
-        <div class="multi-athletes" ng-if="$ctrl.item.activity.athletes.multi()"></div>
+                 unlink="true"></userpic>-->
+        <!--<div class="multi-athletes" ng-if="$ctrl.item.activity.athletes.multi()"></div>-->
         <md-button flex-order="5" class="md-icon-button" hide-gt-sm
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'activity.action.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
-        <md-button flex-order="{{$ctrl.item.activity.view.isPopup ? 6 : 1}}" class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
+        <md-button flex-order="6"
+                   ng-click="$ctrl.onTemplateOpen()"
+                   class="md-icon-button"
+                   ng-disabled="!$ctrl.item.templateByFilter"
+                   ng-if="!$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory && !$ctrl.item.isIonic">
+            <md-tooltip md-direction="left"
+                        translate-value-code="{{$ctrl.item.activity.header.template.code}}">
+                {{$ctrl.templateSelectorText | translate}}
+            </md-tooltip>
+            <md-icon class="material-icons" aria-label="template">import_contacts</md-icon>
+            <span class="badge superscript" ng-if="$ctrl.item.templateByFilter">{{$ctrl.item.templateByFilter}}</span>
+        </md-button>
+        <md-button flex-order="{{$ctrl.item.activity.view.isPopup ? 7 : 1}}"
+                   class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"
                    ng-click="$ctrl.item.onCancel()">
             <md-tooltip md-direction="left">{{'activity.action.close' | translate}}</md-tooltip>
             <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>

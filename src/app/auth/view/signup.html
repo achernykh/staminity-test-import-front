@@ -28,7 +28,33 @@
                              ng-disabled="!$ctrl.enabled"
                              style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
                 </md-checkbox>
-            </md-list-item><!--
+            </md-list-item>
+            <md-list-item md-theme="default">
+                <md-autocomplete
+                    md-no-float flex="100"
+                    required md-require-match
+                    class="no-message"
+                    ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
+                    md-input-name="country"
+                    md-input-minlength="2"
+                    md-input-maxlength="18"
+                    md-no-cache="$ctrl.noCache"
+                    md-selected-item="$ctrl.credentials.personal.country"
+                    md-search-text="$ctrl.countrySearchText"
+                    md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
+                    md-item-text="$ctrl.getCountryName(id)"
+                    placeholder="{{ 'user.settings.personalInfo.main.country' | translate }}">
+                    <md-item-template>
+                        <span md-highlight-text="$ctrl.countrySearchText">
+                            {{$ctrl.countriesList[$ctrl.credentials.display.language][id]}}
+                        </span>
+                    </md-item-template>
+                    <div ng-messages="$ctrl.signupForm.country.$error">
+                        <div ng-message="required" translate="auth.required"></div>
+                    </div>
+                </md-autocomplete>
+            </md-list-item>
+            <!--
             <md-list-item layout="column" class="social">
                 <p class="social-text" translate="auth.socialText"></p>
                 <div class="social-buttons">
@@ -50,18 +76,21 @@
                 <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
                 <p class="md-body"><span translate="Вход через"></span>&nbsp;<span translate="{{::provider}}"></span></p>
             </md-list-item>-->
+            <md-list-item>
+                <div layout="row" class="social-buttons">
+                    <md-button flex="33" ng-repeat="provider in ['facebook','google','vkontakte']"
+                               ng-class="{'disabled': !$ctrl.confirmation || $ctrl.credentials.personal.country === null}"
+                               ng-click="$ctrl.OAuth('signUp', provider)"
+                               ng-disabled="!$ctrl.enabled || !$ctrl.confirmation || $ctrl.credentials.personal.country === null"
+                               class="social-button {{::provider}}">
+                        <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
+                        <!--<span translate="auth.signup.social"></span>&nbsp;<span translate="{{::provider}}"></span>-->
+                    </md-button>
+                </div>
+            </md-list-item>
         </md-list>
-        <div layout="column" class="social-buttons">
-            <md-button ng-repeat="provider in ['facebook','google','vkontakte']"
-                       ng-class="{'disabled': !$ctrl.confirmation}"
-                       ng-click="$ctrl.OAuth('signUp', provider)" ng-disabled="!$ctrl.enabled || !$ctrl.confirmation"
-                       class="social-button {{::provider}}">
-                <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
-                <span translate="auth.signup.social"></span>&nbsp;<span translate="{{::provider}}"></span>
-            </md-button>
-        </div>
         <div class="md-caption md-light md-inactive center" translate="auth.socialOr"></div>
-        <md-list class="">
+        <md-list>
             <md-list-item layout="row">
                 <md-input-container flex="45" md-no-float class="no-message">
                     <input maxlength="30" ng-model="$ctrl.credentials.public.firstName" name="name"

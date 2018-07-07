@@ -126,7 +126,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public templates: Array<IActivityTemplate> = []; // набор шаблоново тренировок пользователя
     private destroy: Subject<void> = new Subject<void>();
     private templatesByOwner: { [owner: string]: Array<IActivityTemplate> }; // шаблоны тренировки для выдчи пользователю в разрезе свои, тренера, системные и пр..
-    public templateByFilter: boolean = false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
+    public templateByFilter: number = null;//false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
 
     public selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
 
@@ -357,8 +357,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
             groupBy(getOwner(this.user)),
         ) (this.templates);
 
-        this.templateByFilter = Object.keys(this.templatesByOwner)
-            .some(owner => this.templatesByOwner[owner] && this.templatesByOwner[owner].length > 0);
+        this.templateByFilter = Object.keys(this.templatesByOwner).length;
+            //.some(owner => this.templatesByOwner[owner] && this.templatesByOwner[owner].length > 0);
     }
 
     /**

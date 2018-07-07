@@ -1,0 +1,66 @@
+@import "color";
+
+md-input-container.st-material {
+
+
+  &.md-icon-float > md-icon {
+    top: 40px;
+    left: 12px;
+  }
+
+  &.md-icon-left {
+    padding-left: 0;
+    label {
+      left: 48px;
+    }
+  }
+
+  input {
+    padding: 20px 12px 8px 48px;
+    line-height: 20px;
+    background-color: $grey-200;
+    height: 56px;
+    border-radius: 5px 5px 0px 0px;
+
+  }
+
+  label {
+    bottom: 60px;
+    padding-left: 0;
+    -webkit-transform: translate3d(0,20px,0) scale(1) !important;
+    transform: translate3d(0,20px,0) scale(1) !important;
+  }
+
+  &.md-input-focused label:not(.md-no-float),
+  &.md-input-has-placeholder label:not(.md-no-float),
+  &.md-input-has-value label:not(.md-no-float) {
+    -webkit-transform: translate3d(0,6px,0) scale(.75) !important;
+    transform: translate3d(0,6px,0) scale(.75) !important;
+  }
+
+  &.md-dense {
+    &.md-icon-float > md-icon {
+      top: 32px;
+    }
+    label {
+      font-size: 13px;
+      -webkit-transform: translate3d(0,22px,0) scale(1) !important;
+      transform: translate3d(0,22px,0) scale(1) !important;
+    }
+    input {
+      font-size: 13px;
+      padding: 20px 12px 6px 48px;
+      height: 42px;
+      line-height: 14px;
+    }
+    &.md-input-focused label:not(.md-no-float),
+    &.md-input-has-placeholder label:not(.md-no-float),
+    &.md-input-has-value label:not(.md-no-float) {
+      -webkit-transform: translate3d(0,16px,0) scale(.6) !important;
+      transform: translate3d(0,16px,0) scale(.6) !important;
+    }
+
+
+  }
+
+}

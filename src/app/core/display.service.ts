@@ -2,6 +2,19 @@ import moment from "moment/min/moment-with-locales.js";
 import { path } from "../share/utility/path";
 import { getUser, ISession, SessionService } from "./index";
 import UserService from "./user.service";
+import {IHttpService} from "angular";
+
+export interface GeoInfo {
+    city: string;
+    country: {
+        code: string;
+        name: string;
+    };
+    ip: string;
+    location: {
+        time_zone: string;
+    };
+}
 
 const getDisplay = (session: ISession): string => path([getUser, "display"])(session) || {};
 const getLocale = (session: ISession): string => path([getUser, "display", "language"])(session) || (window.navigator.language as string).substring(0,2) || "ru";
@@ -11,18 +24,18 @@ const getFirstDayOfWeek = (session: ISession): number => path([getUser, "display
 
 export default class DisplayService {
 
-    locales = {
-        ru: "Русский",
-        en: "English",
-    };
+    locales = { ru: "Русский", en: "English",};
+    ipData: GeoInfo;
 
-    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale"];
+    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale", '$http'];
 
     constructor (private sessionService: SessionService,
                  private userService: UserService,
                  private $translate: any,
                  private tmhDynamicLocale: any,
-                 private $mdDateLocale: any,) {
+                 private $mdDateLocale: any,
+                 private $http: IHttpService) {
+
         sessionService.getObservable()
             .map(getDisplay)
             .distinctUntilChanged()
@@ -39,6 +52,11 @@ export default class DisplayService {
             }
             // process event.alpha, event.beta and event.gamma
         }, true);**/
+    }
+
+    getIpInfo (): Promise<GeoInfo> {
+        return this.$http.get('https://geoip.nekudo.com/api')
+            .then(result => result.data || {});
     }
 
     getLocale (): string {
@@ -76,6 +94,10 @@ export default class DisplayService {
 
     setFirstDayOfWeek(firstDayOfWeek: number): Promise<any> {
         return this.saveDisplaySettings({ firstDayOfWeek });
+    }
+
+    set ipInfo (data: GeoInfo) {
+
     }
 
     private saveDisplaySettings(displayChanges: any): Promise<any> {

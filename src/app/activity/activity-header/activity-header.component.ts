@@ -47,6 +47,15 @@ export class ActivityHeaderCtrl implements IComponentController {
     get isIonic (): boolean {
         return window.hasOwnProperty('ionic');
     }
+
+    private onTemplateOpen() {
+        this.item.showSelectTemplate = true;
+    }
+
+    get templateSelectorText(): string {
+        return this.item.activity.header.template && "activity.template.code" ||
+            this.item.templateByFilter && "activity.template.enable" || "activity.template.empty";
+    }
 }
 
 export const ActivityHeaderComponent:IComponentOptions = {

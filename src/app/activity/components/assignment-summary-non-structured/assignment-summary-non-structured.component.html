@@ -1,3 +1,60 @@
+<md-list class="assignment-summary-non-structured">
+    <md-content class="md-padding">
+        <div layout="row">
+            <span flex="none" class="md-caption" style="color: #455A64" translate="activity.assignment.title"></span>
+            <span flex="auto" class="md-caption md-dark md-secondary"
+                  translate="activity.assignment.structured" style="text-align: right; margin-right: 8px"></span>
+            <md-switch flex="none"
+                       class="md-secondary md-primary" style="margin: 0;"
+                       ng-model="$ctrl.item.structuredMode"
+                       ng-change="$ctrl.changeStructuredMode()"
+                       md-invert>
+        </div>
+        <div layout="row">
+            <md-input-container class="st-material md-icon-float md-block"
+                                style="margin: 0;"
+                                flex="50"
+                                ng-repeat="duration in ['duration', 'distance']">
+                <label translate="{{::duration}}"></label>
+                <md-icon md-svg-src="assets/icon/{{duration}}.svg"
+                         class="md-dark"></md-icon>&nbsp;
+                <input name="plan_{{::duration}}"
+                       ng-model="$ctrl.plan[duration].durationValue"
+                       change="$ctrl.change"
+                       measure="duration"
+                       ng-attr-sport={{$ctrl.sport}} interval="false"
+                       ftp-mode="$ctrl.isFTP()"
+                       ftp="$ctrl.getFTP(duration,$ctrl.sport)"
+                       ng-change="$ctrl.changeValue(duration)"
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
+            </md-input-container>
+        </div>
+        <p class="hint">Please input workout distance or duration</p>
+    </md-content>
+    <md-list-item>
+
+    </md-list-item>
+
+    <md-list-item ng-repeat="intensity in ['speed', 'heartRate', 'power']">
+        <md-input-container class="st-material md-icon-left">
+            <md-icon md-svg-src="assets/icon/{{intensity}}.svg" class="md-dark"></md-icon>&nbsp;
+            <input measure-input
+                   ng-model="$ctrl.plan[intensity]"
+                   name="plan_{{::intensity}}"
+                   measure="measure"
+                   ng-attr-sport={{$ctrl.sport}}
+                   interval="true"
+                   ftp-mode="$ctrl.isFTP()"
+                   ftp="$ctrl.getFTP(intensity,$ctrl.sport)"
+                   ng-change="$ctrl.changeValue(intensity)"
+                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
+
+        </md-input-container>
+    </md-list-item>
+    <p class="hint md-padding">Please input intensity factor</p>
+</md-list>
+
+
 <md-list class="assignment-summary-non-structured md-dense slim-input">
     <md-list-item>
         <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
@@ -6,14 +63,17 @@
             <span translate="activity.percentFTP"></span>
             <span translate="{{$ctrl.ftpMode ? 'activity.ftpMode.off ' : 'activity.ftpMode.on'}}"></span>
         </p>
-        <md-switch class="md-secondary md-primary" ng-true-value="0" ng-false-value="1" ng-disabled="$ctrl.item.options.templateMode || $ctrl.item.options.trainingPlanMode"
+        <md-switch class="md-secondary md-primary"
+                   ng-true-value="0" ng-false-value="1"
+                   ng-disabled="$ctrl.item.options.templateMode || $ctrl.item.options.trainingPlanMode"
                    ng-inital="ftp = $ctrl.ftpMode" ng-model="ftp" ng-change="$ctrl.ftpModeChange(ftp)" md-invert>
         </md-switch>
     </md-list-item>
     <md-list-item ng-if="!$ctrl.item.activity.header.sport">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
-    <md-list-item class="" ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured) && $ctrl.item.activity.header.sport">
+    <md-list-item class=""
+                  ng-if="!($ctrl.item.structuredMode || $ctrl.item.activity.isStructured) && $ctrl.item.activity.header.sport">
         <md-table-container>
             <table md-table
                    md-row-select="$ctrl.options.rowSelection"
@@ -65,7 +125,8 @@
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
-                    <td md-cell ng-if="!$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan) ">
+                    <td md-cell
+                        ng-if="!$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan) ">
                         <md-input-container>
                             <input ng-model="$ctrl.actual[measure][$ctrl.valueType[measure]]"
                                    name="actual_{{::measure}}" measure-input
@@ -76,7 +137,8 @@
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                         </md-input-container>
                     </td>
-                    <td md-cell ng-if="$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
+                    <td md-cell
+                        ng-if="$ctrl.isFTP() && !($ctrl.item.options.templateMode || $ctrl.item.activity.view.isTrainingPlan)">
                         <md-input-container>
                             <input ng-if="$ctrl.isInterval(measure)" measure-input
                                    ng-model="$ctrl.actual[measure]['intensityByFtp']"

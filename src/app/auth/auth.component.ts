@@ -1,17 +1,20 @@
 import { IComponentController, IComponentOptions, IHttpPromiseCallbackArg, ILocationService} from "angular";
 import {StateService} from "@uirouter/angularjs";
-import {IUserProfile} from "../../../api/user/user.interface";
+import {IUserProfile, IUserProfilePersonal} from "../../../api/user/user.interface";
 import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
 import "./auth.component.scss";
 import {gaEmailSignup, gaSocialSignup} from "../share/google/google-analitics.functions";
 import AuthService from "@app/auth/auth.service";
 import {ISystemMessage} from "@api/core";
-import DisplayService from "@app/core/display.service";
+import DisplayService, {GeoInfo} from "@app/core/display.service";
 import {IUserProfilePublic, IUserProfileDisplay} from "@api/user";
+import {UserSettingsService} from "@app/user/settings/user-settings.service";
+import {countriesList} from "../user/settings/user-settings.constants";
 
 interface UserCredentials {
     public: IUserProfilePublic;
+    personal: IUserProfilePersonal;
     display: IUserProfileDisplay;
     device: string;
     email: string;
@@ -23,12 +26,19 @@ interface UserCredentials {
 
 class AuthCtrl implements IComponentController {
 
+    // bind
+    ipInfo: GeoInfo;
+
+    // private
     private enabled: boolean = true;
     private showConfirm: boolean = false;
     private credentials: UserCredentials;
     private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    private countriesList = countriesList;
+    private countrySearchText: string;
 
-    static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth", 'DisplayService'];
+    static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth",
+        'DisplayService', 'UserSettingsService'];
 
     constructor(
         private AuthService: AuthService,
@@ -38,7 +48,14 @@ class AuthCtrl implements IComponentController {
         private $location: ILocationService,
         private message: IMessageService,
         private $auth: any,
-        private displayService: DisplayService) {
+        private displayService: DisplayService,
+        private userSettingsService: UserSettingsService) {
+
+        this.prepareCredentials();
+
+        this.displayService.getIpInfo()
+            .then(result => this.ipInfo = result)
+            .then(_ => this.prepareCredentials());
     }
 
     get device (): string {
@@ -79,7 +96,9 @@ class AuthCtrl implements IComponentController {
                 this.$state.go("signup");
             }
         }
+    }
 
+    prepareCredentials () {
         // Типовая структура для создания нового пользователя
         this.credentials = {
             device: this.device,
@@ -89,10 +108,14 @@ class AuthCtrl implements IComponentController {
                 avatar: "default.jpg",
                 background: "default.jpg",
             },
+            personal: {
+                country: this.ipInfo && this.ipInfo.country.code || null,
+                city: this.ipInfo && this.ipInfo.city || null,
+            },
             display: {
                 units: "metric",
                 firstDayOfWeek: 1,
-                timezone: "Europe/Moscow",
+                timezone: this.ipInfo && this.ipInfo.location.time_zone || "Europe/Moscow",
                 language: this.displayService.getLocale(),
             },
             email: this.$stateParams.hasOwnProperty("email") && this.$stateParams.email || "",
@@ -216,6 +239,24 @@ class AuthCtrl implements IComponentController {
 
     private getUtmParams (): Object {
         return JSON.parse(window.sessionStorage.getItem('utm')) || {};
+    }
+
+    /**
+     * Поиск страны
+     * @param query: string
+     * @returns {string[]}
+     */
+    countrySearch (query: string) : string[] {
+        return this.userSettingsService.countrySearch(query);
+    }
+
+    /**
+     * Название страны
+     * @param key: string
+     * @returns {string}
+     */
+    getCountryName (key: string) : string {
+        return countriesList[this.displayService.getLocale()][key];
     }
 
 }
