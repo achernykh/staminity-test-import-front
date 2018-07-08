@@ -1,9 +1,16 @@
 @import "color";
 
 .input-item-line {
+  margin: 6px 0;
   md-icon {
     margin-right: 16px;
     margin-top: 13px;
+  }
+  .wrapper-40 {
+    width: 40px;
+  }
+  .wrapper-16 {
+    width: 16px;
   }
 }
 
@@ -29,13 +36,14 @@ md-input-container.st-material {
     line-height: 20px;
     background-color: $grey-200;
     height: 56px;
-    border-radius: 5px 5px 0 0;
+    border-radius: 4px 4px 0 0;
     box-sizing: border-box;
     min-width: initial !important;
     max-width: initial !important;
   }
   .md-datepicker-input-container {  width: 100%; }
   .md-datepicker-triangle-button { transform: none !important; margin-right: 4px; }
+  .md-input-message-animation { transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2) 0.5s !important; }
 
   label {
     left: 14px;

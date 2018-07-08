@@ -1,9 +1,12 @@
 <md-list class="bg-grey-100 md-padding"
          ng-if="!$ctrl.item.activity.view.isView || $ctrl.item.options.templateMode">
 
+    <!-- Ввод типа активности и категории -->
     <div layout="row" layout-align="start stretch" class="input-item-line">
-        <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}" class="md-dark"></md-icon>
-        <md-input-container class="st-material md-block md-dense" style="margin: 0 8px 0 0;" flex="auto">
+        <div flex="none" class="wrapper-40">
+            <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}" class="md-dark"></md-icon>
+        </div>
+        <md-input-container class="st-material md-block md-dense" flex="30">
             <label>activity.assignment.sportLabel</label>
             <md-select flex name="sport" required
                        ng-model="$ctrl.item.activity.header.sport"
@@ -28,7 +31,8 @@
                 </div>
             </div>
         </md-input-container>
-        <md-input-container class="st-material md-block md-dense" style="margin: 0 0 0 8px;" flex="auto">
+        <div flex="none" class="wrapper-16"></div>
+        <md-input-container class="st-material md-block md-dense" flex="auto">
             <label translate="activity.assignment.categoryLabel"></label>
             <md-select flex
                     ng-model="$ctrl.item.activity.header.activityCategory"
