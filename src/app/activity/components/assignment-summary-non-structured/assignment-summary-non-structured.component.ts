@@ -225,10 +225,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         this.plan.durationValue =
             (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure]['durationValue']) || null;
 
-        this.plan.intensityMeasure =
+        /**this.plan.intensityMeasure =
             ((this.plan.heartRate[this.index[FtpState.Off]['from']] || this.plan.heartRate[this.index[FtpState.On]['from']]) && 'heartRate') ||
             ((this.plan.speed[this.index[FtpState.Off]['from']] || this.plan.speed[this.index[FtpState.On]['from']]) && 'speed') ||
-            ((this.plan.power[this.index[FtpState.Off]['from']] || this.plan.power[this.index[FtpState.On]['from']]) && 'power') || null;
+            ((this.plan.power[this.index[FtpState.Off]['from']] || this.plan.power[this.index[FtpState.On]['from']]) && 'power') || null;**/
 
         this.plan.intensityLevelFrom =
             (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off]['from']]) || null;

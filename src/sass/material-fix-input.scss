@@ -8,6 +8,9 @@
 }
 
 md-input-container.st-material {
+
+  height: 64px;
+
   &.md-icon-float > md-icon {
     top: 40px;
     left: 12px;
@@ -32,7 +35,7 @@ md-input-container.st-material {
 
   label {
     left: 14px;
-    bottom: 60px;
+    bottom: 50px;
     padding-left: 0 !important;
     -webkit-transform: translate3d(0,20px,0) scale(1) !important;
     transform: translate3d(0,20px,0) scale(1) !important;
@@ -64,8 +67,8 @@ md-input-container.st-material {
     &.md-input-focused label:not(.md-no-float),
     &.md-input-has-placeholder label:not(.md-no-float),
     &.md-input-has-value label:not(.md-no-float) {
-      -webkit-transform: translate3d(0,16px,0) scale(.6) !important;
-      transform: translate3d(0,16px,0) scale(.6) !important;
+      -webkit-transform: translate3d(0,12px,0) scale(.6) !important;
+      transform: translate3d(0,12px,0) scale(.6) !important;
     }
 
   }

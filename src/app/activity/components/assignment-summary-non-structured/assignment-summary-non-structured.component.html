@@ -10,12 +10,12 @@
                    ng-change="$ctrl.changeStructuredMode()"
                    md-invert>
     </div>
-    <div layout="row" layout-align="start strech" class="input-item-line">
+    <div layout="row" layout-align="start stretch" class="input-item-line">
         <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.plan.durationMeasure}}.svg"
                  class="md-dark"></md-icon>
         <md-input-container class="st-material md-block md-dense" style="margin: 0 8px 0 0;" flex="auto">
             <label translate="activity.assignment.durationMeasure.label"></label>
-            <md-select flex name="durationType" class="icon" required
+            <md-select flex name="durationType" required
                        ng-model="$ctrl.plan.durationMeasure"
                        ng-change="$ctrl.changeParam()"
                        ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
@@ -23,6 +23,7 @@
                            value="{{type}}">{{type | translate}}
                 </md-option>
             </md-select>
+            <div ng-messages="$ctrl.item.assignmentForm.durationType.$error" role="alert"></div>
         </md-input-container>
         <md-input-container class="st-material md-block md-dense" style="margin: 0 0 0 8px;"
                             ng-repeat="type in $ctrl.durationTypes"
@@ -40,41 +41,19 @@
                    ftp="$ctrl.getFTP(type,$ctrl.sport)"
                    ng-change="$ctrl.changeValue(type)"
                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-            <!--<input ng-switch-when="movingDuration" measure-input
-                   name="plan_movingDuration"
-                   ng-model="$ctrl.plan.movingDuration.durationValue"
-                   change="$ctrl.change"
-                   measure="$ctrl.plan.durationMeasure"
-                   ng-attr-sport={{$ctrl.sport}}
-                   interval="false"
-                   ftp-mode="$ctrl.isFTP()"
-                   ftp="$ctrl.getFTP($ctrl.plan.durationMeasure,$ctrl.sport)"
-                   ng-change="$ctrl.changeValue($ctrl.plan.durationMeasure)"
-                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-            <input ng-switch-when="distance" measure-input
-                   name="plan_distance"
-                   ng-model="$ctrl.plan.distance.durationValue"
-                   change="$ctrl.change"
-                   measure="$ctrl.plan.durationMeasure"
-                   ng-attr-sport={{$ctrl.sport}}
-                   interval="false"
-                   ftp-mode="$ctrl.isFTP()"
-                   ftp="$ctrl.getFTP($ctrl.plan.durationMeasure,$ctrl.sport)"
-                   ng-change="$ctrl.changeValue($ctrl.plan.durationMeasure)"
-                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">-->
             <div class="hint md-dark" ng-if="false">Tell us what we should call you!</div>
-            <div ng-messages="$ctrl.item.assignmentForm.plan_duration.$error">
+            <div ng-messages="$ctrl.item.assignmentForm['plan_' + type].$error">
                 <div ng-message="needDuration" translate>activity.assignment.needDuration</div>
             </div>
         </md-input-container>
     </div>
 
-    <div layout="row" layout-align="start strech" class="input-item-line">
+    <div layout="row" layout-align="start stretch" class="input-item-line">
         <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.plan.intensityMeasure}}.svg"
                  class="md-dark"></md-icon>
         <md-input-container class="st-material md-block md-dense" style="margin: 0 8px 0 0;" flex="auto">
             <label translate="activity.assignment.intensityMeasure.label"></label>
-            <md-select flex name="intensityType" class="icon" required
+            <md-select flex name="intensityType" required
                        ng-model="$ctrl.plan.intensityMeasure"
                        ng-change="$ctrl.changeParam()"
                        ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
@@ -82,6 +61,7 @@
                            value="{{type}}">{{type | translate}}
                 </md-option>
             </md-select>
+            <div ng-messages="$ctrl.item.assignmentForm.intensityType.$error" role="alert"></div>
         </md-input-container>
         <md-input-container class="st-material md-block md-dense" style="margin: 0 0 0 8px;"
                             ng-repeat="type in $ctrl.intensityTypesBySport[$ctrl.sport]"
@@ -99,33 +79,14 @@
                    ftp="$ctrl.getFTP(type,$ctrl.sport)"
                    ng-change="$ctrl.changeValue(type)"
                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-            <!--<input ng-switch-when="movingDuration" measure-input
-                   name="plan_movingDuration"
-                   ng-model="$ctrl.plan.movingDuration.durationValue"
-                   change="$ctrl.change"
-                   measure="$ctrl.plan.durationMeasure"
-                   ng-attr-sport={{$ctrl.sport}}
-                   interval="false"
-                   ftp-mode="$ctrl.isFTP()"
-                   ftp="$ctrl.getFTP($ctrl.plan.durationMeasure,$ctrl.sport)"
-                   ng-change="$ctrl.changeValue($ctrl.plan.durationMeasure)"
-                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
-            <input ng-switch-when="distance" measure-input
-                   name="plan_distance"
-                   ng-model="$ctrl.plan.distance.durationValue"
-                   change="$ctrl.change"
-                   measure="$ctrl.plan.durationMeasure"
-                   ng-attr-sport={{$ctrl.sport}}
-                   interval="false"
-                   ftp-mode="$ctrl.isFTP()"
-                   ftp="$ctrl.getFTP($ctrl.plan.durationMeasure,$ctrl.sport)"
-                   ng-change="$ctrl.changeValue($ctrl.plan.durationMeasure)"
-                   ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">-->
             <div class="hint md-dark" ng-if="false">Tell us what we should call you!</div>
-            <div ng-messages="$ctrl.item.assignmentForm.plan_duration.$error">
+            <div ng-messages="$ctrl.item.assignmentForm['plan_' + type].$error">
                 <div ng-message="needDuration" translate>activity.assignment.needDuration</div>
             </div>
         </md-input-container>
+    </div>
+    <div>
+        <md-button class="md-primary" translate="activity.assignment.editActualData"></md-button>
     </div>
 
 
@@ -286,6 +247,7 @@
     </st-quill-html-viewer>
     <ng-quill-editor ng-if="!$ctrl.item.activity.view.isView"
                      ng-model="$ctrl.plan.trainersPrescription"
+                     on-selection-changed=""
                      on-content-changed="$ctrl.changeParam()"
                      placeholder="{{'activity.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConf.toolbar"
