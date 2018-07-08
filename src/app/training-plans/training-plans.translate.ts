@@ -344,7 +344,8 @@ export const _translateTrainingPlans = {
         notPublished: 'Не опубликованы в магазине',
         lang: {
             label: 'Язык'
-        }
+        },
+        emptyList: 'Список пуст'
     },
     en: {
         builder: {
@@ -688,6 +689,8 @@ export const _translateTrainingPlans = {
         notPublished: 'Not published in the Store',
         lang: {
             label: 'Language'
-        }
+        },
+        emptyList: 'List is empty'
+
     }
 };
