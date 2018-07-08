@@ -277,9 +277,35 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }, 100);
     }
 
-    validateForm() {
+    isDisable (): boolean {
+        return false;
+    }
 
-        if (this.form.hasOwnProperty('plan_distance')) {
+    isError (field: string, codes: [string]): boolean {
+        return this.form.hasOwnProperty(field) && this.form[field].$error &&
+            Object.keys(this.form[field].$error).some(e => codes.some(c => c === e));
+    }
+
+    validateForm() {
+        // Проверка длительности
+        if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
+            this.form['plan_' + this.plan.durationMeasure].$setValidity('needDuration',
+                this.form['plan_' + this.plan.durationMeasure].$modelValue > 0);
+        }
+        // Планировать в будущем может:
+        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
+        if (this.form['dateStart']) {
+            this.form['dateStart'].$setValidity('needPermissionForFeature',
+                !isFutureDay(this.form['dateStart'].$modelValue) ||
+                this.AuthService.isActivityPlan() ||
+                this.item.activity.view.isTrainingPlan ||
+                (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
+
+            //!this.item.isOwner || this.AuthService.isActivityPlan() ||
+            //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+        }
+        //return;
+        /**if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
                 this.form.hasOwnProperty('plan_duration') && this.form['plan_duration'].$modelValue > 0 ||
@@ -329,20 +355,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
                     !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
                     this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
             }
-        }
-
-        // Планировать в будущем может:
-        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
-        if (this.form['dateStart']) {
-            this.form['dateStart'].$setValidity('needPermissionForFeature',
-                !isFutureDay(this.form['dateStart'].$modelValue) ||
-                this.AuthService.isActivityPlan() ||
-                this.item.activity.view.isTrainingPlan ||
-                (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
-
-                //!this.item.isOwner || this.AuthService.isActivityPlan() ||
-                //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
-        }
+        }**/
 
     }
 

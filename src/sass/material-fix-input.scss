@@ -27,11 +27,15 @@ md-input-container.st-material {
   input, .md-select-value {
     padding: 20px 12px 8px 12px;
     line-height: 20px;
-    background-color: $grey-300;
+    background-color: $grey-200;
     height: 56px;
     border-radius: 5px 5px 0 0;
     box-sizing: border-box;
+    min-width: initial !important;
+    max-width: initial !important;
   }
+  .md-datepicker-input-container {  width: 100%; }
+  .md-datepicker-triangle-button { transform: none !important; margin-right: 4px; }
 
   label {
     left: 14px;
@@ -67,8 +71,8 @@ md-input-container.st-material {
     &.md-input-focused label:not(.md-no-float),
     &.md-input-has-placeholder label:not(.md-no-float),
     &.md-input-has-value label:not(.md-no-float) {
-      -webkit-transform: translate3d(0,12px,0) scale(.6) !important;
-      transform: translate3d(0,12px,0) scale(.6) !important;
+      -webkit-transform: translate3d(0,12px,0) scale(.75) !important;
+      transform: translate3d(0,12px,0) scale(.75) !important;
     }
 
   }
