@@ -72,7 +72,59 @@ export const translateActivity = {
           title: 'Задание',
           needSport: 'Для ввода задания укажите вид спорта и тип тренировки',
           categoryLabel: 'Укажите категорию',
-          structured: 'План по сегментам'
+          structured: 'План по сегментам',
+          structuredInput: 'Добавить еще сегменты',
+          noneStructuredInput: 'Перейти к одному сегменту',
+          postActualData: 'Ввести фактические данные',
+          editActualData: 'Редактировать фактические данные',
+          activityType: {
+              label: 'Вид спорта'
+          },
+          dateStart: {
+              label: 'Дата'
+          },
+          timeStart: {
+              label: 'Время'
+          },
+          durationMeasure: {
+              label: 'Тип'
+          },
+          durationValue: {
+              label: 'Значение',
+          },
+          duration: {
+              hint: 'Формат HH:MM:SS или число=минуты'
+          },
+          distance: {
+              hint: "Формат, {{'distance' | measureUnit: sport | translate}}"
+          },
+          speed: {
+              minpkm: {
+                  hint: "Формат {{'speed' | measureUnit: sport | translate}}. Например 05:30 или 05:30-05:40"
+              },
+              minp100m: {
+                  hint: "Формат {{'speed' | measureUnit: sport | translate}}. Например 01:40 или 1:45-1:48"
+              },
+              kmph: {
+                  hint: "Формат {{'speed' | measureUnit: sport | translate}}. Например 30 или 30-32"
+              }
+          },
+          heartRate: {
+              bpm: {
+                  hint: "Формат {{'heartRate' | measureUnit: sport | translate}}. Например 140 или 145-150"
+              }
+          },
+          power: {
+              watt: {
+                  hint: "Формат {{'power' | measureUnit: sport | translate}}. Например 195 или 195-200"
+              }
+          },
+          description: {
+              placeholder: 'Установка тренера...'
+          }
+      },
+      manualFact: {
+          title: 'Фактические данные'
       },
       segments: {
           total: 'Итоги:',

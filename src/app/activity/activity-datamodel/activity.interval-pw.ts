@@ -1,5 +1,5 @@
 import {
-    IActivityIntervalPW, ICalcMeasures, IDurationMeasure,
+    IActivityIntervalPW, IActivityIntervalW, ICalcMeasures, IDurationMeasure,
     IIntensityMeasure,
 } from "../../../../api/activity/activity.interface";
 import {ActivityIntervalP} from "./activity.interval-p";
@@ -98,6 +98,34 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      */
     specified(): boolean {
         return this.durationValue > 0;
+    }
+
+    setCompletePercent (fact: IActivityIntervalW): void {
+        let durationPercent: number = null;
+        let intensityPercent: number = null;
+        let actual = fact.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.calcMeasures[this.intensityMeasure].avgValue || null;
+
+        if (fact.calcMeasures.hasOwnProperty(this.durationMeasure) &&
+            fact.calcMeasures[this.durationMeasure].value) {
+            durationPercent = fact.calcMeasures[this.durationMeasure].value / this.durationValue;
+        }
+        if (actual > 0 && this.intensityLevelFrom > 0) {
+            if (this.intensityMeasure === 'speed') {
+                intensityPercent =
+                    (actual <= this.intensityLevelFrom && actual >= this.intensityLevelTo && 1) ||
+                    (actual <= this.intensityLevelTo && actual / this.intensityLevelTo) ||
+                    (actual >= this.intensityLevelFrom && actual / this.intensityLevelFrom);
+            } else {
+                intensityPercent =
+                    (actual >= this.intensityLevelFrom && actual <= this.intensityLevelTo && 1) ||
+                    (actual >= this.intensityLevelTo && actual / this.intensityLevelTo) ||
+                    (actual <= this.intensityLevelFrom && actual / this.intensityLevelFrom);
+            }
+        }
+        this.calcMeasures.completePercent.value =
+            (durationPercent > 0 && intensityPercent > 0 && durationPercent * intensityPercent) ||
+            (durationPercent > 0 && durationPercent) ||
+            (intensityPercent > 0 && intensityPercent) || null;
     }
 
     /**

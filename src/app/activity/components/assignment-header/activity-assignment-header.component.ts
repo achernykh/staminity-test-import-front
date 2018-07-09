@@ -44,7 +44,6 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
      * подтверждающий диалог для пользователя
      */
     private changeStructuredMode() {
-
         if (this.item.structuredMode) {
             // Переключение на структурированную
             // Надоли удалять/очищать суммарный интервал? Скорее всего нет, при создании первого структурированного

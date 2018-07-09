@@ -41,6 +41,11 @@
         <md-icon ng-click="$ctrl.item.changeTab('Segments')"
                  class="md-secondary material-icons">keyboard_arrow_right</md-icon>
     </md-list-item>
+    <div style="text-align: right" ng-if="!$ctrl.item.activity.view.isView">
+        <md-button class="md-primary" style="margin: 6px 0"
+                   translate="activity.assignment.noneStructuredInput"
+                   ng-click="$ctrl.changeStructuredMode()"></md-button>
+    </div>
     <div class="md-caption error-block" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
         <div ng-message="required">{{'activity.error.required' | translate}}</div>
         <div ng-message="needDuration">{{'activity.error.needDuration' | translate}}</div>

@@ -40,6 +40,15 @@
                 </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
+                    <md-button ng-click="$ctrl.ftpModeChange()"
+                               ng-disabled="$ctrl.item.options.templateMode || $ctrl.item.options.trainingPlanMode">
+                        <md-icon class="material-icons" md-menu-align-target
+                                 ng-bind-template="{{$ctrl.item.ftpMode ? 'check_box_outline_blank'  : 'check_box'}}">
+                        </md-icon>
+                        <span translate="activity.percentFTP"></span>
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
                     <md-button ng-click="$ctrl.changeLayout('hideSmoothOnChart')">
                         <md-icon class="material-icons" md-menu-align-target
                                  ng-bind-template="{{$ctrl.item.layout.hideSmoothOnChart ? 'check_box' : 'check_box_outline_blank'}}">
@@ -56,22 +65,24 @@
                  is-premium="$ctrl.item.activity.athletes.first().isPremium"
                  unlink="true"></userpic>-->
         <!--<div class="multi-athletes" ng-if="$ctrl.item.activity.athletes.multi()"></div>-->
-        <md-button flex-order="5" class="md-icon-button" hide-gt-sm
-                   ng-click="$ctrl.item.onCancel()">
-            <md-tooltip md-direction="left">{{'activity.action.close' | translate}}</md-tooltip>
-            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
-        </md-button>
-        <md-button flex-order="6"
+        <md-button flex-order="5"
                    ng-click="$ctrl.onTemplateOpen()"
                    class="md-icon-button"
                    ng-disabled="!$ctrl.item.templateByFilter"
-                   ng-if="!$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory && !$ctrl.item.isIonic">
-            <md-tooltip md-direction="left"
-                        translate-value-code="{{$ctrl.item.activity.header.template.code}}">
-                {{$ctrl.templateSelectorText | translate}}
+                   ng-if="!$ctrl.item.activity.view.isView && !$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory && !$ctrl.item.isIonic">
+            <md-tooltip md-direction="left">
+                {{$ctrl.item.templateSelectorText | translate:$ctrl.item.activity.header.template}}
             </md-tooltip>
             <md-icon class="material-icons" aria-label="template">import_contacts</md-icon>
-            <span class="badge superscript" ng-if="$ctrl.item.templateByFilter">{{$ctrl.item.templateByFilter}}</span>
+            <span class="badge superscript"
+                  ng-if="$ctrl.item.templateByFilter && !$ctrl.item.activity.header.template.code">
+                {{$ctrl.item.templateByFilter}}
+            </span>
+        </md-button>
+        <md-button flex-order="6" class="md-icon-button" hide-gt-sm
+                   ng-click="$ctrl.item.onCancel()">
+            <md-tooltip md-direction="left">{{'activity.action.close' | translate}}</md-tooltip>
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
         </md-button>
         <md-button flex-order="{{$ctrl.item.activity.view.isPopup ? 7 : 1}}"
                    class="md-icon-button" hide show-gt-sm ng-if="!$ctrl.item.activity.hasDetails"

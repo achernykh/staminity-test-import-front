@@ -27,7 +27,7 @@ activity-header {
   }
 
   .md-toolbar-tools md-menu:first-child {
-    margin-left: -8px;
+    margin-left: -16px;
     .md-button {
       margin-right: 16px;
     }
@@ -84,6 +84,8 @@ activity-header {
     }
 
   }
+  md-pagination-wrapper {  left: 42px;  }
+  .md-tab { padding: 12px 18px; }
   md-tabs.md-primary.not-specified > md-tabs-wrapper,
   md-tabs.md-primary.coming > md-tabs-wrapper {
     @extend .bg-grey-500;

@@ -114,6 +114,13 @@ export class CalendarItemView {
 	set isView (value: boolean) {
 		value ? this.options.formMode = FormMode.View : this.options.formMode = FormMode.Put;
 	}
+
+	get enabledDate (): boolean {
+		return !(this.options.templateMode || (this.isTrainingPlan && this.options.trainingPlanOptions.dynamicDates))
+	}
+	get dynamicDates (): boolean {
+		return this.isTrainingPlan && this.options.trainingPlanOptions.dynamicDates;
+	}
 }
 
 export class CalendarItem implements ICalendarItem {

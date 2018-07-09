@@ -1,4 +1,4 @@
-<activity-header ng-show="!$ctrl.showSelectTemplate && !$ctrl.showSelectAthletes"
+<activity-header ng-show="!$ctrl.showSelectTemplate && !$ctrl.showSelectAthletes && !$ctrl.showManualFact"
                  flex="auto" flex-gt-sm="none" layout="column" style="background-color: indianred"
                  class="md-whiteframe-12dp"
                  ng-class="{'single': $ctrl.mode === 'post' || !$ctrl.activity.hasDetails}">
@@ -38,3 +38,8 @@
                                  on-back="$ctrl.showSelectTemplate = false"
                                  on-select="$ctrl.onSelectTemplate(template)">
 </calendar-item-template-selector>
+<st-calendar-item-manual-fact ng-if="$ctrl.showManualFact"
+                              class="calendar-item-manual-fact"
+                              on-back="$ctrl.onManualFactBack()"
+                              on-save="$ctrl.onManualFactSave(fact)">
+</st-calendar-item-manual-fact>

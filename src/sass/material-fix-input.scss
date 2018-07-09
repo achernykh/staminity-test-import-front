@@ -1,23 +1,28 @@
 @import "color";
+$input-color: $grey-200;
+$input-radius: 4px;
 
 .input-item-line {
-  margin: 6px 0;
-  md-icon {
-    margin-right: 16px;
-    margin-top: 13px;
+  padding: 6px 0;
+  md-icon {  margin-right: 16px;  margin-top: 13px;  }
+  .wrapper-icon {  width: 32px;  }
+  .wrapper-between {  width: 8px;  }
+  md-input-container.st-material {  margin: 0;  padding: 0; }
+  @media (min-width: 350px) {
+    md-icon {  margin-right: 16px;  margin-top: 13px;  }
+    .wrapper-icon {  width: 40px;  }
+    .wrapper-between {  width: 16px;  }
   }
-  .wrapper-40 {
-    width: 40px;
-  }
-  .wrapper-16 {
-    width: 16px;
+  ng-quill-editor {
+    background: $input-color;
+    border-radius: $input-radius 0;
+    border-bottom: 1px;
+    border-color: rgba(0,0,0,0.12);
   }
 }
 
 md-input-container.st-material {
-
   height: 64px;
-
   &.md-icon-float > md-icon {
     top: 40px;
     left: 12px;
@@ -32,21 +37,23 @@ md-input-container.st-material {
     }
   }
   input, .md-select-value {
+    width: 100%;
+    //font-weight: 500;
     padding: 20px 12px 8px 12px;
     line-height: 20px;
-    background-color: $grey-200;
+    background-color: $input-color;
     height: 56px;
-    border-radius: 4px 4px 0 0;
+    border-radius: $input-radius 0;
     box-sizing: border-box;
     min-width: initial !important;
     max-width: initial !important;
   }
   .md-datepicker-input-container {  width: 100%; }
   .md-datepicker-triangle-button { transform: none !important; margin-right: 4px; }
-  .md-input-message-animation { transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2) 0.5s !important; }
+  .md-input-message-animation { transition: none !important; font-size: 10px !important; }
 
   label {
-    left: 14px;
+    left: 12px;
     bottom: 50px;
     padding-left: 0 !important;
     -webkit-transform: translate3d(0,20px,0) scale(1) !important;
@@ -79,8 +86,8 @@ md-input-container.st-material {
     &.md-input-focused label:not(.md-no-float),
     &.md-input-has-placeholder label:not(.md-no-float),
     &.md-input-has-value label:not(.md-no-float) {
-      -webkit-transform: translate3d(0,12px,0) scale(.75) !important;
-      transform: translate3d(0,12px,0) scale(.75) !important;
+      -webkit-transform: translate3d(0,8px,0) scale(.75) !important;
+      transform: translate3d(0,8px,0) scale(.75) !important;
     }
 
   }
@@ -95,10 +102,14 @@ md-input-container.st-material {
   .hint {
     position: relative;
     clear: left;
-    font-size: 12px !important;
+    font-size: 10px !important;
     line-height: 14px !important;
     overflow: hidden;
     margin: 0 !important;
+  }
+  &.no-message {
+    height: 42px;
+    label {bottom: 28px !important;}
   }
 
 }

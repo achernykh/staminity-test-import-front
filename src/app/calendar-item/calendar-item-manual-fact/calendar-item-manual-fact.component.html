@@ -1,0 +1,53 @@
+<md-toolbar flex="none" class="" style="background-color: white; color: black">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
+            <md-tooltip md-direction="left">{{'activity.templateSelector.toolbar' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">arrow_back</md-icon>
+        </md-button>
+        <h2 translate="activity.manualFact.title"></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.onSave({fact: $ctrl.actual})">
+            <md-tooltip md-direction="left">{{'activity.templateSelector.toolbar' | translate}}</md-tooltip>
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">save</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-list flex="auto" class="md-padding">
+    <div layout="row" layout-align="start stretch" class="input-item-line"
+         ng-repeat="measure in $ctrl.measures($ctrl.sport)">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" md-svg-src="assets/icon/{{measure}}.svg"
+                     class="md-dark {{::measure}}"
+                     ng-class="{'fill-measure': measure === $ctrl.plan.durationMeasure || measure === $ctrl.plan.intensityMeasure}"></md-icon>
+        </div>
+        <md-input-container class="st-material md-block md-dense" flex="auto">
+            <label translate="activity.assignment.{{::measure}}.label"></label>
+            <input flex measure-input
+                   name="{{::measure}}"
+                   measure="measure"
+                   ng-attr-sport={{$ctrl.sport}}
+                   ftp-mode="false"
+                   ftp=""
+                   interval="false"
+                   ng-model="$ctrl.actual.calcMeasures[measure][$ctrl.activityConfig.valuePosition[measure]]"
+                   ng-change="$ctrl.changeValue()"
+                   ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach">
+            <div class="hint md-dark">
+                <span ng-if="measure === $ctrl.plan.durationMeasure">
+                    {{'activity.plan' | translate}}&nbsp;
+                    {{$ctrl.plan.durationValue | measureCalc:$ctrl.sport:$ctrl.plan.durationMeasure}}&nbsp;
+                    {{$ctrl.plan.durationMeasure | measureUnit:$ctrl.sport | translate}}
+                </span>
+                <span ng-if="measure === $ctrl.plan.intensityMeasure">
+                    {{'activity.plan' | translate}}&nbsp;
+                    {{$ctrl.plan | measureCalcInterval:$ctrl.sport:$ctrl.plan.intensityMeasure}}&nbsp;
+                    {{$ctrl.plan.intensityMeasure | measureUnit:$ctrl.sport | translate}}
+                </span>
+                <span ng-if="measure !== $ctrl.plan.durationMeasure && measure !== $ctrl.plan.intensityMeasure"
+                      translate="activity.assignment.{{::measure}}.{{measure | measureUnit:$ctrl.sport}}.hint"
+                      translate-values="{sport: $ctrl.sport}"></span>
+            </div>
+            <div ng-messages="$ctrl.item.assignmentForm.durationType.$error" role="alert"></div>
+        </md-input-container>
+    </div>
+</md-list>

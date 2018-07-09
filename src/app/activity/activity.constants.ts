@@ -1,4 +1,4 @@
-import {IActivityType} from "../../../api/activity/activity.interface";
+import { IActivityType, IDurationMeasure } from "../../../api/activity/activity.interface";
 
 export const activityTypes: IActivityType[] = [
     {id: 2, code: "run", typeBasic: "run", enabled: true, isBasic: true},
@@ -30,5 +30,58 @@ export const getSportsByBasicId = (basic: number): number[] => {
     return activityTypes.filter((type) => type.typeBasic === basicType.code).map((t) => t.id);
 };
 export const getBasicSport = (parentCode: string) => activityTypes.filter(t => t.code === parentCode)[0];
+
+export interface ActivityConfigConstants {
+    defaultDurationType: {
+        [sport: string]: string;
+    };
+    defaultIntensityType: {
+        [sport: string]: string;
+    };
+    intensityBySport: {
+        [sport: string]: [string];
+    };
+    valuePosition: {
+        [measure: string]: string;
+    }
+}
+
+export const activityConfigConstants: ActivityConfigConstants = {
+    defaultDurationType: {
+        run: 'distance',
+        bike: 'duration',
+        swim: 'duration',
+        ski: 'distance',
+        rowing: 'distance',
+        default: 'duration',
+    },
+    defaultIntensityType: {
+        run: 'speed',
+        bike: 'heartRate',
+        swim: 'speed',
+        ski: 'heartRate',
+        rowing: 'heartRate',
+        default: 'speed'
+    },
+    intensityBySport: {
+        swim: ['heartRate','speed'],
+        bike: ['heartRate', 'speed','power'],
+        run: ['heartRate', 'speed'],
+        strength: ['heartRate'],
+        transition: ['heartRate', 'speed'],
+        ski: ['heartRate', 'speed'],
+        rowing: ['heartRate', 'speed'],
+        other: ['heartRate', 'speed'],
+        default: ['heartRate', 'speed'],
+    },
+    valuePosition: {
+        movingDuration: 'value',
+        duration: 'value',
+        distance: 'value',
+        heartRate: 'avgValue',
+        speed: 'avgValue',
+        power: 'avgValue'
+    }
+};
 
 //export const getCategory(id: number):IActivityCategory => this.category.filter(type => type.id === id)[0];

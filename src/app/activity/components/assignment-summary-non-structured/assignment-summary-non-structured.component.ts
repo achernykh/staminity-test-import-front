@@ -9,6 +9,7 @@ import moment from 'moment/src/moment.js';
 import {FtpState} from "../assignment/assignment.component";
 import {IAuthService} from "../../../auth/auth.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
+import { ActivityConfigConstants } from "../../activity.constants";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
@@ -20,7 +21,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     private plan: IActivityIntervalPW;
     private actual: ICalcMeasures;
     public sport: string;
-    public form: INgModelController;
+    public form: any;
     public ftpMode: number;
 
     public FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
@@ -29,53 +30,20 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
     private percentComplete: Object = {};
-
-    private options: {
-        rowSelection: boolean;
-        multiSelect: boolean;
-        autoSelect: boolean;
-        decapitate: boolean;
-        largeEditDialog: boolean;
-        boundaryLinks: boolean;
-        limitSelect: boolean;
-        pageSelect: boolean;
-    } = {
-        rowSelection: false,
-        multiSelect: false,
-        autoSelect: false,
-        decapitate: false,
-        largeEditDialog: false,
-        boundaryLinks: false,
-        limitSelect: false,
-        pageSelect: false
-    };
-    private query:Object = {
-        order: 'code',
-        limit: 5,
-        page: 1
-    };
-
-    private readonly valueType = {
-        movingDuration: 'value',
-        duration: 'value',
-        distance: 'value',
-        heartRate: 'avgValue',
-        speed: 'avgValue',
-        power: 'avgValue'
-    };
-
-    private measuresBySport;
+    private measuresBySport: any;
     private durationTypes:[string];
     private intensityTypesBySport;
 
     private trustHTML: string;
+    private hideQuillToolbar: boolean = true;
 
-    static $inject = ['$scope', 'AuthService', 'quillConfig'];
+    static $inject = ['$scope', 'AuthService', 'quillConfig', 'activityConfig'];
 
     constructor(
         private $scope: IScope,
         private AuthService: IAuthService,
-        private quillConf: IQuillConfig) {
+        private quillConf: IQuillConfig,
+        private activityConfig: ActivityConfigConstants) {
     }
 
     $onInit() {
@@ -103,6 +71,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             this.plan = null;
             this.actual = null;
             this.prepareData();
+            this.prepareValues();
             setTimeout(() => {
                 this.validateForm();
                 this.updateForm();
@@ -155,7 +124,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             other: ['heartRate', 'speed'],
             default: ['heartRate', 'speed'],
         };
-        this.measuresBySport = {
+        this.measuresBySport = this.activityConfig.intensityBySport;
+        /**this.measuresBySport = {
             swim: [durationMeasure,'distance', 'heartRate','speed'],
             bike: [durationMeasure,'distance','heartRate', 'speed','power'],
             run: [durationMeasure,'distance','heartRate', 'speed'],
@@ -165,10 +135,27 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             rowing: [durationMeasure,'distance','heartRate', 'speed'],
             other: [durationMeasure,'distance','heartRate', 'speed'],
             default: [durationMeasure,'distance','heartRate', 'speed'],
-        };
-        this.measuresBySport[this.item.activity.header.sportBasic || 'default'].forEach(key => {
-            this.percentComplete[key] = this.calcPercent(key) || null;
-        });
+        };**/
+        this.measures(this.sport).map(key => this.percentComplete[key] = this.calcPercent(key) || null);
+
+        if (!this.plan.durationMeasure) {
+            this.plan.durationMeasure = this.activityConfig.defaultDurationType[this.sport] || this.activityConfig.defaultDurationType['default'];
+        }
+        if (!this.plan.intensityMeasure) {
+            this.plan.intensityMeasure = this.activityConfig.defaultIntensityType[this.sport] || this.activityConfig.defaultIntensityType['default'];
+        }
+        if (this.item.activity.isCompleted && !this.item.activity.percent) {
+            this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
+        }
+    }
+
+    measures (sport): string[] {
+        return [...this.durationTypes,
+            ...this.activityConfig.intensityBySport[this.activityConfig.intensityBySport[sport] ? sport : 'default']];
+    }
+
+    quillSelect (range, oldRange, source): void {
+        this.hideQuillToolbar = range === null;
     }
 
     ftpModeChange(mode: FtpState) {
@@ -183,6 +170,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     isInterval(key) {
         return ['speed','heartRate','power'].indexOf(key) !== -1;
+    }
+
+    isIntensity (measure: string): boolean {
+        return ['speed','heartRate','power'].indexOf(measure) !== -1;
     }
 
     getFTP(measure: string, sport: string = this.sport):number {
@@ -247,7 +238,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (this.plan[key][this.index[FtpState.Off]['from']] === this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key][this.index[FtpState.Off]['from']]) ||
             (this.plan[key][this.index[FtpState.Off]['from']] !== this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key]) || null;
 
-        let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
+        let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.activityConfig.valuePosition[key]]) || null;
 
         // для расчета процента необходимо наличие плана и факта по позиции
         if(!!plan && !!actual){
@@ -288,10 +279,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     validateForm() {
         // Проверка длительности
-        if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
+        /**if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
             this.form['plan_' + this.plan.durationMeasure].$setValidity('needDuration',
                 this.form['plan_' + this.plan.durationMeasure].$modelValue > 0);
-        }
+        }**/
         // Планировать в будущем может:
         // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
         if (this.form['dateStart']) {
@@ -391,7 +382,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
      * подтверждающий диалог для пользователя
      */
     private changeStructuredMode() {
-
+        this.item.structuredMode = true;
         if (this.item.structuredMode) {
             // Переключение на структурированную
             // Надоли удалять/очищать суммарный интервал? Скорее всего нет, при создании первого структурированного
@@ -408,6 +399,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             //this.item.activity.updateIntervals();
         }
     }
+
+
 
 }
 

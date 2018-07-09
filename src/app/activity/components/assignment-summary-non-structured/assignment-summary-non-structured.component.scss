@@ -2,7 +2,10 @@
 
 .assignment-summary-non-structured {
 
-  border-radius: 16px 16px 0 0;
+  &.plan {
+    padding: 16px;
+  }
+  //border-radius: 16px 16px 0 0;
 
   .md-subheader {
     background-color: $grey-050;
@@ -16,6 +19,28 @@
 
   &__description {
     min-height: 300px;
+    padding-top: 0;
   }
 
+  .view-item-line {
+    //padding: 8px 0;
+    min-height: 42px;
+    md-icon {  margin-right: 8px;}
+    .wrapper-icon {  width: 32px;  }
+    .wrapper-between {  width: 8px;  }
+    @media (min-width: 350px) {
+      md-icon {  margin-right: 16px;}
+      .wrapper-icon {  width: 40px;  }
+      .wrapper-between {  width: 16px;  }
+    }
+    .ql-editor {
+      padding: 6px 0 0 0;
+    }
+    st-quill-html-viewer {
+      ol { padding-left: 0; }
+    }
+  }
+  .border-line {
+    border-top: 1px solid $grey-200;
+  }
 }
