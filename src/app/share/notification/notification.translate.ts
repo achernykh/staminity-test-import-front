@@ -148,7 +148,7 @@ export const translateNotification = {
         inviteJoinAthletes: "Тренер отправил вам приглашение в Стаминити и предлагает подключиться к нему",
 
         /* Тренер получил запрос от спортсмена. Получатель уведомления - тренер, отправитель - спортсмен**/
-        requestJoinAthletes: "Спортсмен отправил вам запрос на подключение в Стаминити",
+        requestJoinAthletes: "Спортсмен отправил вам запрос на подключение в Staminity",
 
         /* Тренер принял запрос от спортсмена. Получатель - инициатор запроса, отправитель - тренер**/
         requestJoinAthletesApproved: "Ваш запрос на подключение к тренеру одобрен",
@@ -414,8 +414,8 @@ export const translateNotification = {
     data[0] - Название тарифа
     data[1] - Expiry date
     data[2] - Дата первых начислений
-    data[2] - Сумма счета
-    data[3] - Валюта счета
+    data[3] - Сумма счета
+    data[4] - Валюта счета
      **/
 
         // ------ Триал --------
@@ -761,7 +761,7 @@ export const translateNotification = {
         /* Athletes **/
 
         /* Спортсмен получил приглашение (входящий запрос) от тренера. Получатель уведомления - получатель приглашения, отправитель - тренер**/
-        inviteJoinAthletes: "Coach invites you to connect to him in Staminity",
+        inviteJoinAthletes: "Coach invites you to join him in Staminity",
 
         /* Тренер получил запрос от спортсмена. Получатель уведомления - тренер, отправитель - спортсмен**/
         requestJoinAthletes: "New request from athlete to connect to you in Staminity",

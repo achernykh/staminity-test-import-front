@@ -70,53 +70,88 @@ export const translateActivity = {
       descriptionPlaceholder: '...',
       assignment: {
           title: 'Задание',
-          needSport: 'Для ввода задания укажите вид спорта и тип тренировки',
-          categoryLabel: 'Укажите категорию',
+          needSport: 'Для ввода задания укажите вид спорта и категорию',
+          categoryLabel: 'Категория',
           structured: 'План по сегментам',
-          structuredInput: 'Добавить еще сегменты',
-          noneStructuredInput: 'Перейти к одному сегменту',
-          postActualData: 'Ввести фактические данные',
-          editActualData: 'Редактировать фактические данные',
+          structuredInput: 'План по сегментам',
+          noneStructuredInput: 'План на всю тренировку',
+          postActualData: 'Добавить факт',
+          editActualData: 'Изменить факт',
           activityType: {
               label: 'Вид спорта'
           },
+          category: {
+              label: 'Категория',
+              hint: 'Выберите категорию или <a target="_blank" href="https://staminity.com/methodology?state=categories">добавьте свою</a>'
+
+          },
           dateStart: {
-              label: 'Дата'
+              label: 'Дата',
+              hint: 'Дата начала'
           },
           timeStart: {
-              label: 'Время'
+              label: 'Время',
+              hint: 'Время начала, HH:MM'
+
           },
           durationMeasure: {
               label: 'Тип'
           },
-          durationValue: {
-              label: 'Значение',
-          },
           duration: {
-              hint: 'Формат HH:MM:SS или число=минуты'
+              label: 'Значение, {{“duration” | measureUnit:sport | translate}}',
+              min: {
+                  hint: 'В минутах или HH:MM:SS'
+              }
+          },
+          movingDuration: {
+              label: 'Значение, {{“movingDuration” | measureUnit:sport | translate}}',
+              min: {
+                  hint: 'В минутах или HH:MM:SS'
+              }
           },
           distance: {
-              hint: "Формат, {{'distance' | measureUnit: sport | translate}}"
+              label: 'Значение, {{“distance” | measureUnit:sport | translate}}',
+              km: {
+                  hint: "Например 10.5"
+              },
+              meter: {
+                  hint: "Например 3500"
+              },
+              mile: {
+                  hint: "Например 13.1"
+              },
+              yard: {
+                  hint: "Например 2400"
+              }
           },
           speed: {
+              label: 'Значение, {{“speed” | measureUnit:sport | translate}}',
               minpkm: {
-                  hint: "Формат {{'speed' | measureUnit: sport | translate}}. Например 05:30 или 05:30-05:40"
+                  hint: "Например 05:30 или 05:30-05:40"
               },
               minp100m: {
-                  hint: "Формат {{'speed' | measureUnit: sport | translate}}. Например 01:40 или 1:45-1:48"
+                  hint: "Например 01:40 или 1:45-1:48"
+              },
+              minp500m: {
+                  hint: "Например 03:30 или 03:30-03:40"
               },
               kmph: {
-                  hint: "Формат {{'speed' | measureUnit: sport | translate}}. Например 30 или 30-32"
+                  hint: "Например 30.5 или 30-32"
+              },
+              minpml: {
+                  hint: "Например 08:30 или 08:30-09:00"
               }
           },
           heartRate: {
+              label: 'Значение, {{“hearRate” | measureUnit:sport | translate}}',
               bpm: {
-                  hint: "Формат {{'heartRate' | measureUnit: sport | translate}}. Например 140 или 145-150"
+                  hint: "Например 140 или 145-150"
               }
           },
           power: {
+              label: 'Значение, {{“power” | measureUnit:sport | translate}}',
               watt: {
-                  hint: "Формат {{'power' | measureUnit: sport | translate}}. Например 195 или 195-200"
+                  hint: "Например 195 или 195-200"
               }
           },
           description: {
@@ -245,10 +280,97 @@ export const translateActivity = {
         trainersPrescription: 'Coach prescription',
         descriptionPlaceholder: '...',
         assignment: {
-            title: 'Workout plan',
+            title: 'Activity',
             needSport: 'Set sport and category',
-            categoryLabel: 'Choose activity category',
-            structured: 'Structured'
+            categoryLabel: 'Category',
+            structured: 'Structured',
+            structuredInput: 'Structured activity',
+            noneStructuredInput: 'Simple activity',
+            postActualData: 'Add actual data',
+            editActualData: 'Edit actual data',
+            activityType: {
+                label: 'Sport'
+            },
+            category: {
+                label: 'Category',
+                hint: 'Select category or <a target="_blank" href="https://staminity.com/methodology?state=categories">add new</a>'
+
+            },
+            dateStart: {
+                label: 'Date',
+                hint: 'Start date'
+            },
+            timeStart: {
+                label: 'Time',
+                hint: 'Start time, HH:MM'
+            },
+            durationMeasure: {
+                label: 'Type'
+            },
+            duration: {
+                label: 'Value, {{“duration” | measureUnit:sport | translate}}',
+                min: {
+                    hint: 'In minutes or HH:MM:SS'
+                }
+            },
+            movingDuration: {
+                label: 'Value, {{“movingDuration” | measureUnit:sport | translate}}',
+                min: {
+                    hint: 'In minutes or HH:MM:SS'
+                }
+            },
+            distance: {
+                label: 'Value, {{“distance” | measureUnit:sport | translate}}',
+                km: {
+                    hint: "E.g. 10.5"
+                },
+                meter: {
+                    hint: "E.g. 3500"
+                },
+                mile: {
+                    hint: "E.g. 13.1"
+                },
+                yard: {
+                    hint: "E.g. 2400"
+                }
+            },
+            speed: {
+                label: 'Value, {{“speed” | measureUnit:sport | translate}}',
+                minpkm: {
+                    hint: "E.g. 05:30 or 05:30-05:40"
+                },
+                minp100m: {
+                    hint: "E.g. 01:40 or 1:45-1:48"
+                },
+                minp500m: {
+                    hint: "E.g. 03:30 or 03:30-03:40"
+                },
+                kmph: {
+                    hint: "E.g. 30.5 or 30-32"
+                },
+                minpml: {
+                    hint: "E.g. 08:30 or 08:30-09:00"
+                }
+
+            },
+            heartRate: {
+                label: 'Value, {{“hearRate” | measureUnit:sport | translate}}',
+                bpm: {
+                    hint: "E.g. 140 or 145-150"
+                }
+            },
+            power: {
+                label: 'Value, {{“power” | measureUnit:sport | translate}}',
+                watt: {
+                    hint: "E.g. 195 or 195-200"
+                }
+            },
+            description: {
+                placeholder: 'Description...'
+            }
+        },
+        manualFact: {
+            title: 'Actual data'
         },
         segments: {
             total: 'Total:',
