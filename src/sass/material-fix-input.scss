@@ -4,6 +4,7 @@ $input-radius: 4px;
 
 .input-item-line {
   padding: 6px 0;
+  @media (min-width: 1025px) and (max-height: 700px) {  padding: 4px 0; }
   md-icon {  margin-right: 16px;  margin-top: 13px;  }
   .wrapper-icon {  width: 32px;  }
   .wrapper-between {  width: 8px;  }
@@ -23,6 +24,7 @@ $input-radius: 4px;
 
 md-input-container.st-material {
   height: 64px;
+  overflow: hidden !important;
   &.md-icon-float > md-icon {
     top: 40px;
     left: 12px;

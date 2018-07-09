@@ -56,5 +56,6 @@ md-toast.md-warn .md-toast-text {  color: $red-500;  }
 
 md-tabs.md-dense {
   md-tabs-canvas, md-pagination-wrapper { height: 32px; }
-  md-tab { padding: 0 18px 12px 18px;}
+  md-tabs-content-wrapper { top: 32px; }
+  .md-tab { padding: 0 18px 12px 18px;}
 }
