@@ -2,10 +2,29 @@ export const _translate = {
     ru: {
         fullTitle: "Настройки клуба",
         shortTitle: "Настройки",
-        uri: "Ваш профиль: staminity.com/club/",
+        name: 'Название',
+        uri: "Профиль клуба: staminity.com/club/",
         public: {
-            uri: "Ваш профиль: staminity.com/club/",
+            uri: "Профиль клуба: staminity.com/club/",
+        },
+        personaInfo: {
+            header: 'Основная информация',
+
+
+            main: {
+                country: "Страна",
+                city: "Город",
+                about: 'О клубе',
+
+            },
+            isFree: "Доступны для новых учеников",
+            isFreeTrue: 'Да',
+            isFreeFalse: 'Нет'
+        },
+        user: {
+            contact: 'Контактная информация'
         }
+
     },
     en: {
         fullTitle: "Club settings",
