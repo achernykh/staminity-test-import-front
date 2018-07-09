@@ -1,12 +1,17 @@
 <!-- ВВОД/ИЗМНЕНИЕ ДАННЫХ ЧЕРЕЗ ФОРМУ-->
 <md-list class="assignment-summary-non-structured md-padding" style="padding-top: 0"
          ng-if="!$ctrl.item.activity.view.isView">
+    <div style="text-align: right">
+        <md-button class="md-primary" style="margin: 6px 0"
+                   translate="activity.assignment.structuredInput"
+                   ng-click="$ctrl.changeStructuredMode()"></md-button>
+    </div>
     <!-- Ввод длительности -->
     <div layout="row" layout-align="start stretch" class="input-item-line">
         <div flex="none" class="wrapper-icon">
             <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.plan.durationMeasure}}.svg" class="md-dark"></md-icon>
         </div>
-        <md-input-container class="st-material md-block md-dense" flex="25">
+        <md-input-container class="st-material md-block md-dense" flex="30">
             <label translate="activity.assignment.durationMeasure.label"></label>
             <md-select flex name="durationType" required
                        ng-model="$ctrl.plan.durationMeasure"
@@ -47,7 +52,7 @@
         <div flex="none" class="wrapper-icon">
             <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.plan.intensityMeasure}}.svg" class="md-dark"></md-icon>
         </div>
-        <md-input-container class="st-material md-block md-dense" flex="25">
+        <md-input-container class="st-material md-block md-dense" flex="30">
             <label translate="activity.assignment.intensityMeasure.label"></label>
             <md-select flex name="intensityType"
                        ng-model="$ctrl.plan.intensityMeasure"
@@ -87,11 +92,6 @@
         <div ng-if="!$ctrl.item.ftpMode" flex="none" class="wrapper-between">
             <p class="md-body-1">%</p>
         </div>
-    </div>
-    <div style="text-align: right">
-        <md-button class="md-primary" style="margin: 6px 0"
-                   translate="activity.assignment.structuredInput"
-                   ng-click="$ctrl.changeStructuredMode()"></md-button>
     </div>
     <div style="text-align: right">
         <md-button class="md-primary" style="margin: 6px 0" ng-click="$ctrl.item.showManualFact = true"

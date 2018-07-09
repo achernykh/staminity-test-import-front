@@ -1,12 +1,12 @@
 <md-toolbar flex="none" class="" style="background-color: white; color: black">
     <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
+        <md-button class="md-icon-button" ng-click="$ctrl.onBack({fact: $ctrl.actual})">
             <md-tooltip md-direction="left">{{'activity.templateSelector.toolbar' | translate}}</md-tooltip>
             <md-icon class="material-icons md-dark" aria-label="Close dialog">arrow_back</md-icon>
         </md-button>
         <h2 translate="activity.manualFact.title"></h2>
         <span flex></span>
-        <md-button class="md-icon-button" ng-click="$ctrl.onSave({fact: $ctrl.actual})">
+        <md-button ng-if="false" class="md-icon-button" ng-click="$ctrl.onSave({fact: $ctrl.actual})">
             <md-tooltip md-direction="left">{{'activity.templateSelector.toolbar' | translate}}</md-tooltip>
             <md-icon class="material-icons md-dark" aria-label="Close dialog">save</md-icon>
         </md-button>

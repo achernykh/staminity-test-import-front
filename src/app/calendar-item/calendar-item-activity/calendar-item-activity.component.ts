@@ -192,6 +192,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
 
     $onInit() {
+        console.info('activity route: init ctrl');
         this.prepareActivity();
         this.prepareDetails();
         this.prepareAuth();
@@ -237,11 +238,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
                     .then(() => this.changeStructuredAssignment++)
                     .then(() => this.prepareTabPosition());
 
+                console.info('activity route: request data');
                 this.ActivityService.getDetails(this.data.activityHeader.activityId)
-                    .then((response:IActivityDetails) =>
-                            this.activity.details = new ActivityDetails(response),
+                    .then((response:IActivityDetails) => this.activity.details = new ActivityDetails(response),
                         error => this.message.toastError('errorCompleteDetails'))
-                    .then(() => this.isLoadingDetails = false);
+                    .then(_ => this.isLoadingDetails = false)
+                    .then(_ => console.info('activity route: request complete'));
             }
         }
     }
@@ -340,16 +342,19 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     onManualFactSave (fact: IActivityIntervalW): void {
-        this.activity.intervals.add([fact], 'update');
+        /**this.activity.intervals.add([fact], 'update');
         this.activity.intervals.PW.setCompletePercent(fact);
         this.onSave(false);
         this.manualFactChangeCount ++;
         this.showManualFact = false;
-        this.activity.view.isView = true;
+        this.activity.view.isView = true;**/
     }
 
-    onManualFactBack (): void {
+    onManualFactBack (fact: IActivityIntervalW): void {
+        this.manualFactChangeCount ++;
         this.showManualFact = false;
+        this.activity.intervals.add([fact], 'update');
+        this.activity.intervals.PW.setCompletePercent(fact);
     }
 
     prepareAuth(){

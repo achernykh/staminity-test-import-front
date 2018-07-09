@@ -23,6 +23,7 @@ class ActivityRouteCtrl implements IComponentController {
     }
 
     $onInit() {
+        console.info('activity route: init route ctrl');
         this.map = new ActivityRouteDatamodel(this.data, this.select);
         // показывать или нет панель зума
         this.options.zoomControl = this.zoomEnabled;
@@ -33,7 +34,8 @@ class ActivityRouteCtrl implements IComponentController {
                     this.map.route.map((e) => GeoJSON.coordsToLatLng([e.lng, e.lat])) :
                     this.map.selectCoordinates.map((e) => GeoJSON.coordsToLatLng([e.lng, e.lat])));
                 map.invalidateSize();
-            });
+            })
+            .then(_ => console.info('activity route: fit complete'));
     }
 
 }
