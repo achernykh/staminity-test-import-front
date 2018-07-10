@@ -245,6 +245,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .filter('stringToDate', stringToDate)
     .component('stApplicationProfileTemplate', ApplicationProfileTemplateComponent)
     .constant('quillConfig', quillConfig)
+    .filter('stTrustHtml', ['$sce', ($sce) => (text) => text && $sce.trustAsHtml(text)])
     .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])
     .config(['$translateProvider', ($translateProvider)=> {
 

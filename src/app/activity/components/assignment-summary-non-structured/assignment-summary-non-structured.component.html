@@ -27,7 +27,7 @@
         <md-input-container flex="auto" class="st-material md-block md-dense"
                             ng-repeat="type in $ctrl.durationTypes"
                             ng-if="$ctrl.plan.durationMeasure === type">
-            <label translate="activity.assignment.{{type}}.label"></label>
+            <label ng-translate="activity.assignment.{{type}}.label"></label>
             <input measure-input
                    name="plan_{{::type}}"
                    ng-model="$ctrl.plan[type].durationValue"

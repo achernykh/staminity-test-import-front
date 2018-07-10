@@ -144,13 +144,13 @@
                      on-scroll-hit-bottom="$ctrl.calendar.down(1)"
                      scroll-keep-position="{{'#hotfix' + $ctrl.calendar.currentWeek.anchor}}">
                 <!-- grid-week: start -->
-                <div ng-repeat="week in $ctrl.calendar.weeks track by week.anchor"
+                <div ng-repeat="week in $ctrl.calendar.weeks track by $index"
                      id="hotfix{{::week.anchor}}"
                      ng-mouseover="$ctrl.calendar.setCurrentWeek(week)"
                      class="calendar-week"
                      ng-class="{'calendar__week--current': week.sid == $ctrl.calendar.currentWeek.sid, 'calendar__week--loading': week.loading}">
                     <calendar-day
-                            ng-repeat="day in week.subItem track by day.key"
+                            ng-repeat="day in week.subItem track by $index"
                             ng-mouseover="accentDay=true" ng-mouseleave="accentDay=false"
                             ng-init="accent=false"
                             ng-class="{select: day.selected}"

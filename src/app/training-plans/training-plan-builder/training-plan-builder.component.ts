@@ -131,7 +131,8 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.currentPlan = null;
         this.trainingPlansService.get(planId)
             .then(response => this.currentPlan = new TrainingPlan(response))
-            .then(() => this.setData());
+            .then(() => this.setData())
+            .then(_ => {debugger;});
     }
 
     private setData (): void {

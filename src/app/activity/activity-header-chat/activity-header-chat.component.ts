@@ -7,6 +7,7 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 import CommentService from "../../core/comment.service";
 import MessageService from "../../core/message.service";
 import "./activity-header-chat.component.scss";
+import * as Autolinker from 'autolinker';
 
 export class ActivityHeaderChatCtrl implements IComponentController {
 
@@ -45,7 +46,7 @@ export class ActivityHeaderChatCtrl implements IComponentController {
 
     onPostComment(text) {
         this.inAction = true;
-        this.comment.post(this.commentType, this.activityId, true, text)
+        this.comment.post(this.commentType, this.activityId, true, Autolinker.link(text))
             .then((result) => {
                     this.text = null;
                     this.comments = result;

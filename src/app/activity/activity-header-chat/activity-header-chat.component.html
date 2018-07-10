@@ -6,7 +6,7 @@
              ng-class="{'bg-blue-grey-100': $ctrl.isMe(comment.userProfile.userId),
                         'bg-grey-200': !$ctrl.isMe(comment.userProfile.userId)}"
              class="message md-caption" layout="column">
-            <div style="white-space: pre-wrap;" flex>{{comment.text}}</div>
+            <div style="white-space: pre-wrap;" flex ng-bind-html="comment.text | stTrustHtml"></div>
             <div flex="none" class="md-dark md-inactive"
                  style="font-size: 9px; text-align: right; margin-top: 4px">
                 {{::$ctrl.localDate(comment.ts)}}
