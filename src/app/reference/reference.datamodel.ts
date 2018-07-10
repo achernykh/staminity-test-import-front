@@ -63,8 +63,6 @@ export const templatesReorder = (templates: IActivityTemplate[], order: number[]
     }));
 };
 
-export const nameFromInterval = ($translate) => (interval: IActivityIntervalPW, sport: string): string => {
-    const durationMeasure: string = interval.hasOwnProperty("distanceLength") ? `${interval.durationMeasure}Length` : interval.durationMeasure;
-    return (interval[durationMeasure] &&
-        `${measureValue(interval[durationMeasure], sport, interval.durationMeasure)} ${$translate.instant(measureUnit(interval.durationMeasure, sport))}`) || "";
+export const nameFromInterval = ($translate) => (value: number, measure: string, sport: string): string => {
+    return value && measure && sport && `${measureValue(value, sport, measure)} ${$translate.instant(measureUnit(measure, sport))}` || null
 };

@@ -1,0 +1,16 @@
+<md-toolbar flex="none" class="" style="background-color: white; color: black">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">arrow_back</md-icon>
+        </md-button>
+        <h2 translate="activity.details.map.title"></h2>
+    </div>
+</md-toolbar>
+<md-content flex="auto" class="">
+    <activity-route id="'full-map'"
+                    data="$ctrl.data"
+                    select="$ctrl.select"
+                    zoom-enabled="true"
+                    layer-enabled="true">
+    </activity-route>
+</md-content>

@@ -6,9 +6,9 @@
         <div flex="none" class="wrapper-icon">
             <md-icon flex="none" class="material-icons md-dark" style="margin-top: auto;">today</md-icon>
         </div>
-        <p  class="md-body-1"
-            translate="activity.dynamicDate"
-            translate-values="{week: $ctrl.item.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.item.options.trainingPlanOptions.dayNumber + 1}">
+        <p class="md-body-1"
+           translate="activity.dynamicDate"
+           translate-values="{week: $ctrl.item.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.item.options.trainingPlanOptions.dayNumber + 1}">
         </p>
     </div>
     <!-- Ввод типа активности и категории -->
@@ -45,13 +45,13 @@
         <md-input-container class="st-material md-block md-dense" flex="auto">
             <label translate="activity.assignment.categoryLabel"></label>
             <md-select flex
-                    ng-model="$ctrl.item.activity.header.activityCategory"
-                    ng-model-options="{ trackBy: '$value.id' }"
-                    required=""
-                    md-no-asterisk="false"
-                    ng-change="$ctrl.changeParam()"
-                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
-                    name="category">
+                       ng-model="$ctrl.item.activity.header.activityCategory"
+                       ng-model-options="{ trackBy: '$value.id' }"
+                       required=""
+                       md-no-asterisk="false"
+                       ng-change="$ctrl.changeParam()"
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
+                       name="category">
                 <md-optgroup
                         ng-repeat="owner in ['user', 'coach', 'club', 'system']"
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
@@ -63,13 +63,50 @@
                     </md-option>
                 </md-optgroup>
             </md-select>
-            <div class="hint md-dark">
+            <div class="hint md-dark"
+                 ng-show="$ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.category.$valid">
                 <span translate="activity.assignment.category.hint"></span>
             </div>
-            <div ng-messages="$ctrl.form.category.$error" role="alert">
-                <div ng-message="required"
-                     translate="form.required">
+            <div ng-messages="$ctrl.item.assignmentForm.category.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="required" translate="form.required"></div>
+            </div>
+        </md-input-container>
+    </div>
+    <!-- Для шаблона: название + избранный -->
+    <div layout="row" layout-align="start stretch" class="input-item-line"
+         ng-if="$ctrl.item.activity.view.isTemplate">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" class="material-icons md-dark">import_contacts</md-icon>
+        </div>
+        <md-input-container flex="auto" class="st-material md-block md-dense">
+            <label translate="activity.template.namePlaceholder"></label>
+            <input type="text" name="name" maxlength="150" required
+                   ng-model="$ctrl.item.code"
+                   autocomplete="off">
+            <div class="hint md-dark"
+                 ng-show="$ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.name.$valid">
+                <span translate="activity.template.nameHint"></span>
+            </div>
+            <div ng-messages="$ctrl.item.assignmentForm.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="required" translate="form.required">
                 </div>
+            </div>
+        </md-input-container>
+        <div flex="none" class="wrapper-between"></div>
+        <md-input-container class="st-material md-block md-dense" flex="30">
+            <label translate="activity.template.favorite.label"></label>
+            <md-select flex name="durationType"
+                       ng-model="$ctrl.item.favorite">
+                <md-option ng-repeat="type in [true, false]"
+                           value="{{type}}">{{type | translate}}
+                </md-option>
+            </md-select>
+            <div class="hint md-dark">
+                <span translate="activity.template.favorite.hint"></span>
             </div>
         </md-input-container>
     </div>
@@ -80,28 +117,28 @@
             <md-icon flex="none" class="material-icons md-dark">today</md-icon>
         </div>
         <md-input-container class="st-material md-block md-dense" flex="auto">
-                <label translate="activity.assignment.dateStart.label"></label>
-                <md-datepicker flex="auto" required
-                               ng-model="$ctrl.item.activity._dateStart"
-                               ng-change="$ctrl.changeParam()"
-                               name="dateStart" md-hide-icons="calendar"
-                               ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach">
-                </md-datepicker>
-                <div class="hint md-dark">
-                    <span translate="activity.assignment.dateStart.hint"></span>
+            <label translate="activity.assignment.dateStart.label"></label>
+            <md-datepicker flex="auto" required
+                           ng-model="$ctrl.item.activity._dateStart"
+                           ng-change="$ctrl.changeParam()"
+                           name="dateStart" md-hide-icons="calendar"
+                           ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach">
+            </md-datepicker>
+            <div class="hint md-dark">
+                <span translate="activity.assignment.dateStart.hint"></span>
+            </div>
+            <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
+                <div ng-message="needPermissionForFeature"
+                     translate="calendar.needPermissionForFeature">
                 </div>
-                <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
-                    <div ng-message="needPermissionForFeature"
-                         translate="calendar.needPermissionForFeature">
-                    </div>
-                </div>
+            </div>
         </md-input-container>
         <div flex="none" class="wrapper-between"></div>
         <md-input-container class="st-material md-block md-dense no-message" flex="auto">
-                <label translate="activity.assignment.timeStart.label"></label>
-                <input type="time" name="time"
-                       ng-change="$ctrl.changeParam()"
-                       ng-model="$ctrl.item.activity._time"/>
+            <label translate="activity.assignment.timeStart.label"></label>
+            <input type="time" name="time"
+                   ng-change="$ctrl.changeParam()"
+                   ng-model="$ctrl.item.activity._time"/>
         </md-input-container>
     </div>
 

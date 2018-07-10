@@ -73,12 +73,12 @@ export const ActivityModule = module("staminity.activity", [])
     /*.config(['$stateProvider', ($stateProvider: StateProvider) => $stateProvider.state(activityState)])
     .config(['$translateProvider', ($translate) =>
         $translate.useStaticFilesLoader({prefix: '/assets/i18n/activity/', suffix: '.json'})])*/
-    .run(["$timeout", "leafletData", ($timeout, leafletData) => {
+    /**.run(["$timeout", "leafletData", ($timeout, leafletData) => {
         $timeout(() => {
             leafletData.getMap().then((map) => {
                 map.invalidateSize();
             });
         });
-    }])
+    }])**/
     .config(configure)
     .name;

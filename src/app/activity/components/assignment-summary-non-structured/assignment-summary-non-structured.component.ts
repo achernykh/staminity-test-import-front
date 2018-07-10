@@ -279,10 +279,13 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     validateForm() {
         // Проверка длительности
-        /**if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
+        if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
             this.form['plan_' + this.plan.durationMeasure].$setValidity('needDuration',
-                this.form['plan_' + this.plan.durationMeasure].$modelValue > 0);
-        }**/
+                this.form['plan_' + this.plan.durationMeasure].$modelValue > 0 ||
+                this.actual.duration.avgValue > 0 ||
+                this.actual.movingDuration.avgValue > 0 ||
+                this.actual.duration.avgValue);
+        }
         // Планировать в будущем может:
         // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
         if (this.form['dateStart']) {

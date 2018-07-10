@@ -100,6 +100,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public showSelectAthletes: boolean = false;
     public showSelectTemplate: boolean = false;
     public showManualFact: boolean = false;
+    public showRoute: boolean = false;
     private forAthletes: Array<{profile: IUserProfile, active: boolean}> = [];
     private recalculateMode: boolean = false;
 
@@ -355,6 +356,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.showManualFact = false;
         this.activity.intervals.add([fact], 'update');
         this.activity.intervals.PW.setCompletePercent(fact);
+        this.$scope.$applyAsync();
+    }
+
+    onRouteBack (): void {
+        this.showRoute = false;
     }
 
     prepareAuth(){
@@ -379,7 +385,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
             groupBy(getOwner(this.user)),
         ) (this.templates);
 
-        this.templateByFilter = Object.keys(this.templatesByOwner).length;
+        this.templateByFilter = 0;
+        Object.keys(this.templatesByOwner).map(owner => this.templateByFilter += this.templatesByOwner[owner].length);
             //.some(owner => this.templatesByOwner[owner] && this.templatesByOwner[owner].length > 0);
     }
 
@@ -766,8 +773,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     get code () {
         if (this.activity.view.isTemplate) {
             let sport = this.activity.header.sportBasic;
-            return this.options.templateOptions.code ||
-                nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
+            return this.activity.view.options.templateOptions.code ||
+                nameFromInterval(this.$translate) (this.activity.durationValue, this.activity.durationMeasure, this.activity.header.sportBasic);
         } else {
             return this.options.templateOptions.code;
         }
@@ -782,7 +789,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     toTemplate (e: Event) {
         let { code, activityHeader } = this.activity;
         let sport = activityHeader.activityType.typeBasic;
-        let activityCode = code || nameFromInterval(this.$translate) (this.activity.intervals.PW, sport);
+        let activityCode = code || nameFromInterval(this.$translate) (this.activity.durationValue, this.activity.durationMeasure, this.activity.header.sportBasic);
         let description = this.activity.intervals.PW.trainersPrescription;
         let { activityCategory, activityType, intervals } = activityHeader;
 

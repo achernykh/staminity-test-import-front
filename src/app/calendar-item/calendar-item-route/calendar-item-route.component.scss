@@ -1,5 +1,5 @@
 @import "../../../sass/color";
-.calendar-item-manual-fact {
+.calendar-item-route {
   //position: absolute;
   //top: 0px;
   //left: 0px;
@@ -8,15 +8,13 @@
   height: 100%;
   z-index: 200;
 
-  &.with-details-panel {
-    @media (min-width: 960px) {
-      position: fixed;
-      height: 100vh;
-      top: 0;
-      left: 0;
-      min-width: 380px !important;
-      width: 380px !important;
-    }
+  @media (min-width: 960px) {
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    min-width: 380px !important;
+    width: 380px !important;
   }
   //opacity: 0;
   //visibility: hidden;
@@ -38,5 +36,7 @@
     width: 0%;
     //opacity: 0;
   }
-
+  md-content  {
+    height: calc(100vh - 64px);
+  }
 }

@@ -50,11 +50,15 @@
         </div>
     </div>-->
 </div>
-<div style="height: 25vh"
-     ng-if="!$ctrl.item.$mdMedia('gt-sm') && $ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
-    <activity-route data="$ctrl.item.activity.details.route"
+<div class="map-block"
+     ng-if="$ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
+    <activity-route id="'preview-map'"
+                    data="$ctrl.item.activity.details.route"
                     select="$ctrl.item.selectionTimestamp"
                     zoom-enabled="false"
                     layer-enabled="false">
     </activity-route>
+    <md-button class="zoom-map md-icon-button" ng-click="$ctrl.mapFull()">
+        <md-icon class="material-icons md-light md-whiteframe-z2">fullscreen</md-icon>
+    </md-button>
 </div>

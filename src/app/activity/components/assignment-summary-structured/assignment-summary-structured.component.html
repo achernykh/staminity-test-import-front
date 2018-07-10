@@ -5,6 +5,11 @@
     <md-list-item ng-if="!$ctrl.item.activity.header.sportBasic">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
+    <div class="md-padding" style="text-align: right; padding-top: 0" ng-if="!$ctrl.item.activity.view.isView">
+        <md-button class="md-primary" style="margin: 6px 0"
+                   translate="activity.assignment.noneStructuredInput"
+                   ng-click="$ctrl.changeStructuredMode()"></md-button>
+    </div>
     <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sportBasic">
         <table md-table
                md-row-select="$ctrl.options.rowSelection"
@@ -41,11 +46,6 @@
         <md-icon ng-click="$ctrl.item.changeTab('Segments')"
                  class="md-secondary material-icons">keyboard_arrow_right</md-icon>
     </md-list-item>
-    <div style="text-align: right" ng-if="!$ctrl.item.activity.view.isView">
-        <md-button class="md-primary" style="margin: 6px 0"
-                   translate="activity.assignment.noneStructuredInput"
-                   ng-click="$ctrl.changeStructuredMode()"></md-button>
-    </div>
     <div class="md-caption error-block" ng-messages="$ctrl.form.$error" ng-if="$ctrl.form.$dirty && !$ctrl.form.$valid">
         <div ng-message="required">{{'activity.error.required' | translate}}</div>
         <div ng-message="needDuration">{{'activity.error.needDuration' | translate}}</div>

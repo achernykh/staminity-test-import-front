@@ -18,7 +18,9 @@
         <div flex="none" class="wrapper-icon">
             <md-icon flex="none" md-svg-src="assets/icon/{{measure}}.svg"
                      class="md-dark {{::measure}}"
-                     ng-class="{'fill-measure': measure === $ctrl.plan.durationMeasure || measure === $ctrl.plan.intensityMeasure}"></md-icon>
+                     ng-class="{'fill-measure': (measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationValue > 0) ||
+                                                (measure === $ctrl.plan.intensityMeasure && $ctrl.plan[$ctrl.plan.intensityMeasure].intensityByFtpFrom > 0)}">
+            </md-icon>
         </div>
         <md-input-container class="st-material md-block md-dense" flex="auto">
             <label translate="activity.assignment.{{::measure}}.label"></label>
@@ -33,17 +35,18 @@
                    ng-change="$ctrl.changeValue()"
                    ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach">
             <div class="hint md-dark">
-                <span ng-if="measure === $ctrl.plan.durationMeasure">
+                <span ng-if="measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationValue > 0">
                     {{'activity.plan' | translate}}&nbsp;
                     {{$ctrl.plan.durationValue | measureCalc:$ctrl.sport:$ctrl.plan.durationMeasure}}&nbsp;
                     {{$ctrl.plan.durationMeasure | measureUnit:$ctrl.sport | translate}}
                 </span>
-                <span ng-if="measure === $ctrl.plan.intensityMeasure">
+                <span ng-if="measure === $ctrl.plan.intensityMeasure && $ctrl.plan[$ctrl.plan.intensityMeasure].intensityByFtpFrom > 0">
                     {{'activity.plan' | translate}}&nbsp;
                     {{$ctrl.plan | measureCalcInterval:$ctrl.sport:$ctrl.plan.intensityMeasure}}&nbsp;
                     {{$ctrl.plan.intensityMeasure | measureUnit:$ctrl.sport | translate}}
                 </span>
-                <span ng-if="measure !== $ctrl.plan.durationMeasure && measure !== $ctrl.plan.intensityMeasure"
+                <span ng-if="!(measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationValue > 0) &&
+                             !(measure === $ctrl.plan.intensityMeasure && $ctrl.plan[$ctrl.plan.intensityMeasure].intensityByFtpFrom > 0)"
                       translate="activity.assignment.{{::measure}}.{{measure | measureUnit:$ctrl.sport}}.hint"
                       translate-values="{sport: $ctrl.sport}"></span>
             </div>

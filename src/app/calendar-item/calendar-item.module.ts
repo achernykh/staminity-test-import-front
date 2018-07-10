@@ -23,6 +23,7 @@ import { ActivityCompactComponent } from "./calendar-item-activity/compact-view/
 import { RecordCompactComponent } from "./calendar-item-record/compact-view/record-compact.component";
 import { CalendarItemListComponent } from "./calendar-item-list/calendar-item-list.component";
 import { CalendarItemManualFactComponent } from "./calendar-item-manual-fact/calendar-item-manual-fact.component";
+import { CalendarItemRouteComponent } from "./calendar-item-route/calendar-item-route.component";
 
 export const CalendarItem = module('staminity-web.calendar-item', [])
     .component('calendarItemActivity', CalendarItemActivityComponent)
@@ -32,6 +33,7 @@ export const CalendarItem = module('staminity-web.calendar-item', [])
     .component('calendarItemAthleteSelector', CalendarItemAthleteSelectorComponent)
     .component('calendarItemTemplateSelector', CalendarItemTemplateSelectorComponent)
     .component('stCalendarItemManualFact', CalendarItemManualFactComponent)
+    .component('stCalendarItemRoute', CalendarItemRouteComponent)
     .component('calendarItemRecord', CalendarItemRecordComponent)
     .component('stCalendarItemCompetition', CalendarItemCompetitionComponent)
     .component('stCompetitionSingleStage', CompetitionSingleStageComponent)

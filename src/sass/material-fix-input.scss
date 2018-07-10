@@ -62,9 +62,10 @@ md-input-container.st-material {
     transform: translate3d(0,20px,0) scale(1) !important;
   }
 
+  &.st-input-has-value label.st-has-value,
   &.md-input-focused label:not(.md-no-float),
   &.md-input-has-placeholder label:not(.md-no-float),
-  &.md-input-has-value label:not(.md-no-float) {
+  &.md-input-has-value label:not(.md-no-float, .st-has-value) {
     -webkit-transform: translate3d(0,6px,0) scale(.75) !important;
     transform: translate3d(0,6px,0) scale(.75) !important;
   }
@@ -77,6 +78,7 @@ md-input-container.st-material {
       font-size: 13px;
       -webkit-transform: translate3d(0,22px,0) scale(1) !important;
       transform: translate3d(0,22px,0) scale(1) !important;
+      color: rgba(0,0,0,0.38);
     }
     input, .md-select-value {
       font-size: 13px;
@@ -85,13 +87,13 @@ md-input-container.st-material {
       line-height: 14px;
     }
 
+    &.st-input-has-value label.st-has-value,
     &.md-input-focused label:not(.md-no-float),
     &.md-input-has-placeholder label:not(.md-no-float),
-    &.md-input-has-value label:not(.md-no-float) {
+    &.md-input-has-value label:not(.md-no-float, .st-has-value) {
       -webkit-transform: translate3d(0,8px,0) scale(.75) !important;
       transform: translate3d(0,8px,0) scale(.75) !important;
     }
-
   }
 
   .md-input-message-animation:not(.md-char-counter),

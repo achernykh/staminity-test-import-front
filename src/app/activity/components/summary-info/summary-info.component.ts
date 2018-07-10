@@ -10,6 +10,8 @@ class ActivitySummaryInfoCtrl implements IComponentController {
     private item: CalendarItemActivityCtrl;
     private durationInfo: string = '';
     private intensityInfo: string = '';
+    private mapVersion: number = 1;
+    private mapRefresh: number = 1;
 
     static $inject = ['$filter'];
 
@@ -105,6 +107,14 @@ class ActivitySummaryInfoCtrl implements IComponentController {
                     this.$filter('translate')(this.$filter('measureUnit')('power', sportBasic))+' ') || '';
 
             }
+        }
+    }
+
+    mapFull (): void {
+        this.item.showRoute = true;
+        this.mapVersion ++;
+        if (this.mapVersion > this.mapRefresh) {
+            setTimeout(_ => this.mapRefresh ++);
         }
     }
 
