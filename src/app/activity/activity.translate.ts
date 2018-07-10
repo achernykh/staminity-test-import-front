@@ -73,8 +73,8 @@ export const translateActivity = {
           needSport: 'Для ввода задания укажите вид спорта и категорию',
           categoryLabel: 'Категория',
           structured: 'План по сегментам',
-          structuredInput: 'План по сегментам',
-          noneStructuredInput: 'План на всю тренировку',
+          structuredInput: 'Переключиться на план по сегментам',
+          noneStructuredInput: 'Переключиться на обычную тренировку',
           postActualData: 'Добавить факт',
           editActualData: 'Изменить факт',
           activityType: {
@@ -156,6 +156,10 @@ export const translateActivity = {
           },
           description: {
               placeholder: 'Установка тренера...'
+          },
+          ftp: {
+              label: "Значение, %ПАНО",
+              hint: "Например 80 или 80-85"
           }
       },
       manualFact: {
@@ -284,8 +288,8 @@ export const translateActivity = {
             needSport: 'Set sport and category',
             categoryLabel: 'Category',
             structured: 'Structured',
-            structuredInput: 'Structured activity',
-            noneStructuredInput: 'Simple activity',
+            structuredInput: 'Switch to structured activity',
+            noneStructuredInput: 'Switch to simple activity',
             postActualData: 'Add actual data',
             editActualData: 'Edit actual data',
             activityType: {
@@ -367,6 +371,10 @@ export const translateActivity = {
             },
             description: {
                 placeholder: 'Description...'
+            },
+            ftp: {
+                label: "Value, %LT",
+                hint: "E.g. 80 or 80-85"
             }
         },
         manualFact: {
