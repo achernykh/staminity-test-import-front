@@ -20,7 +20,7 @@
                         <span translate="activity.action.settings"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item ng-if="::($ctrl.item.currentUser.connections.hasOwnProperty('allAthletes') && $ctrl.item.activity.view.isPost)">
+                <md-menu-item ng-if="::($ctrl.item.currentUser.connections.hasOwnProperty('allAthletes') && $ctrl.item.activity.view.isPost && !$ctrl.item.activity.view.isTemplate && !$ctrl.item.activity.view.isTrainingPlan)">
                     <md-button ng-click="$ctrl.item.showSelectAthletes = true">
                         <md-icon class="material-icons" md-menu-align-target>person_add</md-icon>
                         <span translate="activity.action.addAthletes"></span>
@@ -48,7 +48,7 @@
                         <span translate="activity.percentFTP"></span>
                     </md-button>
                 </md-menu-item>
-                <md-menu-item>
+                <md-menu-item ng-if="!$ctrl.item.activity.view.isTemplate && !$ctrl.item.activity.view.isTrainingPlan">
                     <md-button ng-click="$ctrl.changeLayout('hideSmoothOnChart')">
                         <md-icon class="material-icons" md-menu-align-target
                                  ng-bind-template="{{$ctrl.item.layout.hideSmoothOnChart ? 'check_box' : 'check_box_outline_blank'}}">
@@ -93,9 +93,9 @@
     </div>
 </md-toolbar>
 
-<md-content flex="auto" layout="column">
+<md-content flex="auto" layout="column" ng-cloak>
     <md-tabs flex="auto" layout-fill class="md-dense md-primary md-hue-2" md-selected="$ctrl.item.selectedTab"
-             md-stretch-tabs="always" ng-cloak
+             md-stretch-tabs="always"
              ng-class="{'coming': $ctrl.item.activity.status === 'coming' || $ctrl.item.activity.status === 'template',
                                 'not-specified': $ctrl.item.activity.status === 'not-specified',
                                 'complete': $ctrl.item.activity.status === 'complete',

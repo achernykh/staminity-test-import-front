@@ -11,10 +11,11 @@ import {IAuthService} from "../../../auth/auth.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
 import { ActivityConfigConstants } from "../../activity.constants";
 import {ActivityIntervalG} from "@app/activity/activity-datamodel/activity.interval-g";
-
-const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
+import { isFutureDay } from "../../../share/date/date.filter";
 
 class AssignmentSummaryNonStructuredCtrl implements IComponentController {
+    // bind
+    change: number;
 
     private item: CalendarItemActivityCtrl;
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
@@ -68,7 +69,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     $onChanges(changes: any): void {
-        if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
+        if(changes.hasOwnProperty('change') && this.change > 0) {
             this.plan = null;
             this.actual = null;
             this.prepareData();
@@ -76,7 +77,8 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             setTimeout(() => {
                 this.validateForm();
                 this.updateForm();
-            }, 300);
+                this.$scope.$applyAsync();
+            }, 1);
         }
     }
 
@@ -278,9 +280,11 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             Object.keys(this.form[field].$error).some(e => codes.some(c => c === e));
     }
 
+    // TODO delete and use item.checkAssignmentForm()
     validateForm() {
+        this.item.checkAssignmentForm();
         // Проверка длительности
-        if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
+        /**if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
             this.form['plan_' + this.plan.durationMeasure].$setValidity('needDuration',
                 this.form['plan_' + this.plan.durationMeasure].$modelValue > 0 ||
                 this.actual.duration.avgValue > 0 ||
@@ -298,7 +302,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
             //!this.item.isOwner || this.AuthService.isActivityPlan() ||
             //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
-        }
+        }**/
         //return;
         /**if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
