@@ -163,7 +163,64 @@ export const translateActivity = {
           ftp: {
               label: "Значение, %ПАНО",
               hint: "Например 80 или 80-85"
-          }
+          },
+          durationFact: {
+              label: 'Значение, {{"duration" | measureUnit:sport | translate}}',
+              min: {
+                  hint: 'В минутах или HH:MM:SS'
+              }
+          },
+          movingDurationFact: {
+              label: 'Значение, {{"movingDuration" | measureUnit:sport | translate}}',
+              min: {
+                  hint: 'В минутах или HH:MM:SS'
+              }
+          },
+          distanceFact: {
+              label: 'Значение, {{"distance" | measureUnit:sport | translate}}',
+              km: {
+                  hint: "Например 10.5"
+              },
+              meter: {
+                  hint: "Например 3500"
+              },
+              mile: {
+                  hint: "Например 13.1"
+              },
+              yard: {
+                  hint: "Например 2400"
+              }
+          },
+          speedFact: {
+              label: 'Среднее значение, {{"speed" | measureUnit:sport | translate}}',
+              minpkm: {
+                  hint: "Например 05:30"
+              },
+              minp100m: {
+                  hint: "Например 01:40"
+              },
+              minp500m: {
+                  hint: "Например 03:30"
+              },
+              kmph: {
+                  hint: "Например 30.5"
+              },
+              minpml: {
+                  hint: "Например 08:30"
+              }
+          },
+          heartRateFact: {
+              label: 'Среднее значение, {{"hearRate" | measureUnit:sport | translate}}',
+              bpm: {
+                  hint: "Например 140"
+              }
+          },
+          powerFact: {
+              label: 'Среднее значение, {{"power" | measureUnit:sport | translate}}',
+              watt: {
+                  hint: "Например 195"
+              }
+          },
       },
       manualFact: {
           title: 'Фактические данные'
@@ -388,7 +445,65 @@ export const translateActivity = {
             ftp: {
                 label: "Value, %LT",
                 hint: "E.g. 80 or 80-85"
-            }
+            },
+            durationFact: {
+                label: 'Value, {{"duration" | measureUnit:sport | translate}}',
+                min: {
+                    hint: 'In minutes or HH:MM:SS'
+                }
+            },
+            movingDurationFact: {
+                label: 'Value, {{"movingDuration" | measureUnit:sport | translate}}',
+                min: {
+                    hint: 'In minutes or HH:MM:SS'
+                }
+            },
+            distanceFact: {
+                label: 'Value, {{"distance" | measureUnit:sport | translate}}',
+                km: {
+                    hint: "E.g. 10.5"
+                },
+                meter: {
+                    hint: "E.g. 3500"
+                },
+                mile: {
+                    hint: "E.g. 13.1"
+                },
+                yard: {
+                    hint: "E.g. 2400"
+                }
+            },
+            speedFact: {
+                label: 'Average value, {{"speed" | measureUnit:sport | translate}}',
+                minpkm: {
+                    hint: "E.g. 05:30"
+                },
+                minp100m: {
+                    hint: "E.g. 01:40"
+                },
+                minp500m: {
+                    hint: "E.g. 03:30"
+                },
+                kmph: {
+                    hint: "E.g. 30.5"
+                },
+                minpml: {
+                    hint: "E.g. 08:30"
+                }
+
+            },
+            heartRateFact: {
+                label: 'Average value, {{"hearRate" | measureUnit:sport | translate}}',
+                bpm: {
+                    hint: "E.g. 140"
+                }
+            },
+            powerFact: {
+                label: 'Average value, {{"power" | measureUnit:sport | translate}}',
+                watt: {
+                    hint: "E.g. 195"
+                }
+            },
         },
         manualFact: {
             title: 'Actual data'
