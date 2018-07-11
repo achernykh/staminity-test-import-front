@@ -5,6 +5,7 @@ import {
 } from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
 import "./assignment-summary-structured.component.scss";
 import { IQuillConfig } from "@app/share/quill/quill.config";
+import {ActivityIntervalG} from "@app/activity/activity-datamodel/activity.interval-g";
 
 class AssignmentSummaryStructuredCtrl implements IComponentController {
 
@@ -41,9 +42,9 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
             //this.item.activity.updateIntervals();
         } else {
             // Переключение со структурированной на не структурированную
-            this.item.activity.intervals.stack
-                .filter((i) => i.type === "P" || i.type === "G")
-                .map((i) => this.item.activity.intervals.splice(i.type, i.pos, "single"));
+            this.item.activity.intervals.stack.filter((i) => i.type === "P" || i.type === "G")
+                .map((i) => this.item.activity.intervals
+                    .splice(i.type, i.type === "P" ? i.pos : (i as ActivityIntervalG).code, "single"));
 
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
             //this.item.activity.updateIntervals();
