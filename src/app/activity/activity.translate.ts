@@ -210,7 +210,7 @@ export const translateActivity = {
               }
           },
           heartRateFact: {
-              label: 'Среднее значение, {{"hearRate" | measureUnit:sport | translate}}',
+              label: 'Среднее значение, {{"heartRate" | measureUnit:sport | translate}}',
               bpm: {
                   hint: "Например 140"
               }
@@ -493,7 +493,7 @@ export const translateActivity = {
 
             },
             heartRateFact: {
-                label: 'Average value, {{"hearRate" | measureUnit:sport | translate}}',
+                label: 'Average value, {{"heartRate" | measureUnit:sport | translate}}',
                 bpm: {
                     hint: "E.g. 140"
                 }
