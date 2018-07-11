@@ -221,7 +221,7 @@ export const translateActivity = {
       settings: {
           close: 'Закрыть'
       },
-      actualDataIsCorrected: 'Фактические данные изменены вручную'
+      actualDataIsCorrected: 'Факт изменен вручную'
   },
     en: {
         title: 'Activity',
@@ -445,7 +445,7 @@ export const translateActivity = {
         settings: {
             close: 'Close'
         },
-        actualDataIsCorrected: 'Actual data has been corrected manually'
+        actualDataIsCorrected: 'Actual data has been changed'
     }
 };
 
