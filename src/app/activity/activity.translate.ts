@@ -97,6 +97,9 @@ export const translateActivity = {
           durationMeasure: {
               label: 'Тип'
           },
+          intensityMeasure: {
+              label: 'Интенсивность'
+          },
           duration: {
               label: 'Значение, {{“duration” | measureUnit:sport | translate}}',
               min: {
@@ -189,9 +192,16 @@ export const translateActivity = {
           placeholder: 'Выберите шаблон',
           enable: 'Есть шаблоны',
           empty: 'Шаблонов нет',
-          favorite: 'Избранный',
           namePlaceholder: 'Укажите название шаблона',
-          code: 'Шаблон {{code}}'
+          code: 'Шаблон {{code}}',
+          name: {
+              hint: '',
+          },
+          favorite: {
+              label: "Избранный",
+              hint: ""
+          }
+
       },
       split: {
           all: 'Вся тренировка',
@@ -311,6 +321,9 @@ export const translateActivity = {
             durationMeasure: {
                 label: 'Type'
             },
+            intensityMeasure: {
+                label: 'Intensity'
+            },
             duration: {
                 label: 'Value, {{“duration” | measureUnit:sport | translate}}',
                 min: {
@@ -404,9 +417,15 @@ export const translateActivity = {
             placeholder: 'Choose template',
             enable: 'Templates available',
             empty: 'No templates available',
-            favorite: 'Favorite',
             namePlaceholder: 'Name required',
-            code: 'Template {{code}}'
+            code: 'Template {{code}}',
+            name: {
+                hint: '',
+            },
+            favorite: {
+                label: "Favorite",
+                hint: ""
+            }
         },
         split: {
             all: 'Activity',
