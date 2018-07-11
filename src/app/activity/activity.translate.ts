@@ -146,7 +146,7 @@ export const translateActivity = {
               }
           },
           heartRate: {
-              label: 'Значение, {{"hearRate" | measureUnit:sport | translate}}',
+              label: 'Значение, {{"heartRate" | measureUnit:sport | translate}}',
               bpm: {
                   hint: "Например 140 или 145-150"
               }
@@ -428,7 +428,7 @@ export const translateActivity = {
 
             },
             heartRate: {
-                label: 'Value, {{"hearRate" | measureUnit:sport | translate}}',
+                label: 'Value, {{"heartRate" | measureUnit:sport | translate}}',
                 bpm: {
                     hint: "E.g. 140 or 145-150"
                 }
