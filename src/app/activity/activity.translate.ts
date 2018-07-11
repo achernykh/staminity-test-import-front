@@ -251,9 +251,7 @@ export const translateActivity = {
           empty: 'Шаблонов нет',
           namePlaceholder: 'Укажите название шаблона',
           code: 'Шаблон {{code}}',
-          name: {
-              hint: '',
-          },
+          nameHint: '',
           favorite: {
               label: "Избранный",
               hint: ""
@@ -534,9 +532,7 @@ export const translateActivity = {
             empty: 'No templates available',
             namePlaceholder: 'Name required',
             code: 'Template {{code}}',
-            name: {
-                hint: '',
-            },
+            nameHint: '',
             favorite: {
                 label: "Favorite",
                 hint: ""
