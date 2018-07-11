@@ -10,6 +10,7 @@ import {FtpState} from "../assignment/assignment.component";
 import {IAuthService} from "../../../auth/auth.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
 import { ActivityConfigConstants } from "../../activity.constants";
+import {ActivityIntervalG} from "@app/activity/activity-datamodel/activity.interval-g";
 
 const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
 
@@ -394,9 +395,9 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             //this.item.activity.updateIntervals();
         } else {
             // Переключение со структурированной на не структурированную
-            this.item.activity.intervals.stack
-                .filter((i) => i.type === "P" || i.type === "G")
-                .map((i) => this.item.activity.intervals.splice(i.type, i.pos, "single"));
+            this.item.activity.intervals.stack.filter((i) => i.type === "P" || i.type === "G")
+                .map((i) => this.item.activity.intervals
+                    .splice(i.type, i.type === "P" ? i.pos : (i as ActivityIntervalG).code, "single"));
 
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
             //this.item.activity.updateIntervals();

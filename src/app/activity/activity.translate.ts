@@ -101,19 +101,19 @@ export const translateActivity = {
               label: 'Интенсивность'
           },
           duration: {
-              label: 'Значение, {{“duration” | measureUnit:sport | translate}}',
+              label: 'Значение, {{"duration" | measureUnit:sport | translate}}',
               min: {
                   hint: 'В минутах или HH:MM:SS'
               }
           },
           movingDuration: {
-              label: 'Значение, {{“movingDuration” | measureUnit:sport | translate}}',
+              label: 'Значение, {{"movingDuration" | measureUnit:sport | translate}}',
               min: {
                   hint: 'В минутах или HH:MM:SS'
               }
           },
           distance: {
-              label: 'Значение, {{“distance” | measureUnit:sport | translate}}',
+              label: 'Значение, {{"distance" | measureUnit:sport | translate}}',
               km: {
                   hint: "Например 10.5"
               },
@@ -128,7 +128,7 @@ export const translateActivity = {
               }
           },
           speed: {
-              label: 'Значение, {{“speed” | measureUnit:sport | translate}}',
+              label: 'Значение, {{"speed" | measureUnit:sport | translate}}',
               minpkm: {
                   hint: "Например 05:30 или 05:30-05:40"
               },
@@ -146,13 +146,13 @@ export const translateActivity = {
               }
           },
           heartRate: {
-              label: 'Значение, {{“hearRate” | measureUnit:sport | translate}}',
+              label: 'Значение, {{"hearRate" | measureUnit:sport | translate}}',
               bpm: {
                   hint: "Например 140 или 145-150"
               }
           },
           power: {
-              label: 'Значение, {{“power” | measureUnit:sport | translate}}',
+              label: 'Значение, {{"power" | measureUnit:sport | translate}}',
               watt: {
                   hint: "Например 195 или 195-200"
               }
@@ -325,19 +325,19 @@ export const translateActivity = {
                 label: 'Intensity'
             },
             duration: {
-                label: 'Value, {{“duration” | measureUnit:sport | translate}}',
+                label: 'Value, {{"duration" | measureUnit:sport | translate}}',
                 min: {
                     hint: 'In minutes or HH:MM:SS'
                 }
             },
             movingDuration: {
-                label: 'Value, {{“movingDuration” | measureUnit:sport | translate}}',
+                label: 'Value, {{"movingDuration" | measureUnit:sport | translate}}',
                 min: {
                     hint: 'In minutes or HH:MM:SS'
                 }
             },
             distance: {
-                label: 'Value, {{“distance” | measureUnit:sport | translate}}',
+                label: 'Value, {{"distance" | measureUnit:sport | translate}}',
                 km: {
                     hint: "E.g. 10.5"
                 },
@@ -352,7 +352,7 @@ export const translateActivity = {
                 }
             },
             speed: {
-                label: 'Value, {{“speed” | measureUnit:sport | translate}}',
+                label: 'Value, {{"speed" | measureUnit:sport | translate}}',
                 minpkm: {
                     hint: "E.g. 05:30 or 05:30-05:40"
                 },
@@ -371,13 +371,13 @@ export const translateActivity = {
 
             },
             heartRate: {
-                label: 'Value, {{“hearRate” | measureUnit:sport | translate}}',
+                label: 'Value, {{"hearRate" | measureUnit:sport | translate}}',
                 bpm: {
                     hint: "E.g. 140 or 145-150"
                 }
             },
             power: {
-                label: 'Value, {{“power” | measureUnit:sport | translate}}',
+                label: 'Value, {{"power" | measureUnit:sport | translate}}',
                 watt: {
                     hint: "E.g. 195 or 195-200"
                 }

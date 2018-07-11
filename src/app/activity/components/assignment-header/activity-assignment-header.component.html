@@ -32,13 +32,10 @@
                            value="{{type.id}}">{{'sport.'+type.code | translate}}
                 </md-option>
             </md-select>
-            <div ng-messages="$ctrl.form.sport.$error" role="alert">
-                <div ng-message-exp="['required']"
-                     translate="form.required">
-                </div>
-                <div ng-message-exp="['minlength', 'maxlength']"
-                     translate="form.rangeStr" translate-values="{min:2, max:100}">
-                </div>
+            <div ng-messages="$ctrl.item.assignmentForm.sport.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="required" translate="form.required"></div>
             </div>
         </md-input-container>
         <div flex="none" class="wrapper-between"></div>
@@ -124,13 +121,14 @@
                            name="dateStart" md-hide-icons="calendar"
                            ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach">
             </md-datepicker>
-            <div class="hint md-dark">
+            <div class="hint md-dark"
+                 ng-show="$ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.dateStart.$valid">
                 <span translate="activity.assignment.dateStart.hint"></span>
             </div>
-            <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
-                <div ng-message="needPermissionForFeature"
-                     translate="calendar.needPermissionForFeature">
-                </div>
+            <div ng-messages="$ctrl.item.assignmentForm.dateStart.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="needPermissionForFeature" translate="activity.error.needPermissionForFeature"></div>
             </div>
         </md-input-container>
         <div flex="none" class="wrapper-between"></div>

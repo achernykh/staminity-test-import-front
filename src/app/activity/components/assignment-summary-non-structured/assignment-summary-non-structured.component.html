@@ -33,7 +33,7 @@
                    ng-model="$ctrl.plan[type].durationValue"
                    change="$ctrl.change"
                    measure="$ctrl.plan.durationMeasure"
-                   ng-attr-sport={{$ctrl.sport}}
+                   sport="$ctrl.item.activity.header.sportBasic"
                    interval="false"
                    ftp-mode="$ctrl.isFTP()"
                    ftp="$ctrl.getFTP(type,$ctrl.sport)"
@@ -80,7 +80,7 @@
                    ng-model="$ctrl.plan[type]"
                    change="$ctrl.change"
                    measure="$ctrl.plan.intensityMeasure"
-                   ng-attr-sport={{$ctrl.sport}}
+                   sport="$ctrl.item.activity.header.sportBasic"
                    interval="true"
                    ftp-mode="$ctrl.isFTP()"
                    ftp="$ctrl.getFTP(type,$ctrl.sport)"
@@ -136,7 +136,7 @@
                    ng-model="$ctrl.plan[intensity]"
                    name="plan_{{::intensity}}"
                    measure="measure"
-                   ng-attr-sport={{$ctrl.sport}}
+                   sport="$ctrl.item.activity.header.sportBasic"
                    interval="true"
                    ftp-mode="$ctrl.isFTP()"
                    ftp="$ctrl.getFTP(intensity,$ctrl.sport)"
@@ -254,7 +254,7 @@
                                    ng-model="$ctrl.plan[measure]"
                                    name="plan_{{::measure}}"
                                    measure="measure"
-                                   ng-attr-sport={{$ctrl.sport}}
+                                   sport="$ctrl.item.activity.header.sportBasic"
                                    interval="true"
                                    ftp-mode="$ctrl.isFTP()"
                                    ftp="$ctrl.getFTP(measure,$ctrl.sport)"
@@ -265,7 +265,7 @@
                                    ng-model="$ctrl.plan[measure].durationValue"
                                    change="$ctrl.change"
                                    measure="measure"
-                                   ng-attr-sport={{$ctrl.sport}} interval="false"
+                                   sport="$ctrl.item.activity.header.sportBasic" interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure)"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
@@ -277,7 +277,7 @@
                             <input ng-model="$ctrl.actual[measure][$ctrl.activityConfig.valuePosition[measure]]"
                                    name="actual_{{::measure}}" measure-input
                                    measure="measure"
-                                   ng-attr-sport={{$ctrl.sport}} interval="false"
+                                   sport="$ctrl.item.activity.header.sportBasic" interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure, 'actual')"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
@@ -290,7 +290,7 @@
                                    ng-model="$ctrl.actual[measure]['intensityByFtp']"
                                    name="actual_{{::measure}}"
                                    measure="measure"
-                                   ng-attr-sport={{$ctrl.sport}} interval="false"
+                                   sport="$ctrl.item.activity.header.sportBasic" interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure, 'actual')"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
@@ -298,7 +298,7 @@
                                    ng-model="$ctrl.actual[measure]['value']"
                                    name="actual_{{::measure}}"
                                    measure="measure"
-                                   ng-attr-sport={{$ctrl.sport}} interval="false"
+                                   sport="$ctrl.item.activity.header.sportBasic" interval="false"
                                    ftp-mode="$ctrl.isFTP()" ftp="$ctrl.getFTP(measure.$key,$ctrl.sport)"
                                    ng-change="$ctrl.changeValue(measure, 'actual')"
                                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
