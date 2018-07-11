@@ -23,11 +23,11 @@
             </md-icon>
         </div>
         <md-input-container class="st-material md-block md-dense" flex="auto">
-            <label translate="activity.assignment.{{::measure}}.label"></label>
+            <label translate-values="{sport: $ctrl.sport}" translate="activity.assignment.{{::measure}}.label"></label>
             <input flex measure-input
                    name="{{::measure}}"
                    measure="measure"
-                   ng-attr-sport={{$ctrl.sport}}
+                   sport="$ctrl.sport"
                    ftp-mode="false"
                    ftp=""
                    interval="false"
@@ -47,7 +47,7 @@
                 </span>
                 <span ng-if="!(measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationValue > 0) &&
                              !(measure === $ctrl.plan.intensityMeasure && $ctrl.plan[$ctrl.plan.intensityMeasure].intensityByFtpFrom > 0)"
-                      translate="activity.assignment.{{::measure}}.{{measure | measureUnit:$ctrl.sport}}.hint"
+                      translate="activity.assignment.{{::measure}}Fact.{{measure | measureUnit:$ctrl.sport}}.hint"
                       translate-values="{sport: $ctrl.sport}"></span>
             </div>
             <div ng-messages="$ctrl.item.assignmentForm.durationType.$error" role="alert"></div>

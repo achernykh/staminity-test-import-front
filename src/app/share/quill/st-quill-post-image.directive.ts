@@ -18,7 +18,7 @@ export const stQuillPostImage = ['ImagesService', (imagesService: ImagesService)
 
                     input.onchange = () => {
                         const file = input.files[0];
-
+                        debugger;
                         if (/^image\//.test(file.type)) {
                             resolve(file);
                         } else {

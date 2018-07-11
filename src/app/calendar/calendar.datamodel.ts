@@ -409,13 +409,7 @@ export class Calendar {
             moment(item.dateStart).isSameOrBefore(dateFinish, 'day'))
             .map(item => Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)})));**/
 
-        return Promise.resolve(cache.filter(item => item &&
-            item.hasOwnProperty('dateStart') &&
-            moment(item.dateStart).isSameOrAfter(dateStart, 'day') &&
-            moment(item.dateStart).isSameOrBefore(dateFinish, 'day'))
-            .map(item => Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)})));
-
-        /**return new Promise(resolve => {
+        return new Promise(resolve => {
             return resolve(cache
                 .filter(item =>
                     item && item.hasOwnProperty('dateStart') &&
@@ -423,7 +417,7 @@ export class Calendar {
                     moment(item.dateStart).isSameOrBefore(dateFinish, 'day'))
                 .map(item => Object.assign(item, {index: Number(`${item.calendarItemId}${item.revision}`)}))
             );
-        });**/
+        });
     }
 
 }

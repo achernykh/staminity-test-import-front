@@ -19,9 +19,20 @@
         </div>
     </div>
 </div>
+<div flex="none" class="file-preview-panel md-padding" ng-if="$ctrl.fileUrlBuffer.length > 0" layout="row" layout-wrap="true">
+    <div flex="33" ng-repeat="url in $ctrl.fileUrlBuffer" layout="row" layout-align="start start" style="padding-bottom: 16px;">
+        <div class="card md-whiteframe-z1" flex="auto" style="background-image: url({{url}})">
+        </div>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.deleteFile($index)">
+            <md-icon class="material-icons md-18">close</md-icon>
+        </md-button>
+    </div>
+</div>
 <div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack ng-if="!$ctrl.isIonic">
     <md-input-container flex class="md-block no-message">
         <textarea ng-model="$ctrl.text"
+                  id="inputMessage"
+                  ng-paste="$ctrl.paste($event)"
                   ng-model-options="{ updateOn: 'blur' }"
                   max-rows="5"
                   name="about" rows="1"></textarea>
@@ -35,7 +46,7 @@
     <form ng-submit="$ctrl.onPostComment($ctrl.text)" style="width: 100%; margin: 0;">
         <div class="item item-input-inset" style="padding: 4px 10px;">
             <label class="item-input-wrapper">
-                <input type="text" ng-model="$ctrl.text" placeholder="..."/>
+                <input id="inputMessage-2" type="text" ng-model="$ctrl.text" placeholder="..."/>
             </label>
             <button type="submit" class="button button-icon button-clear ion-paper-airplane md-dark md-active"
                     ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.text.length > 0))"></button>

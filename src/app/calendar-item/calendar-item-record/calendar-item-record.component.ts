@@ -74,7 +74,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
 
     changeRepeatMode (): void {
         if (this.record.isRepeated) {
-
+            this.record.prepareDefaultType(true);
         } else {
             this.record.recordHeader.dateStart = this.record.dateStart;
         }

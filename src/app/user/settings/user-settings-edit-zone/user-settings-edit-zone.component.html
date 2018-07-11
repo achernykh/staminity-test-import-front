@@ -23,7 +23,7 @@
                            ng-model="$ctrl.settings[measure]"
                            name="valueFrom"
                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
-                           ng-attr-sport={{$ctrl.sport}}
+                           sport="$ctrl.sport"
                            ng-disabled="false">
                     <div ng-messages="$ctrl.zones[measure].$error" role="alert">
                         <div ng-message-exp="['required']" translate="form.required">
@@ -85,7 +85,7 @@
                                            measure-input required
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
-                                           ng-attr-sport={{$ctrl.sport}}
+                                           sport="$ctrl.sport"
                                            ng-change="$ctrl.checkForm()"
                                            ng-disabled="$ctrl.viewMode || (!$ctrl.viewMode && !$first)">
                                 </md-input-container>
@@ -96,7 +96,7 @@
                                            name="valueTo"
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
-                                           ng-attr-sport={{$ctrl.sport}}
+                                           sport="$ctrl.sport"
                                            ng-change="$ctrl.changeZone($index,zone.valueTo, $ctrl.intensityFactor)"
                                            ng-disabled="$ctrl.viewMode">
                                 </md-input-container>

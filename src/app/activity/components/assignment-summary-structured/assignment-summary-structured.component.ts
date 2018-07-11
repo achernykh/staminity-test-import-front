@@ -1,4 +1,4 @@
-import {IComponentController, IComponentOptions, IPromise} from "angular";
+import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
 import {
     CalendarItemActivityCtrl,
     HeaderStructuredTab,
@@ -23,9 +23,9 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
         },
     };
 
-    static $inject = ['quillConfig'];
+    static $inject = ['quillConfig', '$scope'];
 
-    constructor(private quillConf: IQuillConfig) {
+    constructor(private quillConf: IQuillConfig, private $scope: IScope) {
 
     }
 
@@ -45,8 +45,10 @@ class AssignmentSummaryStructuredCtrl implements IComponentController {
             this.item.activity.intervals.stack.filter((i) => i.type === "P" || i.type === "G")
                 .map((i) => this.item.activity.intervals
                     .splice(i.type, i.type === "P" ? i.pos : (i as ActivityIntervalG).code, "single"));
-
             this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
+            this.item.assignmentForm.$setValidity('needInterval', true);
+            this.item.assignmentForm.$setValidity('needDuration', true);
+            this.item.templateChangeCount ++;
             //this.item.activity.updateIntervals();
         }
     }

@@ -21,6 +21,9 @@ activity-header-chat {
     margin: 0px 18px 16px 8px;
     padding:8px;
     border-radius: 6px;
+
+    img {  width: 100%;  }
+
   }
 
   .input-box {
@@ -32,6 +35,21 @@ activity-header-chat {
   md-input-container {
     margin-bottom: 8px;
     margin-top: 8px;
+  }
+
+  .file-preview-panel {
+    background: white;
+    min-height: 20vh;
+    .card {
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      background-size: cover;
+      background-position: center;
+    }
+    .delete {
+
+    }
   }
 
 }

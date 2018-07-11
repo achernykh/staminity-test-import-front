@@ -16,7 +16,7 @@ $input-radius: 4px;
   }
   ng-quill-editor {
     background: $input-color;
-    border-radius: $input-radius 0;
+    border-radius: $input-radius $input-radius 0 0;
     border-bottom: 1px;
     border-color: rgba(0,0,0,0.12);
   }

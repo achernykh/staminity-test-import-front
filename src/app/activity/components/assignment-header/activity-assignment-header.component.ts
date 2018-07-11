@@ -1,4 +1,4 @@
-import {IComponentController, IComponentOptions, INgModelController, IPromise} from "angular";
+import {IComponentController, IComponentOptions, INgModelController, IPromise, IScope} from "angular";
 import {
     CalendarItemActivityCtrl,
     HeaderStructuredTab,
@@ -15,9 +15,9 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private form: INgModelController;
     ftpMode: number;
 
-    static $inject = [];
+    static $inject = ['$scope'];
 
-    constructor() {
+    constructor(private $scope: IScope) {
 
     }
 
@@ -33,9 +33,10 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
     private changeParam() {
         setTimeout(() => {
             this.clearTemplate();
-            this.updateForm();
+            this.item.checkAssignmentForm();
             this.item.updateFilterParams();
-        }, 100);
+            this.$scope.$applyAsync();
+        }, 1);
     }
 
     /**

@@ -27,7 +27,7 @@
         <md-input-container flex="auto" class="st-material md-block md-dense"
                             ng-repeat="type in $ctrl.durationTypes"
                             ng-if="$ctrl.plan.durationMeasure === type">
-            <label ng-translate="activity.assignment.{{type}}.label"></label>
+            <label translate="activity.assignment.{{type}}.label" translate-values="{sport: $ctrl.sport}"></label>
             <input measure-input
                    name="plan_{{::type}}"
                    ng-model="$ctrl.plan[type].durationValue"
@@ -40,12 +40,12 @@
                    ng-change="$ctrl.changeValue(type)"
                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
             <div class="hint md-dark"
-                 ng-show="$ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.$valid">
-                <span translate="{{$ctrl.isFTP() ? ('activity.assignment.ftp.hint') : ('activity.assignment.' + type + '.' + (type | measureUnit:$ctrl.sport) + '.hint')}}"
+                 ng-show="$ctrl.item.assignmentForm.$prestine || !$ctrl.item.assignmentForm.$error['needDuration']">
+                <span translate="{{'activity.assignment.' + type + '.' + (type | measureUnit:$ctrl.sport) + '.hint'}}"
                       translate-values="{sport: $ctrl.sport}"></span>
             </div>
             <div ng-messages="$ctrl.item.assignmentForm.$error"
-                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 ng-show="$ctrl.item.assignmentForm.$dirty && $ctrl.item.assignmentForm.$error['needDuration']"
                  md-auto-hide="false">
                 <div ng-message="needDuration" translate>activity.error.needDuration</div>
             </div>
@@ -74,6 +74,7 @@
                             ng-class="{'st-input-has-value': $ctrl.plan[type].intensityByFtpFrom > 0}"
                             ng-if="$ctrl.plan.intensityMeasure === type">
             <label class="st-has-value"
+                   translate-values="{sport: $ctrl.sport}"
                    translate="{{$ctrl.isFTP() ? ('activity.assignment.ftp.label') : ('activity.assignment.' + type + '.label')}}"></label>
             <input measure-input
                    name="plan_{{::type}}"
@@ -151,7 +152,7 @@
 <md-list class="assignment-summary-non-structured md-padding"
          ng-if="$ctrl.item.activity.view.isView">
     <div layout="row" layout-align="start center" class="view-item-line md-body-1 md-dark">
-        <div flex="none" class="wrapper-icon">Показатель</div>
+        <div flex="none" class="wrapper-icon" translate="activity.measureUnitShort"></div>
         <div flex="auto" style="min-width: 60px"></div>
         <div flex="45" style="text-align: right" translate="activity.plan"></div>
         <div flex="none" class="wrapper-between"></div>
@@ -169,7 +170,7 @@
             <span>{{measure | measureUnit:$ctrl.sport | translate}}</span>
         </div>
         <div flex="45" style="text-align: right">
-            <span ng-if="measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationMeasure > 0">
+            <span ng-if="measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationValue > 0">
                 {{$ctrl.plan.durationValue | measureCalc:$ctrl.sport:measure}}
             </span>
             <span ng-if="measure === $ctrl.plan.intensityMeasure">

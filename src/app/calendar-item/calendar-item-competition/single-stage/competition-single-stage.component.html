@@ -31,7 +31,7 @@
                            ng-model="stage.item.intervals.PW[$ctrl.durationMeasure(stage.item, $index)].durationValue"
                            change="$ctrl.change"
                            measure="$ctrl.durationMeasure(stage.item, $index)"
-                           ng-attr-sport={{stage.item.header.sportBasic}}
+                           sport="stage.item.header.sportBasic"
                            interval="false"
                            ftp-mode="false"
                            ftp="null"
@@ -46,7 +46,7 @@
                            name="{{$index}}_actual"
                            ng-model="stage.item.intervals.W.calcMeasures[$ctrl.durationMeasure(stage.item, $index)].value"
                            measure="$ctrl.durationMeasure(stage.item, $index)"
-                           ng-attr-sport={{stage.item.header.sportBasic}}
+                           sport="stage.item.header.sportBasic"
                            interval="false"
                            ftp-mode="false"
                            ftp="null"

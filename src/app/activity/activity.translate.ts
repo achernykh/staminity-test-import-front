@@ -128,7 +128,7 @@ export const translateActivity = {
               }
           },
           speed: {
-              label: 'Значение, {{"speed" | measureUnit:sport | translate}}',
+              label: "Значение, {{'speed' | measureUnit:sport | translate}}",
               minpkm: {
                   hint: "Например 05:30 или 05:30-05:40"
               },
