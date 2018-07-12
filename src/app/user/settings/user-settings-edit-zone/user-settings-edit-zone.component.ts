@@ -63,6 +63,11 @@ class UserSettingsEditZoneCtrl implements IComponentController {
         this.zones.$setValidity('consistencyPositive', this.zoneConsistencyPositive());
         this.zones.$setValidity('consistencyBetweenValues', this.zoneConsistencyBetweenValues());
         this.zones.$setValidity('consistencyBetweenZones', this.zoneConsistencyBetweenZones());
+        this.zones['FTP'].$setValidity('ftpMoreWhenZero', this.ftpMoreWhenZero());
+    }
+
+    ftpMoreWhenZero (): boolean {
+        return this.settings.FTP > 0;
     }
 
     zoneConsistencyPositive (): boolean {

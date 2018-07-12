@@ -143,6 +143,10 @@ class SummaryStatisticsCtrl {
 
         console.log(this);
     }
+
+    getGradientUrl () {
+        return `url(${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}#chart-bars)`;
+    }
 };
 
 SummaryStatisticsCtrl.$inject = ['$scope','$mdDialog','dialogs','SessionService','UserService','GroupService','SystemMessageService'];

@@ -6,6 +6,7 @@ import { userSettingsEditZoneDialog } from '../user-settings-edit-zone/user-sett
 import { UserSettingsZonesDatamodel } from './user-settings-zones.datamodel';
 import { UserSettingsService } from "../user-settings.service";
 import './user-settings-zones.component.scss';
+import MessageService from "@app/core/message.service";
 
 class UserSettingsZonesCtrl {
     
@@ -27,7 +28,7 @@ class UserSettingsZonesCtrl {
     constructor (
         private userSettingsService: UserSettingsService,
         private dialogs: any,
-        private message: any,
+        private message: MessageService,
         private $mdDialog: any
     ) {
 
@@ -91,11 +92,7 @@ class UserSettingsZonesCtrl {
 
     submit () {
         this.userSettingsService.saveZones(this.datamodel.toUserProfile())
-        .then((result) => {
-            
-        }, (error) => {
-
-        });
+        .then((result) => {}, e => e && this.message.toastError(e));
     }
 }
 
