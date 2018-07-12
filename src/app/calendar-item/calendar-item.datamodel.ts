@@ -116,7 +116,7 @@ export class CalendarItemView {
 	}
 
 	get enabledDate (): boolean {
-		return !(this.options.templateMode || (this.isTrainingPlan && this.options.trainingPlanOptions.dynamicDates))
+		return !(this.options.templateMode || (this.isTrainingPlan && this.options.trainingPlanOptions.dynamicDates));
 	}
 	get dynamicDates (): boolean {
 		return this.isTrainingPlan && this.options.trainingPlanOptions.dynamicDates;

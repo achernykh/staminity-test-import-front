@@ -39,11 +39,11 @@ export interface ActivityConfigConstants {
         [sport: string]: string;
     };
     intensityBySport: {
-        [sport: string]: [string];
+        [sport: string]: string[];
     };
     valuePosition: {
         [measure: string]: string;
-    }
+    };
 }
 
 export const activityConfigConstants: ActivityConfigConstants = {
