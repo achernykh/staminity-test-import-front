@@ -43,6 +43,9 @@ export interface ActivityConfigConstants {
     };
     valuePosition: {
         [measure: string]: string;
+    },
+    oppositeDurationMeasure: {
+        [measure: string]: string;
     }
 }
 
@@ -81,6 +84,11 @@ export const activityConfigConstants: ActivityConfigConstants = {
         heartRate: 'avgValue',
         speed: 'avgValue',
         power: 'avgValue'
+    },
+    oppositeDurationMeasure: {
+        distance: 'duration',
+        duration: 'movingDuration',
+        movingDuration: 'distance',
     }
 };
 

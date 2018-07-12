@@ -20,14 +20,15 @@
                 <md-input-container flex class="no-message" ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
                     <input name="{{::measure}}" measure-input
+                           ng-required="{{measure === 'FTP'}}"
                            ng-model="$ctrl.settings[measure]"
                            name="valueFrom"
                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
                            sport="$ctrl.sport"
                            ng-disabled="false">
                     <div ng-messages="$ctrl.zones[measure].$error" role="alert">
-                        <div ng-message-exp="['required']" translate="form.required">
-                        </div>
+                        <div ng-message-exp="['required']" translate="form.required"></div>
+                        <div ng-message-exp="['min']" translate="form.min" translate-values="{min:0}"></div>
                         <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}">
                         </div>
                     </div>
