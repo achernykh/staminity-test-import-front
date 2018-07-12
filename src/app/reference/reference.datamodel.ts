@@ -64,5 +64,5 @@ export const templatesReorder = (templates: IActivityTemplate[], order: number[]
 };
 
 export const nameFromInterval = ($translate) => (value: number, measure: string, sport: string): string => {
-    return value && measure && sport && `${measureValue(value, sport, measure)} ${$translate.instant(measureUnit(measure, sport))}` || null
+    return value && measure && sport && `${measureValue(value, sport, measure)} ${$translate.instant(measureUnit(measure, sport))}` || null;
 };
