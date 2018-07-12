@@ -697,6 +697,10 @@ export const _translateMessage = {
         calendarOnlyForCoach: {
             title: '',
             text: "Переход в календарь доступен только для тренера"
+        },
+        duplicateViolation_CODE: {
+            title: '',
+            text: "Шаблон с таким названием уже существует"
         }
 
 
@@ -1396,6 +1400,10 @@ export const _translateMessage = {
         calendarOnlyForCoach: {
             title: '',
             text: "Athlete's calendar is available only for the coach"
+        },
+        duplicateViolation_CODE: {
+            title: '',
+            text: "Error: Template name should be unique"
         }
 
 

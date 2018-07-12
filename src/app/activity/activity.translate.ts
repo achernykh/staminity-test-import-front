@@ -3,6 +3,7 @@ export const translateActivity = {
       title: 'Тренировка',
       toolbar: {
           title: 'Тренировка',
+          close: 'Закрыть'
       },
       action: {
           save: 'Сохранить',
@@ -282,6 +283,8 @@ export const translateActivity = {
         title: 'Activity',
         toolbar: {
             title: 'Activity',
+            close: 'Close'
+
         },
         action: {
             save: 'Save',
