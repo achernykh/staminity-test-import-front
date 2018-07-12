@@ -701,6 +701,10 @@ export const _translateMessage = {
         duplicateViolation_CODE: {
             title: '',
             text: "Шаблон с таким названием уже существует"
+        },
+        badZonesSettings: {
+            title: '',
+            text: "Зоны не сохранены. Проверьте корректность указания границ зон и уровня ПАНО"
         }
 
 
@@ -1404,6 +1408,10 @@ export const _translateMessage = {
         duplicateViolation_CODE: {
             title: '',
             text: "Error: Template name should be unique"
+        },
+        badZonesSettings: {
+            title: '',
+            text: "Operation failed. Please check training zones limit values and LT level"
         }
 
 
