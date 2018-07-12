@@ -15,7 +15,7 @@
             <label translate="activity.assignment.durationMeasure.label"></label>
             <md-select flex name="durationType"
                        ng-model="$ctrl.plan.durationMeasure"
-                       ng-change="$ctrl.changeParam()"
+                       ng-change="$ctrl.changeValue('durationMeasure')"
                        ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-option ng-repeat="type in $ctrl.durationTypes"
                            value="{{type}}">{{type | translate}}
@@ -60,7 +60,7 @@
             <label translate="activity.assignment.intensityMeasure.label"></label>
             <md-select flex name="intensityType"
                        ng-model="$ctrl.plan.intensityMeasure"
-                       ng-change="$ctrl.changeParam()"
+                       ng-change="$ctrl.changeValue('intensityMeasure')"
                        ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-option ng-repeat="type in $ctrl.intensityTypesBySport[$ctrl.sport]"
                            value="{{type}}">{{type | translate}}

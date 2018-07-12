@@ -39,11 +39,14 @@ export interface ActivityConfigConstants {
         [sport: string]: string;
     };
     intensityBySport: {
-        [sport: string]: [string];
+        [sport: string]: string[];
     };
     valuePosition: {
         [measure: string]: string;
-    }
+    },
+    oppositeDurationMeasure: {
+        [measure: string]: string;
+    };
 }
 
 export const activityConfigConstants: ActivityConfigConstants = {
@@ -81,6 +84,11 @@ export const activityConfigConstants: ActivityConfigConstants = {
         heartRate: 'avgValue',
         speed: 'avgValue',
         power: 'avgValue'
+    },
+    oppositeDurationMeasure: {
+        distance: 'duration',
+        duration: 'movingDuration',
+        movingDuration: 'distance',
     }
 };
 

@@ -12,6 +12,7 @@ import { IQuillConfig } from "@app/share/quill/quill.config";
 import { ActivityConfigConstants } from "../../activity.constants";
 import {ActivityIntervalG} from "@app/activity/activity-datamodel/activity.interval-g";
 import { isFutureDay } from "../../../share/date/date.filter";
+import { DurationMeasure, IntensityMeasure } from "../../activity-datamodel/activity.models";
 
 class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     // bind
@@ -188,14 +189,31 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     changeValue(key: string, segment: 'actual' | 'plan' = null) {
         if(!!!key) {return;}
+        if (key === 'durationMeasure') {
+            this.plan.duration = new DurationMeasure();
+            this.plan.movingDuration = new DurationMeasure();
+            this.plan.distance = new DurationMeasure();
+            this.plan.durationValue = null;
+        }
+        if (key === 'intensityMeasure') {
+            this.plan.heartRate = new IntensityMeasure();
+            this.plan.speed = new IntensityMeasure();
+            this.plan.power = new IntensityMeasure();
+            this.plan.intensityByFtpFrom = undefined;
+            this.plan.intensityByFtpTo = undefined;
+            this.plan.intensityLevelFrom = undefined;
+            this.plan.intensityLevelTo = undefined;
+        }
         if (segment === 'actual' && this.item.activity.hasActualData) {
             this.item.activity.intervals.W.actualDataIsCorrected = true;
         }
         this.clearTemplate();
         this.validateForm();
-        this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
+        if (key !== 'durationMeasure' && key !== 'intensityMeasure') {
+            this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
+            this.percentComplete[key] = this.calcPercent(key); // обновляем view model
+        }
         this.prepareDataForUpdate();
-        this.percentComplete[key] = this.calcPercent(key); // обновляем view model
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
         this.updateForm();
     }

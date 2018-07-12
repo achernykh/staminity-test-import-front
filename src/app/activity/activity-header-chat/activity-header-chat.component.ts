@@ -75,7 +75,7 @@ export class ActivityHeaderChatCtrl implements IComponentController {
 
     onPostComment(text) {
         this.inAction = true;
-        this.comment.post(this.commentType, this.activityId, true, this.imgTag + Autolinker.link(text))
+        this.comment.post(this.commentType, this.activityId, true, this.imgTag + Autolinker.link(text,{safe: true, embed: true,youtube: true}))
             .then((result) => {
                     this.fileUrlBuffer = [];
                     this.text = null;

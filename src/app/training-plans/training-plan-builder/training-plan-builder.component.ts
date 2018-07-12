@@ -131,14 +131,15 @@ class TrainingPlanBuilderCtrl implements IComponentController {
         this.currentPlan = null;
         this.trainingPlansService.get(planId)
             .then(response => this.currentPlan = new TrainingPlan(response))
-            .then(() => this.setData())
-            .then(_ => {debugger;});
+            .then(_ => this.setData());
     }
 
     private setData (): void {
         this.calendar = new Calendar(this.$scope, this.$anchorScroll, null, this.currentUser, this.currentPlan.calendarItems);
         this.dynamicDates = !this.currentPlan.isFixedCalendarDates;
-        this.calendar.toDate(this.dynamicDates ? new Date('3000.01.01') : this.currentPlan.startDate);
+        //let date = new Date(3000, 0, 1);
+        //alert(date);
+        this.calendar.toDate(this.dynamicDates ? new Date(3000, 0, 1) : this.currentPlan.startDate);
         this.$location.search('planId', this.currentPlan.id);
     }
 
