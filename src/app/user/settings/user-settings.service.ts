@@ -64,8 +64,7 @@ export class UserSettingsService {
             //}
             this.update(userProfile);
             this.message.toastInfo('settingsSaveComplete');
-        })
-        .catch((e) => e && this.message.toastError(e));
+        }, (e) => e && this.message.toastError(e));
     }
 
     /**
