@@ -275,12 +275,14 @@ export function MeasurementInput($filter): IDirective {
             console.log("check pace interval validators", model);
             return  (model && model.hasOwnProperty($scope.from) && model[$scope.from] === undefined) ||
                     (model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
-                        model[$scope.from] <= model[$scope.to]);
+                     model[$scope.from] <= model[$scope.to]);
         };
 
         const numberIntervalValidators = (model: any) => {
-            return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
-                model[$scope.from] <= model[$scope.to];
+            console.log("check pace interval validators", model);
+            return  (model && model.hasOwnProperty($scope.from) && model[$scope.from] === undefined) ||
+                    (model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
+                     model[$scope.from] <= model[$scope.to]);
         };
 
         const paceValidators = (model, view) => {
