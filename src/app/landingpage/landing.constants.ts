@@ -26,6 +26,7 @@ export interface LandingConfig {
         url: string;
         title: string;
         subtitle: string;
+        picture: string;
         button?: {
             text: string;
             url: string;
@@ -48,12 +49,16 @@ export const landingConfig: LandingConfig = {
         {
             code: 'trainingPlans',
             url: 'cases/training-plans',
-            blocks: [
-
-            ],
-            externalBlocks: [
-
-            ]
+            title: '',
+            subtitle: '',
+            picture: '',
+            blocks: [{
+                code: '',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: ''
+            }],
         }
     ]
 };
