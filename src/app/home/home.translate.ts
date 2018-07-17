@@ -2,7 +2,7 @@ export const homeTranslate = {
     ru: {
         fullTitle: 'Обзор',
         shortTitle: 'Обзор',
-        monthAvg: 'среднее {{value | number:1}}{{unit | translate}}/месяц',
+        monthAvg: 'Cр. {{value | number:1}}{{unit | translate}}/мес',
         charts: {
             header: 'Аналитика',
             distance: {
@@ -22,7 +22,7 @@ export const homeTranslate = {
     en: {
         fullTitle: 'Home',
         shortTitle: 'Home',
-        monthAvg: 'avg {{value | number:1}}{{unit | translate}}/month',
+        monthAvg: 'Avg {{value | number:1}}{{unit | translate}}/month',
         charts: {
             header: 'Charts',
             distance: {
