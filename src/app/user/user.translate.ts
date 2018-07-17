@@ -551,6 +551,7 @@ export const translateUser = {
                 clubTariffs: "Подключение тарифов за счет клуба",
                 incomingRequestClub: "Новые запросы клубу",
                 membersInOut: "Вход/выход из клуба",
+                membersRequest: "Запросы клуба",
 
             },
             templates: {
@@ -1123,6 +1124,7 @@ export const translateUser = {
                 clubTariffs: "Paid by club tariffs",
                 incomingRequestClub: "New requests to club",
                 membersInOut: "Club members in/out",
+                membersRequest: "Club members requests",
 
             },
             templates: {
