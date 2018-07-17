@@ -3,7 +3,10 @@ interface LandingContentBlock {
     title: string;
     subtitle?: string;
     text: string;
-    button?: string; // text or null
+    button?: {
+        text: string;
+        url: string;
+    };
     picture: string; // url to content server
 }
 
@@ -21,6 +24,12 @@ export interface LandingConfig {
     scenario: [{
         code: string; // example, trainingPlans, coachOnline and e.t.c
         url: string;
+        title: string;
+        subtitle: string;
+        button?: {
+            text: string;
+            url: string;
+        };
         blocks: LandingContentBlock[];
         externalBlocks?: LandingContentBlock[];
     }]
