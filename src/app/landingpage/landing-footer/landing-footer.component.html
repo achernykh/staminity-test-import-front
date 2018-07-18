@@ -1,0 +1,41 @@
+<!-- footer -->
+<article layout="row" class="landing-footer footer" md-theme="dark">
+    <div flex-gt-sm="10" hide show-gt-sm></div>
+    <div flex layout="column">
+        <div flex layout-gt-sm="row" layout="column" layout-align="center center"
+             layout-align-gt-sm="center start">
+            <div flex="25" layout="column" class="footer-block"
+                 ng-repeat="block in $ctrl.landingConfig.footer">
+                <h4 flex class="md-body-2 md-dark" translate="landing.footer.{{::block.code}}.title"></h4>
+                <div flex class="md-body-1 md-dark" ng-repeat="link in block.links"
+                     translate="landing.footer.{{::block.code}}.{{::link}}"></div>
+                <md-divider flex hide-gt-sm></md-divider>
+            </div>
+        </div>
+    </div>
+</article>
+<!-- copyright -->
+<article layout="row" layout-align="center center" class="landing-footer copyright">
+    <div flex="none" class="md-body-2 md-dark">
+        <span translate>landing.footer.copyright1</span>
+        <md-icon class="fill-measure heartRate" md-svg-icon="assets/icon/heartRate.svg"></md-icon>
+        <span translate>landing.footer.copyright2</span>
+    </div>
+    <div flex="auto"></div>
+    <div flex="none" layout="row" layout-align="end center" class="social-buttons">
+        <a flex="none" target="_blank" href="https://itunes.apple.com/app/true/id1257031952">
+            <img src="https://d3ptyyxy2at9ui.cloudfront.net/2e92241a82d85ff0065c23fac1a645df.svg"/>
+        </a>
+        <a flex="none" target="_blank" href="https://play.google.com/store/apps/details?id=com.staminity.phoneapp">
+            <img src="https://d3ptyyxy2at9ui.cloudfront.net/3371f0722d31099070bef0f710811816.svg"/>
+        </a>
+        <md-button flex="none" class="md-icon-button more" aria-label="more"
+                   onclick="location.href='https://www.facebook.com/staminity/'">
+            <md-icon class="light-active" md-svg-icon="assets/icon/facebook_clr.svg"></md-icon>
+        </md-button>
+        <md-button flex="none" class="md-icon-button more" aria-label="more"
+                   onclick="location.href='https://vk.com/staminity'">
+            <md-icon class="light-active" md-svg-icon="assets/icon/vkontakte_clr.svg"></md-icon>
+        </md-button>
+    </div>
+</article>

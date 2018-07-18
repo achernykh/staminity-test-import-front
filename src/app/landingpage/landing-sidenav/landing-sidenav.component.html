@@ -1,0 +1,31 @@
+<md-sidenav id="planMenu" class="md-sidenav-right md-whiteframe-z4 st-fixed landing-sidenav"
+            md-component-id="planMenu">
+    <md-toolbar flex="none" class="">
+        <div class="md-toolbar-tools">
+            <h2 class="">{{::'trainingPlans.form.title' | translate}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="$ctrl.toggleSlide('planMenu')" style="margin-right: 0">
+                <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-list ng-init="showItems = true">
+        <md-list-item>
+            <p class="md-body-2" translate="landing.scenario.shortTitle"></p>
+            <md-icon class="md-secondary material-icon" class="" ng-click="showItems = !showItems"
+                     ng-bind="showItems ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
+        </md-list-item>
+        <md-list-item class="subitem" ng-repeat="scenario in $ctrl.landingConfig.scenario"
+                      ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
+            <md-icon class="material-icon md-dark"
+                     md-svg-src="/assets/icon/{{::scenario.icon}}.svg"></md-icon>
+            <p class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></p>
+        </md-list-item>
+        <md-list-item ng-repeat="item in $ctrl.landingConfig.sidenav"
+                      ng-click="$ctrl.$state.go(item.state, item.stateParams)">
+            <md-icon class="material-icon md-dark"
+                     md-svg-src="/assets/icon/{{::item.icon}}.svg"></md-icon>
+            <p class="md-body-2" translate>{{::item.title}}</p>
+        </md-list-item>
+    </md-list>
+</md-sidenav>

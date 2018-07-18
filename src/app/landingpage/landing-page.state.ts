@@ -1,4 +1,5 @@
 import {StateDeclaration} from '@uirouter/angularjs';
+import { landingConfig } from "./landing.constants";
 
 const main: any = {
     name: 'main',
@@ -8,7 +9,19 @@ const main: any = {
     views: {
         application: {component: 'stLandingMain'}
     }
-
 };
 
-export const landingPageState: Array<StateDeclaration> = [main];
+const scenarios: any[] = landingConfig.scenario.map(s => ({
+    name: s.code,
+    url: s.url,
+    loginRequired: false,
+    authRequired: [],
+    resolve: {
+        scenario: () => s
+    },
+    views: {
+        application: {component: 'stLandingScenario'}
+    }
+}));
+
+export const landingPageState: Array<StateDeclaration> = [main, ...scenarios];

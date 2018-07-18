@@ -1,0 +1,37 @@
+<md-toolbar id="toolbar" class="landing-toolbar background" ng-class="{'solid-background': $ctrl.solid}" flex="none">
+    <div class="md-toolbar-tools">
+        <img ng-src="/assets/landing/staminity-horizontal-color.svg"/>
+        <div class="links" layout="row">
+            <navigation flex="none" ng-if="false">
+                <md-button href="#" class="md-primary"
+                           style="text-transform: none; font-weight: normal; padding: 0 12px">
+                    <span>Возможности</span>
+                    <md-icon class="material-icons">keyboard_arrow_down</md-icon>
+                </md-button>
+                <md-button href="#" class="md-primary"
+                           style="text-transform: none; font-weight: normal; padding: 0 12px">
+                    <span>Магазин планов</span>
+                    <md-icon class="material-icons">keyboard_arrow_down</md-icon>
+                </md-button>
+                <md-button href="#" class="md-primary"
+                           style="text-transform: none; font-weight: normal;">
+                    <span>Найти тренера</span>
+                    <md-icon class="material-icons">keyboard_arrow_down</md-icon>
+                </md-button>
+            </navigation>
+            <section flex></section>
+            <navigation flex="none">
+                <md-button href="#" class="md-primary accent" ng-click="$ctrl.onScenario()">
+                    <span translate="landing.scenario.shortTitle"></span>
+                </md-button>
+                <md-button href="#" class="md-primary">
+                    <span translate="landing.nav.signIn"></span>
+                </md-button>
+                <md-button class="menu md-icon-button md-primary" aria-label="PlanMenu"
+                           ng-click="$ctrl.toggleSlide('planMenu')">
+                    <md-icon class="material-icons md-light md-32" size="32">menu</md-icon>
+                </md-button>
+            </navigation>
+        </div>
+    </div>
+</md-toolbar>

@@ -1,0 +1,71 @@
+@import "../../../sass/color";
+
+.landing-scenario {
+  background: white;
+
+  .general {
+    height: 80vh;
+    //background: linear-gradient(100deg, white 40%, $blue-grey-600 40%);
+    //border-bottom: 1px solid $blue-grey-100;
+    padding: 64px 32px 32px 32px;
+    .title {  width: 95%; font-size: 3.2vw; color: $blue-grey-800; font-weight: 500; line-height: 1.1em }
+    .subtitle {  font-size: 1.8vw; width: 90%; line-height: 1.3em }
+    .picture {
+      width: 90%;
+    }
+    .picture img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      object-position: 100% 0;
+    }
+    button {
+      margin: 0;
+      color: white !important;
+      text-transform: initial;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+  .scenario-block {
+    min-height: 45vh;
+    width: 100%;
+    padding: 32px;
+    background-color: $grey-050;
+    border-bottom: 1px solid $grey-100;
+    .block-text, .block-image {
+      height: 100%;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    &.odd {
+      .block-text .text { margin: 0 0 0 14%; }
+      .block-image img { margin: 0 -8% 0 0; }
+      background: none;
+    }
+    .block-text {
+      .text {
+        margin: 0 14% 0 0;
+      }
+      h1 {
+        font-size: 2.2vw;
+        color: $blue-grey-800;
+        margin-bottom: 1vw;
+      }
+      p {
+        font-size: 1.2vw;
+        margin-bottom: 1vw;
+        color: #333;
+        line-height: 1.4;
+      }
+    }
+    .block-image {
+      img {
+        width: 108%;
+        margin: 0 0 0 -8%;
+      }
+    }
+  }
+
+}

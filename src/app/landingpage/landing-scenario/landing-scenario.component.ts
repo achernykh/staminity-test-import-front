@@ -1,14 +1,23 @@
-import './landing-main.component.scss';
-import { IComponentOptions, IComponentController, element } from 'angular';
+import './landing-scenario.component.scss';
+import {IComponentOptions, IComponentController, element} from 'angular';
 import { LandingConfig } from "../landing.constants";
 
-class LandingMainCtrl implements IComponentController {
-
+class LandingScenarioCtrl implements IComponentController {
+    
+    // bind
+    data: any;
+    onEvent: (response: Object) => Promise<void>;
+     
+    // private
     private toolbar: JQuery;
     static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state'];
 
     constructor (private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state) {
         this.subscribeOnScroll();
+    }
+
+    $onInit(): void {
+
     }
 
     subscribeOnScroll(): void {
@@ -26,10 +35,11 @@ class LandingMainCtrl implements IComponentController {
     }
 }
 
-export const LandingMainComponent: IComponentOptions = {
+export const LandingScenarioComponent:IComponentOptions = {
     bindings: {
-
+        scenario: '<',
+        onEvent: '&'
     },
-    controller: LandingMainCtrl,
-    template: require('./landing-main.component.html') as string
-}
+    controller: LandingScenarioCtrl,
+    template: require('./landing-scenario.component.html') as string
+};

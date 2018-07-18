@@ -1,0 +1,52 @@
+.landing-toolbar {
+  color: white;
+  position: fixed;
+  &.background {
+    background-color: rgba(white, 0.0);
+    color: white;
+  }
+  &.solid, &.solid-background {
+    background-color: rgba(white, 0.97);
+    color: black;
+    a.md-button {
+      color: rgba(black, 0.87);
+    }
+    a.md-button.accent {
+      border-color: rgba(black, 0.87);
+    }
+    .menu md-icon {
+      color: rgba(black, 0.87) !important;
+    }
+    img {
+      height: 24px;
+    }
+  }
+
+  .md-toolbar-tools {
+    padding: 0 32px;
+    img {
+      width: auto;
+      height: 32px;
+      transition: 0.3s;
+    }
+    .links {
+      width: 100%;
+    }
+    .menu {
+      padding: 4px
+    }
+  }
+  navigation {
+    a.md-button {
+      color: white;
+      text-transform: none;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    a.md-button.accent {
+      border: 1px solid white;
+      border-radius: 20px;
+      padding: 0 16px;
+    }
+  }
+}
