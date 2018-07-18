@@ -1,6 +1,7 @@
 .landing-toolbar {
   color: white;
   position: fixed;
+  img {cursor: pointer;}
   &.background {
     background-color: rgba(white, 0.0);
     color: white;

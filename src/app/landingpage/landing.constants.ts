@@ -4,8 +4,10 @@ interface LandingContentBlock {
     subtitle?: string;
     text: string;
     button?: {
-        text: string;
-        url: string;
+        text?: string;
+        url?: string;
+        state?: string;
+        stateParams?: Object;
     };
     picture: string; // url to content server
 }
@@ -40,8 +42,10 @@ export interface LandingConfig {
         subtitle: string;
         picture: string;
         button?: {
-            text: string;
-            url: string;
+            text?: string;
+            url?: string;
+            state?: string;
+            stateParams?: Object;
         };
         reviews?: {
             [language: string]: LandingReview[]

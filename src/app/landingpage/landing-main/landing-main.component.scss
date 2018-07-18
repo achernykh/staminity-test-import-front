@@ -43,7 +43,7 @@ $max-toolbar-width: 1000px;
   }
 
   .general {
-    height: calc(100vh - 128px);
+    height: 100vh;
     background: linear-gradient(100deg, white 40%, $blue-grey-600 40%);
     border-bottom: 1px solid $blue-grey-100;
     padding: 64px 32px;
@@ -56,7 +56,7 @@ $max-toolbar-width: 1000px;
       height: 100%;
       width: 100%;
       object-fit: contain;
-      object-position: 100% 0;
+      object-position: 100% 50%;
     }
     button {
       margin: 0;
@@ -104,7 +104,9 @@ $max-toolbar-width: 1000px;
     text-align: center;
   }
   .scenario-card img {
-    height: 240px;
+    height: 30vh;
+    object-fit: contain;
+    object-position: 50% 50%;
     max-width: 100%;
   }
 }
