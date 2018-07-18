@@ -149,12 +149,6 @@ export const landingConfig: LandingConfig = {
                     about: 'Спортсмен-любитель',
                     country: '',
                     text: 'Отзыв в сценарии "Работа с тренером" №2'
-                },{
-                    avatar: 'https://www.trainingpeaks.com/images/testimonial-headshots/nina-arnold.jpg',
-                    author: 'Дима Petrov',
-                    about: 'Спортсмен-любитель',
-                    country: '',
-                    text: 'Отзыв в сценарии "Работа с тренером" №3'
                 }]
             }
 
