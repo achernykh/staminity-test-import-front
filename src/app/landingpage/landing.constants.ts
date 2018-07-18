@@ -83,19 +83,19 @@ export const landingConfig: LandingConfig = {
             author: 'Nina Arnold',
             about: 'Mountain biker, Marketing Manager',
             country: '',
-            text: 'TrainingPeaks keeps me on-track, motivated, and ready to take on my next challenge.'
+            text: 'Staminity keeps me on-track, motivated, and ready to take on my next challenge.'
         },{
             avatar: 'https://www.trainingpeaks.com/images/testimonial-headshots/nina-arnold.jpg',
             author: 'Nina Arnold',
             about: 'Mountain biker, Marketing Manager',
             country: '',
-            text: 'TrainingPeaks keeps me on-track, motivated, and ready to take on my next challenge.'
+            text: 'Staminity keeps me on-track, motivated, and ready to take on my next challenge.'
         },{
             avatar: 'https://www.trainingpeaks.com/images/testimonial-headshots/nina-arnold.jpg',
             author: 'Nina Arnold',
             about: 'Mountain biker, Marketing Manager',
             country: '',
-            text: 'TrainingPeaks keeps me on-track, motivated, and ready to take on my next challenge.'
+            text: 'Staminity keeps me on-track, motivated, and ready to take on my next challenge.'
         }]
     },
     scenario: [
@@ -105,6 +105,12 @@ export const landingConfig: LandingConfig = {
             title: '',
             subtitle: '',
             picture: '/assets/landing/staminity_main_coaching.png',
+            button: {
+                state: 'search',
+                stateParams: {
+                    state: 'coaches'
+                }
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -130,13 +136,41 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: '',
             }],
+            reviews: {
+                ru: [{
+                    avatar: 'https://www.trainingpeaks.com/images/testimonial-headshots/nina-arnold.jpg',
+                    author: 'Vasya Petrov',
+                    about: 'Спортсмен-любитель',
+                    country: '',
+                    text: 'Отзыв в сценарии "Работа с тренером" №1'
+                },{
+                    avatar: 'https://www.trainingpeaks.com/images/testimonial-headshots/nina-arnold.jpg',
+                    author: 'Миша Petrov',
+                    about: 'Спортсмен-любитель',
+                    country: '',
+                    text: 'Отзыв в сценарии "Работа с тренером" №2'
+                },{
+                    avatar: 'https://www.trainingpeaks.com/images/testimonial-headshots/nina-arnold.jpg',
+                    author: 'Дима Petrov',
+                    about: 'Спортсмен-любитель',
+                    country: '',
+                    text: 'Отзыв в сценарии "Работа с тренером" №3'
+                }]
+            }
+
         },
         {
             code: 'trainingPlans',
-            url: 'cases/training-plans',
+            url: '/cases/training-plans',
             title: '',
             subtitle: '',
             picture: '',
+            button: {
+                state: 'training-plans-store',
+                stateParams: {
+                    state: 'store'
+                }
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -170,6 +204,10 @@ export const landingConfig: LandingConfig = {
             title: '',
             subtitle: '',
             picture: '',
+            button: {
+                state: 'signup',
+                stateParams: null
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -208,6 +246,10 @@ export const landingConfig: LandingConfig = {
             title: '',
             subtitle: '',
             picture: '',
+            button: {
+                state: 'signup',
+                stateParams: null
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -246,6 +288,10 @@ export const landingConfig: LandingConfig = {
             title: '',
             subtitle: '',
             picture: '',
+            button: {
+                state: 'signup',
+                stateParams: null
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -272,6 +318,12 @@ export const landingConfig: LandingConfig = {
             title: '',
             subtitle: '',
             picture: '',
+            button: {
+                state: 'training-plans-store',
+                stateParams: {
+                    state: 'store'
+                }
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -304,6 +356,10 @@ export const landingConfig: LandingConfig = {
             title: '',
             subtitle: '',
             picture: '',
+            button: {
+                state: 'signup',
+                stateParams: null
+            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -333,20 +389,20 @@ export const landingConfig: LandingConfig = {
     ],
     footer: [
         {
-            code: 'block1',
-            links: ['link1', 'link2', 'link3', 'link4', 'link5']
-        },
-        {
-            code: 'block2',
-            links: ['link1', 'link2', 'link3', 'link4', 'link5', 'link6']
-        },
-        {
-            code: 'block3',
+            code: 'product',
             links: ['link1', 'link2', 'link3', 'link4']
         },
         {
-            code: 'block4',
-            links: ['link1', 'link2']
+            code: 'scenarios',
+            links: ['link1', 'link2', 'link3', 'link4', 'link5', 'link6', 'link7']
+        },
+        {
+            code: 'support',
+            links: ['link1', 'link2', 'link3', 'link4']
+        },
+        {
+            code: 'company',
+            links: ['link1', 'link2', 'link3', 'link4', 'link5']
         }
     ],
     sidenav: [

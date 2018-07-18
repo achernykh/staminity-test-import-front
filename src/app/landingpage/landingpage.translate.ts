@@ -186,6 +186,40 @@ export let _translate = {
             },
             copyright1: 'Cделано с',
             copyright2: '| © 2018 Staminity. Все права защищены',
+            product: {
+                title: "Продукт",
+                link1: '<a href="https://staminity.com/features">Возможности</a>',
+                link2: '<a href="https://staminity.com/tariffs">Тарифы</a>',
+                link3: '<a href="https://staminity.com/search?state=coaches">Найти тренера</a>',
+                link4: '<a href="https://staminity.com/training-plans-store?state=store">Магазин планов</a>',
+            },
+            scenarios: {
+                title: "Сценарии",
+                link1: '<a href="https://staminity.com/cases/work-with-coach">Работа с тренером</a>',
+                link2: '<a href="https://staminity.com/cases/training-plans">Тренировки по плану</a>',
+                link3: '<a href="https://staminity.com/cases/individual-training">Самостоятельные тренировки</a>',
+                link4: '<a href="https://staminity.com/cases/train-athletes">Подготовка учеников</a>',
+                link5: '<a href="https://staminity.com/cases/train-groups">Работа с группами спортсменов</a>',
+                link6: '<a href="https://staminity.com/cases/training-plan-publication">Публикация и продажа планов</a>',
+                link7: '<a href="https://staminity.com/cases/several-coaches">Работа нескольких тренеров</a>',
+
+            },
+            support: {
+                title: "Помощь и поддержка",
+                link1: '<a href="https://help.staminity.com/ru" target="_blank">Справочная система</a>',
+                link2: '<a href="https://support.staminity.com" target="_blank">Поддержка пользователей</a>',
+                link3: '<a href="mailto:support@staminity.com?subject=Staminity demo">Запросить демо</a>',
+                link4: '<a href="mailto:support@staminity.com?subject=Question">Задать вопрос</a>',
+            },
+            company: {
+                title: "Компания",
+                link1: '<a href="#">О компании</a>',
+                link2: '<a href="https://blog.staminity.com" target="_blank">Блог</a>',
+                link3: '<a href="https://legal.staminity.com/ru/">Правовые документы</a>',
+                link4: '<a href="https://legal.staminity.com/ru/privacy.html">Политика конфиденциальности</a>',
+                link5: '<a href="https://legal.staminity.com/ru/credits/website-credits.html">Благодарности</a>',
+
+            },
         },
         tariffs: {
             title: "Сколько стоит Стаминити?",
