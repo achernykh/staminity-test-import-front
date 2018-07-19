@@ -44,8 +44,8 @@ export const landingTariffsData = [
                     year: 250,
                 },
                 en: {
-                    month: 300,
-                    year: 250,
+                    month: 6,
+                    year: 5,
                 },
             },
             variable: null,
@@ -72,8 +72,8 @@ export const landingTariffsData = [
                     year: 250,
                 },
                 en: {
-                    month: 300,
-                    year: 250,
+                    month: 6,
+                    year: 5,
                 },
             },
             variable: {
@@ -91,8 +91,8 @@ export const landingTariffsData = [
                     coachAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 210,
-                        premium: 210,
+                        athlete: 4,
+                        premium: 4,
                     },
                 },
             },
@@ -119,8 +119,8 @@ export const landingTariffsData = [
                     year: 250,
                 },
                 en: {
-                    month: 300,
-                    year: 250,
+                    month: 6,
+                    year: 5,
                 },
             },
             variable: {
@@ -142,12 +142,12 @@ export const landingTariffsData = [
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 210,
-                        premium: 210,
+                        athlete: 4,
+                        premium: 4,
                     },
                     clubCoaches: {
                         minCoaches: 1,
-                        coach: 300,
+                        coach: 6,
                     },
                 },
             },

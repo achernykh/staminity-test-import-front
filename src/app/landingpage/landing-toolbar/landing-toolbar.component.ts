@@ -1,5 +1,5 @@
 import './landing-toolbar.component.scss';
-import {IComponentOptions, IComponentController} from 'angular';
+import {IComponentOptions, IComponentController, element} from 'angular';
 import { LandingConfig } from "../landing.constants";
 
 class LandingToolbarCtrl implements IComponentController {
@@ -9,16 +9,26 @@ class LandingToolbarCtrl implements IComponentController {
     onEvent: (response: Object) => Promise<void>;
 
     // private
-
+    private toolbar: JQuery;
     // inject
-    static $inject = ['$mdSidenav', 'landingConfig', '$state'];
+    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state'];
 
-    constructor(private $mdSidenav, private landingConfig: LandingConfig, private $state) {
-
+    constructor(private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state) {
+        this.subscribeOnScroll();
     }
 
     $onInit(): void {
 
+    }
+
+    subscribeOnScroll(): void {
+        setTimeout(() => {
+            this.toolbar = element(this.$document[0].querySelector('#toolbar'));
+            window.addEventListener('scroll', () => {
+                this.toolbar.addClass(window.scrollY > window.innerHeight * 0.05 ? 'solid md-whiteframe-z3' : 'background');
+                this.toolbar.removeClass(window.scrollY <= window.innerHeight * 0.05 ? 'solid md-whiteframe-z3' : 'background');
+            });
+        }, 100);
     }
 
     toggleSlide(component) {

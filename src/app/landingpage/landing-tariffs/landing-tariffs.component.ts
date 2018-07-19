@@ -43,7 +43,6 @@ class LandingTariffsCtrl implements IComponentController {
         private session: SessionService) {
 
         saveUtmParams($location.search());
-
     }
 
     $onInit() {
