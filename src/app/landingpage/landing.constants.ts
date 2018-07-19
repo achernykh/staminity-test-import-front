@@ -112,7 +112,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/work-with-coach',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-02.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-02.png',
             button: {
                 state: 'search',
                 stateParams: {
@@ -124,25 +124,25 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: 'https://monday.com/img/templates/production-tracking/board.png',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/search-ru-01.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: 'https://monday.com/img/templates/production-tracking/omniscience.png',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/planned-activity-ru-01.png',
             },{
                 code: 'block3',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/calendar-fact-ru.png',
             },{
                 code: 'block4',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-ru-03.png',
             }],
             reviews: {
                 ru: [{
@@ -166,7 +166,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plans',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-02.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-02.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -178,25 +178,25 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/training-plan-store-ru.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/plan-assignment-ru.png',
             },{
                 code: 'block3',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/calendar-ru-01.png',
             },{
                 code: 'block4',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-ru-01.png',
             }
             ],
         },
@@ -205,7 +205,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/individual-training',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-03.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-03.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -215,31 +215,31 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/season-plan-ru.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/calendar-plan-01.png',
             },{
                 code: 'block3',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/calendar-ru-02.png',
             },{
                 code: 'block4',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-ru-02.png',
             },{
                 code: 'block5',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/analytics-ru.png',
             }],
         },
         {
@@ -247,7 +247,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-athletes',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-04.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-04.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -257,31 +257,31 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/calendar-plan-01.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/dashboard-ru-01.png',
             },{
                 code: 'block3',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-ru-02.png',
             },{
                 code: 'block4',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/completed-activity-chat.png',
             },{
                 code: 'block5',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/search-ru-02.png',
             }],
         },
         {
@@ -289,7 +289,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-groups',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-05.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-05.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -299,13 +299,13 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/training-plan-builder-ru-01.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/plan-assignment-ru.png',
             },{
                 code: 'block3',
                 title: '',
@@ -319,7 +319,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plan-publication',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-06.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-06.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -331,19 +331,19 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/training-plan-card.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/training-plan-page-01.png',
             },{
                 code: 'block3',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/training-plan-store-ru.png',
             },{
                 code: 'block4',
                 title: '',
@@ -357,7 +357,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/several-coaches',
             title: '',
             subtitle: '',
-            picture: 'https://staminity.com/assets/images/scenario-07.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-07.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -367,25 +367,25 @@ export const landingConfig: LandingConfig = {
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/club-profile-ru-01.png',
             },{
                 code: 'block2',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/club-management-ru.png',
             },{
                 code: 'block3',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/club-dashboard.png',
             },{
                 code: 'block4',
                 title: '',
                 subtitle: '',
                 text: '',
-                picture: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/templates-ru-01.png',
             }],
         },
     ],
