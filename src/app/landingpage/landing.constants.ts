@@ -438,5 +438,82 @@ export const landingConfig: LandingConfig = {
             state: 'training-plans-store',
             stateParams: null
         },
+    ],
+    features: [
+        {
+            code: 'featuresNew',
+            url: '/features',
+            title: '',
+            subtitle: '',
+            picture: '/assets/landing/staminity_main_coaching.png',
+            button: {
+                state: 'signup',
+                stateParams: null
+            },
+            blocks: [{
+                code: 'block1',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: '',
+            },{
+                code: 'block2',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: '',
+            },{
+                code: 'block3',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: '',
+            },{
+                code: 'block4',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: '',
+            }],
+            externalBlocks: [
+                {
+                    code: 'externalBlock1'
+                },
+                {
+                    code: 'externalBlock2'
+                },
+                {
+                    code: 'externalBlock3'
+                },
+                {
+                    code: 'externalBlock4'
+                },
+                {
+                    code: 'externalBlock5'
+                },
+                {
+                    code: 'externalBlock6'
+                },
+                {
+                    code: 'externalBlock7'
+                },
+                {
+                    code: 'externalBlock8'
+                },
+                {
+                    code: 'externalBlock9'
+                },
+                {
+                    code: 'externalBlock10'
+                },
+                {
+                    code: 'externalBlock11'
+                },
+                {
+                    code: 'externalBlock12'
+                }],
+            reviews: null
+        }
     ]
+
 };
