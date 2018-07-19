@@ -189,39 +189,39 @@ export let _translate = {
             product: {
                 title: "Продукт",
                 link1: '<a href="/features">Возможности</a>',
-                link2: '<a href="tariffs">Тарифы</a>',
-                link3: '<a href="search">Найти тренера</a>',
-                link4: '<a href="training-plans-store">Магазин планов</a>',
+                link2: '<a href="/tariffs">Тарифы</a>',
+                link3: '<a href="/search?state=coaches">Найти тренера</a>',
+                link4: '<a href="/training-plans-store?state=store">Магазин планов</a>',
             },
             scenarios: {
                 title: "Сценарии",
-                link1: '<a href="work-with-coach">Работа с тренером</a>',
-                link2: '<a href="training-plans">Тренировки по плану</a>',
-                link3: '<a href="individual-training">Самостоятельные тренировки</a>',
-                link4: '<a href="train-athletes">Подготовка учеников</a>',
-                link5: '<a href="train-groups">Работа с группами спортсменов</a>',
-                link6: '<a href="training-plan-publication">Публикация и продажа планов</a>',
-                link7: '<a href="several-coaches">Работа нескольких тренеров</a>',
+                link1: '<a href="/work-with-coach">Работа с тренером</a>',
+                link2: '<a href="/training-plans">Тренировки по плану</a>',
+                link3: '<a href="/individual-training">Самостоятельные тренировки</a>',
+                link4: '<a href="/train-athletes">Подготовка учеников</a>',
+                link5: '<a href="/train-groups">Работа с группами спортсменов</a>',
+                link6: '<a href="/training-plan-publication">Публикация и продажа планов</a>',
+                link7: '<a href="/several-coaches">Работа нескольких тренеров</a>',
 
             },
             support: {
                 title: "Помощь и поддержка",
                 link1: '<a href="https://help.staminity.com/ru" target="_blank">Справочная система</a>',
                 link2: '<a href="https://support.staminity.com" target="_blank">Поддержка пользователей</a>',
-                link3: '<a href="mailto:support@staminity.com?subject=Staminity demo">Запросить демо</a>',
-                link4: '<a href="mailto:support@staminity.com?subject=Question">Задать вопрос</a>',
+                link3: '<a href="mailto:support@staminity.com?subject=Staminity demo" target="_blank">Запросить демо</a>',
+                link4: '<a href="mailto:support@staminity.com?subject=Question" target="_blank">Задать вопрос</a>',
             },
             company: {
                 title: "Компания",
                 link1: '<a href="#">О компании</a>',
                 link2: '<a href="https://blog.staminity.com" target="_blank">Блог</a>',
-                link3: '<a href="https://legal.staminity.com/ru/">Правовые документы</a>',
-                link4: '<a href="https://legal.staminity.com/ru/privacy.html">Политика конфиденциальности</a>',
-                link5: '<a href="https://legal.staminity.com/ru/credits/website-credits.html">Благодарности</a>',
+                link3: '<a href="https://legal.staminity.com/ru/" target="_blank">Правовые документы</a>',
+                link4: '<a href="https://legal.staminity.com/ru/privacy.html" target="_blank">Политика конфиденциальности</a>',
+                link5: '<a href="https://legal.staminity.com/ru/credits/website-credits.html" target="_blank">Благодарности</a>',
             },
         },
         tariffs: {
-            title: "Сколько стоит Стаминити?",
+            title: "Сколько стоит Staminity?",
             tryFreeBtn: "Попробовать бесплатно",
             tryFree: "Привязка кредитной карты не требуется",
             connectFree: "Бесплатно навсегда",
@@ -821,20 +821,20 @@ export let _translate = {
             },
             product: {
                 title: "Product",
-                link1: '<a href="features">Features</a>',
-                link2: '<a href="tariffs">Tariffs</a>',
-                link3: '<a href="search">Find coach</a>',
-                link4: '<a href="training-plans-store">Training plans Store</a>',
+                link1: '<a href="/features">Features</a>',
+                link2: '<a href="/tariffs">Tariffs</a>',
+                link3: '<a href="/search?state=coaches">Find coach</a>',
+                link4: '<a href="/training-plans-store?state=store">Training plans Store</a>',
             },
             scenarios: {
                 title: "Use cases",
-                link1: '<a href="work-with-coach">Working with a coach</a>',
-                link2: '<a href="training-plans">Training according to the plan</a>',
-                link3: '<a href="individual-training">Independent training</a>',
-                link4: '<a href="train-athletes">Working with athletes</a>',
-                link5: '<a href="train-groups">Working with groups of athletes</a>',
-                link6: '<a href="training-plan-publication">Plan publication and selling</a>',
-                link7: '<a href="several-coaches">Work of several coaches</a>',
+                link1: '<a href="/work-with-coach">Working with a coach</a>',
+                link2: '<a href="/training-plans">Training according to the plan</a>',
+                link3: '<a href="/individual-training">Self training</a>',
+                link4: '<a href="/train-athletes">Working with athletes</a>',
+                link5: '<a href="/train-groups">Working with groups of athletes</a>',
+                link6: '<a href="/training-plan-publication">Plan publication and selling</a>',
+                link7: '<a href="/several-coaches">Work of several coaches</a>',
 
             },
             support: {
@@ -851,9 +851,9 @@ export let _translate = {
                 link3: '<a href="https://legal.staminity.com/en/">Legal documents</a>',
                 link4: '<a href="https://legal.staminity.com/en/privacy.html">Privacy policy</a>',
                 link5: '<a href="https://legal.staminity.com/en/credits/website-credits.html">Credits</a>',
-                copyright1: "Made with",
-                copyright2: "| © 2018 Staminity. All rights reserved",
             },
+            copyright1: "Made with",
+            copyright2: "| © 2018 Staminity. All rights reserved",
             tariffs: {
                 title: "How much does staminity.com cost?",
                 tryFreeBtn: "TRY FOR FREE",
@@ -934,7 +934,7 @@ export let _translate = {
             featuresNew: {
                 title: 'Staminity features',
                 shortTitle: 'Features',
-                subtitle: 'Everything that’s needed for remote work with a coach and independent training in cyclic sports',
+                subtitle: 'Everything that’s needed for remote work with a coach and self training in cyclic sports',
                 button: {
                     title: 'Try for free',
                     link: ''
@@ -952,64 +952,65 @@ export let _translate = {
                 block3: {
                     title: 'Working with a coach',
                     subtitle: '',
-                    text: "Search for coaches to train online. Individual plan, recommendations and constant contact with the coach. <a href='work-with-coach'>Read more</a>",
+                    text: "Search for coaches to train online. Individual plan, recommendations and constant contact with the coach. <a ui-sref='work-with-coach'>Read more</a>",
                 },
                 block4: {
                     title: 'Training plans',
                     subtitle: '',
-                    text: "Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a href='training-plans'>Read more</a>",
+                    text: "Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a ui-sref='training-plans'>Read more</a>",
                 },
                 externalblocks: {
                     title: 'As well as',
-                    externalBlock1: {
-                        title: 'Загрузка тренировок',
-                        text: 'Автоматическая загрузка выполненных тренировок и сопоставление с планом'
+                    externalBlock1:{
+                        title: 'Activities upload',
+                        text: 'An automatic upload of completed activities and their comparison with the planned ones'
                     },
-                    externalBlock2: {
-                        title: 'Мобильные приложения',
-                        text: 'Календарь тренировок всегда под рукой в приложениях для IOS и Android'
+                    externalBlock2:{
+                        title: 'Mobile apps',
+                        text: 'Training diary is always at your disposal in iOS and Android apps'
                     },
-                    externalBlock3: {
-                        title: 'Два вида заданий',
-                        text: 'План на всю тренировку  или на каждый сегмент для интервальных тренировок'
+                    externalBlock3:{
+                        title: 'Two types of activities',
+                        text: 'Simple and structured activities'
                     },
-                    externalBlock4: {
-                        title: 'Планирование сезона',
-                        text: 'План на сезон по мезоциклам. Свои схемы периодизации'
+                    externalBlock4:{
+                        title: 'Season planning',
+                        text: 'Season plan by mesocycles. Custom periodization schemes'
                     },
-                    externalBlock5: {
-                        title: 'Аналитика и отчетность',
-                        text: 'Интерактивные отчеты для контроля процесса подготовки'
+                    externalBlock5:{
+                        title: 'Analytics and reports',
+                        text: 'Interactive charts to control the preparation process'
                     },
-                    externalBlock6: {
-                        title: 'Дэшборд тренера',
-                        text: 'Обзор тренировочной недели для тренера по всем ученикам'
+                    externalBlock6:{
+                        title: 'Coach dashboard',
+                        text: "Training week overview for all coach’s athletes"
                     },
-                    externalBlock7: {
-                        title: 'Шаблоны тренировок',
-                        text: 'Шаблоны тренировок для быстрого планирования для себя и учеников'
+                    externalBlock7:{
+                        title: 'Activity templates',
+                        text: 'Templates enabling to create activities for you and for your athletes in a fast and simple way'
                     },
-                    externalBlock8: {
-                        title: 'Категории тренировок',
-                        text: 'Классификация тренировок по категориям'
+                    externalBlock8:{
+                        title: 'Activity categories',
+                        text: 'Activity classification by categories'
                     },
-                    externalBlock9: {
-                        title: 'Тренировочные зоны',
-                        text: 'Границы тренировочных зон и ПАНО для анализа тренировок'
+                    externalBlock9:{
+                        title: 'Training zones',
+                        text: 'Limits of training zones and of LT for activities analysis'
                     },
-                    externalBlock10: {
-                        title: 'Массовые операции',
-                        text: 'Копирование, вставка и перенос отдельных тренировок и тренировочных недель'
+                    externalBlock10:{
+                        title: 'Mass operations',
+                        text: 'Cut, copy and paste separate activities and training weeks'
                     },
-                    externalBlock11: {
-                        title: 'Фото и видео',
-                        text: 'Изображения и видео в заданиях и событиях'
+                    externalBlock11:{
+                        title: 'Photo and video',
+                        text: 'Images and videos in descriptions of activities and events'
                     },
-                    externalBlock12: {
-                        title: 'Общение с тренером',
-                        text: 'Чат с тренером в каждой тренировке'
+                    externalBlock12:{
+                        title: 'Communication with a coach',
+                        text: 'Chat with your coach in each activity'
                     },
                 },
+
 
             },
             workWithCoach: {
@@ -1032,239 +1033,239 @@ export let _translate = {
                     text: "Activities planned by the coach will appear in your calendar. In each activity you will find your coach's recommendations and will be able to ask him any questions.",
                 },
                 block3: {
-                    title: 'Выполняйте тренировки',
+                    title: 'Complete activities',
                     subtitle: '',
-                    text: "Выполняйте рекомендации тренера и записывайте тренировки спортивными часами или программой на смартфоне.<br>" +
-                    "Чтобы тренировки попадали в Staminity, настройте автоматическую загрузку из Garmin Connect или Strava.",
+                    text: "Complete your coach’s recommendations and record your activities by sports watch or by an application on your smartphone.<br>" +
+                    "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
                 },
                 block4: {
-                    title: 'Анализируйте выполнение',
+                    title: 'Analyze your activities',
                     subtitle: '',
-                    text: "Цвет тренировки покажет степень соответствия плану.<br>" +
-                    "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
+                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
                 },
 
             },
             trainingPlans: {
-                title: 'Занятия по тренировочному плану',
-                shortTitle: 'Занятия по тренировочному плану',
-                subtitle: 'Тренировочный план - это хороший способ подготовиться к выбранной дистанции занимаясь системно, выполняя рекомендации профессионального наставника',
+                title: 'Training according to the plan',
+                shortTitle: 'Training according to the plan',
+                subtitle: 'Training plan is a good way to prepare for the chosen distance, by training systematically and completing recommendations of a professional coach',
                 button: {
-                    title: 'Выбрать тренировочный план',
+                    title: 'Choose your plan',
                     link: ''
                 },
                 block1: {
-                    title: 'Выберите подходящий план',
+                    title: 'Find a suitable plan',
                     subtitle: '',
-                    text: "В магазине планов Staminity тренеры публикуют свои тренировочные планы. <br>" +
-                    "Подберите план по характеристикам, важным для вас. По каждому плану доступна подробная информация.",
+                    text: "Coaches publish their training plans in the Store. <br>" +
+                    "Choose a plan according to characteristics that are important to you. For each plan there is detailed information available.",
                 },
                 block2: {
-                    title: 'Купите и примените план',
+                    title: 'Purchase and assign the plan',
                     subtitle: '',
-                    text: "Каждый план включает набор плановых тренировок и рекомендаций тренера для достижения определенной цели.<br>" +
-                    "После покупки примените план в нужные даты и тренировки появятся в вашем календаре",
+                    text: "Each plan includes a set of planned activities and recommendations of the coach aimed at achieving a certain goal.<br>" +
+                    "After the purchase, assign the plan to the required dates and planned activities will appear in your calendar.",
                 },
                 block3: {
-                    title: 'Выполняйте рекомендации тренера',
+                    title: 'Complete activities',
                     subtitle: '',
-                    text: "Выполняйте тренировки и записывайте их спортивными часами или программой на смартфоне.<br>" +
-                    "Чтобы тренировки попадали в Staminity, настройте автоматическую загрузку из Garmin Connect или Strava.",
+                    text: "Complete activities and record them by your sports watch or by an application on the smartphone. <br>" +
+                    "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
                 },
                 block4: {
-                    title: 'Анализируйте свои тренировки',
+                    title: 'Analyze your activities',
                     subtitle: '',
-                    text: "Цвет тренировки покажет степень соответствия плану.<br>" +
-                    "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
-                }
+                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
+                },
 
             },
             individualTraining: {
-                title: 'Самостоятельные тренировки',
-                shortTitle: 'Самостоятельные тренировки',
-                subtitle: 'В Staminity есть всё для самостоятельной подготовки продвинутых любителей в циклических видах спорта (бег, триатлон, плавание, велоспорт, лыжные гонки, …)',
+                title: 'Self training',
+                shortTitle: 'Self training',
+                subtitle: 'In Staminity you will find everything needed for self training of advanced amateurs in cyclic sports e.g. running, triathlon, swimming, cycling, skiing etc.',
                 button: {
-                    title: 'Попробовать бесплатно',
+                    title: 'Try for free',
                     link: ''
                 },
                 block1: {
-                    title: 'Создайте план на сезон',
+                    title: 'Create a season plan',
                     subtitle: '',
-                    text: "Запланируйте свой тренировочный сезон по мезоциклам. Текущий мезоцикл и план по нему всегда будет доступен в календаре.",
+                    text: "Plan your training season by mesocycles. The current mesocycle and every microcycle plan are always be available in the calendar",
                 },
                 block2: {
-                    title: 'Составьте план тренировок',
+                    title: 'Compose a plan of activities',
                     subtitle: '',
-                    text: "При планировании вводите тренировки вручную, используйте свои шаблоны и категории тренировок, копируйте предыдущие занятия.",
+                    text: "When planning you can create activities manually, use your templates and activity categories, copy previous activities.",
                 },
                 block3: {
-                    title: 'Выполняйте тренировки',
+                    title: 'Complete activities',
                     subtitle: '',
-                    text: "Выполняйте тренировки и записывайте их спортивными часами или программой на смартфоне.<br>" +
-                    "Чтобы тренировки попадали в Staminity, настройте автоматическую загрузку из Garmin Connect или Strava.",
+                    text: "Complete activities and record them by your sports watch or by an application on the smartphone. <br>" +
+                    "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
                 },
                 block4: {
-                    title: 'Анализируйте тренировки',
+                    title: 'Analyze your activities',
                     subtitle: '',
-                    text: "Цвет тренировки покажет степень соответствия плану.<br>" +
-                    "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
+                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
                 },
                 block5: {
-                    title: 'Контролируйте подготовку',
+                    title: 'Control your training process',
                     subtitle: '',
-                    text: "Настройте свой набор отчетов и контролируйте подготовку. <br>" +
-                    "Доступны различные отчеты: тренировочные объемы, время в зонах, пики интенсивности, процент выполнения плана, тренировочная нагрузка и т.п.",
+                    text: "Set up your own set of reports and control the training process. <br>" +
+                    "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
                 }
 
             },
             trainAthletes: {
-                title: 'Подготовка учеников',
-                shortTitle: 'Подготовка учеников',
-                subtitle: 'Всё для работы тренера с учениками онлайн в циклических видах спорта (бег, плавание, триатлон, лыжные гонки, велоспорт, ...)',
+                title: 'Working with athletes',
+                shortTitle: 'Working with athletes',
+                subtitle: 'Everything that is needed for a coach to be able to train athletes online in cyclic sports e.g. running, swimming, triathlon, skiing, cycling etc.',
                 button: {
-                    title: 'Попробовать бесплатно',
+                    title: 'Try for free',
                     link: ''
                 },
                 block1: {
-                    title: 'Планируйте подготовку',
+                    title: 'Create a plan',
                     subtitle: '',
-                    text: "Создавайте план тренировок для своих учеников, планируйте соревнования, фиксируйте важные события. <br>" +
-                    "Шаблоны тренировок помогут планировать быстрее",
+                    text: "Create planned activities for your athletes, competitions and important events. <br>" +
+                    "Activity templates will help you to plan in a fast and convenient way.",
                 },
                 block2: {
-                    title: 'Контролируйте выполнение',
+                    title: 'Control the plan completion',
                     subtitle: '',
-                    text: "Дэшборд для тренера содержит обзор тренировочной недели по всем ученикам. Он поможет контролировать выполнение плана спортсменами.<br>" +
-                    "Создавайте новые тренировки и анализируйте выполненные прямо из дэшборда",
+                    text: "Coach dashboard contains training week overview for all connected athletes. It will help the coach to control the process of plan completion by athletes<br>" +
+                    "Create new activities and analyze completed ones from the dashboard",
                 },
                 block3: {
-                    title: 'Анализируйте тренировки',
+                    title: 'Analyze activities',
                     subtitle: '',
-                    text: "Цвет тренировки покажет степень соответствия плану.<br>" +
-                    "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
+                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
                 },
                 block4: {
-                    title: 'Общайтесь с учениками',
+                    title: 'Stay connected with athletes',
                     subtitle: '',
-                    text: "Чат с учеником, доступный в каждой тренировке, поможет получить его отчет или ответить на вопросы",
+                    text: "With the help of the chat available in each activity, you will be able to receive a report from an athlete or answer his questions.",
                 },
                 block5: {
-                    title: 'Привлекайте новых учеников',
+                    title: 'Get new athletes',
                     subtitle: '',
-                    text: "Помогите новым ученикам найти и узнать подробнее о вас. Расскажите в профиле о себе, об условиях занятий, о достижениях спортсменов. <br>" +
-                    "Пользователи Staminity смогут найти вас в поиске тренеров",
+                    text: "Help new athletes to find out more information about you. In your profile you can tell about yourself, your terms of training and achievements of your athletes.  <br>" +
+                    "New athletes will be able to find you among the coach search results",
                 }
             },
             trainGroups: {
-                title: 'Работа с группами спортсменов',
-                shortTitle: 'Работа с группами',
-                subtitle: 'Тренировочные планы - удобный и мощный инструмент для работы тренера с группами спортсменов и корпоративными командами',
+                title: 'Working with groups of athletes',
+                shortTitle: 'Working with groups',
+                subtitle: "Training plan is a powerful tool making coach’s work with groups of athletes and corporate teams convenient and simple.",
                 button: {
-                    title: 'Попробовать бесплатно',
+                    title: 'Try for free',
                     link: ''
                 },
                 block1: {
-                    title: 'Создайте план',
+                    title: 'Create a training plan',
                     subtitle: '',
-                    text: "Тренировочный план - это набор тренировочных заданий, событий и соревнований. <br>" +
-                    "Создайте тренировочный план и запланируйте тренировки, аналогично планированию через календарь",
+                    text: "Training plan contains a set of planned activities, events and competitions. <br>" +
+                    "Create a training plan and plan activities similar to planning through calendar.",
                 },
                 block2: {
-                    title: 'Присвойте план спортсменам',
+                    title: 'Assign plan to athletes',
                     subtitle: '',
-                    text: "Присвойте план выбранным ученикам. Тренировки, события и соревнования из плана попадут в календари спортсменов",
+                    text: "Assign plan to the selected athletes. Activities, events, and competitions from the plan will be copied to the athlete’s calendar.",
                 },
                 block3: {
-                    title: "Виды планов",
-                    subtitle1: 'Универсальный',
-                    text1: "Тренировочный план, не привязанный к конкретным датам. Может быть применен в любые даты.<br>" +
-                    "Хорошо подходит в качестве типового плана для подготовки к забегу, для начала работы с новичками и как шаблон нескольких недель тренировок",
-                    subtitle2: 'Фиксированные даты',
-                    text2: 'Тренировочный план, привязанный к конкретным датам. <br>' +
-                    'Подходит для плана подготовки к определенному событию, например "Московский марафон", а также для составления плана работы группы учеников',
-                    subtitle3: 'Обновляемый план',
-                    text3: "Тренировочный план, привязанный к конкретным датам, все изменения которого автоматически транслируются спортсменам. <br>" +
-                    "Идеален для проведения тренировочных сборов и тренировки групп спортсменов по одному расписанию, в том числе для подготовки корпоративных команд по бегу и триатлону.",
+                    title: "Plan types available",
+                    subtitle1: 'Universal',
+                    text1: "Training plan without fixed dates. Can be applied in any dates.<br>" +
+                    "Is great as typical plan used to prepare for a race, as a plan to start working with newbies and as a template for several weeks of activities. ",
+                    subtitle2: 'Fixed dates',
+                    text2: 'Training plan with fixed dates <br>' +
+                    'Can be used when preparing for a specific event, such as the Berlin marathon, and as a plan for a specific group of athletes. ',
+                    subtitle3: 'Dynamic plan',
+                    text3: "Training plan with fixed dates, all changes are transferred to assigned athletes. <br>" +
+                    "Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.",
                 }
             },
             trainingPlanPublication: {
-                title: 'Публикация и продажа тренировочных планов',
-                shortTitle: 'Публикация планов',
-                subtitle: 'Упакуйте ваш опыт подготовки к стартам в тренировочные планы и опубликуйте их в Магазине планов. Привлекайте новых клиентов и зарабатывайте в Staminity',
+                title: 'Training plans publication and selling',
+                shortTitle: 'Plan publication and selling',
+                subtitle: 'Present your experience in preparing athletes for races in the form of training plans and publish them in the Store. Get new clients and earn with Staminity',
                 button: {
-                    title: 'Магазин планов',
+                    title: 'Training plan store',
                     link: ''
                 },
                 block1: {
-                    title: 'Создайте план',
+                    title: 'Create a training plan',
                     subtitle: '',
-                    text: "Тренировочный план - это набор тренировочных заданий, событий и соревнований. <br>" +
-                    "Создайте тренировочный план,  запланируйте тренировки и заполните информацию для публикации плана",
+                    text: "Training plan contains a set of activities, events and competitions.  <br>" +
+                    "Create a training plan, plan activities and fill in information needed to publish the plan in the Store.",
                 },
                 block2: {
-                    title: 'Проверьте страницу плана в Магазине',
+                    title: 'Check the plan page in the Store',
                     subtitle: '',
-                    text: "Для каждого плана создается своя персональная страница в Магазине планов. <br>" +
-                    "Проверьте, как основные характеристики плана влияют на информацию на его странице и при необходимости внесите изменения",
+                    text: "In the Store, there is created a personal page for each plan. <br>" +
+                    "Check how the main characteristics of the plan affect the information on its page and, if necessary, correct it.",
                 },
                 block3: {
-                    title: 'Опубликуйте ваш план',
+                    title: 'Publish your plan',
                     subtitle: '',
-                    text: "Опубликованные планы размещаются в Магазине тренировочных планов. <br>" +
-                    "Вы решаете, опубликовать план бесплатно или за деньги и сами определяете стоимость плана",
+                    text: "Published plans are placed in the training plans Store <br>" +
+                    "You decide whether to publish a plan for free or for money and determine the cost of the plan yourself",
                 },
                 block4: {
-                    title: "Преимущества планов в Staminity",
-                    subtitle1: 'Удобно для спортсменов',
-                    text1: "Staminity содержит все необходимое для работы по плану.<br>" +
-                    "Мобильные приложения, автоматическая загрузка тренировок, анализ каждой тренировки и всего тренировочного процесса.  Подробнее",
-                    subtitle2: 'Выгодно для тренера',
-                    text2: 'Комиссия Staminity - 30% от стоимости продажи каждого плана. Для бесплатных планов комиссий нет.<br>' +
-                    'Для публикации плана не нужен тариф "Тренер". Нет продаж - не нужно платить',
-                    subtitle3: 'Всё для продажи',
-                    text3: "Ваш план доступен в Магазине тренировочных планов для всех посетителей Staminity. <br>" +
-                    "Индивидуальная страница плана отражает всю существенную информацию по нему. ",
+                    title: "Advantages of training plans in Staminity",
+                    subtitle1: 'Suitable for athletes',
+                    text1: "Staminity provides everything that is needed for training according to the plan.<br>" +
+                    "Mobile apps, automatic upload of activities, analysis of each activity and of the whole training process",
+                    subtitle2: 'Beneficial for the coach',
+                    text2: "We charge a fixed fee - 30% for each sale. No fees for free plans <br>" +
+                    "Also you don’t need the 'Coach' tariff to publish a plan. No sales - no fees.",
+                    subtitle3: 'Simple and convenient',
+                    text3: "All Staminity users can find your plan in the Store and compare it with others. <br>" +
+                    "All the major information about the plan is displayed on its personal page.",
                 }
             },
             severalCoaches: {
-                title: 'Совместная работа нескольких тренеров',
-                shortTitle: 'Несколько тренеров',
-                subtitle: 'Клубы в Staminity созданы для того, чтобы несколько тренеров могли вместе работать с учениками, перераспределяя их между собой',
+                title: 'Joint work of several coaches',
+                shortTitle: 'Several coaches',
+                subtitle: 'Clubs in Staminity are created to enable several coaches to work together, distributing athletes among each other',
                 button: {
-                    title: 'Попробовать бесплатно',
+                    title: 'Try for free',
                     link: ''
                 },
                 block1: {
-                    title: 'Подключите тариф Клуб',
+                    title: 'Enable the "Club" tariff',
                     subtitle: '',
-                    text: 'Для управления клубом нужен тариф "Клуб". Подключите его при регистрации или в любой момент после регистрации'
+                    text: 'In order to manage a club, you need to enable the "Club" tariff. You can do it when signing up or at any time after it.'
                 },
                 block2: {
-                    title: 'Соберите команду',
+                    title: 'Gather a team',
                     subtitle: '',
-                    text: 'Назначьте членам клуба роли "Спортсмен" и "Тренер", свяжите тренеров со спортсменами. <br>' +
-                    'При необходимости, назначьте тренеров администраторами для помощи в управлении клубом',
+                    text: 'Accept join club requests from club members and assign "Athlete" or "Coach" roles to them. Assign athletes a club coach.  <br>' +
+                    'If needed, delegate administrative role to another club coaches',
                 },
                 block3: {
-                    title: 'Контролируйте работу клуба',
+                    title: "Control the club’s operation",
                     subtitle: '',
-                    text: "Дэшборд руководителя клуба покажет, все ли спортсмены клуба получили план на неделю и как они его выполняют",
+                    text: "Club dashboard will show if all club athletes have received a plan for a week and what is their progress.",
                 },
                 block4: {
-                    title: 'Создавайте базу тренировок клуба',
+                    title: 'Manage club methodology',
                     subtitle: '',
-                    text: "Клубные категории тренировок и клубные шаблоны помогут тренерам клуба применять единые правила при подготовке учеников",
+                    text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
                 },
             },
             main: {
-                title: 'Тренировки онлайн',
-                subtitle: 'Все для работы с тренером и самостоятельной подготовки в циклических видах спорта',
+                title: 'Training online',
+                subtitle: 'Everything you need for online training with a coach or self training in cyclic sports',
                 button: {
-                    title: 'Попробовать бесплатно'
+                    title: 'Try for free'
                 }
             },
             scenario: {
-                shortTitle: 'Сценарии'
+                shortTitle: 'Use cases'
             }
 
         }
