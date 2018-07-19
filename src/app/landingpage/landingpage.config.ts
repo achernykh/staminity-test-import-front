@@ -17,15 +17,6 @@ function configure($stateProvider: StateProvider,
             },
             views: DefaultTemplate("landingPage"),
         } as StateDeclaration)
-        .state("tariffs", {
-            url: "/tariffs",
-            loginRequired: false,
-            authRequired: null,
-            resolve: {
-                view: () => new DisplayView("landingTariffs"),
-            },
-            views: DefaultTemplate("landingTariffs"),
-        } as StateDeclaration);
 
     // Текст представлений
     $translateProvider.translations("en", {landing: _translate.en});

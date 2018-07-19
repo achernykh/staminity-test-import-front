@@ -37,4 +37,14 @@ const features: any = {
     }
 };
 
-export const landingPageState: Array<StateDeclaration> = [main, features, ...scenarios];
+const tariffs: any = {
+    name: 'tariffs',
+    url: "/tariffs",
+    loginRequired: false,
+    authRequired: null,
+    views: {
+        application: {component: "landingTariffs"},
+    }
+};
+
+export const landingPageState: Array<StateDeclaration> = [main, tariffs, features, ...scenarios];
