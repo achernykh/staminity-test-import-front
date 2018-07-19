@@ -24,4 +24,17 @@ const scenarios: any[] = landingConfig.scenario.map(s => ({
     }
 }));
 
-export const landingPageState: Array<StateDeclaration> = [main, ...scenarios];
+const features: any = {
+    name: landingConfig.features.code,
+    url: landingConfig.features.url,
+    loginRequired: false,
+    authRequired: [],
+    resolve: {
+        scenario: () => landingConfig.features,
+    },
+    views: {
+        application: {component: 'stLandingScenario'}
+    }
+};
+
+export const landingPageState: Array<StateDeclaration> = [main, features, ...scenarios];

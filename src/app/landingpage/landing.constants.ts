@@ -1,15 +1,15 @@
 interface LandingContentBlock {
-    code: string; // for translate key, example landing[scenario.code][block.code].[title | subtitle | text]
-    title: string;
+    code?: string; // for translate key, example landing[scenario.code][block.code].[title | subtitle | text]
+    title?: string;
     subtitle?: string;
-    text: string;
+    text?: string;
     button?: {
         text?: string;
         url?: string;
         state?: string;
         stateParams?: Object;
     };
-    picture: string; // url to content server
+    picture?: string; // url to content server
 }
 
 interface LandingReview {
@@ -56,17 +56,19 @@ export interface LandingConfig {
             blocks: LandingContentBlock[];
         }
     }],
-    features?: [{
+    features?: {
         code: string;
         url: string;
         title: string;
         subtitle: string;
         picture: string;
         button?: {
-            text: string;
-            url: string;
+            text?: string;
+            url?: string;
+            state?: string;
+            stateParams?: Object;
         };
-        reviews: {
+        reviews?: {
             [language: string]: LandingReview[]
         };
         blocks: LandingContentBlock[];
@@ -74,7 +76,7 @@ export interface LandingConfig {
             title?: string; // ключ перевода, можно не заполнять
             blocks: LandingContentBlock[];
         }
-    }],
+    },
     footer: [{
         code: string;
         links: string[];
@@ -410,12 +412,8 @@ export const landingConfig: LandingConfig = {
             type: 'state',
             icon: 'methodology',
             title: 'landing.featuresNew.shortTitle',
-        },
-        {
-            type: 'group',
-            icon: 'methodology',
-            title: 'landing.scenarios.shortTitle',
-            items: 'scenarios'
+            state: 'featuresNew',
+            stateParams: null
         },
         {
             type: 'state',
@@ -439,18 +437,18 @@ export const landingConfig: LandingConfig = {
             stateParams: null
         },
     ],
-    features: [
-        {
-            code: 'featuresNew',
-            url: '/features',
-            title: '',
-            subtitle: '',
-            picture: '/assets/landing/staminity_main_coaching.png',
-            button: {
-                state: 'signup',
-                stateParams: null
-            },
-            blocks: [{
+    features: {
+        code: 'featuresNew',
+        url: '/features',
+        title: '',
+        subtitle: '',
+        picture: '/assets/landing/staminity_main_coaching.png',
+        button: {
+            state: 'signup',
+            stateParams: null
+        },
+        blocks: [
+            {
                 code: 'block1',
                 title: '',
                 subtitle: '',
@@ -475,45 +473,44 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: '',
             }],
-            externalBlocks: [
-                {
-                    code: 'externalBlock1'
-                },
-                {
-                    code: 'externalBlock2'
-                },
-                {
-                    code: 'externalBlock3'
-                },
-                {
-                    code: 'externalBlock4'
-                },
-                {
-                    code: 'externalBlock5'
-                },
-                {
-                    code: 'externalBlock6'
-                },
-                {
-                    code: 'externalBlock7'
-                },
-                {
-                    code: 'externalBlock8'
-                },
-                {
-                    code: 'externalBlock9'
-                },
-                {
-                    code: 'externalBlock10'
-                },
-                {
-                    code: 'externalBlock11'
-                },
-                {
-                    code: 'externalBlock12'
-                }],
-            reviews: null
+        externalBlocks: {
+                blocks:  [
+                    {
+                        code: 'externalBlock1'
+                    },
+                    {
+                        code: 'externalBlock2'
+                    },
+                    {
+                        code: 'externalBlock3'
+                    },
+                    {
+                        code: 'externalBlock4'
+                    },
+                    {
+                        code: 'externalBlock5'
+                    },
+                    {
+                        code: 'externalBlock6'
+                    },
+                    {
+                        code: 'externalBlock7'
+                    },
+                    {
+                        code: 'externalBlock8'
+                    },
+                    {
+                        code: 'externalBlock9'
+                    },
+                    {
+                        code: 'externalBlock10'
+                    },
+                    {
+                        code: 'externalBlock11'
+                    },
+                    {
+                        code: 'externalBlock12'
+                    }]
         }
-    ]
-
+    }
 };
