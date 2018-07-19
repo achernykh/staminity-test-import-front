@@ -1,0 +1,26 @@
+@import "../../../sass/color";
+
+.landing-sidenav-scenario {
+  min-height: calc(100vh - 128px);
+  width: 100vw;
+  max-width: 100vw;
+  md-toolbar {background: none !important;}
+  background: rgba(white,0.95);
+  md-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    .md-toolbar-tools {  padding: 0 32px;  }
+  }
+  .scenario-card .image-wrapper {
+    background-color: $grey-050;
+    padding: 4px;
+    text-align: center;
+  }
+  .scenario-card img {
+    height: 30vh;
+    object-fit: contain;
+    object-position: 50% 50%;
+    max-width: 100%;
+  }
+}

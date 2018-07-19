@@ -1,0 +1,27 @@
+<md-sidenav id="scenarioMenu" class="md-sidenav-right md-whiteframe-z4 st-fixed landing-sidenav-scenario"
+            md-component-id="scenarioMenu">
+    <md-toolbar class="md-default" flex="none">
+        <div class="md-toolbar-tools">
+            <h2 class="md-title" translate="landing.scenario.shortTitle"></h2>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="$ctrl.toggleSlide('scenarioMenu')" style="margin-right: 0">
+                <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
+                <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div layout-gt-sm="row" layout="column" layout-align="start start" layout-wrap="true">
+        <div flex="25" class="scenario-card" ng-repeat="scenario in $ctrl.landingConfig.scenario">
+            <md-card ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
+                <div class="image-wrapper">
+                    <img ng-src="{{scenario.picture}}" class="md-card-image" ng-alt="{{scenario.code}}">
+                </div>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></span>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
+    </div>
+</md-sidenav>

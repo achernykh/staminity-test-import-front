@@ -258,4 +258,10 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
     max-width: $app-sidenav-desktop-width;
   }
 
+  //
+  &__toolbar {
+    md-icon {
+      fill: currentColor !important;
+    }
+  }
 }

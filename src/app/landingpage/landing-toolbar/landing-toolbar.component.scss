@@ -1,53 +1,58 @@
+@import "../../../sass/color";
+
 .landing-toolbar {
   color: white;
   position: fixed;
-  img {cursor: pointer;}
+  img {
+    cursor: pointer;
+    width: auto;
+    height: 32px;
+    transition: 0.3s;
+    &:focus {
+      outline: none;
+    }
+  }
+  a.md-button {
+    text-transform: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  a.md-button.accent {
+    color: white;
+    //border-radius: 20px;
+    padding: 0 16px;
+    border: 1px solid rgba(white, 0.87);
+  }
   &.background {
     background-color: rgba(white, 0.0);
     color: white;
   }
   &.solid, &.solid-background {
     background-color: rgba(white, 0.97);
-    color: black;
-    a.md-button {
-      color: rgba(black, 0.87);
-    }
+    color: rgba(black, 0.87);
     a.md-button.accent {
-      border-color: rgba(black, 0.87);
+      border: none;
+      background: linear-gradient(90deg, $blue-grey-800, $blue-grey-500);
     }
     .menu md-icon {
       color: rgba(black, 0.87) !important;
     }
     img {
-      height: 24px;
+      height: 24px !important;
     }
   }
 
   .md-toolbar-tools {
     padding: 0 32px;
     img {
-      width: auto;
-      height: 32px;
-      transition: 0.3s;
+
     }
     .links {
       width: 100%;
     }
     .menu {
       padding: 4px
-    }
-  }
-  navigation {
-    a.md-button {
-      color: white;
-      text-transform: none;
-      font-weight: 500;
-      font-size: 16px;
-    }
-    a.md-button.accent {
-      border: 1px solid white;
-      border-radius: 20px;
-      padding: 0 16px;
     }
   }
 }

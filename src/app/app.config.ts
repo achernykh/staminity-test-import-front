@@ -79,10 +79,10 @@ function configure(
 		.warnPalette('red');
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
-	$mdThemingProvider.theme('grey')
+	/**$mdThemingProvider.theme('grey')
         .primaryPalette('grey')
         .accentPalette('deep-orange')
-        .warnPalette('red');
+        .warnPalette('red');**/
 
 	/**$mdThemingProvider.theme('default')
 		.primaryPalette('blue-grey', {

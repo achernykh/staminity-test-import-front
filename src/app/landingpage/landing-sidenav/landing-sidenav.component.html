@@ -1,31 +1,56 @@
-<md-sidenav id="planMenu" class="md-sidenav-right md-whiteframe-z4 st-fixed landing-sidenav"
-            md-component-id="planMenu">
+<md-sidenav id="landingMenu" class="md-sidenav-right md-whiteframe-z4 st-fixed landing-sidenav"
+            md-component-id="landingMenu">
     <md-toolbar flex="none" class="">
         <div class="md-toolbar-tools">
-            <h2 class="">{{::'trainingPlans.form.title' | translate}}</h2>
+            <div flex="none" style="padding-left: 16px">
+                <md-menu md-position-mode="target-right target" md-offset="0 40">
+                    <md-button class="md-icon-button md-primary"
+                               ng-click="$ctrl.onMenu($mdOpenMenu, $event)" aria-label="User">
+                        <md-icon md-svg-src="/assets/icon/{{ $ctrl.display.getLocale() }}.svg" md-24 aria-label="Language Icon"></md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
+                            <md-button ng-click="$ctrl.display.setLocale(locale)">
+                                <md-icon md-svg-src="/assets/icon/{{ locale }}.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
+                                <span>{{ localeName }}</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="$ctrl.toggleSlide('planMenu')" style="margin-right: 0">
+            <md-button class="md-icon-button" ng-click="$ctrl.toggleSlide('landingMenu')" style="margin-right: 0">
                 <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
             </md-button>
         </div>
     </md-toolbar>
-    <md-list ng-init="showItems = true">
-        <md-list-item>
-            <p class="md-body-2" translate="landing.scenario.shortTitle"></p>
-            <md-icon class="md-secondary material-icon" class="" ng-click="showItems = !showItems"
-                     ng-bind="showItems ? 'arrow_drop_up':'arrow_drop_down'"></md-icon>
-        </md-list-item>
-        <md-list-item class="subitem" ng-repeat="scenario in $ctrl.landingConfig.scenario"
-                      ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
-            <md-icon class="material-icon md-dark"
-                     md-svg-src="/assets/icon/{{::scenario.icon}}.svg"></md-icon>
-            <p class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></p>
-        </md-list-item>
-        <md-list-item ng-repeat="item in $ctrl.landingConfig.sidenav"
-                      ng-click="$ctrl.$state.go(item.state, item.stateParams)">
-            <md-icon class="material-icon md-dark"
-                     md-svg-src="/assets/icon/{{::item.icon}}.svg"></md-icon>
-            <p class="md-body-2" translate>{{::item.title}}</p>
-        </md-list-item>
-    </md-list>
+    <section class="menu-grid" layout="row" layout-align="start start">
+        <md-list flex="50" class="menu-scenario">
+            <md-list-item class="subitem" ng-repeat="scenario in $ctrl.landingConfig.scenario"
+                          ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
+                <md-icon class="material-icon md-dark" ng-if="false"
+                         md-svg-src="/assets/icon/{{::scenario.icon}}.svg"></md-icon>
+                <p class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></p>
+            </md-list-item>
+        </md-list>
+        <md-list flex="50" class="menu-functions">
+            <md-list-item ng-repeat="item in $ctrl.landingConfig.sidenav"
+                          ng-click="$ctrl.$state.go(item.state, item.stateParams)">
+                <md-icon class="material-icon md-dark" ng-if="false"
+                         md-svg-src="/assets/icon/{{::item.icon}}.svg"></md-icon>
+                <p class="md-body-2" translate>{{::item.title}}</p>
+            </md-list-item>
+        </md-list>
+    </section>
+    <section class="menu-buttons">
+        <md-button class="md-raised accent" ng-click="$ctrl.onScenario()">
+            <span translate="landing.main.button.title"></span>
+        </md-button>
+        <md-button ui-sref="signin" class="" ng-click="$ctrl.onScenario()">
+            <span translate="landing.nav.signIn"></span>
+        </md-button>
+        <md-button ui-sref="signout" class="" ng-click="$ctrl.onScenario()">
+            <span translate="landing.nav.signOut"></span>
+        </md-button>
+    </section>
 </md-sidenav>

@@ -43,10 +43,8 @@ $max-toolbar-width: 1000px;
   }
 
   .general {
-    height: 100vh;
-    background: linear-gradient(100deg, white 40%, $blue-grey-600 40%);
-    border-bottom: 1px solid $blue-grey-100;
-    padding: 64px 32px;
+    height: 80vh;
+    padding: 64px 32px 32px 32px;
     .title {  width: 95%; font-size: 3.2vw; color: $blue-grey-800; font-weight: 500; line-height: 1.1em }
     .subtitle {  font-size: 1.8vw; width: 90%; line-height: 1.3em }
     .picture {
@@ -58,6 +56,12 @@ $max-toolbar-width: 1000px;
       object-fit: contain;
       object-position: 100% 50%;
     }
+    &.full-size {
+      padding: 64px 32px;
+      height: 100vh;
+      background: linear-gradient(100deg, white 40%, $blue-grey-600 40%);
+      border-bottom: 1px solid $blue-grey-100;
+    }
     button {
       margin: 0;
       color: white !important;
@@ -65,48 +69,53 @@ $max-toolbar-width: 1000px;
       padding: 16px 32px;
       font-size: 18px;
       font-weight: 500;
+      background: linear-gradient(90deg, $deep-orange-800, $deep-orange-500);
     }
   }
 
   .reviews {
     padding: 32px 32px;
     background-color: white;
-    .review {padding: 0 16px; text-align: center; max-width: 400px;}
-    .review img {
-      width: 60px;
-      height: 60px;
-      border-radius: 30px;
-    }
-    .review .author {}
-    .review .text {}
   }
 
-}
-
-.landing-scenarios {
-  min-height: calc(100vh - 128px);
-  width: calc(100vw - 64px);
-  padding: 64px 32px;
-  background-color: white;
-  position: absolute;
-  top: 0;
-  left: 0;
-  md-toolbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: white !important;
-    .md-toolbar-tools {  padding: 0 32px;  }
-  }
-  .scenario-card .image-wrapper {
+  .scenario-block {
+    min-height: 45vh;
+    width: 100%;
+    padding: 32px;
     background-color: $grey-050;
-    padding: 4px;
-    text-align: center;
+    border-bottom: 1px solid $grey-100;
+    .block-text, .block-image {
+      height: 100%;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    &.odd {
+      .block-text .text { margin: 0 0 0 14%; }
+      .block-image img { margin: 0 -8% 0 0; }
+      background: none;
+    }
+    .block-text {
+      .text {
+        margin: 0 14% 0 0;
+      }
+      h1 {
+        font-size: 2.2vw;
+        color: $blue-grey-800;
+        margin-bottom: 1vw;
+      }
+      p {
+        font-size: 1.2vw;
+        margin-bottom: 1vw;
+        color: #333;
+        line-height: 1.4;
+      }
+    }
+    .block-image {
+      img {
+        width: 108%;
+        margin: 0 0 0 -8%;
+      }
+    }
   }
-  .scenario-card img {
-    height: 30vh;
-    object-fit: contain;
-    object-position: 50% 50%;
-    max-width: 100%;
-  }
+
 }

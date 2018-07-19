@@ -1,8 +1,8 @@
 <div class="landing-main">
-    <st-landing-toolbar on-scenario="$ctrl.showScenarios = !$ctrl.showScenarios"></st-landing-toolbar>
+    <st-landing-toolbar></st-landing-toolbar>
     <section class="landing-main__welcome">
         <!-- первый блок -->
-        <article layout-gt-sm="row" layout="column" class="general block">
+        <article layout-gt-sm="row" layout="column" class="general full-size block">
             <div class="text" flex-gt-sm="40" flex="none" layout="column" layout-align="center start">
                 <h1 class="title md-display-3" flex="none" translate="landing.main.title"></h1>
                 <p class="subtitle md-headline" flex="none" translate="landing.main.subtitle"></p>
@@ -15,42 +15,10 @@
             </div>
         </article>
         <!-- отзывы -->
-        <article ng-if="!$ctrl.showScenarios" layout-gt-sm="row" layout-align-gt-sm="center start" layout="column" class="reviews block">
-            <div class="review" layout="column" layout-align="start center"
-                 ng-repeat="review in $ctrl.landingConfig.reviews['ru']">
-                <img ng-src="{{review.avatar}}">
-                <p flex="none" class="author md-body-2 md-dark">
-                    <span>{{review.author}}</span><br><span>{{review.about}}</span>
-                </p>
-                <p flex="none" class="text md-body-1 md-dark">{{review.text}}</p>
-            </div>
-        </article>
-        <st-landing-footer ng-if="!$ctrl.showScenarios"></st-landing-footer>
-    </section>
-    <section ng-if="$ctrl.showScenarios" class="landing-scenarios block">
-        <md-toolbar class="md-default" flex="none">
-            <div class="md-toolbar-tools">
-                <md-button class="md-icon-button" ng-click="$ctrl.showScenarios = !$ctrl.showScenarios">
-                    <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
-                    <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
-                </md-button>
-                <h2 class="md-title" translate="landing.scenario.shortTitle"></h2>
-            </div>
-        </md-toolbar>
-        <div layout-gt-sm="row" layout="column" layout-align="start start" layout-wrap="true">
-            <div flex="25" class="scenario-card" ng-repeat="scenario in $ctrl.landingConfig.scenario">
-                <md-card ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
-                    <div class="image-wrapper">
-                        <img ng-src="{{scenario.picture}}" class="md-card-image" ng-alt="{{scenario.code}}">
-                    </div>
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></span>
-                        </md-card-title-text>
-                    </md-card-title>
-                </md-card>
-            </div>
-        </div>
+        <st-landing-reviews layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
+                            class="reviews block landing-reviews" reviews="$ctrl.landingConfig.reviews['ru']">
+        </st-landing-reviews>
+        <st-landing-footer></st-landing-footer>
     </section>
 </div>
-<st-landing-sidenav></st-landing-sidenav>
+

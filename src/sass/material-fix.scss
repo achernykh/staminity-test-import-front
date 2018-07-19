@@ -22,7 +22,11 @@
 //
 md-toolbar.md-default {
   background-color: white !important;
-  color: black !important;
+  color: rgba(black, 0.80) !important;
+  md-icon {
+    fill: rgba(black, 0.80) !important;
+    color: rgba(black, 0.80) !important;
+  }
 }
 
 //

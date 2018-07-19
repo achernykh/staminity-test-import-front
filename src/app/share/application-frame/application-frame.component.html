@@ -1,14 +1,20 @@
 <!-- Заголовок -->
-<md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp" ng-cloack>
+<md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp"
+            ng-class="{'md-default': !$ctrl.auth.isAuthenticated()}" ng-cloack>
     <div class="md-toolbar-tools">
+        <img ng-if="!$ctrl.auth.isAuthenticated() && false"
+             ng-click="$ctrl.$state.go('main')" height="24px" ng-src="/assets/landing/staminity-horizontal-color.svg"/>
         <section ng-transclude="profile"></section>
         <md-button class="app-menu md-icon-button" aria-label="Application Menu"
-                   ng-click="$ctrl.auth.isAuthenticated() ? $ctrl.sideNav('appmenu') : $ctrl.sideNav('appGuestMenu')">
+                   ng-if="$ctrl.auth.isAuthenticated()"
+                   ng-click="$ctrl.sideNav('appmenu')">
             <md-icon class="material-icons md-light">menu</md-icon>
         </md-button>
         <h2 class="md-title md-truncate" ng-transclude="title"></h2>
         <div flex></div>
-        <div flex="none" layout="row" ng-transclude="toolbar" class="icon-bar" md-colors="{background: 'primary-600'}"></div>
+        <div flex="none" layout="row" ng-transclude="toolbar" class="icon-bar"
+             ng-init="bg = $ctrl.auth.isAuthenticated() ? 'primary-600' : 'grey-200'; color = $ctrl.auth.isAuthenticated() ? 'white' : 'black'"
+             md-colors="{background: bg}"></div>
         <st-application-user-toolbar flex="none"></st-application-user-toolbar>
         <section class="st-application-frame__mobile-menu" flex="none" ng-transclude="mobileMenu"></section>
     </div>
@@ -33,4 +39,5 @@
             ng-if="$ctrl.auth.isAuthenticated()">
     <application-menu/>
 </md-sidenav>
+
 

@@ -67,7 +67,10 @@ export interface LandingConfig {
             [language: string]: LandingReview[]
         };
         blocks: LandingContentBlock[];
-        externalBlocks?: LandingContentBlock[];
+        externalBlocks?: {
+            title?: string; // ключ перевода, можно не заполнять
+            blocks: LandingContentBlock[];
+        }
     }],
     footer: [{
         code: string;

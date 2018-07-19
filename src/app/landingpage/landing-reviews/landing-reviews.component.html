@@ -1,0 +1,8 @@
+<div class="review" layout="column" layout-align="start center"
+     ng-repeat="review in $ctrl.reviews">
+    <img ng-src="{{review.avatar}}">
+    <p flex="none" class="author md-body-2 md-dark">
+        <span>{{review.author}}</span><br><span>{{review.about}}</span>
+    </p>
+    <p flex="none" class="text md-body-1 md-dark">{{review.text}}</p>
+</div>

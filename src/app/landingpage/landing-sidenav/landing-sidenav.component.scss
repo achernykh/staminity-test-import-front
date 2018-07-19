@@ -1,5 +1,31 @@
+@import "../../../sass/color";
+
 .landing-sidenav {
-  width: 360px;
+  width: 60vw;
+  max-width: 1000px;
   md-toolbar {background: none !important;}
-  background: rgba(white,0.9);
+  background: rgba(white,0.95);
+  .menu-grid {
+    padding: 32px;
+  }
+  .menu-scenario {
+    border-right: 1px solid $grey-300;
+    padding-right: 24px;
+  }
+  .menu-functions {
+    padding-left: 24px;
+  }
+  .menu-buttons {
+    padding: 32px;
+    .md-button {
+      color: rgba(black, 0.87);
+      padding: 8px 16px;
+    }
+    .md-button.accent {
+      color: white;
+      //border: 1px solid rgba(white, 0.87);
+      //border-radius: 20px;
+      background: linear-gradient(90deg, $deep-orange-800, $deep-orange-500);
+    }
+  }
 }

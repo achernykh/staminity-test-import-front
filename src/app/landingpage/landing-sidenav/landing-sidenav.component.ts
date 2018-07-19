@@ -1,6 +1,7 @@
 import './landing-sidenav.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
 import { LandingConfig } from "../landing.constants";
+import DisplayService from "../../core/display.service";
 
 class LandingSidenavCtrl implements IComponentController {
 
@@ -11,9 +12,9 @@ class LandingSidenavCtrl implements IComponentController {
     // private
 
     // inject
-    static $inject = ['$mdSidenav', 'landingConfig', '$state'];
+    static $inject = ['$mdSidenav', 'landingConfig', '$state', 'DisplayService'];
 
-    constructor(private $mdSidenav, private landingConfig: LandingConfig, private $state) {
+    constructor(private $mdSidenav, private landingConfig: LandingConfig, private $state, private display: DisplayService) {
 
     }
 
@@ -23,6 +24,11 @@ class LandingSidenavCtrl implements IComponentController {
 
     toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(_ => {});
+    }
+
+    onMenu($mdOpenMenu, ev) {
+        const originatorEv = ev;
+        $mdOpenMenu(ev);
     }
 }
 

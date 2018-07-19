@@ -37,5 +37,21 @@
                    onclick="location.href='https://vk.com/staminity'">
             <md-icon class="light-active" md-svg-icon="assets/icon/vkontakte_clr.svg"></md-icon>
         </md-button>
+        <div flex="none" style="padding-left: 16px">
+            <md-menu md-position-mode="target-right bottom" md-offset="0 100">
+                <md-button class="md-icon-button md-primary"
+                           ng-click="$ctrl.onMenu($mdOpenMenu, $event)" aria-label="User">
+                    <md-icon md-svg-src="/assets/icon/{{ $ctrl.display.getLocale() }}.svg" md-24 aria-label="Language Icon"></md-icon>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item ng-repeat="(locale, localeName) in $ctrl.display.locales">
+                        <md-button ng-click="$ctrl.display.setLocale(locale)">
+                            <md-icon md-svg-src="/assets/icon/{{ locale }}.svg" md-24 md-menu-align-target aria-label="Russian"></md-icon>
+                            <span>{{ localeName }}</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
     </div>
 </article>

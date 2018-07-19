@@ -37,7 +37,7 @@
     </user-menu>
 </div>
 <div layout="row" layout-align="end center" layout-fill ng-if="!$ctrl.authService.isAuthenticated()">
-    <md-button ui-sref="signin({nextState: $ctrl.$state.$current.name, nextParams: $ctrl.$state.params})"
+    <!--<md-button ui-sref="signin({nextState: $ctrl.$state.$current.name, nextParams: $ctrl.$state.params})"
                class="md-icon-button" translate>
         <md-tooltip ng-bind="'landing.nav.signIn' | translate"></md-tooltip>
         <md-icon class="material-icons">vpn_key</md-icon>
@@ -45,5 +45,10 @@
     <md-button ui-sref="signup" class="md-icon-button">
         <md-tooltip ng-bind="'landing.nav.signUp' | translate"></md-tooltip>
         <md-icon class="material-icons">person_add</md-icon>
+    </md-button>-->
+    <md-button class="md-icon-button" aria-label="Application Menu" style="padding: 4px"
+               ng-click="$ctrl.application.sideNav('landingMenu')">
+        <md-icon class="material-icons md-dark md-32" size="32">menu</md-icon>
     </md-button>
 </div>
+<st-landing-sidenav solid="true"></st-landing-sidenav>

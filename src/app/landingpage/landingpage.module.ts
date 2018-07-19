@@ -11,6 +11,8 @@ import {landingConfig} from "./landing.constants";
 import { LandingSidenavComponent } from "./landing-sidenav/landing-sidenav.component";
 import { LandingToolbarComponent } from "./landing-toolbar/landing-toolbar.component";
 import { LandingScenarioComponent } from "./landing-scenario/landing-scenario.component";
+import { LandingSidenavScenarioComponent } from "./landing-sidenav-scenario/landing-sidenav-scenario.component";
+import { LandingReviewsComponent } from "./landing-reviews/landing-reviews.component";
 
 const Landing = module("staminity.landing", [])
     .component("landingPage", LandingPageComponent)
@@ -21,6 +23,8 @@ const Landing = module("staminity.landing", [])
     .component('stLandingSidenav', LandingSidenavComponent)
     .component('stLandingToolbar', LandingToolbarComponent)
     .component('stLandingScenario', LandingScenarioComponent)
+    .component('stLandingSidenavScenario', LandingSidenavScenarioComponent)
+    .component('stLandingReviews', LandingReviewsComponent)
     .constant('landingConfig', landingConfig)
     .config(configure)
     .config(['$stateProvider', ($stateProvider: StateProvider) => landingPageState.map(s => $stateProvider.state(s))])

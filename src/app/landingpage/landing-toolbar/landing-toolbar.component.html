@@ -21,17 +21,19 @@
             </navigation>
             <section flex></section>
             <navigation flex="none">
-                <md-button href="#" class="md-primary accent" ng-click="$ctrl.onScenario()">
+                <md-button href="#" class="accent" ng-click="$ctrl.toggleSlide('scenarioMenu')">
                     <span translate="landing.scenario.shortTitle"></span>
                 </md-button>
-                <md-button href="#" class="md-primary">
+                <md-button ui-sref="signin" class="">
                     <span translate="landing.nav.signIn"></span>
                 </md-button>
-                <md-button class="menu md-icon-button md-primary" aria-label="PlanMenu"
-                           ng-click="$ctrl.toggleSlide('planMenu')">
+                <md-button class="menu md-icon-button md-primary" aria-label="landingMenu"
+                           ng-click="$ctrl.toggleSlide('landingMenu')">
                     <md-icon class="material-icons md-light md-32" size="32">menu</md-icon>
                 </md-button>
             </navigation>
         </div>
     </div>
 </md-toolbar>
+<st-landing-sidenav></st-landing-sidenav>
+<st-landing-sidenav-scenario></st-landing-sidenav-scenario>
