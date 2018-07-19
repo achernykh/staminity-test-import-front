@@ -112,7 +112,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/work-with-coach',
             title: '',
             subtitle: '',
-            picture: '/assets/landing/staminity_main_coaching.png',
+            picture: 'https://staminity.com/assets/images/scenario-02.png',
             button: {
                 state: 'search',
                 stateParams: {
@@ -166,7 +166,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plans',
             title: '',
             subtitle: '',
-            picture: '',
+            picture: 'https://staminity.com/assets/images/scenario-02.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -205,7 +205,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/individual-training',
             title: '',
             subtitle: '',
-            picture: '',
+            picture: 'https://staminity.com/assets/images/scenario-03.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -247,7 +247,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-athletes',
             title: '',
             subtitle: '',
-            picture: '',
+            picture: 'https://staminity.com/assets/images/scenario-04.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -289,7 +289,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-groups',
             title: '',
             subtitle: '',
-            picture: '',
+            picture: 'https://staminity.com/assets/images/scenario-05.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -319,7 +319,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plan-publication',
             title: '',
             subtitle: '',
-            picture: '',
+            picture: 'https://staminity.com/assets/images/scenario-06.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -357,7 +357,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/several-coaches',
             title: '',
             subtitle: '',
-            picture: '',
+            picture: 'https://staminity.com/assets/images/scenario-07.png',
             button: {
                 state: 'signup',
                 stateParams: null

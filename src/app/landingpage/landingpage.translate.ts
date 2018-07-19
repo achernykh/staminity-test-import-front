@@ -195,13 +195,13 @@ export let _translate = {
             },
             scenarios: {
                 title: "Сценарии",
-                link1: '<a href="/work-with-coach">Работа с тренером</a>',
-                link2: '<a href="/training-plans">Тренировки по плану</a>',
-                link3: '<a href="/individual-training">Самостоятельные тренировки</a>',
-                link4: '<a href="/train-athletes">Подготовка учеников</a>',
-                link5: '<a href="/train-groups">Работа с группами спортсменов</a>',
-                link6: '<a href="/training-plan-publication">Публикация и продажа планов</a>',
-                link7: '<a href="/several-coaches">Работа нескольких тренеров</a>',
+                link1: '<a href="/cases/work-with-coach">Работа с тренером</a>',
+                link2: '<a href="/cases/training-plans">Тренировки по плану</a>',
+                link3: '<a href="/cases/individual-training">Самостоятельные тренировки</a>',
+                link4: '<a href="/cases/train-athletes">Подготовка учеников</a>',
+                link5: '<a href="/cases/train-groups">Работа с группами спортсменов</a>',
+                link6: '<a href="/cases/training-plan-publication">Публикация и продажа планов</a>',
+                link7: '<a href="/cases/several-coaches">Работа нескольких тренеров</a>',
 
             },
             support: {
@@ -222,6 +222,7 @@ export let _translate = {
         },
         tariffs: {
             title: "Сколько стоит Staminity?",
+            shortTitle: "Тарифы",
             tryFreeBtn: "Попробовать бесплатно",
             tryFree: "Привязка кредитной карты не требуется",
             connectFree: "Бесплатно навсегда",
@@ -828,13 +829,13 @@ export let _translate = {
             },
             scenarios: {
                 title: "Use cases",
-                link1: '<a href="/work-with-coach">Working with a coach</a>',
-                link2: '<a href="/training-plans">Training according to the plan</a>',
-                link3: '<a href="/individual-training">Self training</a>',
-                link4: '<a href="/train-athletes">Working with athletes</a>',
-                link5: '<a href="/train-groups">Working with groups of athletes</a>',
-                link6: '<a href="/training-plan-publication">Plan publication and selling</a>',
-                link7: '<a href="/several-coaches">Work of several coaches</a>',
+                link1: '<a href="/cases/work-with-coach">Working with a coach</a>',
+                link2: '<a href="/cases/training-plans">Training according to the plan</a>',
+                link3: '<a href="/cases/individual-training">Self training</a>',
+                link4: '<a href="/cases/train-athletes">Working with athletes</a>',
+                link5: '<a href="/cases/train-groups">Working with groups of athletes</a>',
+                link6: '<a href="/cases/training-plan-publication">Plan publication and selling</a>',
+                link7: '<a href="/cases/several-coaches">Work of several coaches</a>',
 
             },
             support: {
@@ -856,6 +857,7 @@ export let _translate = {
             copyright2: "| © 2018 Staminity. All rights reserved",
             tariffs: {
                 title: "How much does staminity.com cost?",
+                shortTitle: "Pricing",
                 tryFreeBtn: "TRY FOR FREE",
                 tryFree: "No credit card required",
                 connectFree: "TRY FOR FREE",
