@@ -1,6 +1,14 @@
 @import "../../sass/color";
 @import "../../sass/base";
 
+.auth {
+  width: 100vw;
+  padding: 64px 32px 32px 32px;
+  box-sizing: border-box;
+  min-height: 100vh;
+  background: white;
+}
+
 auth {
 
 	div.social-buttons {

@@ -1,3 +1,23 @@
+interface TariffCurrencyByCountry {
+    RUB: string[];
+    USD: string[];
+    EUR: string[];
+    defaultCurrency: string; // если код страны не содержится ни в одном справочнике выше
+}
+
+export interface LandingTariffsSettings {
+    currency: TariffCurrencyByCountry;
+}
+
+export const landingTariffsConfig: LandingTariffsSettings = {
+    currency: {
+        RUB: [],
+        USD: [],
+        EUR: [],
+        defaultCurrency: 'RUB'
+    }
+};
+
 export const landingTariffsData = [
     {
         name: "basic",
