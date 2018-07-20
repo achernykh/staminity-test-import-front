@@ -13,13 +13,20 @@
 ng-quill-editor, .quill {
   display: block;
   font-family: Roboto !important;
+  opacity: 1;
+  transition: 0.3s;
 
   &.hide-toolbar {
     .ql-toolbar {
       display: none;
+      opacity: 0;
     }
   }
 
+  .ql-blank {
+    color: rgba(0,0,0,0.38);
+  }
+  
   .ql-editor.ql-blank::before {
     font-style: normal !important;
   }

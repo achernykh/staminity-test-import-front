@@ -1,4 +1,4 @@
-import {IComponentController, IComponentOptions, IPromise, IScope} from "angular";
+import {IComponentController, IComponentOptions, IPromise, IScope, element} from "angular";
 import moment from "moment/min/moment-with-locales.js";
 import {IActivitySocial} from "../../../../api/activity/activity.interface";
 import {IObjectComment} from "../../../../api/social/comment.interface";
@@ -7,6 +7,8 @@ import {IUserProfile} from "../../../../api/user/user.interface";
 import CommentService from "../../core/comment.service";
 import MessageService from "../../core/message.service";
 import "./activity-header-chat.component.scss";
+import * as Autolinker from 'autolinker';
+import { ImagesService } from "../../core/images.service";
 
 export class ActivityHeaderChatCtrl implements IComponentController {
 
@@ -21,12 +23,15 @@ export class ActivityHeaderChatCtrl implements IComponentController {
     readonly commentType: string = "activity";
     inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
     onUpdate: (response: Object) => IPromise<void>;
-    static $inject = ["CommentService", "message", "$scope"];
+    private fileUrlBuffer: string[] = [];
+
+    static $inject = ["CommentService", "message", "$scope", "ImagesService"];
 
     constructor(
         public comment: CommentService,
         public message: MessageService,
-        public $scope: IScope) {
+        public $scope: IScope,
+        private imageService: ImagesService) {
         this.comment.comment$
             .filter((item) => item.value.objectType === this.commentType && item.value.objectId === this.activityId &&
                     item.value.userProfile.userId !== this.currentUser.userId)
@@ -37,16 +42,42 @@ export class ActivityHeaderChatCtrl implements IComponentController {
         this.load();
     }
 
+    paste (e: ClipboardEvent):void {
+        var items = e.clipboardData.items;
+        console.log(JSON.stringify(items)); // will give you the mime types
+        var blob = null;
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf("image") === 0) {
+                blob = items[i].getAsFile();
+            }
+        }
+        if (blob !== null) {
+            this.imageService.postImage(blob)
+                .then(url => this.fileUrlBuffer.push(url), e => this.message.toastError(e))
+                .then(_ => this.$scope.$applyAsync());
+        }
+
+    }
+
     load () {
         return this.comment.get(this.commentType, this.activityId, true, 50)
             .then((result) => this.comments = result, (error) => this.message.toastError(error))
             .then(() => this.onUpdate({response: {count: this.comments && this.comments.length || null}}));
     }
 
+    deleteFile (index: number): void {
+        this.fileUrlBuffer.splice(index, 1);
+    }
+
+    get imgTag (): string {
+        return this.fileUrlBuffer.map(u => `<img src="${u}">`).join('<br>');
+    }
+
     onPostComment(text) {
         this.inAction = true;
-        this.comment.post(this.commentType, this.activityId, true, text)
+        this.comment.post(this.commentType, this.activityId, true, this.imgTag + Autolinker.link(text,{safe: true, embed: true,youtube: true}))
             .then((result) => {
+                    this.fileUrlBuffer = [];
                     this.text = null;
                     this.comments = result;
                 }, (error) => this.message.toastError(error)).then(() => this.$scope.$evalAsync())

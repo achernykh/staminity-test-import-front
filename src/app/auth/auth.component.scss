@@ -4,24 +4,26 @@
 auth {
 
 	div.social-buttons {
+    margin-top: 12px;
 		margin-bottom: 12px;
+    width: 100%;
 	}
 	
-	.info {
-		margin: 0px 16px;
-	}
+	.info { margin: 0px 16px; }
 
 	button.social-button {
 		text-transform: none;
-		text-align: left;
+		text-align: center;
 		min-height: 48px;
+    margin: 0;
+    border-radius: 0;
 
 		&.disabled {
 			background-color: $blue-grey-500 !important;
 		}
 
 		md-icon {
-			margin-right: 24px;
+			//margin-right: 24px;
 		}
 
 		&.facebook {

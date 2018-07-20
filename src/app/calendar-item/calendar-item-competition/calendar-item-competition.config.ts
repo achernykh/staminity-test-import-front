@@ -317,11 +317,29 @@ export class CompetitionConfig implements CompetitionConfig {
         },
         {
             type: 'swim',
+            code: '7km',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 7*1000
+            }]
+        },
+        {
+            type: 'swim',
             code: '5km',
             stages: [{
                 activityTypeId: 7,
                 durationMeasure: 'movingDuration',
                 distanceLength: 5*1000
+            }]
+        },
+        {
+            type: 'swim',
+            code: '4km',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'movingDuration',
+                distanceLength: 4*1000
             }]
         },
         {

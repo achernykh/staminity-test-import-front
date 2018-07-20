@@ -60,8 +60,9 @@ export class CalendarItemRecord extends CalendarItem {
         return item;
     }
 
-    private prepareDefaultType () {
-        if ( this.view.isPost ) {
+    public prepareDefaultType (force: boolean = false) {
+        if ( this.view.isPost || force ) {
+            debugger;
             this.recordHeader = {
                 type: this.recordHeader && this.recordHeader.hasOwnProperty('type') && this.recordHeader.type || CalendarItemRecordConfig.defaultType,
                 dateStart: this.dateStart,

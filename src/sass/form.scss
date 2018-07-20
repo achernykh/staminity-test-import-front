@@ -2,7 +2,7 @@ form md-list, md-list form, md-list.md-dense {
     // В стандарте линия подчекивания почти такаяже темная как и разделитель блоков md-devider
     // Вместе они смотрятся плохо, поэтому были варианты или вообще не делать линию в блоках
     // ввода или сделать ее сильно светлее, чтобы существено отличалась от разделителя
-    md-input-container .md-input, textarea, md-select .md-select-value{
+    md-input-container:not(.st-material) .md-input, textarea, md-select .md-select-value{
         border-color: rgba(0,0,0,0.05);
         padding-left: 0px;
     }

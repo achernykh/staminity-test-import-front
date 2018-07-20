@@ -1,11 +1,13 @@
-<md-list class="md-dense slim-input bg-grey-100">
-    <md-list-item>
-        <p class="md-caption" style="color: #455A64" translate="activity.assignment.title"></p>
-    </md-list-item>
+<md-list class="md-dense slim-input" style="padding-top: 0">
     <md-list-item ng-if="!$ctrl.item.activity.header.sportBasic">
         <p class="md-body-1" translate="activity.assignment.needSport"></p>
     </md-list-item>
-    <md-list-item class="bg-grey-100" ng-if="$ctrl.item.activity.header.sportBasic">
+    <div class="md-padding" style="text-align: right; padding-top: 0" ng-if="!$ctrl.item.activity.view.isView">
+        <md-button class="md-primary" style="margin: 6px 0"
+                   translate="activity.assignment.noneStructuredInput"
+                   ng-click="$ctrl.changeStructuredMode()"></md-button>
+    </div>
+    <md-list-item class="" ng-if="$ctrl.item.activity.header.sportBasic">
         <table md-table
                md-row-select="$ctrl.options.rowSelection"
                multiple="{{$ctrl.options.multiSelect}}"

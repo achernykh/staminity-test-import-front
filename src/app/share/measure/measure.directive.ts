@@ -272,15 +272,17 @@ export function MeasurementInput($filter): IDirective {
         };
 
         const paceIntervalValidators = (model: any) => {
-            console.log("check pace interval validators", model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
-                model[$scope.from] <= model[$scope.to]);
-            return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
-                model[$scope.from] <= model[$scope.to];
+            console.log("check pace interval validators", model);
+            return  (model && model.hasOwnProperty($scope.from) && model[$scope.from] === undefined) ||
+                    (model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
+                     model[$scope.from] <= model[$scope.to]);
         };
 
         const numberIntervalValidators = (model: any) => {
-            return model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
-                model[$scope.from] <= model[$scope.to];
+            console.log("check pace interval validators", model);
+            return  (model && model.hasOwnProperty($scope.from) && model[$scope.from] === undefined) ||
+                    (model && model.hasOwnProperty($scope.from) && model.hasOwnProperty($scope.to) &&
+                     model[$scope.from] <= model[$scope.to]);
         };
 
         const paceValidators = (model, view) => {
@@ -370,6 +372,10 @@ export function MeasurementInput($filter): IDirective {
             }
             setParams();
         });
+        $scope.$watch('sport', (value, last) => {
+            if (value === last && !!!value) {return;}
+            setParams();
+        });
 
         /**
          *
@@ -394,8 +400,8 @@ export function MeasurementInput($filter): IDirective {
 
             $scope.isFTPMeasure = FTPMeasures.indexOf($scope.measure) !== -1;
 
-            if ($scope.measure && $attrs["sport"]) {
-                measure = new Measure($scope.measure, $attrs["sport"]);
+            if ($scope.measure && $scope.sport) {
+                measure = new Measure($scope.measure, $scope.sport);
 
                 switch (measure.type) {
                     case "pace": {
@@ -452,6 +458,7 @@ export function MeasurementInput($filter): IDirective {
             change: "<",
             interval: "=",
             measure: "=",
+            sport: "="
         },
     };
 }

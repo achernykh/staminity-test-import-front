@@ -9,6 +9,7 @@ import { peaksByTime } from "../measure/measure.filter";
 class UniversalChartCtrl implements IComponentController {
 
     data: IChart;
+    update: number;
     filter: boolean;
     onEvent: (response: Object) => IPromise<void>;
 
@@ -58,6 +59,7 @@ class UniversalChartCtrl implements IComponentController {
     redraw():void {
         this.container = this.$element[0];
         this.prepareMetrics();
+        console.debug('universal chart redraw', this.data, this.container, this.update);
         this.chart = UChartFactory.getInstance(copy(this.data)).renderTo(this.container);
     }
 

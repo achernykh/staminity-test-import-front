@@ -4,6 +4,7 @@ import {CalendarItemActivityCtrl} from "../../calendar-item/calendar-item-activi
 import {Activity} from "../activity-datamodel/activity.datamodel";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
+import { FtpState } from "../components/assignment/assignment.component";
 
 export class ActivityHeaderCtrl implements IComponentController {
 
@@ -46,6 +47,20 @@ export class ActivityHeaderCtrl implements IComponentController {
 
     get isIonic (): boolean {
         return window.hasOwnProperty('ionic');
+    }
+
+    private onTemplateOpen() {
+        this.item.showSelectTemplate = true;
+    }
+
+    get templateSelectorText(): string {
+        return this.item.activity.header.template && "activity.template.code" ||
+            this.item.templateByFilter && "activity.template.enable" || "activity.template.empty";
+    }
+
+    ftpModeChange() {
+        this.item.ftpMode = this.item.ftpMode === FtpState.On ? FtpState.Off : FtpState.On;
+        this.item.ftpModeChangeCount ++;
     }
 }
 

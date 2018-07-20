@@ -2,6 +2,7 @@
  import {SessionService} from "../core";
  import {_display_view, DisplayView} from "../core/display.constants";
  import {_translate} from "./auth.translate";
+ import DisplayService from "@app/core/display.service";
 
  function configure(
     $stateProvider: StateProvider,
@@ -51,6 +52,7 @@
             },
             resolve: {
                 view: () => new DisplayView("signup"),
+                //ipInfo: ['DisplayService', (displayService: DisplayService) => displayService.getIpInfo()]
             },
             views: {
                 "background": {

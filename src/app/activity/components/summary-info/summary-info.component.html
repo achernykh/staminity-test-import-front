@@ -1,24 +1,40 @@
-<div class="calendar-item-activity-header {{::$ctrl.item.activity.status}}"
-     style="padding: 16px"
+<div class="calendar-item-activity-header md-padding {{::$ctrl.item.activity.status}}"
      ng-class="::{'md-dark' : $ctrl.item.activity.isDarkColor}">
-    <div layout="row" >
-        <div flex="none" layout="row" layout-align="center center"
-             class="bg-circle-56 calendar-item-activity-icon color-{{$ctrl.item.activity.header.sportBasic}}">
-            <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"
-                     class="s36 light-active"></md-icon>
-            <md-icon ng-if="$ctrl.item.activity.isStructured && false"
-                     md-svg-src="assets/icon/{{$ctrl.item.activity.intervals.PW.intensityMeasure}}.svg"
-                     style="margin-left: 2px; margin-right: 2px"
-                     class="s36 light-active"></md-icon>
-        </div>
-        <div class="summary-value md-headline font-black" flex="auto" layout="column">
-            <div flex="none"><span>{{$ctrl.durationInfo}}</span>
-            </div>
-            <div flex="none"><span>{{$ctrl.intensityInfo}}</span>
+    <div layout="row">
+        <div flex="none" layout="column" style="width: 48px">
+            <div flex="none" layout="row" layout-align="center center"
+                 class="bg-circle-24 calendar-item-activity-icon color-{{$ctrl.item.activity.header.sportBasic}}">
+                <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"
+                         class="s20 light-active">
+                </md-icon>
             </div>
         </div>
+        <div flex="auto" layout="column">
+            <div class="md-body-2"  flex="none" ng-if="$ctrl.item.activity.header.category">
+                <span>{{$ctrl.item.activity.header.category | categoryCode}}</span>
+            </div>
+            <section class="md-body-1" ng-if="$ctrl.item.activity.auth.isCreator && $ctrl.item.activity.header.template.code">
+                <span>{{$ctrl.item.templateSelectorText | translate:$ctrl.item.activity.header.template}}</span>
+            </section>
+            <section class="md-body-1" ng-if="$ctrl.item.activity.intervals.W.actualDataIsCorrected"
+                     translate="activity.actualDataIsCorrected">
+            </section>
+            <div flex="none" class="md-body-1">
+                <span>{{::$ctrl.item.activity.dateStart | date:'medium'}}&nbsp#</span>
+                <span style="cursor: pointer" ng-click="$ctrl.view($ctrl.item.activity.calendarItemId)">{{::$ctrl.item.activity.calendarItemId}}</span>
+            </div>
+            <div flex="none" class="md-body-1">{{$ctrl.item.activity.auth.owner | userName}}</div>
+        </div>
+        <div flex="none" ng-if="$ctrl.item.activity.percent" style="width: 40px; text-align: right">
+            <div flex="none" class="-summary-percent md-body-2" >{{$ctrl.item.activity.printPercent()}}
+            </div>
+        </div>
+        <!--<div class="summary-value md-headline font-black" flex="auto" layout="column">
+            <div flex="none"><span>{{$ctrl.durationInfo}}</span></div>
+            <div flex="none"><span>{{$ctrl.intensityInfo}}</span></div>
+        </div>-->
     </div>
-    <div layout="row" class="md-subhead" style="margin-top: 8px">
+    <!--<div layout="row" class="md-subhead" style="margin-top: 8px">
         <div flex="none" layout="column">
             <div flex="none" style="width: 56px" ng-if="!$ctrl.item.activity.percent"></div>
             <div class="summary-percent" ng-if="$ctrl.item.activity.percent" flex="none">{{$ctrl.item.activity.printPercent()}}
@@ -28,10 +44,21 @@
             <div flex="none">{{$ctrl.item.activity.auth.owner | userName}}</div>
             <div flex="none" ng-if="$ctrl.item.activity.header.category">{{$ctrl.item.activity.header.category | categoryCode}}</div>
             <div flex="none">
-                <!-- | calcTimezoneTime:$ctrl.item.user.display.timezone -->
                 <span>{{::$ctrl.item.activity.dateStart | date:'medium'}}&nbsp#</span>
                 <span style="cursor: pointer" ng-click="$ctrl.view($ctrl.item.activity.calendarItemId)">{{::$ctrl.item.activity.calendarItemId}}</span>
             </div>
         </div>
-    </div>
+    </div>-->
+</div>
+<div class="map-block"
+     ng-if="$ctrl.item.activity.details.isRouteExist && !$ctrl.item.activity.details.isEmpty">
+    <activity-route id="'preview-map'"
+                    data="$ctrl.item.activity.details.route"
+                    select="$ctrl.item.selectionTimestamp"
+                    zoom-enabled="false"
+                    layer-enabled="false">
+    </activity-route>
+    <md-button class="zoom-map md-icon-button" ng-click="$ctrl.mapFull()">
+        <md-icon class="material-icons md-light md-whiteframe-z2">fullscreen</md-icon>
+    </md-button>
 </div>

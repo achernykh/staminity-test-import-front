@@ -39,6 +39,7 @@ class ActivityAssignmentCtrl implements IComponentController {
      * Проверки на уровне полей выполняется отдельно в компонентах assignment-summary-non-structured
      * В данной функции делаются комплексные проверки
      */
+    // TODO перенести в item.checkAssugnForm
     checkForm (form?: INgModelController) {
         this.item.assignmentForm.$setValidity('needDuration',
             this.item.activity.duration > 0 || this.item.activity.distance > 0);

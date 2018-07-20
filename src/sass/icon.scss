@@ -51,11 +51,29 @@ md-icon.s20, img.s20 {
 	min-width: 20px;
 	min-height: 20px;
 }
+md-icon.s24, img.s24 {
+	width: 24px;
+	height: 24px;
+	min-width: 24px;
+	min-height: 24px;
+}
+md-icon.s32, img.s32 {
+	width: 32px;
+	height: 32px;
+	min-width: 32px;
+	min-height: 32px;
+}
 md-icon.s36, img.s36 {
 	width: 36px;
 	height: 36px;
 	min-width: 36px;
 	min-height: 36px;
+}
+md-icon.s40, img.s40 {
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
+	min-height: 40px;
 }
 md-icon.s64, img.s64 {
 	width: 64px;
@@ -140,34 +158,39 @@ md-icon {
 			fill: #FFB74D !important;
 		}
 	}
+	&.fill-measure.distance, &.fill-measure.duration, &.fill-measure.movingDuration {
+		svg {
+			fill: rgba(0, 0, 0, 0.90) !important;
+		}
+	}
 	&.md-dark {
 		svg {
-			fill: rgba(0, 0, 0, 0.70) !important;
+			fill: rgba(0, 0, 0, 0.54);
 		}
 	}
 	&.md-dark.md-unfocused {
 		svg {
-			fill: rgba(0, 0, 0, 0.54) !important;
+			fill: rgba(0, 0, 0, 0.54);
 		}
 	}
 	&.md-dark.md-inactive {
 		svg {
-			fill: rgba(0, 0, 0, 0.38) !important;
+			fill: rgba(0, 0, 0, 0.38);
 		}
 	}
 	&.md-light {
 		svg {
-			fill: rgba(255, 255, 255, 1) !important;
+			fill: rgba(255, 255, 255, 1);
 		}
 	}
 	&.md-light.md-unfocused {
 		svg {
-			fill: rgba(255, 255, 255, 0.70) !important;
+			fill: rgba(255, 255, 255, 0.70);
 		}
 	}
 	&.md-light.md-inactive {
 		svg {
-			fill: rgba(255, 255, 255, 0.50) !important;
+			fill: rgba(255, 255, 255, 0.50);
 		}
 	}
 }
@@ -220,9 +243,9 @@ md-icon {
 .material-icons.md-48 { font-size: 48px; }
 
 /* Rules for using icons as black on a light background. */
-.material-icons.md-dark { color: rgba(0, 0, 0, 0.70) !important; }
-.material-icons.md-dark.md-unfocused { color: rgba(0, 0, 0, 0.54) !important; }
-.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.38) !important; }
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.70); }
+.material-icons.md-dark.md-unfocused { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.38); }
 
 /* Rules for using icons as white on a dark background. */
 .material-icons.md-light { color: rgba(255, 255, 255, 1) !important; }

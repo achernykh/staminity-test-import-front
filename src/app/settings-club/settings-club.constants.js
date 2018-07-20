@@ -1,7 +1,7 @@
 export const _NAVBAR = [
     {
         icon: "person",
-        name: 'settings.personalInfo.header',
+        name: 'user.settings.personalInfo.header',
         link: '#personal',
         active: true
     }/*,

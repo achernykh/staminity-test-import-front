@@ -1,5 +1,5 @@
 import {
-    IActivityIntervalPW, ICalcMeasures, IDurationMeasure,
+    IActivityIntervalPW, IActivityIntervalW, ICalcMeasures, IDurationMeasure,
     IIntensityMeasure,
 } from "../../../../api/activity/activity.interface";
 import {ActivityIntervalP} from "./activity.interval-p";
@@ -89,6 +89,10 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
     clear(keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
         let interval: IActivityIntervalPW = Object.assign({}, this);
         keys.map((p) => interval.hasOwnProperty(p) && delete interval[p]);
+        if (interval.hasOwnProperty('intensityByFtpFrom') &&
+            interval.intensityByFtpFrom === undefined || interval.intensityByFtpFrom === null || interval.intensityByFtpFrom === 0) {
+            interval.intensityMeasure = null;
+        }
         return interval;
     }
 
@@ -98,6 +102,34 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      */
     specified(): boolean {
         return this.durationValue > 0;
+    }
+
+    setCompletePercent (fact: IActivityIntervalW): void {
+        let durationPercent: number = null;
+        let intensityPercent: number = null;
+        let actual = fact.calcMeasures.hasOwnProperty(this.intensityMeasure) && this.calcMeasures[this.intensityMeasure].avgValue || null;
+
+        if (fact.calcMeasures.hasOwnProperty(this.durationMeasure) &&
+            fact.calcMeasures[this.durationMeasure].value && this.durationValue) {
+            durationPercent = fact.calcMeasures[this.durationMeasure].value / this.durationValue;
+        }
+        if (actual > 0 && this.intensityLevelFrom > 0) {
+            if (this.intensityMeasure === 'speed') {
+                intensityPercent =
+                    (actual <= this.intensityLevelFrom && actual >= this.intensityLevelTo && 1) ||
+                    (actual <= this.intensityLevelTo && actual / this.intensityLevelTo) ||
+                    (actual >= this.intensityLevelFrom && actual / this.intensityLevelFrom);
+            } else {
+                intensityPercent =
+                    (actual >= this.intensityLevelFrom && actual <= this.intensityLevelTo && 1) ||
+                    (actual >= this.intensityLevelTo && actual / this.intensityLevelTo) ||
+                    (actual <= this.intensityLevelFrom && actual / this.intensityLevelFrom);
+            }
+        }
+        this.calcMeasures.completePercent.value =
+            (durationPercent > 0 && intensityPercent > 0 && durationPercent * intensityPercent) ||
+            (durationPercent > 0 && durationPercent) ||
+            (intensityPercent > 0 && intensityPercent) || null;
     }
 
     /**
@@ -152,7 +184,8 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
             || (update.movingDurationApprox && update.distanceApprox)) && "duration" || "distance";
 
         update.durationValue = update.durationMeasure === "duration" &&
-            update.movingDurationLength || update.distanceLength;
+            update.movingDurationLength || update.distanceLength ||
+            (this.hasOwnProperty('duration') && this.duration.durationValue);
 
         // Округляем дистанцию в м до 100м/1км, по времени до 1/5 минут
         if (update.movingDurationApprox) {
@@ -163,6 +196,16 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
             const step: number = update.distanceLength > 100 * 100 ? 10 : 1;
             update.distanceLength = Math.ceil(update.distanceLength / (50 * step)) * 50 * step;
         }
+        if (this.durationMeasure && (this.durationValue === null || this.durationValue === 0) ) {
+            this[this.durationMeasure] = new DurationMeasure();
+            this.durationMeasure = null;
+        }
+        if (this.intensityMeasure &&
+            (this.intensityByFtpFrom === null || this.intensityByFtpTo === null ||
+            this.intensityByFtpFrom === undefined || this.intensityByFtpTo === undefined)) {
+            //this[this.intensityMeasure] = null;
+        }
+
 
         Object.assign(this, update);
     }

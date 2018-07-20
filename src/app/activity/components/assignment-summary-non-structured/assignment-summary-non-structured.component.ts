@@ -9,10 +9,14 @@ import moment from 'moment/src/moment.js';
 import {FtpState} from "../assignment/assignment.component";
 import {IAuthService} from "../../../auth/auth.service";
 import { IQuillConfig } from "@app/share/quill/quill.config";
-
-const isFutureDay = (day) => moment(day, 'YYYY-MM-DD').startOf('day').diff(moment().startOf('day'), 'd') > 0;
+import { ActivityConfigConstants } from "../../activity.constants";
+import {ActivityIntervalG} from "@app/activity/activity-datamodel/activity.interval-g";
+import { isFutureDay } from "../../../share/date/date.filter";
+import { DurationMeasure, IntensityMeasure } from "../../activity-datamodel/activity.models";
 
 class AssignmentSummaryNonStructuredCtrl implements IComponentController {
+    // bind
+    change: number;
 
     private item: CalendarItemActivityCtrl;
     public onChange: (result: {plan: IActivityIntervalPW, actual: ICalcMeasures, form: INgModelController}) => IPromise<void>;
@@ -20,7 +24,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     private plan: IActivityIntervalPW;
     private actual: ICalcMeasures;
     public sport: string;
-    public form: INgModelController;
+    public form: any;
     public ftpMode: number;
 
     public FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
@@ -29,51 +33,20 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     private readonly index: any = [{from: 'intensityByFtpFrom', to: 'intensityByFtpTo'},{from: 'intensityLevelFrom', to: 'intensityLevelTo'}];
 
     private percentComplete: Object = {};
-
-    private options: {
-        rowSelection: boolean;
-        multiSelect: boolean;
-        autoSelect: boolean;
-        decapitate: boolean;
-        largeEditDialog: boolean;
-        boundaryLinks: boolean;
-        limitSelect: boolean;
-        pageSelect: boolean;
-    } = {
-        rowSelection: false,
-        multiSelect: false,
-        autoSelect: false,
-        decapitate: false,
-        largeEditDialog: false,
-        boundaryLinks: false,
-        limitSelect: false,
-        pageSelect: false
-    };
-    private query:Object = {
-        order: 'code',
-        limit: 5,
-        page: 1
-    };
-
-    private readonly valueType = {
-        movingDuration: 'value',
-        duration: 'value',
-        distance: 'value',
-        heartRate: 'avgValue',
-        speed: 'avgValue',
-        power: 'avgValue'
-    };
-
-    private measuresBySport;
+    private measuresBySport: any;
+    private durationTypes:[string];
+    private intensityTypesBySport;
 
     private trustHTML: string;
+    private hideQuillToolbar: boolean = true;
 
-    static $inject = ['$scope', 'AuthService', 'quillConfig'];
+    static $inject = ['$scope', 'AuthService', 'quillConfig', 'activityConfig'];
 
     constructor(
         private $scope: IScope,
         private AuthService: IAuthService,
-        private quillConf: IQuillConfig) {
+        private quillConf: IQuillConfig,
+        private activityConfig: ActivityConfigConstants) {
     }
 
     $onInit() {
@@ -97,14 +70,16 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     $onChanges(changes: any): void {
-        if(changes.hasOwnProperty('change') && !changes.change.isFirstChange()) {
+        if(changes.hasOwnProperty('change') && this.change > 0) {
             this.plan = null;
             this.actual = null;
             this.prepareData();
+            this.prepareValues();
             setTimeout(() => {
                 this.validateForm();
                 this.updateForm();
-            }, 300);
+                this.$scope.$applyAsync();
+            }, 1);
         }
     }
 
@@ -141,7 +116,20 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }
         // для исторических данных, до перехода movingDuration -> duration
         let durationMeasure = this.plan.durationMeasure === 'movingDuration' ? 'movingDuration' : 'duration';
-        this.measuresBySport = {
+        this.durationTypes = [durationMeasure,'distance'];
+        this.intensityTypesBySport = {
+            swim: ['heartRate', 'speed'],
+            bike: ['heartRate', 'speed', 'power'],
+            run: ['heartRate', 'speed'],
+            strength: ['heartRate'],
+            transition: ['heartRate', 'speed'],
+            ski: ['heartRate', 'speed'],
+            rowing: ['heartRate', 'speed', 'power'],
+            other: ['heartRate', 'speed'],
+            default: ['heartRate', 'speed'],
+        };
+        this.measuresBySport = this.activityConfig.intensityBySport;
+        /**this.measuresBySport = {
             swim: [durationMeasure,'distance', 'heartRate','speed'],
             bike: [durationMeasure,'distance','heartRate', 'speed','power'],
             run: [durationMeasure,'distance','heartRate', 'speed'],
@@ -151,10 +139,27 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             rowing: [durationMeasure,'distance','heartRate', 'speed'],
             other: [durationMeasure,'distance','heartRate', 'speed'],
             default: [durationMeasure,'distance','heartRate', 'speed'],
-        };
-        this.measuresBySport[this.item.activity.header.sportBasic || 'default'].forEach(key => {
-            this.percentComplete[key] = this.calcPercent(key) || null;
-        });
+        };**/
+        this.measures(this.sport).map(key => this.percentComplete[key] = this.calcPercent(key) || null);
+
+        if (!this.plan.durationMeasure) {
+            this.plan.durationMeasure = this.activityConfig.defaultDurationType[this.sport] || this.activityConfig.defaultDurationType['default'];
+        }
+        if (!this.plan.intensityMeasure) {
+            this.plan.intensityMeasure = this.activityConfig.defaultIntensityType[this.sport] || this.activityConfig.defaultIntensityType['default'];
+        }
+        if (this.item.activity.isCompleted && !this.item.activity.percent) {
+            this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
+        }
+    }
+
+    measures (sport): string[] {
+        return [...this.durationTypes,
+            ...this.activityConfig.intensityBySport[this.activityConfig.intensityBySport[sport] ? sport : 'default']];
+    }
+
+    quillSelect (range, oldRange, source): void {
+        this.hideQuillToolbar = range === null;
     }
 
     ftpModeChange(mode: FtpState) {
@@ -171,6 +176,10 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         return ['speed','heartRate','power'].indexOf(key) !== -1;
     }
 
+    isIntensity (measure: string): boolean {
+        return ['speed','heartRate','power'].indexOf(measure) !== -1;
+    }
+
     getFTP(measure: string, sport: string = this.sport):number {
         let zones = this.item.options.owner.trainingZones;
         return (this.isInterval(measure) && 0) ||
@@ -180,14 +189,31 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     changeValue(key: string, segment: 'actual' | 'plan' = null) {
         if(!!!key) {return;}
+        if (key === 'durationMeasure') {
+            this.plan.duration = new DurationMeasure();
+            this.plan.movingDuration = new DurationMeasure();
+            this.plan.distance = new DurationMeasure();
+            this.plan.durationValue = null;
+        }
+        if (key === 'intensityMeasure') {
+            this.plan.heartRate = new IntensityMeasure();
+            this.plan.speed = new IntensityMeasure();
+            this.plan.power = new IntensityMeasure();
+            this.plan.intensityByFtpFrom = undefined;
+            this.plan.intensityByFtpTo = undefined;
+            this.plan.intensityLevelFrom = undefined;
+            this.plan.intensityLevelTo = undefined;
+        }
         if (segment === 'actual' && this.item.activity.hasActualData) {
             this.item.activity.intervals.W.actualDataIsCorrected = true;
         }
         this.clearTemplate();
         this.validateForm();
-        this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
+        if (key !== 'durationMeasure' && key !== 'intensityMeasure') {
+            this.ftpMode === FtpState.Off ? this.completeFtpMeasure(key) : this.completeAbsoluteMeasure(key);
+            this.percentComplete[key] = this.calcPercent(key); // обновляем view model
+        }
         this.prepareDataForUpdate();
-        this.percentComplete[key] = this.calcPercent(key); // обновляем view model
         this.plan.calcMeasures.completePercent.value = this.calculateCompletePercent(); // расчет итогового процента по тренировке
         this.updateForm();
     }
@@ -203,18 +229,18 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     }
 
     prepareDataForUpdate() {
-        this.plan.durationMeasure =
+        /**this.plan.durationMeasure =
             (!!this.plan.distance['durationValue'] && 'distance') ||
             (!!this.plan.duration['durationValue'] && 'duration') ||
-            (!!this.plan.movingDuration['durationValue'] && 'movingDuration') || null;
+            (!!this.plan.movingDuration['durationValue'] && 'movingDuration') || null;**/
 
         this.plan.durationValue =
             (this.plan[this.plan.durationMeasure] && this.plan[this.plan.durationMeasure]['durationValue']) || null;
 
-        this.plan.intensityMeasure =
+        /**this.plan.intensityMeasure =
             ((this.plan.heartRate[this.index[FtpState.Off]['from']] || this.plan.heartRate[this.index[FtpState.On]['from']]) && 'heartRate') ||
             ((this.plan.speed[this.index[FtpState.Off]['from']] || this.plan.speed[this.index[FtpState.On]['from']]) && 'speed') ||
-            ((this.plan.power[this.index[FtpState.Off]['from']] || this.plan.power[this.index[FtpState.On]['from']]) && 'power') || null;
+            ((this.plan.power[this.index[FtpState.Off]['from']] || this.plan.power[this.index[FtpState.On]['from']]) && 'power') || null;**/
 
         this.plan.intensityLevelFrom =
             (this.plan[this.plan.intensityMeasure] && this.plan[this.plan.intensityMeasure][this.index[FtpState.Off]['from']]) || null;
@@ -233,7 +259,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (this.plan[key][this.index[FtpState.Off]['from']] === this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key][this.index[FtpState.Off]['from']]) ||
             (this.plan[key][this.index[FtpState.Off]['from']] !== this.plan[key][this.index[FtpState.Off]['to']] && this.plan[key]) || null;
 
-        let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.valueType[key]]) || null;
+        let actual = (this.actual.hasOwnProperty(key) && this.actual[key][this.activityConfig.valuePosition[key]]) || null;
 
         // для расчета процента необходимо наличие плана и факта по позиции
         if(!!plan && !!actual){
@@ -263,9 +289,40 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         }, 100);
     }
 
-    validateForm() {
+    isDisable (): boolean {
+        return false;
+    }
 
-        if (this.form.hasOwnProperty('plan_distance')) {
+    isError (field: string, codes: [string]): boolean {
+        return this.form.hasOwnProperty(field) && this.form[field].$error &&
+            Object.keys(this.form[field].$error).some(e => codes.some(c => c === e));
+    }
+
+    // TODO delete and use item.checkAssignmentForm()
+    validateForm() {
+        this.item.checkAssignmentForm();
+        // Проверка длительности
+        /**if (this.form.hasOwnProperty('plan_' + this.plan.durationMeasure)) {
+            this.form['plan_' + this.plan.durationMeasure].$setValidity('needDuration',
+                this.form['plan_' + this.plan.durationMeasure].$modelValue > 0 ||
+                this.actual.duration.avgValue > 0 ||
+                this.actual.movingDuration.avgValue > 0 ||
+                this.actual.duration.avgValue);
+        }
+        // Планировать в будущем может:
+        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
+        if (this.form['dateStart']) {
+            this.form['dateStart'].$setValidity('needPermissionForFeature',
+                !isFutureDay(this.form['dateStart'].$modelValue) ||
+                this.AuthService.isActivityPlan() ||
+                this.item.activity.view.isTrainingPlan ||
+                (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
+
+            //!this.item.isOwner || this.AuthService.isActivityPlan() ||
+            //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
+        }**/
+        //return;
+        /**if (this.form.hasOwnProperty('plan_distance')) {
             this.form['plan_distance'].$setValidity('needDuration',
                 this.form['plan_distance'].$modelValue > 0 ||
                 this.form.hasOwnProperty('plan_duration') && this.form['plan_duration'].$modelValue > 0 ||
@@ -315,20 +372,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
                     !(this.form['plan_heartRate'].$modelValue[this.index[FtpState.Off]['from']] > 0 &&
                     this.form['plan_speed'].$modelValue[this.index[FtpState.Off]['from']] > 0));
             }
-        }
-
-        // Планировать в будущем может:
-        // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
-        if (this.form['dateStart']) {
-            this.form['dateStart'].$setValidity('needPermissionForFeature',
-                !isFutureDay(this.form['dateStart'].$modelValue) ||
-                this.AuthService.isActivityPlan() ||
-                this.item.activity.view.isTrainingPlan ||
-                (!this.item.activity.auth.isOwner && this.AuthService.isActivityPlanAthletes()));
-
-                //!this.item.isOwner || this.AuthService.isActivityPlan() ||
-                //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
-        }
+        }**/
 
     }
 
@@ -346,9 +390,9 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
             (this.plan.intensityMeasure && this.percentComplete[this.plan.intensityMeasure]) || null;
     }
 
-    changeStructuredMode(){
+    /**changeStructuredMode(){
         this.item.structuredMode ? this.item.selectedTab = HeaderStructuredTab.Segments : angular.noop();
-    }
+    }**/
 
     clearTemplate() {
         this.item.activity.header.template = null;
@@ -357,6 +401,32 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     private updateForm() {
         this.onChange({plan: this.plan, actual: this.actual, form: this.form});
     }
+
+    /**
+     * Смена типа задания тренировки: по сегментам или общее
+     * Смене из одного типа в другой предидущие данные полностью удаляются, на будущее возможен
+     * подтверждающий диалог для пользователя
+     */
+    private changeStructuredMode() {
+        this.item.structuredMode = true;
+        if (this.item.structuredMode) {
+            // Переключение на структурированную
+            // Надоли удалять/очищать суммарный интервал? Скорее всего нет, при создании первого структурированного
+            // интервала сумарный интервал пересчитается
+            this.item.selectedTab = HeaderStructuredTab.Segments;
+            //this.item.activity.updateIntervals();
+        } else {
+            // Переключение со структурированной на не структурированную
+            this.item.activity.intervals.stack.filter((i) => i.type === "P" || i.type === "G")
+                .map((i) => this.item.activity.intervals
+                    .splice(i.type, i.type === "P" ? i.pos : (i as ActivityIntervalG).code, "single"));
+
+            this.item.activity.intervals.PW.calculate(this.item.activity.intervals.P);
+            //this.item.activity.updateIntervals();
+        }
+    }
+
+
 
 }
 

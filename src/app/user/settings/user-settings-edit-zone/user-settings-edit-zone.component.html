@@ -20,14 +20,16 @@
                 <md-input-container flex class="no-message" ng-repeat="measure in $ctrl.measures track by $index">
                     <label translate="{{::measure}}"></label>
                     <input name="{{::measure}}" measure-input
+                           ng-required="{{measure === 'FTP'}}"
                            ng-model="$ctrl.settings[measure]"
-                           name="valueFrom"
+                           ng-change="$ctrl.checkForm()"
+                           name="{{measure}}"
                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
-                           ng-attr-sport={{$ctrl.sport}}
+                           sport="$ctrl.sport"
                            ng-disabled="false">
                     <div ng-messages="$ctrl.zones[measure].$error" role="alert">
-                        <div ng-message-exp="['required']" translate="form.required">
-                        </div>
+                        <div ng-message-exp="['required']" translate="form.required"></div>
+                        <div ng-message-exp="['ftpMoreWhenZero']" translate="user.settings.zones.error.ftpMoreWhenZero"></div>
                         <div ng-message-exp="['minlength', 'maxlength']" translate="form.rangeStr" translate-values="{min:2, max:100}">
                         </div>
                     </div>
@@ -85,7 +87,7 @@
                                            measure-input required
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
-                                           ng-attr-sport={{$ctrl.sport}}
+                                           sport="$ctrl.sport"
                                            ng-change="$ctrl.checkForm()"
                                            ng-disabled="$ctrl.viewMode || (!$ctrl.viewMode && !$first)">
                                 </md-input-container>
@@ -96,7 +98,7 @@
                                            name="valueTo"
                                            name="valueFrom"
                                            measure="$ctrl.intensityFactor" ftp-mode="false" interval="false"
-                                           ng-attr-sport={{$ctrl.sport}}
+                                           sport="$ctrl.sport"
                                            ng-change="$ctrl.changeZone($index,zone.valueTo, $ctrl.intensityFactor)"
                                            ng-disabled="$ctrl.viewMode">
                                 </md-input-container>

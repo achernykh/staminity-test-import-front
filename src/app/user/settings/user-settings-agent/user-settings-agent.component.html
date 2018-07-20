@@ -16,16 +16,18 @@
         <md-radio-group name="isIndividual" class="md-primary" style="display: block; padding: 0 16px"
                         ng-model="$ctrl.datamodel.isIndividual" required>
             <md-radio-button ng-value="true"><span translate="user.settings.agent.individual"></span></md-radio-button>
-            <md-radio-button ng-value="false"><span translate="user.settings.agent.notIndividual"></span></md-radio-button>
+            <md-radio-button ng-value="false">
+                <span translate="user.settings.agent.notIndividual"></span>
+            </md-radio-button>
         </md-radio-group>
 
-        <div ng-if="$ctrl.datamodel.residentCountry && $ctrl.datamodel.residentCountry !== 'RU'">
+        <!--<div ng-if="$ctrl.datamodel.residentCountry && $ctrl.datamodel.residentCountry !== 'RU'">
             <md-list-item layout="row">
                 <p translate="user.settings.agent.noResidentRUS" style="color:red; padding: 20px 0;"></p> 
             </md-list-item>
-        </div>
+        </div>-->
 
-        <div ng-if="$ctrl.datamodel.residentCountry === 'RU' && !$ctrl.datamodel.isIndividual">
+        <div ng-if="$ctrl.datamodel.residentCountry && !$ctrl.datamodel.isIndividual">
             <md-list-item layout="row" layout-wrap class="user-settings-agent__no-before">
                 <md-input-container class="no-message">
                     <label translate="user.settings.agent.companyName"></label>
@@ -58,9 +60,12 @@
             <md-list-item layout="row">
                 <p translate="user.settings.agent.noIndividualRUS" style="color:red; padding: 20px 0;"></p> 
             </md-list-item>
+            <md-list-item layout="row" ng-if="$$ctrl.datamodel.residentCountry !== 'RU'">
+                <p translate="user.settings.agent.noResidentRUS" style="padding: 20px 0;"></p>
+            </md-list-item>
         </div>
 
-        <div ng-if="$ctrl.datamodel.residentCountry === 'RU' && $ctrl.datamodel.isIndividual">
+        <div ng-if="$ctrl.datamodel.residentCountry && $ctrl.datamodel.isIndividual">
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
                     <label translate="user.settings.personalInfo.main.firstName"></label>
@@ -93,6 +98,9 @@
                         <div ng-message-exp="['required']" translate="form.required"></div>
                     </div>
                 </md-input-container>
+            </md-list-item>
+            <md-list-item layout="row" ng-if="$$ctrl.datamodel.residentCountry !== 'RU'">
+                <p translate="user.settings.agent.noResidentRUS" style="padding: 20px 0;"></p>
             </md-list-item>
             <div class="md-padding" layout="row" layout-align="start center">
                 <md-checkbox flex="none" class="md-primary" name="agree"

@@ -697,6 +697,14 @@ export const _translateMessage = {
         calendarOnlyForCoach: {
             title: '',
             text: "Переход в календарь доступен только для тренера"
+        },
+        duplicateViolation_CODE: {
+            title: '',
+            text: "Шаблон с таким названием уже существует"
+        },
+        badZonesSettings: {
+            title: '',
+            text: "Зоны не сохранены. Проверьте корректность указания границ зон и уровня ПАНО"
         }
 
 
@@ -1396,6 +1404,14 @@ export const _translateMessage = {
         calendarOnlyForCoach: {
             title: '',
             text: "Athlete's calendar is available only for the coach"
+        },
+        duplicateViolation_CODE: {
+            title: '',
+            text: "Error: Template name should be unique"
+        },
+        badZonesSettings: {
+            title: '',
+            text: "Operation failed. Please check training zones limit values and LT level"
         }
 
 

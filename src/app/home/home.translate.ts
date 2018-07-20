@@ -2,13 +2,14 @@ export const homeTranslate = {
     ru: {
         fullTitle: 'Обзор',
         shortTitle: 'Обзор',
-        monthAvg: 'среднее {{value | number:1}}{{unit | translate}}/месяц',
+        monthAvg: 'Cр. {{value | number:1}}{{unit | translate}}/мес',
         charts: {
             header: 'Аналитика',
             distance: {
                 title: 'Дистанция ({{unit | measureUnit:"default" | translate}})',
                 subtitle: 'За последние 12 месяцев',
-            }
+            },
+            dataEmpty: 'Нет данных. Включите загрузку тренировок в настройках',
         },
         dashboard: {
             header: 'Дэшборд тренера',
@@ -21,13 +22,14 @@ export const homeTranslate = {
     en: {
         fullTitle: 'Home',
         shortTitle: 'Home',
-        monthAvg: 'avg {{value | number:1}}{{unit | translate}}/month',
+        monthAvg: 'Avg {{value | number:1}}{{unit | translate}}/month',
         charts: {
             header: 'Charts',
             distance: {
                 title: 'Distance ({{unit | measureUnit:"default" | translate}})',
                 subtitle: 'For the last 12 months',
-            }
+            },
+            dataEmpty: 'No data to display. Check activity synchronisation settings',
         },
         dashboard: {
             header: 'Dashboard',

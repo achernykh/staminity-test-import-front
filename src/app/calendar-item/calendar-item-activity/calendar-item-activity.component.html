@@ -1,7 +1,7 @@
-<activity-header ng-show="!$ctrl.showSelectTemplate && !$ctrl.showSelectAthletes"
-                 flex="auto" flex-gt-sm="none" layout="column" style="background-color: indianred"
+<activity-header ng-show="!$ctrl.showSelectTemplate && !$ctrl.showSelectAthletes && !$ctrl.showManualFact && !$ctrl.showRoute"
+                 flex="auto" flex-gt-sm="none" layout="column"
                  class="md-whiteframe-12dp"
-                 ng-class="{'single': $ctrl.mode === 'post' || !$ctrl.activity.hasDetails}">
+                 ng-class="{'single': $ctrl.activity.view.isPost || $ctrl.activity.hasActualData}">
 </activity-header>
 
 <activity-interval-overview ng-if="$ctrl.showIntervalOverview"
@@ -33,8 +33,21 @@
 </calendar-item-athlete-selector>
 
 <calendar-item-template-selector ng-if="$ctrl.showSelectTemplate"
+                                 ng-class="{'with-details-panel': $ctrl.activity.hasActualData}"
                                  templates-by-owner="$ctrl.templatesByOwner"
                                  ng-cloack class="calendar-item-template-selector"
                                  on-back="$ctrl.showSelectTemplate = false"
                                  on-select="$ctrl.onSelectTemplate(template)">
 </calendar-item-template-selector>
+<st-calendar-item-manual-fact ng-if="$ctrl.showManualFact"
+                              class="calendar-item-manual-fact md-whiteframe-12dp"
+                              ng-class="{'with-details-panel': $ctrl.activity.hasActualData}"
+                              on-back="$ctrl.onManualFactBack(fact)"
+                              on-save="$ctrl.onManualFactSave(fact)">
+</st-calendar-item-manual-fact>
+<st-calendar-item-route ng-if="$ctrl.showRoute"
+                        class="calendar-item-route md-whiteframe-12dp"
+                        data="$ctrl.activity.details.route"
+                        select="$ctrl.selectionTimestamp"
+                        on-back="$ctrl.onRouteBack()">
+</st-calendar-item-route>

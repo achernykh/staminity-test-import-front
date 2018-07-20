@@ -112,7 +112,9 @@ export class ActivityIntervals {
                             break;
                         }
                         case 'W': {
-                            Object.assign(this.W, {calcMeasures: i['calcMeasures']});
+                            Object.assign(this.W, {
+                                calcMeasures: i['calcMeasures'],
+                                actualDataIsCorrected: i['actualDataIsCorrected']});
                             break;
                         }
                     }

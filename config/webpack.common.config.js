@@ -55,7 +55,8 @@ module.exports = {
             'quill/dist/quill.snow.css',
             'ng-quill/dist/ng-quill.js',
             //'unichart/dist/uchart.min.js'
-            'localforage/dist/localforage.js'
+            'localforage/dist/localforage.js',
+            'autolinker/dist/Autolinker.js'
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

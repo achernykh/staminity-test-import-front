@@ -1,4 +1,146 @@
-<md-list class="md-dense slim-input bg-grey-200" ng-if="!$ctrl.item.activity.view.isView || $ctrl.item.options.templateMode">
+<md-list class="md-padding" style="padding-bottom: 0; padding-top: 8px;"
+         ng-if="!$ctrl.item.activity.view.isView || $ctrl.item.options.templateMode">
+    <!-- Для информации выводим динамическую дату -->
+    <div layout="row" layout-align="start center" class="input-item-line"
+         ng-if="$ctrl.item.activity.view.dynamicDates">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" class="material-icons md-dark" style="margin-top: auto;">today</md-icon>
+        </div>
+        <p class="md-body-1"
+           translate="activity.dynamicDate"
+           translate-values="{week: $ctrl.item.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.item.options.trainingPlanOptions.dayNumber + 1}">
+        </p>
+    </div>
+    <!-- Ввод типа активности и категории -->
+    <div layout="row" layout-align="start stretch" class="input-item-line">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}" class="md-dark"></md-icon>
+        </div>
+        <md-input-container class="st-material md-block md-dense" flex="30">
+            <label translate="activity.assignment.activityType.label"></label>
+            <md-select flex name="sport" required
+                       ng-model="$ctrl.item.activity.header.sport"
+                       ng-model-options="{ getterSetter: true }"
+                       ng-change="$ctrl.changeParam()"
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
+                <md-option ng-if="!$ctrl.item.options.templateMode"
+                           ng-repeat="type in $ctrl.item.types | filter:{enabled: true} track by type.id"
+                           value="{{type.id}}">{{'sport.'+type.code | translate}}
+                </md-option>
+                <md-option ng-if="$ctrl.item.options.templateMode"
+                           ng-repeat="type in $ctrl.item.types | filter:{isBasic: true, enabled: true} track by type.id"
+                           value="{{type.id}}">{{'sport.'+type.code | translate}}
+                </md-option>
+            </md-select>
+            <div ng-messages="$ctrl.item.assignmentForm.sport.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="required" translate="form.required"></div>
+            </div>
+        </md-input-container>
+        <div flex="none" class="wrapper-between"></div>
+        <md-input-container class="st-material md-block md-dense" flex="auto">
+            <label translate="activity.assignment.categoryLabel"></label>
+            <md-select flex
+                       ng-model="$ctrl.item.activity.header.activityCategory"
+                       ng-model-options="{ trackBy: '$value.id' }"
+                       required=""
+                       md-no-asterisk="false"
+                       ng-change="$ctrl.changeParam()"
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
+                       name="category">
+                <md-optgroup
+                        ng-repeat="owner in ['user', 'coach', 'club', 'system']"
+                        ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
+                        label="{{ 'reference.categories.' + owner | translate }}">
+                    <md-option
+                            ng-repeat="category in $ctrl.item.activity.categoriesByOwner[owner] | activityTypeExistInBasicType:$ctrl.item.activity.header.sportBasic track by category.id"
+                            ng-value="category">
+                        {{ category | categoryCode }}
+                    </md-option>
+                </md-optgroup>
+            </md-select>
+            <div class="hint md-dark"
+                 ng-show="$ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.category.$valid">
+                <span translate="activity.assignment.category.hint"></span>
+            </div>
+            <div ng-messages="$ctrl.item.assignmentForm.category.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="required" translate="form.required"></div>
+            </div>
+        </md-input-container>
+    </div>
+    <!-- Для шаблона: название + избранный -->
+    <div layout="row" layout-align="start stretch" class="input-item-line"
+         ng-if="$ctrl.item.activity.view.isTemplate">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" class="material-icons md-dark">import_contacts</md-icon>
+        </div>
+        <md-input-container flex="auto" class="st-material md-block md-dense">
+            <label translate="activity.template.namePlaceholder"></label>
+            <input type="text" name="name" maxlength="150" required
+                   ng-model="$ctrl.item.code"
+                   autocomplete="off">
+            <div class="hint md-dark"
+                 ng-show="$ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.name.$valid">
+                <span translate="activity.template.nameHint"></span>
+            </div>
+            <div ng-messages="$ctrl.item.assignmentForm.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="required" translate="form.required">
+                </div>
+            </div>
+        </md-input-container>
+        <div flex="none" class="wrapper-between"></div>
+        <md-input-container class="st-material md-block md-dense" flex="30">
+            <label translate="activity.template.favorite.label"></label>
+            <md-select flex name="durationType"
+                       ng-model="$ctrl.item.activity.view.options.templateOptions.favourite">
+                <md-option ng-repeat="type in [true, false]"
+                           value="{{type}}">{{type | translate}}
+                </md-option>
+            </md-select>
+            <div class="hint md-dark">
+                <span translate="activity.template.favorite.hint"></span>
+            </div>
+        </md-input-container>
+    </div>
+    <!-- Ввод времени и даты -->
+    <div layout="row" layout-align="start stretch" class="input-item-line"
+         ng-if="$ctrl.item.activity.view.enabledDate">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" class="material-icons md-dark">today</md-icon>
+        </div>
+        <md-input-container class="st-material md-block md-dense" flex="auto">
+            <label translate="activity.assignment.dateStart.label"></label>
+            <md-datepicker flex="auto" required
+                           ng-model="$ctrl.item.activity._dateStart"
+                           ng-change="$ctrl.changeParam()"
+                           name="dateStart" md-hide-icons="calendar"
+                           ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach">
+            </md-datepicker>
+            <div class="hint md-dark"
+                 ng-show="false || $ctrl.item.assignmentForm.$prestine || $ctrl.item.assignmentForm.dateStart.$valid">
+                <span translate="activity.assignment.dateStart.hint"></span>
+            </div>
+            <div ng-messages="$ctrl.item.assignmentForm.dateStart.$error"
+                 ng-show="$ctrl.item.assignmentForm.$dirty"
+                 md-auto-hide="false">
+                <div ng-message="needPermissionForFeature" translate="activity.error.needPermissionForFeature"></div>
+            </div>
+        </md-input-container>
+        <div flex="none" class="wrapper-between"></div>
+        <md-input-container class="st-material md-block md-dense no-message" flex="25" style="min-width: 100px">
+            <label translate="activity.assignment.timeStart.label"></label>
+            <input type="time" name="time"
+                   ng-change="$ctrl.changeParam()"
+                   ng-model="$ctrl.item.activity._time"/>
+        </md-input-container>
+    </div>
+
+    <!--
     <md-list-item>
         <md-input-container class="md-block no-message" md-no-float layout="row">
             <md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.item.activity.header.sportUrl}}"></md-icon>
@@ -56,22 +198,22 @@
                 </div>
             </div>
         </md-input-container>
-    </md-list-item>
+    </md-list-item><!--
     <md-list-item ng-click="$ctrl.onTemplateOpen()"
                   ng-if="!$ctrl.item.options.templateMode && $ctrl.item.activity.header.activityCategory && !$ctrl.item.isIonic"
                   ng-disabled="!$ctrl.item.templateByFilter">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">import_contacts</md-icon>
         <p translate="{{$ctrl.templateSelectorText}}" translate-values="{code: $ctrl.item.activity.header.template.code}"></p>
         <md-icon calss="md-secondary material-icons md-dark">keyboard_arrow_right</md-icon>
-    </md-list-item>
-    <md-list-item ng-if="$ctrl.item.activity.header.sport">
+    </md-list-item>-->
+    <!--<md-list-item ng-if="$ctrl.item.activity.header.sport">
         <md-icon class="material-icons md-dark" style="margin-right: 20px">format_list_numbered</md-icon>
         <p translate="activity.assignment.structured"></p>
         <md-switch class="md-secondary md-primary"
                    ng-model="$ctrl.item.structuredMode"
                    ng-change="$ctrl.changeStructuredMode()"
                    md-invert>
-    </md-list-item>
+    </md-list-item>--> <!--
     <md-list-item layout="row" layout-align="start center"
                   ng-if="!($ctrl.item.options.templateMode || ($ctrl.item.activity.view.isTrainingPlan && $ctrl.item.options.trainingPlanOptions.dynamicDates))">
         <md-input-container flex="auto" class="no-message" md-no-float>
@@ -124,5 +266,5 @@
         <p class="md-caption" flex="none" translate="activity.template.favorite"></p>
         <md-switch class="md-secondary md-primary" ng-model="$ctrl.item.options.templateOptions.favourite" md-invert>
         </md-switch>
-    </md-list-item>
+    </md-list-item>-->
 </md-list>

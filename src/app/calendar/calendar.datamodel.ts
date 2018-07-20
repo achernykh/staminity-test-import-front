@@ -12,6 +12,7 @@ export class Calendar {
     weeks: Array<ICalendarWeek> = []; //todo rename to weeks
     pos: number;
     range: Array<number>;
+    firstWeekComplete: boolean = false;
 
     // private
     // todo need comment
@@ -147,6 +148,7 @@ export class Calendar {
         items
             .map(week => {
                 this.weeks.unshift(week);
+                this.firstWeekComplete = true;
                 week.loading
                     .then(() => {
                         week.loading = null;
@@ -172,6 +174,7 @@ export class Calendar {
 
         items.forEach(week => {
                 this.weeks.push(week);
+                this.firstWeekComplete = true;
                 week.loading
                     .then(_ => week.loading = null)
                     .then(_ => console.timeEnd(`calendar down ${this.range[1]}`))
@@ -217,7 +220,6 @@ export class Calendar {
                 });
 
         let week = this.weekItem(index, start, days([]), loading);
-
         return week;
     }
 

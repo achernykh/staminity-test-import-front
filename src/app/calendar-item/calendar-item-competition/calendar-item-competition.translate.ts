@@ -48,7 +48,9 @@ export const translateCompetition = {
             },
             swim: {
                 '10km': "10 000 метров",
+                '7km': "7 000 метров",
                 '5km': "5 000 метров",
+                '4km': "4 000 метров",
                 '3km': "3 000 метров",
                 '1mile': "Миля (1852 м)",
                 '1km': "1000 метров",
@@ -150,7 +152,9 @@ export const translateCompetition = {
             },
             swim: {
                 '10km': "10 000 m",
+                '7km': "7 000 m",
                 '5km': "5 000 m",
+                '4km': "4 000 m",
                 '3km': "3 000 m",
                 '1mile': "1 mile (1852 m)",
                 '1km': "1000 m",

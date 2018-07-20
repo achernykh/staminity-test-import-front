@@ -43,8 +43,7 @@
                 md-search-text="$ctrl.countrySearchText"
                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
                 md-item-text="$ctrl.getCountryName(id)"
-                md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}"
-            >
+                md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}">
                 <md-item-template>
                     <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList['ru'][id]}}</span>
                 </md-item-template>

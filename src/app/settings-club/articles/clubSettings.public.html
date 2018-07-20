@@ -43,7 +43,7 @@
                                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
                                 md-item-text="$ctrl._country_list['ru'][id]"
                                 md-require-match
-                                md-floating-label="{{'settings.personalInfo.main.country'|translate}}">
+                                md-floating-label="{{'user.settings.personalInfo.main.country'|translate}}">
                     <md-item-template>
                         <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
                     </md-item-template>
@@ -72,7 +72,7 @@
                                  md-items="city in $ctrl.citySearch($ctrl.club.public.city)"
                                  md-item-text="city.description"
                                  md-require-match
-                                 md-floating-label="{{'settings.personalInfo.main.city'|translate}}">
+                                 md-floating-label="{{'user.settings.personalInfo.main.city'|translate}}">
                     <md-item-template>
                         <span md-highlight-text="$ctrl.citySearchText">{{city.description}}</span>
                     </md-item-template>
@@ -90,7 +90,7 @@
                 </md-autocomplete>
             </md-list-item>
             <!-- О себе -->
-            <md-subheader class="md-padding" translate="settings.personalInfo.about"></md-subheader>
+            <md-subheader class="md-padding" translate="user.settings.personalInfo.about"></md-subheader>
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.about"
@@ -101,7 +101,7 @@
                                  st-quill-post-image>
                 </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
-                    <label translate="settings.personalInfo.about"></label>
+                    <label translate="user.settings.personalInfo.about"></label>
                     <textarea ng-model="$ctrl.club.public.about" name="about" rows="3" md-select-on-focus></textarea>
                 </md-input-container>-->
             </md-list-item>
@@ -110,7 +110,7 @@
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.price"
-                                 placeholder="{{'settings.personalInfo.priceFull' | translate}}"
+                                 placeholder="{{'user.settings.personalInfo.priceFull' | translate}}"
                                  modules="$ctrl.quillConf.toolbarFull"
                                  on-content-changed="$ctrl.changeForm()"
                                  read-only="$ctrl.isViewMode"
@@ -118,15 +118,15 @@
                 </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.price"></label>
-                    <textarea ng-model="$ctrl.club.public.price" name="price" rows="2" placeholder="{{::'settings.personalInfo.priceFull' | translate}}"></textarea>
+                    <textarea ng-model="$ctrl.club.public.price" name="price" rows="2" placeholder="{{::'user.settings.personalInfo.priceFull' | translate}}"></textarea>
                 </md-input-container>-->
             </md-list-item>
             <!-- Контакты -->
-            <md-subheader class="md-padding" translate="user.contact"></md-subheader>
+            <md-subheader class="md-padding" translate="user.settings.personalInfo.contact"></md-subheader>
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.contact"
-                                 placeholder="{{'settings.personalInfo.contactFull' | translate}}"
+                                 placeholder="{{'user.settings.personalInfo.contactFull' | translate}}"
                                  modules="$ctrl.quillConf.toolbarFull"
                                  on-content-changed="$ctrl.changeForm()"
                                  read-only="$ctrl.isViewMode"
@@ -134,7 +134,7 @@
                 </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.contact"></label>
-                    <textarea ng-model="$ctrl.club.public.contact" name="contact" rows="2" placeholder="{{::'settings.personalInfo.contactFull' | translate}}"></textarea>
+                    <textarea ng-model="$ctrl.club.public.contact" name="contact" rows="2" placeholder="{{::'user.settings.personalInfo.contactFull' | translate}}"></textarea>
                 </md-input-container>-->
             </md-list-item>
             <!-- Достижения атлетов -->
@@ -142,7 +142,7 @@
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.athletes"
-                                 placeholder="{{'settings.personalInfo.athletesFull' | translate}}"
+                                 placeholder="{{'user.settings.personalInfo.athletesFull' | translate}}"
                                  modules="$ctrl.quillConf.toolbarFull"
                                  on-content-changed="$ctrl.changeForm()"
                                  read-only="$ctrl.isViewMode"
@@ -150,17 +150,17 @@
                 </ng-quill-editor><!--
                 <md-input-container flex class="md-block no-message">
                     <label translate="user.athletes"></label>
-                    <textarea ng-model="$ctrl.club.public.athletes" name="athletes" rows="2" placeholder="{{::'settings.personalInfo.athletesFull' | translate}}"></textarea>
+                    <textarea ng-model="$ctrl.club.public.athletes" name="athletes" rows="2" placeholder="{{::'user.settings.personalInfo.athletesFull' | translate}}"></textarea>
                 </md-input-container>-->
             </md-list-item>
             <md-list-item>
-                <p>{{'settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'settings.personalInfo.isFreeTrue' : 'settings.personalInfo.isFreeFalse' | translate}}</p>
+                <p>{{'user.settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'user.settings.personalInfo.isFreeTrue' : 'user.settings.personalInfo.isFreeFalse' | translate}}</p>
                 <md-switch class="md-secondary" ng-model="$ctrl.club.public.isFree"></md-switch>
             </md-list-item>
 
             <md-list-item layout="row">
                 <fieldset name="activity" flex="100" style="margin: 12px 0px">
-                    <legend style="margin-bottom: 16px" translate="settings.personalInfo.sportShape.activityTypes.header"></legend>
+                    <legend style="margin-bottom: 16px" translate="user.settings.sportShape.activityTypes.header"></legend>
                     <div layout="row" layout-wrap flex>
                         <div flex="33" ng-repeat="item in $ctrl._ACTIVITY">
                             <md-checkbox class="md-body-1 md-primary" aria-label={{::item}} ng-checked="$ctrl.isActivityChecked(item)" ng-click="$ctrl.toggleActivity(item)">
