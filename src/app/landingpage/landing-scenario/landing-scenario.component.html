@@ -17,7 +17,8 @@
             </div>
         </article>
         <!-- отзывы -->
-        <st-landing-reviews layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
+        <st-landing-reviews ng-if="$ctrl.scenario.reviews['ru']"
+                            layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
                             class="reviews block landing-reviews" reviews="$ctrl.scenario.reviews['ru']">
         </st-landing-reviews>
         <!-- блоки -->
@@ -33,6 +34,17 @@
                 <img ng-src="{{block.picture}}"/>
             </div>
         </section>
+        <!-- дополнительный блоки -->
+        <section ng-if="$ctrl.scenario.externalBlocks"
+                 class="scenario-block" layout-gt-sm="row" layout-align-gt-sm="center center" layout-wrap="true">
+            <div ng-repeat="block in $ctrl.scenario.externalBlocks.blocks"
+                 class="external-block" layout="column" layout-align="start center" flex-gt-sm="33">
+                <img ng-src="{{block.picture}}">
+                <p class="md-body-2" translate="landing.{{$ctrl.scenario.code}}.{{block.code}}.title"></p>
+                <p class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.{{block.code}}.text"></p>
+            </div>
+        </section>
+        <!-- футер -->
         <st-landing-footer></st-landing-footer>
     </section>
 </div>

@@ -2,8 +2,8 @@ import {StateDeclaration} from '@uirouter/angularjs';
 import { landingConfig } from "./landing.constants";
 
 const main: any = {
-    name: 'main',
-    url: '/main',
+    name: 'welcome',
+    url: '/',
     loginRequired: false,
     authRequired: [],
     views: {

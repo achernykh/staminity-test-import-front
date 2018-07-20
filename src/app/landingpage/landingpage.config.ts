@@ -7,7 +7,7 @@ import {_translate} from "./landingpage.translate";
 function configure($stateProvider: StateProvider,
                    $translateProvider: any) {
 
-    $stateProvider
+    /*$stateProvider
         .state("welcome", {
             url: "/",
             loginRequired: false,
@@ -16,7 +16,7 @@ function configure($stateProvider: StateProvider,
                 view: () => new DisplayView("landingPage"),
             },
             views: DefaultTemplate("landingPage"),
-        } as StateDeclaration)
+        } as StateDeclaration)*/
 
     // Текст представлений
     $translateProvider.translations("en", {landing: _translate.en});

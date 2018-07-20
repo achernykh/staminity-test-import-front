@@ -54,8 +54,11 @@ export interface LandingConfig {
         externalBlocks?: {
             title?: string; // ключ перевода, можно не заполнять
             blocks: LandingContentBlock[];
-        }
-    }],
+        };
+        // ключ перевода, если есть дополнительная секция с информацией в конце всех блоков (слайд 50)
+        // в переводах путь landing.[scenario.code].externalInfo
+        externalInfo?: string;
+    }];
     features?: {
         code: string;
         url: string;
@@ -76,12 +79,12 @@ export interface LandingConfig {
             title?: string; // ключ перевода, можно не заполнять
             blocks: LandingContentBlock[];
         }
-    },
+    };
     footer: [{
         code: string;
         links: string[];
-    }],
-    sidenav?: LandingSidenavItem[]
+    }];
+    sidenav?: LandingSidenavItem[];
 }
 
 export const landingConfig: LandingConfig = {
