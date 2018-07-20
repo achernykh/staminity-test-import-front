@@ -10,7 +10,7 @@
             </md-button>
         </div>
     </md-toolbar>
-    <div layout-gt-sm="row" layout="column" layout-align="start start" layout-wrap="true">
+    <div layout-gt-sm="row" layout="column" layout-align="start start" layout-wrap="true" class="scenario-wrapper">
         <div flex="25" class="scenario-card" ng-repeat="scenario in $ctrl.landingConfig.scenario">
             <md-card ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
                 <div class="image-wrapper">

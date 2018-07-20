@@ -6,7 +6,9 @@
             <div class="text" flex-gt-sm="40" flex="none" layout="column" layout-align="center start">
                 <h1 class="title md-display-3" flex="none" translate="landing.{{$ctrl.scenario.code}}.title"></h1>
                 <p class="subtitle md-headline" flex="none" translate="landing.{{$ctrl.scenario.code}}.subtitle"></p>
-                <md-button class="md-accent md-hue-2 md-raised" ng-if="$ctrl.scenario.button">
+                <md-button flex="none" class="md-accent md-hue-2 md-raised"
+                           ng-if="$ctrl.scenario.button"
+                           ng-click="$ctrl.$state.go($ctrl.scenario.button.state, $ctrl.scenario.button.stateParams)">
                     <span translate="landing.{{$ctrl.scenario.code}}.button.title"></span>
                 </md-button>
             </div>

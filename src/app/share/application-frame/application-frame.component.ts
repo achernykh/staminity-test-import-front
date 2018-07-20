@@ -31,7 +31,7 @@ export class ApplicationFrameCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
 
     static $inject = ['$scope', '$mdSidenav', '$mdMedia', 'SessionService','SocketService','NotificationService','RequestsService',
-        'AuthService'];
+        'AuthService', '$state'];
 
     constructor(
         private $scope: IScope,
@@ -41,7 +41,8 @@ export class ApplicationFrameCtrl implements IComponentController {
         private socket: SocketService,
         private NotificationService: NotificationService,
         private RequestsService: RequestsService,
-        private auth: AuthService) {
+        private auth: AuthService,
+        private $state) {
 
         session.getObservable()
             .takeUntil(this.destroy)

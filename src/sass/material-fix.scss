@@ -29,6 +29,15 @@ md-toolbar.md-default {
   }
 }
 
+md-toolbar.md-default-with-logo {
+  background: linear-gradient(110deg, $blue-grey-700 170px, white 170px);
+  color: rgba(black, 0.80) !important;
+  md-icon {
+    fill: rgba(black, 0.80) !important;
+    color: rgba(black, 0.80) !important;
+  }
+}
+
 //
 .md-subheader {
   background: $grey-050;
