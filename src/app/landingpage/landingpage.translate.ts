@@ -431,7 +431,7 @@ export let _translate = {
                 "После покупки примените план в нужные даты и тренировки появятся в вашем календаре",
             },
             block3: {
-                title: 'Выполняйте рекомендации тренера',
+                title: 'Выполняйте рекомендации из плана',
                 subtitle: '',
                 text: "Выполняйте тренировки и записывайте их спортивными часами или программой на смартфоне.<br>" +
                 "Чтобы тренировки попадали в Staminity, настройте автоматическую загрузку из Garmin Connect или Strava.",
@@ -546,15 +546,21 @@ export let _translate = {
             },
             externalBlocks: {
                 title: "Виды планов",
-                subtitle1: 'Универсальный',
-                text1: "Тренировочный план, не привязанный к конкретным датам. Может быть применен в любые даты.<br>" +
-                "Хорошо подходит в качестве типового плана для подготовки к забегу, для начала работы с новичками и как шаблон нескольких недель тренировок",
-                subtitle2: 'Фиксированные даты',
-                text2: 'Тренировочный план, привязанный к конкретным датам. <br>' +
-                'Подходит для плана подготовки к определенному событию, например "Московский марафон", а также для составления плана работы группы учеников',
-                subtitle3: 'Обновляемый план',
-                text3: "Тренировочный план, привязанный к конкретным датам, все изменения которого автоматически транслируются спортсменам. <br>" +
-                "Идеален для проведения тренировочных сборов и тренировки групп спортсменов по одному расписанию, в том числе для подготовки корпоративных команд по бегу и триатлону.",
+                externalBlock1: {
+                    title: 'Универсальный',
+                    text: "<p>Тренировочный план, не привязанный к конкретным датам. Может быть применен в любые даты.</p>" +
+                    "<p>Хорошо подходит в качестве типового плана для подготовки к забегу, для начала работы с новичками и как шаблон нескольких недель тренировок.</p>"
+                },
+                externalBlock2: {
+                    title: 'Фиксированные даты',
+                    text: "<p>Тренировочный план, привязанный к конкретным датам. </p>>" +
+                    "<p>Подходит для плана подготовки к определенному событию, например Московскому марафону, а также для составления плана работы группы учеников</p>",
+                },
+                externalBlock3: {
+                    title: 'Обновляемый план',
+                    text: "<p>Тренировочный план, привязанный к конкретным датам, все изменения которого автоматически транслируются спортсменам. </p>>" +
+                    "<p>Идеален для проведения тренировочных сборов и тренировки групп спортсменов по одному расписанию, в том числе для подготовки корпоративных команд по бегу и триатлону.</p>",
+                }
             }
         },
         trainingPlanPublication: {
@@ -583,17 +589,23 @@ export let _translate = {
                 text: "Опубликованные планы размещаются в Магазине тренировочных планов. <br>" +
                 "Вы решаете, опубликовать план бесплатно или за деньги и сами определяете стоимость плана",
             },
-            block4: {
+            externalBlocks: {
                 title: "Преимущества планов в Staminity",
-                subtitle1: 'Удобно для спортсменов',
-                text1: 'Staminity содержит все необходимое для работы по плану.<br>' +
-                'Мобильные приложения, автоматическая загрузка тренировок, анализ каждой тренировки и всего тренировочного процесса. <a href="/cases/training-plans">Read more</a>',
-                subtitle2: 'Выгодно для тренера',
-                text2: 'Комиссия Staminity - 30% от стоимости продажи каждого плана. Для бесплатных планов комиссий нет.<br>' +
-                'Для публикации плана не нужен тариф "Тренер". Нет продаж - не нужно платить',
-                subtitle3: 'Всё для продажи',
-                text3: "Ваш план доступен в Магазине тренировочных планов для всех посетителей Staminity. <br>" +
-                "Индивидуальная страница плана отражает всю существенную информацию по нему. ",
+                externalBlock1: {
+                    title: 'Удобно для спортсменов',
+                    text: '<p>Staminity содержит все необходимое для работы по плану.</p>' +
+                    '<p>Мобильные приложения, автоматическая загрузка тренировок, анализ каждой тренировки и всего тренировочного процесса. <a href="/cases/training-plans">Подробнее</a></p>'
+                },
+                externalBlock2: {
+                    title: 'Выгодно для тренера',
+                    text: "<p>Комиссия Staminity - 30% с каждой продажи плана.</p>>" +
+                    "<p>Для бесплатных планов комиссий нет. Если нет продаж - комиссий нет. Публикация бесплатна, тариф 'Тренер' не нужен</p>",
+                },
+                externalBlock3: {
+                    title: 'Просто и наглядно',
+                    text: "<p>Ваш план доступен в Магазине тренировочных планов для всех посетителей Staminity. </p>>" +
+                    "<p>Индивидуальная страница плана формируется автоматически и отражает всю существенную информацию по нему.</p>",
+                }
             }
         },
         severalCoaches: {
@@ -601,7 +613,7 @@ export let _translate = {
             shortTitle: 'Работа нескольких тренеров',
             subtitle: 'Соберите команду тренеров и эффективно работайте вместе с учениками онлайн',
             button: {
-                title: 'Попробовать бесплатно',
+                title: 'Создать аккаунт',
                 link: ''
             },
             block1: {
@@ -612,7 +624,7 @@ export let _translate = {
             block2: {
                 title: 'Соберите команду',
                 subtitle: '',
-                text: 'Назначьте членам клуба роли "Спортсмен" и "Тренер", свяжите тренеров со спортсменами. <br>' +
+                text: 'Пригласите членов клуба, назначьте им роли "Спортсмен" и "Тренер", свяжите тренеров со спортсменами. <br>' +
                 'При необходимости, назначьте тренеров администраторами для помощи в управлении клубом',
             },
             block3: {
@@ -644,7 +656,7 @@ export let _translate = {
         fullTitle: "Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity",
         shortTitle: "Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity",
         description: "Application for online training in running, cycling, swimming and triathlon. Training plans, workout log, online training for athletes, coaches and clubs",
-        keywords: "wokout log, online training running, online training cycling, online training swimming, online training triathlon, online training sport, training plan, training plans, online training program, online training application, application for coaches, application for coach, work with coach, train with coach, run, triathlon, cycling, swimming, workout diary, activity log, activity diary, work with athletes, Staminity, work with coach online",
+        keywords: "Workout log, online training running, online training cycling, online training swimming, online training triathlon, online training sport, training plan, training plans, online training program, online training application, application for coaches, application for coach, work with coach, train with coach, run, triathlon, cycling, swimming, workout diary, activity log, activity diary, work with athletes, Staminity, work with coach online",
         nav: {
             link1: "Features",
             link2: "Blog (rus)",
@@ -1166,7 +1178,7 @@ export let _translate = {
             trainGroups: {
                 title: 'Working with groups of athletes',
                 shortTitle: 'Working with groups',
-                subtitle: "Training plan is a powerful tool making coach’s work with groups of athletes and corporate teams convenient and simple.",
+                subtitle: "Train groups and corporate teams online, conveniently and effectively, with the help of training plans",
                 button: {
                     title: 'Try for free',
                     link: ''
@@ -1183,22 +1195,33 @@ export let _translate = {
                     text: "Assign plan to the selected athletes. Activities, events, and competitions from the plan will be copied to the athlete’s calendar.",
                 },
                 block3: {
+                    title: 'One plan - several students',
+                    subtitle: '',
+                    text: "When working with groups and corporate teams, the coach can maintain one plan, and all changes could be included in the calendars of athletes",
+                },
+                externalBlocks: {
                     title: "Plan types available",
-                    subtitle1: 'Universal',
-                    text1: "Training plan without fixed dates. Can be applied in any dates.<br>" +
-                    "Is great as typical plan used to prepare for a race, as a plan to start working with newbies and as a template for several weeks of activities. ",
-                    subtitle2: 'Fixed dates',
-                    text2: 'Training plan with fixed dates <br>' +
-                    'Can be used when preparing for a specific event, such as the Berlin marathon, and as a plan for a specific group of athletes. ',
-                    subtitle3: 'Dynamic plan',
-                    text3: "Training plan with fixed dates, all changes are transferred to assigned athletes. <br>" +
-                    "Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.",
+                    externalBlock1: {
+                        title: 'Universal',
+                        text: "<p>Training plan without fixed dates. Can be applied in any dates.</p>" +
+                        "<p>Is great as typical plan used to prepare for a race, as a plan to start working with newbies and as a template for several weeks of activities.</p> ",
+                    },
+                    externalBlock2: {
+                        title: 'Fixed dates',
+                        text: "<p>Training plan with fixed dates </p>" +
+                    "<p>Can be used when preparing for a specific event, such as the Berlin marathon, and as a plan for a specific group of athletes.</p>",
+                    },
+                    externalBlock3: {
+                        title: 'Dynamic plan',
+                        text: "<p>Training plan with fixed dates, all changes are transferred to assigned athletes. </p>>" +
+                        "<p>Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.</p>",
+                    }
                 }
             },
             trainingPlanPublication: {
                 title: 'Training plans publication and selling',
                 shortTitle: 'Plan publication and selling',
-                subtitle: 'Present your experience in preparing athletes for races in the form of training plans and publish them in the Store. Get new clients and earn with Staminity',
+                subtitle: 'Create and publish your training plan to get new clients and earn with Staminity',
                 button: {
                     title: 'Training plan store',
                     link: ''
@@ -1221,25 +1244,31 @@ export let _translate = {
                     text: "Published plans are placed in the training plans Store <br>" +
                     "You decide whether to publish a plan for free or for money and determine the cost of the plan yourself",
                 },
-                block4: {
-                    title: "Advantages of training plans in Staminity",
-                    subtitle1: 'Suitable for athletes',
-                    text1: "Staminity provides everything that is needed for training according to the plan.<br>" +
-                    "Mobile apps, automatic upload of activities, analysis of each activity and of the whole training process",
-                    subtitle2: 'Beneficial for the coach',
-                    text2: "We charge a fixed fee - 30% for each sale. No fees for free plans <br>" +
-                    "Also you don’t need the 'Coach' tariff to publish a plan. No sales - no fees.",
-                    subtitle3: 'Simple and convenient',
-                    text3: "All Staminity users can find your plan in the Store and compare it with others. <br>" +
-                    "All the major information about the plan is displayed on its personal page.",
+                externalBlocks: {
+                    title: "Advantages of training plans",
+                    externalBlock1: {
+                        title: 'Suitable for athletes',
+                        text: "<p>Staminity provides everything that is needed for training according to the plan.</p>" +
+                        "<p>Mobile apps, automatic upload of activities, analysis of each activity and of the whole training process</p>"
+                    },
+                    externalBlock2: {
+                        title: 'Beneficial for the coach',
+                        text: "<p>We charge a fixed fee - 30% for each sale. No fees for free plans. </p>>" +
+                        "<p>Also you don’t need the 'Coach' tariff to publish a plan. No sales - no fees.</p>",
+                    },
+                    externalBlock3: {
+                        title: 'Simple and convenient',
+                        text: "<p>All Staminity users can find your plan in the Store.</p>>" +
+                        "<p>Personal page for the plan contains all the major information about it.</p>",
+                    }
                 }
             },
             severalCoaches: {
                 title: 'Joint work of several coaches',
                 shortTitle: 'Several coaches',
-                subtitle: 'Clubs in Staminity are created to enable several coaches to work together, distributing athletes among each other',
+                subtitle: 'Gather a team of coaches and work effectively together with the athletes online',
                 button: {
-                    title: 'Try for free',
+                    title: 'Create new account',
                     link: ''
                 },
                 block1: {
