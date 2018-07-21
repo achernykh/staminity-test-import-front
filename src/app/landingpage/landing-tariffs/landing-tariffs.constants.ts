@@ -30,11 +30,15 @@ export const landingTariffsData = [
         connectText: "connectFree",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 0,
                     year: 0,
                 },
-                en: {
+                USD: {
+                    month: 0,
+                    year: 0,
+                },
+                EUR: {
                     month: 0,
                     year: 0,
                 },
@@ -59,14 +63,18 @@ export const landingTariffsData = [
         connectText: "connectTrial",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 300,
                     year: 250,
                 },
-                en: {
+                USD: {
                     month: 6,
                     year: 5,
                 },
+                EUR: {
+                    month: 5,
+                    year: 4.2,
+                }
             },
             variable: null,
         },
@@ -87,17 +95,21 @@ export const landingTariffsData = [
         connectText: "connectTrial",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 300,
                     year: 250,
                 },
-                en: {
+                USD: {
                     month: 6,
                     year: 5,
                 },
+                EUR: {
+                    month: 5,
+                    year: 4.2,
+                }
             },
             variable: {
-                ru: {
+                RUB: {
                     rules: ["coachAthletes"],
                     coachAthletes: {
                         minAthletes: 1,
@@ -106,13 +118,22 @@ export const landingTariffsData = [
                         premium: 210,
                     },
                 },
-                en: {
+                USD: {
                     rules: ["coachAthletes"],
                     coachAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 4,
-                        premium: 4,
+                        athlete: 3.9,
+                        premium: 3.9,
+                    },
+                },
+                EUR: {
+                    rules: ["coachAthletes"],
+                    coachAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 3.45,
+                        premium: 3.45,
                     },
                 },
             },
@@ -134,17 +155,21 @@ export const landingTariffsData = [
         connectText: "connectTrial",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 300,
                     year: 250,
                 },
-                en: {
+                USD: {
                     month: 6,
                     year: 5,
                 },
+                EUR: {
+                    month: 5,
+                    year: 4.2,
+                },
             },
             variable: {
-                ru: {
+                RUB: {
                     rules: ["clubAthletes", "clubCoaches"],
                     clubAthletes: {
                         minAthletes: 1,
@@ -157,17 +182,30 @@ export const landingTariffsData = [
                         coach: 300,
                     },
                 },
-                en: {
+                USD: {
                     rules: ["clubAthletes", "clubCoaches"],
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 4,
-                        premium: 4,
+                        athlete: 3.9,
+                        premium: 3.9,
                     },
                     clubCoaches: {
                         minCoaches: 1,
                         coach: 6,
+                    },
+                },
+                EUR: {
+                    rules: ["clubAthletes", "clubCoaches"],
+                    clubAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 3.9,
+                        premium: 3.9,
+                    },
+                    clubCoaches: {
+                        minCoaches: 1,
+                        coach: 5,
                     },
                 },
             },

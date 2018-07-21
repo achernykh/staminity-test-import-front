@@ -41,6 +41,7 @@ export interface LandingConfig {
         title: string;
         subtitle: string;
         picture: string;
+        thumb: string;
         button?: {
             text?: string;
             url?: string;
@@ -115,7 +116,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/work-with-coach',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-02.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-01-thumb.png',
             button: {
                 state: 'search',
                 stateParams: {
@@ -169,7 +171,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plans',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-02.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-02.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-02-thumb.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -204,11 +207,12 @@ export const landingConfig: LandingConfig = {
             ],
         },
         {
-            code: 'individualTraining',
-            url: '/cases/individual-training',
+            code: 'selfTraining',
+            url: '/cases/self-training',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-03.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-03.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-03-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -250,7 +254,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-athletes',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-04.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-04.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -292,7 +297,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-groups',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-05.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-05.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-05-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -322,7 +328,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plan-publication',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-06.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-06.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-06-thumb.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -360,7 +367,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/several-coaches',
             title: '',
             subtitle: '',
-            picture: 'https://264710.selcdn.ru/assets/images/website/scenario-07.png',
+            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-07.png',
+            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: null
@@ -445,7 +453,7 @@ export const landingConfig: LandingConfig = {
         url: '/features',
         title: '',
         subtitle: '',
-        picture: '/assets/landing/staminity_main_coaching.png',
+        picture: 'http://264710.selcdn.ru/assets/images/website/screens/features-main.png',
         button: {
             state: 'signup',
             stateParams: null

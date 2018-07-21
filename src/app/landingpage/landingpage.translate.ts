@@ -195,9 +195,9 @@ export let _translate = {
             },
             scenarios: {
                 title: "Сценарии",
-                link1: '<a href="/cases/work-with-coach">Работа с тренером</a>',
+                link1: '<a href="/cases/work-with-coach">Занятия с тренером</a>',
                 link2: '<a href="/cases/training-plans">Тренировки по плану</a>',
-                link3: '<a href="/cases/individual-training">Самостоятельные тренировки</a>',
+                link3: '<a href="/cases/self-training">Самостоятельные тренировки</a>',
                 link4: '<a href="/cases/train-athletes">Подготовка учеников</a>',
                 link5: '<a href="/cases/train-groups">Работа с группами спортсменов</a>',
                 link6: '<a href="/cases/training-plan-publication">Публикация и продажа планов</a>',
@@ -298,11 +298,11 @@ export let _translate = {
             },
         },
         featuresNew: {
-            title: 'Возможности Staminity',
+            title: 'Возможности сервиса',
             shortTitle: 'Возможности',
-            subtitle: 'Все для работы с тренером и самостоятельных тренировок в циклических видах спорта',
+            subtitle: 'Онлайн работа с тренером, тренировочные планы, дневник тренировок в циклических видах спорта',
             button: {
-                title: 'Попробовать бесплатно',
+                title: 'Создать аккаунт',
                 link: ''
             },
             block1: {
@@ -318,12 +318,12 @@ export let _translate = {
             block3: {
                 title: 'Работа с тренером',
                 subtitle: '',
-                text: "Поиск тренеров для занятий онлайн. Индивидуальный план, рекомендации и постоянный контакт с тренером. Подробнее",
+                text: 'Поиск тренеров для занятий онлайн. Индивидуальный план, рекомендации и постоянный контакт с тренером. <a href="/cases/work-with-coach">Подробнее</a>',
             },
             block4: {
                 title: 'Тренировочные планы',
                 subtitle: '',
-                text: "Тренировочные планы от профессиональных тренеров: как начать заниматься, подготовиться к выбранной дистанции или улучшить рекорд. Подробнее",
+                text: 'Тренировочные планы от профессиональных тренеров: как начать заниматься, подготовиться к выбранной дистанции или улучшить рекорд. <a href="/cases/training-plans">Подробнее</a>',
             },
             externalBlocks: {
                 title: 'А также',
@@ -378,9 +378,9 @@ export let _translate = {
             }
         },
         workWithCoach: {
-            title: 'Работа с тренером онлайн',
-            shortTitle: 'Работа с тренером',
-            subtitle: 'Подготовка с тренером - самый эффективный способ начать заниматься и достичь результата без вреда для здоровья',
+            title: 'Занятия с тренером',
+            shortTitle: 'Занятия с тренером',
+            subtitle: 'Онлайн подготовка с тренером – самый эффективный способ достичь результата и подготовиться к выбранной цели без вреда для здоровья',
             button: {
                 title: 'Найти тренера',
                 link: ''
@@ -389,12 +389,12 @@ export let _translate = {
                 title: 'Изучите предложения и выберите своего тренера',
                 subtitle: '',
                 text: "Тренеры и клубы специализируются на подготовке в различных видах спорта (бег, триатлон, велоспорт, плавание, лыжи, …)  и предлагают разный набор услуг. <br>" +
-                "Изучите опыт и предложения тренеров, cвяжитесь с ними по контактам, указанным в профиле и сделайте свой выбор.",
+                "Изучите опыт и предложения тренеров, cвяжитесь с ними по контактам, указанным в профиле, и сделайте свой выбор.",
             },
             block2: {
                 title: 'Получайте задания от тренера',
                 subtitle: '',
-                text: "План от тренера будет появляться в вашем календаре. В каждой тренировке вы найдете рекомендации наставника и сможете задать любой интересующий вопрос.",
+                text: "Ваш индивидуальный план от тренера будет появляться в календаре. В каждой тренировке вы найдете рекомендации наставника и сможете задать любой интересующий вопрос.",
             },
             block3: {
                 title: 'Выполняйте тренировки',
@@ -413,7 +413,7 @@ export let _translate = {
         trainingPlans: {
             title: 'Занятия по тренировочному плану',
             shortTitle: 'Занятия по тренировочному плану',
-            subtitle: 'Тренировочный план - это хороший способ подготовиться к выбранной дистанции занимаясь системно, выполняя рекомендации профессионального наставника',
+            subtitle: 'Выберите свой тренировочный план и занимайтесь системно для подготовки к выбранной цели в спорте',
             button: {
                 title: 'Выбрать тренировочный план',
                 link: ''
@@ -444,10 +444,10 @@ export let _translate = {
             }
 
         },
-        individualTraining: {
+        selfTraining: {
             title: 'Самостоятельные тренировки',
             shortTitle: 'Самостоятельные тренировки',
-            subtitle: 'В Staminity есть всё для самостоятельной подготовки продвинутых любителей в циклических видах спорта (бег, триатлон, плавание, велоспорт, лыжные гонки, …)',
+            subtitle: 'Тренируйтесь самостоятельно, планируйте сезон и контролируйте свой прогресс в циклических видах спорта',
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -485,7 +485,7 @@ export let _translate = {
         trainAthletes: {
             title: 'Подготовка учеников',
             shortTitle: 'Подготовка учеников',
-            subtitle: 'Всё для работы тренера с учениками онлайн в циклических видах спорта (бег, плавание, триатлон, лыжные гонки, велоспорт, ...)',
+            subtitle: 'Найдите учеников и тренируйте их онлайн: планируйте подготовку, анализируйте прогресс, общайтесь',
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -523,7 +523,7 @@ export let _translate = {
         trainGroups: {
             title: 'Работа с группами спортсменов',
             shortTitle: 'Работа с группами',
-            subtitle: 'Тренировочные планы - удобный и мощный инструмент для работы тренера с группами спортсменов и корпоративными командами',
+            subtitle: 'Тренируйте группы и корпоративные команды онлайн, удобно и эффективно, с помощью тренировочных планов',
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -540,6 +540,11 @@ export let _translate = {
                 text: "Присвойте план выбранным ученикам. Тренировки, события и соревнования из плана попадут в календари спортсменов",
             },
             block3: {
+                title: 'Один план - несколько учеников',
+                subtitle: '',
+                text: "При работе с группами и корпоративными командами тренер может вести один план, а все изменения будут попадать в календари спортсменов",
+            },
+            externalBlocks: {
                 title: "Виды планов",
                 subtitle1: 'Универсальный',
                 text1: "Тренировочный план, не привязанный к конкретным датам. Может быть применен в любые даты.<br>" +
@@ -555,7 +560,7 @@ export let _translate = {
         trainingPlanPublication: {
             title: 'Публикация и продажа тренировочных планов',
             shortTitle: 'Публикация планов',
-            subtitle: 'Упакуйте ваш опыт подготовки к стартам в тренировочные планы и опубликуйте их в Магазине планов. Привлекайте новых клиентов и зарабатывайте в Staminity',
+            subtitle: 'Создайте и опубликуйте свой тренировочный план, привлекайте новых клиентов и зарабатывайте в Staminity',
             button: {
                 title: 'Магазин планов',
                 link: ''
@@ -581,8 +586,8 @@ export let _translate = {
             block4: {
                 title: "Преимущества планов в Staminity",
                 subtitle1: 'Удобно для спортсменов',
-                text1: "Staminity содержит все необходимое для работы по плану.<br>" +
-                "Мобильные приложения, автоматическая загрузка тренировок, анализ каждой тренировки и всего тренировочного процесса.  Подробнее",
+                text1: 'Staminity содержит все необходимое для работы по плану.<br>' +
+                'Мобильные приложения, автоматическая загрузка тренировок, анализ каждой тренировки и всего тренировочного процесса. <a href="/cases/training-plans">Read more</a>',
                 subtitle2: 'Выгодно для тренера',
                 text2: 'Комиссия Staminity - 30% от стоимости продажи каждого плана. Для бесплатных планов комиссий нет.<br>' +
                 'Для публикации плана не нужен тариф "Тренер". Нет продаж - не нужно платить',
@@ -592,9 +597,9 @@ export let _translate = {
             }
         },
         severalCoaches: {
-            title: 'Совместная работа нескольких тренеров',
-            shortTitle: 'Несколько тренеров',
-            subtitle: 'Клубы в Staminity созданы для того, чтобы несколько тренеров могли вместе работать с учениками, перераспределяя их между собой',
+            title: 'Работа нескольких тренеров',
+            shortTitle: 'Работа нескольких тренеров',
+            subtitle: 'Соберите команду тренеров и эффективно работайте вместе с учениками онлайн',
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -623,7 +628,7 @@ export let _translate = {
         },
         main: {
             title: 'Тренировки онлайн',
-            subtitle: 'Все для работы с тренером и самостоятельной подготовки в циклических видах спорта',
+            subtitle: 'Приложение для работы с тренером и самостоятельной подготовки в циклических видах спорта',
             button: {
                 title: 'Попробовать бесплатно'
             }
@@ -831,7 +836,7 @@ export let _translate = {
                 title: "Use cases",
                 link1: '<a href="/cases/work-with-coach">Working with a coach</a>',
                 link2: '<a href="/cases/training-plans">Training according to the plan</a>',
-                link3: '<a href="/cases/individual-training">Self training</a>',
+                link3: '<a href="/cases/self-training">Self training</a>',
                 link4: '<a href="/cases/train-athletes">Working with athletes</a>',
                 link5: '<a href="/cases/train-groups">Working with groups of athletes</a>',
                 link6: '<a href="/cases/training-plan-publication">Plan publication and selling</a>',
@@ -936,9 +941,9 @@ export let _translate = {
             featuresNew: {
                 title: 'Staminity features',
                 shortTitle: 'Features',
-                subtitle: 'Everything that’s needed for remote work with a coach and self training in cyclic sports',
+                subtitle: 'Online training with a coach, training plans and training diary in cyclic sports',
                 button: {
-                    title: 'Try for free',
+                    title: 'Create account',
                     link: ''
                 },
                 block1: {
@@ -954,12 +959,12 @@ export let _translate = {
                 block3: {
                     title: 'Working with a coach',
                     subtitle: '',
-                    text: "Search for coaches to train online. Individual plan, recommendations and constant contact with the coach. <a ui-sref='work-with-coach'>Read more</a>",
+                    text: 'Search for coaches to train online. Individual plan, recommendations and constant contact with the coach. <a href="/cases/work-with-coach">Read more</a>',
                 },
                 block4: {
                     title: 'Training plans',
                     subtitle: '',
-                    text: "Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a ui-sref='training-plans'>Read more</a>",
+                    text: 'Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a href="cases/training-plans">Read more</a>',
                 },
                 externalblocks: {
                     title: 'As well as',
@@ -1018,7 +1023,7 @@ export let _translate = {
             workWithCoach: {
                 title: 'Working with a coach',
                 shortTitle: 'Working with a coach',
-                subtitle: 'Training with a coach is the most effective way to start your sports training and achieve a result not harming your health',
+                subtitle: 'Online training with a coach is the most effective way to achieve your sport goals not harming your health',
                 button: {
                     title: 'Find a coach',
                     link: ''
@@ -1051,7 +1056,7 @@ export let _translate = {
             trainingPlans: {
                 title: 'Training according to the plan',
                 shortTitle: 'Training according to the plan',
-                subtitle: 'Training plan is a good way to prepare for the chosen distance, by training systematically and completing recommendations of a professional coach',
+                subtitle: 'Choose your training plan and train systematically to prepare for the chosen distance and achieve your sport goal',
                 button: {
                     title: 'Choose your plan',
                     link: ''
@@ -1082,10 +1087,10 @@ export let _translate = {
                 },
 
             },
-            individualTraining: {
+            selfTraining: {
                 title: 'Self training',
                 shortTitle: 'Self training',
-                subtitle: 'In Staminity you will find everything needed for self training of advanced amateurs in cyclic sports e.g. running, triathlon, swimming, cycling, skiing etc.',
+                subtitle: 'Be the coach for yourself, create a plan for your season, plan your activites and control your progress in cyclic sports',
                 button: {
                     title: 'Try for free',
                     link: ''
@@ -1123,7 +1128,7 @@ export let _translate = {
             trainAthletes: {
                 title: 'Working with athletes',
                 shortTitle: 'Working with athletes',
-                subtitle: 'Everything that is needed for a coach to be able to train athletes online in cyclic sports e.g. running, swimming, triathlon, skiing, cycling etc.',
+                subtitle: 'Find athletes and work together online: plan their season and activities, analyze progress, stay connected',
                 button: {
                     title: 'Try for free',
                     link: ''
@@ -1261,7 +1266,7 @@ export let _translate = {
             },
             main: {
                 title: 'Training online',
-                subtitle: 'Everything you need for online training with a coach or self training in cyclic sports',
+                subtitle: 'Application for online training with a coach or self training in cyclic sports',
                 button: {
                     title: 'Try for free'
                 }
