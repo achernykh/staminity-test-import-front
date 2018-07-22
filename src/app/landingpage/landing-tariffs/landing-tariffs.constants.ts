@@ -11,10 +11,53 @@ export interface LandingTariffsSettings {
 
 export const landingTariffsConfig: LandingTariffsSettings = {
     currency: {
-        RUB: [],
+        RUB: ["BY",  //Белоруссия
+            "KG",  //Киргизия
+            "KZ",  //Казахстан
+            "RU",  //Россия
+            "TJ"  //Таджикистан
+            ],
         USD: [],
-        EUR: [],
-        defaultCurrency: 'RUB'
+        EUR: [
+            "AD",  //Андорра
+            "AT",  //Австрия
+            "BA",  //Босния и Герцеговина
+            "BE",  //Бельгия
+            "BG",  //Болгария
+            "CV",  //Кабо-Верде
+            "CY",  //Кипр
+            "CZ",  //Чехия
+            "DE",  //Германия
+            "DK",  //Дания
+            "EE",  //Эстония
+            "ES",  //Испания
+            "FI",  //Финляндия
+            "FR",  //Франция
+            "GR",  //Греция
+            "HR",  //Хорватия
+            "HU",  //Венгрия
+            "IE",  //Ирландия
+            "IT",  //Италия
+            "LT",  //Литва
+            "LU",  //Люксембург
+            "LV",  //Латвия
+            "MA",  //Марокко
+            "MC",  //Монако
+            "ME",  //Черногория
+            "MT",  //Мальта
+            "NL",  //Нидерланды
+            "PL",  //Польша
+            "PM",  //Сен-Пьер и Микелон
+            "PT",  //Португалия
+            "RO",  //Румыния
+            "SE",  //Швеция
+            "SI",  //Словения
+            "SK",  //Словакия
+            "SM",  //Сан-Марино
+            "VA",  //Ватикан
+            "YT",  //Майотта
+        ],
+        defaultCurrency: 'USD'
     }
 };
 
@@ -30,11 +73,15 @@ export const landingTariffsData = [
         connectText: "connectFree",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 0,
                     year: 0,
                 },
-                en: {
+                USD: {
+                    month: 0,
+                    year: 0,
+                },
+                EUR: {
                     month: 0,
                     year: 0,
                 },
@@ -59,14 +106,18 @@ export const landingTariffsData = [
         connectText: "connectTrial",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 300,
                     year: 250,
                 },
-                en: {
+                USD: {
                     month: 6,
                     year: 5,
                 },
+                EUR: {
+                    month: 5,
+                    year: 4.2,
+                }
             },
             variable: null,
         },
@@ -87,17 +138,21 @@ export const landingTariffsData = [
         connectText: "connectTrial",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 300,
                     year: 250,
                 },
-                en: {
+                USD: {
                     month: 6,
                     year: 5,
                 },
+                EUR: {
+                    month: 5,
+                    year: 4.2,
+                }
             },
             variable: {
-                ru: {
+                RUB: {
                     rules: ["coachAthletes"],
                     coachAthletes: {
                         minAthletes: 1,
@@ -106,13 +161,22 @@ export const landingTariffsData = [
                         premium: 210,
                     },
                 },
-                en: {
+                USD: {
                     rules: ["coachAthletes"],
                     coachAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 4,
-                        premium: 4,
+                        athlete: 3.9,
+                        premium: 3.9,
+                    },
+                },
+                EUR: {
+                    rules: ["coachAthletes"],
+                    coachAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 3.45,
+                        premium: 3.45,
                     },
                 },
             },
@@ -134,17 +198,21 @@ export const landingTariffsData = [
         connectText: "connectTrial",
         fee: {
             subscription: {
-                ru: {
+                RUB: {
                     month: 300,
                     year: 250,
                 },
-                en: {
+                USD: {
                     month: 6,
                     year: 5,
                 },
+                EUR: {
+                    month: 5,
+                    year: 4.2,
+                },
             },
             variable: {
-                ru: {
+                RUB: {
                     rules: ["clubAthletes", "clubCoaches"],
                     clubAthletes: {
                         minAthletes: 1,
@@ -157,17 +225,30 @@ export const landingTariffsData = [
                         coach: 300,
                     },
                 },
-                en: {
+                USD: {
                     rules: ["clubAthletes", "clubCoaches"],
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 4,
-                        premium: 4,
+                        athlete: 3.9,
+                        premium: 3.9,
                     },
                     clubCoaches: {
                         minCoaches: 1,
                         coach: 6,
+                    },
+                },
+                EUR: {
+                    rules: ["clubAthletes", "clubCoaches"],
+                    clubAthletes: {
+                        minAthletes: 1,
+                        maxAthletes: 10,
+                        athlete: 3.9,
+                        premium: 3.9,
+                    },
+                    clubCoaches: {
+                        minCoaches: 1,
+                        coach: 5,
                     },
                 },
             },
