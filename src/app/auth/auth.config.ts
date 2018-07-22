@@ -50,26 +50,9 @@
                 activateCoachTrial: null,
                 activateClubTrial: null,
             },
-            resolve: {
-                view: () => new DisplayView("signup"),
-                //ipInfo: ['DisplayService', (displayService: DisplayService) => displayService.getIpInfo()]
-            },
             views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: "view.background",
-                    },
-                },
-                "header": {
-                    component: "staminityHeader",
-                    bindings: {
-                        view: "view.header",
-                    },
-                },
                 "application": {
                     component: "auth",
-                    bindings: "view.application",
                 },
                 "form@signup": {
                     template: require("./view/signup.html"),

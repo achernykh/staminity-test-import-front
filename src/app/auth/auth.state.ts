@@ -11,7 +11,10 @@ const signup: any = {
         activateClubTrial: null,
     },
     views: {
-        application: {component: 'auth'},
+        "application": {
+            component: "auth",
+            bindings: "view.application",
+        },
         "form@signup": {
             template: require("./view/signup.html"),
         },

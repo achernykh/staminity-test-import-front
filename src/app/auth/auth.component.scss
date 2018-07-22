@@ -49,16 +49,17 @@ auth {
 		min-width: 320px;
 		max-width: 320px;
 		width: 320px;
+    margin: auto;
 	}
 
 	md-card md-card-title, md-card-content.confirm-message {
-		color: white;
-		background: $blue-grey-700;
+		//color: white;
+		//background: $blue-grey-700;
 	}
 
 	md-card form {
-		color: white;
-		background: $blue-grey-700;
+		//color: white;
+		//background: $blue-grey-700;
 		overflow: hidden;
 	}
 
