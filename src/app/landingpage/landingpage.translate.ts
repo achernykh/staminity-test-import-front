@@ -380,7 +380,7 @@ export let _translate = {
         workWithCoach: {
             title: 'Занятия с тренером',
             shortTitle: 'Занятия с тренером',
-            subtitle: 'Онлайн подготовка с тренером – самый эффективный способ достичь результата и подготовиться к выбранной цели без вреда для здоровья',
+            subtitle: 'Найдите тренера и занимайтесь онлайн по индивидуальному плану. Достигайте результатов без вреда для здоровья',
             button: {
                 title: 'Найти тренера',
                 link: ''
@@ -872,438 +872,438 @@ export let _translate = {
             },
             copyright1: "Made with",
             copyright2: "| © 2018 Staminity. All rights reserved",
-            tariffs: {
-                title: "How much does staminity.com cost?",
-                shortTitle: "Pricing",
-                tryFreeBtn: "TRY FOR FREE",
-                tryFree: "No credit card required",
-                connectFree: "TRY FOR FREE",
-                connectTrial: "14 day free trial",
-                connect: "Get started",
-                connectTrialBtn: "TRY FOR FREE",
-                month: "Month",
-                year: "Year",
-                calculator: "Tariff calculator",
+        },
+        tariffs: {
+            title: "How much does staminity.com cost?",
+            shortTitle: "Pricing",
+            tryFreeBtn: "TRY FOR FREE",
+            tryFree: "No credit card required",
+            connectFree: "TRY FOR FREE",
+            connectTrial: "14 day free trial",
+            connect: "Get started",
+            connectTrialBtn: "TRY FOR FREE",
+            month: "Month",
+            year: "Year",
+            calculator: "Tariff calculator",
 
-                name: {
-                    basic: "Basic",
-                    premium: "Premium",
-                    coach: "Coach",
-                    club: "Club",
-                },
-                description: {
-                    basic: "Workout log, train with coach, connect with friends",
-                    premium: '"Basic" + Plan and analyze your workouts',
-                    coach: "All for coach to work with athletes",
-                    club: "All for clubs with several coaches to work with athletes",
-                },
-                noCreditCard: "",
-                functions: {
-                    func1: "Workout log",
-                    func2: "Review completed workouts",
-                    func3: "Auto sync with actual data providers",
-                    func4: "Online training with coach",
-                    func5: "<i>(SOON) Chat with friends, groups and leaderboards</i>",
-                    func6: '<strong>All in "Basic" tariff +:</strong>',
-                    func7: "+ Plan your workouts",
-                    func8: "+ Analyze workouts in details",
-                    func9: "+ Manage categories and workout templates",
-                    func10: "+ Repors and analytics",
-                    func11: "Workout log for every athlete",
-                    func12: "Plan workouts and chat with athletes",
-                    func13: "Analyze athlete's workouts in details",
-                    func14: "Manage categories and workout templates",
-                    func15: "Coach dashboard",
-                    func16: "Reports and analytics for coach",
-                    func17: "Create and manage training plans",
-                    func18: "<strong>All Coach functions for club athletes +:</strong>",
-                    func19: "+ Connect additional coaches",
-                    func20: "+ Assign coaches to club athletes",
-                    func21: "+ Manage club categories and workout templates",
-                    func22: "+ Club dashboard",
-                    func23: "<i>+ (SOON) Reports and analytics for club</i>",
-                    func24: "<i>+ (SOON) Manage training plans</i>",
-                },
-                byMonth: "/ month",
-                byYear: "/year",
-
-                coachAthletes: "{{athlete | number:0}} {{'rub' | translate}}/month per athlete. \n" +
-                "{{minAthletes}} athletes included in subscription fee. \n" +
-                "Pay maximum for {{maxAthletes}} athletes, {{maxAthletes + 1}}-th and above are free",
-
-                clubAthletes: "{{athlete | number:0}} {{'rub' | translate}}/month per club athlete.  \n" +
-                "{{minAthletes}} free athlete for every club coach included. \n" +
-                "Pay maximum for {{maxAthletes}} athletes for every club coach",
-
-                clubCoaches: "{{coach | number:0}} {{'rub' | translate}}/month per club coach.  \n" +
-                "{{minCoaches}} club coach included in subscription fee. \n",
-
-                calc: {
-                    params: "Params",
-                    totals: "Total per month",
-                    subscription: "Subscription fee:",
-                    variable: "For athletes:",
-                    premium: "Need PREMIUM tariff for yourself",
-                    coaches: "Coaches:",
-                    athletes: "Athletes:",
-                    proAthletes: "Athletes with PREMIUM tariff paid by you:",
-                    freeAthletes: "{{athletes}}+ athletes are without payment",
-                },
+            name: {
+                basic: "Basic",
+                premium: "Premium",
+                coach: "Coach",
+                club: "Club",
             },
-            featuresNew: {
-                title: 'Staminity features',
-                shortTitle: 'Features',
-                subtitle: 'Online training with a coach, training plans and training diary in cyclic sports',
-                button: {
-                    title: 'Create account',
-                    link: ''
-                },
-                block1: {
-                    title: 'Training diary',
-                    subtitle: '',
-                    text: "Training calendar with planned and completed activities and competitions, important events and measurements.",
-                },
-                block2: {
-                    title: 'Analysis of completed activities',
-                    subtitle: '',
-                    text: "Calculating correctness of the completion of a plan and of a separate segment in each activity. Detailed information for extensive analysis.",
-                },
-                block3: {
-                    title: 'Working with a coach',
-                    subtitle: '',
-                    text: 'Search for coaches to train online. Individual plan, recommendations and constant contact with the coach. <a href="/cases/work-with-coach">Read more</a>',
-                },
-                block4: {
-                    title: 'Training plans',
-                    subtitle: '',
-                    text: 'Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a href="cases/training-plans">Read more</a>',
-                },
-                externalblocks: {
-                    title: 'As well as',
-                    externalBlock1:{
-                        title: 'Activities upload',
-                        text: 'An automatic upload of completed activities and their comparison with the planned ones'
-                    },
-                    externalBlock2:{
-                        title: 'Mobile apps',
-                        text: 'Training diary is always at your disposal in iOS and Android apps'
-                    },
-                    externalBlock3:{
-                        title: 'Two types of activities',
-                        text: 'Simple and structured activities'
-                    },
-                    externalBlock4:{
-                        title: 'Season planning',
-                        text: 'Season plan by mesocycles. Custom periodization schemes'
-                    },
-                    externalBlock5:{
-                        title: 'Analytics and reports',
-                        text: 'Interactive charts to control the preparation process'
-                    },
-                    externalBlock6:{
-                        title: 'Coach dashboard',
-                        text: "Training week overview for all coach’s athletes"
-                    },
-                    externalBlock7:{
-                        title: 'Activity templates',
-                        text: 'Templates enabling to create activities for you and for your athletes in a fast and simple way'
-                    },
-                    externalBlock8:{
-                        title: 'Activity categories',
-                        text: 'Activity classification by categories'
-                    },
-                    externalBlock9:{
-                        title: 'Training zones',
-                        text: 'Limits of training zones and of LT for activities analysis'
-                    },
-                    externalBlock10:{
-                        title: 'Mass operations',
-                        text: 'Cut, copy and paste separate activities and training weeks'
-                    },
-                    externalBlock11:{
-                        title: 'Photo and video',
-                        text: 'Images and videos in descriptions of activities and events'
-                    },
-                    externalBlock12:{
-                        title: 'Communication with a coach',
-                        text: 'Chat with your coach in each activity'
-                    },
-                },
-
-
+            description: {
+                basic: "Workout log, train with coach, connect with friends",
+                premium: '"Basic" + Plan and analyze your workouts',
+                coach: "All for coach to work with athletes",
+                club: "All for clubs with several coaches to work with athletes",
             },
-            workWithCoach: {
+            noCreditCard: "",
+            functions: {
+                func1: "Workout log",
+                func2: "Review completed workouts",
+                func3: "Auto sync with actual data providers",
+                func4: "Online training with coach",
+                func5: "<i>(SOON) Chat with friends, groups and leaderboards</i>",
+                func6: '<strong>All in "Basic" tariff +:</strong>',
+                func7: "+ Plan your workouts",
+                func8: "+ Analyze workouts in details",
+                func9: "+ Manage categories and workout templates",
+                func10: "+ Repors and analytics",
+                func11: "Workout log for every athlete",
+                func12: "Plan workouts and chat with athletes",
+                func13: "Analyze athlete's workouts in details",
+                func14: "Manage categories and workout templates",
+                func15: "Coach dashboard",
+                func16: "Reports and analytics for coach",
+                func17: "Create and manage training plans",
+                func18: "<strong>All Coach functions for club athletes +:</strong>",
+                func19: "+ Connect additional coaches",
+                func20: "+ Assign coaches to club athletes",
+                func21: "+ Manage club categories and workout templates",
+                func22: "+ Club dashboard",
+                func23: "<i>+ (SOON) Reports and analytics for club</i>",
+                func24: "<i>+ (SOON) Manage training plans</i>",
+            },
+            byMonth: "/ month",
+            byYear: "/year",
+
+            coachAthletes: "{{athlete | number:0}} {{'rub' | translate}}/month per athlete. \n" +
+            "{{minAthletes}} athletes included in subscription fee. \n" +
+            "Pay maximum for {{maxAthletes}} athletes, {{maxAthletes + 1}}-th and above are free",
+
+            clubAthletes: "{{athlete | number:0}} {{'rub' | translate}}/month per club athlete.  \n" +
+            "{{minAthletes}} free athlete for every club coach included. \n" +
+            "Pay maximum for {{maxAthletes}} athletes for every club coach",
+
+            clubCoaches: "{{coach | number:0}} {{'rub' | translate}}/month per club coach.  \n" +
+            "{{minCoaches}} club coach included in subscription fee. \n",
+
+            calc: {
+                params: "Params",
+                totals: "Total per month",
+                subscription: "Subscription fee:",
+                variable: "For athletes:",
+                premium: "Need PREMIUM tariff for yourself",
+                coaches: "Coaches:",
+                athletes: "Athletes:",
+                proAthletes: "Athletes with PREMIUM tariff paid by you:",
+                freeAthletes: "{{athletes}}+ athletes are without payment",
+            },
+        },
+        featuresNew: {
+            title: 'Staminity features',
+            shortTitle: 'Features',
+            subtitle: 'Online training with a coach, training plans and training diary in cyclic sports',
+            button: {
+                title: 'Create account',
+                link: ''
+            },
+            block1: {
+                title: 'Training diary',
+                subtitle: '',
+                text: "Training calendar with planned and completed activities and competitions, important events and measurements.",
+            },
+            block2: {
+                title: 'Analysis of completed activities',
+                subtitle: '',
+                text: "Calculating correctness of the completion of a plan and of a separate segment in each activity. Detailed information for extensive analysis.",
+            },
+            block3: {
                 title: 'Working with a coach',
-                shortTitle: 'Working with a coach',
-                subtitle: 'Online training with a coach is the most effective way to achieve your sport goals not harming your health',
-                button: {
-                    title: 'Find a coach',
-                    link: ''
+                subtitle: '',
+                text: 'Search for coaches to train online. Individual plan, recommendations and constant contact with the coach. <a href="/cases/work-with-coach">Read more</a>',
+            },
+            block4: {
+                title: 'Training plans',
+                subtitle: '',
+                text: 'Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a href="cases/training-plans">Read more</a>',
+            },
+            externalblocks: {
+                title: 'As well as',
+                externalBlock1:{
+                    title: 'Activities upload',
+                    text: 'An automatic upload of completed activities and their comparison with the planned ones'
                 },
-                block1: {
-                    title: 'Review profiles and choose your coach',
-                    subtitle: '',
-                    text: "Coaches and clubs specialize in training in various cyclic sports (running, triathlon, cycling, swimming, skiing,...) offer different sets of services. <br>" +
-                    "Review coaches’ experience and offers, contact them using contact details stated in their profiles and make your choice.",
+                externalBlock2:{
+                    title: 'Mobile apps',
+                    text: 'Training diary is always at your disposal in iOS and Android apps'
                 },
-                block2: {
-                    title: 'Get individual plan from the coach',
-                    subtitle: '',
-                    text: "Activities planned by the coach will appear in your calendar. In each activity you will find your coach's recommendations and will be able to ask him any questions.",
+                externalBlock3:{
+                    title: 'Two types of activities',
+                    text: 'Simple and structured activities'
                 },
-                block3: {
-                    title: 'Complete activities',
-                    subtitle: '',
-                    text: "Complete your coach’s recommendations and record your activities by sports watch or by an application on your smartphone.<br>" +
-                    "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
+                externalBlock4:{
+                    title: 'Season planning',
+                    text: 'Season plan by mesocycles. Custom periodization schemes'
                 },
-                block4: {
-                    title: 'Analyze your activities',
-                    subtitle: '',
-                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
-                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
+                externalBlock5:{
+                    title: 'Analytics and reports',
+                    text: 'Interactive charts to control the preparation process'
                 },
+                externalBlock6:{
+                    title: 'Coach dashboard',
+                    text: "Training week overview for all coach’s athletes"
+                },
+                externalBlock7:{
+                    title: 'Activity templates',
+                    text: 'Templates enabling to create activities for you and for your athletes in a fast and simple way'
+                },
+                externalBlock8:{
+                    title: 'Activity categories',
+                    text: 'Activity classification by categories'
+                },
+                externalBlock9:{
+                    title: 'Training zones',
+                    text: 'Limits of training zones and of LT for activities analysis'
+                },
+                externalBlock10:{
+                    title: 'Mass operations',
+                    text: 'Cut, copy and paste separate activities and training weeks'
+                },
+                externalBlock11:{
+                    title: 'Photo and video',
+                    text: 'Images and videos in descriptions of activities and events'
+                },
+                externalBlock12:{
+                    title: 'Communication with a coach',
+                    text: 'Chat with your coach in each activity'
+                },
+            },
 
-            },
-            trainingPlans: {
-                title: 'Training according to the plan',
-                shortTitle: 'Training according to the plan',
-                subtitle: 'Choose your training plan and train systematically to prepare for the chosen distance and achieve your sport goal',
-                button: {
-                    title: 'Choose your plan',
-                    link: ''
-                },
-                block1: {
-                    title: 'Find a suitable plan',
-                    subtitle: '',
-                    text: "Coaches publish their training plans in the Store. <br>" +
-                    "Choose a plan according to characteristics that are important to you. For each plan there is detailed information available.",
-                },
-                block2: {
-                    title: 'Purchase and assign the plan',
-                    subtitle: '',
-                    text: "Each plan includes a set of planned activities and recommendations of the coach aimed at achieving a certain goal.<br>" +
-                    "After the purchase, assign the plan to the required dates and planned activities will appear in your calendar.",
-                },
-                block3: {
-                    title: 'Complete activities',
-                    subtitle: '',
-                    text: "Complete activities and record them by your sports watch or by an application on the smartphone. <br>" +
-                    "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
-                },
-                block4: {
-                    title: 'Analyze your activities',
-                    subtitle: '',
-                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
-                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
-                },
 
+        },
+        workWithCoach: {
+            title: 'Working with a coach',
+            shortTitle: 'Working with a coach',
+            subtitle: 'Find a coach and work with him online to become a better version of yourself in cyclic sports',
+            button: {
+                title: 'Find a coach',
+                link: ''
             },
-            selfTraining: {
-                title: 'Self training',
-                shortTitle: 'Self training',
-                subtitle: 'Be the coach for yourself, create a plan for your season, plan your activites and control your progress in cyclic sports',
-                button: {
-                    title: 'Try for free',
-                    link: ''
-                },
-                block1: {
-                    title: 'Create a season plan',
-                    subtitle: '',
-                    text: "Plan your training season by mesocycles. The current mesocycle and every microcycle plan are always be available in the calendar",
-                },
-                block2: {
-                    title: 'Compose a plan of activities',
-                    subtitle: '',
-                    text: "When planning you can create activities manually, use your templates and activity categories, copy previous activities.",
-                },
-                block3: {
-                    title: 'Complete activities',
-                    subtitle: '',
-                    text: "Complete activities and record them by your sports watch or by an application on the smartphone. <br>" +
-                    "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
-                },
-                block4: {
-                    title: 'Analyze your activities',
-                    subtitle: '',
-                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
-                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
-                },
-                block5: {
-                    title: 'Control your training process',
-                    subtitle: '',
-                    text: "Set up your own set of reports and control the training process. <br>" +
-                    "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
-                }
+            block1: {
+                title: 'Review profiles and choose your coach',
+                subtitle: '',
+                text: "Coaches and clubs specialize in training in various cyclic sports (running, triathlon, cycling, swimming, skiing,...) offer different sets of services. <br>" +
+                "Review coaches’ experience and offers, contact them using contact details stated in their profiles and make your choice.",
+            },
+            block2: {
+                title: 'Get individual plan from the coach',
+                subtitle: '',
+                text: "Activities planned by the coach will appear in your calendar. In each activity you will find your coach's recommendations and will be able to ask him any questions.",
+            },
+            block3: {
+                title: 'Complete activities',
+                subtitle: '',
+                text: "Complete your coach’s recommendations and record your activities by sports watch or by an application on your smartphone.<br>" +
+                "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
+            },
+            block4: {
+                title: 'Analyze your activities',
+                subtitle: '',
+                text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
+            },
 
+        },
+        trainingPlans: {
+            title: 'Training according to the plan',
+            shortTitle: 'Training according to the plan',
+            subtitle: 'Choose your training plan and train systematically to prepare for the chosen distance and achieve your sport goal',
+            button: {
+                title: 'Choose your plan',
+                link: ''
             },
-            trainAthletes: {
-                title: 'Working with athletes',
-                shortTitle: 'Working with athletes',
-                subtitle: 'Find athletes and work together online: plan their season and activities, analyze progress, stay connected',
-                button: {
-                    title: 'Try for free',
-                    link: ''
-                },
-                block1: {
-                    title: 'Create a plan',
-                    subtitle: '',
-                    text: "Create planned activities for your athletes, competitions and important events. <br>" +
-                    "Activity templates will help you to plan in a fast and convenient way.",
-                },
-                block2: {
-                    title: 'Control the plan completion',
-                    subtitle: '',
-                    text: "Coach dashboard contains training week overview for all connected athletes. It will help the coach to control the process of plan completion by athletes<br>" +
-                    "Create new activities and analyze completed ones from the dashboard",
-                },
-                block3: {
-                    title: 'Analyze activities',
-                    subtitle: '',
-                    text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
-                    "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
-                },
-                block4: {
-                    title: 'Stay connected with athletes',
-                    subtitle: '',
-                    text: "With the help of the chat available in each activity, you will be able to receive a report from an athlete or answer his questions.",
-                },
-                block5: {
-                    title: 'Get new athletes',
-                    subtitle: '',
-                    text: "Help new athletes to find out more information about you. In your profile you can tell about yourself, your terms of training and achievements of your athletes.  <br>" +
-                    "New athletes will be able to find you among the coach search results",
-                }
+            block1: {
+                title: 'Find a suitable plan',
+                subtitle: '',
+                text: "Coaches publish their training plans in the Store. <br>" +
+                "Choose a plan according to characteristics that are important to you. For each plan there is detailed information available.",
             },
-            trainGroups: {
-                title: 'Working with groups of athletes',
-                shortTitle: 'Working with groups',
-                subtitle: "Train groups and corporate teams online, conveniently and effectively, with the help of training plans",
-                button: {
-                    title: 'Try for free',
-                    link: ''
-                },
-                block1: {
-                    title: 'Create a training plan',
-                    subtitle: '',
-                    text: "Training plan contains a set of planned activities, events and competitions. <br>" +
-                    "Create a training plan and plan activities similar to planning through calendar.",
-                },
-                block2: {
-                    title: 'Assign plan to athletes',
-                    subtitle: '',
-                    text: "Assign plan to the selected athletes. Activities, events, and competitions from the plan will be copied to the athlete’s calendar.",
-                },
-                block3: {
-                    title: 'One plan - several students',
-                    subtitle: '',
-                    text: "When working with groups and corporate teams, the coach can maintain one plan, and all changes could be included in the calendars of athletes",
-                },
-                externalBlocks: {
-                    title: "Plan types available",
-                    externalBlock1: {
-                        title: 'Universal',
-                        text: "<p>Training plan without fixed dates. Can be applied in any dates.</p>" +
-                        "<p>Is great as typical plan used to prepare for a race, as a plan to start working with newbies and as a template for several weeks of activities.</p> ",
-                    },
-                    externalBlock2: {
-                        title: 'Fixed dates',
-                        text: "<p>Training plan with fixed dates </p>" +
-                    "<p>Can be used when preparing for a specific event, such as the Berlin marathon, and as a plan for a specific group of athletes.</p>",
-                    },
-                    externalBlock3: {
-                        title: 'Dynamic plan',
-                        text: "<p>Training plan with fixed dates, all changes are transferred to assigned athletes. </p>>" +
-                        "<p>Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.</p>",
-                    }
-                }
+            block2: {
+                title: 'Purchase and assign the plan',
+                subtitle: '',
+                text: "Each plan includes a set of planned activities and recommendations of the coach aimed at achieving a certain goal.<br>" +
+                "After the purchase, assign the plan to the required dates and planned activities will appear in your calendar.",
             },
-            trainingPlanPublication: {
-                title: 'Training plans publication and selling',
-                shortTitle: 'Plan publication and selling',
-                subtitle: 'Create and publish your training plan to get new clients and earn with Staminity',
-                button: {
-                    title: 'Training plan store',
-                    link: ''
-                },
-                block1: {
-                    title: 'Create a training plan',
-                    subtitle: '',
-                    text: "Training plan contains a set of activities, events and competitions.  <br>" +
-                    "Create a training plan, plan activities and fill in information needed to publish the plan in the Store.",
-                },
-                block2: {
-                    title: 'Check the plan page in the Store',
-                    subtitle: '',
-                    text: "In the Store, there is created a personal page for each plan. <br>" +
-                    "Check how the main characteristics of the plan affect the information on its page and, if necessary, correct it.",
-                },
-                block3: {
-                    title: 'Publish your plan',
-                    subtitle: '',
-                    text: "Published plans are placed in the training plans Store <br>" +
-                    "You decide whether to publish a plan for free or for money and determine the cost of the plan yourself",
-                },
-                externalBlocks: {
-                    title: "Advantages of training plans",
-                    externalBlock1: {
-                        title: 'Suitable for athletes',
-                        text: "<p>Staminity provides everything that is needed for training according to the plan.</p>" +
-                        "<p>Mobile apps, automatic upload of activities, analysis of each activity and of the whole training process</p>"
-                    },
-                    externalBlock2: {
-                        title: 'Beneficial for the coach',
-                        text: "<p>We charge a fixed fee - 30% for each sale. No fees for free plans. </p>>" +
-                        "<p>Also you don’t need the 'Coach' tariff to publish a plan. No sales - no fees.</p>",
-                    },
-                    externalBlock3: {
-                        title: 'Simple and convenient',
-                        text: "<p>All Staminity users can find your plan in the Store.</p>>" +
-                        "<p>Personal page for the plan contains all the major information about it.</p>",
-                    }
-                }
+            block3: {
+                title: 'Complete activities',
+                subtitle: '',
+                text: "Complete activities and record them by your sports watch or by an application on the smartphone. <br>" +
+                "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
             },
-            severalCoaches: {
-                title: 'Joint work of several coaches',
-                shortTitle: 'Several coaches',
-                subtitle: 'Gather a team of coaches and work effectively together with the athletes online',
-                button: {
-                    title: 'Create new account',
-                    link: ''
-                },
-                block1: {
-                    title: 'Enable the "Club" tariff',
-                    subtitle: '',
-                    text: 'In order to manage a club, you need to enable the "Club" tariff. You can do it when signing up or at any time after it.'
-                },
-                block2: {
-                    title: 'Gather a team',
-                    subtitle: '',
-                    text: 'Accept join club requests from club members and assign "Athlete" or "Coach" roles to them. Assign athletes a club coach.  <br>' +
-                    'If needed, delegate administrative role to another club coaches',
-                },
-                block3: {
-                    title: "Control the club’s operation",
-                    subtitle: '',
-                    text: "Club dashboard will show if all club athletes have received a plan for a week and what is their progress.",
-                },
-                block4: {
-                    title: 'Manage club methodology',
-                    subtitle: '',
-                    text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
-                },
+            block4: {
+                title: 'Analyze your activities',
+                subtitle: '',
+                text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
             },
-            main: {
-                title: 'Training online',
-                subtitle: 'Application for online training with a coach or self training in cyclic sports',
-                button: {
-                    title: 'Try for free'
-                }
+
+        },
+        selfTraining: {
+            title: 'Self training',
+            shortTitle: 'Self training',
+            subtitle: 'Be the coach for yourself, create a plan for your season, plan your activites and control your progress in cyclic sports',
+            button: {
+                title: 'Try for free',
+                link: ''
             },
-            scenario: {
-                shortTitle: 'Use cases'
+            block1: {
+                title: 'Create a season plan',
+                subtitle: '',
+                text: "Plan your training season by mesocycles. The current mesocycle and every microcycle plan are always be available in the calendar",
+            },
+            block2: {
+                title: 'Compose a plan of activities',
+                subtitle: '',
+                text: "When planning you can create activities manually, use your templates and activity categories, copy previous activities.",
+            },
+            block3: {
+                title: 'Complete activities',
+                subtitle: '',
+                text: "Complete activities and record them by your sports watch or by an application on the smartphone. <br>" +
+                "In order for activity records to get into Staminity, set up an automatic upload from Garmin Connect or Strava.",
+            },
+            block4: {
+                title: 'Analyze your activities',
+                subtitle: '',
+                text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
+            },
+            block5: {
+                title: 'Control your training process',
+                subtitle: '',
+                text: "Set up your own set of reports and control the training process. <br>" +
+                "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
             }
 
+        },
+        trainAthletes: {
+            title: 'Working with athletes',
+            shortTitle: 'Working with athletes',
+            subtitle: 'Find athletes and work together online: plan their season and activities, analyze progress, stay connected',
+            button: {
+                title: 'Try for free',
+                link: ''
+            },
+            block1: {
+                title: 'Create a plan',
+                subtitle: '',
+                text: "Create planned activities for your athletes, competitions and important events. <br>" +
+                "Activity templates will help you to plan in a fast and convenient way.",
+            },
+            block2: {
+                title: 'Control the plan completion',
+                subtitle: '',
+                text: "Coach dashboard contains training week overview for all connected athletes. It will help the coach to control the process of plan completion by athletes<br>" +
+                "Create new activities and analyze completed ones from the dashboard",
+            },
+            block3: {
+                title: 'Analyze activities',
+                subtitle: '',
+                text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
+                "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
+            },
+            block4: {
+                title: 'Stay connected with athletes',
+                subtitle: '',
+                text: "With the help of the chat available in each activity, you will be able to receive a report from an athlete or answer his questions.",
+            },
+            block5: {
+                title: 'Get new athletes',
+                subtitle: '',
+                text: "Help new athletes to find out more information about you. In your profile you can tell about yourself, your terms of training and achievements of your athletes.  <br>" +
+                "New athletes will be able to find you among the coach search results",
+            }
+        },
+        trainGroups: {
+            title: 'Working with groups of athletes',
+            shortTitle: 'Working with groups',
+            subtitle: "Train groups and corporate teams online, conveniently and effectively, with the help of training plans",
+            button: {
+                title: 'Try for free',
+                link: ''
+            },
+            block1: {
+                title: 'Create a training plan',
+                subtitle: '',
+                text: "Training plan contains a set of planned activities, events and competitions. <br>" +
+                "Create a training plan and plan activities similar to planning through calendar.",
+            },
+            block2: {
+                title: 'Assign plan to athletes',
+                subtitle: '',
+                text: "Assign plan to the selected athletes. Activities, events, and competitions from the plan will be copied to the athlete’s calendar.",
+            },
+            block3: {
+                title: 'One plan - several students',
+                subtitle: '',
+                text: "When working with groups and corporate teams, the coach can maintain one plan, and all changes could be included in the calendars of athletes",
+            },
+            externalBlocks: {
+                title: "Plan types available",
+                externalBlock1: {
+                    title: 'Universal',
+                    text: "<p>Training plan without fixed dates. Can be applied in any dates.</p>" +
+                    "<p>Is great as typical plan used to prepare for a race, as a plan to start working with newbies and as a template for several weeks of activities.</p> ",
+                },
+                externalBlock2: {
+                    title: 'Fixed dates',
+                    text: "<p>Training plan with fixed dates </p>" +
+                "<p>Can be used when preparing for a specific event, such as the Berlin marathon, and as a plan for a specific group of athletes.</p>",
+                },
+                externalBlock3: {
+                    title: 'Dynamic plan',
+                    text: "<p>Training plan with fixed dates, all changes are transferred to assigned athletes. </p>>" +
+                    "<p>Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.</p>",
+                }
+            }
+        },
+        trainingPlanPublication: {
+            title: 'Training plans publication and selling',
+            shortTitle: 'Plan publication and selling',
+            subtitle: 'Create and publish your training plan to get new clients and earn with Staminity',
+            button: {
+                title: 'Training plan store',
+                link: ''
+            },
+            block1: {
+                title: 'Create a training plan',
+                subtitle: '',
+                text: "Training plan contains a set of activities, events and competitions.  <br>" +
+                "Create a training plan, plan activities and fill in information needed to publish the plan in the Store.",
+            },
+            block2: {
+                title: 'Check the plan page in the Store',
+                subtitle: '',
+                text: "In the Store, there is created a personal page for each plan. <br>" +
+                "Check how the main characteristics of the plan affect the information on its page and, if necessary, correct it.",
+            },
+            block3: {
+                title: 'Publish your plan',
+                subtitle: '',
+                text: "Published plans are placed in the training plans Store <br>" +
+                "You decide whether to publish a plan for free or for money and determine the cost of the plan yourself",
+            },
+            externalBlocks: {
+                title: "Advantages of training plans",
+                externalBlock1: {
+                    title: 'Suitable for athletes',
+                    text: "<p>Staminity provides everything that is needed for training according to the plan.</p>" +
+                    "<p>Mobile apps, automatic upload of activities, analysis of each activity and of the whole training process</p>"
+                },
+                externalBlock2: {
+                    title: 'Beneficial for the coach',
+                    text: "<p>We charge a fixed fee - 30% for each sale. No fees for free plans. </p>>" +
+                    "<p>Also you don’t need the 'Coach' tariff to publish a plan. No sales - no fees.</p>",
+                },
+                externalBlock3: {
+                    title: 'Simple and convenient',
+                    text: "<p>All Staminity users can find your plan in the Store.</p>>" +
+                    "<p>Personal page for the plan contains all the major information about it.</p>",
+                }
+            }
+        },
+        severalCoaches: {
+            title: 'Joint work of several coaches',
+            shortTitle: 'Several coaches',
+            subtitle: 'Gather a team of coaches and work effectively together with the athletes online',
+            button: {
+                title: 'Create new account',
+                link: ''
+            },
+            block1: {
+                title: 'Enable the "Club" tariff',
+                subtitle: '',
+                text: 'In order to manage a club, you need to enable the "Club" tariff. You can do it when signing up or at any time after it.'
+            },
+            block2: {
+                title: 'Gather a team',
+                subtitle: '',
+                text: 'Accept join club requests from club members and assign "Athlete" or "Coach" roles to them. Assign athletes a club coach.  <br>' +
+                'If needed, delegate administrative role to another club coaches',
+            },
+            block3: {
+                title: "Control the club’s operation",
+                subtitle: '',
+                text: "Club dashboard will show if all club athletes have received a plan for a week and what is their progress.",
+            },
+            block4: {
+                title: 'Manage club methodology',
+                subtitle: '',
+                text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
+            },
+        },
+        main: {
+            title: 'Training online',
+            subtitle: 'Application for online training with a coach or self training in cyclic sports',
+            button: {
+                title: 'Try for free'
+            }
+        },
+        scenario: {
+            shortTitle: 'Use cases'
         }
+
     }
 };
