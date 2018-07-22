@@ -190,7 +190,8 @@ export const landingConfig: LandingConfig = {
                     country: '',
                     text: 'Классная программа! Пользуюсь приложением на айфоне. У меня часы suunto, тренировки приходится выгружать через Strava, один раз настроил и все, неудобств не доставляет.'
                 }]
-            }
+            },
+            externalInfo: true
 
         },
         {
@@ -232,6 +233,7 @@ export const landingConfig: LandingConfig = {
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-01.png',
             }
             ],
+            externalInfo: true
         },
         {
             code: 'selfTraining',
@@ -275,6 +277,7 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/analytics.png',
             }],
+            externalInfo: true
         },
         {
             code: 'trainAthletes',
@@ -318,6 +321,7 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/search-02.png',
             }],
+            externalInfo: true
         },
         {
             code: 'trainGroups',
@@ -360,7 +364,8 @@ export const landingConfig: LandingConfig = {
                     {
                         code: 'externalBlock3'
                     }]
-            }
+            },
+            externalInfo: true
         },
         {
             code: 'trainingPlanPublication',
@@ -405,7 +410,8 @@ export const landingConfig: LandingConfig = {
                     {
                         code: 'externalBlock3'
                     }]
-            }
+            },
+            externalInfo: true
         },
         {
             code: 'severalCoaches',
@@ -443,6 +449,7 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/templates.png',
             }],
+            externalInfo: true
         },
     ],
     footer: [

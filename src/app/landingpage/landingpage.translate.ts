@@ -386,7 +386,7 @@ export let _translate = {
                 link: ''
             },
             block1: {
-                title: 'Изучите предложения и выберите своего тренера',
+                title: 'Найдите своего тренера онлайн',
                 subtitle: '',
                 text: "Тренеры и клубы специализируются на подготовке в различных видах спорта (бег, триатлон, велоспорт, плавание, лыжи, …)  и предлагают разный набор услуг. <br>" +
                 "Изучите опыт и предложения тренеров, cвяжитесь с ними по контактам, указанным в профиле, и сделайте свой выбор.",
@@ -408,6 +408,9 @@ export let _translate = {
                 text: "Цвет тренировки покажет степень соответствия плану.<br>" +
                 "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
             },
+            externalInfo: 'Найдите тренера по бегу, триатлону, велоспорту, плаванию, лыжам и другим циклическим видам спорта в Staminity. ' +
+            'Если вы только хотите начать заниматься спортом, ищите лучший способ подготовиться к выбранной дистанции или хотите улучшить личный рекорд, тренеры в Staminity помогут вам в этом. ' +
+            'Выберите тренера по бегу и пробегите первые 10 км, полумарафон или марафон. Выберите тренера по триатлону для подговки к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.'
 
         },
         trainingPlans: {
@@ -441,7 +444,11 @@ export let _translate = {
                 subtitle: '',
                 text: "Цвет тренировки покажет степень соответствия плану.<br>" +
                 "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
-            }
+            },
+            externalInfo: 'Найдите тренировочный план по бегу, триатлону и другим циклическим видам спорта в Staminity. ' +
+            'Тренировочные планы по бегу в Staminity помогут подготовиться и пробежать первые 10 км, полумарафон или марафон. ' +
+            'Тренировочные планы по триатлону помогут подготовиться к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.'
+
 
         },
         selfTraining: {
@@ -479,7 +486,10 @@ export let _translate = {
                 subtitle: '',
                 text: "Настройте свой набор отчетов и контролируйте подготовку. <br>" +
                 "Доступны различные отчеты: тренировочные объемы, время в зонах, пики интенсивности, процент выполнения плана, тренировочная нагрузка и т.п.",
-            }
+            },
+            externalInfo: 'Попробуйте также собственные категории тренировок для удобной классификации заданий и шаблоны для быстрого планирования повторяющихся тренировок. ' +
+            'Управление шаблонами и категориями, также как планирование сезона, планирование тренировок для себя и детальный анализ выполненных тренировок доступно на тарифе "Премиум". ' +
+            'Для работы с тренером тариф "Премиум" не обязателен, можно использовать Staminity совершенно бесплатно.'
 
         },
         trainAthletes: {
@@ -518,7 +528,10 @@ export let _translate = {
                 subtitle: '',
                 text: "Помогите новым ученикам найти и узнать подробнее о вас. Расскажите в профиле о себе, об условиях занятий, о достижениях спортсменов. <br>" +
                 "Пользователи Staminity смогут найти вас в поиске тренеров",
-            }
+            },
+            externalInfo: 'А также для тренера доступно: планирование сезона для учеников по мезоциклам, создание собственных схем мезоциклов, собственные категории тренировок для удобной классификации заданий, ' +
+            'шаблоны для быстрого планирования повторяющихся тренировок для учеников, аналитика и отчетность по ученикам. ' +
+            'Для работы со спортсменами онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом. Для тренера оплачивается только первые 10 учеников'
         },
         trainGroups: {
             title: 'Работа с группами спортсменов',
@@ -561,7 +574,10 @@ export let _translate = {
                     text: "<p>Тренировочный план, привязанный к конкретным датам, все изменения которого автоматически транслируются спортсменам. </p>>" +
                     "<p>Идеален для проведения тренировочных сборов и тренировки групп спортсменов по одному расписанию, в том числе для подготовки корпоративных команд по бегу и триатлону.</p>",
                 }
-            }
+            },
+            externalInfo: 'Работайте с корпоративными командами по бегу и триатлону, организуйте тренировочные сборы по бегу и триатлону и другим циклическим видам спорта. ' +
+            'Составляйте единый план для работы группы для подготовки к забегу на 10 км, к полумарафону или марафону. ' +
+            'Для работы с группами спортсменов онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом. Для тренера оплачивается только первые 10 учеников'
         },
         trainingPlanPublication: {
             title: 'Публикация и продажа тренировочных планов',
@@ -575,7 +591,7 @@ export let _translate = {
                 title: 'Создайте план',
                 subtitle: '',
                 text: "Тренировочный план - это набор тренировочных заданий, событий и соревнований. <br>" +
-                "Создайте тренировочный план,  запланируйте тренировки и заполните информацию для публикации плана",
+                "Создайте тренировочный план, запланируйте тренировки и заполните информацию для публикации плана",
             },
             block2: {
                 title: 'Проверьте страницу плана в Магазине',
@@ -606,7 +622,13 @@ export let _translate = {
                     text: "<p>Ваш план доступен в Магазине тренировочных планов для всех посетителей Staminity. </p>>" +
                     "<p>Индивидуальная страница плана формируется автоматически и отражает всю существенную информацию по нему.</p>",
                 }
-            }
+            },
+            externalInfo: '<strong>Если вы тренируете спортсменов онлайн</strong>, попробуйте сделать и опубликовать бесплатные или платные тренировочные планы. ' +
+            'Бесплатный план на 4-6 недель покажет клиентам ваш подход к детализации упражнений, к построению тренировочного процесса и может стать первым шагом для спортсмена к выбору Вас как тренера. ' +
+            'В планы подготовки к дистанциям в беге и триатлоне и планы по питанию можно включить очные консультации и очные тренировки, ' +
+            'чтобы познакомиться с вашими клиентами и продемонстрировать ваши компетенции наставника, мотиватора.' +
+            'А <strong>если у вас уже есть планы</strong> на бумаге, в виде таблиц или файлов, попробуйте сделать их копию в Staminity и дать клиентам возможность удобно заниматься по планам. Опубликовать план можно бесплатно.'
+
         },
         severalCoaches: {
             title: 'Работа нескольких тренеров',
@@ -637,6 +659,9 @@ export let _translate = {
                 subtitle: '',
                 text: "Клубные категории тренировок и клубные шаблоны помогут тренерам клуба применять единые правила при подготовке учеников",
             },
+            externalInfo: 'Клубы в Staminity помогут организовать работу с учениками онлайн для школы бега, бегового клуба, клуба по триатлону, школы по плаванию и ' +
+            'по другим циклическим видам спорта, в которых нескольких тренеров. '
+
         },
         main: {
             title: 'Тренировки онлайн',
@@ -1042,7 +1067,7 @@ export let _translate = {
                 link: ''
             },
             block1: {
-                title: 'Review profiles and choose your coach',
+                title: 'Find your online coach',
                 subtitle: '',
                 text: "Coaches and clubs specialize in training in various cyclic sports (running, triathlon, cycling, swimming, skiing,...) offer different sets of services. <br>" +
                 "Review coaches’ experience and offers, contact them using contact details stated in their profiles and make your choice.",
@@ -1064,6 +1089,9 @@ export let _translate = {
                 text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
                 "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
             },
+            externalInfo: 'Find an online coach for running, triathlon, cycling, swimming, skiing and other cyclic sports in Staminity. '+
+            'If you just want to start regular excercises or look for the best way to prepare for the chosen distance or want to improve your personal best, the Staminity coaches will help you with this. '+
+            'Choose an online running coach for your first 10 km race, half marathon or marathon. Choose a triathlon coach to prepare for IRONMAN, IRONSTAR and other triathlon competitions.'
 
         },
         trainingPlans: {
@@ -1098,6 +1126,9 @@ export let _translate = {
                 text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
                 "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
             },
+            externalInfo: 'Find a training plan for running, triathlon and other cyclic sports in Staminity. '+
+            'Training plans for running will help to prepare and run your first 10 km, half marathon or marathon. '+
+            'Training plans for triathlon will help to prepare for IRONMAN, IRONSTAR and other triathlon competitions.'
 
         },
         selfTraining: {
@@ -1135,7 +1166,10 @@ export let _translate = {
                 subtitle: '',
                 text: "Set up your own set of reports and control the training process. <br>" +
                 "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
-            }
+            },
+            externalInfo: 'Try also your own categories for activity classification and templates for quick planning of repeated workouts. '+
+            'Managing templates and categories, as well as planning the season, planning activities for yourself and a detailed analysis of the workouts are available at the Premium tariff. ' +
+            'To work with a coach, the Premium tariff is not required, you can use Staminity for free'
 
         },
         trainAthletes: {
@@ -1174,7 +1208,10 @@ export let _translate = {
                 subtitle: '',
                 text: "Help new athletes to find out more information about you. In your profile you can tell about yourself, your terms of training and achievements of your athletes.  <br>" +
                 "New athletes will be able to find you among the coach search results",
-            }
+            },
+            externalInfo: 'For the coach is also available: season planning for athletes, creating their own mesocycle schemes, managing categories for the activity classification, ' +
+            'managing templates for the rapid planning of repeated activities, analysis and reporting for the training process. '+
+            'To work with athletes online, a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
         },
         trainGroups: {
             title: 'Working with groups of athletes',
@@ -1217,7 +1254,10 @@ export let _translate = {
                     text: "<p>Training plan with fixed dates, all changes are transferred to assigned athletes. </p>>" +
                     "<p>Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.</p>",
                 }
-            }
+            },
+            externalInfo: 'Training plans in Staminity are suitable for working with corporate running teams and triathlon teams, for holding training camps for running and triathlon and for other cyclic sports. '+
+            'Make a single plan for the online training of the group of athletes to prepare for a 10 km race, half marathon or marathon. '+
+            'To work with groups of athletes online, a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
         },
         trainingPlanPublication: {
             title: 'Training plans publication and selling',
@@ -1262,7 +1302,13 @@ export let _translate = {
                     text: "<p>All Staminity users can find your plan in the Store.</p>>" +
                     "<p>Personal page for the plan contains all the major information about it.</p>",
                 }
-            }
+            },
+            externalInfo: "<strong>For the coaches who work with athletes online </strong>, we suggest to create and publish free-of-charge or paid training plans. "+
+            "A free plan for 4-6 weeks could demonstrate a coach's approach to organize a training process and could be the first step for an athlete to choose his coach. "+
+            "Consultations with a coach and offline activities also could be included in the running or triathlon training plan to get to known your clients and " +
+            "demonstrate your mentor's and motivator's competencies. " +
+            "<strong> For the coaches who already have training plans</strong> on a paper, in the Google sheets or files, we suggest to publish a copy of them in Staminity. " +
+            "It gives the opportunity for the clients to conveniently work on the plan. To publish plans a coach doesn't need paid tariffs"
         },
         severalCoaches: {
             title: 'Joint work of several coaches',
@@ -1293,6 +1339,8 @@ export let _translate = {
                 subtitle: '',
                 text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
             },
+            externalInfo: 'Clubs in Staminity will help you organize online training of athletes for running schools, running clubs, triathlon schools and club, swimming schools and' +
+            'clubs in other cyclic sports with several coaches. '
         },
         main: {
             title: 'Training online',
