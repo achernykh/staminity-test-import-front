@@ -14,7 +14,7 @@
         <div flex="25" class="scenario-card" ng-repeat="scenario in $ctrl.landingConfig.scenario">
             <md-card ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
                 <div class="image-wrapper">
-                    <img ng-src="{{scenario.picture}}" class="md-card-image" ng-alt="{{scenario.code}}">
+                    <img ng-src="{{scenario.thumb}}" class="md-card-image" ng-alt="{{scenario.code}}">
                 </div>
                 <md-card-title>
                     <md-card-title-text>

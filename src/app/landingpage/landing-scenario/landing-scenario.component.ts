@@ -2,6 +2,7 @@ import './landing-scenario.component.scss';
 import {IComponentOptions, IComponentController, ILocationService} from 'angular';
 import { LandingConfig } from "../landing.constants";
 import { saveUtmParams } from "../../share/location/utm.functions";
+import DisplayService from "../../core/display.service";
 
 class LandingScenarioCtrl implements IComponentController {
     
@@ -10,16 +11,14 @@ class LandingScenarioCtrl implements IComponentController {
     onEvent: (response: Object) => Promise<void>;
      
     // private
-    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state', '$location'];
+    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state', '$location', 'DisplayService'];
 
     constructor (private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state,
-                 private $location: ILocationService) {
+                 private $location: ILocationService, private display: DisplayService) {
         saveUtmParams($location.search());
     }
 
-    $onInit(): void {
-
-    }
+    $onInit(): void { }
 
     toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(_ => {});

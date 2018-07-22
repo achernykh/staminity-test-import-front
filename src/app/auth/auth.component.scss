@@ -7,34 +7,48 @@
   box-sizing: border-box;
   min-height: 100vh;
   background: white;
-}
-
-auth {
-
-	div.social-buttons {
-    margin-top: 12px;
-		margin-bottom: 12px;
-    width: 100%;
+	.form {
+		width: 400px;
+		margin: auto;
 	}
-	
-	.info { margin: 0px 16px; }
+	form {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.conf {
+		//padding: 0px 8px;
+		text-align: left;
+		color: rgba(black, 0.54);
 
-	button.social-button {
+		a {
+			cursor: pointer;
+			font-weight: 500;
+			color: rgba(black, 0.54);
+			text-decoration: none;
+
+			&:hover {
+				color: rgba(black, 0.7);
+			}
+		}
+	}
+	.social-button {
 		text-transform: none;
 		text-align: center;
 		min-height: 48px;
-    margin: 0;
-    border-radius: 0;
-
-		&.disabled {
-			background-color: $blue-grey-500 !important;
+		margin: 0;
+		border-radius: 0;
+		svg circle {
+			transition: 0.3s;
 		}
-
-		md-icon {
-			//margin-right: 24px;
+		&.disabled svg circle{
+			fill: $grey-500 !important;
 		}
-
-		&.facebook {
+		.social-buttons {
+			margin-top: 12px;
+			margin-bottom: 12px;
+			width: 100%;
+		}
+		/*&.facebook {
 			background-color: #3b5998;
 		}
 		&.google {
@@ -42,8 +56,26 @@ auth {
 		}
 		&.vkontakte {
 			background-color: #45668e;
+		}*/
+	}
+	.submit {
+		transition: 0.3s;
+		width: 100%;
+		text-transform: initial;
+		margin: 0;
+		//padding: 8px;
+		background: linear-gradient(90deg, $deep-orange-800, $deep-orange-500);
+		&[disabled] {
+			background: $grey-200;
 		}
 	}
+}
+
+auth {
+	
+	.info { margin: 0px 16px; }
+
+
 
 	md-card {
 		min-width: 320px;
@@ -89,12 +121,6 @@ auth {
 		width: 15vh;
 	}
 	form, .confirm-message {
-
-		button.submit {
-			width: 100%;
-			margin: 24px 0px !important;
-			padding: 0px 16px !important;
-		}
 
 		.hint {
 			font-size: 12px;

@@ -44,7 +44,7 @@ import { QuillHtmlViewerComponent } from "./quill/quill-html-viewer.component";
 import { OmniFabComponent } from "./omni/omni-fab.component";
 import { OmniFormComponent } from "./omni/form/omni-form.component";
 import { OmniService } from "./omni/omni.service";
-import { fullImageUrl, avatarUrl } from "./image/image.functions";
+import { fullImageUrl, avatarUrl, imageWithLocale } from "./image/image.functions";
 import { measureValue, measureUnit, measureCalcInterval, measureSave, measureEdit } from "./measure/measure.functions";
 import { autoFocus } from "./directives/autofocus.directive";
 import { onFiles } from "./directives/onfiles.directive";
@@ -247,6 +247,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     .constant('quillConfig', quillConfig)
     .filter('stTrustHtml', ['$sce', ($sce) => (text) => text && $sce.trustAsHtml(text)])
     .config(['$stateProvider', ($stateProvider: StateProvider) => shareStates.map(s => $stateProvider.state(s))])
+    .filter('stImageWithLocale', imageWithLocale)
     .config(['$translateProvider', ($translateProvider)=> {
 
         $translateProvider.translations('ru', { appMenu: _application_menu['ru'] });

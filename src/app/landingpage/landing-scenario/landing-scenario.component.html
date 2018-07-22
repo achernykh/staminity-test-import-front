@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="block-image" flex="50" flex-order-gt-sm="{{$odd ? 1 : 2}}">
-                <img ng-src="{{block.picture}}"/>
+                <img ng-src="{{block.picture | stImageWithLocale:$ctrl.display.getLocale()}}"/>
             </div>
         </section>
         <!-- дополнительный блоки -->
@@ -40,8 +40,8 @@
             <div ng-repeat="block in $ctrl.scenario.externalBlocks.blocks"
                  class="external-block" layout="column" layout-align="start center" flex-gt-sm="33">
                 <img ng-src="{{block.picture}}">
-                <p class="md-body-2" translate="landing.{{$ctrl.scenario.code}}.{{block.code}}.title"></p>
-                <p class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.{{block.code}}.text"></p>
+                <p class="md-body-2" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.title"></p>
+                <p class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.text"></p>
             </div>
         </section>
         <!-- футер -->
