@@ -8,7 +8,24 @@ $input-radius: 4px;
   md-icon {  margin-right: 16px;  margin-top: 13px;  }
   .wrapper-icon {  width: 32px;  }
   .wrapper-between {  width: 8px;  }
-  md-input-container.st-material {  margin: 0;  padding: 0; }
+  md-autocomplete.st-material {
+    min-width: auto !important;
+  }
+  md-input-container.st-material,
+  md-autocomplete.st-material md-input-container {  margin: 0;  padding: 0; }
+
+  &.two-hint-line md-input-container.st-material,
+  &.two-hint-line md-autocomplete.st-material md-input-container {
+    label { bottom: 58px };
+    height: 72px;
+  }
+
+  &.three-hint-line md-input-container.st-material,
+  &.three-hint-line md-autocomplete.st-material md-input-container {
+    label { bottom: 66px };
+    height: 80px;
+  }
+
   @media (min-width: 350px) {
     md-icon {  margin-right: 16px;  margin-top: 13px;  }
     .wrapper-icon {  width: 40px;  }
@@ -22,7 +39,7 @@ $input-radius: 4px;
   }
 }
 
-md-input-container.st-material {
+md-input-container.st-material, md-autocomplete.st-material md-input-container {
   height: 64px;
   overflow: hidden !important;
   &.md-icon-float > md-icon {
@@ -45,7 +62,7 @@ md-input-container.st-material {
     line-height: 20px;
     background-color: $input-color;
     height: 56px;
-    border-radius: $input-radius 0;
+    border-radius: $input-radius $input-radius 0 0;
     box-sizing: border-box;
     min-width: initial !important;
     max-width: initial !important;
@@ -69,33 +86,6 @@ md-input-container.st-material {
     -webkit-transform: translate3d(0,6px,0) scale(.75) !important;
     transform: translate3d(0,6px,0) scale(.75) !important;
   }
-
-  &.md-dense {
-    &.md-icon-float > md-icon {
-      top: 32px;
-    }
-    label {
-      font-size: 13px;
-      -webkit-transform: translate3d(0,22px,0) scale(1) !important;
-      transform: translate3d(0,22px,0) scale(1) !important;
-      color: rgba(0,0,0,0.38);
-    }
-    input, .md-select-value {
-      font-size: 13px;
-      padding-bottom: 6px;
-      height: 42px;
-      line-height: 14px;
-    }
-
-    &.st-input-has-value label.st-has-value,
-    &.md-input-focused label:not(.md-no-float),
-    &.md-input-has-placeholder label:not(.md-no-float),
-    &.md-input-has-value label:not(.md-no-float, .st-has-value) {
-      -webkit-transform: translate3d(0,8px,0) scale(.75) !important;
-      transform: translate3d(0,8px,0) scale(.75) !important;
-    }
-  }
-
   .md-input-message-animation:not(.md-char-counter),
   .md-char-counter:not(.md-char-counter),
   .hint {
@@ -116,4 +106,28 @@ md-input-container.st-material {
     label {bottom: 28px !important;}
   }
 
+}
+
+md-input-container.st-material.md-dense, md-autocomplete.st-material.md-dense md-input-container {
+  &.md-icon-float > md-icon {  top: 32px;  }
+  label {
+    font-size: 13px;
+    -webkit-transform: translate3d(0,22px,0) scale(1) !important;
+    transform: translate3d(0,22px,0) scale(1) !important;
+    color: rgba(0,0,0,0.38);
+  }
+  input, .md-select-value {
+    font-size: 13px;
+    padding-bottom: 6px;
+    height: 42px;
+    line-height: 14px;
+  }
+
+  &.st-input-has-value label.st-has-value,
+  &.md-input-focused label:not(.md-no-float),
+  &.md-input-has-placeholder label:not(.md-no-float),
+  &.md-input-has-value label:not(.md-no-float, .st-has-value) {
+    -webkit-transform: translate3d(0,8px,0) scale(.75) !important;
+    transform: translate3d(0,8px,0) scale(.75) !important;
+  }
 }

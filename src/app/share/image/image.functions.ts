@@ -27,3 +27,8 @@ export const avatarUrl = () => (avatar: string, type: InitiatorType = InitiatorT
     }
     return url;
 };
+
+export const imageWithLocale = () => (path: string, lng: string): string => {
+    let ind: number = path.lastIndexOf('/');
+    return ind && path && `${path.substr(0, ind + 1)}${lng}-${path.substr(ind + 1)}` || null;
+};

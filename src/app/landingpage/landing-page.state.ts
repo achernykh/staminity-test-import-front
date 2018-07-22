@@ -6,6 +6,7 @@ const main: any = {
     url: '/',
     loginRequired: false,
     authRequired: [],
+    onEnter: () => window.scrollTo(0,0),
     views: {
         application: {component: 'stLandingMain'}
     }
@@ -16,6 +17,7 @@ const scenarios: any[] = landingConfig.scenario.map(s => ({
     url: s.url,
     loginRequired: false,
     authRequired: [],
+    onEnter: () => window.scrollTo(0,0),
     resolve: {
         scenario: () => s
     },
@@ -29,6 +31,7 @@ const features: any = {
     url: landingConfig.features.url,
     loginRequired: false,
     authRequired: [],
+    onEnter: () => window.scrollTo(0,0),
     resolve: {
         scenario: () => landingConfig.features,
     },
@@ -42,6 +45,7 @@ const tariffs: any = {
     url: "/tariffs",
     loginRequired: false,
     authRequired: null,
+    onEnter: () => window.scrollTo(0,0),
     views: {
         application: {component: "landingTariffs"},
     }
