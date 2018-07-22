@@ -872,12 +872,12 @@ export let _translate = {
             scenarios: {
                 title: "Use cases",
                 link1: '<a href="/cases/work-with-coach">Working with a coach</a>',
-                link2: '<a href="/cases/training-plans">Training according to the plan</a>',
+                link2: '<a href="/cases/training-plans">Training plans for athletes</a>',
                 link3: '<a href="/cases/self-training">Self training</a>',
-                link4: '<a href="/cases/train-athletes">Working with athletes</a>',
-                link5: '<a href="/cases/train-groups">Working with groups of athletes</a>',
+                link4: '<a href="/cases/train-athletes">Train athletes</a>',
+                link5: '<a href="/cases/train-groups">Train groups of athletes</a>',
                 link6: '<a href="/cases/training-plan-publication">Plan publication and selling</a>',
-                link7: '<a href="/cases/several-coaches">Work of several coaches</a>',
+                link7: '<a href="/cases/several-coaches">Several coaches joint work</a>',
 
             },
             support: {
@@ -1095,8 +1095,8 @@ export let _translate = {
 
         },
         trainingPlans: {
-            title: 'Training according to the plan',
-            shortTitle: 'Training according to the plan',
+            title: 'Training plans for athletes',
+            shortTitle: 'Training plans for athletes',
             subtitle: 'Choose your training plan and train systematically to prepare for the chosen distance and achieve your sport goal',
             button: {
                 title: 'Choose your plan',
@@ -1173,8 +1173,8 @@ export let _translate = {
 
         },
         trainAthletes: {
-            title: 'Working with athletes',
-            shortTitle: 'Working with athletes',
+            title: 'Train athletes',
+            shortTitle: 'Train athletes',
             subtitle: 'Find athletes and work together online: plan their season and activities, analyze progress, stay connected',
             button: {
                 title: 'Try for free',
@@ -1214,9 +1214,9 @@ export let _translate = {
             'To work with athletes online, a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
         },
         trainGroups: {
-            title: 'Working with groups of athletes',
-            shortTitle: 'Working with groups',
-            subtitle: "Train groups and corporate teams online, conveniently and effectively, with the help of training plans",
+            title: 'Train groups of athletes',
+            shortTitle: 'Train groups of athletes',
+            subtitle: "Train groups of athletes and corporate teams online, conveniently and effectively, with training plans",
             button: {
                 title: 'Try for free',
                 link: ''
@@ -1311,8 +1311,8 @@ export let _translate = {
             "It gives the opportunity for the clients to conveniently work on the plan. To publish plans a coach doesn't need paid tariffs"
         },
         severalCoaches: {
-            title: 'Joint work of several coaches',
-            shortTitle: 'Several coaches',
+            title: 'Several coaches joint work',
+            shortTitle: 'Several coaches join work',
             subtitle: 'Gather a team of coaches and work effectively together with the athletes online',
             button: {
                 title: 'Create new account',
