@@ -13,7 +13,7 @@
                 </md-button>
             </div>
             <div class="picture" flex-gt-sm="60" flex="none" layout="column" layout-align="center end">
-                <img ng-src="{{$ctrl.scenario.picture}}"/>
+                <img flex="none" ng-src="{{$ctrl.scenario.picture}}"/>
             </div>
             <div hide-gt-sm flex="none">
                 <md-button flex="none" class="md-accent md-hue-2 md-raised"
@@ -24,9 +24,9 @@
             </div>
         </article>
         <!-- отзывы -->
-        <st-landing-reviews ng-if="$ctrl.scenario.reviews['ru']"
+        <st-landing-reviews ng-if="$ctrl.scenario.reviews"
                             layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
-                            class="reviews block landing-reviews" reviews="$ctrl.scenario.reviews['ru']">
+                            class="reviews block landing-reviews" reviews="$ctrl.scenario.reviews">
         </st-landing-reviews>
         <!-- блоки -->
         <section class="scenario-block" layout-gt-sm="row" layout="column" layout-align-gt-sm="start center"
@@ -43,11 +43,11 @@
         </section>
         <!-- дополнительный блоки -->
         <section ng-if="$ctrl.scenario.externalBlocks" class="external-blocks">
-            <h1 class="md-title md-padding"
+            <h1 class="md-title"
                 translate="landing.{{$ctrl.scenario.code}}.externalBlocks.title"></h1>
-            <div class="" layout-gt-sm="row" layout-align-gt-sm="start start" layout-wrap="true">
+            <div class="" layout-gt-sm="row" layout-align-gt-sm="space-between start" layout-wrap="true">
                 <div ng-repeat="block in $ctrl.scenario.externalBlocks.blocks"
-                     class="external-block" layout="column" layout-fill layout-align="start start" flex-gt-sm="25">
+                     class="external-block" layout="column" layout-fill layout-align="start start" flex-gt-sm="33">
                     <img ng-src="{{block.picture}}">
                     <p class="title md-body-2" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.title"></p>
                     <p class="text md-body-1" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.text"></p>
@@ -58,7 +58,14 @@
         <section ng-if="$ctrl.scenario.externalInfo" class="info-block"
                  layout-gt-sm="row" layout="column" layout-align-gt-sm="center center">
             <img flex="none" flex-gt-sm="50" ng-src="{{$ctrl.scenario.thumb}}" style="">
-            <p flex="none" flex-gt-sm="50" class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.externalInfo" style=""></p>
+            <div flex="none" flex-gt-sm="50" class="md-body-1 text-block">
+                <p translate="landing.{{$ctrl.scenario.code}}.externalInfo" style=""></p>
+                <md-button flex="none" class="md-accent md-hue-2 md-raised" style="margin: 0;"
+                           ng-if="$ctrl.scenario.button"
+                           ng-click="$ctrl.$state.go($ctrl.scenario.button.state, $ctrl.scenario.button.stateParams)">
+                    <span translate="landing.{{$ctrl.scenario.code}}.button.title"></span>
+                </md-button>
+            </div>
         </section>
         <!-- футер -->
         <st-landing-footer></st-landing-footer>

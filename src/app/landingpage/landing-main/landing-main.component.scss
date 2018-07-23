@@ -105,9 +105,9 @@ $max-toolbar-width: 1000px;
     min-height: 15vh;
     background-color: $grey-050;
     img { width: 100%; max-width: 300px; }
-    p {padding-left: 20px;}
+    .text-block {padding-left: 20px;}
     @media (max-width: 959px) {
-      p {padding-left: 0}
+      .text-block {padding-left: 0}
     }
   }
 
@@ -163,7 +163,7 @@ $max-toolbar-width: 1000px;
     min-height: initial;
     background-color: $grey-050;
     border-bottom: 1px solid $grey-100;
-    h1 {text-align: center; margin: 0}
+    h1 {text-align: left; margin: 0; padding: 16px 0;}
     @media (max-width: 959px) {
       h1 {text-align: left; padding: 16px 0; }
     }
@@ -171,12 +171,15 @@ $max-toolbar-width: 1000px;
 
   .external-block {
     padding-right: 2%;
-
     p.title { width: 100%}
-    p.text { max-width: 250px; font-weight: 300 }
+    p.text { font-weight: 400 }
     @media (max-width: 959px) {
       padding-right: 0;
+      max-width: initial;
       p.text { max-width: initial }
+    }
+    @media (min-width: 1280px) {
+      max-width: 320px;
     }
   }
 

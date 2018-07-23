@@ -20,8 +20,9 @@
             </div>
         </article>
         <!-- отзывы -->
-        <st-landing-reviews layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
-                            class="reviews block landing-reviews" reviews="$ctrl.landingConfig.reviews['ru']">
+        <st-landing-reviews ng-if="$ctrl.landingConfig.reviews"
+                            layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
+                            class="reviews block landing-reviews" reviews="$ctrl.landingConfig.reviews">
         </st-landing-reviews>
         <st-landing-footer></st-landing-footer>
     </section>

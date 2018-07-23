@@ -2,10 +2,15 @@
 <md-toolbar class="st-application-frame__primary-toolbar md-whiteframe-4dp"
             ng-class="{'md-default-with-logo': !$ctrl.auth.isAuthenticated()}" ng-cloack>
     <div class="md-toolbar-tools">
-        <div flex="none" ng-if="!$ctrl.auth.isAuthenticated()" style="padding-right: 44px">
+        <div flex="none" ng-if="!$ctrl.auth.isAuthenticated()"
+             ng-click="$ctrl.$state.go('main')"
+             style="padding-right: 20px">
+            <img width="22px" ng-src="/assets/icon/favicon-196-196.png"/>
+        </div>
+        <!--<div show-gt-sm flex="none" ng-if="!$ctrl.auth.isAuthenticated()" style="padding-right: 44px">
             <img ng-click="$ctrl.$state.go('main')" height="24px"
                  ng-src="/assets/landing/staminity-horizontal-mono.png"/>
-        </div>
+        </div>-->
         <section ng-transclude="profile"></section>
         <md-button class="app-menu md-icon-button" aria-label="Application Menu"
                    ng-if="$ctrl.auth.isAuthenticated()"

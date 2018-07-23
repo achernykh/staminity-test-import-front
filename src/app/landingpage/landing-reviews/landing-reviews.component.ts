@@ -1,5 +1,6 @@
 import './landing-reviews.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
+import DisplayService from "@app/core/display.service";
 
 class LandingReviewsCtrl implements IComponentController {
 
@@ -10,9 +11,9 @@ class LandingReviewsCtrl implements IComponentController {
     // private
 
     // inject
-    static $inject = [];
+    static $inject = ['DisplayService'];
 
-    constructor() {
+    constructor(private display: DisplayService) {
 
     }
 
