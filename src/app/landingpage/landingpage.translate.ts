@@ -566,12 +566,12 @@ export let _translate = {
                 },
                 externalBlock2: {
                     title: 'Фиксированные даты',
-                    text: "<p>Тренировочный план, привязанный к конкретным датам. </p>>" +
+                    text: "<p>Тренировочный план, привязанный к конкретным датам. </p>" +
                     "<p>Подходит для плана подготовки к определенному событию, например Московскому марафону, а также для составления плана работы группы учеников</p>",
                 },
                 externalBlock3: {
                     title: 'Обновляемый план',
-                    text: "<p>Тренировочный план, привязанный к конкретным датам, все изменения которого автоматически транслируются спортсменам. </p>>" +
+                    text: "<p>Тренировочный план, привязанный к конкретным датам, все изменения которого автоматически транслируются спортсменам. </p>" +
                     "<p>Идеален для проведения тренировочных сборов и тренировки групп спортсменов по одному расписанию, в том числе для подготовки корпоративных команд по бегу и триатлону.</p>",
                 }
             },
@@ -614,12 +614,12 @@ export let _translate = {
                 },
                 externalBlock2: {
                     title: 'Выгодно для тренера',
-                    text: "<p>Комиссия Staminity - 30% с каждой продажи плана.</p>>" +
+                    text: "<p>Комиссия Staminity - 30% с каждой продажи плана.</p>" +
                     "<p>Для бесплатных планов комиссий нет. Если нет продаж - комиссий нет. Публикация бесплатна, тариф 'Тренер' не нужен</p>",
                 },
                 externalBlock3: {
                     title: 'Просто и наглядно',
-                    text: "<p>Ваш план доступен в Магазине тренировочных планов для всех посетителей Staminity. </p>>" +
+                    text: "<p>Ваш план доступен в Магазине тренировочных планов для всех посетителей Staminity. </p>" +
                     "<p>Индивидуальная страница плана формируется автоматически и отражает всю существенную информацию по нему.</p>",
                 }
             },
@@ -1250,7 +1250,7 @@ export let _translate = {
                 },
                 externalBlock3: {
                     title: 'Dynamic plan',
-                    text: "<p>Training plan with fixed dates, all changes are transferred to assigned athletes. </p>>" +
+                    text: "<p>Training plan with fixed dates, all changes are transferred to assigned athletes. </p>" +
                     "<p>Is perfect for holding training camps and for working with groups of athletes which train according to the same schedule, including corporate running and triathlon teams.</p>",
                 }
             },
@@ -1293,12 +1293,12 @@ export let _translate = {
                 },
                 externalBlock2: {
                     title: 'Beneficial for the coach',
-                    text: "<p>We charge a fixed fee - 30% for each sale. No fees for free plans. </p>>" +
+                    text: "<p>We charge a fixed fee - 30% for each sale. No fees for free plans. </p>" +
                     "<p>Also you don’t need the 'Coach' tariff to publish a plan. No sales - no fees.</p>",
                 },
                 externalBlock3: {
                     title: 'Simple and convenient',
-                    text: "<p>All Staminity users can find your plan in the Store.</p>>" +
+                    text: "<p>All Staminity users can find your plan in the Store.</p>" +
                     "<p>Personal page for the plan contains all the major information about it.</p>",
                 }
             },
