@@ -2,9 +2,9 @@
             md-component-id="landingMenu">
     <md-toolbar flex="none" class="">
         <div class="md-toolbar-tools">
-            <div flex="none" style="padding-left: 16px">
+            <div flex="none">
                 <md-menu md-position-mode="target-right target" md-offset="0 40">
-                    <md-button class="md-icon-button md-primary"
+                    <md-button class="md-icon-button md-primary" style="margin: 0"
                                ng-click="$ctrl.onMenu($mdOpenMenu, $event)" aria-label="User">
                         <md-icon md-svg-src="/assets/icon/{{ $ctrl.display.getLocale() }}.svg" md-24 aria-label="Language Icon"></md-icon>
                     </md-button>
@@ -24,8 +24,14 @@
             </md-button>
         </div>
     </md-toolbar>
-    <section class="menu-grid" layout="row" layout-align="start start">
-        <md-list flex="50" class="menu-scenario">
+    <section class="menu-grid" layout="column" layout-gt-sm="row" layout-align="start start">
+        <md-list hide-gt-sm>
+            <md-list-item ng-click="$ctrl.toggleSlide('landingMenu'); $ctrl.toggleSlide('scenarioMenu')">
+                <p class="md-body-2" translate="landing.scenario.shortTitle"></p>
+            </md-list-item>
+            <md-divider></md-divider>
+        </md-list>
+        <md-list flex="none" flex-gt-sm="50" class="menu-scenario">
             <md-list-item class="subitem" ng-repeat="scenario in $ctrl.landingConfig.scenario"
                           ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
                 <md-icon class="material-icon md-dark" ng-if="false"
@@ -33,7 +39,7 @@
                 <p class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></p>
             </md-list-item>
         </md-list>
-        <md-list flex="50" class="menu-functions">
+        <md-list flex="none" flex-gt-sm="50" class="menu-functions">
             <md-list-item ng-repeat="item in $ctrl.landingConfig.sidenav"
                           ng-click="$ctrl.$state.go(item.state, item.stateParams)">
                 <md-icon class="material-icon md-dark" ng-if="false"
@@ -54,3 +60,4 @@
         </md-button>
     </section>
 </md-sidenav>
+<st-landing-sidenav-scenario></st-landing-sidenav-scenario>

@@ -58,7 +58,11 @@ export interface LandingConfig {
         };
         // ключ перевода, если есть дополнительная секция с информацией в конце всех блоков (слайд 50)
         // в переводах путь landing.[scenario.code].externalInfo
-        externalInfo?: string;
+        externalInfo?: boolean;
+        moreScenario?: {
+            title?: string; //  не заполняется, только для перевода landing.[scenario.code].moreScenario.title
+            code: string[]; // коды сценариев для показа
+        }
     }];
     features?: {
         code: string;

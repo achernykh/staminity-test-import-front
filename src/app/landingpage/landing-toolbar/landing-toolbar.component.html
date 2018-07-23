@@ -1,6 +1,7 @@
 <md-toolbar id="toolbar" class="landing-toolbar background" ng-class="{'solid-background': $ctrl.solid}" flex="none">
     <div class="md-toolbar-tools">
-        <img ng-click="$ctrl.$state.go('welcome')" ng-src="/assets/landing/staminity-horizontal-color.svg"/>
+        <img ng-click="$ctrl.$state.go('welcome')"
+             src="/assets/landing/{{ $ctrl.monoLogo && !$ctrl.scroll && $ctrl.$mdMedia('max-width: 959px') ? 'staminity-horizontal-mono.png' : 'staminity-horizontal-color.svg'}}"/>
         <div class="links" layout="row">
             <navigation flex="none" ng-if="false">
                 <md-button href="#" class="md-primary"
@@ -21,10 +22,10 @@
             </navigation>
             <section flex></section>
             <navigation flex="none">
-                <md-button href="#" class="accent" ng-click="$ctrl.toggleSlide('scenarioMenu')">
+                <md-button hide show-gt-sm href="#" class="accent" ng-click="$ctrl.toggleSlide('scenarioMenu')">
                     <span translate="landing.scenario.shortTitle"></span>
                 </md-button>
-                <md-button ui-sref="signin" class="">
+                <md-button hide show-gt-sm ui-sref="signin" class="">
                     <span translate="landing.nav.signIn"></span>
                 </md-button>
                 <md-button class="menu md-icon-button md-primary" aria-label="landingMenu"

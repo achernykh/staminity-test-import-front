@@ -38,21 +38,19 @@
     .menu md-icon {
       color: rgba(black, 0.87) !important;
     }
-    img {
-      height: 24px !important;
-    }
+    img {  height: 24px !important;  }
   }
 
   .md-toolbar-tools {
     padding: 0 32px;
-    img {
-
-    }
-    .links {
-      width: 100%;
-    }
+    .links {  width: 100%;  }
     .menu {
-      padding: 4px
+      padding: 4px;
+      margin: 0;
     }
+  }
+  @media (max-width: 959px) {
+    .md-toolbar-tools {  padding: 0 16px;}
+    img {  height: 24px !important;  }
   }
 }

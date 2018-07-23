@@ -1,32 +1,33 @@
 import './landing-toolbar.component.scss';
-import {IComponentOptions, IComponentController, element} from 'angular';
+import {IComponentOptions, IComponentController, element, IScope} from 'angular';
 import { LandingConfig } from "../landing.constants";
 
 class LandingToolbarCtrl implements IComponentController {
 
     // bind
-    data: any;
+    monoLogo: any;
     onEvent: (response: Object) => Promise<void>;
 
     // private
     private toolbar: JQuery;
+    private scroll: boolean = false;
     // inject
-    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state'];
+    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state', '$mdMedia', '$scope'];
 
-    constructor(private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state) {
+    constructor(private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state, private $mdMedia, private $scope: IScope) {
         this.subscribeOnScroll();
     }
 
-    $onInit(): void {
-
-    }
+    $onInit(): void {}
 
     subscribeOnScroll(): void {
         setTimeout(() => {
             this.toolbar = element(this.$document[0].querySelector('#toolbar'));
             window.addEventListener('scroll', () => {
-                this.toolbar.addClass(window.scrollY > window.innerHeight * 0.05 ? 'solid md-whiteframe-z3' : 'background');
-                this.toolbar.removeClass(window.scrollY <= window.innerHeight * 0.05 ? 'solid md-whiteframe-z3' : 'background');
+                this.toolbar.addClass(window.scrollY > 64 ? 'solid md-whiteframe-z3' : 'background');
+                this.toolbar.removeClass(window.scrollY <= 64 ? 'solid md-whiteframe-z3' : 'background');
+                this.scroll = (window.scrollY > 64);
+                this.$scope.$applyAsync();
             });
         }, 100);
     }
@@ -39,6 +40,7 @@ class LandingToolbarCtrl implements IComponentController {
 export const LandingToolbarComponent:IComponentOptions = {
     bindings: {
         data: '<',
+        monoLogo: '<',
         solid: '<',
         onScenario: '&'
     },

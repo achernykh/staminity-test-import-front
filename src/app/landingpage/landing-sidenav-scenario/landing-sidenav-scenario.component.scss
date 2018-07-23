@@ -26,4 +26,11 @@
     object-position: 50% 50%;
     max-width: 100%;
   }
+  @media (max-width: 959px) {
+    .md-toolbar-tools {  padding: 0 16px !important; }
+    .scenario-card img {
+      height: auto;
+      width: 100%;
+    }
+  }
 }

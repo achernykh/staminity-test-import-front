@@ -69,6 +69,10 @@
 			background: $grey-200;
 		}
 	}
+	@media (max-width: 959px) {
+		padding: 56px 16px 16px 16px;
+		.form { width: auto; }
+	}
 }
 
 auth {

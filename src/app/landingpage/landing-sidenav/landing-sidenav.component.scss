@@ -4,6 +4,7 @@
   width: 60vw;
   max-width: 1000px;
   md-toolbar {background: none !important;}
+  .md-toolbar-tools { padding: 0 32px; }
   background: rgba(white,0.95);
   .menu-grid {
     padding: 32px;
@@ -27,5 +28,12 @@
       //border-radius: 20px;
       background: linear-gradient(90deg, $deep-orange-800, $deep-orange-500);
     }
+  }
+  @media (max-width: 959px) {
+    .md-toolbar-tools { padding: 0 16px; }
+    .menu-grid { padding: 16px; }
+    .menu-scenario { display: none; }
+    .menu-functions { padding-left: 0; }
+    .menu-buttons { padding: 16px; }
   }
 }

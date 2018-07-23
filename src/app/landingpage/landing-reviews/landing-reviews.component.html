@@ -4,5 +4,5 @@
     <p flex="none" class="author md-body-2 md-dark">
         <span>{{review.author}}</span><br><span>{{review.about}}</span>
     </p>
-    <p flex="none" class="text md-body-1 md-dark">{{review.text}}</p>
+    <p flex="none" class="text md-body-1" style="text-align: left" ng-bind-html="review.text"></p>
 </div>
