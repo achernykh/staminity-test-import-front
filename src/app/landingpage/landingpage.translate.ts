@@ -1004,7 +1004,7 @@ export let _translate = {
                 subtitle: '',
                 text: 'Training plans designed by professional coaches for those who only start to train or for those who want to prepare for a certain distance. <a href="cases/training-plans">Read more</a>',
             },
-            externalblocks: {
+            externalBlocks: {
                 title: 'As well as',
                 externalBlock1:{
                     title: 'Activities upload',
