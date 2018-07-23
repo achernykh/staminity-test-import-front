@@ -42,13 +42,16 @@
             </div>
         </section>
         <!-- дополнительный блоки -->
-        <section ng-if="$ctrl.scenario.externalBlocks"
-                 class="scenario-block" layout-gt-sm="row" layout-align-gt-sm="center center" layout-wrap="true">
-            <div ng-repeat="block in $ctrl.scenario.externalBlocks.blocks"
-                 class="external-block" layout="column" layout-align="start center" flex-gt-sm="33">
-                <img ng-src="{{block.picture}}">
-                <p class="md-body-2" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.title"></p>
-                <p class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.text"></p>
+        <section ng-if="$ctrl.scenario.externalBlocks" class="external-blocks">
+            <h1 class="md-title md-padding"
+                translate="landing.{{$ctrl.scenario.code}}.externalBlocks.title"></h1>
+            <div class="" layout-gt-sm="row" layout-align-gt-sm="start start" layout-wrap="true">
+                <div ng-repeat="block in $ctrl.scenario.externalBlocks.blocks"
+                     class="external-block" layout="column" layout-fill layout-align="start start" flex-gt-sm="25">
+                    <img ng-src="{{block.picture}}">
+                    <p class="title md-body-2" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.title"></p>
+                    <p class="text md-body-1" translate="landing.{{$ctrl.scenario.code}}.externalBlocks.{{block.code}}.text"></p>
+                </div>
             </div>
         </section>
         <!-- дополнительный тектс -->

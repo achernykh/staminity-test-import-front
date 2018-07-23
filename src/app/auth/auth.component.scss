@@ -18,23 +18,20 @@
 	.conf {
 		//padding: 0px 8px;
 		text-align: left;
-		color: rgba(black, 0.54);
+		color: rgba(black, 0.87);
 
 		a {
 			cursor: pointer;
 			font-weight: 500;
-			color: rgba(black, 0.54);
+			color: rgba(black, 0.87);
 			text-decoration: none;
-
-			&:hover {
-				color: rgba(black, 0.7);
-			}
+			&:hover {  color: rgba(black, 0.87); }
 		}
 	}
 	.social-button {
 		text-transform: none;
 		text-align: center;
-		min-height: 48px;
+		min-height: 40px;
 		margin: 0;
 		border-radius: 0;
 		svg circle {

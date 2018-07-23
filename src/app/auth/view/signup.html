@@ -1,12 +1,7 @@
-<md-card class="animated fadeInUp medium">
-
-    <md-card-title ng-if="$ctrl.showConfirm">
-        <h2 class="md-title" translate="auth.confirm.shortTitle"></h2>
-    </md-card-title>
-    <md-card-content ng-if="$ctrl.showConfirm" class="confirm-message">
-        <p flex class="md-body" translate="auth.confirm.text" translate-values="{email: $ctrl.credentials.email}"></p>
-    </md-card-content>
-</md-card>
+<section class="" ng-if="$ctrl.showConfirm">
+    <h2 class="md-title" translate="auth.confirm.shortTitle"></h2>
+    <p flex class="md-body" translate="auth.confirm.text" translate-values="{email: $ctrl.credentials.email}"></p>
+</section>
 <section class="animated fadeInUp form">
     <h2 class="md-title" translate="auth.signup.shortTitle"></h2>
     <form class="" flex="none" ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)'
@@ -15,24 +10,22 @@
             <p class="md-caption conf" translate>auth.confirmation</p>
             <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
                          class="md-primary md-secondary"
-                         ng-disabled="!$ctrl.enabled"
-                         style="text-shadow: 1px 1px 0px rgba(0,0,0,0.4), -1px -1px 0px rgba(0,0,0,0.4);">
+                         ng-disabled="!$ctrl.enabled">
             </md-checkbox>
-
         </div>
-        <div layout="row" layout-align="start stretch" class="input-item-line">
+        <div layout="row" layout-align="start stretch" class="input-item-line two-hint-line">
             <md-input-container class="st-material md-block md-dense" flex="60">
                 <label translate="auth.role.label"></label>
                 <md-select flex name="role" required
                            ng-model="$ctrl.role"
                            ng-disabled="!$ctrl.enabled">
                     <md-option ng-repeat="role in ['athlete', 'coach', 'clubCoach', 'clubManager']"
-                               value="{{role}}">{{'auth.role.' + role | translate}}
+                               value="{{role}}">{{'auth.role.' + role + '.name' | translate}}
                     </md-option>
                 </md-select>
                 <div class="hint md-dark"
                      ng-show="$ctrl.signupForm.$prestine || $ctrl.signupForm.role.$valid">
-                    <span translate="auth.role.hint"></span>
+                    <span translate="auth.role.{{$ctrl.role}}.hint"></span>
                 </div>
                 <div ng-messages="$ctrl.signupForm.role.$error"
                      ng-show="$ctrl.signupForm.role.$dirty"
@@ -65,7 +58,9 @@
                 </div>
             </md-autocomplete>
         </div>
-        <div class="md-caption" style="padding-bottom: 16px" translate="auth.role.{{$ctrl.role}}"></div>
+        <div class="md-caption" style="padding: 8px 0" translate="auth.role.{{$ctrl.role}}.info"></div>
+        <md-divider></md-divider>
+        <div class="md-caption md-dark center" translate="auth.social" style="padding: 8px 0"></div>
         <div layout="row" class="social-buttons">
             <md-button flex="33" ng-repeat="provider in ['facebook','google','vkontakte']"
                        ng-class="{'disabled': !$ctrl.confirmation || $ctrl.credentials.personal.country === null}"
@@ -76,7 +71,7 @@
                 <!--<span translate="auth.signup.social"></span>&nbsp;<span translate="{{::provider}}"></span>-->
             </md-button>
         </div>
-        <div class="md-padding md-caption md-dark md-inactive center" translate="auth.socialOr"></div>
+        <div class="md-caption md-dark center" translate="auth.socialOr" style="padding: 8px 0"></div>
         <div layout="row" layout-align="start stretch" class="input-item-line">
             <md-input-container flex="50" class="st-material md-block md-dense">
                 <label>{{'auth.firstName' | translate }}</label>

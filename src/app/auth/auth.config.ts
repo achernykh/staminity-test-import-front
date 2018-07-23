@@ -12,34 +12,15 @@
         .state("signin", {
             url: "/signin",
             loginRequired: false,
-            resolve: {
-                view: () => new DisplayView("signin"),
-            },
             params: {
-                nextState: null,
-                nextParams: null,
+                activatePremiumTrial: null,
+                activateCoachTrial: null,
+                activateClubTrial: null,
             },
             views: {
-                "background": {
-                    component: "staminityBackground",
-                    bindings: {
-                        view: "view.background",
-                    },
-                },
-                "header": {
-                    component: "staminityHeader",
-                    bindings: {
-                        view: "view.header",
-                    },
-                },
-                "application": {
-                    component: "auth",
-                    bindings: "view.application",
-                },
-                "form@signin": {
-                    template: require("./view/signin.html"),
-                },
-            },
+                "application": { component: "auth" },
+                "form@signin": { template: require("./view/signin.html") },
+            }
         } as StateDeclaration)
         // Представление Auth: SignUp
         .state("signup", {
@@ -51,13 +32,9 @@
                 activateClubTrial: null,
             },
             views: {
-                "application": {
-                    component: "auth",
-                },
-                "form@signup": {
-                    template: require("./view/signup.html"),
-                },
-            },
+                "application": { component: "auth" },
+                "form@signup": { template: require("./view/signup.html") },
+            }
         } as StateDeclaration)
         // Представление Auth: SignOut
         .state("signout", {

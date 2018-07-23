@@ -97,6 +97,7 @@ $max-toolbar-width: 1000px;
   .reviews {
     @extend .block;
     background-color: white;
+
   }
 
   .info-block {
@@ -117,7 +118,7 @@ $max-toolbar-width: 1000px;
     border-bottom: 1px solid $grey-100;
     @media (max-width: 959px) {
       min-height: initial;
-      .block-text h1  { font-size: 16px !important; }
+      .block-text h1  { font-size: 20px !important; }
       .block-text p  { font-size: 14px !important; margin-bottom: 24px !important; }
       .block-text .text { margin: 0 !important;}
       .block-image img { width: 100% !important; margin: 0 !important; }
@@ -153,6 +154,29 @@ $max-toolbar-width: 1000px;
         width: 108%;
         margin: 0 0 0 -8%;
       }
+    }
+  }
+
+  .external-blocks {
+    @extend .block;
+    box-sizing: border-box;
+    min-height: initial;
+    background-color: $grey-050;
+    border-bottom: 1px solid $grey-100;
+    h1 {text-align: center; margin: 0}
+    @media (max-width: 959px) {
+      h1 {text-align: left; padding: 16px 0; }
+    }
+  }
+
+  .external-block {
+    padding-right: 2%;
+
+    p.title { width: 100%}
+    p.text { max-width: 250px; font-weight: 300 }
+    @media (max-width: 959px) {
+      padding-right: 0;
+      p.text { max-width: initial }
     }
   }
 

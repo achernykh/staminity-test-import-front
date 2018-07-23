@@ -7,4 +7,10 @@
   }
   .review .author {}
   .review .text {}
+
+  @media (max-width: 959px) {
+    .review {
+      padding: 0;
+    }
+  }
 }
