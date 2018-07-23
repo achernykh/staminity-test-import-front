@@ -84,7 +84,29 @@ export let _translate = {
             title: "Добро пожаловать!",
             subtitle: "Зарегистрируйтесь или войдите в Staminity",
         },
-        alreadyHaveAccount: "Уже есть аккаунт? <strong>Войти</strong>"
+        alreadyHaveAccount: "Уже есть аккаунт? <strong>Войти</strong>",
+        role: {
+            athlete: {
+                name: "Спортсмен",
+                hint: "Работа с тренером или самостоятельные тренировки",
+                info: 'Включает 2 недели бесплатно по тарифу "Премиум"'
+            },
+            coach: {
+                name: "Индивидуальный тренер",
+                hint: "Онлайн подготовка личных учеников, без клуба",
+                info: 'Включает 2 недели бесплатно по тарифу "Тренер"'
+            },
+            clubCoach: {
+                name: "Тренер в клубе",
+                hint: "Онлайн подготовка учеников, назначенных клубом",
+                info: 'Личный тариф "Тренер" не нужен. Подключитесь к клубу'
+            },
+            clubManager: {
+                name: "Руководитель клуба",
+                hint: "Организация работы нескольких тренеров с учениками",
+                info: 'Включает 2 недели бесплатно по тарифу "Клуб"'
+            }
+        }
     },
     en: {
         // Страница auth - только общие поля. Названия окон и отдельных кнопок вынесены в отдельные блоки
@@ -171,5 +193,27 @@ export let _translate = {
         },
         alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>"
     },
+    role: {
+        athlete: {
+            name: "Athlete",
+            hint: "Online training with a coach or self-training",
+            info: 'Includes a 14-day "Premium" trial'
+        },
+        coach: {
+            name: "Personal coach",
+            hint: "Online work with personal athletes, without club",
+            info: 'Includes a 14-day "Coach" trial'
+        },
+        clubCoach: {
+            name: "Club coach",
+            hint: "Online work with athletes, assigned by the club",
+            info: '"Coach" trial not included. Join your club to become a club coach'
+        },
+        clubManager: {
+            name: "Club manager",
+            hint: "Organize a joint work of several coaches in a club",
+            info: 'Includes a 14-day "Club" trial'
+        }
+    }
 
 };

@@ -487,9 +487,9 @@ export let _translate = {
                 text: "Настройте свой набор отчетов и контролируйте подготовку. <br>" +
                 "Доступны различные отчеты: тренировочные объемы, время в зонах, пики интенсивности, процент выполнения плана, тренировочная нагрузка и т.п.",
             },
-            externalInfo: 'Попробуйте также собственные категории тренировок для удобной классификации заданий и шаблоны для быстрого планирования повторяющихся тренировок. ' +
-            'Управление шаблонами и категориями, также как планирование сезона, планирование тренировок для себя и детальный анализ выполненных тренировок доступно на тарифе "Премиум". ' +
-            'Для работы с тренером тариф "Премиум" не обязателен, можно использовать Staminity совершенно бесплатно.'
+            externalInfo: 'В Staminity есть все необходимое для самостоятельных тренировок по бегу, триатлону, плаванию, велоспорту и другим циклическим видам спорта.' +
+            'Помимо планов на сезон, планирования и выполнения собственных тренировок попробуйте категории для удобной классификации заданий и шаблоны для быстрого планирования повторяющихся тренировок. ' +
+            'Работать с тренером в Staminity можно совершенно бесплатно, а создание плана на сезон, планирование тренировок для себя, детальный анализ выполненных тренировок и управление категориями и шаблонами доступно на тарифе "Премиум"'
 
         },
         trainAthletes: {
@@ -529,9 +529,9 @@ export let _translate = {
                 text: "Помогите новым ученикам найти и узнать подробнее о вас. Расскажите в профиле о себе, об условиях занятий, о достижениях спортсменов. <br>" +
                 "Пользователи Staminity смогут найти вас в поиске тренеров",
             },
-            externalInfo: 'А также для тренера доступно: планирование сезона для учеников по мезоциклам, создание собственных схем мезоциклов, собственные категории тренировок для удобной классификации заданий, ' +
-            'шаблоны для быстрого планирования повторяющихся тренировок для учеников, аналитика и отчетность по ученикам. ' +
-            'Для работы со спортсменами онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом. Для тренера оплачивается только первые 10 учеников'
+            externalInfo: 'В Staminity для тренера есть все необходимое для удобной и эффективной работы с учениками онлайн. Помимо планирования, контроля выполнения, анализа тренировок и общения с учениками тренеру доступны планирование сезона, создание собственных схем периодизации, ' +
+            'управление категориями тренировок для классификации заданий и шаблонами для быстрого планирования повторяющихся тренировок.' +
+            'Для работы со спортсменами онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом.'
         },
         trainGroups: {
             title: 'Работа с группами спортсменов',
@@ -1167,10 +1167,9 @@ export let _translate = {
                 text: "Set up your own set of reports and control the training process. <br>" +
                 "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
             },
-            externalInfo: 'Try also your own categories for activity classification and templates for quick planning of repeated workouts. '+
-            'Managing templates and categories, as well as planning the season, planning activities for yourself and a detailed analysis of the workouts are available at the Premium tariff. ' +
-            'To work with a coach, the Premium tariff is not required, you can use Staminity for free'
-
+            externalInfo: 'Staminity has everything you need for self training in running, triathlon, swimming, cycling and other cyclic sports. ' +
+            'In addition to the season planning and planning and analyzing your own activities, try out categories for easy classification of activities and templates for quickly planning repetitive activities. '+
+            'Working with a coach in Staminity can be completely free, but season planning, activity self planning, a detailed analysis of the activities and management of categories and templates is available at the "Premium" tariff'
         },
         trainAthletes: {
             title: 'Train athletes',
@@ -1209,9 +1208,9 @@ export let _translate = {
                 text: "Help new athletes to find out more information about you. In your profile you can tell about yourself, your terms of training and achievements of your athletes.  <br>" +
                 "New athletes will be able to find you among the coach search results",
             },
-            externalInfo: 'For the coach is also available: season planning for athletes, creating their own mesocycle schemes, managing categories for the activity classification, ' +
-            'managing templates for the rapid planning of repeated activities, analysis and reporting for the training process. '+
-            'To work with athletes online, a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
+            externalInfo: 'Staminity for the coach has everything you need for convenient and effective work with students online. In addition to planning, controlling the plan performance, analyzing training and communicating with students, for the coach is available season planning, managing periodization schemes, ' +
+            'managing categories for classifying activities and templates for quickly planning repetitive activities. ' +
+            'To work with athletes online a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
         },
         trainGroups: {
             title: 'Train groups of athletes',

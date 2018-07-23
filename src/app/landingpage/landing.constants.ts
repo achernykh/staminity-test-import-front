@@ -195,7 +195,10 @@ export const landingConfig: LandingConfig = {
                     text: 'Классная программа! Пользуюсь приложением на айфоне. У меня часы suunto, тренировки приходится выгружать через Strava, один раз настроил и все, неудобств не доставляет.'
                 }]
             },
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["trainingPlans","selfTraining","trainAthletes"]
+            }
 
         },
         {
@@ -237,7 +240,11 @@ export const landingConfig: LandingConfig = {
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-01.png',
             }
             ],
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["workWithCoach","selfTraining","trainAthletes"]
+            }
+
         },
         {
             code: 'selfTraining',
@@ -281,7 +288,11 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/analytics.png',
             }],
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["workWithCoach","trainingPlans","trainAthletes"]
+            }
+
         },
         {
             code: 'trainAthletes',
@@ -325,7 +336,11 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/search-02.png',
             }],
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["trainGroups","trainingPlanPublication","severalCoaches"]
+            }
+
         },
         {
             code: 'trainGroups',
@@ -369,7 +384,11 @@ export const landingConfig: LandingConfig = {
                         code: 'externalBlock3'
                     }]
             },
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["trainAthletes","trainingPlanPublication","severalCoaches"]
+            }
+
         },
         {
             code: 'trainingPlanPublication',
@@ -415,7 +434,11 @@ export const landingConfig: LandingConfig = {
                         code: 'externalBlock3'
                     }]
             },
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["trainAthletes","trainGroups","severalCoaches"]
+            }
+
         },
         {
             code: 'severalCoaches',
@@ -453,7 +476,11 @@ export const landingConfig: LandingConfig = {
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/templates.png',
             }],
-            externalInfo: true
+            externalInfo: true,
+            moreScenario: {
+                code: ["trainAthletes","trainGroups","trainingPlanPublication"]
+            }
+
         },
     ],
     footer: [
