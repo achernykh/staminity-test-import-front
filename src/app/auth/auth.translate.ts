@@ -195,7 +195,7 @@ export let _translate = {
         },
         alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>",
         role: {
-            role: 'Role',
+            label: 'Role',
             athlete: {
                 name: "Athlete",
                 hint: "Online training with a coach or self-training",
