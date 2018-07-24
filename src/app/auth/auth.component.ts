@@ -118,13 +118,13 @@ class AuthCtrl implements IComponentController {
                 background: "default.jpg",
             },
             personal: {
-                country: this.ipInfo && this.ipInfo.country.code || null,
+                country: this.ipInfo && this.ipInfo.country_code2 || null,
                 city: this.ipInfo && this.ipInfo.city || null,
             },
             display: {
                 units: "metric",
                 firstDayOfWeek: 1,
-                timezone: this.ipInfo && this.ipInfo.location.time_zone || "Europe/Moscow",
+                timezone: this.ipInfo && this.ipInfo.time_zone.name || "Europe/Moscow",
                 language: this.displayService.getLocale(),
             },
             email: this.$stateParams.hasOwnProperty("email") && this.$stateParams.email || "",
