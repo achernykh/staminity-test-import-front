@@ -296,6 +296,7 @@ export let _translate = {
                 proAthletes: 'Учеников с тарифом "Премиум" за ваш счет:',
                 freeAthletes: "Более {{athletes}} учеников бесплатно",
             },
+            loading: "Получение данных..."
         },
         featuresNew: {
             title: 'Возможности сервиса',
@@ -976,6 +977,7 @@ export let _translate = {
                 proAthletes: "Athletes with PREMIUM tariff paid by you:",
                 freeAthletes: "{{athletes}}+ athletes are without payment",
             },
+            loading: "Loading..."
         },
         featuresNew: {
             title: 'Staminity features',

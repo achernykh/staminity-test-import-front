@@ -95,21 +95,21 @@ export interface LandingConfig {
 export const landingConfig: LandingConfig = {
     reviews: {
         ru: [{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',
+            avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',
             author: 'Сергей Черепанов',
             about: 'Основатель «Академии марафонского бега»',
             country: '',
             text: 'Раньше мы вели план в электронных таблицах, а ученики получали задание через бота в Телеграм. За фактом приходилось переходить в другие приложения по ссылкам от спортсменов, нельзя было получить историю занятий, найти и проверить аналогичные тренировки у учеников.</br>' +
             'Мы искали приложение для оптимизации работы бегового клуба. Рассматривали зарубежный Training Peaks, а остановились в итоге на Staminity, в поддержку российского разработчика :)'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev-2.jpg',
+            avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev-2.jpg',
             author: 'Артем Куфтырев',
             about: 'Основатель Школы бега InstaRun',
             country: '',
             text: 'До появления Staminity для работы с учениками мы использовали Google-таблицы, где я заполнял план, а спортсмен – факт. При такой системе сильно страдал анализ фактической работы, многие не уделяли этому достаточно внимания. </br>' +
             'Сейчас все процессы автоматизированы, ученики не тратят лишнее время, а я могу вовремя реагировать на изменения в самочувствии и фактах выполнения работы. Также очень удачны на мой взгляд графические интерпретации тренировок, это позволяет быстро оценить факт и задать необходимые вопросы, причем внутри одного приложения.'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev-2.jpg',
+            avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev-2.jpg',
             author: 'Андрей Сергеев',
             about: 'Тренер по бегу',
             country: '',
@@ -117,21 +117,21 @@ export const landingConfig: LandingConfig = {
             'Ученики всегда знают, где смотреть план, а я знаю о том, как они его выполняют.'
         }],
         en: [{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',
+            avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',
             author: 'Sergey Cherepanov',
             about: 'Founder, «Academy marathon» running club',
             country: '',
             text: 'Previously, we used google spreadsheets for planning and Telegram bots for students to get a plan. We constantly faced with the problems of monitoring and analysis of training process.<br>' +
             'We were looking for an application to optimize work for our running club. We considered several apps, in particular Training Peaks, but chose Staminity :)'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev-2.jpg',
+            avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev-2.jpg',
             author: 'Artem Kuftyrev',
             about: 'Founder, InstaRUN running club',
             country: '',
             text: 'Prior to Staminity for working with students, we used Google sheets, where I filled out the plan, and the athlete - a fact. With such a system, the analysis of actual work suffered greatly, many did not pay enough attention to it, which slowed down the further planning. </br>' +
             'Now all these processes are automated, the students do not spend unnecessary time, and I can respond in time to changes in the state of health and the facts of the work. In my opinion, graphical interpretations of workouts are also very successful, it allows you to quickly assess the fact of accomplishing tasks and quickly ask the necessary questions, all within the same application'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev-2.jpg',
+            avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev-2.jpg',
             author: 'Andrey Sergeev',
             about: 'Running coach',
             country: '',
@@ -147,8 +147,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/work-with-coach',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-01-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01-thumb.png',
             button: {
                 state: 'search',
                 stateParams: {
@@ -182,13 +182,13 @@ export const landingConfig: LandingConfig = {
             }],
             reviews: {
                 ru: [{
-                    avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/oleg-lenkov.jpg',
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/oleg-lenkov.jpg',
                     author: 'Олег Ленков',
                     about: 'Триатлет, клуб JustTri',
                     country: '',
                     text: '#Staminity – именно в этом приложении я теперь работаю. Спасибо #justtri. Убеждён, что это самое современное, крутое и удобное приложение, среди аналогов. Нравится все, начиная от функционала, и заканчивая дизайном. Особая гордость - то, что это 🇷🇺 наша разработка.'
                 },{
-                    avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/alexei-lukashin.jpg',
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/alexei-lukashin.jpg',
                     author: 'Алексей Лукашин',
                     about: 'Спортсмен, клуб InstaRUN',
                     country: '',
@@ -206,8 +206,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plans',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-02.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-02-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-02.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-02-thumb.png',
             button: {
                 state: 'training-plans-store',
                 stateParams: {
@@ -251,8 +251,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/self-training',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-03.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-03-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-03.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-03-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: {
@@ -302,8 +302,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-athletes',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-04.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: {
@@ -354,8 +354,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-groups',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-05.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-05-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-05.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-05-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: {
@@ -405,8 +405,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plan-publication',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-06.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-06-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-06.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-06-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: {
@@ -457,8 +457,8 @@ export const landingConfig: LandingConfig = {
             url: '/cases/several-coaches',
             title: '',
             subtitle: '',
-            picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-07.png',
-            thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
             button: {
                 state: 'signup',
                 stateParams: {
@@ -551,7 +551,7 @@ export const landingConfig: LandingConfig = {
         url: '/features',
         title: '',
         subtitle: '',
-        picture: 'http://264710.selcdn.ru/assets/images/website/screens/features-main.png',
+        picture: 'https://264710.selcdn.ru/assets/images/website/screens/features-main.png',
         button: {
             state: 'signup',
             stateParams: {
