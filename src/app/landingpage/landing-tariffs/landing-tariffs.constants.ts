@@ -61,7 +61,7 @@ export const landingTariffsConfig: LandingTariffsSettings = {
     },
     defaultCurrency: 'USD',
     currencyNumber: {
-        RUB: 2,
+        RUB: 0,
         EUR: 2,
         USD: 2,
     }
