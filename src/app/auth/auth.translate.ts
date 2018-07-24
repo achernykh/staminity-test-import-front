@@ -108,7 +108,7 @@ export let _translate = {
                 info: 'Включает 2 недели бесплатно по тарифу "Клуб"'
             }
         },
-        social: "Зарегистрируйтесь через соцсети"
+        social: "Через социальные сети"
     },
     en: {
         // Страница auth - только общие поля. Названия окон и отдельных кнопок вынесены в отдельные блоки
@@ -217,6 +217,6 @@ export let _translate = {
                 info: 'Includes a 14-day "Club" trial'
             }
         },
-        social: "Sign up via social networks"
+        social: "Via social networks"
     }
 };

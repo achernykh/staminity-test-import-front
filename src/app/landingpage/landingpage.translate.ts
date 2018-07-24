@@ -671,7 +671,8 @@ export let _translate = {
             }
         },
         scenario: {
-            shortTitle: 'Сценарии'
+            shortTitle: 'Сценарии',
+            moreInfo: 'Узнать подробнее'
         }
 
     },
@@ -1349,7 +1350,8 @@ export let _translate = {
             }
         },
         scenario: {
-            shortTitle: 'Use cases'
+            shortTitle: 'Use cases',
+            moreInfo: 'Learn more'
         }
 
     }
