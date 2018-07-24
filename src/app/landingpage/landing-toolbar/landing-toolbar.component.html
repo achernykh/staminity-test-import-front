@@ -1,6 +1,6 @@
 <md-toolbar id="toolbar" class="landing-toolbar background" ng-class="{'solid-background': $ctrl.solid}" flex="none">
     <div class="md-toolbar-tools">
-        <img ng-click="$ctrl.$state.go('welcome')"
+        <img ng-click="$ctrl.$state.go('welcome', {}, {reload: true})"
              src="/assets/landing/{{ $ctrl.monoLogo && !$ctrl.scroll && $ctrl.$mdMedia('max-width: 959px') ? 'staminity-horizontal-mono.png' : 'staminity-horizontal-color.svg'}}"/>
         <div class="links" layout="row">
             <navigation flex="none" ng-if="false">
@@ -25,8 +25,17 @@
                 <md-button hide show-gt-sm href="#" class="accent" ng-click="$ctrl.toggleSlide('scenarioMenu')">
                     <span translate="landing.scenario.shortTitle"></span>
                 </md-button>
-                <md-button hide show-gt-sm ui-sref="signin" class="">
+                <md-button ng-if="!$ctrl.signUp && !$ctrl.authService.isAuthenticated()"
+                           hide show-gt-sm ui-sref="signin" class="">
                     <span translate="landing.nav.signIn"></span>
+                </md-button>
+                <md-button ng-if="!$ctrl.signUp && $ctrl.authService.isAuthenticated()"
+                           hide show-gt-sm ui-sref="{{$ctrl.$mdMedia('gt-sm') ? 'initialisation' : 'calendar'}}"
+                           class="">
+                    <span translate="landing.nav.signIn"></span>
+                </md-button>
+                <md-button ng-if="$ctrl.signUp" hide show-gt-sm ui-sref="signup" class="">
+                    <span translate="landing.nav.signUp"></span>
                 </md-button>
                 <md-button class="menu md-icon-button md-primary" aria-label="landingMenu"
                            ng-click="$ctrl.toggleSlide('landingMenu')">

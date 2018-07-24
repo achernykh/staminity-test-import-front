@@ -385,13 +385,16 @@ export const landingConfig: LandingConfig = {
             externalBlocks: {
                 blocks:  [
                     {
-                        code: 'externalBlock1'
+                        code: 'externalBlock1',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/plan-universal.svg',
                     },
                     {
-                        code: 'externalBlock2'
+                        code: 'externalBlock2',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/plan-fixed.svg',
                     },
                     {
-                        code: 'externalBlock3'
+                        code: 'externalBlock3',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/plan-sync.svg',
                     }]
             },
             externalInfo: true,
@@ -437,13 +440,16 @@ export const landingConfig: LandingConfig = {
             externalBlocks: {
                 blocks:  [
                     {
-                        code: 'externalBlock1'
+                        code: 'externalBlock1',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/plan-store-mobile.svg',
                     },
                     {
-                        code: 'externalBlock2'
+                        code: 'externalBlock2',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/plan-store-wallet.svg',
                     },
                     {
-                        code: 'externalBlock3'
+                        code: 'externalBlock3',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/plan-store-shop.svg',
                     }]
             },
             externalInfo: true,
@@ -558,7 +564,8 @@ export const landingConfig: LandingConfig = {
                 activatePremiumTrial: true,
                 activateCoachTrial: false,
                 activateClubTrial: false,
-            }        },
+            }
+        },
         blocks: [
             {
                 code: 'block1',
@@ -588,40 +595,52 @@ export const landingConfig: LandingConfig = {
         externalBlocks: {
                 blocks:  [
                     {
-                        code: 'externalBlock1'
+                        code: 'externalBlock1',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/sync.svg'
                     },
                     {
-                        code: 'externalBlock2'
+                        code: 'externalBlock2',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/mobile.svg'
                     },
                     {
-                        code: 'externalBlock3'
+                        code: 'externalBlock3',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/strcutured.svg'
                     },
                     {
-                        code: 'externalBlock4'
+                        code: 'externalBlock4',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/season-plan.svg'
                     },
                     {
-                        code: 'externalBlock5'
+                        code: 'externalBlock5',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/analytics.svg'
                     },
                     {
-                        code: 'externalBlock6'
+                        code: 'externalBlock6',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/dashboard.svg'
                     },
                     {
-                        code: 'externalBlock7'
+                        code: 'externalBlock7',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/templates.svg'
                     },
                     {
-                        code: 'externalBlock8'
+                        code: 'externalBlock8',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/categories.svg'
                     },
                     {
-                        code: 'externalBlock9'
+                        code: 'externalBlock9',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/training-zones.svg'
                     },
                     {
-                        code: 'externalBlock10'
+                        code: 'externalBlock10',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/operations.svg'
                     },
                     {
-                        code: 'externalBlock11'
+                        code: 'externalBlock11',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/media.svg'
                     },
                     {
-                        code: 'externalBlock12'
+                        code: 'externalBlock12',
+                        picture: 'https://264710.selcdn.ru/assets/images/website/icons/chat.svg'
                     }]
         }
     }

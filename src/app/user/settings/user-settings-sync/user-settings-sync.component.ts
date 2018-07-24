@@ -202,13 +202,14 @@ class UserSettingsSyncCtrl {
     }
 
     disableAdaptor (adaptor) {
-        const confirm = this.$mdDialog.confirm()
+        /**const confirm = this.$mdDialog.confirm()
         .title('Вы хотите отключить синхронизацию?')
         .textContent('После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации')
         .ok('Продолжить')
-        .cancel('Отменить');
+        .cancel('Отменить');**/
 
-        this.$mdDialog.show(confirm)
+        //this.$mdDialog.show(confirm)
+        this.dialogs.confirm({ text: 'dialogs.disableAdaptor' })
         .then(() => {
             return this.syncAdaptorService.put(adaptor.provider, adaptor.username, adaptor.password, moment(adaptor.startDate).format('YYYY-MM-DD'), "Disabled")
             .then((response) => {

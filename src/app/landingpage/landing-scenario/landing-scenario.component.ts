@@ -23,6 +23,10 @@ class LandingScenarioCtrl implements IComponentController {
     toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(_ => {});
     }
+
+    getScenario (code: string): any {
+        return this.landingConfig.scenario.filter(s => s.code === code)[0] || null;
+    }
 }
 
 export const LandingScenarioComponent:IComponentOptions = {

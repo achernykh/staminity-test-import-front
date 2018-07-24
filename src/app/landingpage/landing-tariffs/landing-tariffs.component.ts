@@ -2,9 +2,10 @@ import {IComponentController, IComponentOptions, ILocationService, IPromise, ISc
 import {StateService} from "@uirouter/angularjs";
 import moment from "moment/min/moment-with-locales.js";
 import "./landing-tariffs.component.scss";
-import {landingTariffsData} from "./landing-tariffs.constants";
+import { landingTariffsData, landingTariffsConfig } from "./landing-tariffs.constants";
 import { SessionService, getUser } from "../../core/session/session.service";
 import { saveUtmParams } from "../../share/location/utm.functions";
+import DisplayService from "../../core/display.service";
 
 interface TariffCalc {
     premium: boolean;
@@ -32,15 +33,16 @@ class LandingTariffsCtrl implements IComponentController {
     private coachByUser: number;
     private athleteByCoach: number;
 
-    private country: string = "en";
+    private currency: string; // = landingTariffsConfig.defaultCurrency;
 
-    static $inject = ["$scope", "$location", "$state", 'SessionService'];
+    static $inject = ["$scope", "$location", "$state", 'SessionService', 'DisplayService'];
 
     constructor(
         private $scope: IScope,
         private $location: ILocationService,
         private $state: StateService,
-        private session: SessionService) {
+        private session: SessionService,
+        private displayService: DisplayService) {
 
         saveUtmParams($location.search());
     }
@@ -51,12 +53,16 @@ class LandingTariffsCtrl implements IComponentController {
     }
 
     getPrice(): void {
-        this.session.getObservable().map(getUser).subscribe(profile => {
-            this.country = profile && profile.display.language || navigator.language.substr(0,2);
-            this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[this.country].month;
-            this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.premium;
-            this.coachByUser = this.price.filter((t) => t.name === "coach")[0].fee.subscription[this.country].month;
-            this.athleteByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[this.country].coachAthletes.athlete;
+        this.displayService.getLngObservable().subscribe(lng => {
+            this.displayService.getCurrency()
+                .then(currency => {
+                    this.currency = currency;
+                    this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[currency].month;
+                    this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[currency].coachAthletes.premium;
+                    this.coachByUser = this.price.filter((t) => t.name === "coach")[0].fee.subscription[currency].month;
+                    this.athleteByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[currency].coachAthletes.athlete;
+                }, e => console.error(e))
+                .then(_ => this.$scope.$applyAsync());
         });
     }
 

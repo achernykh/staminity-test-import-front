@@ -3,10 +3,6 @@
 $max-toolbar-width: 1000px;
 
 .landing-main {
-  background: white;
-
-
-
   &__welcome {
     /**background-image: url('/assets/landing/wave-gray-light.svg');
     background-position: center bottom;
@@ -79,7 +75,7 @@ $max-toolbar-width: 1000px;
       background: linear-gradient(90deg, $deep-orange-800, $deep-orange-500);
     }
     @media (max-width: 959px) {
-      height: 100vh;
+      height: calc(100vh - 56px) !important;
       padding: 56px 16px 16px 16px !important;
       &.full-size {
         background: linear-gradient(-10deg, white 30%, $blue-grey-600 30%, $blue-grey-900);
@@ -108,6 +104,7 @@ $max-toolbar-width: 1000px;
     .text-block {padding-left: 20px;}
     @media (max-width: 959px) {
       .text-block {padding-left: 0}
+      img {max-width: initial;}
     }
   }
 
@@ -163,23 +160,25 @@ $max-toolbar-width: 1000px;
     min-height: initial;
     background-color: $grey-050;
     border-bottom: 1px solid $grey-100;
-    h1 {text-align: left; margin: 0; padding: 16px 0;}
+    h1 {text-align: center; margin-bottom: 64px; padding: 16px 0;}
     @media (max-width: 959px) {
-      h1 {text-align: left; padding: 16px 0; }
+      h1 { padding: 16px 0; }
     }
   }
 
   .external-block {
-    padding-right: 2%;
-    p.title { width: 100%}
-    p.text { font-weight: 400 }
+    //padding-right: 2%;
+    margin-bottom: 64px;
+    p.title { width: 100%; text-align: center}
+    p.text { font-weight: 400; text-align: center; padding: 0 16px }
+    img {max-width: 80px;}
     @media (max-width: 959px) {
       padding-right: 0;
       max-width: initial;
-      p.text { max-width: initial }
+      p.text { max-width: initial;  padding: 0}
     }
     @media (min-width: 1280px) {
-      max-width: 320px;
+      p.text {max-width: 320px;}
     }
   }
 

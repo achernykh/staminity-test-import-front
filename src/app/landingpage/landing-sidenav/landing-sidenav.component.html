@@ -49,13 +49,13 @@
         </md-list>
     </section>
     <section class="menu-buttons">
-        <md-button class="md-raised accent" ng-click="$ctrl.onScenario()">
+        <md-button ng-if="!$ctrl.auth.isAuthenticated()" class="md-raised accent" ng-click="$ctrl.$state.go('signup')">
             <span translate="landing.main.button.title"></span>
         </md-button>
-        <md-button ui-sref="signin" class="" ng-click="$ctrl.onScenario()">
+        <md-button class="" ng-click="$ctrl.$state.go('signin')">
             <span translate="landing.nav.signIn"></span>
         </md-button>
-        <md-button ui-sref="signout" class="" ng-click="$ctrl.onScenario()">
+        <md-button ng-if="$ctrl.auth.isAuthenticated()" ng-click="$ctrl.$state.go('signout')">
             <span translate="landing.nav.signOut"></span>
         </md-button>
     </section>
