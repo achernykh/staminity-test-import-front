@@ -691,6 +691,7 @@ export let _translate = {
             link4: "Support",
             signIn: "Login",
             signOut: "Logout",
+            signUp: "Sign up",
         },
         welcome: {
             promo: "β-version",
