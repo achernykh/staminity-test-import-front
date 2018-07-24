@@ -15,14 +15,14 @@ export let _translate = {
         confirmation: "Я принимаю <a href='https://legal.staminity.com/ru/license.html'>Публичную оферту</a> и соглашаюсь с <a href='https://legal.staminity.com/ru/terms.html'>Условиями использования</a> сайта.<br>",
 
         socialText: "Через социальные сети:",
-        socialOr: "или свой email адрес",
+        socialOr: "или по адресу email",
 
         // Окно регистрации / создания нового пользователя
         signup: {
-            fullTitle: "Регистрация нового пользователя",
-            shortTitle: "Регистрация",
+            fullTitle: "Создать аккаунт",
+            shortTitle: "Создать аккаунт",
             coach: "Я тренер",
-            button: "Регистрация",
+            button: "Создать аккаунт",
             social: 'Регистрация через ',
             signinLink: "<a href='https://staminity.com/signin'>Уже есть аккаунт</a>",
             email: "Регистрация по e-mail"
@@ -86,6 +86,7 @@ export let _translate = {
         },
         alreadyHaveAccount: "Уже есть аккаунт? <strong>Войти</strong>",
         role: {
+            label: 'Роль',
             athlete: {
                 name: "Спортсмен",
                 hint: "Работа с тренером или самостоятельные тренировки",
@@ -106,7 +107,8 @@ export let _translate = {
                 hint: "Организация работы нескольких тренеров с учениками",
                 info: 'Включает 2 недели бесплатно по тарифу "Клуб"'
             }
-        }
+        },
+        social: "Зарегистрируйтесь через соцсети"
     },
     en: {
         // Страница auth - только общие поля. Названия окон и отдельных кнопок вынесены в отдельные блоки
@@ -124,14 +126,14 @@ export let _translate = {
         confirmation: "I accept <a href='https://legal.staminity.com/en/license.html'>the Public offer</a> and agree with <a href='https://legal.staminity.com/en/terms.html'>the Website use policy</a>",
 
         socialText: "Through social networks: ",
-        socialOr: "or by email",
+        socialOr: "or via email",
 
         // Окно регистрации / создания нового пользователя
         signup: {
-            fullTitle: "New user sign up",
-            shortTitle: "Sign up",
+            fullTitle: "Create account",
+            shortTitle: "Create account",
             coach: "I am a coach",
-            button: "Sign up",
+            button: "Create account",
             social: 'Sign up with ',
             signinLink: "<a href='https://staminity.com/signin'>Sign in</a>",
             email: "Sign up with e-mail"
@@ -191,29 +193,30 @@ export let _translate = {
             title: "You're welcome!",
             subtitle: "Please Sign up or login to Staminity",
         },
-        alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>"
-    },
-    role: {
-        athlete: {
-            name: "Athlete",
-            hint: "Online training with a coach or self-training",
-            info: 'Includes a 14-day "Premium" trial'
+        alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>",
+        role: {
+            role: 'Role',
+            athlete: {
+                name: "Athlete",
+                hint: "Online training with a coach or self-training",
+                info: 'Includes a 14-day "Premium" trial'
+            },
+            coach: {
+                name: "Personal coach",
+                hint: "Online work with personal athletes, without club",
+                info: 'Includes a 14-day "Coach" trial'
+            },
+            clubCoach: {
+                name: "Club coach",
+                hint: "Online work with athletes, assigned by the club",
+                info: '"Coach" trial not included. Join your club to become a club coach'
+            },
+            clubManager: {
+                name: "Club manager",
+                hint: "Organize a joint work of several coaches in a club",
+                info: 'Includes a 14-day "Club" trial'
+            }
         },
-        coach: {
-            name: "Personal coach",
-            hint: "Online work with personal athletes, without club",
-            info: 'Includes a 14-day "Coach" trial'
-        },
-        clubCoach: {
-            name: "Club coach",
-            hint: "Online work with athletes, assigned by the club",
-            info: '"Coach" trial not included. Join your club to become a club coach'
-        },
-        clubManager: {
-            name: "Club manager",
-            hint: "Organize a joint work of several coaches in a club",
-            info: 'Includes a 14-day "Club" trial'
-        }
+        social: "Sign up via social networks"
     }
-
 };

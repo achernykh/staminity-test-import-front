@@ -102,14 +102,14 @@ export const landingConfig: LandingConfig = {
             text: 'Раньше мы вели план в электронных таблицах, а ученики получали задание через бота в Телеграм. За фактом приходилось переходить в другие приложения по ссылкам от спортсменов, нельзя было получить историю занятий, найти и проверить аналогичные тренировки у учеников.</br>' +
             'Мы искали приложение для оптимизации работы бегового клуба. Рассматривали зарубежный Training Peaks, а остановились в итоге на Staminity, в поддержку российского разработчика :)'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev.jpg',
+            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev-2.jpg',
             author: 'Артем Куфтырев',
             about: 'Основатель Школы бега InstaRun',
             country: '',
-            text: 'До появления Staminity для работы с учениками мы использовали Google-таблицы, где я заполнял план, а спортсмен – факт. При такой системе сильно страдал анализ фактической работы, многие не уделяли этому достаточно внимания, что немного тормозило дальнейшее планирование.</br>' +
-            'Сейчас все эти процессы автоматизированы, ученики не тратят лишнее время, а я могу вовремя реагировать на изменения в самочувствии и фактах выполнения работы. Также очень удачны на мой взгляд графические интерпретации тренировок, это позволяет быстро оценить факт выполнения задач и быстро задать необходимые вопросы, причем все внутри одного приложения.'
+            text: 'До появления Staminity для работы с учениками мы использовали Google-таблицы, где я заполнял план, а спортсмен – факт. При такой системе сильно страдал анализ фактической работы, многие не уделяли этому достаточно внимания. </br>' +
+            'Сейчас все процессы автоматизированы, ученики не тратят лишнее время, а я могу вовремя реагировать на изменения в самочувствии и фактах выполнения работы. Также очень удачны на мой взгляд графические интерпретации тренировок, это позволяет быстро оценить факт и задать необходимые вопросы, причем внутри одного приложения.'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev.jpg',
+            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev-2.jpg',
             author: 'Андрей Сергеев',
             about: 'Тренер по бегу',
             country: '',
@@ -124,14 +124,14 @@ export const landingConfig: LandingConfig = {
             text: 'Previously, we used google spreadsheets for planning and Telegram bots for students to get a plan. We constantly faced with the problems of monitoring and analysis of training process.<br>' +
             'We were looking for an application to optimize work for our running club. We considered several apps, in particular Training Peaks, but chose Staminity :)'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev.jpg',
+            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/artem-kuftyrev-2.jpg',
             author: 'Artem Kuftyrev',
             about: 'Founder, InstaRUN running club',
             country: '',
             text: 'Prior to Staminity for working with students, we used Google sheets, where I filled out the plan, and the athlete - a fact. With such a system, the analysis of actual work suffered greatly, many did not pay enough attention to it, which slowed down the further planning. </br>' +
             'Now all these processes are automated, the students do not spend unnecessary time, and I can respond in time to changes in the state of health and the facts of the work. In my opinion, graphical interpretations of workouts are also very successful, it allows you to quickly assess the fact of accomplishing tasks and quickly ask the necessary questions, all within the same application'
         },{
-            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev.jpg',
+            avatar: 'http://264710.selcdn.ru/assets/images/website/testimonials/andrey-sergeev-2.jpg',
             author: 'Andrey Sergeev',
             about: 'Running coach',
             country: '',
@@ -255,8 +255,11 @@ export const landingConfig: LandingConfig = {
             thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-03-thumb.png',
             button: {
                 state: 'signup',
-                stateParams: null
-            },
+                stateParams: {
+                    activatePremiumTrial: true,
+                    activateCoachTrial: false,
+                    activateClubTrial: false,
+                }            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -303,7 +306,11 @@ export const landingConfig: LandingConfig = {
             thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
             button: {
                 state: 'signup',
-                stateParams: null
+                stateParams: {
+                    activatePremiumTrial: false,
+                    activateCoachTrial: true,
+                    activateClubTrial: false,
+                }
             },
             blocks: [{
                 code: 'block1',
@@ -351,8 +358,11 @@ export const landingConfig: LandingConfig = {
             thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-05-thumb.png',
             button: {
                 state: 'signup',
-                stateParams: null
-            },
+                stateParams: {
+                    activatePremiumTrial: false,
+                    activateCoachTrial: true,
+                    activateClubTrial: false,
+                }            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -398,9 +408,11 @@ export const landingConfig: LandingConfig = {
             picture: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-06.png',
             thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-06-thumb.png',
             button: {
-                state: 'training-plans-store',
+                state: 'signup',
                 stateParams: {
-                    state: 'store'
+                    activatePremiumTrial: false,
+                    activateCoachTrial: true,
+                    activateClubTrial: false,
                 }
             },
             blocks: [{
@@ -449,8 +461,11 @@ export const landingConfig: LandingConfig = {
             thumb: 'http://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
             button: {
                 state: 'signup',
-                stateParams: null
-            },
+                stateParams: {
+                    activatePremiumTrial: false,
+                    activateCoachTrial: false,
+                    activateClubTrial: true,
+                }            },
             blocks: [{
                 code: 'block1',
                 title: '',
@@ -539,8 +554,11 @@ export const landingConfig: LandingConfig = {
         picture: 'http://264710.selcdn.ru/assets/images/website/screens/features-main.png',
         button: {
             state: 'signup',
-            stateParams: null
-        },
+            stateParams: {
+                activatePremiumTrial: true,
+                activateCoachTrial: false,
+                activateClubTrial: false,
+            }        },
         blocks: [
             {
                 code: 'block1',

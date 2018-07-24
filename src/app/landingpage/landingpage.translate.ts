@@ -584,7 +584,7 @@ export let _translate = {
             shortTitle: 'Публикация планов',
             subtitle: 'Создайте и опубликуйте свой тренировочный план, привлекайте новых клиентов и зарабатывайте в Staminity',
             button: {
-                title: 'Магазин планов',
+                title: 'Создать аккаунт',
                 link: ''
             },
             block1: {
@@ -1263,7 +1263,7 @@ export let _translate = {
             shortTitle: 'Plan publication and selling',
             subtitle: 'Create and publish your training plan to get new clients and earn with Staminity',
             button: {
-                title: 'Training plan store',
+                title: 'Create account',
                 link: ''
             },
             block1: {
@@ -1312,7 +1312,7 @@ export let _translate = {
         severalCoaches: {
             title: 'Several coaches joint work',
             shortTitle: 'Several coaches join work',
-            subtitle: 'Gather a team of coaches and work effectively together with the athletes online',
+            subtitle: 'Gather a team of coaches and work effectively together with athletes online',
             button: {
                 title: 'Create new account',
                 link: ''
