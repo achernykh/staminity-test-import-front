@@ -1,6 +1,7 @@
 import './landing-toolbar.component.scss';
 import {IComponentOptions, IComponentController, element, IScope} from 'angular';
 import { LandingConfig } from "../landing.constants";
+import AuthService from "../../auth/auth.service";
 
 class LandingToolbarCtrl implements IComponentController {
 
@@ -12,9 +13,10 @@ class LandingToolbarCtrl implements IComponentController {
     private toolbar: JQuery;
     private scroll: boolean = false;
     // inject
-    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state', '$mdMedia', '$scope'];
+    static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state', '$mdMedia', '$scope', 'AuthService'];
 
-    constructor(private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state, private $mdMedia, private $scope: IScope) {
+    constructor(private $document, private $mdSidenav, private landingConfig: LandingConfig, private $state,
+                private $mdMedia, private $scope: IScope, private authService: AuthService) {
         this.subscribeOnScroll();
     }
 
@@ -42,6 +44,7 @@ export const LandingToolbarComponent:IComponentOptions = {
         data: '<',
         monoLogo: '<',
         solid: '<',
+        signUp: '<',
         onScenario: '&'
     },
     controller: LandingToolbarCtrl,

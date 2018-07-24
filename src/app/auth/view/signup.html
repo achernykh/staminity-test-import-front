@@ -18,6 +18,7 @@
                 <label translate="auth.role.label"></label>
                 <md-select flex name="role" required
                            ng-model="$ctrl.role"
+                           ng-change="$ctrl.changeRole()"
                            ng-disabled="!$ctrl.enabled">
                     <md-option ng-repeat="role in ['athlete', 'coach', 'clubCoach', 'clubManager']"
                                value="{{role}}">{{'auth.role.' + role + '.name' | translate}}

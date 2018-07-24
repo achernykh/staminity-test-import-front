@@ -1,6 +1,10 @@
 <!-- common section -->
 <st-landing-toolbar solid="true"></st-landing-toolbar>
-<div class="landing-tariffs">
+<div ng-if="!$ctrl.currency" class="landing-tariffs" layout="column" layout-align="center center">
+    <md-progress-circular class="md-accent"></md-progress-circular>
+    <p class="md-body-1" translate="landing.tariffs.loading"></p>
+</div>
+<div ng-if="$ctrl.currency" class="landing-tariffs">
     <section class="tabs" layout="row" layout-align="center end">
         <div flex="none" class="tab md-title center"
              ng-repeat="tab in ['month','year','calculator'] track by $index"
@@ -14,36 +18,36 @@
         <md-card class="tariff" flex="auto" ng-repeat="tariff in $ctrl.price track by $index">
             <md-card-title style="background-color: {{::tariff.color}}">
                 <md-card-title-text>
-                    <span class="md-title md-light center">{{::'landing.tariffs.name.' + tariff.name | translate}}</span>
+                    <span class="md-title md-light center">{{'landing.tariffs.name.' + tariff.name | translate}}</span>
                 </md-card-title-text>
             </md-card-title>
             <md-card-content layout="column">
                 <div flex="none" class="subscription" layout="row" layout-align="center center">
-                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.country][$ctrl.selectedTab] | number:0}} {{'rub' | translate}}</p>
+                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.currency][$ctrl.selectedTab] | number:0}} {{$ctrl.currency | translate}}</p>
                     <p flex="none" class="md-body md-dark" translate="landing.tariffs.byMonth"></p>
-                    <div ng-if="tariff.fee.variable[$ctrl.country]">
+                    <div ng-if="tariff.fee.variable[$ctrl.currency]">
                         <span>&nbsp;</span>
-                        <md-icon class="material-icons md-dark md-32" style="{{::$ctrl.getVariableIconSize(tariff.fee.variable[$ctrl.country])}}"
-                                 md-svg-src="{{::$ctrl.getVariableIconPath(tariff.fee.variable[$ctrl.country])}}"></md-icon>
+                        <md-icon class="material-icons md-dark md-32" style="{{$ctrl.getVariableIconSize(tariff.fee.variable[$ctrl.currency])}}"
+                                 md-svg-src="{{$ctrl.getVariableIconPath(tariff.fee.variable[$ctrl.currency])}}"></md-icon>
                     </div>
                 </div>
-                <div flex="none" class="description md-subhead center md-dark">{{::'landing.tariffs.description.' + tariff.description | translate}}</div>
+                <div flex="none" class="description md-subhead center md-dark">{{'landing.tariffs.description.' + tariff.description | translate}}</div>
                 <md-button flex="none" ng-click="$ctrl.$state.go('signup',tariff.signup)">
-                    <span class="md-subhead md-dark">{{::'landing.tariffs.connect' | translate}}</span>
+                    <span class="md-subhead md-dark">{{'landing.tariffs.connect' | translate}}</span>
                 </md-button>
-                <div flex="none" class="connect-text md-dark md-inactive md-caption center">{{::'landing.tariffs.' + tariff.connectText | translate}}</div>
+                <div flex="none" class="connect-text md-dark md-inactive md-caption center">{{'landing.tariffs.' + tariff.connectText | translate}}</div>
                 <md-divider></md-divider>
                 <ul class="function md-body-1 md-dark">
                     <li ng-repeat="function in tariff.functions track by $index"
-                        translate="landing.tariffs.functions.{{::function}}">
+                        translate="landing.tariffs.functions.{{function}}">
                     </li>
                 </ul>
-                <div class="md-subhead md-dark" ng-if="tariff.fee.variable[$ctrl.country]">
+                <div class="md-subhead md-dark" ng-if="tariff.fee.variable[$ctrl.currency]">
                     <md-divider></md-divider><!--
                     <p class="plus md-inactive center">+</p>-->
-                    <div ng-repeat="rule in tariff.fee.variable[$ctrl.country].rules track by $index" layout="row" layout-align="start start">
-                        <md-icon flex="none" class="material-icons md-dark md-16" style="margin: 0px; margin-right: 12px">{{::$ctrl.getVariableType(rule)}}</md-icon>
-                        <div flex="auto" class="md-body-1 md-dark">{{'landing.tariffs.' + rule | translate:tariff.fee.variable[$ctrl.country][rule]}}</p>
+                    <div ng-repeat="rule in tariff.fee.variable[$ctrl.currency].rules track by $index" layout="row" layout-align="start start">
+                        <md-icon flex="none" class="material-icons md-dark md-16" style="margin: 0px; margin-right: 12px">{{$ctrl.getVariableType(rule)}}</md-icon>
+                        <div flex="auto" class="md-body-1 md-dark">{{'landing.tariffs.' + rule | translate:tariff.fee.variable[$ctrl.currency][rule]}}</p>
                         </div>
                     </div>
             </md-card-content>
@@ -83,15 +87,15 @@
         <div flex-gt-sm="50" flex="none" class="totals" layout="column">
             <div class="md-headline md-dark font-black" layout="row" layout-align="space-between center">
                 <h2 class="md-headline md-dark font-black" translate="landing.tariffs.calc.totals"></h2>
-                <span >&nbsp;{{$ctrl.calculate() | number:0}} {{'rub' | translate}}</span>
+                <span >&nbsp;{{$ctrl.calculate() | number:0}} {{$ctrl.currency | translate}}</span>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.subscription"></p>
-                <p>{{$ctrl.calculateSubscription() | number:0}} {{'rub' | translate}}</p>
+                <p>{{$ctrl.calculateSubscription() | number:0}} {{$ctrl.currency | translate}}</p>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.variable"></p>
-                <p>{{$ctrl.calculateVariable() | number:0}} {{'rub' | translate}}</p>
+                <p>{{$ctrl.calculateVariable() | number:0}} {{$ctrl.currency | translate}}</p>
             </div>
         </div>
     </section>
@@ -125,12 +129,12 @@
             </md-card-title>
             <md-card-content layout="column">
                 <div flex="none" class="subscription" layout="row" layout-align="center center">
-                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.country][$ctrl.selectedTab] | number:0}} {{'rub' | translate}}</p>
+                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.currency][$ctrl.selectedTab] | number:0}} {{$ctrl.currency | translate}}</p>
                     <p flex="none" class="md-body md-dark" translate="landing.tariffs.byMonth"></p>
-                    <div ng-if="tariff.fee.variable[$ctrl.country]">
+                    <div ng-if="tariff.fee.variable[$ctrl.currency]">
                         <span>&nbsp;</span>
-                        <md-icon class="material-icons md-dark md-32" style="{{::$ctrl.getVariableIconSize(tariff.fee.variable[$ctrl.country])}}"
-                                 md-svg-src="{{::$ctrl.getVariableIconPath(tariff.fee.variable[$ctrl.country])}}"></md-icon>
+                        <md-icon class="material-icons md-dark md-32" style="{{::$ctrl.getVariableIconSize(tariff.fee.variable[$ctrl.currency])}}"
+                                 md-svg-src="{{::$ctrl.getVariableIconPath(tariff.fee.variable[$ctrl.currency])}}"></md-icon>
                     </div>
                 </div>
                 <div flex="none" class="description md-subhead center md-dark">{{::'landing.tariffs.description.' + tariff.description | translate}}</div>
@@ -144,12 +148,12 @@
                         translate="landing.tariffs.functions.{{::function}}">
                     </li>
                 </ul>
-                <div class="md-subhead md-dark" ng-if="tariff.fee.variable[$ctrl.country]">
+                <div class="md-subhead md-dark" ng-if="tariff.fee.variable[$ctrl.currency]">
                     <md-divider></md-divider><
                     <p class="plus md-inactive center">+</p>
-                    <div ng-repeat="rule in tariff.fee.variable[$ctrl.country].rules track by $index" layout="row" layout-align="start start">
+                    <div ng-repeat="rule in tariff.fee.variable[$ctrl.currency].rules track by $index" layout="row" layout-align="start start">
                         <md-icon flex="none" class="material-icons md-dark md-16" style="margin: 0px; margin-right: 12px">{{::$ctrl.getVariableType(rule)}}</md-icon>
-                        <div flex="auto" class="md-body-1 md-dark">{{'landing.tariffs.' + rule | translate:tariff.fee.variable[$ctrl.country][rule]}}</p>
+                        <div flex="auto" class="md-body-1 md-dark">{{'landing.tariffs.' + rule | translate:tariff.fee.variable[$ctrl.currency][rule]}}</p>
                     </div>
                 </div>
             </md-card-content>
@@ -189,15 +193,15 @@
         <div flex-gt-sm="50" flex="none" class="totals" layout="column">
             <div class="md-headline md-dark font-black" layout="row" layout-align="space-between center">
                 <h2 class="md-headline md-dark font-black" translate="landing.tariffs.calc.totals"></h2>
-                <span >&nbsp;{{$ctrl.calculate() | number:0}} {{'rub' | translate}}</span>
+                <span >&nbsp;{{$ctrl.calculate() | number:0}} {{$ctrl.currency | translate}}</span>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.subscription"></p>
-                <p>{{$ctrl.calculateSubscription() | number:0}} {{'rub' | translate}}</p>
+                <p>{{$ctrl.calculateSubscription() | number:0}} {{$ctrl.currency | translate}}</p>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.variable"></p>
-                <p>{{$ctrl.calculateVariable() | number:0}} {{'rub' | translate}}</p>
+                <p>{{$ctrl.calculateVariable() | number:0}} {{$ctrl.currency | translate}}</p>
             </div>
         </div>
     </section>

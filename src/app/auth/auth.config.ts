@@ -17,6 +17,9 @@
                 activateCoachTrial: null,
                 activateClubTrial: null,
             },
+            resolve: {
+                signUpButton: () => true,
+            },
             views: {
                 "application": { component: "auth" },
                 "form@signin": { template: require("./view/signin.html") },
@@ -39,99 +42,73 @@
         // Представление Auth: SignOut
         .state("signout", {
             url: "/signout",
-            loginRequired: true,
-            //authRequired: ['func1'],
-            /* waite for https://github.com/angular-ui/ui-router/issues/3260
-            onEnter: ['$state','SessionService', ($state:StateService, SessionService: SessionService) => {
-                SessionService.delToken();
-                $state.go('signin');
-            }]*/
-            views: {
-                "application": {
-                    component: "auth",
-                    bindings: "view.application",
-                },
+            loginRequired: false,
+            params: {
+                activatePremiumTrial: null,
+                activateCoachTrial: null,
+                activateClubTrial: null,
             },
+            views: {
+                "application": { component: "auth" },
+            }
 
         } as StateDeclaration)
         // Представление Auth: Confirm
         .state("confirm", {
             url: "/confirm",
             loginRequired: false,
-            //authRequired: ['func1']
-            views: {
-                "application": {
-                    component: "auth",
-                    bindings: "view.application",
-                },
-                "form@signin": {
-                    template: require("./view/signin.html"),
-                },
+            params: {
+                activatePremiumTrial: null,
+                activateCoachTrial: null,
+                activateClubTrial: null,
             },
-
+            views: {
+                "application": { component: "auth" },
+                "form@signin": { template: require("./view/signin.html") },
+            }
         } as StateDeclaration)
         // Представление Auth: Confirm
         .state("invite", {
             url: "/invite",
             loginRequired: false,
-            views: {
-                "header": {
-                    component: "staminityHeader",
-                    bindings: {
-                        view: "view.header",
-                    },
-                },
-                "application": {
-                    component: "auth",
-                    bindings: "view.application",
-                },
-                "form@invite": {
-                    template: require("./view/invite.html"),
-                },
+            params: {
+                activatePremiumTrial: null,
+                activateCoachTrial: null,
+                activateClubTrial: null,
             },
-
+            views: {
+                "application": { component: "auth" },
+                "form@invite": { template: require("./view/invite.html") },
+            }
         } as StateDeclaration)
         // Представление Auth: SetPassword
         .state("setpass", {
             url: "/setpass",
             loginRequired: false,
-            views: {
-                "application": {
-                    component: "auth",
-                    bindings: "view.application",
-                },
-                "form@setpass": {
-                    template: require("./view/setpass.html"),
-                },
+            params: {
+                activatePremiumTrial: null,
+                activateCoachTrial: null,
+                activateClubTrial: null,
             },
-
+            views: {
+                "application": { component: "auth" },
+                "form@setpass": { template: require("./view/setpass.html") },
+            }
         } as StateDeclaration)
         // Представление Auth: Confirm
         .state("reset", {
             url: "/reset",
             loginRequired: false,
-            resolve: {
-                view: () => new DisplayView("reset"),
-            },
             params: {
                 email: null,
+                activatePremiumTrial: null,
+                activateCoachTrial: null,
+                activateClubTrial: null,
             },
             views: {
-                "application": {
-                    component: "auth",
-                    bindings: "view.application",
-                },
-                "header": {
-                    component: "staminityHeader",
-                    bindings: {
-                        view: "view.header",
-                    },
-                },
-                "form@reset": {
-                    template: require("./view/reset.html"),
-                },
-            },
-
+                "application": { component: "auth" },
+                "form@reset": { template: require("./view/reset.html") },
+            }
         } as StateDeclaration);
 
     // Текст представлений

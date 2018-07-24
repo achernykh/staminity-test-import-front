@@ -126,15 +126,22 @@
                 </md-menu-item>-->
                 <md-menu-item>
                     <md-button ng-click="$ctrl.dashboard.onDelete($ctrl.day.data.calendarItems)">
-                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>Удалить</md-button></md-menu-item>
+                        <md-icon class="material-icons" md-menu-align-target>delete</md-icon>
+                        <span translate="calendar.action.delete"></span>
+                    </md-button>
+                </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="$ctrl.selected ? angular.noop() : $ctrl.onSelect(); $ctrl.dashboard.onCopy()">
                     <md-icon class="material-icons" md-menu-align-target>content_copy</md-icon>
-                    Скопировать</md-button></md-menu-item>
+                        <span translate="calendar.action.copy"></span>
+                    </md-button>
+                </md-menu-item>
                 <md-menu-item ng-if="$ctrl.dashboard.buffer.length > 0">
                     <md-button ng-click="$ctrl.dashboard.onPaste($ctrl.day.date, $ctrl.owner)">
                         <md-icon class="material-icons" md-menu-align-target>content_paste</md-icon>
-                        Вставить ({{$ctrl.dashboard.buffer.length}})</md-button>
+                        <span translate="calendar.action.paste"></span>
+                        <span ng-if="$ctrl.copiedItemsLength > 0">&nbsp;({{$ctrl.copiedItemsLength}})</span>
+                    </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>

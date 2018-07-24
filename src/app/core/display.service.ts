@@ -3,6 +3,8 @@ import { path } from "../share/utility/path";
 import { getUser, ISession, SessionService } from "./index";
 import UserService from "./user.service";
 import {IHttpService} from "angular";
+import { landingTariffsConfig } from "../landingpage/landing-tariffs/landing-tariffs.constants";
+import { BehaviorSubject, Observable } from "rxjs/Rx";
 
 export interface GeoInfo {
     city: string;
@@ -21,11 +23,16 @@ const getLocale = (session: ISession): string => path([getUser, "display", "lang
 const getUnits = (session: ISession): string => path([getUser, "display", "units"])(session) || "metric";
 const getTimezone = (session: ISession): string => path([getUser, "display", "timezone"])(session) || "+00:00";
 const getFirstDayOfWeek = (session: ISession): number => path([getUser, "display", "firstDayOfWeek"])(session) || 0;
+const getCurrencyCode = (country: string): string =>
+    Object.keys(landingTariffsConfig.currency).filter(curr => landingTariffsConfig.currency[curr].some(c => c === country.toUpperCase()))[0] ||
+    landingTariffsConfig.defaultCurrency;
 
 export default class DisplayService {
 
     locales = { ru: "Русский", en: "English",};
     ipData: GeoInfo;
+    lng: BehaviorSubject<string>;
+
 
     static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale", '$http'];
 
@@ -36,10 +43,16 @@ export default class DisplayService {
                  private $mdDateLocale: any,
                  private $http: IHttpService) {
 
+        this.lng = new BehaviorSubject<string>(this.getLocale());
+
         sessionService.getObservable()
             .map(getDisplay)
             .distinctUntilChanged()
             .subscribe(this.handleChanges);
+
+        if (!this.sessionService.getUser().display) {
+            this.getIpInfo().then(r => r && (this.ipData = r));
+        }
 
         // https://www.w3.org/TR/2016/CR-orientation-event-20160818/
         /**window.addEventListener("deviceorientation", (e: DeviceOrientationEvent) => {
@@ -54,9 +67,20 @@ export default class DisplayService {
         }, true);**/
     }
 
+    getLngObservable (): Observable<string> {
+        return this.lng.asObservable();
+    }
+
     getIpInfo (): Promise<GeoInfo> {
-        return this.$http.get('https://geoip.nekudo.com/api')
-            .then(result => result.data || {});
+        return this.ipData ?
+            Promise.resolve(this.ipData) :
+            this.$http.get('https://geoip.nekudo.com/api').then(result => result.data || {});
+    }
+
+    getCurrency (): Promise<string> {
+        return this.sessionService.getToken() ?
+            Promise.resolve(getCurrencyCode(this.sessionService.get().userProfile.personal.country)) :
+            this.getIpInfo().then(r => getCurrencyCode(r.country.code));
     }
 
     getLocale (): string {
@@ -67,6 +91,7 @@ export default class DisplayService {
 
     setLocale(locale: string): Promise<any> {
         const displayChanges = { language: locale };
+        this.lng.next(locale);
         return this.sessionService.getToken() ?
             this.saveDisplaySettings(displayChanges as any) :
             Promise.resolve(this.$translate.use(locale));
@@ -118,6 +143,7 @@ export default class DisplayService {
         const locale = this.getLocale();
         const firstDayOfWeek = this.getFirstDayOfWeek();
 
+        this.lng.next(locale);
         this.$translate.use(locale);
         this.tmhDynamicLocale.set(locale);
 

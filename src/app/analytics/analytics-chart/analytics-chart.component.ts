@@ -206,7 +206,7 @@ class AnalyticsChartCtrl implements IComponentController {
         this.statistics.getMetrics(request).then((result) => {
             this.errorStack = [];
             if (result && result.hasOwnProperty("charts") && !result["charts"].some((c) => c.hasOwnProperty("errorMessage"))) {
-                result["charts"].map((r, i) => this.chart.prepareMetrics(i, r.metrics));
+                result["charts"].map((r, i) => this.chart.charts[i].metrics = r.metrics);
                 this.updateCount++;
                 this.$scope.$apply();
 

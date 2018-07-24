@@ -1,4 +1,4 @@
-import { IComponentController, IComponentOptions, IHttpPromiseCallbackArg, ILocationService} from "angular";
+import { IComponentController, IComponentOptions, IHttpPromiseCallbackArg, ILocationService, IScope} from "angular";
 import {StateService} from "@uirouter/angularjs";
 import {IUserProfile, IUserProfilePersonal} from "../../../api/user/user.interface";
 import {SessionService} from "../core";
@@ -11,6 +11,7 @@ import DisplayService, {GeoInfo} from "@app/core/display.service";
 import {IUserProfilePublic, IUserProfileDisplay} from "@api/user";
 import {UserSettingsService} from "@app/user/settings/user-settings.service";
 import {countriesList} from "../user/settings/user-settings.constants";
+import { getUser } from "../core/session/session.service";
 
 interface UserCredentials {
     public: IUserProfilePublic;
@@ -38,10 +39,11 @@ class AuthCtrl implements IComponentController {
     private countriesList = countriesList;
     private countrySearchText: string;
 
-    static $inject = ["AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth",
+    static $inject = ["$scope", "AuthService", "SessionService", "$state", "$stateParams", "$location", "message", "$auth",
         'DisplayService', 'UserSettingsService'];
 
     constructor(
+        private $scope: IScope,
         private AuthService: AuthService,
         private SessionService: SessionService,
         private $state: StateService,
@@ -97,6 +99,12 @@ class AuthCtrl implements IComponentController {
                 this.$state.go("signup");
             }
         }
+
+        this.displayService.getLngObservable()
+            .subscribe(lng => {
+                this.credentials.display.language = lng;
+                this.$scope.$applyAsync();
+            });
     }
 
     prepareCredentials () {
@@ -132,6 +140,35 @@ class AuthCtrl implements IComponentController {
             this.role = 'coach';
         } else {
             this.role = 'athlete';
+        }
+    }
+
+    changeRole (): void {
+        switch (this.role) {
+            case 'athlete': {
+                this.credentials.activatePremiumTrial = true;
+                this.credentials.activateClubTrial = false;
+                this.credentials.activateCoachTrial = false;
+                break;
+            }
+            case 'coach': {
+                this.credentials.activatePremiumTrial = false;
+                this.credentials.activateCoachTrial = true;
+                this.credentials.activateClubTrial = false;
+                break;
+            }
+            case 'clubCoach': {
+                this.credentials.activatePremiumTrial = true;
+                this.credentials.activateCoachTrial = false;
+                this.credentials.activateClubTrial = false;
+                break;
+            }
+            case 'clubManager': {
+                this.credentials.activatePremiumTrial = true;
+                this.credentials.activateCoachTrial = false;
+                this.credentials.activateClubTrial = true;
+                break;
+            }
         }
     }
 
@@ -273,6 +310,7 @@ class AuthCtrl implements IComponentController {
 const AuthComponent: IComponentOptions = {
     bindings: {
         view: "<",
+        signUpButton: '<',
     },
     controller: AuthCtrl,
     template: require("./auth.component.html") as string,

@@ -51,6 +51,7 @@ export interface IAnalyticsChart {
     paramsDescription?: string;
     layout: AnalyticsChartLayout;
     charts: IChart[];
+
 }
 
 export class AnalyticsChart implements IAnalyticsChart {
