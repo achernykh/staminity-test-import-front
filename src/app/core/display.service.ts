@@ -85,7 +85,7 @@ export default class DisplayService {
     }
 
     getCurrency (): Promise<string> {
-        return this.sessionService.getToken() ?
+        return this.sessionService.getToken() && this.sessionService.get().userProfile.personal.country ?
             Promise.resolve(getCurrencyCode(this.sessionService.get().userProfile.personal.country)) :
             this.getIpInfo().then(r => getCurrencyCode(r.country_code2));
     }

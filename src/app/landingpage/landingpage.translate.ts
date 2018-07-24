@@ -274,15 +274,15 @@ export let _translate = {
             byMonth: "/мес",
             byYear: "/год",
 
-            coachAthletes: "{{athlete | number:0}} {{currency | translate}}/мес за ученика. \n" +
+            coachAthletes: "{{athlete | number:number}} {{currency | translate}}/мес за ученика. \n" +
             "{{minAthletes}} ученик включен в абонентскую плату. \n" +
             "Оплачивается не более {{maxAthletes}} учеников, с {{maxAthletes + 1}} - бесплатно",
 
-            clubAthletes: "{{athlete | number:0}} {{currency | translate}}/мес за ученика клуба.  \n" +
+            clubAthletes: "{{athlete | number:number}} {{currency | translate}}/мес за ученика клуба.  \n" +
             "{{minAthletes}} ученик для каждого тренера клуба не оплачивается. \n" +
             "Оплачивается не более {{maxAthletes}} учеников на каждого тренера.",
 
-            clubCoaches: "{{coach | number:0}} {{currency | translate}}/мес за тренера клуба.  \n" +
+            clubCoaches: "{{coach | number:number}} {{currency | translate}}/мес за тренера клуба.  \n" +
             "{{minCoaches}} тренер включен в абонентскую плату. \n",
 
             calc: {
@@ -955,15 +955,15 @@ export let _translate = {
             byMonth: "/ month",
             byYear: "/year",
 
-            coachAthletes: "{{athlete | number:0}} {{currency | translate}}/month per athlete. \n" +
+            coachAthletes: "{{athlete | number:number}} {{currency | translate}}/month per athlete. \n" +
             "{{minAthletes}} athletes included in subscription fee. \n" +
             "Pay maximum for {{maxAthletes}} athletes, {{maxAthletes + 1}}-th and above are free",
 
-            clubAthletes: "{{athlete | number:0}} {{currency | translate}}/month per club athlete.  \n" +
+            clubAthletes: "{{athlete | number:number}} {{currency | translate}}/month per club athlete.  \n" +
             "{{minAthletes}} free athlete for every club coach included. \n" +
             "Pay maximum for {{maxAthletes}} athletes for every club coach",
 
-            clubCoaches: "{{coach | number:0}} {{currency | translate}}/month per club coach.  \n" +
+            clubCoaches: "{{coach | number:number}} {{currency | translate}}/month per club coach.  \n" +
             "{{minCoaches}} club coach included in subscription fee. \n",
 
             calc: {

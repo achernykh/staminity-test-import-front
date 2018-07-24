@@ -76,7 +76,25 @@ export const _MEASURE_TRANSLATE = {
         orthostaticPulse: 'Ортостатическая проба',
         sleepQuality: "Качество сна",
         sleepHours: "Часов сна",
-        overallFeeling: "Общее состояние"
+        overallFeeling: "Общее состояние",
+
+        // пики по времени
+        '02sec': '2 cек',
+        '05sec': '5 сек',
+        '10sec': '10 сек',
+        '12sec': '12 сек',
+        '20sec': '20 сек',
+        '30sec': '30 сек',
+        '01min': '1 мин',
+        '05min': '5 мин',
+        '06min': '6 мин',
+        '10min': '10 мин',
+        '12min': '12 мин',
+        '20min': '20 мин',
+        '30min': '30 мин',
+        '60min': '60 мин',
+        '90min': '90 мин'
+
 
     },
     en: {
@@ -158,6 +176,23 @@ export const _MEASURE_TRANSLATE = {
         sleepQuality: "Sleep quality",
         sleepHours: "Sleep hours",
         overallFeeling: "Overall feeling",
+
+        // пики по времени
+        '02sec': '2 sec',
+        '05sec': '5 sec',
+        '10sec': '10 sec',
+        '12sec': '12 sec',
+        '20sec': '20 sec',
+        '30sec': '30 sec',
+        '01min': '1 min',
+        '05min': '5 min',
+        '06min': '6 min',
+        '10min': '10 min',
+        '12min': '12 min',
+        '20min': '20 min',
+        '30min': '30 min',
+        '60min': '60 min',
+        '90min': '90 min'
 
     },
 };

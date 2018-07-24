@@ -105,7 +105,7 @@ class UniversalChartCtrl implements IComponentController {
                         } else if ( ["speedDecoupling", "powerDecoupling"].indexOf(params.measureName) !== -1 ) {
                             metric.push(value * 100);
                         } else if ( params.measureSource === "peaksByTime" ) {
-                            metric.push(peaksByTime(value));
+                            metric.push(this.$translate.instant(peaksByTime(value)));
                         } else {
                             metric.push(value);
                         }

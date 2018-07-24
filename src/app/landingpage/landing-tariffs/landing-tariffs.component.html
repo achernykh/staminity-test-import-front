@@ -23,7 +23,10 @@
             </md-card-title>
             <md-card-content layout="column">
                 <div flex="none" class="subscription" layout="row" layout-align="center center">
-                    <p flex="none" class="md-headline md-dark font-black">{{tariff.fee.subscription[$ctrl.currency][$ctrl.selectedTab] | number:0}} {{$ctrl.currency | translate}}</p>
+                    <p flex="none" class="md-headline md-dark font-black">
+                        <span>{{tariff.fee.subscription[$ctrl.currency][$ctrl.selectedTab] | number:$ctrl.currencyNumber}}</span>
+                        <span>{{$ctrl.currency | translate}}</span>
+                    </p>
                     <p flex="none" class="md-body md-dark" translate="landing.tariffs.byMonth"></p>
                     <div ng-if="tariff.fee.variable[$ctrl.currency]">
                         <span>&nbsp;</span>
@@ -87,15 +90,15 @@
         <div flex-gt-sm="50" flex="none" class="totals" layout="column">
             <div class="md-headline md-dark font-black" layout="row" layout-align="space-between center">
                 <h2 class="md-headline md-dark font-black" translate="landing.tariffs.calc.totals"></h2>
-                <span >&nbsp;{{$ctrl.calculate() | number:0}} {{$ctrl.currency | translate}}</span>
+                <span >&nbsp;{{$ctrl.calculate() | number:$ctrl.currencyNumber}} {{$ctrl.currency | translate}}</span>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.subscription"></p>
-                <p>{{$ctrl.calculateSubscription() | number:0}} {{$ctrl.currency | translate}}</p>
+                <p>{{$ctrl.calculateSubscription() | number:$ctrl.currencyNumber}} {{$ctrl.currency | translate}}</p>
             </div>
             <div class="md-subhead md-dark" layout="row" layout-align="space-between center">
                 <p translate="landing.tariffs.calc.variable"></p>
-                <p>{{$ctrl.calculateVariable() | number:0}} {{$ctrl.currency | translate}}</p>
+                <p>{{$ctrl.calculateVariable() | number:$ctrl.currencyNumber}} {{$ctrl.currency | translate}}</p>
             </div>
         </div>
     </section>

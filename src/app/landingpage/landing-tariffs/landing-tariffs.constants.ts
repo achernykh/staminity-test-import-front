@@ -7,6 +7,7 @@ interface TariffCurrencyByCountry {
 export interface LandingTariffsSettings {
     currency: TariffCurrencyByCountry;
     defaultCurrency: string; // если код страны не содержится ни в одном справочнике выше
+    currencyNumber: any;
 }
 
 export const landingTariffsConfig: LandingTariffsSettings = {
@@ -58,7 +59,12 @@ export const landingTariffsConfig: LandingTariffsSettings = {
             "YT",  //Майотта
         ],
     },
-    defaultCurrency: 'USD'
+    defaultCurrency: 'USD',
+    currencyNumber: {
+        RUB: 2,
+        EUR: 2,
+        USD: 2,
+    }
 };
 
 export const landingTariffsData = [
@@ -160,6 +166,7 @@ export const landingTariffsData = [
                         athlete: 210,
                         premium: 210,
                         currency: 'RUB',
+                        number: 0,
                     },
                 },
                 USD: {
@@ -170,6 +177,7 @@ export const landingTariffsData = [
                         athlete: 3.9,
                         premium: 3.9,
                         currency: 'USD',
+                        number: 2,
                     },
                 },
                 EUR: {
@@ -180,6 +188,7 @@ export const landingTariffsData = [
                         athlete: 3.45,
                         premium: 3.45,
                         currency: 'EUR',
+                        number: 2,
                     },
                 },
             },
@@ -223,11 +232,13 @@ export const landingTariffsData = [
                         athlete: 210,
                         premium: 210,
                         currency: 'RUB',
+                        number: 0,
                     },
                     clubCoaches: {
                         minCoaches: 1,
                         coach: 300,
                         currency: 'RUB',
+                        number: 0,
                     },
                 },
                 USD: {
@@ -238,11 +249,13 @@ export const landingTariffsData = [
                         athlete: 3.9,
                         premium: 3.9,
                         currency: 'USD',
+                        number: 2,
                     },
                     clubCoaches: {
                         minCoaches: 1,
                         coach: 6,
                         currency: 'USD',
+                        number: 2,
                     },
                 },
                 EUR: {
@@ -253,11 +266,13 @@ export const landingTariffsData = [
                         athlete: 3.9,
                         premium: 3.9,
                         currency: 'EUR',
+                        number: 2,
                     },
                     clubCoaches: {
                         minCoaches: 1,
                         coach: 5,
                         currency: 'EUR',
+                        number: 2,
                     },
                 },
             },

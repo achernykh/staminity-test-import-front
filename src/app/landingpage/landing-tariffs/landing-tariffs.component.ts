@@ -2,7 +2,7 @@ import {IComponentController, IComponentOptions, ILocationService, IPromise, ISc
 import {StateService} from "@uirouter/angularjs";
 import moment from "moment/min/moment-with-locales.js";
 import "./landing-tariffs.component.scss";
-import { landingTariffsData, landingTariffsConfig } from "./landing-tariffs.constants";
+import { landingTariffsData, landingTariffsConfig, LandingTariffsSettings } from "./landing-tariffs.constants";
 import { SessionService, getUser } from "../../core/session/session.service";
 import { saveUtmParams } from "../../share/location/utm.functions";
 import DisplayService from "../../core/display.service";
@@ -34,15 +34,17 @@ class LandingTariffsCtrl implements IComponentController {
     private athleteByCoach: number;
 
     private currency: string; // = landingTariffsConfig.defaultCurrency;
+    private currencyNumber: number;
 
-    static $inject = ["$scope", "$location", "$state", 'SessionService', 'DisplayService'];
+    static $inject = ["$scope", "$location", "$state", 'SessionService', 'DisplayService', 'tariffConfig'];
 
     constructor(
         private $scope: IScope,
         private $location: ILocationService,
         private $state: StateService,
         private session: SessionService,
-        private displayService: DisplayService) {
+        private displayService: DisplayService,
+        private tariffConfig: LandingTariffsSettings) {
 
         saveUtmParams($location.search());
     }
@@ -56,7 +58,8 @@ class LandingTariffsCtrl implements IComponentController {
         this.displayService.getLngObservable().subscribe(lng => {
             this.displayService.getCurrency()
                 .then(currency => {
-                    this.currency = currency;
+                    this.currency = 'RUB'; // currency;
+                    this.currencyNumber = this.tariffConfig.currencyNumber[this.currency];
                     this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[currency].month;
                     this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[currency].coachAthletes.premium;
                     this.coachByUser = this.price.filter((t) => t.name === "coach")[0].fee.subscription[currency].month;

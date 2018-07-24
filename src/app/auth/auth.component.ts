@@ -158,13 +158,13 @@ class AuthCtrl implements IComponentController {
                 break;
             }
             case 'clubCoach': {
-                this.credentials.activatePremiumTrial = true;
+                this.credentials.activatePremiumTrial = false;
                 this.credentials.activateCoachTrial = false;
                 this.credentials.activateClubTrial = false;
                 break;
             }
             case 'clubManager': {
-                this.credentials.activatePremiumTrial = true;
+                this.credentials.activatePremiumTrial = false;
                 this.credentials.activateCoachTrial = false;
                 this.credentials.activateClubTrial = true;
                 break;
