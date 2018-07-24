@@ -13,10 +13,10 @@ class LandingSidenavCtrl implements IComponentController {
     // private
 
     // inject
-    static $inject = ['$mdSidenav', 'landingConfig', '$state', 'DisplayService', 'AuthService'];
+    static $inject = ['$mdSidenav', 'landingConfig', '$state', 'DisplayService', 'AuthService', '$mdMedia'];
 
     constructor(private $mdSidenav, private landingConfig: LandingConfig, private $state,
-                private display: DisplayService, private auth: AuthService) {
+                private display: DisplayService, private auth: AuthService, private $mdMedia) {
 
     }
 

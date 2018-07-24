@@ -33,7 +33,7 @@
         </md-list>
         <md-list flex="none" flex-gt-sm="50" class="menu-scenario">
             <md-list-item class="subitem" ng-repeat="scenario in $ctrl.landingConfig.scenario"
-                          ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams)">
+                          ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams, {reload: true})">
                 <md-icon class="material-icon md-dark" ng-if="false"
                          md-svg-src="/assets/icon/{{::scenario.icon}}.svg"></md-icon>
                 <p class="md-body-2" translate="landing.{{scenario.code}}.shortTitle"></p>
@@ -41,7 +41,7 @@
         </md-list>
         <md-list flex="none" flex-gt-sm="50" class="menu-functions">
             <md-list-item ng-repeat="item in $ctrl.landingConfig.sidenav"
-                          ng-click="$ctrl.$state.go(item.state, item.stateParams)">
+                          ng-click="$ctrl.$state.go(item.state, item.stateParams, {reload: true})">
                 <md-icon class="material-icon md-dark" ng-if="false"
                          md-svg-src="/assets/icon/{{::item.icon}}.svg"></md-icon>
                 <p class="md-body-2" translate>{{::item.title}}</p>
@@ -52,7 +52,12 @@
         <md-button ng-if="!$ctrl.auth.isAuthenticated()" class="md-raised accent" ng-click="$ctrl.$state.go('signup')">
             <span translate="landing.main.button.title"></span>
         </md-button>
-        <md-button class="" ng-click="$ctrl.$state.go('signin')">
+        <md-button ng-if="!$ctrl.auth.isAuthenticated()" class=""
+                   ng-click="$ctrl.$state.go('signin')">
+            <span translate="landing.nav.signIn"></span>
+        </md-button>
+        <md-button ng-if="$ctrl.auth.isAuthenticated()" class=""
+                   ng-click="$ctrl.$state.go($ctrl.$mdMedia('gt-sm') ? 'initialisation' : 'calendar')">
             <span translate="landing.nav.signIn"></span>
         </md-button>
         <md-button ng-if="$ctrl.auth.isAuthenticated()" ng-click="$ctrl.$state.go('signout')">

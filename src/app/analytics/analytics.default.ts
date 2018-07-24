@@ -123,11 +123,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "palette": paletteAll500,
             },
             series : [{
-                "label" : "Период",
+                "label" : "period",
                 "unit" : "",
                 "xAxis" : true,
                 "tooltipType" : "label",
-                "tooltipLabel" : "Период",
+                "tooltipLabel" : "period",
                 "legend": false,
                 "currentPositionLine": false,
                 "idx" : 0,
@@ -159,8 +159,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                     "groupByIntervalLength" : 1} ],
 
             measures : [{
-                "label" : "Расстояние",
-                "unit" : "км",
+                "label" : "distance",
+                "unit" : "km",
                 "chartType" : "bar",
                 "stacked" : false,
                 "cumulative": false,
@@ -299,11 +299,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "palette": paletteAll500,
             },
             series : [{
-                "label" : "Период",
+                "label" : "period",
                 "unit" : "",
                 "xAxis" : true,
                 "tooltipType" : "label",
-                "tooltipLabel" : "Период",
+                "tooltipLabel" : "period",
                 "legend": false,
                 "currentPositionLine": false,
                 "idx" : 0,
@@ -335,8 +335,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                     "groupByIntervalLength" : 1} ],
 
             measures : [{
-                "label" : "Время",
-                "unit" : "ч",
+                "label" : "duration",
+                "unit" : "h",
                 "chartType" : "bar",
                 "stacked" : false,
                 "cumulative": false,
@@ -461,11 +461,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "colorPalette": false,
             },
             series : [{
-                label : "Период",
+                label : "period",
                 unit : "",
                 xAxis : true,
                 tooltipType : "label",
-                tooltipLabel : "Период",
+                tooltipLabel : "period",
                 legend: false,
                 currentPositionLine: true,
                 idx: 0,
@@ -478,8 +478,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 groupByIntervalLength: 1,
             }],
             measures : [{
-                label: "Время",
-                unit: "ч",
+                label: "duration",
+                unit: "h",
                 chartType: "bar",
                 stacked: false,
                 cumulative: false,
@@ -687,11 +687,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "colorPalette": false,
             },
             series : [{
-                label: "Период",
+                label: "period",
                 unit: "",
                 xAxis: true,
                 tooltipType: "label",
-                tooltipLabel: "Период",
+                tooltipLabel: "period",
                 legend: false,
                 currentPositionLine: true,
                 idx: 0,
@@ -704,8 +704,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 groupByIntervalLength: 1,
             }],
             measures : [{
-                label: "Расстояние",
-                unit: "км",
+                label: "distance",
+                unit: "km",
                 chartType: "area",
                 smoothSettings: "curveCardinal",
                 stacked: false,
@@ -910,13 +910,13 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                  change: {
                     duration: {
                         measureName: "duration",
-                        unit: "ч",
-                        label: "Время",
+                        unit: "h",
+                        label: "duration",
                     },
                     distance: {
                         measureName: "distance",
-                        unit: "км",
-                        label: "Расстояние",
+                        unit: "km",
+                        label: "distance",
                     },
                  },
             },
@@ -967,23 +967,23 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 area: "measures",
                 name: "unit",
                 text: "paceSpeedUnit",
-                model: "мин/км",
-                options: ["мин/км", "км/ч", "мин/100м"],
+                model: "minpkm",
+                options: ["minpkm", "kmph", "minp100m"],
                 change: {
-                    "мин/км": {
-                        unit: "мин/км",
+                    "minpkm": {
+                        unit: "minpkm",
                         dataType: "time",
                         dateFormat: "mm:ss",
                         reverse: true,
                     },
-                    "км/ч": {
-                        unit: "км/ч",
+                    "kmph": {
+                        unit: "kmph",
                         dataType: "number",
                         dateFormat: "",
                         reverse: false,
                     },
-                    "мин/100м": {
-                        unit: "мин/100м",
+                    "minp100m": {
+                        unit: "minp100m",
                         dataType: "time",
                         dateFormat: "mm:ss",
                         reverse: true,
@@ -1014,11 +1014,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series: [{
-                "label": "Период",
+                "label": "period",
                 "unit": "",
                 "xAxis": true,
                 "tooltipType": "label",
-                "tooltipLabel": "Период",
+                "tooltipLabel": "period",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx": 0,
@@ -1032,8 +1032,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             }],
             measures: [
                 {
-                    "label": "Время",
-                    "unit": "ч",
+                    "label": "duration",
+                    "unit": "h",
                     chartType: "area",
                     //"stacked": false,
                     "cumulative": false,
@@ -1070,8 +1070,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
                 {
                     "id": "heartRate",
-                    "label": "Пульс",
-                    "unit": "уд/м",
+                    "label": "heartRate",
+                    "unit": "bpm",
                     "chartType": "area",
                     "stacked": null,
                     "smoothSettings": "curveCatmullRom",
@@ -1104,8 +1104,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
                 {
                     "id": "pace",
-                    "label": "Скорость/темп",
-                    "unit": "мин/км",
+                    "label": "speed",
+                    "unit": "minpkm",
                     chartType: "area",
                     "stacked": null,
                     "cumulative": false,
@@ -1144,7 +1144,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
                 {
                     "id": "speedDecoupling",
-                    "label": "Темп:ЧСС",
+                    "label": "speedDecoupling",
                     "unit": "%",
                     "chartType": "line",
                     "stacked": null,
@@ -1308,11 +1308,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series: [{
-                "label": "Период",
+                "label": "period",
                 "unit": "",
                 "xAxis": true,
                 "tooltipType": "label",
-                "tooltipLabel": "Период",
+                "tooltipLabel": "period",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx": 0,
@@ -1465,11 +1465,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             },
             series : [
                 {
-                    "label" : "Период",
+                    "label" : "period",
                     "unit" : "",
                     "xAxis" : true,
                     "tooltipType" : "label",
-                    "tooltipLabel" : "Период",
+                    "tooltipLabel" : "period",
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 0,
@@ -1502,13 +1502,13 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 }],
             measures : [{
                 "label" : "Время в зонах",
-                "unit" : "ч",
+                "unit" : "h",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
                 "smoothSettings" : "null",
                 "tooltipType" : "label",
-                "tooltipLabel": "Время",
+                "tooltipLabel": "duration",
                 "minValue" : 0,
                 "legend": false,
                 "colorPalette": true,
@@ -1600,11 +1600,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             },
             series : [
                 {
-                    "label" : "Период",
+                    "label" : "period",
                     "unit" : "",
                     "xAxis" : true,
                     "tooltipType" : "label",
-                    "tooltipLabel" : "Период",
+                    "tooltipLabel" : "period",
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 0,
@@ -1637,13 +1637,13 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 }],
             measures : [{
                 "label" : "Время в зонах",
-                "unit" : "ч",
+                "unit" : "h",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
                 "smoothSettings" : "null",
                 "tooltipType" : "label",
-                "tooltipLabel": "Время",
+                "tooltipLabel": "duration",
                 "minValue" : 0,
                 "colorPalette": true,
                 "legend": false,
@@ -1735,11 +1735,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             },
             series : [
                 {
-                    "label" : "Период",
+                    "label" : "period",
                     "unit" : "",
                     "xAxis" : true,
                     "tooltipType" : "label",
-                    "tooltipLabel" : "Период",
+                    "tooltipLabel" : "period",
                     "legend": false,
                     "currentPositionLine": true,
                     "idx" : 0,
@@ -1778,7 +1778,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "cumulative": false,
                 "smoothSettings" : "null",
                 "tooltipType" : "label",
-                "tooltipLabel": "Время",
+                "tooltipLabel": "duration",
                 "minValue" : 0,
                 "legend": false,
                 "visible" : true,
@@ -1836,11 +1836,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series : [{
-                "label" : "Пики",
+                "label" : "peaks",
                 "unit" : "",
                 "xAxis" : true,
                 "tooltipType" : "label",
-                "tooltipLabel" : "Пик",
+                "tooltipLabel" : "peak",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx" : 0,
@@ -1854,8 +1854,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             }],
             measures : [{
                 "id": "0",
-                "label" : "Пульс",
-                "unit" : "уд/м",
+                "label" : "heartRate",
+                "unit" : "bpm",
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
@@ -1904,23 +1904,23 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 area: "measures",
                 name: "unit",
                 text: "paceSpeedUnit",
-                model: "мин/км",
-                options: ["мин/км", "км/ч", "мин/100м"],
+                model: "minpkm",
+                options: ["minpkm", "kmph", "minp100m"],
                 change: {
-                    "мин/км": {
-                        unit: "мин/км",
+                    "minpkm": {
+                        unit: "minpkm",
                         dataType: "time",
                         dateFormat: "mm:ss",
                         reverse: true,
                     },
-                    "км/ч": {
-                        unit: "км/ч",
+                    "kmph": {
+                        unit: "kmph",
                         dataType: "number",
                         dateFormat: "",
                         reverse: false,
                     },
-                    "мин/100м": {
-                        unit: "мин/100м",
+                    "minp100m": {
+                        unit: "minp100m",
                         dataType: "time",
                         dateFormat: "mm:ss",
                         reverse: true,
@@ -1945,11 +1945,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series : [{
-                "label" : "Пики",
+                "label" : "peaks",
                 "unit" : "",
                 "xAxis" : true,
                 "tooltipType" : "label",
-                "tooltipLabel" : "Пик",
+                "tooltipLabel" : "peak",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx" : 0,
@@ -1964,7 +1964,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             measures : [{
                 "id": "0",
                 "label" : "Темп",
-                "unit" : "мин/км",
+                "unit" : "minpkm",
                 "chartType" : "area",
                 "smoothSettings" : "curveCatmullRom",
                 "tooltipType" : "icon",
@@ -2026,11 +2026,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series : [{
-                "label" : "Пики",
+                "label" : "peaks",
                 "unit" : "",
                 "xAxis" : true,
                 "tooltipType" : "label",
-                "tooltipLabel" : "Пик",
+                "tooltipLabel" : "peak",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx" : 0,
@@ -2114,11 +2114,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                  change: {
                      duration: {
                          measureName: "duration",
-                         unit: "ч",
+                         unit: "h",
                          },
                      distance: {
                          measureName: "distance",
-                         unit: "км",
+                         unit: "km",
                         },
                      },
                  },
@@ -2168,11 +2168,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 "palette": paletteSports,
             },
             series : [{
-                    "label" : "Период",
+                    "label" : "period",
                     "unit" : "",
                     "xAxis" : true,
                     "tooltipType" : "label",
-                    "tooltipLabel" : "Период",
+                    "tooltipLabel" : "period",
                     "legend": false,
                     "currentPositionLine": false,
                     "idx" : 0,
@@ -2205,8 +2205,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
 
                 ],
             measures : [{
-                "label" : "Время",
-                "unit" : "ч",
+                "label" : "duration",
+                "unit" : "h",
                 "chartType" : "bar",
                 "stacked" : true,
                 "cumulative": false,
@@ -2264,11 +2264,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 change: {
                     duration: {
                         measureName: "duration",
-                        unit: "ч",
+                        unit: "h",
                     },
                     distance: {
                         measureName: "distance",
-                        unit: "км",
+                        unit: "km",
                     },
                 },
             },
@@ -2310,8 +2310,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 ],
             measures: [
                 {
-                    "label" : "Время",
-                    "unit" : "ч",
+                    "label" : "duration",
+                    "unit" : "h",
                     "chartType" : "donut",
                     "stacked" : false,
                     "cumulative": false,
@@ -2391,11 +2391,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series: [{
-                "label": "Период",
+                "label": "period",
                 "unit": "",
                 "xAxis": true,
                 "tooltipType": "label",
-                "tooltipLabel": "Период",
+                "tooltipLabel": "period",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx": 0,
@@ -2410,8 +2410,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             measures: [
                 {
                     "id": "pulse",
-                    "label": "Пульс покоя",
-                    "unit": "уд/м",
+                    "label": "pulse",
+                    "unit": "bpm",
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
@@ -2447,8 +2447,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
                 {
                     "id": "weight",
-                    "label": "Вес",
-                    "unit": "кг",
+                    "label": "weight",
+                    "unit": "kg",
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
@@ -2487,7 +2487,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 {
                     "id": "muscleMass",
                     "label": "Мышечная масса",
-                    "unit": "кг",
+                    "unit": "kg",
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
@@ -2625,11 +2625,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 change: {
                     duration: {
                         measureName: "duration",
-                        unit: "ч",
+                        unit: "h",
                     },
                     distance: {
                         measureName: "distance",
-                        unit: "км",
+                        unit: "km",
                     },
                 },
             },
@@ -2657,11 +2657,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series: [{
-                "label": "Период",
+                "label": "period",
                 "unit": "",
                 "xAxis": true,
                 "tooltipType": "label",
-                "tooltipLabel": "Период",
+                "tooltipLabel": "period",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx": 0,
@@ -2675,8 +2675,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             }],
             measures: [
                 {
-                    "label" : "Время",
-                    "unit" : "ч",
+                    "label" : "duration",
+                    "unit" : "h",
                     chartType: "bar",
                     smoothSettings: "curveBasis",
                     "stacked" : false,
@@ -2713,8 +2713,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
                 {
                     "id": "weight",
-                    "label": "Вес",
-                    "unit": "кг",
+                    "label": "weight",
+                    "unit": "kg",
                     "chartType": "area",
                     "stacked": null,
                     "cumulative": false,
@@ -2813,11 +2813,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 change: {
                     duration: {
                         measureName: "duration",
-                        unit: "ч",
+                        unit: "h",
                     },
                     distance: {
                         measureName: "distance",
-                        unit: "км",
+                        unit: "km",
                     },
                 },
             },
@@ -2845,11 +2845,11 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 },
             },
             series: [{
-                "label": "Период",
+                "label": "period",
                 "unit": "",
                 "xAxis": true,
                 "tooltipType": "label",
-                "tooltipLabel": "Период",
+                "tooltipLabel": "period",
                 "legend": false,
                 "currentPositionLine": true,
                 "idx": 0,
@@ -2863,8 +2863,8 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
             }],
             measures: [
                 {
-                    label: "Время",
-                    unit: "ч",
+                    label: "duration",
+                    unit: "h",
                     chartType: "bar",
                     smoothSettings: "curveBasis",
                     stacked: false,
@@ -2900,7 +2900,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                     aggMethod : "sum",
                 },
                 {
-                    label: "Процент выполнения",
+                    label: "percentComplete",
                     unit: "",
                     chartType: "area",
                     smoothSettings: "curveStep",

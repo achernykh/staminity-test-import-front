@@ -17,9 +17,9 @@ class UniversalChartCtrl implements IComponentController {
     private container: any;
     private onResize: Function;
 
-    static $inject = ['$element', '$window'];
+    static $inject = ['$element', '$window', '$translate'];
 
-    constructor (private $element: any, private $window: IWindowService) {
+    constructor (private $element: any, private $window: IWindowService, private $translate: any) {
 
     }
 
@@ -65,6 +65,15 @@ class UniversalChartCtrl implements IComponentController {
     prepareMetrics (): void {
         if ( !this.filter ) { return; }
         this.data.map((c,ci) => {
+
+            this.data[ci].measures = this.data[ci].measures.map((m) => {
+                const measures: any = Object.assign({}, m);
+                measures.unit = m.unit && this.$translate.instant(m.unit);
+                measures.label = m.label && this.$translate.instant(m.label);
+                measures.tooltipLabel = m.tooltipLabel && this.$translate.instant(m.tooltipLabel);
+                return measures;
+            });
+
             this.data[ci].metrics = this.data[ci].metrics.map((m) => {
                 const metric: any[] = [];
                 m.map((value, i) => {

@@ -81,7 +81,7 @@
                              ng-style="{'background-color': $ctrl.getMesocycle(cycle.mesocycle.id).color}">
                             <md-select ng-model="cycle.mesocycle.id"
                                        ng-change="$ctrl.change(cycle, $index)"
-                                       placeholder="Не указан"
+                                       placeholder="{{'trainingSeason.mesocycleEmpty' | translate}}"
                                        class="md-no-underline">
                                 <md-option ng-repeat="mesocycle in $ctrl.mesocycles track by mesocycle.id"
                                            value="{{mesocycle.id}}">

@@ -19,11 +19,11 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             }
         },
         series : [{
-            label: "Дни",
+            label: "days",
             unit: "",
             xAxis: true,
             tooltipType: "label",
-            tooltipLabel: "Неделя",
+            tooltipLabel: "week",
             legend: false,
             currentPositionLine: true,
             idx: 0,
@@ -36,7 +36,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             unit: "",
             xAxis: true,
             tooltipType: "none",
-            tooltipLabel: "План",
+            tooltipLabel: "plan",
             legend: false,
             currentPositionLine: true,
             idx: 1,
@@ -51,7 +51,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             stacked: false, // поменял на false из-за ошибки масштаба
             colorPalette: true,
             tooltipType: "label",
-            tooltipLabel: "План",
+            tooltipLabel: "plan",
             legend: false,
             lineColor: "#607D8B", // deep-orange-300
             lineStyle: "solid",
@@ -80,7 +80,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             stacked: false,
             smoothSettings: "curveStep",
             tooltipType: "label",
-            tooltipLabel: "Факт",
+            tooltipLabel: "actual",
             legend: false,
             visible: true,
             lineColor: "#FF5722", // blue-grey-500
@@ -117,22 +117,22 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             }
         },
         series : [{
-            label: "Дни",
+            label: "days",
             unit: "",
             xAxis: true,
             tooltipType: "none",
-            tooltipLabel: "Неделя",
+            tooltipLabel: "week",
             legend: false,
             currentPositionLine: true,
             idx: 0,
             dataType: "date",
             dateFormat: "DD.MM"
         },{
-            label: "Мезоцикл",
+            label: "mesocycle",
             unit: "",
             xAxis: true,
             tooltipType: "none",
-            tooltipLabel: "Мезоцикл",
+            tooltipLabel: "mesocycle",
             legend: false,
             currentPositionLine: true,
             idx: 1,
@@ -146,7 +146,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             stacked: true,
             colorPalette: true,
             tooltipType: "none",
-            tooltipLabel: "План",
+            tooltipLabel: "plan",
             legend: false,
             lineColor: "#607D8B", // deep-orange-300
             lineStyle: "solid",

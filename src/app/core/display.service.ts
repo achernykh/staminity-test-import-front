@@ -7,7 +7,7 @@ import { landingTariffsConfig } from "../landingpage/landing-tariffs/landing-tar
 import { BehaviorSubject, Observable } from "rxjs/Rx";
 
 export interface GeoInfo {
-    city: string;
+    /**city: string;
     country: {
         code: string;
         name: string;
@@ -15,7 +15,13 @@ export interface GeoInfo {
     ip: string;
     location: {
         time_zone: string;
-    };
+    };**/
+    city: string;
+    country_name: string;
+    country_code2: string;
+    time_zone: {
+        name: string;
+    }
 }
 
 const getDisplay = (session: ISession): string => path([getUser, "display"])(session) || {};
@@ -74,13 +80,14 @@ export default class DisplayService {
     getIpInfo (): Promise<GeoInfo> {
         return this.ipData ?
             Promise.resolve(this.ipData) :
-            this.$http.get('https://geoip.nekudo.com/api').then(result => result.data || {});
+            this.$http.get('https://api.ipgeolocation.io/ipgeo?apiKey=e01132e754f943f6b338cfff8ba86f96').then(result => result.data || {});
+            //this.$http.get('https://geoip.nekudo.com/api').then(result => result.data || {});
     }
 
     getCurrency (): Promise<string> {
         return this.sessionService.getToken() ?
             Promise.resolve(getCurrencyCode(this.sessionService.get().userProfile.personal.country)) :
-            this.getIpInfo().then(r => getCurrencyCode(r.country.code));
+            this.getIpInfo().then(r => getCurrencyCode(r.country_code2));
     }
 
     getLocale (): string {
