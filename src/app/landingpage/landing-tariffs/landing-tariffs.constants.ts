@@ -263,8 +263,8 @@ export const landingTariffsData = [
                     clubAthletes: {
                         minAthletes: 1,
                         maxAthletes: 10,
-                        athlete: 3.9,
-                        premium: 3.9,
+                        athlete: 3.45,
+                        premium: 3.45,
                         currency: 'EUR',
                         number: 2,
                     },
