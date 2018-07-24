@@ -86,10 +86,10 @@ $max-toolbar-width: 1000px;
         .title { font-size: 32px !important; color: white; }
         .subtitle { color: white; }
       }
-      .title { font-size: 20px !important; }
-      .subtitle { font-size: 16px; }
-      .picture { max-height: 50vh;  width: 100%; padding-bottom: 16px }
-      .picture img { object-position: 50% 100%;  }
+      .title { font-size: 20px !important; max-width: 400px }
+      .subtitle { font-size: 16px; max-width: 400px }
+      .picture { width: 100%; padding-bottom: 16px }
+      .picture img { max-height: 50vh; object-position: 50% 100%;  }
       button { width: 100%; padding: 8px; font-size: 16px; }
     }
   }

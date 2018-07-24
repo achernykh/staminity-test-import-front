@@ -1,15 +1,15 @@
-<section class="" ng-if="$ctrl.showConfirm">
+<section class="information" ng-if="$ctrl.showConfirm">
     <h2 class="md-title" translate="auth.confirm.shortTitle"></h2>
     <p flex class="md-body" translate="auth.confirm.text" translate-values="{email: $ctrl.credentials.email}"></p>
 </section>
-<section class="animated fadeInUp form">
+<section class="animated fadeInUp form" ng-if="!$ctrl.showConfirm">
     <h2 class="md-title" translate="auth.signup.shortTitle"></h2>
     <form class="" flex="none" ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)'
           name="$ctrl.signupForm" novalidate>
-        <div layout="row" layout-align="start stretch" class="input-item-line">
-            <p class="md-caption conf" translate>auth.confirmation</p>
-            <md-checkbox aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
-                         class="md-primary md-secondary"
+        <div layout="row" layout-align="start center" class="input-item-line">
+            <p flex="auto" class="md-caption conf" translate>auth.confirmation</p>
+            <md-checkbox flex="none" aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+                         class="md-primary md-secondary" style="margin: 0;"
                          ng-disabled="!$ctrl.enabled">
             </md-checkbox>
         </div>

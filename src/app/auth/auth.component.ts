@@ -33,6 +33,7 @@ class AuthCtrl implements IComponentController {
     private enabled: boolean = true;
     private showConfirm: boolean = false;
     private credentials: UserCredentials;
+    private role: string;
     private passwordStrength: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
     private countriesList = countriesList;
     private countrySearchText: string;
@@ -124,6 +125,14 @@ class AuthCtrl implements IComponentController {
             activateCoachTrial: this.$stateParams.hasOwnProperty("activateCoachTrial") && this.$stateParams.activateCoachTrial || false,
             activateClubTrial: this.$stateParams.hasOwnProperty("activateClubTrial") && this.$stateParams.activateClubTrial || false,
         };
+
+        if (this.credentials.activateClubTrial) {
+            this.role = 'clubManager';
+        } else if (this.credentials.activateCoachTrial) {
+            this.role = 'coach';
+        } else {
+            this.role = 'athlete';
+        }
     }
 
     /**
