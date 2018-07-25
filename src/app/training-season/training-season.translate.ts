@@ -57,7 +57,8 @@ export const translateTrainingSeason = {
         complete: '%',
         note: 'Заметка',
         loading: 'Загрузка ...',
-        emptyList: "Добавьте новый план на сезон"
+        emptyList: "Добавьте новый план на сезон",
+        mesocycleEmpty: 'Не задано'
     },
     en: {
         action: {
@@ -116,6 +117,7 @@ export const translateTrainingSeason = {
         complete: '%',
         note: 'Note',
         loading: 'Loading ...',
-        emptyList: "Create new season plan"
+        emptyList: "Create new season plan",
+        mesocycleEmpty: 'Select'
     }
 };
