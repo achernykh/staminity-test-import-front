@@ -50,7 +50,9 @@ export let _translate = {
         },
         invite: {
             fullTitle: "Установка пароля",
-            shortTitle: "Установка пароля"
+            shortTitle: "Установка пароля",
+            pass: "Пароль",
+            repeatPass: "Повторите пароль"
         },
         reset: {
             fullTitle: "Восстановление пароля",
@@ -159,7 +161,9 @@ export let _translate = {
         },
         invite: {
             fullTitle: "Set your password",
-            shortTitle: "Set your password"
+            shortTitle: "Set your password",
+            pass: "Password",
+            repeatPass: "Repeat your password"
         },
         reset: {
             fullTitle: "Reset password",

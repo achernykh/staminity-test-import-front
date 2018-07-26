@@ -63,7 +63,7 @@
         <md-divider></md-divider>
         <div class="md-caption md-dark center" translate="auth.social" style="padding: 8px 0"></div>
         <div layout="row" class="social-buttons">
-            <md-button flex="33" ng-repeat="provider in ['facebook','google','vkontakte']"
+            <md-button id="socialsignup" flex="33" ng-repeat="provider in ['facebook','google','vkontakte']"
                        ng-class="{'disabled': !$ctrl.confirmation || $ctrl.credentials.personal.country === null}"
                        ng-click="$ctrl.OAuth('signUp', provider)"
                        ng-disabled="!$ctrl.enabled || !$ctrl.confirmation || $ctrl.credentials.personal.country === null"
@@ -124,7 +124,7 @@
             </md-input-container>
         </div>
         <div layout="row" layout-align="start stretch" class="input-item-line">
-            <md-button type="submit" translate='auth.signup.button' class="md-raised submit"
+            <md-button id="emailsignup" type="submit" translate='auth.signup.button' class="md-raised submit"
                        ng-disabled="!$ctrl.signupForm.$valid || !$ctrl.enabled || !$ctrl.confirmation"
                        ng-class="{'md-primary': $ctrl.signupForm.$valid && !ul.auth, 'md-disabled': $ctrl.signupForm.$error}">
             </md-button>

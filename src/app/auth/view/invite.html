@@ -33,7 +33,7 @@
             </md-input-container>
         </div>
         <div layout="row" layout-align="start stretch" class="input-item-line">
-            <md-button ng-disabled="!$ctrl.inviteForm.$valid || !$ctrl.enabled" class="md-raised submit"
+            <md-button id="invitesignup" ng-disabled="!$ctrl.inviteForm.$valid || !$ctrl.enabled" class="md-raised submit"
                        type="submit"
                        ng-class="{'md-primary': $ctrl.inviteForm.$valid && !ul.auth, 'md-disabled': $ctrl.inviteForm.$error}"
                        translate='auth.signin.button'
