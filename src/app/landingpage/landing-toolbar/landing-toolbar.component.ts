@@ -11,6 +11,7 @@ class LandingToolbarCtrl implements IComponentController {
 
     // private
     private toolbar: JQuery;
+    private content: Element;
     private scroll: boolean = false;
     // inject
     static $inject = ['$document', '$mdSidenav', 'landingConfig', '$state', '$mdMedia', '$scope', 'AuthService'];
@@ -25,10 +26,11 @@ class LandingToolbarCtrl implements IComponentController {
     subscribeOnScroll(): void {
         setTimeout(() => {
             this.toolbar = element(this.$document[0].querySelector('#toolbar'));
-            window.addEventListener('scroll', () => {
-                this.toolbar.addClass(window.scrollY > 64 ? 'solid md-whiteframe-z3' : 'background');
-                this.toolbar.removeClass(window.scrollY <= 64 ? 'solid md-whiteframe-z3' : 'background');
-                this.scroll = (window.scrollY > 64);
+            this.content = document.querySelector('.landing-main__welcome');
+            this.content.addEventListener('scroll', () => {
+                this.toolbar.addClass(this.content.scrollTop > 64 ? 'solid md-whiteframe-z3' : 'background');
+                this.toolbar.removeClass(this.content.scrollTop <= 64 ? 'solid md-whiteframe-z3' : 'background');
+                this.scroll = (this.content.scrollTop > 64);
                 this.$scope.$applyAsync();
             });
         }, 100);

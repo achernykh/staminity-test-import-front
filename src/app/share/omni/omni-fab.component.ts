@@ -11,6 +11,7 @@ class OmniFabCtrl implements IComponentController {
      
     // private
     private fab: JQuery;
+    private content: Element;
     // inject
     static $inject = ['OmniService', 'message', '$document'];
 
@@ -27,9 +28,10 @@ class OmniFabCtrl implements IComponentController {
     subscribeOnScroll(): void {
         setTimeout(() => {
             this.fab = element(this.$document[0].querySelector('#omni-fab'));
-            window.addEventListener('scroll', () => {
-                this.fab.addClass(window.scrollY > window.innerHeight * 0.05 ? 'show' : 'hide');
-                this.fab.removeClass(window.scrollY <= window.innerHeight * 0.05 ? 'show' : 'hide');
+            this.content = document.querySelector('.landing-main__welcome');
+            this.content.addEventListener('scroll', () => {
+                this.fab.addClass(this.content.scrollTop > window.innerHeight * 0.05 ? 'show' : 'hide');
+                this.fab.removeClass(this.content.scrollTop <= window.innerHeight * 0.05 ? 'show' : 'hide');
             });
         }, 100);
     }

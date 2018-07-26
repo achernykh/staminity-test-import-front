@@ -20,7 +20,7 @@ export default class ReferenceService {
 	}
 
 	private categoriesReducers = {
-		"I": (category: IActivityCategory) => [...this.categories, this.setIndex(category)],
+		"I": (category: IActivityCategory) => !this.categories.some(c => c.index === Number(`${category.id}${category.revision}`)) && [...this.categories, this.setIndex(category)],
 		"U": (category: IActivityCategory) => this.categories.map((c) => c.id === category.id? this.setIndex(category) : c),
 		"D": (category: IActivityCategory) => this.categories.filter((c) => c.id !== category.id)
 	};
@@ -36,7 +36,7 @@ export default class ReferenceService {
 	public templates: Array<IActivityTemplate> = [];
 	public templatesChanges = new Subject<IActivityTemplate[]> ();
 	private templatesReducers = {
-		"I": (template: IActivityTemplate) => [...this.templates, this.setIndex(template)],
+		"I": (template: IActivityTemplate) => !this.templates.some(c => c.index === Number(`${template.id}${template.revision}`)) && [...this.templates, this.setIndex(template)],
 		"U": (template: IActivityTemplate) => this.templates.map((t) => t.id === template.id? this.setIndex(template) : t),
 		"D": (template: IActivityTemplate) => this.templates.filter((t) => t.id !== template.id)
 	};

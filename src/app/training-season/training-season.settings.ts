@@ -69,7 +69,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             }],
             markerColor: "#455A64", // deep-orange-300
             minValue: 0,
-            idx: 2,
+            idx: 1,
             measureName: "microcycle",
             scaleVisible: false
         }, {
@@ -100,7 +100,7 @@ export const trainingSeasonSettings: ITrainingSeasonSettings = {
             markerColor: "#FF5722", //  blue-grey-500
             scaleVisible: false,
             minValue: 0,
-            idx: 3,
+            idx: 2,
             measureName: "microcycle"
         }],
         metrics : null

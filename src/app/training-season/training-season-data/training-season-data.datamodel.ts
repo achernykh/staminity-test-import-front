@@ -38,17 +38,23 @@ export class TrainingSeasonData {
         if ( !gridLength || gridLength === 0 ) { return; }
 
         this.grid = times(gridLength)
-            .map(i => new Microcycle(Object.assign({
-                weekNumber: moment(start).add(i, 'week').format('YYYY.WW'),
-                _dateStart: moment(start).add(i, 'week'),
-                _dateEnd: moment(start).add(i, 'week').endOf('week'),
-                mesocycle: {
-                    id: null
-                },
-                _competition: null,
-                durationMeasure: this.season.durationMeasure,
-                durationValue: null
-            }, this.microcycles.filter(m => m.weekNumber === moment(start).add(i, 'week').format('YYYY.WW'))[0])));
+            .filter(i => this.microcycles.length === 0 || (this.microcycles &&  this.microcycles.some(m => m.weekNumber === moment(start).add(i, 'week').endOf('week').format('YYYY.WW'))))
+            .map(i => {
+                /**console.debug('micricycle', i,
+                    moment(start).add(i, 'week').endOf('week').format('YYYY.WW'),
+                    this.microcycles.filter(m => m.weekNumber === moment(start).add(i, 'week').endOf('week').format('YYYY.WW'))[0]);**/
+                return new Microcycle(Object.assign({
+                    weekNumber: moment(start).add(i, 'week').endOf('week').format('YYYY.WW'),
+                    _dateStart: moment(start).add(i, 'week'),
+                    _dateEnd: moment(start).add(i, 'week').endOf('week'),
+                    mesocycle: {
+                        id: null
+                    },
+                    _competition: null,
+                    durationMeasure: this.season.durationMeasure,
+                    durationValue: null
+                }, this.microcycles.filter(m => m.weekNumber === moment(start).add(i, 'week').endOf('week').format('YYYY.WW'))[0]));
+            });
     }
 
 }

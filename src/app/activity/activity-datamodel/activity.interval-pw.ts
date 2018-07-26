@@ -86,11 +86,12 @@ export class ActivityIntervalPW extends ActivityIntervalP implements IActivityIn
      * @param keys
      * @returns {IActivityIntervalPW}
      */
-    clear(keys: string[] = ["params", "distance", "movingDuration", "heartRate", "power", "speed"]): IActivityIntervalPW {
+    clear(keys: string[] = ["params", "distance", "duration", "movingDuration", "heartRate", "power", "speed", "ftpMeasures", "hasRecalculate", "keys", "limit", "opposite"]): IActivityIntervalPW {
         let interval: IActivityIntervalPW = Object.assign({}, this);
         keys.map((p) => interval.hasOwnProperty(p) && delete interval[p]);
-        if (interval.hasOwnProperty('intensityByFtpFrom') &&
-            interval.intensityByFtpFrom === undefined || interval.intensityByFtpFrom === null || interval.intensityByFtpFrom === 0) {
+        if (interval.intensityMeasure &&
+            (!interval.hasOwnProperty('intensityByFtpFrom') ||
+            (interval.hasOwnProperty('intensityByFtpFrom') && !interval.intensityByFtpFrom))) {
             interval.intensityMeasure = null;
         }
         return interval;

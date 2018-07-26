@@ -14,7 +14,7 @@ export const preparePeriodizationDurationChart = (template: IChart, data: Array<
         },
         metrics: data.map(c => [
             moment(c._dateStart).format('MM-DD-YYYY'),
-            moment(c._dateStart).isAfter(moment()) ? 'feature' : 'past',
+            //moment(c._dateStart).isAfter(moment()) ? 'feature' : 'past',
             c.durationValue || 0,
             c.hasOwnProperty('_data') && c._data.hasOwnProperty('fact') && c._data.fact || null
         ])

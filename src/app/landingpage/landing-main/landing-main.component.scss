@@ -3,7 +3,13 @@
 $max-toolbar-width: 1000px;
 
 .landing-main {
+  position: fixed;
+  top: 0;
+  height: 100% !important;
+
   &__welcome {
+    overflow: auto;
+    position: relative;
     /**background-image: url('/assets/landing/wave-gray-light.svg');
     background-position: center bottom;
     background-size: 100% 250px;
@@ -76,7 +82,8 @@ $max-toolbar-width: 1000px;
       background: linear-gradient(90deg, $deep-orange-800, $deep-orange-500);
     }
     @media (max-width: 959px) {
-      height: calc(100vh - 56px) !important;
+      position: relative;
+      height: 100% !important;
       padding: 56px 16px 16px 16px !important;
       &.full-size {
         background: linear-gradient(-10deg, white 30%, $blue-grey-600 30%, $blue-grey-900);
@@ -86,7 +93,7 @@ $max-toolbar-width: 1000px;
       .title { font-size: 20px !important; max-width: 400px }
       .subtitle { font-size: 16px; max-width: 400px }
       .picture { width: 100%; padding-bottom: 16px }
-      .picture img { max-height: 50vh; object-position: 50% 100%;  }
+      .picture img { max-height: 40vh; object-position: 50% 100%;  }
       button { width: 100%; padding: 8px; font-size: 16px; }
     }
   }
@@ -94,7 +101,6 @@ $max-toolbar-width: 1000px;
   .reviews {
     @extend .block;
     background-color: white;
-
   }
 
   .info-block {

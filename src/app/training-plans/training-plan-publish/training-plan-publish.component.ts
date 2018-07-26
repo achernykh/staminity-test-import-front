@@ -46,7 +46,7 @@ class TrainingPlanPublishCtrl implements IComponentController {
     }
 
     get residentRusPaidPlan (): boolean {
-        return this.plan.price === 0 || (this.plan.price > 0 && this.isResidentRus) ;
+        return !this.plan.price || (this.plan.price > 0 && this.isResidentRus) ;
     }
 
     get isNotDynamic (): boolean {

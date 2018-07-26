@@ -1,6 +1,6 @@
 'use strict';
 
-const DEBUG = true;
+const DEBUG = false;
 const version = '<%= version%>';
 const preload = '<%= cache%>';
 const cacheKey = `static-${version}`;
