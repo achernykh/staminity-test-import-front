@@ -345,7 +345,10 @@ export const _translateTrainingPlans = {
         lang: {
             label: 'Язык'
         },
-        emptyList: 'Список пуст'
+        emptyList: 'Список пуст',
+        preview: {
+            title: 'Предварительный просмотр тренировочного плана'
+        }
     },
     en: {
         builder: {
@@ -690,7 +693,10 @@ export const _translateTrainingPlans = {
         lang: {
             label: 'Language'
         },
-        emptyList: 'List is empty'
+        emptyList: 'List is empty',
+        preview: {
+            title: 'Training plan preview'
+        }
 
     }
 };

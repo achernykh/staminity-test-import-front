@@ -1,7 +1,6 @@
 export let _translate = {
     ru: {
         // Стартовая страница
-
         fullTitle: "Приложение для работы с тренером и календарь тренировок | Staminity",
         shortTitle: "Приложение для работы с тренером и календарь тренировок | Staminity",
         description: "Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов",
@@ -16,6 +15,7 @@ export let _translate = {
             signUp: "Регистрация",
         },
         welcome: {
+            shortTitle: 'Тренировки онлайн',
             promo: "β-версия",
             description: "Тренируйся грамотно и достигай своих целей",
             title1: "ПЛАН ТВОИХ ПОБЕД",
@@ -679,7 +679,6 @@ export let _translate = {
     },
     en: {
         // Landing page
-
         fullTitle: "Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity",
         shortTitle: "Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity",
         description: "Application for online training in running, cycling, swimming and triathlon. Training plans, workout log, online training for athletes, coaches and clubs",
@@ -694,6 +693,7 @@ export let _translate = {
             signUp: "Sign up",
         },
         welcome: {
+            shortTitle: "Training online",
             promo: "β-version",
             description: "Train smart and achieve your goals",
             title1: "ПЛАН ТВОИХ ПОБЕД",

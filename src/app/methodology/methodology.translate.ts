@@ -2,6 +2,7 @@ export const translateMethodology = {
     ru: {
         title: 'Методология',
         fullTitle: 'Методология тренировочного процесса',
+        fullTitleClub: 'Методология тренировочного процесса для клуба',
         shortTitle: 'Методология',
 
         trainingPlans: {

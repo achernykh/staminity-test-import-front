@@ -8,6 +8,7 @@ import UserService from "../core/user.service";
 const athletes = {
     name: "athletes",
     url: "/athletes",
+    title: 'athletes.fullTitle',
     loginRequired: true,
     authRequired: ["func1"],
     resolve: {

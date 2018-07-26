@@ -58,6 +58,7 @@ const trainingSeasonList: any = {
 const trainingSeasonBuilder: any = {
     name: 'training-season-builder',
     url: '/training-season-builder?userId&seasonId',
+    title: 'trainingSeason.fullTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,

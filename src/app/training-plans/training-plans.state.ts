@@ -4,7 +4,7 @@ import { TrainingPlansService } from "./training-plans.service";
 
 const trainingPlanStore: any = {
     name: 'training-plans-store',
-    title: 'trainingPlans.store.shortTitle',
+    title: 'trainingPlans.store.fullTitle',
     url: '/training-plans-store?state',
     params: {
         state: null,
@@ -25,6 +25,7 @@ const trainingPlanStore: any = {
 
 const trainingPlanBuilder: any = {
     name: 'training-plan-builder',
+    title: 'trainingPlans.builder.fullTitle',
     url: '/training-plan-builder',
     loginRequired: false,
     authRequired: [],
@@ -37,6 +38,7 @@ const trainingPlanBuilder: any = {
 
 const trainingPlanBuilderId: any = {
     name: 'training-plan-builder-id',
+    title: 'trainingPlans.builder.fullTitle',
     url: '/training-plan-builder/?planId',
     loginRequired: false,
     authRequired: [],
@@ -54,6 +56,7 @@ const trainingPlanBuilderId: any = {
 const trainingPlanPreview: any = {
     name: 'training-plan-preview',
     url: '/training-plan-preview/?planId',
+    title: 'trainingPlans.preview.title',
     loginRequired: false,
     authRequired: [],
     resolve: {
@@ -71,6 +74,7 @@ const trainingPlanPreview: any = {
 const trainingPlanLanding: any = {
     name: 'plan',
     url: '/plan/:planId',
+    title: 'trainingPlans.builder.fullTitle',
     loginRequired: false,
     authRequired: [],
     resolve: {
