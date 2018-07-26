@@ -42,9 +42,9 @@ export const translateAnalytics = {
             heartRate: "Пульс",
             paceSpeed: "Скорость/темп",
             paceSpeedUnit: "Отображение темпа/скорости",
-            "мин/км": "мин/км",
-            "км/ч": "км/ч",
-            "мин/100м": "мин/100м",
+            minpkm: "мин/км",
+            kmph: "км/ч",
+            minp100m: "мин/100м",
             measures: "Измерения",
 
             // значения параметров
@@ -209,9 +209,9 @@ export const translateAnalytics = {
             heartRate: "HR",
             paceSpeed: "Speed/pace",
             paceSpeedUnit: "Speed/pace unit",
-            "мин/км": "min/km",
-            "км/ч": "km/h",
-            "мин/100м": "min/100m",
+            minpkm: "min/km",
+            kmph: "km/h",
+            minp100m: "min/100m",
             measures: "Measures",
 
             // значения параметров
