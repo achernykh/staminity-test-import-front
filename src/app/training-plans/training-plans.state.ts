@@ -4,6 +4,7 @@ import { TrainingPlansService } from "./training-plans.service";
 
 const trainingPlanStore: any = {
     name: 'training-plans-store',
+    title: 'trainingPlans.store.shortTitle',
     url: '/training-plans-store?state',
     params: {
         state: null,

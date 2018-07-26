@@ -140,6 +140,11 @@ export class TrainingPlan implements ITrainingPlan {
             moment('3000-01-01').startOf('week').toDate();
     }
 
+    get firstCalendarDate (): Date {
+        return this.isFixedCalendarDates && moment(this._startDate).startOf('week').toDate ||
+            moment('3000-01-01').startOf('week').toDate();
+    }
+
     get endDate (): Date {
         return this.lastCalendarItem && moment(this.lastCalendarItem.dateStart).endOf('week').toDate() ||
             (this.maxItemDate && moment(this.maxItemDate).toDate());

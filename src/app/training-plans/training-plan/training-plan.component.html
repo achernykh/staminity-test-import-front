@@ -195,7 +195,7 @@
         <p flex="none" class="md-subhead center"
            translate="trainingPlans.landing.effortStat.{{$ctrl.plan.customData.statisticData}}"></p>
         <universal-chart flex="auto"
-                         data="$ctrl.chart"
+                         data="[$ctrl.chart]"
                          filter="true"
                          update="$ctrl.updateCount ">
         </universal-chart>

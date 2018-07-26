@@ -14,6 +14,7 @@ const main: any = {
 
 const scenarios: any[] = landingConfig.scenario.map(s => ({
     name: s.code,
+    title: `landing.${s.code}.title`,
     url: s.url,
     loginRequired: false,
     authRequired: [],
@@ -28,6 +29,7 @@ const scenarios: any[] = landingConfig.scenario.map(s => ({
 
 const features: any = {
     name: landingConfig.features.code,
+    title: `landing.${landingConfig.features.code}.title`,
     url: landingConfig.features.url,
     loginRequired: false,
     authRequired: [],
