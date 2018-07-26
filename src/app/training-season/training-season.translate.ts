@@ -35,7 +35,6 @@ export const translateTrainingSeason = {
             distance: "Расстояние"
         },
         mesocycle: 'Мезоцикл',
-        mesocycleEmpty: 'Не указан',
         week: 'Неделя',
         create: 'Новый план',
         edit: 'Изменить',

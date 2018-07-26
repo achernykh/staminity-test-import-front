@@ -15,6 +15,7 @@
 </section>
 
 <md-virtual-repeat-container id="vertical-container" ng-if="!$ctrl.cardView"
+                             ng-class="{'hide-nav-bar': !$ctrl.auth.isAuthenticated()}"
                              class="search-list__data">
     <md-list class="md-dense" style="" class="md-whiteframe-z3">
         <md-list-item class="md-3-line"
@@ -40,7 +41,7 @@
     </md-list>
 </md-virtual-repeat-container>
 
-<section class="search-list__data card-layout" ng-if="$ctrl.cardView">
+<section class="search-list__data card-layout" ng-class="{'hide-nav-bar': !$ctrl.auth.isAuthenticated()}" ng-if="$ctrl.cardView">
     <div class="card-grid">
         <md-card ng-class="{hide: !item}"
                  ng-repeat="item in $ctrl.items | orderBy: '-athleteCount'" class="card">

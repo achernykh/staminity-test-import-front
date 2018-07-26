@@ -39,7 +39,9 @@
                 </md-button>
                 <md-button class="menu md-icon-button md-primary" aria-label="landingMenu"
                            ng-click="$ctrl.toggleSlide('landingMenu')">
-                    <md-icon class="material-icons md-light md-32" size="32">menu</md-icon>
+                    <md-icon md-svg-src="/assets/icon/menu.svg"
+                             ng-class="{'md-dark md-active': $ctrl.solid || $ctrl.scroll}"
+                             class="material-icons md-32" size="32"></md-icon>
                 </md-button>
             </navigation>
         </div>

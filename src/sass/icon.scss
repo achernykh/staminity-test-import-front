@@ -244,6 +244,7 @@ md-icon {
 
 /* Rules for using icons as black on a light background. */
 .material-icons.md-dark { color: rgba(0, 0, 0, 0.70); }
+.material-icons.md-dark.md-active { color: rgba(0, 0, 0, 1); }
 .material-icons.md-dark.md-unfocused { color: rgba(0, 0, 0, 0.54); }
 .material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.38); }
 

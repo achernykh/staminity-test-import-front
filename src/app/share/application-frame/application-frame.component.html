@@ -3,9 +3,8 @@
             ng-class="{'md-default-with-logo': !$ctrl.auth.isAuthenticated()}" ng-cloack>
     <div class="md-toolbar-tools">
         <div flex="none" ng-if="!$ctrl.auth.isAuthenticated()"
-             ng-click="$ctrl.$state.go('main')"
              style="padding-right: 20px">
-            <img width="22px" ng-src="/assets/icon/favicon-196-196.png"/>
+            <img width="22px" ng-click="$ctrl.$state.go('welcome')" ng-src="/assets/icon/favicon-196-196.png"/>
         </div>
         <!--<div show-gt-sm flex="none" ng-if="!$ctrl.auth.isAuthenticated()" style="padding-right: 44px">
             <img ng-click="$ctrl.$state.go('main')" height="24px"

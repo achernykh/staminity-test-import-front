@@ -5,6 +5,7 @@ import {SearchParams} from "@api/search";
 import {SearchResultByUser, SearchResultByGroup} from "../search";
 import {SearchService} from "@app/search/search.service";
 import MessageService from "../../core/message.service";
+import AuthService from "@app/auth/auth.service";
 
 class SearchListCtrl implements IComponentController {
 
@@ -20,13 +21,14 @@ class SearchListCtrl implements IComponentController {
     private items: Array<SearchResultByUser | SearchResultByGroup> = [];
     private isLoadingData: boolean = false;
 
-    static $inject = ['$scope', '$mdMedia', '$state', '$location', 'SearchService' , 'message'];
+    static $inject = ['$scope', '$mdMedia', '$state', '$location', 'SearchService' , 'message', 'AuthService'];
     constructor(private $scope: IScope,
                 private $mdMedia,
                 private $state: StateService,
                 private $location: ILocationService,
                 private searchService: SearchService,
-                private message: MessageService) {
+                private message: MessageService,
+                private auth: AuthService) {
 
     }
 

@@ -87,14 +87,20 @@ $max-toolbar-width: 1000px;
       padding: 56px 16px 16px 16px !important;
       &.full-size {
         background: linear-gradient(-10deg, white 30%, $blue-grey-600 30%, $blue-grey-900);
-        .title { font-size: 32px !important; color: white; }
+        .title { font-size: 32px; color: white; }
         .subtitle { color: white; }
       }
-      .title { font-size: 20px !important; max-width: 400px }
+      .title { font-size: 24px !important; max-width: 400px }
       .subtitle { font-size: 16px; max-width: 400px }
       .picture { width: 100%; padding-bottom: 16px }
-      .picture img { max-height: 40vh; object-position: 50% 100%;  }
+      .picture img { max-height: 50vh; object-position: 50% 100%;  }
       button { width: 100%; padding: 8px; font-size: 16px; }
+    }
+    @media (max-height: 500px) {
+      &.full-size .title, .title { font-size: 24px !important; max-width: 400px }
+      &.full-size .subtitle, subtitle { font-size: 16px !important; max-width: 400px }
+      .picture img { max-height: 30vh !important; object-position: 50% 100%;  }
+
     }
   }
 
