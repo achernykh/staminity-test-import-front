@@ -8,8 +8,13 @@ $max-toolbar-width: 1000px;
   height: 100% !important;
 
   &__welcome {
-    overflow: auto;
+    overflow-y: scroll;
     position: relative;
+    -webkit-overflow-scrolling: touch;
+    @media (max-width: 959px) {
+      min-height: 100%;
+      height: 100%;
+    }
     /**background-image: url('/assets/landing/wave-gray-light.svg');
     background-position: center bottom;
     background-size: 100% 250px;
@@ -93,13 +98,13 @@ $max-toolbar-width: 1000px;
       .title { font-size: 24px !important; max-width: 400px }
       .subtitle { font-size: 16px; max-width: 400px }
       .picture { width: 100%; padding-bottom: 16px }
-      .picture img { max-height: 50vh; object-position: 50% 100%;  }
+      .picture img { height: initial !important; object-position: 50% 100%;  }
       button { width: 100%; padding: 8px; font-size: 16px; }
     }
     @media (max-height: 500px) {
       &.full-size .title, .title { font-size: 24px !important; max-width: 400px }
       &.full-size .subtitle, subtitle { font-size: 16px !important; max-width: 400px }
-      .picture img { max-height: 30vh !important; object-position: 50% 100%;  }
+      .picture img { height: 30vh !important; object-position: 50% 100%;  }
 
     }
   }
@@ -127,14 +132,14 @@ $max-toolbar-width: 1000px;
     background-color: $grey-050;
     border-bottom: 1px solid $grey-100;
     @media (max-width: 959px) {
-      min-height: initial;
+      min-height: auto;
       .block-text h1  { font-size: 20px !important; }
       .block-text p  { font-size: 14px !important; margin-bottom: 24px !important; }
       .block-text .text { margin: 0 !important;}
       .block-image img { width: 100% !important; margin: 0 !important; }
     }
     .block-text, .block-image {
-      height: 100%;
+      //height: 100%;
       display: table-cell;
       vertical-align: middle;
     }

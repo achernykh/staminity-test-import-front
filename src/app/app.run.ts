@@ -66,7 +66,7 @@ function run(
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
         //omniSetup(state.$from().name, state.$to().name);
         //$rootScope.title = 'Staminity';
-        window.document.title = $translate.instant('staminity') + ": " + $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`);
+        window.document.title = $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity');
         LoaderService.hide();
     });
     $state.defaultErrorHandler((error) => {

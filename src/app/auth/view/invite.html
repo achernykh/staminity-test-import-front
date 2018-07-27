@@ -10,7 +10,7 @@
         </div>
         <div layout="row" layout-align="start stretch" class="input-item-line three-hint-line">
             <md-input-container class="st-material md-block md-dense">
-                <label>{{ 'auth.email' | translate }}</label>
+                <label>{{ 'auth.invite.pass' | translate }}</label>
                 <input required type="password" name="password1" ng-model="$ctrl.credentials.password"
                        ng-pattern="$ctrl.passwordStrength"
                        ng-disabled="!$ctrl.enabled">
@@ -21,7 +21,7 @@
         </div>
         <div layout="row" layout-align="start stretch" class="input-item-line three-hint-line">
             <md-input-container class="st-material md-block md-dense">
-                <label>{{ 'auth.email' | translate }}</label>
+                <label>{{ 'auth.invite.repeatPass' | translate }}</label>
                 <input required type="password" name="password2" ng-model="$ctrl.password2"
                        ng-pattern="$ctrl.passwordStrength"
                        ng-disabled="!$ctrl.enabled"
