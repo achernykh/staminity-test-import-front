@@ -661,7 +661,7 @@ export let _translate = {
                 text: "Клубные категории тренировок и клубные шаблоны помогут тренерам клуба применять единые правила при подготовке учеников",
             },
             externalInfo: 'Клубы в Staminity помогут организовать совместную работу нескольких тренеров с учениками онлайн для школы бега, бегового клуба, клуба по триатлону, школы по плаванию и ' +
-            'по другим циклическим видам спорта. Специальное приложение и веб-сервис, профессиональная платформа для спортивных клубов и школ по работе с учениками онлайн в циклических видах спорта.'
+            'по другим циклическим видам спорта. Специальное приложение и веб-сервис, профессиональная платформа для спортивных клубов и школ по работе с учениками онлайн.'
 
         },
         main: {
@@ -1343,8 +1343,8 @@ export let _translate = {
                 subtitle: '',
                 text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
             },
-            externalInfo: 'Clubs in Staminity will help you organize online training of athletes for running schools, running clubs, triathlon schools and club, swimming schools and' +
-            'clubs in other cyclic sports with several coaches. Web and mobile application, web service and professional platform for clubs and schools to work with students online in cyclic sports.'
+            externalInfo: 'Clubs in Staminity will help you organize joint work of several coaches with athletes online for running schools, running clubs, triathlon schools and club, swimming schools and' +
+            'clubs in other cyclic sports. Web and mobile application, web service and professional platform for clubs and schools to work with athletes online.'
         },
         main: {
             title: 'Training online',
