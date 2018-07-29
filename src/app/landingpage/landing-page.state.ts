@@ -4,6 +4,7 @@ import { landingConfig } from "./landing.constants";
 const main: any = {
     name: 'welcome',
     url: '/',
+    title: 'landing.welcome.shortTitle',
     loginRequired: false,
     authRequired: [],
     onEnter: () => window.scrollTo(0,0),
@@ -14,6 +15,7 @@ const main: any = {
 
 const scenarios: any[] = landingConfig.scenario.map(s => ({
     name: s.code,
+    title: `landing.${s.code}.title`,
     url: s.url,
     loginRequired: false,
     authRequired: [],
@@ -28,6 +30,7 @@ const scenarios: any[] = landingConfig.scenario.map(s => ({
 
 const features: any = {
     name: landingConfig.features.code,
+    title: `landing.${landingConfig.features.code}.shortTitle`,
     url: landingConfig.features.url,
     loginRequired: false,
     authRequired: [],
@@ -42,6 +45,7 @@ const features: any = {
 
 const tariffs: any = {
     name: 'tariffs',
+    title: "landing.tariffs.shortTitle",
     url: "/tariffs",
     loginRequired: false,
     authRequired: null,

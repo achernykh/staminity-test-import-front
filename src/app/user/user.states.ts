@@ -3,6 +3,7 @@ import { SessionService } from "../core/session/session.service";
 
 const userSettings: any = {
     name: 'user-settings',
+    title: 'user.settings.shortTitle',
     abstract: true,
     loginRequired: true,
     authRequired: [],
@@ -26,6 +27,7 @@ const userSettings: any = {
 const userSettingsMain: any = {
     name: 'user-settings.main',
     url: '/user-settings?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -39,6 +41,7 @@ const userSettingsMain: any = {
 const userSettingsProfile: any = {
     name: 'user-settings.profile',
     url: '/user-settings/profile?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -48,6 +51,7 @@ const userSettingsProfile: any = {
 const userSettingsCoach: any = {
     name: 'user-settings.coach',
     url: '/user-settings/coach?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -57,6 +61,7 @@ const userSettingsCoach: any = {
 const userSettingsAgent: any = {
     name: 'user-settings.agent',
     url: '/user-settings/agent?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -66,6 +71,7 @@ const userSettingsAgent: any = {
 const userSettingsCards: any = {
     name: 'user-settings.cards',
     url: '/user-settings/cards?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -81,6 +87,7 @@ const userSettingsCards: any = {
 const userSettingsSales: any = {
     name: 'user-settings.sales',
     url: '/user-settings/sales?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -96,6 +103,7 @@ const userSettingsSales: any = {
 const userSettingsWithdrawal: any = {
     name: 'user-settings.withdrawal',
     url: '/user-settings/withdrawal?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -111,6 +119,7 @@ const userSettingsWithdrawal: any = {
 const userSettingsFit: any = {
     name: 'user-settings.fit',
     url: '/user-settings/fit?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -120,6 +129,7 @@ const userSettingsFit: any = {
 const userSettingsPrivacy: any = {
     name: 'user-settings.privacy',
     url: '/user-settings/privacy?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -129,6 +139,7 @@ const userSettingsPrivacy: any = {
 const userSettingsZones: any = {
     name: 'user-settings.zones',
     url: '/user-settings/zones?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,
@@ -138,6 +149,7 @@ const userSettingsZones: any = {
 const userSettingsNotifications: any = {
     name: 'user-settings.notifications',
     url: '/user-settings/notifications?userId',
+    title: 'user.settings.shortTitle',
     loginRequired: false,
     authRequired: [],
     reloadOnSearch: false,

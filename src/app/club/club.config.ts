@@ -11,6 +11,7 @@ function configure(
         .state("club", {
             url: "/club/:uri",
             loginRequired: false,
+            title: 'club.fullTitle',
             //authRequired: ['func1'],
             resolve: {
                 view: () => new DisplayView("club"),

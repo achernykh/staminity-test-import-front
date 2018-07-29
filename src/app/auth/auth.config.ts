@@ -11,6 +11,7 @@
     $stateProvider
         .state("signin", {
             url: "/signin",
+            title: 'auth.signin.shortTitle',
             loginRequired: false,
             params: {
                 activatePremiumTrial: null,
@@ -28,6 +29,7 @@
         // Представление Auth: SignUp
         .state("signup", {
             url: "/signup",
+            title: 'auth.signup.shortTitle',
             loginRequired: false,
             params: {
                 activatePremiumTrial: null,
@@ -42,6 +44,7 @@
         // Представление Auth: SignOut
         .state("signout", {
             url: "/signout",
+            title: 'auth.signout.shortTitle',
             loginRequired: false,
             params: {
                 activatePremiumTrial: null,
@@ -56,6 +59,7 @@
         // Представление Auth: Confirm
         .state("confirm", {
             url: "/confirm",
+            title: 'auth.confirm.shortTitle',
             loginRequired: false,
             params: {
                 activatePremiumTrial: null,
@@ -70,6 +74,7 @@
         // Представление Auth: Confirm
         .state("invite", {
             url: "/invite",
+            title: 'auth.invite.shortTitle',
             loginRequired: false,
             params: {
                 activatePremiumTrial: null,
@@ -84,6 +89,7 @@
         // Представление Auth: SetPassword
         .state("setpass", {
             url: "/setpass",
+            title: 'auth.setpass.shortTitle',
             loginRequired: false,
             params: {
                 activatePremiumTrial: null,
@@ -98,6 +104,7 @@
         // Представление Auth: Confirm
         .state("reset", {
             url: "/reset",
+            title: 'auth.reset.shortTitle',
             loginRequired: false,
             params: {
                 email: null,

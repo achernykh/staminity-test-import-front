@@ -11,6 +11,7 @@ function configure($stateProvider: StateProvider,
     $stateProvider
         .state("dashboard", {
             url: "/dashboard",
+            title: 'dashboard.coachfullTitle',
             loginRequired: true,
             authRequired: ["user"],
             resolve: {
@@ -41,6 +42,7 @@ function configure($stateProvider: StateProvider,
         } as StateDeclaration)
         .state("dashboard/club", {
             url: "/dashboard/club/:uri",
+            title: 'dashboard.clubfullTitle',
             loginRequired: true,
             authRequired: ["user"],
             resolve: {

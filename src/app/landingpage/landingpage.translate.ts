@@ -1,7 +1,6 @@
 export let _translate = {
     ru: {
         // Стартовая страница
-
         fullTitle: "Приложение для работы с тренером и календарь тренировок | Staminity",
         shortTitle: "Приложение для работы с тренером и календарь тренировок | Staminity",
         description: "Приложение для работы с тренером и календарь тренировок. Для спортсменов, тренеров и клубов",
@@ -16,6 +15,7 @@ export let _translate = {
             signUp: "Регистрация",
         },
         welcome: {
+            shortTitle: 'Тренировки онлайн',
             promo: "β-версия",
             description: "Тренируйся грамотно и достигай своих целей",
             title1: "ПЛАН ТВОИХ ПОБЕД",
@@ -530,7 +530,7 @@ export let _translate = {
                 text: "Помогите новым ученикам найти и узнать подробнее о вас. Расскажите в профиле о себе, об условиях занятий, о достижениях спортсменов. <br>" +
                 "Пользователи Staminity смогут найти вас в поиске тренеров",
             },
-            externalInfo: 'В Staminity для тренера есть все необходимое для удобной и эффективной работы с учениками онлайн. Помимо планирования, контроля выполнения, анализа тренировок и общения с учениками тренеру доступны планирование сезона, создание собственных схем периодизации, ' +
+            externalInfo: 'Staminity - это специальный сервис для тренера, где есть все необходимое для удобной и эффективной работы с учениками онлайн. Веб-приложение и мобильные приложения для тренера, профессиональная платформа для работы с учениками, включая планирование, контроль выполнения, анализ тренировок и общение с учениками. А также планирование сезона, создание собственных схем периодизации, ' +
             'управление категориями тренировок для классификации заданий и шаблонами для быстрого планирования повторяющихся тренировок.' +
             'Для работы со спортсменами онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом.'
         },
@@ -661,7 +661,7 @@ export let _translate = {
                 text: "Клубные категории тренировок и клубные шаблоны помогут тренерам клуба применять единые правила при подготовке учеников",
             },
             externalInfo: 'Клубы в Staminity помогут организовать совместную работу нескольких тренеров с учениками онлайн для школы бега, бегового клуба, клуба по триатлону, школы по плаванию и ' +
-            'по другим циклическим видам спорта.'
+            'по другим циклическим видам спорта. Специальное приложение и веб-сервис, профессиональная платформа для спортивных клубов и школ по работе с учениками онлайн.'
 
         },
         main: {
@@ -679,7 +679,6 @@ export let _translate = {
     },
     en: {
         // Landing page
-
         fullTitle: "Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity",
         shortTitle: "Workout log, training plans and online training for triathlon, running, swimming and cycling | Staminity",
         description: "Application for online training in running, cycling, swimming and triathlon. Training plans, workout log, online training for athletes, coaches and clubs",
@@ -694,6 +693,7 @@ export let _translate = {
             signUp: "Sign up",
         },
         welcome: {
+            shortTitle: "Training online",
             promo: "β-version",
             description: "Train smart and achieve your goals",
             title1: "ПЛАН ТВОИХ ПОБЕД",
@@ -1212,7 +1212,8 @@ export let _translate = {
                 text: "Help new athletes to find out more information about you. In your profile you can tell about yourself, your terms of training and achievements of your athletes.  <br>" +
                 "New athletes will be able to find you among the coach search results",
             },
-            externalInfo: 'Staminity for the coach has everything you need for convenient and effective work with students online. In addition to planning, controlling the plan performance, analyzing training and communicating with students, for the coach is available season planning, managing periodization schemes, ' +
+            externalInfo: 'Staminity is a service for the running coach, triathlon coach and for coaches in other cyclic sports. It has everything necessary for convenient and effective work with athletes online. Web application and mobile applications for the coach, a professional platform for working with athletes online.' +
+            'Includes planning, controlling the plan performance, analyzing training and communicating with students. It also helps to perform season planning, managing periodization schemes, ' +
             'managing categories for classifying activities and templates for quickly planning repetitive activities. ' +
             'To work with athletes online a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
         },
@@ -1342,8 +1343,8 @@ export let _translate = {
                 subtitle: '',
                 text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
             },
-            externalInfo: 'Clubs in Staminity will help you organize online training of athletes for running schools, running clubs, triathlon schools and club, swimming schools and' +
-            'clubs in other cyclic sports with several coaches. '
+            externalInfo: 'Clubs in Staminity will help you organize joint work of several coaches with athletes online for running schools, running clubs, triathlon schools and club, swimming schools and' +
+            'clubs in other cyclic sports. Web and mobile application, web service and professional platform for clubs and schools to work with athletes online.'
         },
         main: {
             title: 'Training online',

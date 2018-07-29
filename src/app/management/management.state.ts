@@ -7,6 +7,7 @@ import MessageService from "../core/message.service";
 const management = {
     name: "management",
     url: "/management/:uri",
+    title: "users.fullTitle",
     loginRequired: true,
     authRequired: ["func1"],
     resolve: {

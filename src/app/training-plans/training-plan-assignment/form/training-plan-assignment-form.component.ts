@@ -86,8 +86,8 @@ class TrainingPlanAssignmentFormCtrl implements IComponentController {
     }
 
     private onlyFirstPlanDaysPredicate (date: Date): boolean {
-        //console.debug('check calendar date', date, date.getDay(), this.plan.firstDate, this.plan.firstDate.getDay());
-        return this.data.applyMode === 'I' || date.getDay() === this.plan.firstDate.getDay();
+        console.debug('check calendar date', date, date.getDay(), this.plan.firstCalendarDate, this.plan.firstCalendarDate.getDay());
+        return this.data.applyMode === 'I' || date.getDay() === this.plan.firstCalendarDate.getDay();
     };
 
     get enabledSync (): boolean {

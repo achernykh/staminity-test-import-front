@@ -20,7 +20,7 @@ function run(
     storage: StorageService, // not used, just force DisplayService being initialized
     DisplayService: DisplayService, // not used, just force DisplayService being initialized
     UserService: UserService, // not used, just force UserService being initialized,
-    socket: SocketService
+    socket: SocketService,
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
@@ -65,6 +65,8 @@ function run(
     });
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
         //omniSetup(state.$from().name, state.$to().name);
+        //$rootScope.title = 'Staminity';
+        window.document.title = $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity');
         LoaderService.hide();
     });
     $state.defaultErrorHandler((error) => {
