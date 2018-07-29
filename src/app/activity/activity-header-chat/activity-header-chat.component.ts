@@ -23,6 +23,9 @@ export class ActivityHeaderChatCtrl implements IComponentController {
     readonly commentType: string = "activity";
     inAction: boolean = false; // true - ждем ответа от бэка, false - на стороне клиента
     onUpdate: (response: Object) => IPromise<void>;
+
+    // private
+    private chatBox: Element;
     private fileUrlBuffer: string[] = [];
 
     static $inject = ["CommentService", "message", "$scope", "ImagesService"];
@@ -40,6 +43,7 @@ export class ActivityHeaderChatCtrl implements IComponentController {
 
     $onInit() {
         this.load();
+        this.chatBox = document.getElementsByClassName('chat-wrapper')[0];
     }
 
     paste (e: ClipboardEvent):void {
@@ -74,7 +78,9 @@ export class ActivityHeaderChatCtrl implements IComponentController {
     }
 
     onPostComment(text) {
+        debugger;
         this.inAction = true;
+        console.debug('autolinker', Autolinker.link(text,{safe: true, embed: true,youtube: true}));
         this.comment.post(this.commentType, this.activityId, true, this.imgTag + Autolinker.link(text,{safe: true, embed: true,youtube: true}))
             .then((result) => {
                     this.fileUrlBuffer = [];
@@ -97,6 +103,12 @@ export class ActivityHeaderChatCtrl implements IComponentController {
 
     get isIonic (): boolean {
         return window.hasOwnProperty('ionic');
+    }
+
+    updateScroll (): void {
+        setTimeout(() => {
+            this.chatBox.scrollTop = this.chatBox.scrollHeight;
+        }, 400);
     }
 }
 

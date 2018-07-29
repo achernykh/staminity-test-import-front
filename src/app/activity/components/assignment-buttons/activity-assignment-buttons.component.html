@@ -7,7 +7,7 @@
                translate="activity.action.toTemplate">
     </md-button>
     <md-button ng-if="$ctrl.item.activity.view.isView"
-               ng-click="$ctrl.item.activity.view.isPut = true"
+               ng-click="$ctrl.item.activity.view.isPut = true; $ctrl.item.onUpdate({activity: $ctrl.item.activity})"
                translate="activity.action.edit">
     </md-button>
     <md-button ng-if="!$ctrl.item.activity.view.isView && !$ctrl.item.isIonic"

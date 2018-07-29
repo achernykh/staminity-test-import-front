@@ -33,6 +33,7 @@ class CalendarItemTemplateSelectorCtrl implements IComponentController {
 const CalendarItemTemplateSelectorComponent: IComponentOptions = {
     bindings: {
         templatesByOwner: "<",
+        hideToolbar: "<",
         onBack: "&",
         onSelect: "&",
     },

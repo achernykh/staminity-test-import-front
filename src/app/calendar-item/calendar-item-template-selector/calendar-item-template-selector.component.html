@@ -1,4 +1,4 @@
-<md-toolbar flex="none" class="" style="background-color: white; color: black">
+<md-toolbar ng-if="!$ctrl.hideToolbar" flex="none" class="" style="background-color: white; color: black">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" ng-click="$ctrl.onBack()">
             <md-tooltip md-direction="left">{{'activity.templateSelector.toolbar' | translate}}</md-tooltip>
@@ -8,7 +8,6 @@
         <span flex></span>
     </div>
 </md-toolbar>
-<md-divider></md-divider>
 <md-list flex="auto" class="md-dense">
     <md-subheader ng-if="$ctrl.templatesByOwner.user.length">
         <span>{{ 'reference.templates.user' | translate }}</span>

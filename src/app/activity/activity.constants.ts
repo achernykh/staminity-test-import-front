@@ -43,7 +43,7 @@ export interface ActivityConfigConstants {
     };
     valuePosition: {
         [measure: string]: string;
-    },
+    };
     oppositeDurationMeasure: {
         [measure: string]: string;
     };

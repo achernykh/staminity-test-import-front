@@ -29,7 +29,7 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-content flex="auto" layout="column">
+    <md-content flex="auto" layout="column" class="calendar-item-measurement-content">
         <!-- Режим просмотра -->
         <!-- Режим ввода -->
         <form flex="none" name="$ctrl.measurementForm" layout="column">
@@ -153,6 +153,8 @@
                     <md-input-container flex class="md-block no-message">
                         <label translate="overallFeeling"></label>
                         <textarea ng-model="$ctrl.measurement.measurementHeader.feeling.overallFeeling"
+                                  st-scroll-to-input
+                                  scroll-box="'calendar-item-measurement-content'"
                                   ng-disabled="$ctrl.measurement.view.isView"
                                   name="about" rows="1" md-select-on-focus></textarea>
                     </md-input-container>

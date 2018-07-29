@@ -21,7 +21,7 @@ export interface GeoInfo {
     country_code2: string;
     time_zone: {
         name: string;
-    }
+    };
 }
 
 const getDisplay = (session: ISession): string => path([getUser, "display"])(session) || {};

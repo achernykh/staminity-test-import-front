@@ -40,6 +40,10 @@
                                  on-select="$ctrl.onSelectTemplate(template)">
 </calendar-item-template-selector>
 <st-calendar-item-manual-fact ng-if="$ctrl.showManualFact"
+                              plan="$ctrl.activity.intervals.PW"
+                              actual="$ctrl.activity.intervals.W"
+                              sport="$ctrl.activity.header.sportBasic"
+                              disabled="!$ctrl.activity.auth.isCreator && !$ctrl.activity.auth.isOwner && !$ctrl.activity.auth.isMyCoach"
                               class="calendar-item-manual-fact md-whiteframe-12dp"
                               ng-class="{'with-details-panel': $ctrl.activity.hasActualData}"
                               on-back="$ctrl.onManualFactBack(fact)"

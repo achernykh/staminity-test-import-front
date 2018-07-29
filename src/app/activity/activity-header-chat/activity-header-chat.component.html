@@ -1,55 +1,58 @@
-<div flex class="message-list" scroll-glue>
-    <div ng-repeat="comment in $ctrl.comments | orderBy:'+ts' track by $index" layout="row">
-        <userpic flex="none" flex-order="{{::(!$ctrl.isMe(comment.userProfile.userId) ? 1:3)}}"
-                 profile="comment.userProfile" is-premium="comment.userProfile.isPremium"></userpic>
-        <div flex flex-order="2"
-             ng-class="{'bg-blue-grey-100': $ctrl.isMe(comment.userProfile.userId),
+<section layout="column" layout-fill class="chat-wrapper">
+    <div flex class="message-list" scroll-glue>
+        <div ng-repeat="comment in $ctrl.comments | orderBy:'+ts' track by $index" layout="row">
+            <userpic flex="none" flex-order="{{::(!$ctrl.isMe(comment.userProfile.userId) ? 1:3)}}"
+                     profile="comment.userProfile" is-premium="comment.userProfile.isPremium"></userpic>
+            <div flex flex-order="2"
+                 ng-class="{'bg-blue-grey-100': $ctrl.isMe(comment.userProfile.userId),
                         'bg-grey-200': !$ctrl.isMe(comment.userProfile.userId)}"
-             class="message md-caption" layout="column">
-            <div style="white-space: pre-wrap;" flex ng-bind-html="comment.text | stTrustHtml"></div>
-            <div flex="none" class="md-dark md-inactive"
-                 style="font-size: 9px; text-align: right; margin-top: 4px">
-                {{::$ctrl.localDate(comment.ts)}}
+                 class="message md-caption" layout="column">
+                <div style="white-space: pre-wrap;" flex ng-bind-html="comment.text | stTrustHtml"></div>
+                <div flex="none" class="md-dark md-inactive"
+                     style="font-size: 9px; text-align: right; margin-top: 4px">
+                    {{::$ctrl.localDate(comment.ts)}}
+                </div>
+            </div>
+            <div flex="none" flex-order="{{::($ctrl.isMe(comment.userProfile.userId) ? 1:3)}}" style="width: 32px">
+                <!--<md-button flex="none" class="md-icon-button" ng-click="$ctrl.onDeleteComment(comment)">
+                    <md-icon class="material-icons md-dark md-inactive">delete</md-icon>
+                </md-button>-->
             </div>
         </div>
-        <div flex="none" flex-order="{{::($ctrl.isMe(comment.userProfile.userId) ? 1:3)}}" style="width: 32px">
-            <!--<md-button flex="none" class="md-icon-button" ng-click="$ctrl.onDeleteComment(comment)">
-                <md-icon class="material-icons md-dark md-inactive">delete</md-icon>
-            </md-button>-->
+    </div>
+    <div flex="none" class="file-preview-panel md-padding" ng-if="$ctrl.fileUrlBuffer.length > 0" layout="row" layout-wrap="true">
+        <div flex="33" ng-repeat="url in $ctrl.fileUrlBuffer" layout="row" layout-align="start start" style="padding-bottom: 16px;">
+            <div class="card md-whiteframe-z1" flex="auto" style="background-image: url({{url}})">
+            </div>
+            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.deleteFile($index)">
+                <md-icon class="material-icons md-18">close</md-icon>
+            </md-button>
         </div>
     </div>
-</div>
-<div flex="none" class="file-preview-panel md-padding" ng-if="$ctrl.fileUrlBuffer.length > 0" layout="row" layout-wrap="true">
-    <div flex="33" ng-repeat="url in $ctrl.fileUrlBuffer" layout="row" layout-align="start start" style="padding-bottom: 16px;">
-        <div class="card md-whiteframe-z1" flex="auto" style="background-image: url({{url}})">
-        </div>
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.deleteFile($index)">
-            <md-icon class="material-icons md-18">close</md-icon>
-        </md-button>
-    </div>
-</div>
-<div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack ng-if="!$ctrl.isIonic">
-    <md-input-container flex class="md-block no-message">
+    <div flex="none" layout="row" layout-align="space-between end" class="input-box" ng-cloack ng-if="!$ctrl.isIonic">
+        <md-input-container flex class="md-block no-message">
         <textarea ng-model="$ctrl.text"
                   id="inputMessage"
                   ng-paste="$ctrl.paste($event)"
                   ng-model-options="{ updateOn: 'blur' }"
                   max-rows="5"
                   name="about" rows="1"></textarea>
-    </md-input-container>
-    <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onPostComment($ctrl.text)"
-               ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.text.length > 0))">
-        <md-icon class="material-icons">send</md-icon>
-    </md-button>
-</div>
-<ion-footer-bar keyboard-attach class="list has-tabs" ng-if="$ctrl.isIonic" style="padding: 0;">
-    <form ng-submit="$ctrl.onPostComment($ctrl.text)" style="width: 100%; margin: 0;">
-        <div class="item item-input-inset" style="padding: 4px 10px;">
-            <label class="item-input-wrapper">
-                <input id="inputMessage-2" type="text" ng-model="$ctrl.text" placeholder="..."/>
-            </label>
-            <button type="submit" class="button button-icon button-clear ion-paper-airplane md-dark md-active"
-                    ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.text.length > 0))"></button>
-        </div>
-    </form>
-</ion-footer-bar>
+        </md-input-container>
+        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onPostComment($ctrl.text)"
+                   ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.text.length > 0))">
+            <md-icon class="material-icons">send</md-icon>
+        </md-button>
+    </div>
+    <div class="list" ng-if="$ctrl.isIonic" style="padding: 0;">
+        <form ng-submit="$ctrl.onPostComment($ctrl.text)" style="width: 100%; margin: 0;">
+            <div class="item item-input-inset" style="padding: 4px 10px;">
+                <label class="item-input-wrapper">
+                    <input id="inputMessage-2" type="text" ng-focus="$ctrl.updateScroll()" ng-model="$ctrl.text" placeholder="..."/>
+                </label>
+                <button type="submit" class="button button-icon button-clear ion-paper-airplane md-dark md-active"
+                        ng-disabled="$ctrl.inAction || (!ctrl.inAction && !($ctrl.text.length > 0))">
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

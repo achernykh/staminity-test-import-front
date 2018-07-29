@@ -1,4 +1,4 @@
-<md-toolbar flex="none" class="" style="background-color: white; color: black">
+<md-toolbar ng-if="!$ctrl.isIonic" flex="none" class="" style="background-color: white; color: black">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" ng-click="$ctrl.onBack({fact: $ctrl.actual})">
             <md-tooltip md-direction="left">{{'activity.templateSelector.toolbar' | translate}}</md-tooltip>
@@ -33,7 +33,7 @@
                    interval="false"
                    ng-model="$ctrl.actual.calcMeasures[measure][$ctrl.activityConfig.valuePosition[measure]]"
                    ng-change="$ctrl.changeValue()"
-                   ng-disabled="!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach">
+                   ng-disabled="$ctrl.disabled">
             <div class="hint md-dark">
                 <span ng-if="measure === $ctrl.plan.durationMeasure && $ctrl.plan.durationValue > 0">
                     {{'activity.plan' | translate}}&nbsp;
@@ -50,7 +50,6 @@
                       translate="activity.assignment.{{::measure}}Fact.{{measure | measureUnit:$ctrl.sport}}.hint"
                       translate-values="{sport: $ctrl.sport}"></span>
             </div>
-            <div ng-messages="$ctrl.item.assignmentForm.durationType.$error" role="alert"></div>
         </md-input-container>
     </div>
 </md-list>

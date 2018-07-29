@@ -13,16 +13,16 @@
 }
 
 .superscript {
-    position: absolute;
+    position: absolute !important;
     right: 4px;
-    top: 5px;
+    top: 5px !important;
     font-size: 12px;
     line-height: 12px;
 }
 md-tabs.md-dense .superscript { right: 0;  top: 0; }
 
 .subscript {
-    position: absolute;
+    position: absolute !important;
     right: 0;
     bottom: 0;
     font-size: 12px;

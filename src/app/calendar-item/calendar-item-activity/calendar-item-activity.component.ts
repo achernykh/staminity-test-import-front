@@ -90,8 +90,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     template: boolean = false; // режим создания, изменения шаблона
     club: IGroupProfileShort;
     view: string; // для компоенета calendar-compact, отвечает за верстку элемента: calendar, dashboard...
+    onUpdate: (response: {activity: Activity}) => Promise<void>;
     onAnswer: (response: ICalendarItemDialogOptions | any) => Promise<void>;
     onCancel: () => IPromise<void>;
+    onTemplateByFilter: (response: {count: number}) => Promise<void>;
 
     public assignmentForm: INgModelController; // форма ввода задания структурированного / не структурированного
     public inAction: boolean = false; // true - форма на стороне бэкенд (кнопки формы блокируются), false - на стороне frontend
@@ -111,7 +113,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private selectedTimestamp: Array<any> = [];
     private selectedIntervalIndex: ISelectionIndex = { L: null, P: null, U: null}; //todo delete
     private selectionIndex: ISelectionIndex = { L: null, P: null, U: null};
-    private selectionTimestamp: Array<ISelectionTimestamp> = [];
+    public selectionTimestamp: Array<ISelectionTimestamp> = [];
     public multiSelection: boolean = false;
     public multiSelectionInterval: IActivityIntervalW;
 
@@ -131,7 +133,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
     public filterParams: ReferenceFilterParams; // набор фильтрации (вид спорта, категория, клуб) для фильтрации шаблонов пользователя
     public templates: Array<IActivityTemplate> = []; // набор шаблоново тренировок пользователя
     private destroy: Subject<void> = new Subject<void>();
-    private templatesByOwner: { [owner: string]: Array<IActivityTemplate> }; // шаблоны тренировки для выдчи пользователю в разрезе свои, тренера, системные и пр..
+    public templatesByOwner: { [owner: string]: Array<IActivityTemplate> }; // шаблоны тренировки для выдчи пользователю в разрезе свои, тренера, системные и пр..
     public templateByFilter: number = null;//false; // false - нет шаблонов в соответствии с фильтром, true - есть шаблоны
 
     public selectedTab: number = 0; // Индекс панели закладок панели заголовка тренировки
@@ -186,6 +188,9 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
         if(changes.pushReset && !changes.pushReset.isFirstChange()) {
             this.onReset(this.mode);
+        }
+        if(changes.pushSelectTemplate && !changes.pushSelectTemplate.isFirstChange()) {
+            this.onShowSelectTemplate();
         }
         if (changes.id && !changes.id.isFirstChange() && this.id) {
             this.$onInit();
@@ -328,6 +333,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
 
+    onShowSelectTemplate (): void {
+        this.showSelectTemplate = true;
+    }
+
     /**
      * Выбран шаблон тренировки
      * @param template
@@ -336,11 +345,15 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.showSelectTemplate = false;
         this.activity.header.template = template;
         this.activity.intervals = new ActivityIntervals(template.content);
-        this.activity.intervals.PW.completeAbsoluteValue(this.user.trainingZones, this.activity.header.sportBasic);
-        this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.user.trainingZones, this.activity.header.sportBasic));
+        this.activity.intervals.PW.completeAbsoluteValue(this.options.owner.trainingZones, this.activity.header.sportBasic);
+        this.activity.intervals.P.map(i => i.completeAbsoluteValue(this.options.owner.trainingZones, this.activity.header.sportBasic));
         //this.activity.updateIntervals();
         this.structuredMode = this.activity.isStructured;
         this.templateChangeCount ++;
+    }
+
+    onShowManualFact (): void {
+        this.showManualFact = true;
     }
 
     onManualFactSave (fact: IActivityIntervalW): void {
@@ -358,6 +371,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.activity.intervals.PW.setCompletePercent(fact);
         this.assignmentForm.$setDirty();
         this.manualFactChangeCount ++;
+    }
+
+    onShowRoute (): void {
+        this.showRoute = true;
     }
 
     onRouteBack (): void {
@@ -406,12 +423,13 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.templatesByOwner = pipe(
             filter(filtersToPredicate(filters, this.filterParams)),
             orderBy(prop('sortOrder')),
-            groupBy(getOwner(this.user)),
+            groupBy(getOwner(this.options.owner)),
         ) (this.templates);
 
         this.templateByFilter = 0;
         Object.keys(this.templatesByOwner).map(owner => this.templateByFilter += this.templatesByOwner[owner].length);
             //.some(owner => this.templatesByOwner[owner] && this.templatesByOwner[owner].length > 0);
+        this.onTemplateByFilter({count: this.templateByFilter});
     }
 
     /**
@@ -422,12 +440,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
             this.currentUser.connections.allAthletes){
             this.forAthletes = this.currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))
-                .map(user => ({profile: user, active: user.userId === this.user.userId}));
+                .map(user => ({profile: user, active: user.userId === this.options.owner.userId}));
 
         }
 
         if(this.forAthletes.length === 0 || !this.forAthletes.some(athlete => athlete.active)) {
-            this.forAthletes.push({profile: this.user, active: true});
+            this.forAthletes.push({profile: this.options.owner, active: true});
         }
 
         if (this.template && this.data && this.data.userProfileCreator) {
@@ -884,10 +902,13 @@ export const CalendarItemActivityComponent: IComponentOptions = {
         user: '<', // пользователь - владелец календаря
         tab: '<', // вкладка по-умолчанию
         template: '=?',
+        pushSelectTemplate: '<',
         pushSave: '<',
         pushReset: '<',
+        onUpdate: '&',
         onCancel: '&',
-        onAnswer: '&'
+        onAnswer: '&',
+        onTemplateByFilter: '&'
     },
     require: {
         //calendar: '^calendar'

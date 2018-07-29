@@ -11,7 +11,8 @@ export const ActivityCompactComponent: IComponentOptions = {
         id: '<',
         options: '<',
         onCancel: '&',
-        onAnswer: '&'
+        onAnswer: '&',
+        onTemplateByFilter: '&'
     },
     controller: CalendarItemActivityCtrl,
     template: require('./compact-activity.component.html') as string

@@ -34,6 +34,7 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         setTimeout(() => {
             this.clearTemplate();
             this.item.checkAssignmentForm();
+            debugger;
             this.item.updateFilterParams();
             this.$scope.$applyAsync();
         }, 1);

@@ -25,19 +25,33 @@ export class CalendarItemMeasurementCtrl {
     public onAnswer: (response: { formMode: FormMode, item: ICalendarItem }) => Promise<void>;
     public onCancel: () => Promise<void>;
 
-    static $inject = [ 'CalendarService', 'SessionService', 'message' ];
+    static $inject = ['$scope', 'CalendarService', 'SessionService', 'message', ];
 
-    constructor (private CalendarService: CalendarService,
+    constructor (private $scope: any,
+                 private CalendarService: CalendarService,
                  private SessionService: SessionService,
                  public message: IMessageService) {
+
+        if (this.isIonic && this.$scope.options) {
+            this.data = this.$scope.item;
+            this.options = this.$scope.options;
+            this.onAnswer = this.$scope.answer;
+            this.onCancel = this.$scope.cancel;
+            this.prepare();
+        }
     }
 
     $onInit () {
+        this.prepare();
+    }
+
+    prepare () {
         this.measurement = new CalendarItem(this.data, this.options);
         this.measurement.prepare();
     }
 
     save () {
+        debugger;
         this.inAction = true;
         if (this.measurement.view.isPost) {
             this.CalendarService.postItem(this.measurement.package())

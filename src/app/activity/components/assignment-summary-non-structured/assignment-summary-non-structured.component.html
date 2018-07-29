@@ -103,7 +103,7 @@
     <div style="text-align: right"
          ng-if="!($ctrl.item.activity.view.isTemplate || $ctrl.item.activity.view.isTrainingPlan)">
         <md-button class="md-primary" style="margin: 6px 0"
-                   ng-click="$ctrl.item.showManualFact = true"
+                   ng-click="$ctrl.item.onShowManualFact()"
                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isOwner && !$ctrl.item.activity.auth.isMyCoach)"
                    translate="activity.assignment.{{$ctrl.item.activity.isCompleted ? 'editActualData' : 'postActualData'}}">
         </md-button>

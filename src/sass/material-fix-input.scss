@@ -58,9 +58,9 @@ md-input-container.st-material, md-autocomplete.st-material md-input-container {
   input, .md-select-value {
     width: 100%;
     //font-weight: 500;
-    padding: 20px 12px 8px 12px;
+    padding: 20px 12px 8px 12px !important;
     line-height: 20px;
-    background-color: $input-color;
+    background-color: $input-color !important;
     height: 56px;
     border-radius: $input-radius $input-radius 0 0;
     box-sizing: border-box;

@@ -33,10 +33,9 @@ class ActivityRouteCtrl implements IComponentController {
 
     $postLink (): void {
         console.info('activity route: postLink route ctrl');
-        //this.$element.ready(() => {
-
-         //   }
-        //);
+        this.$element.ready(() => {
+            setTimeout(() => window.hasOwnProperty('ionic') && this.$onInit(), 1);
+        });
     }
 
     private prepareData (): void {
@@ -59,10 +58,10 @@ class ActivityRouteCtrl implements IComponentController {
                 map.fitBounds(this.select.length === 0 ?
                     this.map.route.map((e) => GeoJSON.coordsToLatLng([e.lng, e.lat])) :
                     this.map.selectCoordinates.map((e) => GeoJSON.coordsToLatLng([e.lng, e.lat])));
-                setTimeout(() => map.invalidateSize(), 1);
+                setTimeout(_ => map.invalidateSize(), 1);
                 //map.invalidateSize();
-                this.ready = true;
-            });
+               // this.ready = true;
+            }).then(_ => this.$scope.$applyAsync());
     }
 
 }

@@ -33,9 +33,9 @@ class CalendarItemManualFactCtrl implements IComponentController {
     }
 
     private prepareData (): void {
-        this.plan = this.item.activity.intervals.PW;
-        this.actual = deepCopy(this.item.activity.intervals.W);
-        this.sport = this.item.activity.header.sportBasic;
+        //this.plan = this.plan || this.item.activity.intervals.PW;
+        //this.actual = this.actual || deepCopy(this.item.activity.intervals.W);
+        //this.sport = this.sport || this.item.activity.header.sportBasic;
         this.durationTypes = [this.plan.durationMeasure === 'movingDuration' ? 'movingDuration' : 'duration','distance'];
     }
 
@@ -43,16 +43,20 @@ class CalendarItemManualFactCtrl implements IComponentController {
         return [...this.durationTypes,
             ...this.activityConfig.intensityBySport[this.activityConfig.intensityBySport[sport] ? sport : 'default']];
     }
+
+    get isIonic (): boolean {
+        return window.hasOwnProperty('ionic');
+    }
 }
 
 export const CalendarItemManualFactComponent:IComponentOptions = {
     bindings: {
-        data: '<',
+        plan: '=',
+        actual: '<',
+        sport: '=',
+        disabled: '=',
         onBack: '&',
         onSave: '&'
-    },
-    require: {
-        item: '^calendarItemActivity'
     },
     controller: CalendarItemManualFactCtrl,
     template: require('./calendar-item-manual-fact.component.html') as string

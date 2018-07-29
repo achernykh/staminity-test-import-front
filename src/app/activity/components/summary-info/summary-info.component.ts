@@ -111,7 +111,7 @@ class ActivitySummaryInfoCtrl implements IComponentController {
     }
 
     mapFull (): void {
-        this.item.showRoute = true;
+        this.item.onShowRoute();
         this.mapVersion ++;
         if (this.mapVersion > this.mapRefresh) {
             setTimeout(_ => this.mapRefresh ++);
