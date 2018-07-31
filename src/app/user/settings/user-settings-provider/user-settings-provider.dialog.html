@@ -1,6 +1,6 @@
-<md-dialog style="min-width: 320px">
-    <form name="$ctrl.adaptorForm" ng-submit='hide()' ng-cloak>
-        <md-toolbar style="background-color: white; color: black">
+<md-dialog id="provider" layout="column">
+    <form flex="auto" layout="column" name="$ctrl.adaptorForm" ng-submit='hide()' ng-cloak>
+        <md-toolbar flex="none" style="background-color: white; color: black">
             <div class="md-toolbar-tools">
                 <h2 >{{ 'user.settings.sync.'+ $ctrl.adaptor.provider | translate}}</h2>
                 <span flex></span>
@@ -9,7 +9,7 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content>
+        <md-dialog-content flex="auto">
             <md-list class="md-dense">
                 <md-list-item ng-if="!$ctrl.adaptor.isOAuth">
                     <md-input-container md-no-float class="md-block no-message">
@@ -30,6 +30,7 @@
                 <md-list-item>
                     <md-input-container md-no-float class="md-block">
                         <md-datepicker ng-model="$ctrl.adaptor.startDate"
+                                       md-hide-icons="calendar"
                                        name="dateField"
                                        md-min-date="minDate"
                                        md-max-date="maxDate">
@@ -47,7 +48,7 @@
             </md-list>
         </md-dialog-content>
 
-        <md-dialog-actions layout="row">
+        <md-dialog-actions flex="none" layout="row">
             <span flex></span>
             <md-button ng-disabled="!$ctrl.adaptorForm.$valid" type="submit"
                        ng-class="{'md-primary': $ctrl.adaptorForm.$valid, 'md-disabled': $ctrl.adaptorForm.$error}"

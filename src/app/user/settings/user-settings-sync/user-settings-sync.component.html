@@ -1,6 +1,7 @@
 <form name="$ctrl.syncForm">
     <md-list class="md-dense section">
-        <md-list-item ng-repeat-start="adaptor in $ctrl.adaptors" class="md-2-line" ng-click="adaptor.status.switch ? $ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider]): angular.noop()">
+        <md-list-item ng-repeat="adaptor in $ctrl.adaptors" class="md-2-line"
+                      ng-click="adaptor.status.switch ? $ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider]): angular.noop()">
             <img ng-src="/assets/icon/{{adaptor.provider}}_{{adaptor.status.switch ? 'on':'off'}}.png"
                  class="md-avatar" style="border-radius: 50%"/>
             <div class="md-list-item-text">
@@ -13,6 +14,17 @@
                        ng-model="$ctrl.toggle[adaptor.provider]"
                        ng-change="$ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider])"></md-switch>
         </md-list-item>
-        <md-divider ng-repeat-end ng-if="!$last"/>
+        <md-list-item ng-repeat="adaptor in $ctrl.otherAdaptors"
+                      class="md-2-line"
+                      ng-click="adaptor.status.switch ? $ctrl.showProviderSettings($event, adaptor, $ctrl.toggle[adaptor.provider]): angular.noop()">
+            <img ng-src="/assets/icon/{{adaptor.provider}}_{{adaptor.status.switch ? 'on':'off'}}.png"
+                 class="md-avatar" style="border-radius: 50%"/>
+            <div class="md-list-item-text">
+                <h3> {{ 'user.settings.sync.' + adaptor.provider | translate }} </h3>
+            </div>
+            <md-button class="md-secondary md-primary" ng-click="$ctrl.otherSyncInfo(adaptor)">
+                <span translate="user.settings.sync.more"></span>
+            </md-button>
+        </md-list-item>
     </md-list>
 </form>

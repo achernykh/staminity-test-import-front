@@ -110,13 +110,21 @@ export const syncAdaptors = [
         provider: "strava", 
         state: ExternalProviderState.Disabled, 
         isOAuth: true, 
-    }, /*, 
-    { 
-        provider: 'polar', 
-        state: ExternalProviderState.Disabled, 
-        isOAuth: false 
-    }*/ 
-]; 
+    }
+];
+
+export const syncOther = [
+    {
+        provider: 'polar',
+        state: ExternalProviderState.Disabled,
+        isOAuth: true
+    },
+    {
+        provider: 'movescount',
+        state: ExternalProviderState.Disabled,
+        isOAuth: true
+    }
+];
 
 class UserSettingsSyncCtrl {
     
@@ -124,7 +132,8 @@ class UserSettingsSyncCtrl {
     owner: IUserProfile;
     currentUser: IUserProfile;
 
-    adaptors: any[]; 
+    adaptors: any[];
+    otherAdaptors: any[] = syncOther;
     toggle = {};
 
     static $inject = ['SyncAdaptorService', 'dialogs', 'message', '$mdDialog'];
@@ -199,6 +208,10 @@ class UserSettingsSyncCtrl {
         }, () => {
             this.toggle[adaptor.provider] = false;
         });
+    }
+
+    otherSyncInfo (adaptor) {
+        this.syncAdaptorService.showProviderInfo(adaptor).then();
     }
 
     disableAdaptor (adaptor) {

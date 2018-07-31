@@ -189,6 +189,7 @@ class AuthCtrl implements IComponentController {
      */
     signup(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
+        this.credentials.display.language = this.displayService.getLocale();
         this.AuthService.signUp(Object.assign({}, credentials, {utm: {...this.getUtmParams()}}))
             //.finally(() => this.enabled = true)
             .then((m: ISystemMessage) => this.message.systemSuccess(m.title), e => {throw e;})
@@ -241,6 +242,7 @@ class AuthCtrl implements IComponentController {
     }
 
     OAuth(flowType: string, provider: string) {
+        this.credentials.display.language = this.displayService.getLocale();
         let data = Object.assign({
             flowType: flowType,
             device: this.device,

@@ -32,6 +32,10 @@ const getFirstDayOfWeek = (session: ISession): number => path([getUser, "display
 const getCurrencyCode = (country: string): string =>
     Object.keys(landingTariffsConfig.currency).filter(curr => landingTariffsConfig.currency[curr].some(c => c === country.toUpperCase()))[0] ||
     landingTariffsConfig.defaultCurrency;
+const getDefaultLanguage = (lng: string[]): string => {
+    let userLng: string = (window.navigator.language as string).substring(0,2);
+    return lng && lng.indexOf(userLng) !== -1 ? userLng : 'en';
+}
 
 export default class DisplayService {
 
@@ -93,7 +97,7 @@ export default class DisplayService {
     getLocale (): string {
         return this.sessionService.getToken() ?
             getLocale(this.sessionService.get()) :
-            this.$translate.use() || (window.navigator.language as string).substring(0,2) || "en";
+            this.$translate.use() || getDefaultLanguage(Object.keys(this.locales));
     }
 
     setLocale(locale: string): Promise<any> {
