@@ -403,6 +403,10 @@ export const translateUser = {
                 garmin: 'Garmin Connect',
                 strava: 'Strava',
                 polar: 'Polar Flow',
+                movescount: 'Suunto Movescount',
+                more: 'Узнать как',
+                ok: 'Понятно',
+                syncByStrava: '',
                 status: {
                     offSyncNeverEnabled: {
                         button: 'Подключить',
@@ -976,6 +980,10 @@ export const translateUser = {
                 garmin: 'Garmin Connect',
                 strava: 'Strava',
                 polar: 'Polar Flow',
+                movescount: 'Suunto Movescount',
+                more: 'Learn more',
+                ok: 'Ok',
+                syncByStrava: '',
                 status: {
                     offSyncNeverEnabled: {
                         button: 'Enable',

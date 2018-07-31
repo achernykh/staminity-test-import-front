@@ -1,0 +1,24 @@
+<md-dialog id="provider" layout="column">
+    <form flex="auto" layout="column" name="$ctrl.adaptorForm" ng-submit='hide()' ng-cloak>
+        <md-toolbar flex="none" style="background-color: white; color: black">
+            <div class="md-toolbar-tools">
+                <h2 >{{ 'user.settings.sync.'+ $ctrl.adaptor.provider | translate}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+                    <md-icon class="material-icons md-dark">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content flex="auto">
+           <p class="md-padding md-body-1" translate="user.settings.sync.syncByStrava"></p>
+        </md-dialog-content>
+
+        <md-dialog-actions flex="none" layout="row">
+            <span flex></span>
+            <md-button type="submit"
+                       ng-click="$ctrl.confirm()">
+                <span translate="user.settings.sync.ok"></span>
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -99,4 +99,20 @@ export default class SyncAdaptorService {
         });
     }
 
+    showProviderInfo (adaptor: any) : Promise<any> {
+        return this.$mdDialog.show({
+            controller: UserSettingsProviderCtrl,
+            controllerAs: '$ctrl',
+            template: require('./settings/user-settings-provider/user-settings-provider-info.dialog.html'),
+            parent: angular.element(document.body),
+            locals: {
+                adaptor: adaptor
+            },
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: false
+        });
+    }
+
 }

@@ -68,7 +68,7 @@
                        ng-click="$ctrl.OAuth('signUp', provider)"
                        ng-disabled="!$ctrl.enabled || !$ctrl.confirmation || $ctrl.credentials.personal.country === null"
                        class="social-button {{::provider}}">
-                <md-icon md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
+                <md-icon style="pointer-events: none" md-svg-src="/assets/icon/{{provider}}_clr.svg" clas="s36"></md-icon>
                 <!--<span translate="auth.signup.social"></span>&nbsp;<span translate="{{::provider}}"></span>-->
             </md-button>
         </div>
