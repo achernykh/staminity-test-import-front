@@ -270,7 +270,7 @@
         </md-button>
         <md-button ng-if="!$ctrl.record.view.isView" type="submit"
                    ng-class="{'md-warn': !$ctrl.recordForm.$valid}"
-                   ng-disabled="$ctrl.record.view.isPut && !$ctrl.recordForm.$dirty"
+                   ng-disabled="($ctrl.record.view.isPut && !$ctrl.recordForm.$dirty) || $ctrl.inAction"
                    ng-click="($ctrl.recordForm.$valid) ? $ctrl.onSave() : null">
             <span translate="activity.action.save"></span>
         </md-button>

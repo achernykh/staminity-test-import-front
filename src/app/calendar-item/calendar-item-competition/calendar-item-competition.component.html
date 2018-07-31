@@ -43,7 +43,8 @@
         <md-list ng-if="$ctrl.isViewMode">
             <md-list-item>
                 <md-icon flex="none" md-svg-src="/assets/icon/{{$ctrl.record.competitionHeader.type}}.svg"></md-icon>
-                <p flex class="md-caption" ng-if="$ctrl.isViewMode">{{::'competition.' + $ctrl.competition.competitionHeader.type | translate}}</p>
+                <p flex class="md-caption" ng-if="$ctrl.isViewMode">{{::'competition.' +
+                    $ctrl.competition.competitionHeader.type | translate}}</p>
             </md-list-item>
             <md-list-item>
                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
@@ -157,60 +158,75 @@
                         </md-datepicker>
                     </md-input-container>
                 </md-list-item>
-                <md-list-item ng-if="$ctrl.competition.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates">
+                <md-list-item
+                        ng-if="$ctrl.competition.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates">
                     <md-icon class="material-icons md-dark" style="margin-right: 20px">today</md-icon>
                     <p class="md-caption"
                        translate="activity.dynamicDate"
                        translate-values="{week: $ctrl.options.trainingPlanOptions.weekNumber + 1, day: $ctrl.options.trainingPlanOptions.dayNumber + 1}"></p>
                 </md-list-item>
             </md-list>
-        </form>
-        <!-- Задание -->
-        <md-list flex="none" class="md-dense" ng-if="$ctrl.competition.items.length > 0">
-            <md-subheader class="md-no-sticky"><span translate="competition.target"></span></md-subheader>
+            <!-- Задание -->
+            <md-list flex="none" class="md-dense" ng-if="$ctrl.competition.items.length > 0">
+                <md-subheader class="md-no-sticky"><span translate="competition.target"></span></md-subheader>
+                <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
+                    <div ng-message-exp="['needDuration']" translate="competition.needDuration">
+                    </div>
+                </div>
+                <st-competition-single-stage
+                        type="$ctrl.competition.competitionHeader.type"
+                        distance-type="$ctrl.competition.competitionHeader.distanceType"
+                        items="$ctrl.competition.items"
+                        options="$ctrl.options"
+                        is-view="$ctrl.competition.view.isView"
+                        on-change="$ctrl.setDirty()">
+                </st-competition-single-stage>
+            </md-list>
             <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
-                <div ng-message-exp="['needDuration']" translate="competition.needDuration">
+                <div ng-message-exp="['needDistanceType']" translate="competition.needDistanceType">
                 </div>
             </div>
-            <st-competition-single-stage
-                    type="$ctrl.competition.competitionHeader.type"
-                    distance-type="$ctrl.competition.competitionHeader.distanceType"
-                    items="$ctrl.competition.items"
-                    options="$ctrl.options"
-                    is-view="$ctrl.competition.view.isView"
-                    on-change="$ctrl.setDirty()">
-            </st-competition-single-stage>
-        </md-list>
-        <div class="error-block md-caption md-dark" ng-messages="$ctrl.form.$error" role="alert">
-            <div ng-message-exp="['needDistanceType']" translate="competition.needDistanceType">
-            </div>
-        </div>
-        <p class="error-block md-caption md-dark" layout-padding
-           ng-if="$ctrl.competition.items.length === 0"
-           translate="competition.needDistanceType"></p>
+            <p class="error-block md-caption md-dark" layout-padding
+               ng-if="$ctrl.competition.items.length === 0"
+               translate="competition.needDistanceType"></p>
 
-        <!-- Описание -->
-        <md-list flex="none" class="md-dense description" ng-if="$ctrl.competition.items.length > 0">
-            <md-subheader class="md-no-sticky"><span translate="competition.trainersPrescription"></span></md-subheader>
-            <ng-quill-editor ng-if="$ctrl.fullScreenMode"
-                             ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
-                             placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
-                             modules="$ctrl.quillConf.toolbarFull"
-                             on-content-changed="$ctrl.setDirty()"
-                             ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
-                             read-only="$ctrl.competition.view.isView"
-                             st-quill-post-image>
-            </ng-quill-editor>
-            <ng-quill-editor ng-if="!$ctrl.fullScreenMode"
-                             ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
-                             placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
-                             modules="$ctrl.quillConf.toolbar"
-                             on-content-changed="$ctrl.setDirty()"
-                             ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
-                             read-only="$ctrl.competition.view.isView"
-                             st-quill-post-image>
-            </ng-quill-editor>
-        </md-list>
+            <!-- Описание -->
+            <md-list flex="none" class="md-dense description" ng-if="$ctrl.competition.items.length > 0">
+                <md-subheader class="md-no-sticky"><span translate="competition.trainersPrescription"></span>
+                </md-subheader>
+                <ng-quill-editor ng-if="$ctrl.fullScreenMode && !$ctrl.isIonic"
+                                 ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
+                                 placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
+                                 modules="$ctrl.quillConf.toolbarFull"
+                                 on-content-changed="$ctrl.setDirty()"
+                                 ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
+                                 read-only="$ctrl.competition.view.isView"
+                                 st-quill-post-image>
+                </ng-quill-editor>
+                <ng-quill-editor ng-if="!$ctrl.fullScreenMode && !$ctrl.isIonic"
+                                 ng-model="$ctrl.competition.competitionHeader.trainersPrescription"
+                                 placeholder="{{::(!$ctrl.competition.view.isView ? 'competition.trainersPrescriptionPlaceholder' : '') | translate}}"
+                                 modules="$ctrl.quillConf.toolbar"
+                                 on-content-changed="$ctrl.setDirty()"
+                                 ng-class="{'hide-toolbar': $ctrl.competition.view.isView}"
+                                 read-only="$ctrl.competition.view.isView"
+                                 st-quill-post-image>
+                </ng-quill-editor>
+                <div class="list" ng-if="$ctrl.isIonic && !$ctrl.competition.view.isView">
+                    <label class="item item-last item-input item-stacked-label">
+                        <st-modal-textarea quill="true"
+                                           name="trainersPrescription"
+                                           translate-title="'competition.trainersPrescription'"
+                                           ng-model="$ctrl.competition.competitionHeader.trainersPrescription">
+                        </st-modal-textarea>
+                    </label>
+                </div>
+                <st-quill-html-viewer ng-if="$ctrl.isIonic && $ctrl.competition.view.isView"
+                                      flex="auto"
+                                      data="$ctrl.competition.competitionHeader.trainersPrescription">
+                </st-quill-html-viewer>
+            </md-list>
+        </form>
     </md-content>
 
     <!-- Кнопки -->

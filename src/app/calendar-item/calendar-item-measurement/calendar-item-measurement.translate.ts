@@ -10,6 +10,7 @@ export const _measurement = {
         action: {
             save: "Сохранить"
         },
+        dateStart: 'Дата',
         generalMeasures: 'Общее измерение',
         sleepData: 'Сон',
         feeling: 'Состояние',
@@ -33,6 +34,7 @@ export const _measurement = {
         action: {
             save: "Save"
         },
+        dateStart: 'Date',
         generalMeasures: 'General measures',
         sleepData: 'Sleep',
         feeling: 'Overall feeling',
