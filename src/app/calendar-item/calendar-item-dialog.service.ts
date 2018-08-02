@@ -60,7 +60,7 @@ export class CalendarItemDialogService {
                 item: item,
                 options: Object.assign(options, {
                     isPro: this.isPro,
-                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                    athleteList: CalendarItemDialogService.getAthleteList(options.currentUser, options.owner)
                 })
             }
         })).then(response => this[response.item.calendarItemType](env, options, response.item));
@@ -190,7 +190,7 @@ export class CalendarItemDialogService {
                 item: item,
                 options: Object.assign(options, {
                     isPro: this.isPro,
-                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                    athleteList: CalendarItemDialogService.getAthleteList(options.currentUser, options.owner)
                 })
             }
         }));
@@ -272,7 +272,7 @@ export class CalendarItemDialogService {
                 hasActualData: hasActualData,
                 options: Object.assign(options, {
                     isPro: this.isPro,
-                    athleteList: this.getAthleteList(options.currentUser, options.owner)
+                    athleteList: CalendarItemDialogService.getAthleteList(options.currentUser, options.owner)
                 })
             }
         });
@@ -342,9 +342,8 @@ export class CalendarItemDialogService {
         return this.auth.isActivityPro();
     }
 
-    private getAthleteList (currentUser: IUserProfile, owner: IUserProfile): Array<{profile: IUserProfile, active: boolean}> {
+    static getAthleteList (currentUser: IUserProfile, owner: IUserProfile): Array<{profile: IUserProfile, active: boolean}> {
         let athleteList: Array<{profile: IUserProfile, active: boolean}> = [];
-
         //
         if ( currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
             athleteList = currentUser.connections.allAthletes.groupMembers
