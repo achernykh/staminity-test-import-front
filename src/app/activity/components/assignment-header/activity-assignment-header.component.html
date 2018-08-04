@@ -41,14 +41,11 @@
         <div flex="none" class="wrapper-between"></div>
         <md-input-container class="st-material md-block md-dense" flex="auto">
             <label translate="activity.assignment.categoryLabel"></label>
-            <md-select flex
+            <md-select flex name="category" required
                        ng-model="$ctrl.item.activity.header.activityCategory"
                        ng-model-options="{ trackBy: '$value.id' }"
-                       required=""
-                       md-no-asterisk="false"
                        ng-change="$ctrl.changeParam()"
-                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView"
-                       name="category">
+                       ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-optgroup
                         ng-repeat="owner in ['user', 'coach', 'club', 'system']"
                         ng-if="$ctrl.item.activity.categoriesByOwner[owner].length"
@@ -113,9 +110,9 @@
         <div flex="none" class="wrapper-icon">
             <md-icon flex="none" class="material-icons md-dark">today</md-icon>
         </div>
-        <md-input-container class="st-material md-block md-dense" flex="auto">
+        <md-input-container data-tap-disabled="true" class="st-material md-block md-dense" flex="auto">
             <label translate="activity.assignment.dateStart.label"></label>
-            <md-datepicker flex="auto" required
+            <md-datepicker flex="auto" required data-tap-disabled="true"
                            ng-model="$ctrl.item.activity._dateStart"
                            ng-change="$ctrl.changeParam()"
                            name="dateStart" md-hide-icons="calendar"

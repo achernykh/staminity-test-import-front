@@ -45,7 +45,7 @@
                             on-select="$ctrl.onChartSelection(segmentId)">
     </activity-segment-chart>
 
-    <md-divider ng-if="!$ctrl.item.activity.view.isView"></md-divider>
+    <md-divider class="divider" ng-if="!$ctrl.item.activity.view.isView"></md-divider>
 
     <section ng-if="$ctrl.item.activity.view.isView && $ctrl.item.activity.hasActualData" class="view-panel"
              flex="none" layout="row" layout-align="center center">
@@ -92,7 +92,7 @@
             <md-icon class="material-icons">delete</md-icon><span class="md-caption" translate="activity.action.delete"></span>
         </md-button>
     </section>
-    <md-divider></md-divider>
+    <md-divider class="divider"></md-divider>
     <div flex="auto" class="loading-table" ng-if="!$ctrl.hasImport && $ctrl.item.activity.hasActualData"
          layout="column" layout-align="center center">
         <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>

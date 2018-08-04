@@ -24,7 +24,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
     private plan: IActivityIntervalPW;
     private actual: ICalcMeasures;
     public sport: string;
-    public form: any;
+    public form: INgModelController;
     public ftpMode: number;
 
     public FTPMeasures: Array<string> = ['heartRate', 'speed', 'power'];
@@ -34,7 +34,7 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
 
     private percentComplete: Object = {};
     private measuresBySport: any;
-    private durationTypes:[string];
+    private durationTypes: string[];
     private intensityTypesBySport;
 
     private trustHTML: string;
@@ -73,12 +73,21 @@ class AssignmentSummaryNonStructuredCtrl implements IComponentController {
         if(changes.hasOwnProperty('change') && this.change > 0) {
             this.plan = null;
             this.actual = null;
-            this.prepareData();
-            this.prepareValues();
+            this.durationTypes = [];
+            this.plan = Object.assign({ durationMeasure: null });
+            //this.$scope.$applyAsync();
             setTimeout(() => {
-                this.validateForm();
-                this.updateForm();
-                this.$scope.$applyAsync();
+                this.$scope.$applyAsync(_ => {
+                    this.prepareData();
+                    this.prepareValues();
+                    this.validateForm();
+                    this.updateForm();
+                    //setTimeout(_ => {
+                        //this.form['plan_duration'].$commitViewValue();
+                        //this.form['plan_duration'].$render();
+                    //    this.$scope.$applyAsync();
+                    //}, 1);
+                });
             }, 1);
         }
     }

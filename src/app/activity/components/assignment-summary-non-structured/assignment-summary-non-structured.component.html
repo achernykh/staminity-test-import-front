@@ -88,8 +88,9 @@
                    ng-change="$ctrl.changeValue(type)"
                    ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
             <div class="hint md-dark" ng-if="$ctrl.form['plan_' +  type].$valid">
-                <span translate="{{$ctrl.isFTP() ? ('activity.assignment.ftp.hint') : ('activity.assignment.' + type + '.' + (type | measureUnit:$ctrl.sport) + '.hint')}}"
-                      translate-values="{sport: $ctrl.sport}"></span>
+                <span
+                    translate="{{$ctrl.isFTP() ? ('activity.assignment.ftp.hint') : ('activity.assignment.' + type + '.' + (type | measureUnit:$ctrl.sport) + '.hint')}}"
+                    translate-values="{sport: $ctrl.sport}"></span>
             </div>
             <div ng-messages="$ctrl.item.assignmentForm['plan_' + type].$error">
                 <div ng-message="needDuration" translate>activity.error.needDuration</div>
@@ -114,7 +115,7 @@
             <md-icon flex="none" class="material-icons md-dark">subject</md-icon>
         </div>
         <ng-quill-editor flex="auto"
-                         ng-if="!$ctrl.item.activity.view.isView"
+                         ng-if="!$ctrl.item.isIonic && !$ctrl.item.activity.view.isView"
                          ng-class="{'hide-toolbar': $ctrl.hideQuillToolbar}"
                          ng-model="$ctrl.plan.trainersPrescription"
                          on-selection-changed="$ctrl.quillSelect(range, oldRange, source)"
@@ -123,6 +124,14 @@
                          modules="$ctrl.quillConf.toolbar"
                          st-quill-post-image>
         </ng-quill-editor>
+        <label felx="auto" ng-if="$ctrl.item.isIonic"
+               class="item item-last item-input st-material item-stacked-label">
+            <st-modal-textarea quill="true" on-tap="" style="padding-top: 0"
+                               name="trainersPrescription"
+                               translate-title="'competition.trainersPrescription'"
+                               ng-model="$ctrl.plan.trainersPrescription">
+            </st-modal-textarea>
+        </label>
     </div>
 
 

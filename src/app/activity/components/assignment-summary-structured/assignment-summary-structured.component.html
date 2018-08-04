@@ -66,7 +66,8 @@
     <md-subheader ng-if="false">
         <span translate="activity.trainersPrescription"></span>
     </md-subheader>
-    <ng-quill-editor ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
+    <ng-quill-editor ng-if="!$ctrl.item.isIonic"
+                     ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
                      on-content-changed="$ctrl.onChange()"
                      placeholder="{{'activity.descriptionPlaceholder' | translate}}"
                      modules="$ctrl.quillConf.toolbar"
@@ -74,4 +75,12 @@
                      read-only="$ctrl.item.activity.view.isView"
                      st-quill-post-image>
     </ng-quill-editor>
+    <label felx="auto" ng-if="$ctrl.item.isIonic"
+           class="item item-last item-input st-material item-stacked-label">
+        <st-modal-textarea quill="true" on-tap="" style="padding-top: 0;"
+                           name="trainersPrescription"
+                           translate-title="'competition.trainersPrescription'"
+                           ng-model="$ctrl.plan.trainersPrescription">
+        </st-modal-textarea>
+    </label>
 </md-list>
