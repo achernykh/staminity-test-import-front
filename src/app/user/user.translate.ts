@@ -406,7 +406,7 @@ export const translateUser = {
                 movescount: 'Suunto Movescount',
                 more: 'Узнать как',
                 ok: 'Понятно',
-                syncByStrava: '',
+                syncByStrava: 'Загрузка тренировок из {{"user.settings.sync."+ adaptor | translate}} в Staminity выполняется через Strava. Подключите интеграцию {{"user.settings.sync."+ adaptor | translate}} и Strava, а далее включите загрузку тренировок из Strava в Staminity. Подробнее: <a target="_system" href="https://help.staminity.com/ru/questions/activity-auto-sync.html#{{adaptor}}">https://help.staminity.com/ru/questions/activity-auto-sync.html#{{adaptor}}</a>',
                 status: {
                     offSyncNeverEnabled: {
                         button: 'Подключить',
@@ -983,7 +983,7 @@ export const translateUser = {
                 movescount: 'Suunto Movescount',
                 more: 'Learn more',
                 ok: 'Ok',
-                syncByStrava: '',
+                syncByStrava: 'Direct upload of your activities from {{"user.settings.sync." + adaptor | translate}} to Staminity is under development, but it is possible to set up an automatic synchronization of your activities through Strava. Find more <a target="_system" href="https://help.staminity.com/en/questions/activity-auto-sync.html#{{adaptor}}">https://help.staminity.com/en/questions/activity-auto-sync.html#{{adaptor}}</a>',
                 status: {
                     offSyncNeverEnabled: {
                         button: 'Enable',
