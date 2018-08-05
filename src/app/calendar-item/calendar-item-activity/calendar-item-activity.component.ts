@@ -402,6 +402,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
             //!this.item.isOwner || this.AuthService.isActivityPlan() ||
             //(this.item.isOwner && (!isFutureDay(this.form['dateStart'].$modelValue) || (this.form['dateStart'].$modelValue))));
         }
+
+        //this.assignmentForm.$setSubmitted();
     }
 
     prepareAuth(){

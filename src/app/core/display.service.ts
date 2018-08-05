@@ -35,7 +35,7 @@ const getCurrencyCode = (country: string): string =>
 const getDefaultLanguage = (lng: string[]): string => {
     let userLng: string = (window.navigator.language as string).substring(0,2);
     return lng && lng.indexOf(userLng) !== -1 ? userLng : 'en';
-}
+};
 
 export default class DisplayService {
 

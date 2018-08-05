@@ -104,7 +104,6 @@ export class CalendarItemCompetition extends CalendarItem {
            // создаем плановый интервал
             let interval: ActivityIntervalPW = new ActivityIntervalPW('pW', Object.assign({type: 'pW'}, t));
             activity.intervals.add([interval]);
-            debugger;
             activity._time = new Date(activity._dateStart.getTime() + (i + 1) * 10 * 1000);
             activity.header.category = categories && categories.filter(c => c.activityTypeId === activity.header.sport && c.code === 'race')[0];
             this.items.push({dirty: true, item: activity});

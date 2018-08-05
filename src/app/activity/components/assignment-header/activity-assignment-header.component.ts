@@ -21,12 +21,9 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
 
     }
 
-    $onInit() {
-
-    }
+    $onInit() { }
 
     private filterActivityType (category: IActivityCategory, itemBasicCode: string) {
-        debugger;
         return category.visible && category.activityType.code === itemBasicCode;
     }
 
@@ -34,10 +31,9 @@ class ActivityAssignmentHeaderCtrl implements IComponentController {
         setTimeout(() => {
             this.clearTemplate();
             this.item.checkAssignmentForm();
-            debugger;
             this.item.updateFilterParams();
             this.$scope.$applyAsync();
-        }, 1);
+        }, 100);
     }
 
     /**
