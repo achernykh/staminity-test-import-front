@@ -37,6 +37,8 @@
     "@types/angular-websocket": "^2.0.5",
     "@types/d3": "4.5.0",
     "@types/es6-shim": "0.31.32",
+    "@types/jasmine": "^2.8.8",
+    "@types/jasminewd2": "^2.0.3",
     "@types/jquery": "2.0.34",
     "@types/moment": "^2.13.0",
     "@types/oclazyload": "0.0.31",

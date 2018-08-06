@@ -2944,7 +2944,7 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
     /**
      18.Fitness, fatigue, form chart
      */
-    {
+    /**{
         order: 18,
         active: false,
         revision: 1,
@@ -3147,5 +3147,5 @@ export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
                 }
             ],
         }],
-    },
+    },**/
  ];
