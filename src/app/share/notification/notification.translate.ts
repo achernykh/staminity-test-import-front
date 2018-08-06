@@ -146,21 +146,20 @@ export const translateNotification = {
     /* Athletes **/
         /* Спортсмен получил приглашение (входящий запрос) от тренера. Получатель уведомления - получатель приглашения, отправитель - тренер**/
         inviteJoinAthletes: "Тренер отправил вам приглашение в Стаминити и предлагает подключиться к нему",
+        inviteJoinAthletesApproved: "Ваше приглашение принято, к вам подключен новый ученик",
+        inviteJoinAthletesCancelled: "Тренер отменил свой входящий запрос",
+        inviteJoinAthletesDeclined: "Ваше приглашение, отправленное ученику, отклонено",
+
 
         /* Тренер получил запрос от спортсмена. Получатель уведомления - тренер, отправитель - спортсмен**/
         requestJoinAthletes: "Спортсмен отправил вам запрос на подключение в Staminity",
 
         /* Тренер принял запрос от спортсмена. Получатель - инициатор запроса, отправитель - тренер**/
         requestJoinAthletesApproved: "Ваш запрос на подключение к тренеру одобрен",
+        requestJoinAthletesCancelled: "Запрос на подключение к тренеру отменен отправителем",
 
         /* Тренер отклонил запрос от спортсмена. Получатель - инициатор запроса, отправитель - тренер**/
         requestJoinAthletesDeclined: "Тренер отклонил ваш запрос на подключение",
-
-        /* Спортсмен принял приглашение от тренера. Получатель - тренер, отправитель - спортсмен**/
-        requestJoinAthletesApprovedByUser: "Ваше приглашение принято, к вам подключен новый ученик",
-
-        /* Спортсмен отклонил приглашение от тренера. Получатель - тренер, отправитель - спортсмен**/
-        requestJoinAthletesDeclinedByUser: "Ваше приглашение, отправленное ученику, отклонено",
 
         /* Тренер отключил спортсмена. Получатель - спортсмен, отправитель - тренер**/
         leaveAthletesByAdmin: "Тренер исключил вас из списка своих спортсменов",
@@ -171,6 +170,9 @@ export const translateNotification = {
     /* ClubMembers **/
         /* Пользователь получил приглашение (входящий запрос) от клуба. Получатель уведомления - получатель приглашения, отправитель - клуб**/
         inviteJoinClubMembers: "Вы получили приглашение вступить в клуб в Стаминити",
+        inviteJoinClubMembersApproved: "Ваш запрос принят, в клуб добавлен новый член клуба",
+        inviteJoinClubMembersCancelled: "Приглашение от клуба отменено",
+        inviteJoinClubMembersDeclined: "Ваше приглашение на вступление в клуб отклонено пользователем",
 
         /* Клуб получил запрос на вступление от пользователя. Получатель уведомления - администраторы, отправитель - пользователь**/
         requestJoinClubMembers: "Вы получили новый запрос от пользователя на вступление в клуб",
@@ -182,6 +184,8 @@ export const translateNotification = {
         data[0] - Фамилия и Имя менеджера, обработавшего запрос
         data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
         requestJoinClubMembersApproved: "Ваш запрос на вступление в клуб одобрен",
+
+        requestJoinClubMembersCancelled: "Запрос на подключение к клубу отменен отправителем",
 
         /* Клуб отклонил запрос от пользователя. Получатель - инициатор запроса, отправитель - клуб
         data[0] - Фамилия и Имя менеджера, обработавшего запрос
@@ -762,6 +766,9 @@ export const translateNotification = {
 
         /* Спортсмен получил приглашение (входящий запрос) от тренера. Получатель уведомления - получатель приглашения, отправитель - тренер**/
         inviteJoinAthletes: "Coach invites you to join him in Staminity",
+        inviteJoinAthletesApproved: "Your invitation was accepted, new athlete has connected to you",
+        inviteJoinAthletesCancelled: "Join coach invitation has been cancelled by coach",
+        inviteJoinAthletesDeclined: "Your invitation was declined by athlete",
 
         /* Тренер получил запрос от спортсмена. Получатель уведомления - тренер, отправитель - спортсмен**/
         requestJoinAthletes: "New request from athlete to connect to you in Staminity",
@@ -782,6 +789,9 @@ export const translateNotification = {
 
         /* Пользователь получил приглашение (входящий запрос) от клуба. Получатель уведомления - получатель приглашения, отправитель - клуб**/
         inviteJoinClubMembers: "Club invites you to become club member in Staminity",
+        inviteJoinClubMembersApproved: "Your invitation has been accepted and new club member joined club",
+        inviteJoinClubMembersCancelled: "Join club invitation has been cancelled by club",
+        inviteJoinClubMembersDeclined: "Your invitation to become club member has been declined by user",
 
         /* Клуб получил запрос на вступление от пользователя. Получатель уведомления - администраторы, отправитель - пользователь**/
         requestJoinClubMembers: "You've received a new join club request",
@@ -798,6 +808,8 @@ export const translateNotification = {
          data[0] - Фамилия и Имя менеджера, обработавшего запрос
          data[1] - userUri менеджера, обработавшего запрос. Для ссылки на профиль**/
         requestJoinClubMembersDeclined: "Your request to join club was declined",
+
+        requestJoinClubMembersCancelled: "Incoming request to join club has been cancelled by initiator",
 
         /* Клуб одобрил запрос на выход тренера из клуба
          data[0] - Фамилия и Имя менеджера, обработавшего запрос
