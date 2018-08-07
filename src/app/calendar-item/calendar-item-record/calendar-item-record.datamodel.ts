@@ -62,12 +62,11 @@ export class CalendarItemRecord extends CalendarItem {
 
     public prepareDefaultType (force: boolean = false) {
         if ( this.view.isPost || force ) {
-            debugger;
             this.recordHeader = {
                 type: this.recordHeader && this.recordHeader.hasOwnProperty('type') && this.recordHeader.type || CalendarItemRecordConfig.defaultType,
                 dateStart: this.dateStart,
                 repeat: CalendarItemRecordConfig.defaultRepeat,
-                description: null
+                description: this.recordHeader.description || null
             };
             this.recordHeader.repeat.endOnDate = moment(this.dateStart).add('days', 2);
             if (this.options.trainingPlanMode && this.options.trainingPlanOptions.dynamicDates) {
