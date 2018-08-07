@@ -13,6 +13,10 @@ export class UserSettingsProfileDatamodel {
 	about: string;
 	email: string;
 	phone: string;
+	isCoach: boolean;
+	price: string;
+	contact: string;
+	athletes: string;
 
 	constructor (private profile: IUserProfile) {
 		this.firstName = profile.public.firstName;
@@ -25,6 +29,10 @@ export class UserSettingsProfileDatamodel {
 		this.sex = path(['personal', 'sex']) (profile);
 		this.email = path(['personal', 'extEmail']) (profile);
 		this.phone = path(['personal', 'phone']) (profile);
+		this.isCoach = path(['public', 'isCoach']) (profile);
+		this.price = path(['personal', 'price']) (profile);
+		this.contact = path(['personal', 'contact']) (profile);
+		this.athletes = path(['personal', 'athletes']) (profile);
 	}
 
 	toUserProfile () : IUserProfile {
@@ -36,6 +44,7 @@ export class UserSettingsProfileDatamodel {
 				firstName: this.firstName,
 				lastName: this.lastName,
 				uri: this.uri,
+				isCoach: this.isCoach,
 		    },
 		    personal: {
 		    	...this.profile.personal,
@@ -46,6 +55,9 @@ export class UserSettingsProfileDatamodel {
 		        birthday: this.dateOfBirth,
 		        extEmail: this.email,
 		        phone: this.phone,
+				price: this.price,
+				contact: this.contact,
+				athletes: this.athletes
 		    },
 		} as any;
 	}
