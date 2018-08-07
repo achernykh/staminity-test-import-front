@@ -41,6 +41,29 @@
                             placeholder="{{'trainingPlans.owner.label' | translate}}">
                     </md-contact-chips>
                 </md-list-item>
+                <!-- Язык плана -->
+                <md-list-item>
+                    <md-input-container class="md-block no-message" layout="row">
+                        <label translate="trainingPlans.lang.label"></label>
+                        <md-icon flex="none" class="md-dark"
+                                 md-svg-src="/assets/icon/{{$ctrl.filter.lng}}.png">
+                        </md-icon>
+                        <md-select flex name="type" class="icon" required multiple
+                                   placeholder="{{'trainingPlans.lang.placeholder' | translate}}"
+                                   ng-model="$ctrl.filter.lng"
+                                   ng-change="$ctrl.changeParam()">
+                            <md-option ng-repeat="lng in $ctrl.config.lang track by $index"
+                                       value="{{lng}}">
+                                {{lng | translate}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="$ctrl.planForm.lang.$error" role="alert">
+                            <div ng-message-exp="['required']"
+                                 translate="form.required">
+                            </div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
                 <!-- Название плана -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">

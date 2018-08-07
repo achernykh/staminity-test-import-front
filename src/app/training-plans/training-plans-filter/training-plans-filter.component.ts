@@ -8,6 +8,7 @@ import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition
 import { supportLng } from "../../core/display.constants";
 import { SearchService } from "../../search/search.service";
 import { SearchResultByUser } from "../../search/search";
+import DisplayService from "../../core/display.service";
 
 export class TrainingPlansFilterCtrl implements IComponentController {
 
@@ -24,20 +25,21 @@ export class TrainingPlansFilterCtrl implements IComponentController {
     private supportLanguages: Array<string> = supportLng;
 
     // inject
-    static $inject = ['$scope', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService'];
+    static $inject = ['$scope', 'trainingPlanConfig', 'CompetitionConfig', 'SearchService', 'DisplayService'];
 
     constructor (
         private $scope,
         private config: TrainingPlanConfig,
         private competitionConfig: ICompetitionConfig,
-        private searchService: SearchService) {
+        private searchService: SearchService,
+        private displayService: DisplayService) {
         $scope.owner = []; // для fix бага с ng-change в md-contact-chips
     }
 
     $onInit () {
         this.filter.keywords = this.filter.keywords || [];
         this.filter.tags = this.filter.tags || [];
-        //this.filter.lang = this.filter.lang || [];
+        this.filter.lng = this.filter.lng || [this.displayService.getLocale()];
         if (this.filter.weekCountFrom) {
             this.weekCountRange = this.config.weekRanges.findIndex(r => r[0] === this.filter.weekCountFrom);
         }

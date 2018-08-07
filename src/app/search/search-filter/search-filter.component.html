@@ -1,4 +1,15 @@
 <md-list class="md-dense" flex="auto">
+    <md-list-item>
+        <md-input-container class="md-block no-message" layout="row">
+            <label translate="user.settings.personalInfo.coachLanguage.label"></label>
+            <md-select ng-model="$ctrl.filter.coachLanguage" multiple
+                       ng-change="$ctrl.change()">
+                <md-option ng-repeat="lng in $ctrl.userSettingsConfig.coachLanguage" ng-value="lng">
+                    <span>{{::lng | translate}}</span>
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </md-list-item>
     <!-- Имя -->
     <md-list-item>
         <md-input-container class="md-block no-message" layout="row">

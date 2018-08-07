@@ -36,8 +36,7 @@
                 md-search-text="$ctrl.countrySearchText"
                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
                 md-item-text="$ctrl.getCountryName(id)"
-                md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}"
-            >
+                md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}">
                 <md-item-template>
                     <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList['ru'][id]}}</span>
                 </md-item-template>
@@ -55,6 +54,16 @@
                 </div>
             </md-input-container>
         </md-list-item>
+        <md-list-item layout="row">
+            <md-input-container flex="45" flex-xs="100" class="no-message">
+                <label translate="user.settings.personalInfo.coachLanguage.label"></label>
+                <md-select ng-model="$ctrl.datamodel.coachLanguage" multiple>
+                    <md-option ng-repeat="lng in $ctrl.config.coachLanguage" ng-value="lng">
+                        <span>{{::lng | translate}}</span>
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </md-list-item>
         <md-list-item flex layout="row">
             <md-input-container flex class="md-block no-message">
                 <label translate="user.settings.personalInfo.about"></label>
@@ -63,8 +72,7 @@
                     placeholder="{{'record.descriptionPlaceholder' | translate}}"
                     modules="$ctrl.quillConfig.toolbarFull"
                     st-quill-post-image
-                    class="user-settings-coach__rich-editor"
-                >
+                    class="user-settings-coach__rich-editor">
                 </ng-quill-editor>
             </md-input-container>
         </md-list-item>
@@ -76,8 +84,7 @@
                     placeholder="{{'user.settings.personalInfo.priceFull' | translate}}"
                     modules="$ctrl.quillConfig.toolbarFull"
                     st-quill-post-image
-                    class="user-settings-coach__rich-editor"
-                >
+                    class="user-settings-coach__rich-editor">
                 </ng-quill-editor>
             </md-input-container> 
         </md-list-item> 

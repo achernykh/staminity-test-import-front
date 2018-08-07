@@ -1,7 +1,8 @@
 import './search-filter.component.scss';
 import { IComponentOptions, IComponentController } from 'angular';
 import { SearchParams } from "@api/search";
-import { activities } from "../../user/settings/user-settings.constants";
+import { activities, UserSettingsConfig } from "../../user/settings/user-settings.constants";
+import DisplayService from "../../core/display.service";
 
 class SearchFilterCtrl implements IComponentController {
 
@@ -12,10 +13,13 @@ class SearchFilterCtrl implements IComponentController {
 
     private activityTypes = activities;
 
-    constructor () {}
+    static $inject = ['userSettingsConfig', 'DisplayService'];
+
+    constructor (private userSettingsConfig: UserSettingsConfig, private displayService: DisplayService) {}
 
     $onInit () {
         this.filter.activityTypes = this.filter.activityTypes || [];
+        this.filter.coachLanguage = this.filter.coachLanguage || [this.displayService.getLocale()];
     }
     private change (): void {
         this.onChangeFilter({filter: this.filter});
