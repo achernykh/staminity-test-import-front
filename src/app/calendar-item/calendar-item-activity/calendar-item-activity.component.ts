@@ -42,6 +42,7 @@ import { deepCopy } from "../../share/data/data.finctions";
 import {htmlToPlainText} from "../../share/text/plain-text.filter";
 import { ActivityIntervalW } from "../../activity/activity-datamodel/activity.interval-w";
 import { isFutureDay } from "../../share/date/date.filter";
+import {getFtpBySport} from "../../core/user.function";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -872,6 +873,17 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.dialogs.confirm({ text: 'dialogs.splitActivity'})
             .then(_ => this.calendarService.split(this.activity.calendarItemId))
             .then(_ => this.message.toastInfo('activitySplited'));
+    }
+
+    recalcPlanTotal (): void {
+        if (!(this.activity.isStructured && this.activity.isComing)) {return;}
+        this.activity.intervals.P.map(i => i.complete(
+            getFtpBySport(this.options.owner.trainingZones, this.activity.header.sportBasic),
+            FtpState.Off,
+            [{measure: null, value: null}]));
+        this.activity.intervals.PW.calculate(this.activity.intervals.P);
+        this.activity.view.isPut = true;
+        this.onSave();
     }
 
     getDescription (lineLimit: number = null, lineLen: number = 100): string {

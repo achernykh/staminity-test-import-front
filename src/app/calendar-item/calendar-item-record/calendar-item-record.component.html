@@ -263,6 +263,10 @@
     <!-- Календарь -->
     <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan"
                        flex="none" layout="row" style="background: white">
+        <md-button ng-if="$ctrl.record.view.isView" type="submit"
+                   ng-click="$ctrl.record.view.isPut = true">
+            <span translate="activity.action.edit"></span>
+        </md-button>
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
                    ng-click="$ctrl.record.view.isPut = true">
