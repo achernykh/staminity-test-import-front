@@ -8,16 +8,34 @@ export interface PremiumConfig {
 export const premiumConfig: PremiumConfig = {
     pages: [
         {
-            code: 'featurePlaning',
-            img: ''
+            code: 'futurePlanning',
+            img: '',
+            functions: ["",""]
+        },
+        {
+            code: 'activityDetails',
+            img: '',
+            functions: ["",""]
         },
         {
             code: 'proAnalytics',
-            img: ''
+            img: '',
+            functions: ["",""]
         },
         {
-            code: 'seasonPlaning',
-            img: ''
+            code: 'seasonPlanning',
+            img: '',
+            functions: ["",""]
+        },
+        {
+            code: 'categories',
+            img: '',
+            functions: ["",""]
+        },
+        {
+            code: 'templates',
+            img: '',
+            functions: ["",""]
         }
     ]
 }
