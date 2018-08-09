@@ -21,6 +21,7 @@
         </md-button>
     </nav>-->
     <section flex="auto" class="analytics__chart-section">
+        <analytics-chart-pmc style="height: 400px;" chart=""></analytics-chart-pmc>
         <section class="analytics__chart-grid" ng-if="$ctrl.filter.prepareComplete">
             <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true, isAuthorized: true }"
                              ng-style="chart.layout.style"
