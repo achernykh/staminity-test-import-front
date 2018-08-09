@@ -27,6 +27,7 @@ import Analytics from "./analytics/analytics.module";
 import { Methodology } from './methodology/methodology.module';
 import { TrainingSeason } from './training-season';
 import { User } from './user';
+import { Premium } from './premium/premium.module';
 import {StorageService, ISession} from "@app/core";
 
 const vendors = [
@@ -71,6 +72,7 @@ const submodules = [
     Methodology,
     TrainingSeason,
     User,
+    Premium,
 ];
 
 /*const root = module('staminity.application', )
