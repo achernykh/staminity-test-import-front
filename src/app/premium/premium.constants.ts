@@ -1,6 +1,7 @@
 export interface PremiumPageConfig {
     code: string;
     img: string;
+    functions: string[];
 }
 export interface PremiumConfig {
     pages: PremiumPageConfig[]
@@ -10,32 +11,32 @@ export const premiumConfig: PremiumConfig = {
         {
             code: 'futurePlanning',
             img: '',
-            functions: ["",""]
+            functions: []
         },
         {
             code: 'activityDetails',
             img: '',
-            functions: ["",""]
+            functions: []
         },
         {
             code: 'proAnalytics',
             img: '',
-            functions: ["",""]
+            functions: ['pmc']
         },
         {
             code: 'seasonPlanning',
             img: '',
-            functions: ["",""]
+            functions: []
         },
         {
             code: 'categories',
             img: '',
-            functions: ["",""]
+            functions: []
         },
         {
             code: 'templates',
             img: '',
-            functions: ["",""]
+            functions: []
         }
     ]
 }

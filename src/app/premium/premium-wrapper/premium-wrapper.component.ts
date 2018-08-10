@@ -1,19 +1,20 @@
 import './premium-wrapper.component.scss';
 import {IComponentOptions, IComponentController} from 'angular';
 import AuthService from "../../auth/auth.service";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
 
 class PremiumWrapperCtrl implements IComponentController {
     
     // bind
-    data: any;
+    functionCode: string;
     onEvent: (response: Object) => Promise<void>;
      
     // private
    
     // inject
-    static $inject = ['AuthService'];
+    static $inject = ['AuthService', 'PremiumDialogService'];
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService, private premiumDialogService: PremiumDialogService) {
 
     }
 
@@ -23,6 +24,10 @@ class PremiumWrapperCtrl implements IComponentController {
 
     $onInit(): void {
 
+    }
+
+    try (e: Event): void {
+        this.premiumDialogService.open(e, this.functionCode).then();
     }
 }
 

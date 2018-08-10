@@ -138,6 +138,7 @@
     "angular-translate": "^2.13.1",
     "angular-translate-loader-static-files": "^2.15.2",
     "angular-ui-router": "1.0.3",
+    "angular-ui-swiper": "^2.3.8",
     "angular-websocket": "^2.0.1",
     "angularjs-scroll-glue": "^2.2.0",
     "angularjs-toaster": "^2.1.0",

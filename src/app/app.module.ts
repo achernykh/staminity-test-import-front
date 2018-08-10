@@ -45,7 +45,8 @@ const vendors = [
     'tmh.dynamicLocale',
     'toaster',
     //'ngTouch',
-    'angular-carousel',
+    //'angular-carousel',
+    'ui.swiper', // https://github.com/nebulr/ui-swiper
     'dndLists',
     'luegg.directives',
     'ngQuill', // https://github.com/KillerCodeMonkey/ng-quill
