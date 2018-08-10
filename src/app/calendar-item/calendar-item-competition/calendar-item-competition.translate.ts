@@ -36,6 +36,8 @@ export const translateCompetition = {
                 '10km': "10 км",
                 '5km': "5 км",
                 'custom': "Другая дистанция",
+                'customDuration': "План по времени",
+                'customDistance': "План по расстоянию"
             },
             triathlon: {
                 'fullDistance': "Полная дистанция",
@@ -61,10 +63,14 @@ export const translateCompetition = {
                 '50m': "50 метров",
                 'custom': "Другая дистанция",
                 '60min': "60 минут",
-                '30min': "30 минут"
+                '30min': "30 минут",
+                'customDuration': "План по времени",
+                'customDistance': "План по расстоянию"
             },
             bike: {
-                custom: 'Другая дистанция'
+                custom: 'Другая дистанция',
+                'customDuration': "План по времени",
+                'customDistance': "План по расстоянию"
             },
             ski: {
                 '10km': "10 км",
@@ -72,7 +78,9 @@ export const translateCompetition = {
                 '30km': "30 км",
                 '50km': "50 км",
                 '70km': "70 км",
-                custom: 'Другая дистанция'
+                custom: 'Другая дистанция',
+                'customDuration': "План по времени",
+                'customDistance': "План по расстоянию"
             }
 
         },

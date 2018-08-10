@@ -59,13 +59,19 @@ export const _translateRecord = {
         },
         description: 'Описание',
         descriptionPlaceholder: '...',
-        disableEditPlanItem: "Повторы недоступны, событие создано из плана"
+        disableEditPlanItem: "Повторы недоступны, событие создано из плана",
+        hasRepeatData: 'Событие входит в серию',
+        backToSingleItem: 'Редактирование серии',
+        action: {
+            singleEdit: 'Редактировать экземпляр',
+            repeatEdit: 'Редактировать серию'
+        }
 
     },
     en: {
         toolbar: {
             title: 'Event',
-            delete: 'Delete',
+            delete: 'Delete single event',
             deleteFuture: 'Delete future repeats',
             deleteAll: 'Delete all',
             close: 'Close',
@@ -122,6 +128,12 @@ export const _translateRecord = {
         },
         description: 'Description',
         descriptionPlaceholder: '...',
-        disableEditPlanItem: "Event from training plan cannot be repeated"
+        disableEditPlanItem: "Event from training plan cannot be repeated",
+        hasRepeatData: 'Single event editing',
+        backToSingleItem: 'Repeated series editing',
+        action: {
+            singleEdit: 'Switch to single event',
+            repeatEdit: 'Switch to repeated series'
+        }
     }
 };
