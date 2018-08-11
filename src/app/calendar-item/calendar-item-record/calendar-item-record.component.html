@@ -94,8 +94,10 @@
             </md-list-item>
         </md-list>
         <!-- Режим редактирования -->
-        <form class="calendar-item-record-form" flex="none" ng-if="!$ctrl.record.view.isView" layout="column" name="$ctrl.recordForm">
-            <md-list flex="none" class="md-dense slim-input bg-grey-050">
+        <form class="calendar-item-record-form" flex="none" ng-if="!$ctrl.record.view.isView"
+              layout="column" name="$ctrl.recordForm">
+            <md-list flex="none" class="md-dense slim-input bg-grey-050"
+                     ng-if="$ctrl.record.view.isPost || !$ctrl.record.isItemRepeated || ($ctrl.record.isItemRepeated && $ctrl.editRepeat)">
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
                         <md-icon flex="none" md-svg-src="assets/icon/{{$ctrl.record.recordHeader.type}}.svg"></md-icon>
@@ -235,6 +237,20 @@
                     </md-input-container>
                 </md-list-item>
             </md-list>
+            <md-list flex="none" class="md-dense bg-grey-050" ng-if="!$ctrl.record.view.isPost && $ctrl.record.isItemRepeated && !$ctrl.editRepeat">
+                <md-list-item>
+                    <p class="md-body-1" translate="record.hasRepeatData"></p>
+                    <md-button class="md-primary md-secondary" ng-click="$ctrl.changeEditMode(true)"
+                               translate="record.action.repeatEdit"></md-button>
+                </md-list-item>
+            </md-list>
+            <md-list flex="none" class="md-dense bg-grey-050" ng-if="!$ctrl.record.view.isPost && $ctrl.record.isItemRepeated && $ctrl.editRepeat">
+                <md-list-item>
+                    <p class="md-body-1" translate="record.backToSingleItem"></p>
+                    <md-button class="md-primary md-secondary" ng-click="$ctrl.changeEditMode(false)"
+                               translate="record.action.singleEdit"></md-button>
+                </md-list-item>
+            </md-list>
         </form>
         <md-subheader><span translate="record.description"></span></md-subheader>
         <div flex="auto" class="description">
@@ -263,10 +279,6 @@
     <!-- Календарь -->
     <md-dialog-actions ng-if="!$ctrl.record.view.isTrainingPlan"
                        flex="none" layout="row" style="background: white">
-        <md-button ng-if="$ctrl.record.view.isView" type="submit"
-                   ng-click="$ctrl.record.view.isPut = true">
-            <span translate="activity.action.edit"></span>
-        </md-button>
         <span flex></span>
         <md-button ng-if="$ctrl.record.view.isView" type="submit"
                    ng-click="$ctrl.record.view.isPut = true">

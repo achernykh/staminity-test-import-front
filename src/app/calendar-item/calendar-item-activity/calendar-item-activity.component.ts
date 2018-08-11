@@ -887,9 +887,12 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     getDescription (lineLimit: number = null, lineLen: number = 100): string {
+        //debugger;
         let data: string = this.activity.intervals.PW.trainersPrescription;
         if (!lineLimit) { return data; }
         data = htmlToPlainText()(data);
+
+        //console.debug('getDescription', data.split(/\n/).length);
 
         return data.split(/\n/).length > 0 ?
             `${data.split(/\n/).slice(0, lineLimit).join('\n').slice(0,-1)}${data.split(/\n/).length > lineLimit ? '...' : ''}` :
