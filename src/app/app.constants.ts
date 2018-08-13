@@ -6,14 +6,15 @@ export interface JsonLdParams {
     // page
     title: string;
     subtitle: string;
+    urlLock: string;
     urlLockRu: string;
     urlLockEn: string;
     imageUrl: string;
+    breadcrumb: string;
     // global
     url: string;
     name: string;
     description: string;
-    about: string;
     image: string;
 };
 

@@ -80,13 +80,14 @@ function run(
         let params: any = {
             title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
             subtitle: $translate.instant(state.$to()['subtitle'] || `${state.$to().name}.subtitle`),
+            urlLock: $translate.instant(state.$to()['urlLock'] || `${state.$to().name}.urlLock`),
             urlLockRu: $translate.instant(state.$to()['urlLockRu'] || `${state.$to().name}.urlLockRu`),
             urlLockEn: $translate.instant(state.$to()['urlLockEn'] || `${state.$to().name}.urlLockEn`),
             imageUrl: state.$to()['imageUrl'],
+            breadcrumb: $translate.instant(state.$to()['breadcrumb'] || `${state.$to().name}.breadcrumb`),
             url: $translate.instant('application.url'),
             name: $translate.instant('application.name'),
             description: $translate.instant('application.description'),
-            about: $translate.instant('application.about'),
             image: $translate.instant('application.image'),
         };
 
