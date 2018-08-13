@@ -83,6 +83,11 @@ function run(
             urlLockRu: $translate.instant(state.$to()['urlLockRu'] || `${state.$to().name}.urlLockRu`),
             urlLockEn: $translate.instant(state.$to()['urlLockEn'] || `${state.$to().name}.urlLockEn`),
             imageUrl: state.$to()['imageUrl'],
+            url: $translate.instant('application.url'),
+            name: $translate.instant('application.name'),
+            description: $translate.instant('application.description'),
+            about: $translate.instant('application.about'),
+            image: $translate.instant('application.image'),
         };
 
         Object.assign($rootScope, {

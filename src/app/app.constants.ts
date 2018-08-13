@@ -2,7 +2,19 @@ export interface JsonLdParams {
     lng: string;
     locale: string;
     language: string;
-
+    availableLanguage: string;
+    // page
+    title: string;
+    subtitle: string;
+    urlLockRu: string;
+    urlLockEn: string;
+    imageUrl: string;
+    // global
+    url: string;
+    name: string;
+    description: string;
+    about: string;
+    image: string;
 };
 
 export const dbSessionKey: string = 'session';
