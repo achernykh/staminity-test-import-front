@@ -2,12 +2,16 @@ export const translateGeneral = {
     ru: {
         staminity: "Staminity",
         application: {
-            url: '',
-            name: '',
-            description: '',
+            url: 'https://staminity.com/?lang=ru',
+            name: 'Тренировки онлайн',
+            description: 'Приложение для работы с тренером и самостоятельной подготовки в циклических видах спорта',
+            image: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         },
         ru: 'Русский',
         en: 'English',
+        de: 'German',
+        es: 'Spanish',
+        fr: 'French',
         true: "Да",
         false: "Нет",
         week: "По неделям",
@@ -37,8 +41,17 @@ export const translateGeneral = {
     },
     en: {
         staminity: "Staminity",
+        application: {
+            url: 'https://staminity.com/?lang=en',
+            name: 'Training online',
+            description: 'Application for online training with a coach or self training in cyclic sports',
+            image: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
+        },
         ru: 'Русский',
         en: 'English',
+        de: 'German',
+        es: 'Spanish',
+        fr: 'French',
         true: "Yes",
         false: "No",
         week: "Week",
