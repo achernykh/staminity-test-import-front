@@ -1,6 +1,11 @@
 export const translateGeneral = {
     ru: {
         staminity: "Staminity",
+        application: {
+            url: '',
+            name: '',
+            description: '',
+        },
         ru: 'Русский',
         en: 'English',
         true: "Да",

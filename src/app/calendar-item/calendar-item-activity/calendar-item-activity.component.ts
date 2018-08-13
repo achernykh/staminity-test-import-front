@@ -877,13 +877,14 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     recalcPlanTotal (): void {
         if (!(this.activity.isStructured && this.activity.isComing)) {return;}
-        this.activity.intervals.P.map(i => i.complete(
-            getFtpBySport(this.options.owner.trainingZones, this.activity.header.sportBasic),
-            FtpState.Off,
-            [{measure: null, value: null}]));
+        this.activity.intervals.P.map(i => {
+            let zones = this.options.owner.trainingZones;
+            i.completeFtpValue(zones, this.activity.header.sportBasic);
+            i.complete(getFtpBySport(zones, this.activity.header.sportBasic), FtpState.Off, [{measure: null, value: null}]);
+        });
         this.activity.intervals.PW.calculate(this.activity.intervals.P);
         this.activity.view.isPut = true;
-        this.onSave();
+        this.onSave(false);
     }
 
     getDescription (lineLimit: number = null, lineLen: number = 100): string {

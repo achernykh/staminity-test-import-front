@@ -21,6 +21,7 @@ function run(
     DisplayService: DisplayService, // not used, just force DisplayService being initialized
     UserService: UserService, // not used, just force UserService being initialized,
     socket: SocketService,
+    $rootScope: any,
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
@@ -65,8 +66,21 @@ function run(
     });
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
         //omniSetup(state.$from().name, state.$to().name);
-        //$rootScope.title = 'Staminity';
         window.document.title = $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity');
+        let locale: any = {
+            lang: DisplayService.getLocale(),
+            locale: DisplayService.getLocaleName(),
+            language: DisplayService.getLanguageName(),
+            availableLanguage: [Object.keys(DisplayService.locales).map(lng => DisplayService.getLanguageName(lng))]
+        };
+
+        Object.assign($rootScope, {
+            ...locale,
+            title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
+            subtitle: $translate.instant(`${state.$to().name}.shortTitle`),
+            urlLock: $translate.instant(`${state.$to().name}.urlLock`, {locale}),
+            imageUrl: state.$to()['imageUrl'],
+        });
         LoaderService.hide();
     });
     $state.defaultErrorHandler((error) => {
@@ -118,6 +132,6 @@ function omniSetup(src: string, trg: string) {
 }
 
 run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message",
-    "DisplayService", "UserService", 'SocketService'];
+    'storage', "DisplayService", "UserService", 'SocketService', '$rootScope'];
 
 export default run;

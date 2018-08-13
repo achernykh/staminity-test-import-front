@@ -95,7 +95,6 @@ class UserSettingsCoachCtrl {
      * Проверка полноты заполнения профиля тренера
      */
     checkProfileComplete() {
-        debugger;
         if ((this.currentUser.public.avatar !== 'default.jpg') &&
             (this.datamodel.firstName && this.datamodel.lastName) &&
             (this.datamodel.about && this.datamodel.about.length > 5) &&

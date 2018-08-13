@@ -84,7 +84,7 @@ function configure(
         .accentPalette('deep-orange')
         .warnPalette('red');**/
 
-	/**$mdThemingProvider.theme('default')
+	$mdThemingProvider.theme('default')
 		.primaryPalette('blue-grey', {
 			'default': '700',
 			'hue-1': '50',
@@ -99,7 +99,7 @@ function configure(
 		})
 		.warnPalette('red', {
 			'default': 'A700'
-		});**/
+		});
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
 	$mdThemingProvider.theme('coming')

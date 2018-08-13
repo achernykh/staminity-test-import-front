@@ -285,15 +285,38 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     }
 
+    /**
+     * Пересчитываем и обновляем абсолютные значения интенсивности
+     * @param {ITrainingZones} zones
+     * @param {string} sport
+     */
     completeAbsoluteValue(zones: ITrainingZones, sport: string) {
 
         if (this.intensityMeasure) {
+
             this.intensityLevelFrom = this[this.intensityMeasure].intensityLevelFrom =
                 getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpFrom;
 
             this.intensityLevelTo = this[this.intensityMeasure].intensityLevelTo =
                 getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpTo;
         }
+    }
+
+    /**
+     * Пересчитываем о обновляем относительные значения интенсивности
+     * @param {ITrainingZones} zones
+     * @param {string} sport
+     */
+    completeFtpValue (zones: ITrainingZones, sport: string): void {
+        if (this.intensityMeasure) {
+
+            this.intensityByFtpFrom = this[this.intensityMeasure].intensityLevelFrom =
+                this.intensityByFtpFrom / getFTP(zones, this.intensityMeasure, sport);
+
+            this.intensityByFtpTo = this[this.intensityMeasure].intensityByFtpTo =
+                this.intensityByFtpTo / getFTP(zones, this.intensityMeasure, sport);
+        }
+
     }
 
     /**
