@@ -8,6 +8,7 @@ import { IStaminityState } from "./application.interface";
 import DisplayService from "./core/display.service";
 import UserService from "./core/user.service";
 import {StorageService} from "@app/core";
+import {getPageJsonLd} from "./app.constants";
 
 function run(
     $transitions: TransitionService,
@@ -22,6 +23,8 @@ function run(
     UserService: UserService, // not used, just force UserService being initialized,
     socket: SocketService,
     $rootScope: any,
+    $sce: any,
+    $filter: any,
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
@@ -74,12 +77,18 @@ function run(
             availableLanguage: [Object.keys(DisplayService.locales).map(lng => DisplayService.getLanguageName(lng))]
         };
 
+        let params: any = {
+            title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
+            subtitle: $translate.instant(state.$to()['subtitle'] || `${state.$to().name}.subtitle`),
+            urlLockRu: $translate.instant(state.$to()['urlLockRu'] || `${state.$to().name}.urlLockRu`),
+            urlLockEn: $translate.instant(state.$to()['urlLockEn'] || `${state.$to().name}.urlLockEn`),
+            imageUrl: state.$to()['imageUrl'],
+        };
+
         Object.assign($rootScope, {
             ...locale,
-            title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
-            subtitle: $translate.instant(`${state.$to().name}.shortTitle`),
-            urlLock: $translate.instant(`${state.$to().name}.urlLock`, {locale}),
-            imageUrl: state.$to()['imageUrl'],
+            ...params,
+            jsonLd: getPageJsonLd({...locale, ...params})
         });
         LoaderService.hide();
     });
@@ -132,6 +141,6 @@ function omniSetup(src: string, trg: string) {
 }
 
 run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message",
-    'storage', "DisplayService", "UserService", 'SocketService', '$rootScope'];
+    'storage', "DisplayService", "UserService", 'SocketService', '$rootScope', '$sce', '$filter'];
 
 export default run;

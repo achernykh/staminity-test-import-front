@@ -57,7 +57,6 @@ function configure(
             abstract: true,
             resolve: {
                 init: ['SocketService', (socket: SocketService) => {
-                    debugger;
                     return true; //socket.init();
                 }]
             }
@@ -66,7 +65,7 @@ function configure(
 	$compileProvider.debugInfoEnabled(!isProductionBuild);
 
 	// Основная цветовая схема 'серо-голубой' с акцентом 'оранжевый'
-	$mdThemingProvider.theme('default')
+	/**$mdThemingProvider.theme('default')
 		.primaryPalette('blue-grey', {
 			'default': '700',
 				'hue-1': '50',
