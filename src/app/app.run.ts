@@ -80,9 +80,9 @@ function run(
         let params: any = {
             title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
             subtitle: $translate.instant(state.$to()['subtitle'] || `${state.$to().name}.subtitle`),
-            urlLock: $translate.instant(state.$to()['urlLock'] || `${state.$to().name}.urlLock`),
-            urlLockRu: $translate.instant(state.$to()['urlLockRu'] || `${state.$to().name}.urlLockRu`),
-            urlLockEn: $translate.instant(state.$to()['urlLockEn'] || `${state.$to().name}.urlLockEn`),
+            urlLoc: $translate.instant(state.$to()['urlLoc'] || `${state.$to().name}.urlLoc`),
+            urlLocRu: state.$to()['urlLocRu'],
+            urlLocEn: state.$to()['urlLocEn'],
             imageUrl: state.$to()['imageUrl'],
             breadcrumb: $translate.instant(state.$to()['breadcrumb'] || `${state.$to().name}.breadcrumb`),
             url: $translate.instant('application.url'),
@@ -94,7 +94,7 @@ function run(
         Object.assign($rootScope, {
             ...locale,
             ...params,
-            jsonLd: state.$to().name === 'main' ?
+            jsonLd: state.$to().name === 'welcome' ?
                 getMainJsonLd({...locale, ...params}) :
                 getPageJsonLd({...locale, ...params})
         });

@@ -6,9 +6,9 @@ export interface JsonLdParams {
     // page
     title: string;
     subtitle: string;
-    urlLock: string;
-    urlLockRu: string;
-    urlLockEn: string;
+    urlLoc: string;
+    urlLocRu: string;
+    urlLocEn: string;
     imageUrl: string;
     breadcrumb: string;
     // global
@@ -272,7 +272,7 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
 export const getPageJsonLd = (params: JsonLdParams) => ({
     "@context" : "http://schema.org",
     "@type" : "WebPage",
-    "url": `${params.urlLock}`,
+    "url": `${params.urlLoc}`,
     "name": `${params.title}`,
     "description": `${params.subtitle}`,
     "breadcrumb": `${params.breadcrumb}`,
