@@ -285,7 +285,7 @@ export const getPageJsonLd = (params: JsonLdParams) => ({
         "name" : `${params.name} | Staminity`,
         "description": `${params.description}`,
         "about": `${params.description}`,
-        "image": "{{'application.image' | translate}}",
+        "image": `${params.image}`,
         "inLanguage": `${params.language}`
     },
     "publisher": {
@@ -299,7 +299,7 @@ export const getPageJsonLd = (params: JsonLdParams) => ({
         "email" : "support@staminity.com",
         "brand" : [{
             "name" : "Staminity",
-            "description": "{{'application.description' | translate}}"
+            "description": `${params.description}`
         }],
         "contactPoint" : [
             {

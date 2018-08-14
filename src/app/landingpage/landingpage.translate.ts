@@ -299,7 +299,8 @@ export let _translate = {
             },
             loading: "Получение данных...",
             breadcrumb: 'Staminity > Тарифы',
-            urlLoc: "https://staminity.com/tariffs?lang=ru"
+            urlLoc: "https://staminity.com/tariffs?lang=ru",
+            subtitle: "Тарифные планы и стоимость Staminity. Для спортсменов, тренеров и клубов"
         },
         featuresNew: {
             title: 'Возможности сервиса',
@@ -1016,6 +1017,7 @@ export let _translate = {
             loading: "Loading...",
             breadcrumb: 'Staminity > Pricing',
             urlLoc: "https://staminity.com/tariffs?lang=en",
+            subtitle: "How much does Staminity costs?"
         },
         featuresNew: {
             title: 'Staminity features',
