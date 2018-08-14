@@ -8,7 +8,7 @@ import { IStaminityState } from "./application.interface";
 import DisplayService from "./core/display.service";
 import UserService from "./core/user.service";
 import {StorageService} from "@app/core";
-import {getPageJsonLd} from "./app.constants";
+import {getMainJsonLd, getPageJsonLd} from "./app.constants";
 
 function run(
     $transitions: TransitionService,
@@ -94,7 +94,9 @@ function run(
         Object.assign($rootScope, {
             ...locale,
             ...params,
-            jsonLd: getPageJsonLd({...locale, ...params})
+            jsonLd: state.$to().name === 'main' ?
+                getMainJsonLd({...locale, ...params}) :
+                getPageJsonLd({...locale, ...params})
         });
         LoaderService.hide();
     });

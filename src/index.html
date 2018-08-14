@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{lang}}">
 <head>
-    <title>{{title}}</title>
+    <title ng-cloak ng-bind="title"></title>
     <base href="/index.html">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -187,5 +187,7 @@
                 console.error('Boo!', err)
             });
 </script>
+<!-- -->
+<jsonld data-json="jsonLd"></jsonld>
 </body>
 </html>
