@@ -52,7 +52,13 @@ const trainingSeasonList: any = {
         "application": {
             component: 'stTrainingSeasonList'
         }
-    }
+    },
+    urlLocRu: 'https://staminity.com/?lang=ru',
+    urlLocEn: 'https://staminity.com/?lang=en',
+    urlLoc: 'landing.main.urlLoc',
+    breadcrumb: 'landing.main.breadcrumb',
+    subtitle: 'landing.main.subtitle',
+    imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
 };
 
 const trainingSeasonBuilder: any = {
@@ -78,7 +84,13 @@ const trainingSeasonBuilder: any = {
         "application": {
             component: 'stTrainingSeasonBuilder'
         }
-    }
+    },
+    urlLocRu: 'https://staminity.com/?lang=ru',
+    urlLocEn: 'https://staminity.com/?lang=en',
+    urlLoc: 'landing.main.urlLoc',
+    breadcrumb: 'landing.main.breadcrumb',
+    subtitle: 'landing.main.subtitle',
+    imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
 };
 
 export const trainingSeasonState: Array<StateDeclaration> = [trainingSeason, trainingSeasonList, trainingSeasonBuilder];

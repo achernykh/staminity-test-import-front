@@ -70,7 +70,13 @@ function configure($stateProvider:StateProvider,
                 "application": {
                     component: "stCalendar"
                 }
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         });
 
     // Текст представлений
