@@ -42,15 +42,6 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
             {
                 "@context" : "http://schema.org",
                 "@type" : "WebPage",
-                "url": "https://staminity.com/search?state=coaches&lang=en",
-                "name": "Find a coach for running and triathlon in Staminity",
-                "description": "Find a coach for running and triathlon, choose a school of running and triathlon. Professional coaches and athletes will help start running, train competently, prepare for the start, improve personal record. Online training Individual training plan, training diary, communication with the coach, analytics and reporting Professional platform for working online Service for the coach with athletes",
-                "breadcrumb": "Staminity > Find coach",
-                "inLanguage": "English"
-            },
-            {
-                "@context" : "http://schema.org",
-                "@type" : "WebPage",
                 "url": "https://staminity.com/search?state=coaches&lang=ru",
                 "name": "Найти тренера по бегу и триатлону в Staminity",
                 "description": "Найти тренера по бегу и триатлону, выбрать школу бега и триатлона. Профессиональные тренеры и спортсмены, МСМК, МС, КМС помогут начать бегать, тренироваться грамотно, подготовиться к стартам, улучшить личный рекорд. Занятия онлайн. Индивидуальный тренировочный план, дневник тренировок, общение с тренером, аналитика и отчетность. Профессиональная платформа для работы онлайн. Сервис для работы тренера со спортсменами",
@@ -60,29 +51,11 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
             {
                 "@context" : "http://schema.org",
                 "@type" : "WebPage",
-                "url": "https://staminity.com/training-plans-store/?state=store&lang=en",
-                "name": "Training plans for running, triathlon and other cyclic sports",
-                "description": "Training plans store. Choose your training plan for running, triathlon and other cyclic sports from professional coaches",
-                "breadcrumb": "Staminity > Training plan store",
-                "inLanguage": "English"
-            },
-            {
-                "@context" : "http://schema.org",
-                "@type" : "WebPage",
                 "url": "https://staminity.com/training-plans-store/?state=store&lang=ru",
                 "name": "Тренировочные планы по бегу, триатлону и другим циклическим видам спорта",
                 "description": "Магазин тренировочных планов. Выберите тренировочный план по бегу, триатлону и другим циклическим видам спорта от профессиональных тренеров",
                 "breadcrumb": "Staminity > Магазин планов",
                 "inLanguage": "Russian"
-            },
-            {
-                "@context" : "http://schema.org",
-                "@type" : "WebPage",
-                "url": "https://staminity.com/tariffs?lang=en",
-                "name": "Pricing | Staminity",
-                "description": "Staminity pricing",
-                "breadcrumb": "Staminity > Tariffs",
-                "inLanguage": "English"
             },
             {
                 "@context" : "http://schema.org",
@@ -101,15 +74,6 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
                 "description": "Онлайн работа с тренером, тренировочные планы, дневник тренировок в циклических видах спорта",
                 "breadcrumb": "Staminity > Возможности",
                 "inLanguage": "Russian"
-            },
-            {
-                "@context" : "http://schema.org",
-                "@type" : "WebPage",
-                "url": "https://staminity.com/features?lang=en",
-                "name": "Features | Staminity",
-                "description": "Online training with a coach, training plans and training diary in cyclic sports",
-                "breadcrumb": "Staminity > Features",
-                "inLanguage": "English"
             },
             {
                 "@context" : "http://schema.org",
@@ -173,6 +137,89 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
                 "description": "Соберите команду тренеров и эффективно работайте вместе с учениками онлайн",
                 "breadcrumb": "Staminity > Сценарии > Работа нескольких тренеров",
                 "inLanguage": "Russian"
+            }
+        ],
+        "publisher": {
+            "@context" : "http://schema.org",
+            "@type" : "Organization",
+            "url" : `${params.url}`,
+            "name" : "Staminity",
+            "description": `${params.description}`,
+            "logo": "https://264710.selcdn.ru/assets/images/logo/staminity-logo-1024.png",
+            "areaServed" : "Worldwide",
+            "email" : "support@staminity.com",
+            "brand" : [{
+                "name" : "Staminity",
+                "description": `${params.description}`
+            }],
+            "contactPoint" : [
+                {
+                    "@type" : "ContactPoint",
+                    "contactType" : "Customer service",
+                    "availableLanguage" : ["English","Russian"],
+                    "url": "https://support.staminity.com",
+                    "email": "support@staminity.com"
+                },
+                {
+                    "@type" : "ContactPoint",
+                    "contactType" : "Technical support",
+                    "availableLanguage" : ["English","Russian"],
+                    "url": "https://support.staminity.com",
+                    "email": "support@staminity.com"
+                }]
+        }
+    },
+    en: {
+        "@context" : "http://schema.org",
+        "@type" : "WebPage",
+        "url" : `${params.url}`,
+        "name" : `${params.name} | Staminity`,
+        "description": `${params.description}`,
+        "about": `${params.description}`,
+        "image": `${params.image}`,
+        "inLanguage": `${params.language}`,
+        "sameAs": [
+            "https://staminity.com",
+            "https://www.facebook.com/staminity",
+            "https://instagram.com/staminity_app",
+            "https://vk.com/staminity"
+        ],
+        "hasPart": [
+            {
+                "@context" : "http://schema.org",
+                "@type" : "WebPage",
+                "url": "https://staminity.com/search?state=coaches&lang=en",
+                "name": "Find a coach for running and triathlon in Staminity",
+                "description": "Find a coach for running and triathlon, choose a school of running and triathlon. Professional coaches and athletes will help start running, train competently, prepare for the start, improve personal record. Online training Individual training plan, training diary, communication with the coach, analytics and reporting Professional platform for working online Service for the coach with athletes",
+                "breadcrumb": "Staminity > Find coach",
+                "inLanguage": "English"
+            },
+            {
+                "@context" : "http://schema.org",
+                "@type" : "WebPage",
+                "url": "https://staminity.com/training-plans-store/?state=store&lang=en",
+                "name": "Training plans for running, triathlon and other cyclic sports",
+                "description": "Training plans store. Choose your training plan for running, triathlon and other cyclic sports from professional coaches",
+                "breadcrumb": "Staminity > Training plan store",
+                "inLanguage": "English"
+            },
+            {
+                "@context" : "http://schema.org",
+                "@type" : "WebPage",
+                "url": "https://staminity.com/tariffs?lang=en",
+                "name": "Pricing | Staminity",
+                "description": "Staminity pricing",
+                "breadcrumb": "Staminity > Pricing",
+                "inLanguage": "English"
+            },
+            {
+                "@context" : "http://schema.org",
+                "@type" : "WebPage",
+                "url": "https://staminity.com/features?lang=en",
+                "name": "Features | Staminity",
+                "description": "Online training with a coach, training plans and training diary in cyclic sports",
+                "breadcrumb": "Staminity > Features",
+                "inLanguage": "English"
             },
             {
                 "@context" : "http://schema.org",
@@ -268,8 +315,7 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
                     "email": "support@staminity.com"
                 }]
         }
-    },
-    en: {}
+    }
 });
 
 export const getPageJsonLd = (params: JsonLdParams) => ({
@@ -279,7 +325,26 @@ export const getPageJsonLd = (params: JsonLdParams) => ({
         "url": `${params.urlLoc}`,
         "name": `${params.title}`,
         "description": `${params.subtitle}`,
-        "breadcrumb": `${params.breadcrumb}`,
+        "breadcrumb": {
+            "@context": "http://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@id": `${params.url}`,
+                    "name": "Staminity",
+                    "image": `${params.image}`
+                }
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@id": `${params.urlLoc}`,
+                    "name": `${params.breadcrumb}`,
+                    "image": `${params.imageUrl}`
+                }
+            }]},
         "inLanguage": `${params.language}`,
         "image": `${params.imageUrl}`,
         "isPartOf": {
@@ -324,6 +389,71 @@ export const getPageJsonLd = (params: JsonLdParams) => ({
 
     },
     en: {
-
+        "@context": "http://schema.org",
+        "@type": "WebPage",
+        "url": `${params.urlLoc}`,
+        "name": `${params.title}`,
+        "description": `${params.subtitle}`,
+        "breadcrumb": {
+            "@context": "http://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@id": `${params.url}`,
+                    "name": "Staminity",
+                    "image": `${params.image}`
+                }
+            },{
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@id": `${params.urlLoc}`,
+                    "name": `${params.breadcrumb}`,
+                    "image": `${params.imageUrl}`
+                }
+            }]},
+        "inLanguage": `${params.language}`,
+        "image": `${params.imageUrl}`,
+        "isPartOf": {
+            "@context": "http://schema.org",
+            "@type": "WebPage",
+            "url": `${params.url}`,
+            "name": `${params.name} | Staminity`,
+            "description": `${params.description}`,
+            "about": `${params.description}`,
+            "image": `${params.image}`,
+            "inLanguage": `${params.language}`
+        },
+        "publisher": {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "url": `${params.url}`,
+            "name": "Staminity",
+            "description": `${params.description}`,
+            "logo": "https://264710.selcdn.ru/assets/images/logo/staminity-logo-1024.png",
+            "areaServed": "Worldwide",
+            "email": "support@staminity.com",
+            "brand": [{
+                "name": "Staminity",
+                "description": `${params.description}`
+            }],
+            "contactPoint": [
+                {
+                    "@type": "ContactPoint",
+                    "contactType": "Customer service",
+                    "availableLanguage": ["English", "Russian"],
+                    "url": "https://support.staminity.com",
+                    "email": "support@staminity.com"
+                },
+                {
+                    "@type": "ContactPoint",
+                    "contactType": "Technical support",
+                    "availableLanguage": ["English", "Russian"],
+                    "url": "https://support.staminity.com",
+                    "email": "support@staminity.com"
+                }]
+        }
     }
 });
