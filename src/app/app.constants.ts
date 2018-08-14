@@ -23,6 +23,7 @@ export const dbDataKey: string = 'version';
 export const dbDataVersion: number = 1;
 
 export const getMainJsonLd = (params: JsonLdParams) => ({
+    ru: {
         "@context" : "http://schema.org",
         "@type" : "WebPage",
         "url" : `${params.url}`,
@@ -267,55 +268,62 @@ export const getMainJsonLd = (params: JsonLdParams) => ({
                     "email": "support@staminity.com"
                 }]
         }
+    },
+    en: {}
 });
 
 export const getPageJsonLd = (params: JsonLdParams) => ({
-    "@context" : "http://schema.org",
-    "@type" : "WebPage",
-    "url": `${params.urlLoc}`,
-    "name": `${params.title}`,
-    "description": `${params.subtitle}`,
-    "breadcrumb": `${params.breadcrumb}`,
-    "inLanguage": `${params.language}`,
-    "image": `${params.imageUrl}`,
-    "isPartOf": {
-        "@context" : "http://schema.org",
-        "@type" : "WebPage",
-        "url" : `${params.url}`,
-        "name" : `${params.name} | Staminity`,
-        "description": `${params.description}`,
-        "about": `${params.description}`,
-        "image": `${params.image}`,
-        "inLanguage": `${params.language}`
-    },
-    "publisher": {
-        "@context" : "http://schema.org",
-        "@type" : "Organization",
-        "url" : `${params.url}`,
-        "name" : "Staminity",
-        "description": `${params.description}`,
-        "logo": "https://264710.selcdn.ru/assets/images/logo/staminity-logo-1024.png",
-        "areaServed" : "Worldwide",
-        "email" : "support@staminity.com",
-        "brand" : [{
-            "name" : "Staminity",
-            "description": `${params.description}`
-        }],
-        "contactPoint" : [
-            {
-                "@type" : "ContactPoint",
-                "contactType" : "Customer service",
-                "availableLanguage" : ["English","Russian"],
-                "url": "https://support.staminity.com",
-                "email": "support@staminity.com"
-            },
-            {
-                "@type" : "ContactPoint",
-                "contactType" : "Technical support",
-                "availableLanguage" : ["English","Russian"],
-                "url": "https://support.staminity.com",
-                "email": "support@staminity.com"
-            }]
-    }
+    ru: {
+        "@context": "http://schema.org",
+        "@type": "WebPage",
+        "url": `${params.urlLoc}`,
+        "name": `${params.title}`,
+        "description": `${params.subtitle}`,
+        "breadcrumb": `${params.breadcrumb}`,
+        "inLanguage": `${params.language}`,
+        "image": `${params.imageUrl}`,
+        "isPartOf": {
+            "@context": "http://schema.org",
+            "@type": "WebPage",
+            "url": `${params.url}`,
+            "name": `${params.name} | Staminity`,
+            "description": `${params.description}`,
+            "about": `${params.description}`,
+            "image": `${params.image}`,
+            "inLanguage": `${params.language}`
+        },
+        "publisher": {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "url": `${params.url}`,
+            "name": "Staminity",
+            "description": `${params.description}`,
+            "logo": "https://264710.selcdn.ru/assets/images/logo/staminity-logo-1024.png",
+            "areaServed": "Worldwide",
+            "email": "support@staminity.com",
+            "brand": [{
+                "name": "Staminity",
+                "description": `${params.description}`
+            }],
+            "contactPoint": [
+                {
+                    "@type": "ContactPoint",
+                    "contactType": "Customer service",
+                    "availableLanguage": ["English", "Russian"],
+                    "url": "https://support.staminity.com",
+                    "email": "support@staminity.com"
+                },
+                {
+                    "@type": "ContactPoint",
+                    "contactType": "Technical support",
+                    "availableLanguage": ["English", "Russian"],
+                    "url": "https://support.staminity.com",
+                    "email": "support@staminity.com"
+                }]
+        }
 
+    },
+    en: {
+
+    }
 });

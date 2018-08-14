@@ -80,9 +80,9 @@ function run(
         let params: any = {
             title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
             subtitle: $translate.instant(state.$to()['subtitle'] || `${state.$to().name}.subtitle`),
-            urlLoc: $translate.instant(state.$to()['urlLoc'] || `${state.$to().name}.urlLoc`),
-            urlLocRu: state.$to()['urlLocRu'],
-            urlLocEn: state.$to()['urlLocEn'],
+            urlLoc: $sce.trustAsResourceUrl($translate.instant(state.$to()['urlLoc'] || `${state.$to().name}.urlLoc`)),
+            urlLocRu: $sce.trustAsResourceUrl(state.$to()['urlLocRu']),
+            urlLocEn: $sce.trustAsResourceUrl(state.$to()['urlLocEn']),
             imageUrl: state.$to()['imageUrl'],
             breadcrumb: $translate.instant(state.$to()['breadcrumb'] || `${state.$to().name}.breadcrumb`),
             url: $translate.instant('application.url'),
@@ -95,8 +95,8 @@ function run(
             ...locale,
             ...params,
             jsonLd: state.$to().name === 'welcome' ?
-                getMainJsonLd({...locale, ...params}) :
-                getPageJsonLd({...locale, ...params})
+                getMainJsonLd({...locale, ...params})[locale.lang] :
+                getPageJsonLd({...locale, ...params})[locale.lang]
         });
         LoaderService.hide();
     });
