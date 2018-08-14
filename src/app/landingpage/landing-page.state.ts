@@ -32,8 +32,8 @@ const scenarios: any[] = landingConfig.scenario.map(s => ({
     views: {
         application: {component: 'stLandingScenario'}
     },
-    urlLocRu: `landing.${s.code}.urlLocRu`,
-    urlLocEn: `landing.${s.code}.urlLocEn`,
+    urlLocRu: `https://staminity.com${s.url}&lang=ru`,
+    urlLocEn: `https://staminity.com${s.url}&lang=en`,
     urlLoc: `landing.${s.code}.urlLoc`,
     breadcrumb: `landing.${s.code}.breadcrumb`,
     subtitle: `landing.${s.code}.subtitle`,
