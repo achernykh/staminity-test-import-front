@@ -28,6 +28,12 @@ function configure(
                             })],
             },
             views: DefaultTemplate("club"),
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration);
 
     // Текст представлений

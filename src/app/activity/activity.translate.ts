@@ -22,7 +22,8 @@ export const translateActivity = {
           unsetSample: 'Убрать из примеров',
           hideSmoothOnChart: 'Убрать сглаживание графиков',
           split: 'Открепить фактические данные',
-          recalc: 'Пересчитать тренировку'
+          recalc: 'Пересчитать тренировку',
+          recalcPlanTotal: 'Пересчитать план (итоги)',
       },
       details: {
           measures: {
@@ -303,7 +304,8 @@ export const translateActivity = {
             unsetSample: 'Unset as sample',
             hideSmoothOnChart: 'Hide chart smooth',
             split: 'Split Plan and Actual data',
-            recalc: 'Recalculate activity'
+            recalc: 'Recalculate activity',
+            recalcPlanTotal: 'Recalculate plan (totals)',
 
         },
         details: {
