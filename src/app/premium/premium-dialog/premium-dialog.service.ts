@@ -1,4 +1,8 @@
-import {CalendarItemDialogService} from "../../calendar-item/calendar-item-dialog.service";
+import BillingService from "@app/core/billing.service";
+import {SessionService} from "@app/core";
+import {IBillingTariff} from "@api/billing";
+import {IUserProfile} from "@api/user";
+import {EnableTariffCtrl} from "../../share/dialogs/enable-tariff/enable-tariff.controller";
 
 export class PremiumDialogService {
 
@@ -17,28 +21,41 @@ export class PremiumDialogService {
         fullscreen: true
     };
 
-    static $inject = ['$mdDialog'];
+    static $inject = ['$mdDialog', 'BillingService', 'SessionService'];
 
-    constructor (private $mdDialog) {
+    constructor (private $mdDialog,
+                 private billingService: BillingService,
+                 private session: SessionService) {
 
     }
 
     open (e: Event, functionCode: string): Promise<any> {
+        let user: IUserProfile = this.session.getUser();
+        let tariff: IBillingTariff = user.billing.tariffs.filter(t => t.tariffCode === 'Premium')[0];
+        let tariffId: number = tariff.tariffId;
+
+
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="premium-dialog" aria-label="Activity" layout="column">
                             <st-premium-dialog
-                                    flex="auto" flex-gt-sm="none" layout="row"
+                                    flex="auto" flex-gt-sm="none" layout="column"
                                     class="premium-dialog"
                                     style="margin: auto"
-                                    data="$ctrl.page"
-                                 
+                                    user="$ctrl.user"
+                                    tariff="$ctrl.tariff"
+                                    billing="$ctrl.billing"
+                                    page="$ctrl.page"
                                     on-cancel="cancel()" on-answer="answer(subscriptionPeriod)">
                             </st-premium-dialog>
                        </md-dialog>`,
+            controller: EnableTariffCtrl,
+            controllerAs: '$ctrl',
             targetEvent: e,
-            locals: {
-                page: functionCode
-            }
+            locals: { user, tariff },
+            resolve: {
+                billing: () => this.billingService.getTariff(tariffId, ''),
+                page: () => functionCode,
+            },
         }));
     }
 

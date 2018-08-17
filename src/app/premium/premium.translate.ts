@@ -1,5 +1,9 @@
 export const premiumTranslate = {
     ru: {
+        action: {
+            subscribeMonth: 'Купить {{rate}}/{{currency}}/месяц',
+            subscribeYear: 'Купить на год {{rate / 12}}{{currency}}/месяц'
+        },
         wrapper: {
             title: 'Премиум-функция',
             button: 'Узнать подробнее о "Премиум"'

@@ -2,6 +2,7 @@ import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
 import './moneta.scss';
 import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
+import {EnableTariffCtrl} from "./enable-tariff/enable-tariff.controller";
 
 
 export default class DialogsService {
@@ -100,9 +101,9 @@ export default class DialogsService {
                             throw info;
                         })
                 },
-                controller: EnableTariffController,
+                controller: EnableTariffCtrl,
                 controllerAs: '$ctrl',
-                template: require('./enable-tariff.html'),
+                template: require('./enable-tariff/enable-tariff.template.html'),
                 multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
@@ -380,7 +381,7 @@ function SelectUsersController ($scope, $mdDialog, users, selectedUsers, message
 SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'selectedUsers', 'message'];
 
 
-function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
+/**function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
     this.tariff = tariff;
     this.user = user;
 
@@ -463,7 +464,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
 
 EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'dialogs', 'message', 'user', 'tariff', 'billing'];
 
-
+**/
 function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing, $translate) {
     this.tariff = tariff;
     this.user = user;
