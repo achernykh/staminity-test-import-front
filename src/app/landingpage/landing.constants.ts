@@ -35,6 +35,8 @@ export interface LandingConfig {
     reviews: {
         [language: string]: LandingReview[]
     };
+    // продолжение к секции переводов landing.howItWorks, каждый ключ должен содеражть: title & text
+    howItWorks: [{code: string; img: string;}];
     scenario: [{
         code: string; // example, trainingPlans, coachOnline and e.t.c
         url: string;
@@ -51,6 +53,12 @@ export interface LandingConfig {
         reviews?: {
             [language: string]: LandingReview[]
         };
+        // если ключ не !null, то секция выводится
+        // полный путь к ключу перевода текста для информации о сервисе из title, img - путь к картинке
+        staminityInfo?: {title: ''; img: ''};
+        // если ключ true, то секция выводится
+        // его стркутура в конфиге howItWorks, заголовок секции в landing.howItWorks.title
+        howItWorks?: boolean;
         blocks: LandingContentBlock[];
         externalBlocks?: {
             title?: string; // ключ перевода, можно не заполнять
@@ -93,6 +101,10 @@ export interface LandingConfig {
 }
 
 export const landingConfig: LandingConfig = {
+    howItWorks: [{
+        code: 'goal',
+        img: null
+    }],
     reviews: {
         ru: [{
             avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',
