@@ -421,7 +421,8 @@ export let _translate = {
             },
             externalInfo: 'Найдите тренера по бегу, триатлону, велоспорту, плаванию, лыжам и другим циклическим видам спорта в Staminity. ' +
             'Если вы только хотите начать заниматься спортом, ищите лучший способ подготовиться к выбранной дистанции или хотите улучшить личный рекорд, тренеры в Staminity помогут вам в этом. ' +
-            'Выберите тренера по бегу и пробегите первые 10 км, полумарафон или марафон. Выберите тренера по триатлону для подговки к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.'
+            'Выберите тренера по бегу и пробегите первые 10 км, полумарафон или марафон. Выберите тренера по триатлону для подговки к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.',
+            description: 'Staminity поможет найти тренера и тренироваться с ним онлайн, получать индивидуальный план тренировок и всегда иметь его под рукой, автоматически загружать выполненные тренировки и анализировать их, всегда быть на связи с тренером.'
 
         },
         trainingPlans: {
@@ -462,7 +463,8 @@ export let _translate = {
             },
             externalInfo: 'Найдите тренировочный план по бегу, триатлону и другим циклическим видам спорта в Staminity. ' +
             'Тренировочные планы по бегу в Staminity помогут подготовиться и пробежать первые 10 км, полумарафон или марафон. ' +
-            'Тренировочные планы по триатлону помогут подготовиться к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.'
+            'Тренировочные планы по триатлону помогут подготовиться к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.',
+            description: 'В Staminity для спортсмена есть тренировочные планы, составленные профессиональными тренерами для подготовки к определенным дистанциям в беге и триатлоне. Выбирайте и подключайте план, применяйте его в нужные даты и начинайте тренировки'
 
 
         },
@@ -508,7 +510,8 @@ export let _translate = {
             },
             externalInfo: 'В Staminity есть все необходимое для самостоятельных тренировок по бегу, триатлону, плаванию, велоспорту и другим циклическим видам спорта.' +
             'Помимо планов на сезон, планирования и выполнения собственных тренировок попробуйте категории для удобной классификации заданий и шаблоны для быстрого планирования повторяющихся тренировок. ' +
-            'Работать с тренером в Staminity можно совершенно бесплатно, а создание плана на сезон, планирование тренировок для себя, детальный анализ выполненных тренировок и управление категориями и шаблонами доступно на тарифе "Премиум"'
+            'Работать с тренером в Staminity можно совершенно бесплатно, а создание плана на сезон, планирование тренировок для себя, детальный анализ выполненных тренировок и управление категориями и шаблонами доступно на тарифе "Премиум"',
+            description: 'Продвинутым любителям Staminity поможет самостоятельно спланировать свой тренировочный сезон, составить план собственных тренировок, анализировать их выполнение и контролировать процесс подготовки.'
 
         },
         trainAthletes: {
@@ -554,7 +557,8 @@ export let _translate = {
             },
             externalInfo: 'Staminity - это специальный сервис для тренера, где есть все необходимое для удобной и эффективной работы с учениками онлайн. Веб-приложение и мобильные приложения для тренера, профессиональная платформа для работы с учениками, включая планирование, контроль выполнения, анализ тренировок и общение с учениками. А также планирование сезона, создание собственных схем периодизации, ' +
             'управление категориями тренировок для классификации заданий и шаблонами для быстрого планирования повторяющихся тренировок.' +
-            'Для работы со спортсменами онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом.'
+            'Для работы со спортсменами онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом.',
+            description: 'Staminity поможет тренеру эффективно работать с учениками онлайн: определять главные старты и составлять план на сезон, планировать отдельные тренировки и контролировать их выполнение, анализировать подготовку и общаться. Получите в одном приложении план и факт всех тренировок и тренировочный дневник по всем ученикам.'
         },
         trainGroups: {
             title: 'Работа с группами спортсменов',
@@ -604,7 +608,8 @@ export let _translate = {
             },
             externalInfo: 'Работайте с корпоративными командами по бегу и триатлону, организуйте тренировочные сборы по бегу и триатлону и другим циклическим видам спорта. ' +
             'Составляйте единый план для работы группы для подготовки к забегу на 10 км, к полумарафону или марафону. ' +
-            'Для работы с группами спортсменов онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом. Для тренера оплачивается только первые 10 учеников'
+            'Для работы с группами спортсменов онлайн нужен тариф "Тренер", приобретенный самостоятельно, либо подключенный клубом. Для тренера оплачивается только первые 10 учеников',
+            description: 'Staminity поможет тренеру тратить меньше времени на на работу с группами учеников или с командами по бегу и триатлону. Составляйте один тренировочный план и применяйте его к группе спортсменов, контролируйте прогресс каждого.'
         },
         trainingPlanPublication: {
             title: 'Публикация и продажа тренировочных планов',
@@ -658,7 +663,8 @@ export let _translate = {
             'Бесплатный план на 4-6 недель покажет клиентам ваш подход к детализации упражнений, к построению тренировочного процесса и может стать первым шагом для спортсмена к выбору Вас как тренера. ' +
             'В планы подготовки к дистанциям в беге и триатлоне и планы по питанию можно включить очные консультации и очные тренировки, ' +
             'чтобы познакомиться с вашими клиентами и продемонстрировать ваши компетенции наставника, мотиватора.' +
-            'А <strong>если у вас уже есть планы</strong> на бумаге, в виде таблиц или файлов, попробуйте сделать их копию в Staminity и дать клиентам возможность удобно заниматься по планам. Опубликовать план можно бесплатно.'
+            'А <strong>если у вас уже есть планы</strong> на бумаге, в виде таблиц или файлов, попробуйте сделать их копию в Staminity и дать клиентам возможность удобно заниматься по планам. Опубликовать план можно бесплатно.',
+            description: 'Если вы тренер и знаете, как правильно тренироваться для подготовки к полумарафону, как пробежать марафон или подготовиться к соревнованиям по триатлону, мы предлагаем создавать тренировочные планы и публиковать их в магазине тренировочных планов. Staminity поможет найти новых учеников и получить дополнительный доход.'
 
         },
         severalCoaches: {
@@ -695,8 +701,8 @@ export let _translate = {
                 text: "Клубные категории тренировок и клубные шаблоны помогут тренерам клуба применять единые правила при подготовке учеников",
             },
             externalInfo: 'Клубы в Staminity помогут организовать совместную работу нескольких тренеров с учениками онлайн для школы бега, бегового клуба, клуба по триатлону, школы по плаванию и ' +
-            'по другим циклическим видам спорта. Специальное приложение и веб-сервис, профессиональная платформа для спортивных клубов и школ по работе с учениками онлайн.'
-
+            'по другим циклическим видам спорта. Специальное приложение и веб-сервис, профессиональная платформа для спортивных клубов и школ по работе с учениками онлайн.',
+            description: 'Staminity поможет организовать эффективную работу нескольких тренеров с учениками: собрать в одном клубе тренеров и спортсменов, распределять учеников между тренерами, контролировать работу клуба и единый подход к организации процесса тренировок'
         },
         main: {
             title: 'Тренировки онлайн',
@@ -710,6 +716,111 @@ export let _translate = {
         scenario: {
             shortTitle: 'Сценарии',
             moreInfo: 'Узнать подробнее'
+        },
+        targetGroups: {
+            title: "Для спортсменов, тренеров и клубов в циклических видах спорта",
+            more: "Узнать подробнее",
+            athletes: {
+                title: "Для спортсменов",
+                text: "Помогаем заниматься с тренером или по тренировочному плану и достигать спортивных целей"
+            },
+            coaches: {
+                title: "Для тренеров",
+                text: "Помогаем сократить время на планирование и анализ тренировок и эффективно работать с учениками"
+            },
+            clubs: {
+                title: "Для клубов и команд",
+                text: "Помогаем организовать работу нескольких тренеров онлайн с учениками"
+            }
+        },
+        howItWorks: {
+            title: "Тренируйтесь грамотно и достигайте выбранных целей в спорте",
+            more: "Узнать подробнее о возможностях",
+            howItWorks1: {
+                title: "Поставьте цель",
+                text: "Поставьте перед собой спортивную цель, запланируйте главный старт сезона и вспомогательные соревнования"
+            },
+            howItWorks2: {
+                title: "Составьте план на сезон",
+                text: "Получите от тренера или составьте самостоятельно план на сезон"
+            },
+            howItWorks3: {
+                title: "Запланируйте тренировки",
+                text: "Создайте план тренировок или получите индивидуальный план от тренера"
+            },
+            howItWorks4: {
+                title: "Тренируйтесь грамотно",
+                text: "Выполняйте задания и выполненные тренировки будут загружаться автоматически и сопоставляться с планом"
+            },
+            howItWorks5: {
+                title: "Анализируйте прогресс",
+                text: "Анализируйте каждую тренировку в деталях и контролируйте процесс подготовки"
+            },
+        },
+        athletes: {
+            title: 'Для спортсменов',
+            shortTitle: 'Для спортсменов',
+            subtitle: 'Помогаем заниматься с тренером или по тренировочному плану, тренироваться грамотно и достигать спортивных целей',
+            breadcrumb: 'Для спортсменов',
+            urlLoc: "https://staminity.com/athletes?lang=ru",
+            urlLocRu: "https://staminity.com/athletes?lang=ru",
+            urlLocEn: "https://staminity.com/athletes?lang=en",
+            button: {
+                title: 'Создать аккаунт',
+                link: ''
+            },
+            staminityInfo: "Staminity – это приложение для бега, триатлона, плавания и велогонок, а также для занятий другими циклическими видами спорта. Найдите тренера или тренировочный план, ведите дневник тренировок и тренируйтесь грамотно, для подготовки к выбранной цели в спорте",
+            summaryInfo: 'Staminity создано для спортсменов-любителей и может быть полезным, если вы хотите:' +
+            '<li>начать бегать или заниматься спортом,</li>' +
+            '<li>найти способ правильно тренироваться, чтобы привести себя в форму или похудеть,</li>' +
+            '<li>улучшить личный рекорд в беге и триатлоне,</li>' +
+            '<li>найти программу тренировок по бегу или триатлону,</li>' +
+            '<li>узнать, как тренироваться без травм и без вреда для здоровья,</li>' +
+            '<li>найти тренировочный план, чтобы подготовиться и пробежать свой первый полумарафон,</li>' +
+            '<li>узнать, как подготовиться к марафону,</li>' +
+            '<li>начать тренироваться системно для подготовки к соревнованиям по триатлону,</li>' +
+            '<li>тренироваться на результат и подготовиться к IRONMAN...<br>' +
+            '<p>Мы ждем вас в Staminity! Регистрируйтесь, выбирайте тренера или тренировочный план и тренируйтесь грамотно.</p>'
+        },
+        coaches: {
+            title: 'Для тренеров',
+            shortTitle: 'Для тренеров',
+            subtitle: 'Помогаем сократить время на планирование и анализ тренировок и эффективно работать с учениками онлайн',
+            breadcrumb: 'Для тренеров',
+            urlLoc: "https://staminity.com/coaches?lang=ru",
+            urlLocRu: "https://staminity.com/coaches?lang=ru",
+            urlLocEn: "https://staminity.com/coaches?lang=en",
+            button: {
+                title: 'Создать аккаунт тренера',
+                link: ''
+            },
+            staminityInfo: "Staminity - это приложение для тренеров по бегу, триатлону, плаванию, велогонкам и другим циклическим видам спорта. Тренируйте учеников онлайн, работайте с группами и командами, находите новых учеников и зарабатывайте с продажи тренировочных планов.",
+            summaryInfo: 'Staminity может быть полезным для тренера' +
+            '<li><strong>Если вы тренируете любителей или профессиональных спортсменов</strong> – подключайте учеников и работайте с ними онлайн;</li>' +
+            '<li><strong>Если вы готовите учеников к соревнованиям по бегу, триатлону и другим циклическим видам спорта</strong> – составляйте индивидуальный тренировочный план для каждого ученика, для группы или команды;</li>' +
+            '<li><strong>Если вы знаете, как составить программу тренировок для определенной цели в спорте</strong> –  создайте и опубликуйте в магазине тренировочных планов свой платный или бесплатный план;</li>' +
+            '<li><strong>Если вы хотите найти новых учеников</strong> – зарегистрируйтесь и заполните профиль тренера, чтобы новые ученики смогли найти вас.</li>' +
+            '<p>Мы ждем вас в Staminity! <a target="_blank" href="mailto:support@staminity.com">Напишите нам</a>, если возникнут любые вопросы по работе тренера в сервисе.</p>'
+        },
+        clubs: {
+            title: 'Для клубов и команд',
+            shortTitle: 'Для клубов и команд',
+            subtitle: 'Помогаем организовать эффективную работу нескольких тренеров онлайн с учениками для клуба или команды',
+            breadcrumb: 'Для клубов и команд',
+            urlLoc: "https://staminity.com/clubs?lang=ru",
+            urlLocRu: "https://staminity.com/clubs?lang=ru",
+            urlLocEn: "https://staminity.com/clubs?lang=en",
+            button: {
+                title: 'Создать аккаунт клуба',
+                link: ''
+            },
+            staminityInfo: "В Staminity есть специальные возможности для беговых, триатлонных и велоклубов, для школ по плаванию, лыжам, а также по другим циклическим видам спорта. Приглашайте тренеров в клуб и распределяйте учеников между ними, работайте со спортсменами онлайн, тренируйте группы и команды.",
+            summaryInfo: 'Staminity может быть полезным для тренера' +
+            '<li><strong>Если у вас несколько тренеров</strong> – создайте клуб в Staminity, пригласите тренеров и спортсменов подключиться к клубу и организуйте тренировочный процесс;</li>' +
+            '<li><strong>Если вы тренируете любителей или профессиональных спортсменов</strong> – подключайте учеников в клуб, назначайте тренера и работайте с ним онлайн;</li>' +
+            '<li><strong>Если вы готовите учеников к соревнованиям по бегу, триатлону и другим циклическим видам спорта</strong> – составляйте индивидуальный тренировочный план для каждого ученика, либо используйте один план для группы или команды;</li>' +
+            '<li><strong>Если вы хотите найти новых учеников</strong> – зарегистрируйтесь и заполните профиль клуба, чтобы новые ученики смогли найти ваш клуб.</li>' +
+            '<p>Мы ждем вас в Staminity! <a target="_blank" href="mailto:support@staminity.com">Напишите нам</a>, если возникнут любые вопросы по работе клуба в сервисе.</p>'
         }
 
     },
@@ -1140,7 +1251,8 @@ export let _translate = {
             },
             externalInfo: 'Find an online coach for running, triathlon, cycling, swimming, skiing and other cyclic sports in Staminity. '+
             'If you just want to start regular excercises or look for the best way to prepare for the chosen distance or want to improve your personal best, the Staminity coaches will help you with this. '+
-            'Choose an online running coach for your first 10 km race, half marathon or marathon. Choose a triathlon coach to prepare for IRONMAN, IRONSTAR and other triathlon competitions.'
+            'Choose an online running coach for your first 10 km race, half marathon or marathon. Choose a triathlon coach to prepare for IRONMAN, IRONSTAR and other triathlon competitions.',
+            description: 'Staminity will help you to find a coach and train with him online, get an individual training plan and always have access to it, automatically upload completed workouts and analyze them, constantly be in touch with your coach.'
 
         },
         trainingPlans: {
@@ -1181,7 +1293,8 @@ export let _translate = {
             },
             externalInfo: 'Find a training plan for running, triathlon and other cyclic sports in Staminity. '+
             'Training plans for running will help to prepare and run your first 10 km, half marathon or marathon. '+
-            'Training plans for triathlon will help to prepare for IRONMAN, IRONSTAR and other triathlon competitions.'
+            'Training plans for triathlon will help to prepare for IRONMAN, IRONSTAR and other triathlon competitions.',
+            description: 'For athletes there are also training plans available for purchase. These plans have been developed by professional coaches in order to help athletes to prepare for particular distances in running and triathlon. Find your plan, purchase and assign it to the required dates and start training.'
 
         },
         selfTraining: {
@@ -1226,7 +1339,8 @@ export let _translate = {
             },
             externalInfo: 'Staminity has everything you need for self training in running, triathlon, swimming, cycling and other cyclic sports. ' +
             'In addition to the season planning and planning and analyzing your own activities, try out categories for easy classification of activities and templates for quickly planning repetitive activities. '+
-            'Working with a coach in Staminity can be completely free, but season planning, activity self planning, a detailed analysis of the activities and management of categories and templates is available at the "Premium" tariff'
+            'Working with a coach in Staminity can be completely free, but season planning, activity self planning, a detailed analysis of the activities and management of categories and templates is available at the "Premium" tariff',
+            description: 'Staminity will help advanced athletes to independently plan their training season, create planned activities for themselves, analyze their performance and control their training process.'
         },
         trainAthletes: {
             title: 'Train athletes',
@@ -1272,7 +1386,8 @@ export let _translate = {
             externalInfo: 'Staminity is a service for the running coach, triathlon coach and for coaches in other cyclic sports. It has everything necessary for convenient and effective work with athletes online. Web application and mobile applications for the coach, a professional platform for working with athletes online.' +
             'Includes planning, controlling the plan performance, analyzing training and communicating with students. It also helps to perform season planning, managing periodization schemes, ' +
             'managing categories for classifying activities and templates for quickly planning repetitive activities. ' +
-            'To work with athletes online a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
+            'To work with athletes online a coach need a "Coach" tariff, purchased by himself, or enabled by the club.',
+            description: 'Staminity will help a coach to work with athletes online in an effective way: define the key races and create season plans, plan separate workouts and analyze completed ones, track the training process and communicate with athletes. In one app you will receive training log with all planned and completed workouts for your athletes.'
         },
         trainGroups: {
             title: 'Train groups of athletes',
@@ -1322,7 +1437,8 @@ export let _translate = {
             },
             externalInfo: 'Training plans in Staminity are suitable for working with corporate running teams and triathlon teams, for holding training camps for running and triathlon and for other cyclic sports. '+
             'Make a single plan for the online training of the group of athletes to prepare for a 10 km race, half marathon or marathon. '+
-            'To work with groups of athletes online, a coach need a "Coach" tariff, purchased by himself, or enabled by the club.'
+            'To work with groups of athletes online, a coach need a "Coach" tariff, purchased by himself, or enabled by the club.',
+            description: 'Staminity will help you to save time for training teams or groups of athletes in running and triathlon. Compose a single training plan and assign it to all members of the group, while being able to control each one’s progress.'
         },
         trainingPlanPublication: {
             title: 'Training plans publication and selling',
@@ -1377,7 +1493,8 @@ export let _translate = {
             "Consultations with a coach and offline activities also could be included in the running or triathlon training plan to get to known your clients and " +
             "demonstrate your mentor's and motivator's competencies. " +
             "<strong> For the coaches who already have training plans</strong> on a paper, in the Google sheets or files, we suggest to publish a copy of them in Staminity. " +
-            "It gives the opportunity for the clients to conveniently work on the plan. To publish plans a coach doesn't need paid tariffs"
+            "It gives the opportunity for the clients to conveniently work on the plan. To publish plans a coach doesn't need paid tariffs",
+            description: 'For coaches who know how to train correctly in order to get prepared to half-marathon, how to run a marathon or to make ready for triathlon competitions, we suggest to create free-of-charge or paid training plans and publish them in the training plans Store. Staminity will help you to find new athletes and earn extra.'
         },
         severalCoaches: {
             title: 'Several coaches joint work',
@@ -1413,7 +1530,8 @@ export let _translate = {
                 text: "Create club activity categories and club templates. They will help club coaches to follow the same rules when training athletes.",
             },
             externalInfo: 'Clubs in Staminity will help you organize joint work of several coaches with athletes online for running schools, running clubs, triathlon schools and club, swimming schools and' +
-            'clubs in other cyclic sports. Web and mobile application, web service and professional platform for clubs and schools to work with athletes online.'
+            'clubs in other cyclic sports. Web and mobile application, web service and professional platform for clubs and schools to work with athletes online.',
+            description: "Staminity will help to organize effective work of several coaches with athletes: gather both coaches and athletes in one club, assign coaches to athletes, control the club's work and provide a unified approach to the training process."
         },
         main: {
             title: 'Training online',
@@ -1427,7 +1545,113 @@ export let _translate = {
         scenario: {
             shortTitle: 'Use cases',
             moreInfo: 'Learn more'
+        },
+        targetGroups: {
+            title: "For athletes, coaches and clubs in cyclic sports",
+            more: "Learn more",
+            athletes: {
+                title: "For athletes",
+                text: "We help to train with a coach or according to a training plan and achieve your sport goals"
+            },
+            coaches: {
+                title: "For coaches",
+                text: "We help to save time spent on planning and analyzing and to organize effective work with athletes online"
+            },
+            clubs: {
+                title: "For clubs and teams",
+                text: "We help to organize online work of several coaches with athletes in an effective way."
+            }
+        },
+        howItWorks: {
+            title: "Train wisely and achieve your sport goals",
+            more: "Explore features",
+            howItWorks1: {
+                title: "Set goals",
+                text: "Set a sport goal, plan the key and secondary races of the season"
+            },
+            howItWorks2: {
+                title: "Create season plans",
+                text: "Get a season plan from your coach or create your own one"
+            },
+            howItWorks3: {
+                title: "Plan workouts",
+                text: "Plan your workouts or receive an individual plan from your coach"
+            },
+            howItWorks4: {
+                title: "Train wisely",
+                text: "Complete your workouts and they will be uploaded automatically and compared to the planned ones"
+            },
+            howItWorks5: {
+                title: "Analyze your progress",
+                text: "Analyze each workout in detail and control your training process"
+            },
+        },
+        athletes: {
+            title: 'For athletes',
+            shortTitle: 'For athletes',
+            subtitle: 'We help to train with a coach or according to a training plan and achieve sport goals',
+            breadcrumb: 'For athletes',
+            urlLoc: "https://staminity.com/athletes?lang=en",
+            urlLocRu: "https://staminity.com/athletes?lang=ru",
+            urlLocEn: "https://staminity.com/athletes?lang=en",
+            button: {
+                title: 'Create new account',
+                link: ''
+            },
+            staminityInfo: "Staminity is the application for running, triathlon, swimming and cycling as well as other cyclic sports. Find a coach or a training plan, keep a training log and train wisely, in order to achieve your set goals",
+            summaryInfo: 'Staminity has been created for athletes and will be useful if you want to:' +
+            '<li>start running or go in for sports;</li>' +
+            '<li>find out how to train in a correct way, in order to improve your fitness or lose weight;</li>' +
+            '<li>improve your results in running or triathlon;</li>' +
+            '<li>find a training program for running or triathlon;</li>' +
+            '<li>learn how to train without injuries and without harm for your health;</li>' +
+            '<li>find a training plan to prepare for your first half-marathon;</li>' +
+            '<li>find out how to prepare for a marathon;</li>' +
+            '<li>start to train systematically in order to prepare for triathlon competitions;</li>' +
+            '<li>train to achieve the desired results and prepare for IRONMAN...<br>' +
+            '<p>We are waiting for you in Staminity! Sign up, find a coach or a training plan and train wisely.</p>'
+        },
+        coaches: {
+            title: 'For coaches',
+            shortTitle: 'For coaches',
+            subtitle: 'We help to save time spent on planning and analyzing and to organize effective work with athletes online',
+            breadcrumb: 'For coaches',
+            urlLoc: "https://staminity.com/coaches?lang=en",
+            urlLocRu: "https://staminity.com/coaches?lang=ru",
+            urlLocEn: "https://staminity.com/coaches?lang=en",
+            button: {
+                title: 'Create a coach account',
+                link: ''
+            },
+            staminityInfo: "Staminity is the application for coaches who specialize in running, triathlon, swimming, cycling and other cyclic sports. Train athletes online, work with groups and teams, find new athletes and earn on selling training plans in Staminity.",
+            summaryInfo: 'Staminity can be useful for a coach:' +
+            '<li><strong>If you train amateurs or professional athletes</strong> – connect with your athletes and work with them online;</li>' +
+            '<li><strong>If you train athletes for running, triathlon or other cyclic sports races</strong> – compose an individual training plan for every athlete or for a group/team;</li>' +
+            '<li><strong>If you know the right way for the specified race preparation </strong> –  create and publish your paid or free-of-charge training plan in the Staminity Store;</li>' +
+            '<li><strong>If you want to find new athletes</strong> – sign up and fill your coach profile so that new athletes would be able to find you</li>' +
+            '<p>We are waiting for you in Staminity! <a target="_blank" href="mailto:support@staminity.com">Contact us</a>, if you have any questions related coach\'s work.</p>'
+        },
+        clubs: {
+            title: 'For clubs and teams',
+            shortTitle: 'For clubs and teams',
+            subtitle: 'We help to organize an effective online work of several coaches with athletes for a club or a team',
+            breadcrumb: 'For clubs and teams',
+            urlLoc: "https://staminity.com/clubs?lang=en",
+            urlLocRu: "https://staminity.com/clubs?lang=ru",
+            urlLocEn: "https://staminity.com/clubs?lang=en",
+            button: {
+                title: 'Create an account',
+                link: ''
+            },
+            staminityInfo: "In Staminity there are special features for clubs that specialize in running, triathlon and cycling, as well as for swimming and skiing (and other sports) schools. Invite coaches to join the club and assign them to athletes, work with athletes online, train groups and teams",
+            summaryInfo: 'Staminity can be useful for a club or a sports school that specialize in cyclic sports' +
+            '<li><strong>If you have several coaches</strong> – create a club in Staminity, invite coaches and athletes to join your club, organize the training process;</li>' +
+            '<li><strong>If you train amateurs or professional athletes</strong> – connect with your athletes, assign a coach to them to work online;</li>' +
+            '<li><strong>If you train athletes for running, triathlon or other cyclic sports races</strong> – compose an individual training plan for every athlete or for a group/team;</li>' +
+            '<li><strong>If you want to find new athletes</strong> – sign up and fill your club\'s profile so that new athletes would be able to find you.</li>' +
+            '<p>We are waiting for you in Staminity! <a target="_blank" href="mailto:support@staminity.com">Contact us</a>, if you have any questions related club\'s features.</p>'
         }
+
 
     }
 };

@@ -15,6 +15,7 @@
 export const translateNotification = {
     ru: {
         notifications: 'Уведомления',
+        title: 'Уведомления',
 /*  ----------ПРИМЕР --------
          * Тестовое сообщение
          * data[0] - базовый вид спорта
@@ -628,14 +629,14 @@ export const translateNotification = {
         * data[0] - текст сообщения RUS*
         * data[1] - текст сообщения ENG **/
         staminityNotification: "{{data[0]}}",
+        trainingPlanPurchaseFailed: "Ошибка оплаты плана {{data[0]}}. Причина: {{data[1]}}",
+        trainingPlanPurchaseSuccess: "Поздравляем! Вы успешно приобрели тренировочный план {{data[0]}} от {{data[1]}}",
     },
-    trainingPlanPurchaseFailed: "Ошибка оплаты плана {{data[0]}}. Причина: {{data[1]}}",
-    trainingPlanPurchaseSuccess: "Поздравляем! Вы успешно приобрели тренировочный план {{data[0]}} от {{data[1]}}",
-
 //    ----------------- ENGLISH ---------------------
 
     en: {
         title: 'Notifications',
+        notifications: 'Notifications',
         /*  ----------ПРИМЕР --------
          * Тестовое сообщение
          * data[0] - базовый вид спорта

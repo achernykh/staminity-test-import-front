@@ -114,10 +114,28 @@ export interface LandingConfig {
 }
 
 export const landingConfig: LandingConfig = {
-    howItWorks: [{
-        code: 'goal',
-        img: null
-    }],
+    howItWorks: [
+        {
+            code: 'howItWorks1',
+            img: null
+        },
+        {
+            code: 'howItWorks2',
+            img: null
+        },
+        {
+            code: 'howItWorks3',
+            img: null
+        },
+        {
+            code: 'howItWorks4',
+            img: null
+        },
+        {
+            code: 'howItWorks5',
+            img: null
+        },
+    ],
     reviews: {
         ru: [{
             avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',
@@ -559,6 +577,72 @@ export const landingConfig: LandingConfig = {
                 code: ["trainAthletes","trainGroups","trainingPlanPublication"]
             }
 
+        },
+        {
+            code: 'athletes',
+            url: '/athletes',
+            title: '',
+            subtitle: '',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01-thumb.png',
+            button: {
+                state: 'signup',
+                stateParams: {
+                    activatePremiumTrial: true,
+                    activateCoachTrial: false,
+                    activateClubTrial: false,
+                }
+            },
+            staminityInfo: true,
+            summaryInfo: true,
+            externalInfo: false,
+            moreScenario: {
+                code: ["workWithCoach","trainingPlans","selfTraining"]
+            }
+        },
+        {
+            code: 'coaches',
+            url: '/coaches',
+            title: '',
+            subtitle: '',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
+            button: {
+                state: 'signup',
+                stateParams: {
+                    activatePremiumTrial: false,
+                    activateCoachTrial: true,
+                    activateClubTrial: false,
+                }
+            },
+            staminityInfo: true,
+            summaryInfo: true,
+            externalInfo: false,
+            moreScenario: {
+                code: ["trainAthletes","trainGroups","trainingPlanPublication"]
+            }
+        },
+        {
+            code: 'clubs',
+            url: '/clubs',
+            title: '',
+            subtitle: '',
+            picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07.png',
+            thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
+            button: {
+                state: 'signup',
+                stateParams: {
+                    activatePremiumTrial: false,
+                    activateCoachTrial: false,
+                    activateClubTrial: true,
+                }
+            },
+            staminityInfo: true,
+            summaryInfo: true,
+            externalInfo: false,
+            moreScenario: {
+                code: ["severalCoaches","trainAthletes","trainGroups"]
+            }
         },
     ],
     footer: [
