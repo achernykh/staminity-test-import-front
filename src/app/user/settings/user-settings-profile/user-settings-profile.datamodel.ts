@@ -1,5 +1,6 @@
 import { IUserProfile } from "@api/user";
 import { path } from '../../../share/utility/path';
+import moment from 'moment/min/moment-with-locales.js';
 
 export class UserSettingsProfileDatamodel {
 
@@ -8,7 +9,7 @@ export class UserSettingsProfileDatamodel {
 	uri: string;
 	country: string;
 	city: string;
-	dateOfBirth: Date;
+	birthday: Date;
 	sex: string;
 	about: string;
 	email: string;
@@ -17,6 +18,7 @@ export class UserSettingsProfileDatamodel {
 	price: string;
 	contact: string;
 	athletes: string;
+	profileComplete: boolean;
 
 	constructor (private profile: IUserProfile) {
 		this.firstName = profile.public.firstName;
@@ -25,7 +27,7 @@ export class UserSettingsProfileDatamodel {
 		this.about = path(['personal', 'about']) (profile);
 		this.country = path(['personal', 'country']) (profile);
 		this.city = path(['personal', 'city']) (profile);
-		this.dateOfBirth = path(['personal', 'birthday']) (profile);
+		this.birthday = new Date(path(['personal', 'birthday']) (profile));
 		this.sex = path(['personal', 'sex']) (profile);
 		this.email = path(['personal', 'extEmail']) (profile);
 		this.phone = path(['personal', 'phone']) (profile);
@@ -33,6 +35,7 @@ export class UserSettingsProfileDatamodel {
 		this.price = path(['personal', 'price']) (profile);
 		this.contact = path(['personal', 'contact']) (profile);
 		this.athletes = path(['personal', 'athletes']) (profile);
+		this.profileComplete = path(['public', 'profileComplete']) (profile);
 	}
 
 	toUserProfile () : IUserProfile {
@@ -45,6 +48,7 @@ export class UserSettingsProfileDatamodel {
 				lastName: this.lastName,
 				uri: this.uri,
 				isCoach: this.isCoach,
+				profileComplete: this.profileComplete,
 		    },
 		    personal: {
 		    	...this.profile.personal,
@@ -52,7 +56,7 @@ export class UserSettingsProfileDatamodel {
 		    	country: this.country,
 		    	city: this.city,
 		        sex: this.sex,
-		        birthday: this.dateOfBirth,
+		        birthday: moment(this.birthday).format('YYYY.MM.DD'),
 		        extEmail: this.email,
 		        phone: this.phone,
 				price: this.price,

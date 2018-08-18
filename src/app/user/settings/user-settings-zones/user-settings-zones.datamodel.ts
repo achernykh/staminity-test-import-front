@@ -3,16 +3,20 @@ import { IUserProfile } from "@api/user";
 
 export class UserSettingsZonesDatamodel {
 
-	trainingZones: any;
+	userId: number;
+    revision: number;
+    trainingZones: any;
 
 	constructor (private profile: IUserProfile) {
+	    this.userId = this.profile.userId;
+	    this.revision = this.profile.revision;
 		this.trainingZones = copy(profile.trainingZones);
 	}
 
 	toUserProfile () : IUserProfile {
 		return {
-			userId: this.profile.userId,
-    		revision: this.profile.revision,
+			userId: this.userId,
+    		revision: this.revision,
 		    trainingZones: this.trainingZones,
 		} as any;
 	}

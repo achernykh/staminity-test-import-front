@@ -8,30 +8,30 @@
         <span flex></span>
     </div>
 </md-toolbar>
-<md-list flex="auto" class="md-dense">
-    <md-subheader ng-if="$ctrl.templatesByOwner.user.length">
+<md-list flex="auto" class="md-dense" style="overflow-y: auto">
+    <md-subheader flex="none" ng-if="$ctrl.templatesByOwner.user.length">
         <span>{{ 'reference.templates.user' | translate }}</span>
     </md-subheader>
-    <activity-template
+    <activity-template flex="none"
             ng-repeat="template in $ctrl.templatesByOwner.user track by template.id"
             ng-click="$ctrl.onSelect({template: template})"
             template="template" view="'compact-list'"
             is-mobile-layout="true">
     </activity-template>
-    <md-subheader ng-if="$ctrl.templatesByOwner.coach.length">
+    <md-subheader flex="none" ng-if="$ctrl.templatesByOwner.coach.length">
         <span>{{ 'reference.templates.coach' | translate }}</span>
     </md-subheader>
-    <activity-template
+    <activity-template flex="none"
             ng-repeat="template in $ctrl.templatesByOwner.coach track by template.id"
             ng-click="$ctrl.onSelect({template: template})"
             template="template"
             view="'compact-list'"
             is-mobile-layout="true">
     </activity-template>
-    <md-subheader ng-if="$ctrl.templatesByOwner.club.length">
+    <md-subheader flex="none" ng-if="$ctrl.templatesByOwner.club.length">
         <span>{{ 'reference.templates.club' | translate }}</span>
     </md-subheader>
-    <activity-template
+    <activity-template flex="none"
             ng-repeat="template in $ctrl.templatesByOwner.club track by template.id"
             ng-click="$ctrl.onSelect({template: template})"
             template="template" view="'compact-list'"

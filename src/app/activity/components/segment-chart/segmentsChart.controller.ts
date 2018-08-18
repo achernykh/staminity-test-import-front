@@ -81,7 +81,7 @@ class SegmentChartController implements IComponentController {
             }, 500);
         });
         if (this.chartSettings.autoResizable) {
-            this.onResize = function() { self.redraw(); };
+            this.onResize = function() { setTimeout(_ => self.redraw(), 500); };
             angular.element(this.$window).on("resize", self.onResize);
         }
     }

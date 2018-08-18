@@ -21,7 +21,8 @@ export let _translate = {
             title1: "ПЛАН ТВОИХ ПОБЕД",
             title2: "ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ",
             button: "Старт",
-            buttonSignUp: "НАЧАТЬ",
+            buttonSignUp: "НАЧАТЬ"
+
         },
         subscribe: {
             title: "Рассылка Стаминити",
@@ -296,12 +297,17 @@ export let _translate = {
                 proAthletes: 'Учеников с тарифом "Премиум" за ваш счет:',
                 freeAthletes: "Более {{athletes}} учеников бесплатно",
             },
-            loading: "Получение данных..."
+            loading: "Получение данных...",
+            breadcrumb: 'Тарифы',
+            urlLoc: "https://staminity.com/tariffs?lang=ru",
+            subtitle: "Тарифные планы и стоимость Staminity. Для спортсменов, тренеров и клубов"
         },
         featuresNew: {
             title: 'Возможности сервиса',
             shortTitle: 'Возможности',
             subtitle: 'Онлайн работа с тренером, тренировочные планы, дневник тренировок в циклических видах спорта',
+            breadcrumb: 'Возможности сервиса',
+            urlLoc: "https://staminity.com/features?lang=ru",
             button: {
                 title: 'Создать аккаунт',
                 link: ''
@@ -382,6 +388,10 @@ export let _translate = {
             title: 'Занятия с тренером',
             shortTitle: 'Занятия с тренером',
             subtitle: 'Найдите тренера и занимайтесь онлайн по индивидуальному плану. Достигайте результатов без вреда для здоровья',
+            breadcrumb: 'Для спортсмена: работа с тренером',
+            urlLoc: "https://staminity.com/cases/work-with-coach?lang=ru",
+            urlLocRu: "https://staminity.com/cases/work-with-coach?lang=ru",
+            urlLocEn: "https://staminity.com/cases/work-with-coach?lang=en",
             button: {
                 title: 'Найти тренера',
                 link: ''
@@ -418,6 +428,10 @@ export let _translate = {
             title: 'Занятия по тренировочному плану',
             shortTitle: 'Занятия по тренировочному плану',
             subtitle: 'Выберите свой тренировочный план и занимайтесь системно для подготовки к выбранной цели в спорте',
+            breadcrumb: 'Для спортсмена: занятия по тренировочному плану',
+            urlLoc: "https://staminity.com/cases/training-plans?lang=ru",
+            urlLocRu: "https://staminity.com/cases/training-plans?lang=ru",
+            urlLocEn: "https://staminity.com/cases/training-plans?lang=en",
             button: {
                 title: 'Выбрать тренировочный план',
                 link: ''
@@ -456,6 +470,10 @@ export let _translate = {
             title: 'Самостоятельные тренировки',
             shortTitle: 'Самостоятельные тренировки',
             subtitle: 'Тренируйтесь самостоятельно, планируйте сезон и контролируйте свой прогресс в циклических видах спорта',
+            breadcrumb: 'Для спортсмена: Самостоятельные тренировки',
+            urlLoc: "https://staminity.com/cases/self-training?lang=ru",
+            urlLocRu: "https://staminity.com/cases/self-training?lang=ru",
+            urlLocEn: "https://staminity.com/cases/self-training?lang=en",
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -497,6 +515,10 @@ export let _translate = {
             title: 'Подготовка учеников',
             shortTitle: 'Подготовка учеников',
             subtitle: 'Найдите учеников и тренируйте их онлайн: планируйте подготовку, анализируйте прогресс, общайтесь',
+            breadcrumb: 'Для тренера: Подготовка учеников',
+            urlLoc: "https://staminity.com/cases/train-athletes?lang=ru",
+            urlLocRu: "https://staminity.com/cases/train-athletes?lang=ru",
+            urlLocEn: "https://staminity.com/cases/train-athletes?lang=en",
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -538,6 +560,10 @@ export let _translate = {
             title: 'Работа с группами спортсменов',
             shortTitle: 'Работа с группами',
             subtitle: 'Тренируйте группы и корпоративные команды онлайн, удобно и эффективно, с помощью тренировочных планов',
+            breadcrumb: 'Для тренера: Работа с группами спортсменов"',
+            urlLoc: "https://staminity.com/cases/train-groups?lang=ru",
+            urlLocRu: "https://staminity.com/cases/train-groups?lang=ru",
+            urlLocEn: "https://staminity.com/cases/train-groups?lang=en",
             button: {
                 title: 'Попробовать бесплатно',
                 link: ''
@@ -583,6 +609,10 @@ export let _translate = {
         trainingPlanPublication: {
             title: 'Публикация и продажа тренировочных планов',
             shortTitle: 'Публикация планов',
+            breadcrumb: 'Для тренера: Публикация и продажа планов',
+            urlLoc: "https://staminity.com/cases/training-plan-publication?lang=ru",
+            urlLocRu: "https://staminity.com/cases/training-plan-publication?lang=ru",
+            urlLocEn: "https://staminity.com/cases/training-plan-publication?lang=en",
             subtitle: 'Создайте и опубликуйте свой тренировочный план, привлекайте новых клиентов и зарабатывайте в Staminity',
             button: {
                 title: 'Создать аккаунт',
@@ -632,9 +662,13 @@ export let _translate = {
 
         },
         severalCoaches: {
-            title: 'Работа нескольких тренеров',
+            title: 'Совместная работа нескольких тренеров',
             shortTitle: 'Работа нескольких тренеров',
-            subtitle: 'Соберите команду тренеров и эффективно работайте вместе с учениками онлайн',
+            subtitle: 'Соберите команду тренеров и эффективно тренируйте спортсменов онлайн',
+            breadcrumb: 'Для клуба: Работа нескольких тренеров',
+            urlLoc: "https://staminity.com/cases/several-coaches?lang=ru",
+            urlLocRu: "https://staminity.com/cases/several-coaches?lang=ru",
+            urlLocEn: "https://staminity.com/cases/several-coaches?lang=en",
             button: {
                 title: 'Создать аккаунт',
                 link: ''
@@ -669,7 +703,9 @@ export let _translate = {
             subtitle: 'Приложение для работы с тренером и самостоятельной подготовки в циклических видах спорта',
             button: {
                 title: 'Попробовать бесплатно'
-            }
+            },
+            urlLoc: 'https://staminity.com/?lang=ru',
+            breadcrumb: 'Staminity'
         },
         scenario: {
             shortTitle: 'Сценарии',
@@ -699,7 +735,7 @@ export let _translate = {
             title1: "ПЛАН ТВОИХ ПОБЕД",
             title2: "ПЛАНИРУЙ, ТРЕНИРУЙСЯ, ДОСТИГАЙ РЕЗУЛЬТАТОВ",
             button: "Start",
-            buttonSignUp: "Sign up",
+            buttonSignUp: "Sign up"
         },
         subscribe: {
             title: "Рассылка Стаминити",
@@ -978,12 +1014,17 @@ export let _translate = {
                 proAthletes: "Athletes with PREMIUM tariff paid by you:",
                 freeAthletes: "{{athletes}}+ athletes are without payment",
             },
-            loading: "Loading..."
+            loading: "Loading...",
+            breadcrumb: 'Pricing',
+            urlLoc: "https://staminity.com/tariffs?lang=en",
+            subtitle: "How much does Staminity costs?"
         },
         featuresNew: {
             title: 'Staminity features',
             shortTitle: 'Features',
             subtitle: 'Online training with a coach, training plans and training diary in cyclic sports',
+            breadcrumb: 'Features',
+            urlLoc: "https://staminity.com/features?lang=en",
             button: {
                 title: 'Create account',
                 link: ''
@@ -1066,6 +1107,10 @@ export let _translate = {
             title: 'Working with a coach',
             shortTitle: 'Working with a coach',
             subtitle: 'Find a coach and work with him online to become a better version of yourself in cyclic sports',
+            breadcrumb: 'For athletes: Working with a coach',
+            urlLoc: "https://staminity.com/cases/work-with-coach?lang=en",
+            urlLocRu: "https://staminity.com/cases/work-with-coach?lang=ru",
+            urlLocEn: "https://staminity.com/cases/work-with-coach?lang=en",
             button: {
                 title: 'Find a coach',
                 link: ''
@@ -1102,6 +1147,10 @@ export let _translate = {
             title: 'Training plans for athletes',
             shortTitle: 'Training plans for athletes',
             subtitle: 'Choose your training plan and train systematically to prepare for the chosen distance and achieve your sport goal',
+            breadcrumb: 'For athletes: Training plans',
+            urlLoc: "https://staminity.com/cases/training-plans?lang=en",
+            urlLocRu: "https://staminity.com/cases/training-plans?lang=ru",
+            urlLocEn: "https://staminity.com/cases/training-plans?lang=en",
             button: {
                 title: 'Choose your plan',
                 link: ''
@@ -1139,6 +1188,10 @@ export let _translate = {
             title: 'Self training',
             shortTitle: 'Self training',
             subtitle: 'Be the coach for yourself, create a plan for your season, plan your activites and control your progress in cyclic sports',
+            breadcrumb: 'For athletes: Self training',
+            urlLoc: "https://staminity.com/cases/self-training?lang=en",
+            urlLocRu: "https://staminity.com/cases/self-training?lang=ru",
+            urlLocEn: "https://staminity.com/cases/self-training?lang=en",
             button: {
                 title: 'Try for free',
                 link: ''
@@ -1179,6 +1232,10 @@ export let _translate = {
             title: 'Train athletes',
             shortTitle: 'Train athletes',
             subtitle: 'Find athletes and work together online: plan their season and activities, analyze progress, stay connected',
+            breadcrumb: 'For coaches: Train athletes',
+            urlLoc: "https://staminity.com/cases/train-athletes?lang=en",
+            urlLocRu: "https://staminity.com/cases/train-athletes?lang=ru",
+            urlLocEn: "https://staminity.com/cases/train-athletes?lang=en",
             button: {
                 title: 'Try for free',
                 link: ''
@@ -1221,6 +1278,10 @@ export let _translate = {
             title: 'Train groups of athletes',
             shortTitle: 'Train groups of athletes',
             subtitle: "Train groups of athletes and corporate teams online, conveniently and effectively, with training plans",
+            breadcrumb: 'For coaches: Train groups of athletes',
+            urlLoc: "https://staminity.com/cases/train-groups?lang=en",
+            urlLocRu: "https://staminity.com/cases/train-groups?lang=ru",
+            urlLocEn: "https://staminity.com/cases/train-groups?lang=en",
             button: {
                 title: 'Try for free',
                 link: ''
@@ -1267,6 +1328,10 @@ export let _translate = {
             title: 'Training plans publication and selling',
             shortTitle: 'Plan publication and selling',
             subtitle: 'Create and publish your training plan to get new clients and earn with Staminity',
+            breadcrumb: 'For coaches: Training plans publication and selling',
+            urlLoc: "https://staminity.com/cases/training-plan-publication?lang=en",
+            urlLocRu: "https://staminity.com/cases/training-plan-publication?lang=ru",
+            urlLocEn: "https://staminity.com/cases/training-plan-publication?lang=en",
             button: {
                 title: 'Create account',
                 link: ''
@@ -1316,8 +1381,12 @@ export let _translate = {
         },
         severalCoaches: {
             title: 'Several coaches joint work',
-            shortTitle: 'Several coaches join work',
+            shortTitle: 'Several coaches joint work',
             subtitle: 'Gather a team of coaches and work effectively together with athletes online',
+            breadcrumb: 'Several coaches joint work',
+            urlLoc: "https://staminity.com/cases/several-coaches?lang=en",
+            urlLocRu: "https://staminity.com/cases/several-coaches?lang=ru",
+            urlLocEn: "https://staminity.com/cases/several-coaches?lang=en",
             button: {
                 title: 'Create new account',
                 link: ''
@@ -1351,7 +1420,9 @@ export let _translate = {
             subtitle: 'Application for online training with a coach or self training in cyclic sports',
             button: {
                 title: 'Try for free'
-            }
+            },
+            urlLoc: 'https://staminity.com/?lang=en',
+            breadcrumb: 'Staminity'
         },
         scenario: {
             shortTitle: 'Use cases',
