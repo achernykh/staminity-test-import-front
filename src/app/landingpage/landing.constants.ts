@@ -35,8 +35,21 @@ export interface LandingConfig {
     reviews: {
         [language: string]: LandingReview[]
     };
-    // продолжение к секции переводов landing.howItWorks, каждый ключ должен содеражть: title & text
-    howItWorks: [{code: string; img: string;}];
+    // Заголовок секции в landing.howItWorks.title
+    // продолжение к секции переводов landing.howItWorks,
+    // каждый ключ должен содеражть landing.howItWorks.[code].[title | text]
+    howItWorks?: [{code: string; img: string;}];
+    // для реализации слайда №4
+    // заголовок landing.targetGroups.title
+    // ссылка на узнать подробнее landing.targetGroups.more
+    // заполняется текстом по ключу перевода landing.targetGroups[code][title | text]
+    // переход на узнать подробнее будет по /[code]
+    targetGroups?:[{
+        code: string; //
+        img: string;
+        state: string; // адрес перехода
+        stateParams?: any; // дополнительные параметры перехода
+    }]
     scenario: [{
         code: string; // example, trainingPlans, coachOnline and e.t.c
         url: string;
@@ -56,20 +69,6 @@ export interface LandingConfig {
         // если ключ не !null, то секция выводится
         // полный путь к ключу перевода текста для информации о сервисе из title, img - путь к картинке
         staminityInfo?: {title: ''; img: ''};
-        // если ключ true, то секция выводится
-        // его стркутура в конфиге howItWorks, заголовок секции в landing.howItWorks.title
-        howItWorks?: boolean;
-        // для реализации слайда №4
-        // заголовок landing.targetGroups.title
-        // ссылка на узнать подробнее landing.targetGroups.more
-        // заполняется текстом по ключу перевода landing.targetGroups[code][title | text]
-        // переход на узнать подробнее будет по /[code]
-        targetGroups?:[{
-            code: string; //
-            img: string;
-            state: string; // адрес перехода
-            stateParams?: any; // дополнительные параметры перехода
-        }]
         blocks: LandingContentBlock[];
         externalBlocks?: {
             title?: string; // ключ перевода, можно не заполнять
@@ -78,13 +77,13 @@ export interface LandingConfig {
         // ключ перевода, если есть дополнительная секция с информацией в конце всех блоков (слайд 50)
         // в переводах путь landing.[scenario.code].externalInfo
         externalInfo?: boolean;
-        // ключ перевода, если есть дополнительная секция с информацией в конце всех блоков (слайд 9)
-        // в переводах путь landing.[scenario.code].summaryInfo
-        summaryInfo?: boolean;
         moreScenario?: {
             title?: string; //  не заполняется, только для перевода landing.[scenario.code].moreScenario.title
             code: string[]; // коды сценариев для показа
-        }
+        };
+        // ключ перевода, если есть дополнительная секция с информацией в конце всех блоков (слайд 9)
+        // в переводах путь landing.[scenario.code].summaryInfo
+        summaryInfo?: boolean;
     }];
     features?: {
         code: string;
