@@ -39,7 +39,7 @@ export class TrainingPlansFilterCtrl implements IComponentController {
     $onInit () {
         this.filter.keywords = this.filter.keywords || [];
         this.filter.tags = this.filter.tags || [];
-        this.filter.lng = this.filter.lng || [this.displayService.getLocale()];
+        this.filter.lng = this.filter.lng || []; //[this.displayService.getLocale()];
         if (this.filter.weekCountFrom) {
             this.weekCountRange = this.config.weekRanges.findIndex(r => r[0] === this.filter.weekCountFrom);
         }

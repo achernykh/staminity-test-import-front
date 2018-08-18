@@ -2,11 +2,11 @@
     <md-list class="md-dense section">
         <form name="$ctrl.publicForm">
 
-            <md-subheader>Основная информация</md-subheader>
+            <md-subheader class="md-padding" translate="settingsClub.personalInfo.header"></md-subheader>
 
             <md-list-item layout="row" layout-wrap>
                 <md-input-container flex="45" flex-xs="100" class="no-message">
-                    <label>Название</label>
+                    <label translate="settingsClub.name"></label>
                     <input type="text" name="firstName" ng-model="$ctrl.club.public.name"
                            required autocomplete="off" autofocus ng-disabled="false" minlength="1" maxlength="100">
                     <div ng-messages="$ctrl.publicForm.firstName.$error" role="alert">
@@ -41,11 +41,11 @@
                                 md-selected-item="$ctrl.club.public.country"
                                 md-search-text="$ctrl.countrySearchText"
                                 md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
-                                md-item-text="$ctrl._country_list['ru'][id]"
+                                md-item-text="$ctrl._country_list[$ctrl.displayService.getLocale()][id]"
                                 md-require-match
                                 md-floating-label="{{'user.settings.personalInfo.main.country'|translate}}">
                     <md-item-template>
-                        <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list['ru'][id]}}</span>
+                        <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl._country_list[$ctrl.displayService.getLocale()][id]}}</span>
                     </md-item-template>
 
                     <div ng-messages="$ctrl.personalFirstForm.country.$error" role="alert"
@@ -88,6 +88,16 @@
                         <div ng-message="maxlength">Your entry is too long.</div>
                     </div>
                 </md-autocomplete>
+            </md-list-item>
+            <md-list-item>
+                <md-input-container flex="45" flex-xs="100" class="no-message">
+                    <label translate="user.settings.personalInfo.coachLanguage.label"></label>
+                    <md-select ng-model="$ctrl.club.public.coachLanguage" multiple>
+                        <md-option ng-repeat="lng in $ctrl.config.coachLanguage" ng-value="lng">
+                            <span>{{::lng | translate}}</span>
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </md-list-item>
             <!-- О себе -->
             <md-subheader class="md-padding" translate="user.settings.personalInfo.about"></md-subheader>

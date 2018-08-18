@@ -23,7 +23,7 @@
                                ng-model="$ctrl.filter.isPublic"></md-switch>
                 </md-list-item>
                 <!-- Автор плана -->
-                <md-list-item layout="row" layout-align="space-between start" ng-if="$ctrl.view === 'search'">
+                <md-list-item layout="row" layout-align="space-between start" ng-if="$ctrl.isSearch">
                     <md-icon flex="none" class="material-icons md-dark dense">person</md-icon>
                     <md-contact-chips
                             flex="auto"
@@ -42,7 +42,7 @@
                     </md-contact-chips>
                 </md-list-item>
                 <!-- Язык плана -->
-                <md-list-item>
+                <md-list-item ng-if="$ctrl.isSearch">
                     <md-input-container class="md-block no-message" layout="row">
                         <label translate="trainingPlans.lang.label"></label>
                         <md-icon flex="none" class="md-dark"
