@@ -1681,7 +1681,7 @@ export let _translate = {
             summaryInfo: 'Staminity can be useful for a coach:' +
             '<li><strong>If you train amateurs or professional athletes</strong> – connect with your athletes and work with them online;</li>' +
             '<li><strong>If you train athletes for running, triathlon or other cyclic sports races</strong> – compose an individual training plan for every athlete or for a group/team;</li>' +
-            '<li><strong>If you know the right way for the specified race preparation </strong> –  create and publish your paid or free-of-charge training plan in the Staminity Store;</li>' +
+            '<li><strong>If you know the right way to prepare for the specific race </strong> –  create and publish your paid or free-of-charge training plan in the Staminity Store;</li>' +
             '<li><strong>If you want to find new athletes</strong> – sign up and fill your coach profile so that new athletes would be able to find you</li>' +
             '<p>We are waiting for you in Staminity! <a target="_blank" href="mailto:support@staminity.com">Contact us</a>, if you have any questions related coach\'s work.</p>',
             moreScenario:{
