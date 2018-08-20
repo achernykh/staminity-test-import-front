@@ -35,6 +35,17 @@ export interface IAnalyticsChartTitleContext {
     param: string;
 }
 
+export interface IChartMetric {
+    code: string;
+    description: string;
+    color: string;
+    value: {
+        ind: number;
+        calc: string[]; // last, fist, max, avg, sum
+    };
+    visible: boolean;
+}
+
 export interface IAnalyticsChart {
     order: number;
     revision: number;
@@ -51,6 +62,7 @@ export interface IAnalyticsChart {
     paramsDescription?: string;
     layout: AnalyticsChartLayout;
     charts: IChart[];
+    metrics?: IChartMetric[];
 
 }
 
