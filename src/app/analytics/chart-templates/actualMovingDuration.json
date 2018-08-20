@@ -1,0 +1,109 @@
+{
+  "order": 3,
+  "active": true,
+  "revision": 1,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "actualMovingDuration",
+  "descriptionParams": [
+    {
+      "ind": 0,
+      "idx": 1,
+      "area": "measures",
+      "param": "cumulative"
+    },
+    {
+      "ind": 0,
+      "idx": 0,
+      "area": "series",
+      "param": "seriesDateTrunc"
+    }
+  ],
+  "charts": [
+    {
+      "params": {
+        "users": null,
+        "activityTypes": null,
+        "periods": null
+      },
+      "options": {
+        "legend": {
+          "vertical-align": "bottom",
+          "horizontal-align": "center",
+          "type": "row"
+        },
+        "tooltip": {
+          "combined": true
+        },
+        "currentPositionLine": {
+          "enabled": true,
+          "color": "rgba(0,0,0,0.5)"
+        },
+        "colorPalette": false
+      },
+      "series": [
+        {
+          "label": "period",
+          "unit": "",
+          "xAxis": true,
+          "tooltipType": "label",
+          "tooltipLabel": "period",
+          "legend": false,
+          "currentPositionLine": true,
+          "idx": 0,
+          "measureSource": "activity.startDate",
+          "seriesDateTrunc": "month",
+          "measureName": "Months",
+          "dataType": "date",
+          "dateFormat": "DD.MM",
+          "valueType": "value",
+          "groupByIntervalLength": 1
+        }
+      ],
+      "measures": [
+        {
+          "label": "duration",
+          "unit": "h",
+          "chartType": "bar",
+          "stacked": false,
+          "cumulative": false,
+          "smoothSettings": "curveCardinal",
+          "tooltipType": "icon",
+          "minValue": 0,
+          "legend": false,
+          "visible": true,
+          "avgValueLine": true,
+          "scaleVisible": true,
+          "calculateTotals": "",
+          "lineColor": "#607D8B",
+          "lineStyle": "solid",
+          "lineWidth": 0,
+          "fillType": "gradient",
+          "fillColor": "#CFD8DC",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#CFD8DC",
+              "opacity": 0.2
+            },
+            {
+              "offset": "100%",
+              "color": "#607D8B",
+              "opacity": 0.6
+            }
+          ],
+          "markerColor": "#455A64",
+          "avgValueLineColor": "#455A64",
+          "avgValueLineStyle": "dashed",
+          "idx": 1,
+          "measureSource": "activity.actual.measure",
+          "measureName": "duration",
+          "dataType": "number",
+          "dateFormat": "",
+          "valueType": "value",
+          "aggMethod": "sum"
+        }
+      ]
+    }
+  ]
+}

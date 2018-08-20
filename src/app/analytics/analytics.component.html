@@ -1,4 +1,116 @@
-<section layout-gt-sm="row" layout="column" class="analytics__application">
+<st-application-frame class="st-application-frame analytics"
+                      ng-class="{'left-bar-show': false}"
+                      template="application"
+                      navigation-bar="false"
+                      left-bar="false">
+
+    <!-- Заголовок -->
+    <st-application-frame-title>
+        <span class="md-title" translate="analytics.fullTitle" ng-if="$ctrl.$mdMedia('(min-width: 1440px)') || $ctrl.$mdMedia('(max-width: 959px)')"></span>
+        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="button" hide show-gt-sm>{{$ctrl.user | userName:'compact'}}</span>
+        <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"  hide show-gt-sm>
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                    <md-button ng-click="$ctrl.setUser(athlete.userId)"
+                               ng-disable="athlete.userId === $ctrl.owner.userId">
+                        <userpic profile="athlete" unlink="true"></userpic>
+                        <span>{{athlete | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+                <md-divider></md-divider>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setUser($ctrl.currentUser.userId)"
+                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.user" unlink="true"></userpic>
+                        <span>{{$ctrl.user | userName}}</span>
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+        <span class="button" hide show-gt-sm translate="analytics.params.{{$ctrl.filter.periods.model}}"></span>
+        <md-menu hide show-gt-sm>
+            <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
+                <md-icon class="material-icons">arrow_drop_down</md-icon>
+            </md-button>
+            <md-menu-content>
+                <md-menu-item ng-repeat="type in $ctrl.filter.periods.options track by $index">
+                    <md-button ng-click="$ctrl.setPeriod(type)">
+                        <span>{{'analytics.params.' + type | translate}}</span>s
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </st-application-frame-title>
+
+    <!-- Тулбар -->
+    <st-application-frame-toolbar layout="row">
+        <section class="desktop" hide show-gt-sm layout="row">
+            <md-button  ng-click="$ctrl.refreshData()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">refresh</md-icon>
+            </md-button>
+            <md-button  ng-click="$ctrl.selectTemplates()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">filter</md-icon>
+            </md-button>
+            <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
+            <md-button  ng-click="$ctrl.refreshSettings()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
+                <md-icon class="material-icons" aria-label="Back">refresh</md-icon>
+            </md-button>
+        </section>
+        <section class="mobile" hide show-xs show-sm>
+            <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0">
+                <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
+                    <md-icon class="material-icons">person_add</md-icon>
+                </md-button>
+                <md-menu-content>
+                    <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
+                        <md-button ng-click="$ctrl.setOwner(athlete.userId)"
+                                   ng-disable="athlete.userId === $ctrl.owner.userId">
+                            <userpic profile="athlete"></userpic>
+                            <span>{{athlete | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                    <md-divider></md-divider>
+                    <md-menu-item>
+                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser.userId)"
+                                   ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
+                            <userpic profile="$ctrl.currentUser"></userpic>
+                            <span>{{$ctrl.currentUser | userName}}</span>
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </section>
+    </st-application-frame-toolbar>
+
+    <!-- Контент -->
+    <st-application-frame-content ng-switch="$ctrl.isLoadingData">
+        <section flex="auto" class="analytics__chart-section" ng-switch-when="true">
+            <md-progress-circular flex="none" class="md-accent" md-diameter="20"></md-progress-circular>
+            <p flex="none" class="md-body-1 md-dark" translate="analytics.loadingTemplate"></p>
+        </section>
+        <section flex="auto" class="analytics__chart-section" ng-switch-when="false">
+            <!--<analytics-chart-pmc style="height: 400px;" chart=""></analytics-chart-pmc>-->
+            <section class="analytics__chart-grid">
+                <analytics-chart ng-repeat="chart in $ctrl.charts"
+                                 ng-style="chart.layout.style"
+                                 ng-class="{'full-screen': chart.layout.fullScreen}"
+                                 chart="chart"
+                                 filter="$ctrl.filter"
+                                 filter-changes="$ctrl.globalFilterChange"
+                                 panel-changes="$ctrl.panelSizeChange"
+                                 on-change-filter="$ctrl.saveSettings('charts')"
+                                 mobile-view="">
+                </analytics-chart>
+            </section>
+        </section>
+    </st-application-frame-content>
+</st-application-frame>
+
+<!--<section layout-gt-sm="row" layout="column" class="analytics__application">
     <analytics-management-panel flex="none" style="height: 100%; min-height: 100%"
                                 user="$ctrl.user" ng-if="$ctrl.filter.prepareComplete"
                                 charts="$ctrl.charts"
@@ -7,19 +119,6 @@
                                 on-change-charts="$ctrl.saveSettings('charts')"
                                 on-change-panel-size="$ctrl.panelSizeChange = $ctrl.panelSizeChange + 1">
     </analytics-management-panel>
-    <!--<nav class="analytics__navigator md-whiteframe-2dp bg-grey-100" layout="column"
-         ng-class="{'hide': $ctrl.showPanel}">
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.showPanel = true">
-            <md-icon class="md-secondary md-dark material-icons">arrow_forward</md-icon>
-        </md-button>
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
-            <md-icon class="md-secondary md-dark material-icons">filter</md-icon>
-        </md-button>
-        <md-divider style="padding: 16px 0px"></md-divider>
-        <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
-            <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
-        </md-button>
-    </nav>-->
     <section flex="auto" class="analytics__chart-section">
         <analytics-chart-pmc style="height: 400px;" chart=""></analytics-chart-pmc>
         <section class="analytics__chart-grid" ng-if="$ctrl.filter.prepareComplete">
@@ -36,31 +135,4 @@
         </section>
     </section>
 
-</section>
-<!--
-<div class="application">
-    <div hide-md class="margin-left"></div>
-    <section class="application-body" layout-gt-md="row" layout="column">
-        <div flex="none" class="analytics-filter bg-grey-200">
-            <p class="md-caption">Панель фильтрации, настройки и управления графиками</p>
-            <md-input-container ng-repeat="select in $ctrl.selectedChart track by $index">
-                <md-select ng-model="$ctrl.selectedChart[select]">
-                    <md-option ng-repeat="chart in $ctrl.examples track by $index" ng-value="$index">
-                        {{chart.name}}</md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div flex="auto" class="analytics-feed bg-grey-200" layout="column">
-            <p flex="none" class="md-caption">Лента с графиками</p>
-            <p ng-repeat-start="example in $ctrl.selectedChart track by $index">
-                График #{{$index+1}}: {{$ctrl.examples[example].name}}, высота {{20+10*$index}}vh
-            </p>
-            <universal-chart ng-repeat-end
-                             flex="none" style="height: {{20+10*$index}}vh; width: 100%"
-                             data="$ctrl.examples[example].data"
-                             update="$ctrl.changes"></universal-chart>
-        </div>
-    </section>
-    <div hide-md class="margin-right">
-    </div>
-</div>
+</section>-->

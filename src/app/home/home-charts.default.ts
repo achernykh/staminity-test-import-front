@@ -1,4 +1,5 @@
-import { IAnalyticsChart, AnalyticsChartLayout } from "../analytics/analytics-chart/analytics-chart.model";
+import { AnalyticsChartLayout } from "../analytics/analytics-chart/analytics-chart.model";
+import { IAnalyticsChart } from "../analytics/analytics-chart/analytics-chart.interface";
 export const homeChartsConfig: IAnalyticsChart[] = [
     {
         order: 4,
@@ -7,7 +8,7 @@ export const homeChartsConfig: IAnalyticsChart[] = [
         auth: [],
         icon: "insert_chart", // https://material.io/icons/ с фильтром chart
         code: "actualDistance",
-        context: [{
+        descriptionParams: [{
             ind: 0,
             idx: 1,
             area: "measures",

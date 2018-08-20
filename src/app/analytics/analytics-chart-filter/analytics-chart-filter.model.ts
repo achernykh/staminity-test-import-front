@@ -68,7 +68,7 @@ export interface IAnalyticsChartSettings<T> {
     multiTextParam?: string; // ссылка на показатель, в котором будет задан текст в случае мултипеременных
     model: any;
     data?: any | IReportCustomPeriod; // расчетные данные для формирования model (используется для customPeriod)
-    options: T[];
+    options?: T[];
     change?: any; // объект содержащий перечень изменения для структуры series/measures
     protected?: boolean;
 }

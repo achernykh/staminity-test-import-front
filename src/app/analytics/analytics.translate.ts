@@ -222,6 +222,9 @@ export const translateAnalytics = {
             false: "No",
             true: "Yes",
 
+            //
+            byDays: 'by {{lastDays}} days',
+
         },
         settings: {
             title: "Settings",
@@ -330,6 +333,11 @@ export const translateAnalytics = {
             title: "Percent of completion",
             shortDescription: "Percent of planned activities completion",
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        fitnessFatigueForm: {
+            title: 'Perfomance management',
+            shortDescription: 'Perfomance management',
+            description: 'Last {{lastDays}} and next {{futDays}} days'
         }
     },
 };

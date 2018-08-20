@@ -1,7 +1,7 @@
 import "./analytics-chart-pmc.component.scss";
 import {copy, IComponentController, IComponentOptions, IPromise, IScope} from "angular";
 import StatisticsService from "@app/core/statistics.service";
-import {IAnalyticsChart} from "@app/analytics/analytics-chart/analytics-chart.model";
+import {IAnalyticsChart} from "@app/analytics/analytics-chart/analytics-chart.interface";
 import {IReportRequestData} from "@api/statistics/statistics.interface";
 
 class AnalyticsChartPmcCtrl implements IComponentController {

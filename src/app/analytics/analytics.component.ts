@@ -1,28 +1,34 @@
-import {copy, IComponentController, IComponentOptions, IPromise, IScope} from "angular";
-import {Subject} from "rxjs/Rx";
-import {IActivityCategory} from "../../../api/reference/reference.interface";
-import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
-import {IAuthService} from "../auth/auth.service";
-import {getUser, SessionService, StorageService} from "../core";
+import "./analytics.component.scss";
+import { IComponentController, IComponentOptions, IPromise, IScope } from "angular";
+import { Subject } from "rxjs/Rx";
+import { IActivityCategory } from "../../../api/reference/reference.interface";
+import { IUserProfile, IUserProfileShort } from "../../../api/user/user.interface";
+import { IAuthService } from "../auth/auth.service";
+import { getUser, SessionService, StorageService } from "../core";
 import StatisticsService from "../core/statistics.service";
 import ReferenceService from "../reference/reference.service";
-import {
-    AnalyticsChartFilter, IAnalyticsChartFilter,
-    IAnalyticsChartSettings, IReportPeriodOptions, PeriodOptions,
-} from "./analytics-chart-filter/analytics-chart-filter.model";
-import {AnalyticsChart, IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
-import "./analytics.component.scss";
+import { AnalyticsChartFilter } from "./analytics-chart-filter/analytics-chart-filter.model";
+import { IAnalyticsChart } from "./analytics-chart/analytics-chart.interface";
+import { AnalyticsChart } from "./analytics-chart/analytics-chart.model";
+import { AnalyticsService } from "./analytics.service";
 
 export class AnalyticsCtrl implements IComponentController {
 
-    user: IUserProfile;
+    owner: IUserProfile; // владелец отчетов
+    user: IUserProfile; // пользователь источник данных
+    athletes: Array<IUserProfileShort>;
     categories: IActivityCategory[];
     charts: AnalyticsChart[];
     onEvent: (response: Object) => IPromise<void>;
 
+    // public
     filter: AnalyticsChartFilter;
 
+    // private
     private globalFilterChange: number = null;
+    private isLoadingData: boolean = true;
+    private chartTemplates: IAnalyticsChart[] = [];
+    private chartUserSettings: any[];
 
     private readonly storage = {
         name: "#analytics",
@@ -32,23 +38,29 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope", "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
-        "AuthService", "$filter"];
+    static $inject = ["$scope", 'AnalyticsService', "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
+        "AuthService", "$filter", "$mdMedia", '$mdDialog'];
 
-    constructor(private $scope: IScope,
-                private session: SessionService,
-                private statistics: StatisticsService,
-                private storageService: StorageService,
-                private reference: ReferenceService,
-                private defaultSettings: IAnalyticsChart[],
-                private auth: IAuthService,
-                private $filter: any) {
+    constructor (private $scope: IScope,
+                 private analyticsService: AnalyticsService,
+                 private session: SessionService,
+                 private statistics: StatisticsService,
+                 private storageService: StorageService,
+                 private reference: ReferenceService,
+                 private defaultSettings: IAnalyticsChart[],
+                 private auth: IAuthService,
+                 private $filter: any,
+                 private $mdMedia,
+                 private $mdDialog) {
 
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
-            .subscribe((userProfile) => {
-                //this.user = userProfile;
+            .subscribe(profile => {
+                this.owner = profile;
+                if ( this.owner.public.isCoach && this.owner.connections.hasOwnProperty('allAthletes') ) {
+                    this.athletes = this.owner.connections.allAthletes.groupMembers;
+                }
                 //this.prepareData(); // change options for users
             });
 
@@ -60,36 +72,43 @@ export class AnalyticsCtrl implements IComponentController {
             });
     }
 
-    $onInit() {
+    $onInit () {
         this.prepareData();
     }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    private prepareData() {
-        this.prepareFilter(this.user, this.categories);
-        this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
+    private prepareData () {
+        this.analyticsService.getTemplates()
+            .then(t => this.chartTemplates = t)
+            //.then(_ => this.analyticsService.getChartSettings())
+            //.then(s => {debugger;})
+            .then(_ => this.prepareCharts())
+            .then(_ => this.prepareFilter(this.user, this.categories))
+            .then(_ => this.isLoadingData = false);
+
+        //this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
     }
 
-    restoreSettings() {
+    restoreSettings () {
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.charts}`);
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.filter}`);
-        this.prepareCharts(this.defaultSettings);
+        //this.prepareCharts(this.defaultSettings);
     }
 
-    private getSettings(obj: string): any {
+    private getSettings (obj: string): any {
         return this.storageService.get(`${this.user.userId}${this.storage.name}_${obj}`);
     }
 
-    private saveSettings() {
+    private saveSettings () {
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.charts}`, this.charts.map((c) => c.transfer()));
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.filter.transfer());
     }
 
-    private prepareFilter(user: IUserProfile, categories: IActivityCategory[]) {
+    private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {
         this.filter = new AnalyticsChartFilter(
             user,
             categories,
@@ -97,18 +116,25 @@ export class AnalyticsCtrl implements IComponentController {
             this.$filter);
     }
 
-    private prepareCharts(charts: IAnalyticsChart[]) {
-        this.charts = charts.map((c) => new AnalyticsChart(
-            Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+    private prepareCharts () {
+        this.charts = this.chartTemplates.map(t => new AnalyticsChart(
+            t,
+            //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
             this.user,
             this.filter,
             this.$filter));
+    }
+
+    openMenu ($mdMenu, ev) {
+        $mdMenu.open(ev);
     }
 }
 
 const AnalyticsComponent: IComponentOptions = {
     bindings: {
+        owner: "<",
         user: "<",
+        athletes: '<',
         categories: "<",
         onEvent: "&",
     },

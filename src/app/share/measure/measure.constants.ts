@@ -248,6 +248,18 @@ export const _measurement = {
         view: 'percent',
         fixed: 2
     },
+    fatigue: {
+        unit: 'none',
+        fixed: 0
+    },
+    fitness: {
+        unit: 'none',
+        fixed: 0
+    },
+    form: {
+        unit: 'none',
+        fixed: 0
+    },
 
     // Измерения
     weight: {
