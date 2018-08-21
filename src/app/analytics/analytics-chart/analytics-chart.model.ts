@@ -154,8 +154,19 @@ export class AnalyticsChart implements IAnalyticsChart {
                         break;
                     }
                     case "last": {
-                        this.charts[d.compile.ind].metrics.map(v => v[d.compile.idx] && (d.compile.value = v[d.compile.idx]));
+                        this.charts[d.compile.ind].metrics.map(v =>
+                            v[d.compile.idx] && (d.compile.value = v[d.compile.idx]));
                         break;
+                    }
+                    case "sum": {
+                        this.charts[d.compile.ind].metrics.map(v =>
+                            v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                    }
+                    case "avg": {
+                        let length: number = this.charts[d.compile.ind].metrics.length;
+                        this.charts[d.compile.ind].metrics.map(v =>
+                            v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        d.compile.value = d.compile.value / length;
                     }
                 }
             });

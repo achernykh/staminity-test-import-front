@@ -225,6 +225,9 @@ export const translateAnalytics = {
             //
             byDays: 'by {{lastDays}} days',
 
+            //
+            durationAvg: 'Duration avg. / {{seriesDateTrunc}}'
+
         },
         settings: {
             title: "Settings",

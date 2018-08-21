@@ -20,7 +20,11 @@ export const _activity_measurement_view = {
         adjustedSpeed: {
             unit: 'minpkm',
             fixed: 0
-        }
+        },
+        hour: {
+            unit: 'h',
+            fixed: 1
+        },
     },
     run: {
         distance: {
@@ -260,6 +264,10 @@ export const _measurement = {
         unit: 'none',
         fixed: 0
     },
+    hour: {
+        unit: 's',
+        fixed: 0
+    },
 
     // Измерения
     weight: {
@@ -412,6 +420,12 @@ export const _measurement_calculate = {
     },
     minpkm: {
         mps: (x) => !!x ? (60 * 60) / (x * 3.6) : 0
+    },
+    s: {
+        h: (x) => !!x ? x / (60 * 60) : 0
+    },
+    h: {
+        s: (x) => !!x ? x * 60 * 60 : 0
     }
 };
 

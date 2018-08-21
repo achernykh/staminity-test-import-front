@@ -105,5 +105,35 @@
         }
       ]
     }
+  ],
+  "data": [
+    {
+      "measure": "hour",
+      "code": "durationTotal",
+      "color": "red",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "formula": [
+          "sum"
+        ]
+      }
+    },
+    {
+      "measure": "hour",
+      "code": "analytics.params.durationAvg",
+      "color": "red",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "formula": ["avg"]
+      }
+    }
   ]
 }
