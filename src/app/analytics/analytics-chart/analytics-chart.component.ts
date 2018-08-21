@@ -16,7 +16,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     analytics: AnalyticsCtrl;
     chart: AnalyticsChart;
-    filter: AnalyticsChartFilter;
+    globalFilter: AnalyticsChartFilter;
 
     private descriptionParams: Object = {};
 
@@ -39,13 +39,20 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     $onChanges (changes): void {
-        if ( (changes.hasOwnProperty("chart") && changes.filterChanges.isFirstChange()) ||
-            (changes.hasOwnProperty("filterChanges") && !changes.filterChanges.isFirstChange() && this.chart.globalParams) ) {
-            this.chart.clearMetrics();
-            this.prepareTitleContext();
-            this.prepareParams();
-            this.prepareData();
+        if ( (changes.hasOwnProperty("chart") && changes.chart.isFirstChange()) ||
+            (changes.hasOwnProperty("globalFilterChange") && !changes.globalFilterChange.isFirstChange()) ) {
+            if (this.isGlobalAndLocalFilterDifferent()) {
+                this.chart.clearMetrics();
+                this.prepareTitleContext();
+                this.prepareParams();
+                this.prepareData();
+            }
         }
+    }
+
+    isGlobalAndLocalFilterDifferent (): boolean {
+        return  (!this.chart.localParams || (this.chart.localParams && this.chart.localParams.users && this.chart.localParams.users.model !== this.globalFilter.users.model)) ||
+                (!this.chart.localParams || (this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model !== this.globalFilter.periods.model));
     }
 
     onSettings (env: Event) {
@@ -72,8 +79,8 @@ class AnalyticsChartCtrl implements IComponentController {
             targetEvent: env,
             locals: {
                 chart: this.chart,
-                filter: this.filter,
-                categoriesByOwner: this.analytics.filter.categoriesByOwner,
+                filter: this.globalFilter,
+                categoriesByOwner: this.globalFilter.categoriesByOwner,
             },
             bindToController: true,
             clickOutsideToClose: false,
@@ -165,44 +172,53 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     private prepareParams () {
-
-        //let periodsParams = this.chart.filter.params.filter(p => p.area === 'params' && p.name === 'periods')[0];
-        const globalParams: {
-            users: number[];
-            activityTypes: number[];
-            periods: IReportPeriod[];
-        } = {
-            users: [],
-            activityTypes: [],
-            periods: [],
-        };
-        this.filter.activityTypes.model.map((id) => globalParams.activityTypes.push(...getSportsByBasicId(Number(id))));
-        globalParams.users = [Number(this.filter.users.model)];
-        globalParams.periods = this.filter.periods.model !== "customPeriod" ? periodByType(this.filter.periods.model) : this.filter.periods.data.model;
-
         // приоритет выбора параметров запроса
         // 1) локальные параметры
         // 2) глобальные параметры
         // 3) настройки графика
         // 4) null
-        this.chart.charts.map((c, i) => c.params = Object.assign(c.params, {
-            users:
-                (this.chart.localParams && this.chart.localParams.users && this.chart.localParams.users.model) ||
-                (c.params && c.params.users && c.params.users) ||
-                globalParams.users || null,
+        const params: {
+            users: number[];
+            activityTypes: number[];
+            periods: IReportPeriod[];
+            activityCategories: any;
+        } = {
+            users: this.getUsers() || null,
+            activityTypes: this.getActivityTypes(),
+            periods: this.getPeriods() || null,
+            activityCategories: this.globalFilter.activityCategories.model
+        };
+        this.chart.charts.map((c, i) => c.params = Object.assign(c.params, params));
+    }
 
-            activityTypes:
-                (this.chart.localParams && this.chart.localParams.activityTypes && this.chart.localParams.activityTypes.model) ||
-                (c.params.activityTypes && c.params.activityTypes) ||
-                globalParams.activityTypes || null,
+    getPeriods (): IReportPeriod[] {
+        if (this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model) {
+            return this.chart.localParams.periods.model !== "customPeriod" ? periodByType(this.chart.localParams.periods.model) : this.chart.localParams.periods.data.model;
+        } else {
+            return this.globalFilter.periods.model !== "customPeriod" ? periodByType(this.globalFilter.periods.model) : this.globalFilter.periods.data.model;
+        }
+    }
 
-            activityCategories: this.filter.activityCategories.model,
+    getUsers (): number[] {
+        if (this.chart.localParams && this.chart.localParams.users) {
+            return this.chart.localParams.users.model;
+        } else {
+            return [Number(this.globalFilter.users.model)];
+        }
+    }
 
-            periods:
-                (this.chart.globalParams && globalParams.periods) ||
-                (c.params.periods && c.params.periods) ||
-                globalParams.periods || null,
-        }));
+    getActivityTypes (): number[] {
+        if (this.chart.localParams && this.chart.localParams.activityTypes) {
+            return this.chart.localParams.activityTypes.model;
+        } else if (this.globalFilter.activityTypes && this.globalFilter.activityTypes.model) {
+            let types: number[] = [];
+            this.globalFilter.activityTypes.model.map(id => types.push(...getSportsByBasicId(Number(id))));
+            return types;
+        } else { return null; }
+    }
+
+    getLocalParamChanges (): number {
+        return this.chart.localParams && Object.keys(this.chart.localParams).length || null;
     }
 
     private prepareData () {
@@ -212,24 +228,25 @@ class AnalyticsChartCtrl implements IComponentController {
 
         this.statistics.getMetrics(request).then((result) => {
             this.errorStack = [];
-            if ( result && result.hasOwnProperty("charts") && !result["charts"].some((c) => c.hasOwnProperty("errorMessage")) ) {
+            if ( result && result.hasOwnProperty("charts") &&
+                !result["charts"].some((c) => c.hasOwnProperty("errorMessage")) ) {
                 result["charts"].map((r, i) => this.chart.charts[i].metrics = r.metrics);
-                this.updateCount++;
-                this.$scope.$apply();
-
             } else if ( result["charts"].some((c) => c.hasOwnProperty("errorMessage")) ) {
-                this.errorStack = result["charts"].filter((c) => c.hasOwnProperty("errorMessage")).map((c) => c.errorMessage);
+                this.errorStack = result["charts"]
+                    .filter((c) => c.hasOwnProperty("errorMessage")).map((c) => c.errorMessage);
             }
         }, (error) => this.errorStack.push(error))
-            .then(_ => this.chart.calcData());
+            .then(_ => this.chart.calcData())
+            .then(_ => this.updateCount++)
+            .then(_ => this.$scope.$applyAsync());
     }
 }
 
 const AnalyticsChartComponent: IComponentOptions = {
     bindings: {
         chart: "<",
-        filter: "<",
-        filterChanges: "<",
+        globalFilter: "<",
+        globalFilterChange: "<",
         panelChanges: "<",
         onChangeFilter: "&",
         onExpand: "&",

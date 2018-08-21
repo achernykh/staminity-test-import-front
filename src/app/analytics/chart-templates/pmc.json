@@ -45,6 +45,10 @@
       }
     }
   ],
+  "layout": {
+    "gridColumn": 2,
+    "gridRow": 1
+  },
   "charts": [
     {
       "debugMode": false,
@@ -87,6 +91,7 @@
         {
           "id": 1,
           "label": "TL",
+          "scaleLabel": "TL",
           "unit": "",
           "chartType": "dot",
           "stacked": null,
@@ -113,6 +118,7 @@
         {
           "id": 2,
           "label": "fatigue",
+          "scaleLabel": "CTL, TSB, ATP",
           "unit": "",
           "chartType": "line",
           "stacked": null,
@@ -132,7 +138,7 @@
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 2,
-          "measureName": "fatigue",
+          "measureName": "score",
           "dataType": "number",
           "dateFormat": ""
         },
@@ -168,7 +174,7 @@
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 3,
-          "measureName": "fitness",
+          "measureName": "score",
           "dataType": "number",
           "dateFormat": ""
         },
@@ -207,7 +213,7 @@
           "avgValueLineColor": "#4499BB",
           "avgValueLineStyle": "dotted",
           "idx": 4,
-          "measureName": "Form",
+          "measureName": "score",
           "dataType": "number",
           "dateFormat": "",
           "measureSource": "..tbd...",
@@ -227,7 +233,7 @@
           "visible": true,
           "radius": 3,
           "avgValueLine": false,
-          "scaleVisible": true,
+          "scaleVisible": false,
           "calculateTotals": "",
           "lineColor": "#2887c8",
           "lineStyle": "solid",
@@ -322,14 +328,14 @@
           "scaleVisible": true,
           "calculateTotals": "",
           "lineColor": "#ff3399",
-          "lineStyle": "solid",
+          "lineStyle": "dashed",
           "fillType": "none",
           "fillColor": "",
           "markerColor": "#ff3399",
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 2,
-          "measureName": "fatigue",
+          "measureName": "score",
           "dataType": "number",
           "dateFormat": ""
         },
@@ -348,7 +354,7 @@
           "scaleVisible": true,
           "calculateTotals": "",
           "lineColor": "#0066cc",
-          "lineStyle": "solid",
+          "lineStyle": "dashed",
           "fillType": "gradient",
           "fillColor": "",
           "gradient": [
@@ -365,7 +371,7 @@
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 3,
-          "measureName": "fitness",
+          "measureName": "score",
           "dataType": "number",
           "dateFormat": ""
         },
@@ -387,7 +393,7 @@
             "color": "rgb(247, 153, 131)",
             "opacity": 0
           },
-          "lineStyle": "solid",
+          "lineStyle": "dashed",
           "fillType": "gradient",
           "fillColor": "",
           "gradient": [
@@ -404,7 +410,7 @@
           "avgValueLineColor": "#4499BB",
           "avgValueLineStyle": "dotted",
           "idx": 4,
-          "measureName": "Form",
+          "measureName": "score",
           "dataType": "number",
           "dateFormat": "",
           "measureSource": "..tbd...",
@@ -424,7 +430,7 @@
           "visible": true,
           "radius": 3,
           "avgValueLine": false,
-          "scaleVisible": true,
+          "scaleVisible": false,
           "calculateTotals": "",
           "lineColor": "#2887c8",
           "lineStyle": "solid",
@@ -499,7 +505,7 @@
     {
       "measure": "fitness",
       "code": "fitnessEnd",
-      "color": "red",
+      "color": "blue",
       "hasBullet": true,
       "description": false,
       "visible": true,
@@ -538,7 +544,7 @@
     {
       "measure": "form",
       "code": "formEnd",
-      "color": "red",
+      "color": "orange",
       "hasBullet": true,
       "description": false,
       "visible": true,

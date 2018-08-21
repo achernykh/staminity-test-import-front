@@ -1,32 +1,32 @@
-<md-toolbar flex="none" style="background: white; color: black">
+<md-toolbar flex="none" class="md-default">
     <div class="md-toolbar-tools">
-        <h2 class="md-dark">{{::'analytics.settings.title' | translate}}</h2>
+        <h2 class="">{{::'analytics.settings.title' | translate}}</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
-            <md-icon class="material-icons md-dark md-active" aria-label="Close dialog">close</md-icon>
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">close</md-icon>
         </md-button>
     </div>
 </md-toolbar>
 <md-content flex="auto" layout="column">
     <form flex="auto" layout="column" name="$ctrl.settingsForm">
         <md-list flex="auto" class="md-dense">
-            <md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>
-            <md-list-item>
+            <!--<md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>-->
+            <!--<md-list-item>
                 <p translate="analytics.settings.globalParams"></p>
                 <md-switch class="md-secondary md-primary"
                            name="globalParams"
                            ng-model="$ctrl.globalParams"
-                           ng-change="$ctrl.changeParamsPoint()"></md-switch>
-            </md-list-item>
-            <md-list-item ng-show="!$ctrl.globalParams">
+                           ng-change="$ctrl.changeSettingsParamsPoint()"></md-switch>
+            </md-list-item>-->
+            <md-list-item>
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.users.placeholder"></label>
                     <md-select flex="auto" name="sport" class="icon"
                                multiple="true"
                                md-selected-text="$ctrl.localFilter.usersSelectedText()"
                                ng-model="$ctrl.localFilter.users.model"
-                               ng-change="$ctrl.localFilter.changeParam('users')"
+                               ng-change="$ctrl.changeParams('users')"
                                ng-disabled="!$ctrl.localFilter.users.options || $ctrl.localFilter.users.options.length <= 1">
                         <md-option ng-repeat="user in $ctrl.localFilter.users.options track by user.userId"
                                    value="{{user.userId}}">
@@ -35,7 +35,7 @@
                     </md-select>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-show="!$ctrl.globalParams">
+            <md-list-item>
                 <md-input-container class="md-block no-message" md-no-float layout="row">
                     <!--<md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.filter.activityTypes.model}}"></md-icon>-->
                     <label translate="analytics.filter.activityTypes.placeholder"></label>
@@ -46,8 +46,8 @@
                                multiple="true"
                                md-selected-text="$ctrl.localFilter.activityTypesSelectedText()"
                                ng-model="$ctrl.localFilter.activityTypes.model"
-                               ng-change="$ctrl.localFilter.changeParam('activityTypes')">
-                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{enabled: true} track by type.id"
+                               ng-change="$ctrl.changeParams('activityTypes')">
+                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{enabled: true}"
                                    value="{{type.id}}">
                             {{'sport.' + type.code | translate}}
                         </md-option>
@@ -62,7 +62,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-show="$ctrl.localFilter.activityTypes.model.length === 1 && !$ctrl.globalParams">
+            <md-list-item ng-show="$ctrl.localFilter.activityTypes.model.length === 1">
                 <md-input-container class="md-block no-message">
                     <label translate="analytics.filter.activityCategories.placeholder"></label>
                     <md-select
@@ -71,7 +71,7 @@
                             ng-model="$ctrl.localFilter.activityCategories.model"
                             ng-model-options="{ trackBy: '$value' }"
                             md-no-asterisk="false"
-                            ng-change="$ctrl.localFilter.changeParam('activityCategories')"
+                            ng-change="$ctrl.changeParams('activityCategories')"
                             type="number"
                             name="category"
                             class="icon">
@@ -93,14 +93,14 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-show="!$ctrl.globalParams">
+            <md-list-item>
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.placeholder"></label>
                     <md-select flex="auto" name="periods" class="icon"
                                multiple="false"
                                md-selected-text="$ctrl.localFilter.periodsSelectedText()"
                                ng-model="$ctrl.localFilter.periods.model"
-                               ng-change="$ctrl.localFilter.changeParam('periods')">
+                               ng-change="$ctrl.changeParams('periods')">
                         <md-option ng-repeat="type in $ctrl.localFilter.periods.options track by $index"
                                    value="{{type}}">
                             <span>{{'analytics.params.' + type | translate}}</span>
@@ -108,7 +108,7 @@
                     </md-select>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.globalParams">
+            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod'">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.startDate"></label>
                     <md-datepicker ng-model="$ctrl.localFilter.periods.data.startDate" flex="auto"
@@ -120,7 +120,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod' && !$ctrl.globalParams">
+            <md-list-item ng-if="$ctrl.localFilter.periods.model === 'customPeriod'">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.endDate"></label>
                     <md-datepicker ng-model="$ctrl.localFilter.periods.data.endDate" flex="auto"
@@ -134,14 +134,14 @@
             </md-list-item>
         </md-list>
         <md-list flex="auto" class="md-dense" ng-if="$ctrl.settings.length > 0">
-            <md-divider></md-divider>
-            <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>
+            <!--<md-divider></md-divider>
+            <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>-->
             <md-list-item ng-repeat="param in $ctrl.settings" ng-switch="param.type">
                 <div ng-switch-when="radio" layout="column">
                     <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
                     <md-radio-group flex="none" name="param.text" class="md-primary"
                                     ng-model="param.model"
-                                    ng-change="$ctrl.change(param, param.model)">
+                                    ng-change="$ctrl.changeSettings(param, param.model)">
                         <md-radio-button ng-repeat="option in param.options" ng-value="option">
                             <span class="md-body-1">{{'analytics.params.' + option | translate}}</span>
                         </md-radio-button>

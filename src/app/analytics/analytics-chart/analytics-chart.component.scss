@@ -6,7 +6,7 @@ $padding: 16px;
   background-color: white;
 
   &__header {
-    padding: $padding $padding 0 $padding;
+    padding: $padding 0 0 $padding;
 
     .title {
       margin: 0;
@@ -26,11 +26,16 @@ $padding: 16px;
   }
 
   &__data-panel {
-    padding: 0 $padding $padding $padding;
+    padding: $padding $padding 0 $padding;
   }
 
-  .analytics-chart-data:last-child {
-    border-right: none !important;
+  .button-toolbar .md-icon-button { display: none; opacity: 0; transition: opacity 1s }
+  .button-toolbar .md-icon-button.has-badge { display: block; opacity: 1;}
+  .analytics-chart-data:last-child { border-right: none !important; }
+  //universal-chart { .axis.measure-axis { display: none; opacity: 0; transition: opacity 1s } }
+
+  &.active {
+    universal-chart .axis.measure-axis, .button-toolbar .md-icon-button { display: block; opacity: 1; }
   }
 
 }

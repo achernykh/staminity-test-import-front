@@ -22,7 +22,7 @@ export class AnalyticsCtrl implements IComponentController {
     onEvent: (response: Object) => IPromise<void>;
 
     // public
-    filter: AnalyticsChartFilter;
+    private globalFilter: AnalyticsChartFilter;
 
     // private
     private globalFilterChange: number = null;
@@ -67,7 +67,7 @@ export class AnalyticsCtrl implements IComponentController {
         reference.categoriesChanges
             .takeUntil(this.destroy)
             .subscribe((categories) => {
-                this.filter.setCategoriesOption(categories);
+                this.globalFilter.setCategoriesOption(categories);
                 this.$scope.$apply();
             });
     }
@@ -105,11 +105,17 @@ export class AnalyticsCtrl implements IComponentController {
 
     private saveSettings () {
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.charts}`, this.charts.map((c) => c.transfer()));
-        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.filter.transfer());
+        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.globalFilter.transfer());
+    }
+
+    private setPeriod (type: string, param: string = 'period'): void {
+        this.globalFilter.periods.model = type;
+        this.globalFilter.changeParam(param);
+        this.globalFilterChange ++;
     }
 
     private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {
-        this.filter = new AnalyticsChartFilter(
+        this.globalFilter = new AnalyticsChartFilter(
             user,
             categories,
             this.getSettings(this.storage.filter),
@@ -121,7 +127,7 @@ export class AnalyticsCtrl implements IComponentController {
             t,
             //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
             this.user,
-            this.filter,
+            this.globalFilter,
             this.$filter));
     }
 

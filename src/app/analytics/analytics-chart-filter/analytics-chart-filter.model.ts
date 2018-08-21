@@ -4,7 +4,7 @@ import {IActivityType} from "../../../../api/activity/activity.interface";
 import {IActivityCategory} from "../../../../api/reference/reference.interface";
 import {IChartParams, IReportPeriod} from "../../../../api/statistics/statistics.interface";
 import {IUserProfile, IUserProfileShort} from "../../../../api/user/user.interface";
-import {getSportBasic, getSportsByBasicId} from "../../activity/activity.constants";
+import {getSportBasic, getSportsByBasicId, getActivityTypesId} from "../../activity/activity.constants";
 import {getOwner, Owner} from "../../reference/reference.datamodel";
 import { groupBy, orderBy, pipe, prop } from "../../share/util.js";
 
@@ -101,7 +101,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     change: number = null;
 
     private prepareComplete: boolean = false;
-    private readonly defaultBasicActivityTypes: number[] = [2, 7, 10, 13];
+    private readonly defaultBasicActivityTypes: number[] = getActivityTypesId();//[2, 7, 10, 13];
     private keys: string[] = ["user", "categories", "storage", "prepareComplete", "categoriesByOwner",
         "defaultBasicActivityTypes", "change", "keys"];
 
@@ -201,7 +201,10 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     }
 
     activityTypesSelectedText(): string {
-        if (this.activityTypes.model && this.activityTypes.model.length > 0) {
+        if (this.activityTypes.model &&
+            this.activityTypes.model.length === this.activityTypes.options.length) {
+            return 'analytics.filter.activityTypes.all';
+        } else if (this.activityTypes.model && this.activityTypes.model.length > 0) {
             return `${this.$filter("translate")("sport." +
                 this.activityTypes.options.filter((t) => t.id === Number(this.activityTypes.model[0]))[0].code)}
                 ${this.activityTypes.model.length > 1 ?
@@ -265,7 +268,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
             area: "params",
             name: "users",
             text: "users",
-            model: this.storage && this.storage.users.model || [this.user.userId],
+            model: this.storage && this.storage.users && this.storage.users.model || [this.user.userId],
             options: [],
         };
 
@@ -288,7 +291,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
             area: "params",
             name: "activityTypes",
             text: "activityTypes",
-            model: this.storage && this.storage.activityTypes.model || this.defaultBasicActivityTypes,
+            model: this.storage && this.storage.activityTypes && this.storage.activityTypes.model || this.defaultBasicActivityTypes,
             options: getSportBasic(),
         };
     }
@@ -299,7 +302,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
             area: "params",
             name: "activityCategories",
             text: "activityCategories",
-            model: this.storage && this.storage.activityCategories.model || [],
+            model: this.storage && this.storage.activityCategories && this.storage.activityCategories.model || [],
             options: this.categories,
         };
 
@@ -316,8 +319,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
             name: "periods",
             text: "periods",
             options: ["thisYear", "thisMonth", "thisWeek", "customPeriod"],
-            model: this.storage && this.storage.periods.model || null,
-            data: this.storage && this.storage.periods.data || {
+            model: this.storage && this.storage.periods && this.storage.periods.model || null,
+            data: this.storage && this.storage.periods && this.storage.periods.data || {
                 model: null,
                 startDate: null,
                 endDate: null,

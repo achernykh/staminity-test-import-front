@@ -9,7 +9,8 @@ import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-
 import { IAnalyticsChartDescriptionParams, IAnalyticsChart, IChartData } from "./analytics-chart.interface";
 
 export class AnalyticsChartLayout {
-
+    gridColumn: number;
+    gridRow: number;
     fullScreen: boolean = false;
 
     constructor (public gridColumnEnd: number,
@@ -38,7 +39,7 @@ export class AnalyticsChart implements IAnalyticsChart {
     //description?: string;
     //filter: IAnalyticsChartFilter;
     globalParams?: boolean;
-    localParams?: any;
+    localParams?: AnalyticsChartFilter;
     paramsDescription?: string;
     layout: AnalyticsChartLayout;
     charts: IChart[];
@@ -55,7 +56,7 @@ export class AnalyticsChart implements IAnalyticsChart {
 
         Object.assign(this, params);
         if ( this.hasOwnProperty("layout") && this.layout ) {
-            this.layout = new AnalyticsChartLayout(this.layout.gridColumnEnd, this.layout.gridRowEnd);
+            this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
         }
 
         if ( !this.globalParams && this.localParams ) {
@@ -161,12 +162,19 @@ export class AnalyticsChart implements IAnalyticsChart {
                     case "sum": {
                         this.charts[d.compile.ind].metrics.map(v =>
                             v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        break;
                     }
                     case "avg": {
                         let length: number = this.charts[d.compile.ind].metrics.length;
                         this.charts[d.compile.ind].metrics.map(v =>
                             v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
-                        d.compile.value = d.compile.value / length;
+                        d.compile.value = (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1);
+                        break;
+                    }
+                    case "max": {
+                        this.charts[d.compile.ind].metrics.map(v =>
+                            v[d.compile.idx] && (d.compile.value = Math.max(d.compile.value, v[d.compile.idx])));
+                        break;
                     }
                 }
             });

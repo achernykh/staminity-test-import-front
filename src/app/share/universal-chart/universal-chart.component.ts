@@ -5,6 +5,7 @@ import { UChartFactory } from "./lib/UChart/UChartFactory.js";
 import { IChart, IChartMeasure } from "../../../../api/statistics/statistics.interface";
 import { _measurement_calculate } from "../measure/measure.constants";
 import { peaksByTime } from "../measure/measure.filter";
+import { deepCopy } from "../data/data.finctions";
 
 class UniversalChartCtrl implements IComponentController {
 
@@ -13,9 +14,10 @@ class UniversalChartCtrl implements IComponentController {
     filter: boolean;
     onEvent: (response: Object) => IPromise<void>;
 
-    private chart: any;
+    private universalChart: any;
     private container: any;
     private onResize: Function;
+    private chart: IChart[];
 
     static $inject = ['$element', '$window', '$translate'];
 
@@ -23,50 +25,36 @@ class UniversalChartCtrl implements IComponentController {
 
     }
 
-    $onInit () {
-    }
+    $onInit () {}
 
     $onDestroy () {
-
-        if ( this.hasOwnProperty('chart') && this.chart ) {
-            this.chart.remove();
-        }
-
+        if ( this.hasOwnProperty('chart') && this.universalChart ) { this.universalChart.remove(); }
     };
 
     $postLink (): void {
-        let self = this;
-        this.$element.ready(() => self.redraw());
-        this.onResize = () => {
-            this.chart.remove();
-            this.redraw();
-        };
-        angular.element(this.$element).on('resize', this.onResize);
-        //angular.element(this.$window).on('resize', this.onResize);
+        this.$element.ready(_ => this.redraw());
+        angular.element(this.$element).on('resize', () => { this.universalChart.remove(); this.redraw(); });
     }
 
     $onChanges (changes: any) {
         if ( changes.hasOwnProperty('update') && !changes.update.isFirstChange() ) {
-            if ( !this.chart ) { return; }
-            setTimeout(() => {
-                this.chart.remove();
-                this.redraw();
-            }, 300);
+            if ( !this.universalChart ) { return; }
+            setTimeout(() => { this.universalChart.remove(); this.redraw(); }, 300);
         }
     }
 
     redraw (): void {
         this.container = this.$element[0];
         this.prepareMetrics();
-        //console.debug('universal chart redraw', this.data, this.container, this.update);
-        this.chart = UChartFactory.getInstance(copy(this.data)).renderTo(this.container);
+        this.universalChart = UChartFactory.getInstance(copy(this.chart)).renderTo(this.container);
     }
 
     prepareMetrics (): void {
         if ( !this.filter ) { return; }
-        this.data.map((c,ci) => {
+        this.chart = deepCopy(this.data);
+        this.chart.map((c,ci) => {
 
-            this.data[ci].measures = this.data[ci].measures.map((m) => {
+            this.chart[ci].measures = this.chart[ci].measures.map((m) => {
                 const measures: any = Object.assign({}, m);
                 measures.unit = m.unit && this.$translate.instant(m.unit);
                 measures.label = m.label && this.$translate.instant(m.label);
@@ -74,12 +62,12 @@ class UniversalChartCtrl implements IComponentController {
                 return measures;
             });
 
-            this.data[ci].metrics = this.data[ci].metrics.map((m) => {
+            this.chart[ci].metrics = this.chart[ci].metrics.map((m) => {
                 const metric: any[] = [];
                 m.map((value, i) => {
                     const params: IChartMeasure =
-                        this.data[ci].series.filter((s) => s.idx === i)[0] ||
-                        this.data[ci].measures.filter((s) => s.idx === i)[0];
+                        this.chart[ci].series.filter((s) => s.idx === i)[0] ||
+                        this.chart[ci].measures.filter((s) => s.idx === i)[0];
                     value === "NaN" || value === "Infinity" ? value = null : value = value;
                     if ( params ) {
                         if ( value === null ) {
@@ -120,8 +108,8 @@ class UniversalChartCtrl implements IComponentController {
 
 const UniversalChartComponent: IComponentOptions = {
     bindings: {
-        data: '<',
-        filter: '<',
+        data: '=',
+        filter: '=',
         update: '<',
         onEvent: '&'
     },

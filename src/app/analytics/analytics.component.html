@@ -7,8 +7,8 @@
     <!-- Заголовок -->
     <st-application-frame-title>
         <span class="md-title" translate="analytics.fullTitle" ng-if="$ctrl.$mdMedia('(min-width: 1440px)') || $ctrl.$mdMedia('(max-width: 959px)')"></span>
-        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <span class="button" hide show-gt-sm>{{$ctrl.user | userName:'compact'}}</span>
+        <md-icon ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0" class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0" class="button" hide show-gt-sm>{{$ctrl.user | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
@@ -31,13 +31,14 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <span class="button" hide show-gt-sm translate="analytics.params.{{$ctrl.filter.periods.model}}"></span>
+        <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
+        <span class="button" hide show-gt-sm translate="analytics.params.{{$ctrl.globalFilter.periods.model}}"></span>
         <md-menu hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
                 <md-icon class="material-icons">arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
-                <md-menu-item ng-repeat="type in $ctrl.filter.periods.options track by $index">
+                <md-menu-item ng-repeat="type in $ctrl.globalFilter.periods.options track by $index">
                     <md-button ng-click="$ctrl.setPeriod(type)">
                         <span>{{'analytics.params.' + type | translate}}</span>s
                     </md-button>
@@ -99,8 +100,8 @@
                                  ng-style="chart.layout.style"
                                  ng-class="{'full-screen': chart.layout.fullScreen}"
                                  chart="chart"
-                                 filter="$ctrl.filter"
-                                 filter-changes="$ctrl.globalFilterChange"
+                                 global-filter="$ctrl.globalFilter"
+                                 global-filter-change="$ctrl.globalFilterChange"
                                  panel-changes="$ctrl.panelSizeChange"
                                  on-change-filter="$ctrl.saveSettings('charts')"
                                  mobile-view="">
@@ -112,21 +113,21 @@
 
 <!--<section layout-gt-sm="row" layout="column" class="analytics__application">
     <analytics-management-panel flex="none" style="height: 100%; min-height: 100%"
-                                user="$ctrl.user" ng-if="$ctrl.filter.prepareComplete"
+                                user="$ctrl.user" ng-if="$ctrl.globalFilter.prepareComplete"
                                 charts="$ctrl.charts"
-                                filter="$ctrl.filter"
+                                filter="$ctrl.globalFilter"
                                 on-change-filter="$ctrl.globalFilterChange = $ctrl.globalFilterChange + 1"
                                 on-change-charts="$ctrl.saveSettings('charts')"
                                 on-change-panel-size="$ctrl.panelSizeChange = $ctrl.panelSizeChange + 1">
     </analytics-management-panel>
     <section flex="auto" class="analytics__chart-section">
         <analytics-chart-pmc style="height: 400px;" chart=""></analytics-chart-pmc>
-        <section class="analytics__chart-grid" ng-if="$ctrl.filter.prepareComplete">
+        <section class="analytics__chart-grid" ng-if="$ctrl.globalFilter.prepareComplete">
             <analytics-chart ng-repeat="chart in $ctrl.charts | filter:{ active: true, isAuthorized: true }"
                              ng-style="chart.layout.style"
                              ng-class="{'full-screen': chart.layout.fullScreen}"
                              chart="chart"
-                             filter="$ctrl.filter"
+                             filter="$ctrl.globalFilter"
                              filter-changes="$ctrl.globalFilterChange"
                              panel-changes="$ctrl.panelSizeChange"
                              on-change-filter="$ctrl.saveSettings('charts')"

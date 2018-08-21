@@ -1,16 +1,14 @@
 <md-content class="analytics-chart md-whiteframe-2dp"
             ng-switch="$ctrl.chart.hasMetrics()" layout="column"
             ng-mouseover="$ctrl.showMenu = true"
-            ng-mouseleave="$ctrl.showMenu = false">
+            ng-mouseleave="$ctrl.showMenu = false"
+            ng-class="{active: $ctrl.showMenu}">
     <div flex="none" class="analytics-chart__header" layout="row" layout-align="start space-between">
         <h1 class="md-title title" flex="auto">
             <span translate="analytics.{{$ctrl.chart.code}}.title" translate-values="{{$ctrl.descriptionParams}}"></span>
-            <span ng-if="!$ctrl.chart.globalParams" >&nbsp;({{'analytics.localFilter' | translate | lowercase}})</span>
+            <!--<span ng-if="!$ctrl.chart.globalParams" >&nbsp;({{'analytics.localFilter' | translate | lowercase}})</span>-->
         </h1>
-        <div flex="none" layout="row" ng-show="$ctrl.showMenu">
-            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.onSettings($event)">
-                <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
-            </md-button><!--
+        <div flex="none" layout="row" class="button-toolbar"><!--
             <analytics-chart-filter flex="none"
                                     filter="$ctrl.chart.filter"
                                     change="$ctrl.filterChange"
@@ -26,9 +24,13 @@
                 <md-icon class="md-secondary material-icon md-dark"
                          ng-bind="$ctrl.chart.layout.fullScreen ? 'fullscreen_exit' : 'fullscreen'"></md-icon>
             </md-button>
+            <md-button flex="none" class="md-icon-button" ng-class="{'has-badge': $ctrl.getLocalParamChanges()}" ng-click="$ctrl.onSettings($event)">
+                <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
+                <span class="badge superscript" ng-if="$ctrl.getLocalParamChanges()">{{$ctrl.getLocalParamChanges()}}</span>
+            </md-button>
         </div>
     </div>
-    <p flex="none" class="md-body-1 md-dark analytics-chart__description">{{$ctrl.descriptions()}}</p>
+    <p flex="none" class="md-caption md-dark analytics-chart__description">{{$ctrl.descriptions()}}</p>
 
     <div ng-switch-when="false" ng-if="$ctrl.errorStack.length === 0"
          flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
@@ -39,6 +41,12 @@
          flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
         <p flex="none" ng-repeat="error in $ctrl.errorStack track by $index">{{'analytics.error.'+error}}</p>
     </div>
+    <section class="analytics-chart__data-panel" layout="row">
+        <st-analytics-chart-data flex="none"
+                                 ng-repeat="data in $ctrl.chart.data | filter:{ visible: true }"
+                                 data="data" description-params="$ctrl.descriptionParams">
+        </st-analytics-chart-data>
+    </section>
     <div ng-switch-when="true" flex="auto" layout="column" class="analytics-chart__data">
         <universal-chart flex="auto"
                          data="$ctrl.chart.charts"
@@ -46,10 +54,4 @@
                          update="$ctrl.updateCount + $ctrl.panelChanges">
         </universal-chart>
     </div>
-    <section class="analytics-chart__data-panel" layout="row">
-        <st-analytics-chart-data flex="none"
-                                 ng-repeat="data in $ctrl.chart.data | filter:{ visible: true }"
-                                 data="data" description-params="$ctrl.descriptionParams">
-        </st-analytics-chart-data>
-    </section>
 </md-content>
