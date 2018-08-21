@@ -168,7 +168,9 @@ export class AnalyticsChart implements IAnalyticsChart {
                         let length: number = this.charts[d.compile.ind].metrics.length;
                         this.charts[d.compile.ind].metrics.map(v =>
                             v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
-                        d.compile.value = (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1);
+                        d.compile.value = length > 1 ?
+                            (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1) :
+                            d.compile.value;
                         break;
                     }
                     case "max": {
