@@ -1,12 +1,11 @@
-<div layout="row" class="analytics-chart-data" layout-align="start end">
+<div layout="row" class="analytics-chart-data" layout-align="start start">
     <div flex="none" class="bullet" ng-if="$ctrl.data.hasBullet" style="background: {{$ctrl.data.color}}"></div>
     <div flex="auto" layout="column">
         <div flex="none" layout="row" layout-align="start end">
             <p class="md-title" flex="none">{{$ctrl.data.compile.value | measureCalc:'default':$ctrl.data.measure}}</p>
             <p class="md-body-1" flex="none">&nbsp;{{$ctrl.data.measure | measureUnit:'default' | translate}}</p>
             <p class="md-body-1" flex="none" ng-if="$ctrl.data.compile.subValue">
-                <span>&nbsp;</span>
-                <span ng-if="$ctrl.data.compile.subValue.value > 0">+&nbsp;</span>
+                <span ng-if="$ctrl.data.compile.subValue.value > 0">+</span>
                 <span>{{$ctrl.data.compile.subValue.value | measureCalc:'default':$ctrl.data.measure}}</span>
                 <span translate="{{$ctrl.data.compile.subValue.description}}" translate-values="$ctrl.descriptionParams"></span>
             </p>

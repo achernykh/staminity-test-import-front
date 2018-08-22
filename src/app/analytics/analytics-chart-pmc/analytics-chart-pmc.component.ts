@@ -29,7 +29,7 @@ class AnalyticsChartPmcCtrl implements IComponentController {
     }
 
     private prepareChartSettings (): void {
-        this.chart = this.chart || require('../chart-templates/pmc.json') as IAnalyticsChart;
+        this.chart = this.chart;// || require('../chart-templates/pmc.json') as IAnalyticsChart;
     }
 
     private prepareChartData() {

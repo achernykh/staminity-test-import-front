@@ -1,4 +1,4 @@
-<md-content class="analytics-chart md-whiteframe-2dp"
+<div class="analytics-chart"
             ng-switch="$ctrl.chart.hasMetrics()" layout="column"
             ng-mouseover="$ctrl.showMenu = true"
             ng-mouseleave="$ctrl.showMenu = false"
@@ -32,21 +32,23 @@
     </div>
     <p flex="none" class="md-caption md-dark analytics-chart__description">{{$ctrl.descriptions()}}</p>
 
-    <div ng-switch-when="false" ng-if="$ctrl.errorStack.length === 0"
-         flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
-        <img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>
-        <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
-    </div>
-    <div ng-switch-when="false" ng-if="$ctrl.errorStack.length > 0"
-         flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
-        <p flex="none" ng-repeat="error in $ctrl.errorStack track by $index">{{'analytics.error.'+error}}</p>
-    </div>
     <section class="analytics-chart__data-panel" layout="row">
         <st-analytics-chart-data flex="none"
                                  ng-repeat="data in $ctrl.chart.data | filter:{ visible: true }"
                                  data="data" description-params="$ctrl.descriptionParams">
         </st-analytics-chart-data>
     </section>
+
+    <div ng-switch-when="false" ng-if="$ctrl.errorStack.length === 0"
+         flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
+        <!--<img flex="none" src="/assets/icon/loading-bars.gif" width="40"/>-->
+        <md-progress-linear flex="none" style="width: 25%" md-mode="indeterminate"></md-progress-linear>
+        <p flex="none" class="md-caption md-dark center" translate="activity.loading"></p>
+    </div>
+    <div ng-switch-when="false" ng-if="$ctrl.errorStack.length > 0"
+         flex="auto" layout="column" layout-align="center center" class="analytics-chart__loading">
+        <p flex="none" ng-repeat="error in $ctrl.errorStack track by $index">{{'analytics.error.'+error}}</p>
+    </div>
     <div ng-switch-when="true" flex="auto" layout="column" class="analytics-chart__data">
         <universal-chart flex="auto"
                          data="$ctrl.chart.charts"
@@ -54,4 +56,4 @@
                          update="$ctrl.updateCount + $ctrl.panelChanges">
         </universal-chart>
     </div>
-</md-content>
+</div>

@@ -12,17 +12,18 @@ export class AnalyticsService {
     }
 
     getChartSettings (): Promise<any> {
-        return this.socket.send(new GetChartSettings());
+        return this.socket.send(new GetChartSettings()).then(r => r && r.arrayResult || null);
     }
 
-    saveChartSettings (id: string, settings: any): Promise<any> {
+    saveChartSettings (id: number, settings: any): Promise<any> {
         return this.socket.send(new PostChartSettings({id, ...settings}));
     }
 
     getTemplates (codes: string[] = this.config.charts): Promise<any> {
-        return Promise.resolve([
-            //require('./chart-templates/pmc.json') as string,
-            require('./chart-templates/actualMovingDuration.json') as string]);
-        //return Promise.all(codes.map(c => this.$http.get(`${this.config.dir}/${c}.json`)));
+        /*return Promise.resolve([
+            require('./chart-templates/pmc.json') as string,
+            require('./chart-templates/actualMovingDuration.json') as string]);*/
+        return Promise.all(codes.map(c =>
+            this.$http.get(`${this.config.dir}/${c}.json`).then(r => r.data)));
     }
 }

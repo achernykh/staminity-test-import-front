@@ -47,6 +47,8 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             this.localFilter = this.chart.localParams as AnalyticsChartFilter;
         }
 
+        debugger;
+
         if ( mode === "fromGlobal" ) {
             this.localFilter = new AnalyticsChartFilter(
                 this.globalFilter.user,
@@ -58,8 +60,8 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             this.localFilter.setActivityTypesOptions(activityTypes);
             this.localFilter.setActivityCategories(this.globalFilter.activityCategories.model);
             this.localFilter.setPeriods(
-                this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model || this.globalFilter.periods.model,
-                this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.data || this.globalFilter.periods.data);
+                this.chart.localParams && this.chart.localParams.periods.model || this.globalFilter.periods.model,
+                this.chart.localParams && this.chart.localParams.periods.data || this.globalFilter.periods.data);
         }
     }
 
@@ -82,13 +84,16 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             param === 'periods' ?
                 localModel !== globalModel :
                 localModel.length !== globalModel.length || localModel.some(v => globalModel.indexOf(v) === -1)) {
-            this.chart.localParams = Object.assign(this.chart.localParams || {}, {[param]:  this.localFilter[param]});
-            this.isChangeLocalParams = true;
+            this.chart.localParams = Object.assign(this.chart.localParams || {}, {[param]:  this.localFilter.save()[param]});
+        } else if (this.chart.localParams[param]) {
+            delete this.chart.localParams[param];
+            if (Object.keys(this.chart.localParams).length === 0) { delete this.chart.localParams; }
         }
+        this.isChangeLocalParams = true;
     }
 
     changeSettings (param: IAnalyticsChartSettings<any>, value) {
-        switch ( param.area ) {
+        /**switch ( param.area ) {
             case "series": {
                 param.ind.map((ind) =>
                     this.chart.charts[ind].series
@@ -106,7 +111,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                 );
                 break;
             }
-        }
+        }**/
 
         if ( Object.keys(param.change[value]).some((change) => ["seriesDateTrunc", "unit", "measureName"].indexOf(change) !== -1) ) {
             this.refresh = true;
@@ -137,7 +142,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         if ( this.isChangeSettings ) { this.chart.settings = changes.settings = this.settings; }
         if ( this.isChangeLocalParams ) { changes.localParams = this.chart.localParams; }
         if (changes) {
-            this.analyticsService.saveChartSettings(this.chart.code, {...changes})
+            this.analyticsService.saveChartSettings(this.chart.id, {code: this.chart.code, ...changes})
                 .then(_ => this.messageService.toastInfo('analyticsSaveChartSettingsComplete'),
                     e => e ? this.messageService.toastError(e) : this.messageService.toastError('analyticsSaveChartSettingsError'));
         }

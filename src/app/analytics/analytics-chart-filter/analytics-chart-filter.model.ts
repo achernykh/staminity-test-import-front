@@ -59,12 +59,12 @@ interface IReportCustomPeriod {
 }
 
 export interface IAnalyticsChartSettings<T> {
-    type: "date" | "text" | "select" | "checkbox" | "radio";
-    area: "params" | "series" | "measures";
+    type?: "date" | "text" | "select" | "checkbox" | "radio";
+    area?: "params" | "series" | "measures";
     ind?: number[]; // индекс в массиве chart
     idx?: number[]; // индекс в массиве series/measures
     name?: string;
-    text: string; // название показателя для вывода на экран analytics.params... | translate
+    text?: string; // название показателя для вывода на экран analytics.params... | translate
     multiTextParam?: string; // ссылка на показатель, в котором будет задан текст в случае мултипеременных
     model: any;
     data?: any | IReportCustomPeriod; // расчетные данные для формирования model (используется для customPeriod)
@@ -189,6 +189,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
         this.change ++;
     }
 
+
     usersSelectedText(): string {
         if (this.users.model && this.users.model.length > 0) {
             return `${this.$filter("username")(
@@ -258,7 +259,10 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
             users: this.users,
             activityTypes: this.activityTypes,
             activityCategories: this.activityCategories,
-            periods: this.periods,
+            periods: {
+                model: this.periods.model,
+                data: this.periods.data
+            },
         };
     }
 

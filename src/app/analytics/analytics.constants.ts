@@ -4,6 +4,6 @@ export interface AnalyticsConfig {
 }
 
 export const analyticsConfig: AnalyticsConfig = {
-    dir: '',
+    dir: './chart-templates',
     charts: ['pmc', 'actualMovingDuration'],
 };

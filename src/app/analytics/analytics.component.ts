@@ -84,13 +84,19 @@ export class AnalyticsCtrl implements IComponentController {
     private prepareData () {
         this.analyticsService.getTemplates()
             .then(t => this.chartTemplates = t)
-            //.then(_ => this.analyticsService.getChartSettings())
-            //.then(s => {debugger;})
             .then(_ => this.prepareCharts())
+            .then(_ => this.analyticsService.getChartSettings())
+            .then(s => this.applyLocalSettings(s))
             .then(_ => this.prepareFilter(this.user, this.categories))
             .then(_ => this.isLoadingData = false);
 
         //this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
+    }
+
+    private applyLocalSettings (localSettings: any[]): void {
+        localSettings.map(s =>
+            this.charts.some(c => c.code === s.code) &&
+            Object.assign(this.charts.filter(c => c.code === s.code)[0], s));
     }
 
     restoreSettings () {
@@ -118,7 +124,7 @@ export class AnalyticsCtrl implements IComponentController {
         this.globalFilter = new AnalyticsChartFilter(
             user,
             categories,
-            this.getSettings(this.storage.filter),
+            null,//this.getSettings(this.storage.filter),
             this.$filter);
     }
 

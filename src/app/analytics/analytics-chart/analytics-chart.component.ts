@@ -44,6 +44,7 @@ class AnalyticsChartCtrl implements IComponentController {
             if (this.isGlobalAndLocalFilterDifferent()) {
                 this.chart.clearMetrics();
                 this.prepareTitleContext();
+                this.prepareSettings();
                 this.prepareParams();
                 this.prepareData();
             }
@@ -103,6 +104,7 @@ class AnalyticsChartCtrl implements IComponentController {
         this.chart = copy(chart);
         this.prepareTitleContext();
         if ( update ) {
+            this.prepareSettings();
             this.prepareParams();
             this.prepareData();
         }
@@ -169,6 +171,11 @@ class AnalyticsChartCtrl implements IComponentController {
                     this.chart.charts[c.ind][c.area].filter((s) => s.idx === c.idx)[0][c.param];
             });
         }
+    }
+
+    private prepareSettings (): void {
+        if (!this.chart.settings) { return; }
+        this.chart.settings.map(s => this.chart.changeSettings(s, s.model));
     }
 
     private prepareParams () {

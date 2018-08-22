@@ -44,6 +44,7 @@ export interface IChartData {
 }
 
 export interface IAnalyticsChart {
+    id: number;
     order: number;
     revision: number;
     auth: string[];

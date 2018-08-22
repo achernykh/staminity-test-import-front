@@ -7,7 +7,7 @@ const palettePace = ["#BBDEFB", "#90CAF9", "#65B5F6", "#42A5F5", "#2196F3", "#1E
 const palettePower = ["#D1C4E9", "#B39DDB", "#9575CD", "#7E57C2", "#673AB7", "#5E35B1", "#512DA8", "#4527A0", "#311B92"];
 
 //noinspection TypeScriptValidateTypes,TypeScriptValidateTypes
-export const DefaultAnalyticsSettings: IAnalyticsChart[] = [
+export const DefaultAnalyticsSettings: any[] = [
     /**
      1-coach.Объемы по расстоянию по ученикам
      */

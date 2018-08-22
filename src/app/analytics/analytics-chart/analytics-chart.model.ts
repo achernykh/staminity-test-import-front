@@ -7,6 +7,7 @@ import { _measurement_calculate } from "../../share/measure/measure.constants";
 import { peaksByTime } from "../../share/measure/measure.filter";
 import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-filter.model";
 import { IAnalyticsChartDescriptionParams, IAnalyticsChart, IChartData } from "./analytics-chart.interface";
+import {IAnalyticsChartSettings} from "@app/analytics/analytics-chart-filter/analytics-chart-filter.model";
 
 export class AnalyticsChartLayout {
     gridColumn: number;
@@ -29,6 +30,7 @@ export class AnalyticsChartLayout {
 
 export class AnalyticsChart implements IAnalyticsChart {
 
+    id: number;
     order: number;
     revision: number;
     auth: string[];
@@ -42,6 +44,7 @@ export class AnalyticsChart implements IAnalyticsChart {
     localParams?: AnalyticsChartFilter;
     paramsDescription?: string;
     layout: AnalyticsChartLayout;
+    settings?: Array<IAnalyticsChartSettings<any>>; // Параметры, которые можно менять в графике
     charts: IChart[];
     data: IChartData[];
 
@@ -88,6 +91,28 @@ export class AnalyticsChart implements IAnalyticsChart {
         obj.charts.map((c) => c.hasOwnProperty("metrics") && delete c.metrics);
         return obj;
 
+    }
+
+    changeSettings (param: IAnalyticsChartSettings<any>, value) {
+        switch (param.area) {
+            case "series": {
+                param.ind.map((ind) =>
+                    this.charts[ind].series
+                        .filter((s) => param.idx.indexOf(s.idx) !== -1)
+                        .map((s) => s[param.name] = value),
+                );
+                break;
+            }
+            case "measures": {
+                param.ind.map((ind) =>
+                        this.charts[ind].measures
+                            .filter((m) => param.idx.indexOf(m.idx) !== -1)
+                            .map((m) => Object.keys(param.change[value]).map((k) => m[k] = param.change[value][k])),
+                    //.map(s => s[param.name] = value)
+                );
+                break;
+            }
+        }
     }
 
     private prepareLocalParams (user: IUserProfile) {

@@ -2,6 +2,7 @@ import { AnalyticsChartLayout } from "../analytics/analytics-chart/analytics-cha
 import { IAnalyticsChart } from "../analytics/analytics-chart/analytics-chart.interface";
 export const homeChartsConfig: IAnalyticsChart[] = [
     {
+        id: 4,
         order: 4,
         active: true,
         revision: 1,
