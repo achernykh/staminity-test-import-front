@@ -222,7 +222,14 @@ export const landingConfig: LandingConfig = {
                 subtitle: '',
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-03.png',
-            }],
+            },{
+                code: 'block5',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/analytics.png',
+            }
+            ],
             reviews: {
                 ru: [{
                     avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/oleg-lenkov.jpg',
@@ -236,7 +243,35 @@ export const landingConfig: LandingConfig = {
                     about: 'Спортсмен, клуб InstaRUN',
                     country: '',
                     text: 'Классная программа! Пользуюсь приложением на айфоне. У меня часы suunto, тренировки приходится выгружать через Strava, один раз настроил и все, неудобств не доставляет.'
-                }]
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/denis-razin.jpg',
+                    author: 'Денис Разин',
+                    about: 'Триатлет',
+                    country: '',
+                    text: 'Неизбежно что-то нужно для планирования, как тренерам, так и ученикам. Staminity – отличная альтернатива TrainingPeaks, с быстрой поддержкой и постоянными обновлениями. Удобно, прозрачно, хорошая аналитика.'
+                }
+                ],
+                en: [{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/oleg-lenkov.jpg',
+                    author: 'Oleg Lenkov',
+                    about: 'Triathlete, JustTri club',
+                    country: '',
+                    text: '#Staminity - I\'m now working in this application. Thanks #justtri. I am convinced that this is the most modern, cool and user-friendly application, among peers. I like everything from functionality to design. Particular pride is that this is Russian development.'
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/alexei-lukashin.jpg',
+                    author: 'Alexei Lukashin',
+                    about: 'Runner, InstaRUN club',
+                    country: '',
+                    text: 'Great app! I use it on my iPhone. I have a Suunto watch and all my moves are automatically uploaded to Staminity from Strava. Only once I set up an auto sync and after that everything does not cause any inconvenience.'
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/denis-razin.jpg',
+                    author: 'Denis Razin',
+                    about: 'Triathlete',
+                    country: '',
+                    text: 'Inevitably, something is needed for planning, both to coaches and students. Staminity is an excellent alternative to TrainingPeaks, with fast support and constant updates. Convenient, transparent, good analytics'
+                }
+
+                ]
             },
             externalInfo: true,
             moreScenario: {
@@ -281,6 +316,12 @@ export const landingConfig: LandingConfig = {
                 subtitle: '',
                 text: '',
                 picture: 'https://264710.selcdn.ru/assets/images/website/screens/activity-analysis-01.png',
+            },{
+                code: 'block5',
+                title: '',
+                subtitle: '',
+                text: '',
+                picture: 'https://264710.selcdn.ru/assets/images/website/screens/analytics.png',
             }
             ],
             externalInfo: true,
@@ -598,7 +639,47 @@ export const landingConfig: LandingConfig = {
             externalInfo: false,
             moreScenario: {
                 code: ["workWithCoach","trainingPlans","selfTraining"]
-            }
+            },
+            reviews: {
+                ru: [{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/oleg-lenkov.jpg',
+                    author: 'Олег Ленков',
+                    about: 'Триатлет, клуб JustTri',
+                    country: '',
+                    text: '#Staminity – именно в этом приложении я теперь работаю. Спасибо #justtri. Убеждён, что это самое современное, крутое и удобное приложение, среди аналогов. Нравится все, начиная от функционала, и заканчивая дизайном. Особая гордость - то, что это 🇷🇺 наша разработка.'
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/alexei-lukashin.jpg',
+                    author: 'Алексей Лукашин',
+                    about: 'Спортсмен, клуб InstaRUN',
+                    country: '',
+                    text: 'Классная программа! Пользуюсь приложением на айфоне. У меня часы suunto, тренировки приходится выгружать через Strava, один раз настроил и все, неудобств не доставляет.'
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/denis-razin.jpg',
+                    author: 'Денис Разин',
+                    about: 'Триатлет',
+                    country: '',
+                    text: 'Неизбежно что-то нужно для планирования, как тренерам, так и ученикам. Staminity – отличная альтернатива TrainingPeaks, с быстрой поддержкой и постоянными обновлениями. Удобно, прозрачно, хорошая аналитика.'
+                }
+                ],
+                en: [{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/oleg-lenkov.jpg',
+                    author: 'Oleg Lenkov',
+                    about: 'Triathlete, JustTri club',
+                    country: '',
+                    text: '#Staminity - I\'m now working in this application. Thanks #justtri. I am convinced that this is the most modern, cool and user-friendly application, among peers. I like everything from functionality to design. Particular pride is that this is Russian development.'
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/alexei-lukashin.jpg',
+                    author: 'Alexei Lukashin',
+                    about: 'Runner, InstaRUN club',
+                    country: '',
+                    text: 'Great app! I use it on my iPhone. I have a Suunto watch and all my moves are automatically uploaded to Staminity from Strava. Only once I set up an auto sync and after that everything does not cause any inconvenience.'
+                },{
+                    avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/denis-razin.jpg',
+                    author: 'Denis Razin',
+                    about: 'Triathlete',
+                    country: '',
+                    text: 'Inevitably, something is needed for planning, both to coaches and students. Staminity is an excellent alternative to TrainingPeaks, with fast support and constant updates. Convenient, transparent, good analytics'
+                }]}
         },
         {
             code: 'coaches',
@@ -648,7 +729,7 @@ export const landingConfig: LandingConfig = {
     footer: [
         {
             code: 'product',
-            links: ['link1', 'link2', 'link3', 'link4']
+            links: ['link1', 'link2', 'link3', 'link4', 'link5', 'link6', 'link7']
         },
         {
             code: 'scenarios',
@@ -667,6 +748,27 @@ export const landingConfig: LandingConfig = {
         {
             type: 'state',
             icon: 'methodology',
+            title: 'landing.athletes.shortTitle',
+            state: 'athletes',
+            stateParams: null
+        },
+        {
+            type: 'state',
+            icon: 'methodology',
+            title: 'landing.coaches.shortTitle',
+            state: 'coaches',
+            stateParams: null
+        },
+        {
+            type: 'state',
+            icon: 'methodology',
+            title: 'landing.clubs.shortTitle',
+            state: 'clubs',
+            stateParams: null
+        },
+        {
+            type: 'state',
+            icon: 'methodology',
             title: 'landing.featuresNew.shortTitle',
             state: 'featuresNew',
             stateParams: null
@@ -681,14 +783,14 @@ export const landingConfig: LandingConfig = {
         {
             type: 'state',
             icon: 'search',
-            title: 'search.tabs.coaches',
+            title: 'search.coach',
             state: 'search',
             stateParams: null
         },
         {
             type: 'state',
             icon: 'search',
-            title: 'trainingPlans.store.shortTitle',
+            title: 'trainingPlans.store.fullTitle',
             state: 'training-plans-store',
             stateParams: null
         },

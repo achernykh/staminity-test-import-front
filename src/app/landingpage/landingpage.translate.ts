@@ -419,6 +419,12 @@ export let _translate = {
                 text: "Цвет тренировки покажет степень соответствия плану.<br>" +
                 "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
             },
+            block5: {
+                title: 'Контролируйте подготовку',
+                subtitle: '',
+                text: "Настройте свой набор отчетов и контролируйте подготовку. <br>" +
+                "Доступны различные отчеты: тренировочные объемы, время в зонах, пики интенсивности, процент выполнения плана, тренировочная нагрузка и т.п.",
+            },
             externalInfo: 'Найдите тренера по бегу, триатлону, велоспорту, плаванию, лыжам и другим циклическим видам спорта в Staminity. ' +
             'Если вы только хотите начать заниматься спортом, ищите лучший способ подготовиться к выбранной дистанции или хотите улучшить личный рекорд, тренеры в Staminity помогут вам в этом. ' +
             'Выберите тренера по бегу и пробегите первые 10 км, полумарафон или марафон. Выберите тренера по триатлону для подговки к IRONMAN, IRONSTAR и другим соревнованиям по триатлону.',
@@ -463,6 +469,12 @@ export let _translate = {
                 subtitle: '',
                 text: "Цвет тренировки покажет степень соответствия плану.<br>" +
                 "Для детального анализа доступны график показателей, детали по сегментам и кругам, карта, рассчитываемые показатели  по всей тренировке, по каждому кругу, сегменту и любому отрезку",
+            },
+            block5: {
+                title: 'Контролируйте подготовку',
+                subtitle: '',
+                text: "Настройте свой набор отчетов и контролируйте подготовку. <br>" +
+                "Доступны различные отчеты: тренировочные объемы, время в зонах, пики интенсивности, процент выполнения плана, тренировочная нагрузка и т.п.",
             },
             externalInfo: 'Найдите тренировочный план по бегу, триатлону и другим циклическим видам спорта в Staminity. ' +
             'Тренировочные планы по бегу в Staminity помогут подготовиться и пробежать первые 10 км, полумарафон или марафон. ' +
@@ -1279,6 +1291,12 @@ export let _translate = {
                 text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
                 "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
             },
+            block5: {
+                title: 'Control your training process',
+                subtitle: '',
+                text: "Set up your own set of reports and control the training process. <br>" +
+                "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
+            },
             externalInfo: 'Find an online coach for running, triathlon, cycling, swimming, skiing and other cyclic sports in Staminity. '+
             'If you just want to start regular excercises or look for the best way to prepare for the chosen distance or want to improve your personal best, the Staminity coaches will help you with this. '+
             'Choose an online running coach for your first 10 km race, half marathon or marathon. Choose a triathlon coach to prepare for IRONMAN, IRONSTAR and other triathlon competitions.',
@@ -1323,6 +1341,12 @@ export let _translate = {
                 subtitle: '',
                 text: "The activity’s color will indicate the level of its compliance with the plan. <br>" +
                 "For detailed analysis, there are indicators chart, details on segments and laps, map, indicators calculated for whole activity, for each lap, segment or any part of the activity.",
+            },
+            block5: {
+                title: 'Control your training process',
+                subtitle: '',
+                text: "Set up your own set of reports and control the training process. <br>" +
+                "Different reports are available: completed duration/distance, time in zones, intensity peaks, percentage of the plan completion, training load etc.",
             },
             externalInfo: 'Find a training plan for running, triathlon and other cyclic sports in Staminity. '+
             'Training plans for running will help to prepare and run your first 10 km, half marathon or marathon. '+
