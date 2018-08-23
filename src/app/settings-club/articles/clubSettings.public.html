@@ -72,7 +72,7 @@
                                  md-items="city in $ctrl.citySearch($ctrl.club.public.city)"
                                  md-item-text="city.description"
                                  md-require-match
-                                 md-floating-label="{{'user.settings.personalInfo.main.city'|translate}}">
+                                 md-floating-label="{{'settingsClub.personalInfo.main.city'|translate}}">
                     <md-item-template>
                         <span md-highlight-text="$ctrl.citySearchText">{{city.description}}</span>
                     </md-item-template>
@@ -100,7 +100,7 @@
                 </md-input-container>
             </md-list-item>
             <!-- О себе -->
-            <md-subheader class="md-padding" translate="user.settings.personalInfo.about"></md-subheader>
+            <md-subheader class="md-padding" translate="settingsClub.personalInfo.about"></md-subheader>
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.about"
@@ -116,11 +116,11 @@
                 </md-input-container>-->
             </md-list-item>
             <!-- Условия -->
-            <md-subheader class="md-padding" translate="user.price"></md-subheader>
+            <md-subheader class="md-padding" translate="settingsClub.personalInfo.price"></md-subheader>
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.price"
-                                 placeholder="{{'user.settings.personalInfo.priceFull' | translate}}"
+                                 placeholder="{{'settingsClub.personalInfo.priceFull' | translate}}"
                                  modules="$ctrl.quillConf.toolbarFull"
                                  on-content-changed="$ctrl.changeForm()"
                                  read-only="$ctrl.isViewMode"
@@ -132,11 +132,11 @@
                 </md-input-container>-->
             </md-list-item>
             <!-- Контакты -->
-            <md-subheader class="md-padding" translate="user.settings.personalInfo.contact"></md-subheader>
+            <md-subheader class="md-padding" translate="settingsClub.personalInfo.contact"></md-subheader>
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.contact"
-                                 placeholder="{{'user.settings.personalInfo.contactFull' | translate}}"
+                                 placeholder="{{'settingsClub.personalInfo.contactFull' | translate}}"
                                  modules="$ctrl.quillConf.toolbarFull"
                                  on-content-changed="$ctrl.changeForm()"
                                  read-only="$ctrl.isViewMode"
@@ -148,11 +148,11 @@
                 </md-input-container>-->
             </md-list-item>
             <!-- Достижения атлетов -->
-            <md-subheader class="md-padding" translate="user.athletes"></md-subheader>
+            <md-subheader class="md-padding" translate="settingsClub.personalInfo.athletes"></md-subheader>
             <md-list-item flex layout="row">
                 <ng-quill-editor ng-if="true" flex="auto"
                                  ng-model="$ctrl.club.public.athletes"
-                                 placeholder="{{'user.settings.personalInfo.athletesFull' | translate}}"
+                                 placeholder="{{'settingsClub.personalInfo.athletesFull' | translate}}"
                                  modules="$ctrl.quillConf.toolbarFull"
                                  on-content-changed="$ctrl.changeForm()"
                                  read-only="$ctrl.isViewMode"
@@ -164,7 +164,7 @@
                 </md-input-container>-->
             </md-list-item>
             <md-list-item>
-                <p>{{'user.settings.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'user.settings.personalInfo.isFreeTrue' : 'user.settings.personalInfo.isFreeFalse' | translate}}</p>
+                <p>{{'settingsClub.personalInfo.isFree' | translate}}:&nbsp;{{$ctrl.club.public.isFree? 'settingsClub.personalInfo.isFreeTrue' : 'settingsClub.personalInfo.isFreeFalse' | translate}}</p>
                 <md-switch class="md-secondary" ng-model="$ctrl.club.public.isFree"></md-switch>
             </md-list-item>
 
