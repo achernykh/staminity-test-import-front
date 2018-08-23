@@ -1,7 +1,7 @@
 import {AnalyticsConfig} from "@app/analytics/analytics.constants";
 import {IHttpService} from "angular";
 import { SocketService } from "../core/socket/socket.service";
-import { GetChartSettings, PostChartSettings } from "../../../api/statistics/statistics.request";
+import { GetChartSettings, PostChartSettings, DeleteChartSettings } from "../../../api/statistics/statistics.request";
 
 export class AnalyticsService {
     static $inject = ['$http', 'analyticsConfig', 'SocketService'];
@@ -17,6 +17,10 @@ export class AnalyticsService {
 
     saveChartSettings (id: number, settings: any): Promise<any> {
         return this.socket.send(new PostChartSettings({id, ...settings}));
+    }
+
+    deleteChartSettings (id: number): Promise<any> {
+        return this.socket.send(new DeleteChartSettings({id}));
     }
 
     getTemplates (codes: string[] = this.config.charts): Promise<any> {

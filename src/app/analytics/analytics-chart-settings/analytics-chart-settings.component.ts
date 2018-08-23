@@ -5,10 +5,11 @@ import { AnalyticsChartFilter, IAnalyticsChartSettings } from "../analytics-char
 import { IAnalyticsChart } from "../analytics-chart/analytics-chart.interface";
 import { AnalyticsService } from "../analytics.service";
 import MessageService from "../../core/message.service";
+import { AnalyticsChart } from "../analytics-chart/analytics-chart.model";
 
 class AnalyticsChartSettingsCtrl implements IComponentController {
 
-    chart: IAnalyticsChart;
+    chart: AnalyticsChart;
 
     private globalFilter: AnalyticsChartFilter;
     private localFilter: AnalyticsChartFilter;
@@ -22,6 +23,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     private settingsForm: INgModelController;
     private isChangeLocalParams: boolean = false;
     private isChangeSettings: boolean = false;
+    private isChangeCompareSettings: boolean = false;
 
     onSave: (response: {chart: IAnalyticsChart, update: boolean}) => IPromise<void>;
     static $inject = ["$filter", 'AnalyticsService', 'message'];
@@ -46,9 +48,6 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         if ( mode === "fromSettings" && this.chart.localParams ) {
             this.localFilter = this.chart.localParams as AnalyticsChartFilter;
         }
-
-        debugger;
-
         if ( mode === "fromGlobal" ) {
             this.localFilter = new AnalyticsChartFilter(
                 this.globalFilter.user,
@@ -56,12 +55,14 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                 this.chart.localParams,
                 this.$filter);
             this.localFilter.setUsersModel(this.globalFilter.users.model);
-            this.localFilter.setActivityTypes(this.globalFilter.activityTypes.model, "single", false);
+            this.localFilter.setActivityTypes(
+                this.chart.localParams && this.chart.localParams.activityTypes && this.chart.localParams.activityTypes ||
+                this.globalFilter.activityTypes.model, "single", false);
             this.localFilter.setActivityTypesOptions(activityTypes);
             this.localFilter.setActivityCategories(this.globalFilter.activityCategories.model);
             this.localFilter.setPeriods(
-                this.chart.localParams && this.chart.localParams.periods.model || this.globalFilter.periods.model,
-                this.chart.localParams && this.chart.localParams.periods.data || this.globalFilter.periods.data);
+                this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model || this.globalFilter.periods.model,
+                this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.data || this.globalFilter.periods.data);
         }
     }
 
@@ -89,6 +90,12 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             delete this.chart.localParams[param];
             if (Object.keys(this.chart.localParams).length === 0) { delete this.chart.localParams; }
         }
+
+        if (this.chart.compareSettings && this.chart.compareSettings.type === param) {
+            this.chart.compareSettings.mode = this.localFilter[param].model;
+            this.isChangeCompareSettings = true;
+        }
+
         this.isChangeLocalParams = true;
     }
 
@@ -133,6 +140,13 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         return this.chart.charts[param.ind[0]].measures.filter((a) => a.idx === idx)[0][param.multiTextParam];
     }
 
+    restore (): void {
+        this.chart.restore();
+        this.analyticsService.deleteChartSettings(this.chart.id)
+            .then(_ => this.messageService.toastInfo('analyticsDeleteChartSettingsComplete'),
+            e => e ? this.messageService.toastError(e) : this.messageService.toastError('analyticsDeleteChartSettingsError'));
+    }
+
     save () {
         /**if ( !this.globalParams ) {
             this.chart.charts[0].params = this.localFilter.chartParams();
@@ -141,6 +155,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         let changes: any = {};
         if ( this.isChangeSettings ) { this.chart.settings = changes.settings = this.settings; }
         if ( this.isChangeLocalParams ) { changes.localParams = this.chart.localParams; }
+        if ( this.isChangeCompareSettings ) { changes.compareSettings = this.chart.compareSettings; }
         if (changes) {
             this.analyticsService.saveChartSettings(this.chart.id, {code: this.chart.code, ...changes})
                 .then(_ => this.messageService.toastInfo('analyticsSaveChartSettingsComplete'),

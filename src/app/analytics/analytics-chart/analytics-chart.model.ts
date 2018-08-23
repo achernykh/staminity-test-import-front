@@ -6,8 +6,13 @@ import { activityTypes } from "../../activity/activity.constants";
 import { _measurement_calculate } from "../../share/measure/measure.constants";
 import { peaksByTime } from "../../share/measure/measure.filter";
 import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-filter.model";
-import { IAnalyticsChartDescriptionParams, IAnalyticsChart, IChartData } from "./analytics-chart.interface";
-import {IAnalyticsChartSettings} from "@app/analytics/analytics-chart-filter/analytics-chart-filter.model";
+import {
+    IAnalyticsChartDescriptionParams,
+    IAnalyticsChart,
+    IAnalyticsChartCompareSettings,
+    IChartData
+} from "./analytics-chart.interface";
+import { IAnalyticsChartSettings } from "@app/analytics/analytics-chart-filter/analytics-chart-filter.model";
 
 export class AnalyticsChartLayout {
     gridColumn: number;
@@ -44,20 +49,21 @@ export class AnalyticsChart implements IAnalyticsChart {
     localParams?: AnalyticsChartFilter;
     paramsDescription?: string;
     layout: AnalyticsChartLayout;
+    compareSettings?: IAnalyticsChartCompareSettings;
     settings?: Array<IAnalyticsChartSettings<any>>; // Параметры, которые можно менять в графике
     charts: IChart[];
     data: IChartData[];
 
     isAuthorized: boolean; //результат проверки полномочий пользователя
 
-    private keys: string[] = ["params", "user", "categories", "isAuthorized", "globalFilter", "keys"];
+    private keys: string[] = ["template", "user", "categories", "isAuthorized", "globalFilter", "keys"];
 
-    constructor (private params?: IAnalyticsChart,
+    constructor (private template?: IAnalyticsChart,
                  private user?: IUserProfile,
                  private globalFilter?: AnalyticsChartFilter,
                  private $filter?: any) {
 
-        Object.assign(this, params);
+        Object.assign(this, template);
         if ( this.hasOwnProperty("layout") && this.layout ) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
         }
@@ -94,7 +100,7 @@ export class AnalyticsChart implements IAnalyticsChart {
     }
 
     changeSettings (param: IAnalyticsChartSettings<any>, value) {
-        switch (param.area) {
+        switch ( param.area ) {
             case "series": {
                 param.ind.map((ind) =>
                     this.charts[ind].series
@@ -114,6 +120,12 @@ export class AnalyticsChart implements IAnalyticsChart {
             }
         }
     }
+
+    restore (): void {
+        if (this.hasOwnProperty('localParams')) { delete this.localParams; }
+        Object.assign(this, this.template);
+    }
+
 
     private prepareLocalParams (user: IUserProfile) {
 
@@ -165,11 +177,11 @@ export class AnalyticsChart implements IAnalyticsChart {
     }
 
     calcData (): void {
-        if (!this.charts.some(c => c.metrics.length > 0 || !this.data)) {return;}
+        if ( !this.charts.some(c => c.metrics.length > 0 || !this.data) ) {return;}
         this.data.map(d => {
             d.compile.value = null;
             d.compile.formula.forEach(f => {
-                switch (f) {
+                switch ( f ) {
                     case "start": {
                         d.compile.value = this.charts[d.compile.ind].metrics[0][d.compile.idx];
                         break;
@@ -181,35 +193,35 @@ export class AnalyticsChart implements IAnalyticsChart {
                     }
                     case "last": {
                         this.charts[d.compile.ind].metrics.map(v =>
-                            v[d.compile.idx] && (d.compile.value = v[d.compile.idx]));
+                        v[d.compile.idx] && (d.compile.value = v[d.compile.idx]));
                         break;
                     }
                     case "sum": {
                         this.charts[d.compile.ind].metrics.map(v =>
-                            v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
                         break;
                     }
                     case "avg": {
                         let length: number = this.charts[d.compile.ind].metrics.length;
                         this.charts[d.compile.ind].metrics.map(v =>
-                            v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
                         d.compile.value = length > 1 ?
-                            (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1) :
+                        (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1) :
                             d.compile.value;
                         break;
                     }
                     case "max": {
                         this.charts[d.compile.ind].metrics.map(v =>
-                            v[d.compile.idx] && (d.compile.value = Math.max(d.compile.value, v[d.compile.idx])));
+                        v[d.compile.idx] && (d.compile.value = Math.max(d.compile.value, v[d.compile.idx])));
                         break;
                     }
                 }
             });
         });
         this.data.map(d => {
-            if (d.compile.subValue) {
+            if ( d.compile.subValue ) {
                 d.compile.subValue.formula.forEach(f => {
-                    switch (f) {
+                    switch ( f ) {
                         case 'subtract': {
                             d.compile.subValue.value = d.compile.value;
                             d.compile.subValue.params.forEach(p =>

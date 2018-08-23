@@ -52,6 +52,7 @@
     <div ng-switch-when="true" flex="auto" layout="column" class="analytics-chart__data">
         <universal-chart flex="auto"
                          data="$ctrl.chart.charts"
+                         compare-settings="$ctrl.chart.compareSettings"
                          filter="true"
                          update="$ctrl.updateCount + $ctrl.panelChanges">
         </universal-chart>

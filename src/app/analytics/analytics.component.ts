@@ -114,8 +114,15 @@ export class AnalyticsCtrl implements IComponentController {
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.globalFilter.transfer());
     }
 
-    private setPeriod (type: string, param: string = 'period'): void {
+    private setPeriod (type: string, param: string = 'periods'): void {
         this.globalFilter.periods.model = type;
+        this.globalFilter.changeParam(param);
+        this.globalFilterChange ++;
+    }
+
+    private setUser (userId: number, param: string = 'users'): void {
+        this.user = this.athletes.filter(a => a.userId === userId)[0] || this.owner;
+        this.globalFilter.users.model = [userId];
         this.globalFilter.changeParam(param);
         this.globalFilterChange ++;
     }

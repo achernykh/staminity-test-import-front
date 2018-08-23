@@ -32,10 +32,13 @@ $padding: 0;
   .button-toolbar .md-icon-button { display: none; opacity: 0; transition: opacity 1s }
   .button-toolbar .md-icon-button.has-badge { display: block; opacity: 1;}
   .analytics-chart-data:last-child { border-right: none !important; }
-  universal-chart { .axis.measure-axis { display: none; opacity: 0; transition: opacity 1s } }
+  //universal-chart { .axis.measure-axis { display: none; opacity: 0; transition: opacity 1s } }
 
   &.active {
     universal-chart .axis.measure-axis, .button-toolbar .md-icon-button { display: block; opacity: 1; }
   }
-
+  st-analytics-chart-data {
+    width: 100px;
+    margin-right: 16px;
+  }
 }

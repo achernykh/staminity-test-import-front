@@ -2,9 +2,9 @@ $bullet: 16px;
 $bullet-radius: 8px;
 
 .analytics-chart-data {
-  padding-right: $bullet;
+  padding-right: 0;
   border-right: 1px solid rgba(black, 0.5);
-  margin-right: $bullet;
+  margin-right: 0;
 
   .measure { margin-top: 0; margin-bottom: 8px; }
   .md-title, .md-body-1 { margin: 0; text-transform: capitalize; }

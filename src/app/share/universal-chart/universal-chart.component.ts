@@ -6,10 +6,13 @@ import { IChart, IChartMeasure } from "../../../../api/statistics/statistics.int
 import { _measurement_calculate } from "../measure/measure.constants";
 import { peaksByTime } from "../measure/measure.filter";
 import { deepCopy } from "../data/data.finctions";
+import { IAnalyticsChartCompareSettings } from "../../analytics/analytics-chart/analytics-chart.interface";
+import { comparePeriodTransform } from "../../analytics/analytics-chart-filter/analytics-chart-filter.function";
 
 class UniversalChartCtrl implements IComponentController {
 
     data: IChart[];
+    compareSettings: IAnalyticsChartCompareSettings;
     update: number;
     filter: boolean;
     onEvent: (response: Object) => IPromise<void>;
@@ -62,18 +65,26 @@ class UniversalChartCtrl implements IComponentController {
                 return measures;
             });
 
-            this.chart[ci].metrics = this.chart[ci].metrics.map((m) => {
+            this.chart[ci].metrics = this.chart[ci].metrics.map((m, mi) => {
                 const metric: any[] = [];
                 m.map((value, i) => {
                     const params: IChartMeasure =
                         this.chart[ci].series.filter((s) => s.idx === i)[0] ||
                         this.chart[ci].measures.filter((s) => s.idx === i)[0];
-                    value === "NaN" || value === "Infinity" ? value = null : value = value;
+                    if (value === "NaN" || value === "Infinity") { value = null; }
                     if ( params ) {
                         if ( value === null ) {
-                            metric.push(value);
+                            metric.push(params.cumulative && Date.parse(this.chart[ci].metrics[mi][0]) &&
+                                new Date(this.chart[ci].metrics[mi][0]) > new Date() ? undefined : null);
                         } else if ( params.dataType === "date" ) {
-                            metric.push(moment(value).format("MM-DD-YYYY"));
+                            if (this.compareSettings && this.compareSettings.visible &&
+                                this.compareSettings.ind === ci && this.compareSettings.type === 'periods') {
+                                console.debug('compare', this.compareSettings.ind, ci, value);
+                                //metric.push(comparePeriodTransform(this.compareSettings.mode, value));
+                                metric.push(mi < this.chart[ci + 1].metrics.length ?
+                                    moment(this.chart[ci + 1].metrics[mi][i]).format("MM-DD-YYYY") :
+                                    moment(this.chart[ci + 1].metrics[this.chart[ci + 1].metrics.length - 1][i]).format("MM-DD-YYYY"));
+                            } else { metric.push(moment(value).format("MM-DD-YYYY")); }
                         } else if ( ["duration", "heartRateMPM", "powerMPM", "speedMPM"].indexOf(params.measureName) !== -1 ) {
                             metric.push(value / 60 / 60);
                         } else if ( params.measureName === "distance" ) {
@@ -102,6 +113,7 @@ class UniversalChartCtrl implements IComponentController {
                 return metric;
             });
         });
+        console.debug('prepared chart:', this.chart);
     }
 
 }
@@ -109,6 +121,7 @@ class UniversalChartCtrl implements IComponentController {
 const UniversalChartComponent: IComponentOptions = {
     bindings: {
         data: '=',
+        compareSettings: '=',
         filter: '=',
         update: '<',
         onEvent: '&'

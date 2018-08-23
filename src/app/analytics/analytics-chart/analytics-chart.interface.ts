@@ -43,6 +43,13 @@ export interface IChartData {
     visible: boolean;
 }
 
+export interface IAnalyticsChartCompareSettings {
+    type: 'periods' | 'users';
+    mode: string;
+    ind: number;
+    visible: boolean;
+}
+
 export interface IAnalyticsChart {
     id: number;
     order: number;
@@ -53,6 +60,7 @@ export interface IAnalyticsChart {
     code: string;
     descriptionParams?: IAnalyticsChartDescriptionParams[]; //Контекст переводов для заголовка отчета
     description?: string; // = analytics.[code].description
+    compareSettings?: IAnalyticsChartCompareSettings;
     settings?: Array<IAnalyticsChartSettings<any>>; // Параметры, которые можно менять в графике
     //filter: IAnalyticsChartFilter;
     globalParams?: boolean;

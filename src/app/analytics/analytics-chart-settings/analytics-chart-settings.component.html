@@ -2,6 +2,9 @@
     <div class="md-toolbar-tools">
         <h2 class="">{{::'analytics.settings.title' | translate}}</h2>
         <span flex></span>
+        <md-button ng-if="$ctrl.chart.id > 0" class="md-icon-button" ng-click="$ctrl.restore()">
+            <md-icon class="material-icons md-dark" aria-label="Close dialog">restore</md-icon>
+        </md-button>
         <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
             <md-tooltip md-direction="left">{{::'activity.settings.close' | translate}}</md-tooltip>
             <md-icon class="material-icons md-dark" aria-label="Close dialog">close</md-icon>
@@ -47,7 +50,7 @@
                                md-selected-text="$ctrl.localFilter.activityTypesSelectedText()"
                                ng-model="$ctrl.localFilter.activityTypes.model"
                                ng-change="$ctrl.changeParams('activityTypes')">
-                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{enabled: true}"
+                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{}"
                                    value="{{type.id}}">
                             {{'sport.' + type.code | translate}}
                         </md-option>
