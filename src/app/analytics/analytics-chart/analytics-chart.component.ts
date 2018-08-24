@@ -7,9 +7,18 @@ import { AnalyticsChartFilter, IAnalyticsChartSettings } from "../analytics-char
 import { AnalyticsCtrl } from "../analytics.component";
 import { AnalyticsChart } from "./analytics-chart.model";
 import { periodByType, comparePeriodType } from "../analytics-chart-filter/analytics-chart-filter.function";
+import { isArray } from "@reactivex/rxjs/dist/cjs/util/isArray";
+import { IUserConnections, IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
+
+const prepareUsers = (param: string, athletes: IUserProfileShort[]): number[] => {
+    switch (param) {
+        case 'first5': return athletes.filter((a, i) => i < 5).map((a) => a.userId);
+    }
+};
 
 class AnalyticsChartCtrl implements IComponentController {
 
+    owner: IUserProfile;
     analytics: AnalyticsCtrl;
     chart: AnalyticsChart;
     globalFilter: AnalyticsChartFilter;
@@ -46,8 +55,8 @@ class AnalyticsChartCtrl implements IComponentController {
 
     loadData (): void {
         this.chart.clearMetrics();
-        this.prepareTitleContext();
         this.prepareSettings();
+        this.prepareTitleContext();
         this.prepareParams();
         this.prepareData();
     }
@@ -58,7 +67,6 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     onSettings (env: Event) {
-        //debugger;
         //this.config.openFrom = env;
         //this.$mdPanel.open(this.config);
         this.$mdDialog.show({
@@ -103,9 +111,9 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private updateSettings (chart: AnalyticsChart, update: boolean) {
         this.chart = copy(chart);
+        this.prepareSettings();
         this.prepareTitleContext();
         if ( update ) {
-            this.prepareSettings();
             this.prepareParams();
             this.prepareData();
         }
@@ -176,7 +184,6 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private prepareSettings (): void {
         if ( !this.chart.settings ) { return; }
-        debugger;
         this.chart.settings.map(s => this.chart.changeSettings(s, s.model));
     }
 
@@ -197,9 +204,14 @@ class AnalyticsChartCtrl implements IComponentController {
             periods: this.getPeriods() || null,
             activityCategories: this.globalFilter.activityCategories.model
         };
-        debugger;
 
         this.chart.charts.map((c, i) => Object.keys(c.params).map(k => c.params[k] = params[k] || c.params[k])); // = Object.assign(c.params, params));
+
+        // Если фильтр пользователей задан переменной
+        this.chart.charts.map(c =>
+            c.params.hasOwnProperty('users') && !isArray(c.params.users) &&
+            (c.params.users = prepareUsers(c.params.users as string, this.owner.connections.allAthletes && this.owner.connections.allAthletes.groupMembers)));
+
         // Если есть ichart для сравнения
         if ( this.chart.compareSettings && this.chart.compareSettings.visible ) {
             this.chart.charts[this.chart.compareSettings.ind].params.periods =
@@ -260,6 +272,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
 const AnalyticsChartComponent: IComponentOptions = {
     bindings: {
+        owner: '=',
         chart: "<",
         globalFilter: "<",
         globalFilterChange: "<",

@@ -100,9 +100,7 @@ export class AnalyticsChart implements IAnalyticsChart {
     }
 
     changeSettings (param: IAnalyticsChartSettings<any>, value) {
-
         if (!param.change) { return; }
-
         param.change.forEach(change => {
             switch ( change.area ) {
                 case "params": {

@@ -4,6 +4,7 @@
   "active": false,
   "revision": 1,
   "auth": [],
+  "premiumFunction": "pmc",
   "icon": "insert_chart",
   "code": "fitnessFatigueForm",
   "context": [
@@ -26,20 +27,20 @@
     {
       "type": "radio",
       "text": "lastDays",
-      "model": "90",
-      "options": ["180", "90", "30"],
+      "model": "90d",
+      "options": ["180d", "90d", "30d"],
       "change": [{
         "ind": [0],
         "area": "params",
         "name": "lastDays",
         "options": {
-          "180": {
+          "180d": {
             "lastDays": 180
           },
-          "90": {
+          "90d": {
             "lastDays": 90
           },
-          "30": {
+          "30d": {
             "lastDays": 30
           }
         }
@@ -48,20 +49,20 @@
     {
       "type": "radio",
       "text": "futDays",
-      "model": "30",
-      "options": ["60", "30", "0"],
+      "model": "30d",
+      "options": ["60d", "30d", "0d"],
       "change": [{
         "ind": [1],
         "area": "params",
         "name": "futDays",
         "options": {
-          "60": {
+          "60d": {
             "futDays": 60
           },
-          "30": {
+          "30d": {
             "futDays": 30
           },
-          "0": {
+          "0d": {
             "futDays": 0
           }
         }

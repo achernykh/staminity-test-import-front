@@ -1,3 +1,7 @@
+<st-premium-wrapper ng-if="$ctrl.chart.premiumFunction"
+                    class="premium-wrapper"
+                    function-code="$ctrl.chart.premiumFunction">
+</st-premium-wrapper>
 <div class="analytics-chart"
             ng-switch="$ctrl.chart.hasMetrics()" layout="column"
             ng-mouseover="$ctrl.showMenu = true"

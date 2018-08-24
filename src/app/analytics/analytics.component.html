@@ -99,6 +99,7 @@
                                  ng-repeat="chart in $ctrl.charts"
                                  ng-style="chart.layout.style"
                                  ng-class="{'full-screen': chart.layout.fullScreen}"
+                                 owner="$ctrl.owner"
                                  chart="chart"
                                  global-filter="$ctrl.globalFilter"
                                  global-filter-change="$ctrl.globalFilterChange"
