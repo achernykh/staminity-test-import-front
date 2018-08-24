@@ -19,7 +19,7 @@ class SearchFilterCtrl implements IComponentController {
 
     $onInit () {
         this.filter.activityTypes = this.filter.activityTypes || [];
-        this.filter.coachLanguage = this.filter.coachLanguage || [this.displayService.getLocale()];
+        this.filter.coachLanguage = this.filter.coachLanguage || [];//[this.displayService.getLocale()];
     }
     private change (): void {
         this.onChangeFilter({filter: this.filter});

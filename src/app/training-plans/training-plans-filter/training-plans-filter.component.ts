@@ -9,6 +9,7 @@ import { supportLng } from "../../core/display.constants";
 import { SearchService } from "../../search/search.service";
 import { SearchResultByUser } from "../../search/search";
 import DisplayService from "../../core/display.service";
+import {deepCopy} from "../../share/data/data.finctions";
 
 export class TrainingPlansFilterCtrl implements IComponentController {
 
@@ -19,6 +20,7 @@ export class TrainingPlansFilterCtrl implements IComponentController {
 
     // public
     // private
+    private datamodel: ITrainingPlanSearchRequest;
     private owner: Array<SearchResultByUser> = [];
     private panel: 'plans' | 'events' | 'hide' = 'plans';
     private weekCountRange: any;
@@ -37,16 +39,17 @@ export class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     $onInit () {
-        this.filter.keywords = this.filter.keywords || [];
-        this.filter.tags = this.filter.tags || [];
-        this.filter.lng = this.filter.lng || [this.displayService.getLocale()];
-        if (this.filter.weekCountFrom) {
-            this.weekCountRange = this.config.weekRanges.findIndex(r => r[0] === this.filter.weekCountFrom);
+        this.datamodel = deepCopy(this.filter);
+        this.datamodel.keywords = this.datamodel.keywords || [];
+        this.datamodel.tags = this.datamodel.tags || [];
+        this.datamodel.lng = this.datamodel.lng || []; //[this.displayService.getLocale()];
+        if (this.datamodel.weekCountFrom) {
+            this.weekCountRange = this.config.weekRanges.findIndex(r => r[0] === this.datamodel.weekCountFrom);
         }
-        if (this.filter.ownerId) {
-            this.getOwner(this.filter.ownerId);
+        if (this.datamodel.ownerId) {
+            this.getOwner(this.datamodel.ownerId);
         }
-        //this.onChangeFilter({filter: this.filter});
+        //this.onChangeFilter({filter: this.datamodel});
     }
 
     onPost (env: Event) {
@@ -54,18 +57,18 @@ export class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     get distanceType () : any {
-        return this.filter.type && this.competitionConfig.distanceTypes
-                .find((t) => t.type === this.filter.type && t.code === this.filter.distanceType);
+        return this.datamodel.type && this.competitionConfig.distanceTypes
+                .find((t) => t.type === this.datamodel.type && t.code === this.datamodel.distanceType);
     }
 
     set distanceType (distanceType: any) {
         distanceType = JSON.parse(distanceType);
         distanceType.hasOwnProperty('code') ?
-            this.filter.distanceType = distanceType.code : this.filter.distanceType = distanceType;
+            this.datamodel.distanceType = distanceType.code : this.datamodel.distanceType = distanceType;
     }
 
     private change (): void {
-        this.onChangeFilter({filter: this.filter});
+        this.onChangeFilter({filter: this.datamodel});
     }
 
     private toggle (item, list): void {
@@ -76,7 +79,7 @@ export class TrainingPlansFilterCtrl implements IComponentController {
         else {
             list.push(item);
         }
-        this.onChangeFilter({filter: this.filter});
+        this.onChangeFilter({filter: this.datamodel});
     }
 
     private exists (item, list): boolean {
@@ -84,17 +87,17 @@ export class TrainingPlansFilterCtrl implements IComponentController {
     }
 
     private changeRange (item: Array<number>, param: string ): void {
-        [this.filter[param+'From'], this.filter[param+'To']] = [...item];
-        this.onChangeFilter({filter: this.filter});
+        [this.datamodel[param+'From'], this.datamodel[param+'To']] = [...item];
+        this.onChangeFilter({filter: this.datamodel});
     }
 
-    get isSeacrh(): boolean {
+    get isSearch(): boolean {
         return this.view === 'search';
     }
 
     private changeOwner(owner: Array<SearchResultByUser> = this.$scope.owner): void {
-        this.filter.ownerId = owner && owner[0] && owner[0].userId || undefined;
-        this.onChangeFilter({filter: this.filter});
+        this.datamodel.ownerId = owner && owner[0] && owner[0].userId || undefined;
+        this.onChangeFilter({filter: this.datamodel});
     }
 
     // async owner
@@ -111,7 +114,7 @@ export class TrainingPlansFilterCtrl implements IComponentController {
 const TrainingPlansFilterComponent: IComponentOptions = {
     bindings: {
         view: '=',
-        filter: '<',
+        filter: '=',
         dialog: '=',
         onHide: '&',
         onChangeFilter: '&',

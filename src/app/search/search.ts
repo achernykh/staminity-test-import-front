@@ -10,9 +10,10 @@ export class SearchResultByUser {
     private: any = null;
     //name: string = null;
     athleteCount: number;
+    coachLanguage: string[];
 
     constructor(result: any[]) {
-        [this.userId, this.public, this.private, this.athleteCount] = result;
+        [this.userId, this.public, this.private, this.athleteCount, this.coachLanguage] = result;
         //this.name = `${this.public.lastName} ${this.public.firstName}`;
     }
 
@@ -63,13 +64,14 @@ export class SearchResultByGroup {
     about: string = null;
     groupUri: string = null;
     background: string = null;
+    coachLanguage: string[] = [];
 
     type: number = InitiatorType.club;
 
     constructor(result: any[]) {
         [this.groupId, this.avatar, this.city, this.activityTypes,
             this.memberCount, this.coachCount, this.athleteCount,  this.name, this.about, this.groupUri,
-            this.background] = result;
+            this.background, this.coachLanguage] = result;
     }
 
     get icon(): string {

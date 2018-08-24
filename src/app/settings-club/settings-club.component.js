@@ -7,7 +7,7 @@ import './settings-club.component.scss';
 
 class SettingsClubCtrl {
 
-	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs, message, quillConf) {
+	constructor ($scope, GroupService,ActionMessageService, $locale, $http, dialogs, message, quillConf, config, displayService) {
 		console.log('$locale', $locale)
 		this._NAVBAR = _NAVBAR
 		this._ACTIVITY = ['run', 'swim', 'bike', 'triathlon', 'ski']
@@ -24,6 +24,8 @@ class SettingsClubCtrl {
 		this._$http = $http
 		this.message = message
 		this.quillConf = quillConf
+		this.config = config
+		this.displayService = displayService;
 	}
 
 	$onInit(){
@@ -42,13 +44,13 @@ class SettingsClubCtrl {
 	}
 
 	countrySearch (query) {
-		let search = (key) => this._country_list['ru'][key].toLowerCase().includes(query.toLowerCase())
-		return query? Object.keys(this._country_list['ru']).filter(search) : this._country_list
+		let search = (key) => this._country_list[this.displayService.getLocale()][key].toLowerCase().includes(query.toLowerCase())
+		return query? Object.keys(this._country_list[this.displayService.getLocale()]).filter(search) : this._country_list
 	}
 
 	citySearch (query) {
 		let api = 'https://maps.googleapis.com/maps/api/place/autocomplete/json'
-		let language = 'ru'
+		let language = this.displayService.getLocale()
 		let key = 'AIzaSyAOt7X5dgVmvxcx3WCVZ0Swm3CyfzDDTcM'
 		let request = {
 			method: 'GET',
@@ -120,7 +122,8 @@ class SettingsClubCtrl {
 		return this.club.public.activityTypes.includes(activity)
 	}
 }
-SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs','message','quillConfig'];
+SettingsClubCtrl.$inject = ['$scope','GroupService','ActionMessageService','$locale','$http','dialogs','message',
+	'quillConfig', 'userSettingsConfig', 'DisplayService'];
 
 let SettingsClubComponent = {
 	bindings: {

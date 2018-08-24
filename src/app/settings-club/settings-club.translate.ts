@@ -4,17 +4,20 @@ export const _translate = {
         shortTitle: "Настройки",
         name: 'Название',
         uri: "Профиль клуба: staminity.com/club/",
+        action: {
+            editBackground: 'Изменить',
+            editAvatar: 'Изменить'
+        },
         public: {
             uri: "Профиль клуба: staminity.com/club/",
         },
-        personaInfo: {
+        personalInfo: {
             header: 'Основная информация',
             about: 'О клубе',
             main: {
                 country: "Страна",
                 city: "Город",
                 about: 'О клубе',
-
             },
             isFree: "Доступны для новых учеников",
             isFreeTrue: 'Да',
@@ -38,10 +41,14 @@ export const _translate = {
         shortTitle: "Settings",
         name: 'Name',
         uri: "Club profile: staminity.com/club/",
+        action: {
+            editBackground: 'Edit',
+            editAvatar: 'Edit'
+        },
         public: {
             uri: "Club profile: staminity.com/club/",
         },
-        personaInfo: {
+        personalInfo: {
             header: 'General information',
             about: 'About club',
             main: {

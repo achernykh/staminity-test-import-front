@@ -21,10 +21,14 @@
                     <md-card class="user-background" flex="none" layout-align="end center"  style="background-image: url({{'/group/background/' | image: $ctrl.club.public.background}})">
                         <md-card-content layout="row" layout-align="space-between end" style="width: 100%">
                             <div flex="none" ng-mouseover="show=true" ng-mouseleave="show=false" class="user-avatar" style="background-image: url({{'/group/avatar/' | image:$ctrl.club.public.avatar}})">
-                                <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">Edit</button>
+                                <button ng-click="$ctrl.uploadAvatar()" ng-show='show' type="button" name="button" class="edit-user-avatar">
+                                    <span translate="settingsClub.action.editAvatar"></span>
+                                </button>
                             </div>
                             <div flex=none hide show-gt-xs>
-                                <md-button ng-click="$ctrl.uploadBackground()" class="flat">Изменить</md-button>
+                                <md-button ng-click="$ctrl.uploadBackground()" class="flat">
+                                    <span translate="settingsClub.action.editBackground"></span>
+                                </md-button>
                             </div>
                             <md-fab-speed-dial class="animated bounceIn" md-theme="default">
                                 <md-fab-trigger>
