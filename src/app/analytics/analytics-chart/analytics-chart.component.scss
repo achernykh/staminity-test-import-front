@@ -3,7 +3,6 @@ $padding: 0;
 .analytics-chart {
   width: 100%;
   height: 100%;
-  //background-color: white;
 
   &__header {
     padding: 0;
@@ -29,7 +28,7 @@ $padding: 0;
     padding: 0;
   }
 
-  .button-toolbar .md-icon-button { display: none; opacity: 0; transition: opacity 1s }
+  .button-toolbar .md-icon-button { display: block; opacity: 0; transition: opacity 1s }
   .button-toolbar .md-icon-button.has-badge { display: block; opacity: 1;}
   .analytics-chart-data:last-child { border-right: none !important; }
   //universal-chart { .axis.measure-axis { display: none; opacity: 0; transition: opacity 1s } }
@@ -38,7 +37,7 @@ $padding: 0;
     universal-chart .axis.measure-axis, .button-toolbar .md-icon-button { display: block; opacity: 1; }
   }
   st-analytics-chart-data {
-    width: 100px;
-    margin-right: 16px;
+    width: 140px;
+    margin-right: 8px;
   }
 }

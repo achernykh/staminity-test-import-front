@@ -22,18 +22,27 @@ interface IReportCustomPeriod {
     period: IReportPeriod;
 }
 
-export interface IAnalyticsChartSettings<T> {
-    type?: "date" | "text" | "select" | "checkbox" | "radio";
-    area?: "params" | "series" | "measures";
+interface IAnalyticsChartChange {
     ind?: number[]; // индекс в массиве chart
     idx?: number[]; // индекс в массиве series/measures
+    area?: "params" | "series" | "measures";
     name?: string;
+    options?: {
+        [option: string]: {
+            [param: string]: any
+        }
+    }
+}
+
+export interface IAnalyticsChartSettings<T> {
+    type?: "date" | "text" | "select" | "checkbox" | "radio";
     text?: string; // название показателя для вывода на экран analytics.params... | translate
     multiTextParam?: string; // ссылка на показатель, в котором будет задан текст в случае мултипеременных
     model: any;
     data?: any | IReportCustomPeriod; // расчетные данные для формирования model (используется для customPeriod)
     options?: T[];
-    change?: any; // объект содержащий перечень изменения для структуры series/measures
+    // объект содержащий перечень изменения для структуры series/measures
+    change?: IAnalyticsChartChange[];
     protected?: boolean;
 }
 
@@ -231,8 +240,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     private prepareUsers () {
         this.users = {
             type: "checkbox",
-            area: "params",
-            name: "users",
+            //area: "params",
+            //name: "users",
             text: "users",
             model: this.storage && this.storage.users && this.storage.users.model || [this.user.userId],
             options: [],
@@ -254,8 +263,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     private prepareActivityTypes () {
         this.activityTypes = {
             type: "checkbox",
-            area: "params",
-            name: "activityTypes",
+            //area: "params",
+            //name: "activityTypes",
             text: "activityTypes",
             model: this.storage && this.storage.activityTypes && this.storage.activityTypes.model || this.defaultBasicActivityTypes,
             options: getSportBasic(),
@@ -265,8 +274,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     private prepareCategories () {
         this.activityCategories = {
             type: "checkbox",
-            area: "params",
-            name: "activityCategories",
+            //area: "params",
+            //name: "activityCategories",
             text: "activityCategories",
             model: this.storage && this.storage.activityCategories && this.storage.activityCategories.model || [],
             options: this.categories,
@@ -281,8 +290,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     private preparePeriods () {
         this.periods = {
             type: "date",
-            area: "params",
-            name: "periods",
+            //area: "params",
+            //name: "periods",
             text: "periods",
             options: ["thisYear", "thisMonth", "thisWeek", "customPeriod"],
             model: this.storage && this.storage.periods && this.storage.periods.model || null,

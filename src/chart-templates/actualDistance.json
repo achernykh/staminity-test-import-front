@@ -1,7 +1,7 @@
 {
   "order": 4,
   "active": true,
-  "revision": 1,
+  "revision": 2,
   "auth": [],
   "icon": "insert_chart",
   "code": "actualDistance",
@@ -27,58 +27,60 @@
   },
   "settings": [
     {
-      "ind": [0,1],
-      "idx": [0],
       "type": "radio",
-      "area": "series",
-      "name": "seriesDateTrunc",
       "text": "seriesDateTrunc",
       "model": "month",
-      "options": [
-        "day",
-        "week",
-        "month"
-      ],
-      "change": {
-        "day": {
-          "seriesDateTrunc": "day"
-        },
-        "week": {
-          "seriesDateTrunc": "week"
-        },
-        "month": {
-          "seriesDateTrunc": "month"
+      "options": [ "day", "week", "month" ],
+      "change": [
+        {
+          "ind": [0,1],
+          "idx": [0],
+          "area": "series",
+          "name": "seriesDateTrunc",
+          "options": {
+            "day": {
+              "seriesDateTrunc": "day"
+            },
+            "week": {
+              "seriesDateTrunc": "week"
+            },
+            "month": {
+              "seriesDateTrunc": "month"
+            }
+          }
         }
-      }
+      ]
     },
     {
-      "ind": [0,1],
-      "idx": [1],
       "type": "radio",
-      "area": "measures",
-      "name": "cumulative",
       "text": "cumulative",
       "model": true,
       "options": [
         false,
         true
       ],
-      "change": {
-        "false": {
-          "cumulative": false,
-          "chartType": "bar",
-          "fillType": "gradient",
-          "lineWidth": 0,
-          "avgValueLine": true
-        },
-        "true": {
-          "cumulative": true,
-          "chartType": "area",
-          "fillType": "gradient",
-          "lineWidth": 3,
-          "avgValueLine": false
+      "change": [{
+        "ind": [0,1],
+        "idx": [0],
+        "area": "measures",
+        "name": "cumulative",
+        "options": {
+          "false": {
+            "cumulative": false,
+            "chartType": "bar",
+            "fillType": "gradient",
+            "lineWidth": 0,
+            "avgValueLine": true
+          },
+          "true": {
+            "cumulative": true,
+            "chartType": "area",
+            "fillType": "gradient",
+            "lineWidth": 3,
+            "avgValueLine": false
+          }
         }
-      }
+      }]
     }
   ],
   "layout": {
@@ -260,11 +262,11 @@
   "data": [
     {
       "measure": "distance",
-      "code": "distanceTotal",
+      "code": "distanceTotalCompare",
       "color": "red",
       "hasBullet": false,
       "description": false,
-      "visible": true,
+      "visible": false,
       "compile": {
         "ind": 0,
         "idx": 1,
@@ -275,15 +277,61 @@
     },
     {
       "measure": "distance",
-      "code": "analytics.params.distanceAvg",
+      "code": "distanceTotal",
       "color": "red",
       "hasBullet": false,
       "description": false,
       "visible": true,
       "compile": {
+        "ind": 1,
+        "idx": 1,
+        "formula": [
+          "sum"
+        ],
+        "subValue": {
+          "formula": [
+            "subtract"
+          ],
+          "params": [
+            "distanceTotalCompare"
+          ],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    },
+    {
+      "measure": "distance",
+      "code": "distanceAvgCompare",
+      "color": "red",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
         "ind": 0,
         "idx": 1,
         "formula": ["avg"]
+      }
+    },
+    {
+      "measure": "distance",
+      "code": "distanceAvg",
+      "color": "red",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "formula": ["avg"],
+        "subValue": {
+          "formula": [
+            "subtract"
+          ],
+          "params": [
+            "distanceAvgCompare"
+          ],
+          "description": "analytics.params.byPreviewPeriod"
+        }
       }
     },
     {
@@ -294,7 +342,7 @@
       "description": false,
       "visible": true,
       "compile": {
-        "ind": 0,
+        "ind": 1,
         "idx": 1,
         "formula": ["max"]
       }

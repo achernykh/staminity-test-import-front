@@ -24,29 +24,52 @@
   ],
   "settings": [
     {
-      "ind": [0],
-      "idx": [1],
       "type": "radio",
-      "area": "params",
-      "name": "lasDays",
-      "text": "lasDays",
-      "model": 90,
+      "text": "lastDays",
+      "model": "90",
       "options": ["180", "90", "30"],
-      "change": {
-        "180": {
-          "lasDays": 180
-        },
-        "90": {
-          "lasDays": 90
-        },
-        "30": {
-          "lasDays": 30
+      "change": [{
+        "ind": [0],
+        "area": "params",
+        "name": "lastDays",
+        "options": {
+          "180": {
+            "lastDays": 180
+          },
+          "90": {
+            "lastDays": 90
+          },
+          "30": {
+            "lastDays": 30
+          }
         }
-      }
+      }]
+    },
+    {
+      "type": "radio",
+      "text": "futDays",
+      "model": "30",
+      "options": ["60", "30", "0"],
+      "change": [{
+        "ind": [1],
+        "area": "params",
+        "name": "futDays",
+        "options": {
+          "60": {
+            "futDays": 60
+          },
+          "30": {
+            "futDays": 30
+          },
+          "0": {
+            "futDays": 0
+          }
+        }
+      }]
     }
   ],
   "layout": {
-    "gridColumn": 2,
+    "gridColumn": 1,
     "gridRow": 1
   },
   "charts": [
@@ -56,7 +79,7 @@
       "params": {
         "users": null,
         "futDays": 0,
-        "lastDays": 90
+        "lastDays": null
       },
       "options": {
         "tooltip": {
@@ -94,6 +117,7 @@
           "scaleLabel": "TL",
           "unit": "",
           "chartType": "dot",
+          "radius": 2,
           "stacked": null,
           "cumulative": false,
           "smoothSettings": "",
@@ -103,11 +127,11 @@
           "avgValueLine": false,
           "scaleVisible": true,
           "calculateTotals": "",
-          "lineColor": "#990000",
+          "lineColor": "#C62828",
           "lineStyle": "",
           "fillType": "",
-          "fillColor": "rgba(255, 0, 0, 0.2)",
-          "markerColor": "#990000",
+          "fillColor": "#C62828",
+          "markerColor": "#C62828",
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 1,
@@ -120,7 +144,7 @@
           "label": "fatigue",
           "scaleLabel": "CTL, TSB, ATP",
           "unit": "",
-          "chartType": "line",
+          "chartType": "area",
           "stacked": null,
           "cumulative": false,
           "smoothSettings": "curveMonotoneX",
@@ -130,11 +154,26 @@
           "avgValueLine": false,
           "scaleVisible": true,
           "calculateTotals": "",
-          "lineColor": "#ff3399",
+          "lineColor": "#D81B60",
           "lineStyle": "solid",
-          "fillType": "none",
-          "fillColor": "",
-          "markerColor": "#ff3399",
+          "lineWidth": 1,
+
+          "fillType": "gradient",
+          "fillColor": "#D81B60",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#FCE4EC",
+              "opacity": 0.0
+            },
+            {
+              "offset": "100%",
+              "color": "#FCE4EC",
+              "opacity": 0.2
+            }
+          ],
+          "markerColor": "#D81B60",
+
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 2,
@@ -156,21 +195,26 @@
           "avgValueLine": false,
           "scaleVisible": true,
           "calculateTotals": "",
-          "lineColor": "#0066cc",
+
+          "lineColor": "#303F9F",
           "lineStyle": "solid",
+          "lineWidth": 1,
           "fillType": "gradient",
-          "fillColor": "",
+          "fillColor": "#3949AB",
           "gradient": [
             {
               "offset": "0%",
-              "color": "rgba(0, 102, 204, 0)"
+              "color": "#C5CAE9",
+              "opacity": 0.1
             },
             {
               "offset": "100%",
-              "color": "rgba(0, 202, 204, 0.5)"
+              "color": "#3949AB",
+              "opacity": 0.6
             }
           ],
-          "markerColor": "#0066cc",
+          "markerColor": "#283593",
+
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 3,
@@ -192,24 +236,26 @@
           "avgValueLine": false,
           "scaleVisible": true,
           "calculateTotals": "",
-          "lineColor": {
-            "color": "rgb(247, 153, 131)",
-            "opacity": 0
-          },
+
+          "lineWidth": 1,
+          "lineColor": "#FDD835",
           "lineStyle": "solid",
           "fillType": "gradient",
-          "fillColor": "",
+          "fillColor": "#FDD835",
           "gradient": [
             {
               "offset": "0%",
-              "color": "rgba(247, 153, 131, 0)"
+              "color": "#FFF9C4",
+              "opacity": 0.1
             },
             {
               "offset": "100%",
-              "color": "rgba(175, 191, 255, 0.5)"
+              "color": "#FDD835",
+              "opacity": 0.4
             }
           ],
-          "markerColor": "#449999",
+          "markerColor": "#FBC02D",
+
           "avgValueLineColor": "#4499BB",
           "avgValueLineStyle": "dotted",
           "idx": 4,
@@ -231,7 +277,7 @@
           "tooltipType": "color",
           "legend": false,
           "visible": true,
-          "radius": 3,
+          "radius": 2,
           "avgValueLine": false,
           "scaleVisible": false,
           "calculateTotals": "",
@@ -254,7 +300,7 @@
       "chartType": "pmc",
       "params": {
         "users": null,
-        "futDays": 30,
+        "futDays": null,
         "lastDays": 0
       },
       "options": {
@@ -343,7 +389,7 @@
           "id": 3,
           "label": "fitness",
           "unit": "",
-          "chartType": "area",
+          "chartType": "line",
           "stacked": null,
           "cumulative": false,
           "smoothSettings": "curveCatmullRom",
@@ -353,21 +399,11 @@
           "avgValueLine": false,
           "scaleVisible": true,
           "calculateTotals": "",
-          "lineColor": "#0066cc",
+          "lineColor": "#303F9F",
           "lineStyle": "dashed",
-          "fillType": "gradient",
+          "fillType": "none",
           "fillColor": "",
-          "gradient": [
-            {
-              "offset": "0%",
-              "color": "rgba(0, 102, 204, 0)"
-            },
-            {
-              "offset": "100%",
-              "color": "rgba(0, 202, 204, 0.5)"
-            }
-          ],
-          "markerColor": "#0066cc",
+          "markerColor": "#283593",
           "avgValueLineColor": "",
           "avgValueLineStyle": "",
           "idx": 3,
@@ -389,24 +425,26 @@
           "avgValueLine": false,
           "scaleVisible": true,
           "calculateTotals": "",
-          "lineColor": {
-            "color": "rgb(247, 153, 131)",
-            "opacity": 0
-          },
+
+          "lineWidth": 1,
+          "lineColor": "#FDD835",
           "lineStyle": "dashed",
           "fillType": "gradient",
-          "fillColor": "",
+          "fillColor": "#FDD835",
           "gradient": [
             {
               "offset": "0%",
-              "color": "rgba(247, 153, 131, 0)"
+              "color": "#FFF9C4",
+              "opacity": 0.1
             },
             {
               "offset": "100%",
-              "color": "rgba(175, 191, 255, 0.5)"
+              "color": "#FDD835",
+              "opacity": 0.4
             }
           ],
-          "markerColor": "#449999",
+          "markerColor": "#FBC02D",
+
           "avgValueLineColor": "#4499BB",
           "avgValueLineStyle": "dotted",
           "idx": 4,
@@ -449,48 +487,9 @@
   ],
   "data": [
     {
-      "measure": "fatigue",
-      "code": "fatigueStart",
-      "color": "red",
-      "hasBullet": true,
-      "description": false,
-      "visible": false,
-      "compile": {
-        "ind": 0,
-        "idx": 2,
-        "formula": [
-          "start"
-        ]
-      }
-    },
-    {
-      "measure": "fatigue",
-      "code": "fatigueEnd",
-      "color": "red",
-      "hasBullet": true,
-      "description": false,
-      "visible": true,
-      "compile": {
-        "ind": 0,
-        "idx": 2,
-        "formula": [
-          "end"
-        ],
-        "subValue": {
-          "formula": [
-            "subtract"
-          ],
-          "params": [
-            "fatigueStart"
-          ],
-          "description": "analytics.params.byDays"
-        }
-      }
-    },
-    {
       "measure": "fitness",
       "code": "fitnessStart",
-      "color": "red",
+      "color": "#283593",
       "hasBullet": true,
       "description": false,
       "visible": false,
@@ -505,7 +504,7 @@
     {
       "measure": "fitness",
       "code": "fitnessEnd",
-      "color": "blue",
+      "color": "#283593",
       "hasBullet": true,
       "description": false,
       "visible": true,
@@ -527,17 +526,17 @@
       }
     },
     {
-      "measure": "form",
-      "code": "formStart",
-      "color": "red",
+      "measure": "fatigue",
+      "code": "fatigueEnd",
+      "color": "#D81B60",
       "hasBullet": true,
       "description": false,
-      "visible": false,
+      "visible": true,
       "compile": {
         "ind": 0,
-        "idx": 4,
+        "idx": 2,
         "formula": [
-          "start"
+          "end"
         ]
       }
     },
@@ -553,16 +552,7 @@
         "idx": 4,
         "formula": [
           "end"
-        ],
-        "subValue": {
-          "formula": [
-            "subtract"
-          ],
-          "params": [
-            "formStart"
-          ],
-          "description": "analytics.params.byDays"
-        }
+        ]
       }
     }
   ]

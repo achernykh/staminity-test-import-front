@@ -11,7 +11,7 @@ export const _activity_measurement_view = {
     default: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'minpkm',
@@ -29,7 +29,7 @@ export const _activity_measurement_view = {
     run: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'minpkm',
@@ -43,7 +43,7 @@ export const _activity_measurement_view = {
     ski: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'minpkm',
@@ -67,7 +67,7 @@ export const _activity_measurement_view = {
     bike: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'kmph',
@@ -98,7 +98,7 @@ export const _activity_measurement_view = {
         },
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         adjustedSpeed: {
             unit: 'kmph',
@@ -112,7 +112,7 @@ export const _activity_measurement_view = {
         },
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         adjustedSpeed: {
             unit: 'minpkm',
@@ -122,7 +122,7 @@ export const _activity_measurement_view = {
     triathlon: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'kmph',

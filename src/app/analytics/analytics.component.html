@@ -95,7 +95,8 @@
         <section flex="auto" class="analytics__chart-section" ng-switch-when="false">
             <!--<analytics-chart-pmc style="height: 400px;" chart=""></analytics-chart-pmc>-->
             <section class="analytics__chart-grid">
-                <analytics-chart ng-repeat="chart in $ctrl.charts"
+                <analytics-chart class="md-whiteframe-2dp"
+                                 ng-repeat="chart in $ctrl.charts"
                                  ng-style="chart.layout.style"
                                  ng-class="{'full-screen': chart.layout.fullScreen}"
                                  chart="chart"

@@ -7,7 +7,8 @@ $bullet-radius: 8px;
   margin-right: 0;
 
   .measure { margin-top: 0; margin-bottom: 8px; }
-  .md-title, .md-body-1 { margin: 0; text-transform: capitalize; }
+  .md-title, .md-caption { margin: 0; text-transform: uppercase; }
+  .md-caption { padding-bottom: 2px; }
   .bullet {
     width: $bullet;
     height: $bullet;

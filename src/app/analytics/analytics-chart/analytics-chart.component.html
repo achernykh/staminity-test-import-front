@@ -4,7 +4,7 @@
             ng-mouseleave="$ctrl.showMenu = false"
             ng-class="{active: $ctrl.showMenu}">
     <div flex="none" class="analytics-chart__header" layout="row" layout-align="start space-between">
-        <h1 class="md-title title" flex="auto">
+        <h1 class="md-title title md-truncate" flex="auto">
             <span translate="analytics.{{$ctrl.chart.code}}.title" translate-values="{{$ctrl.descriptionParams}}"></span>
             <!--<span ng-if="!$ctrl.chart.globalParams" >&nbsp;({{'analytics.localFilter' | translate | lowercase}})</span>-->
         </h1>
@@ -17,9 +17,9 @@
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">
                 <md-icon class="md-secondary md-dark material-icons">visibility_off</md-icon>
             </md-button>
-            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
+            <!--<md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
                 <md-icon class="md-secondary md-dark material-icons">settings_ethernet</md-icon>
-            </md-button>
+            </md-button>-->
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.fullScreen()">
                 <md-icon class="md-secondary material-icon md-dark"
                          ng-bind="$ctrl.chart.layout.fullScreen ? 'fullscreen_exit' : 'fullscreen'"></md-icon>

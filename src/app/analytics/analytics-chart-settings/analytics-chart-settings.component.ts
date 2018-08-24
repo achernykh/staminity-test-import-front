@@ -31,16 +31,11 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
     constructor (private $filter: any, private analyticsService: AnalyticsService, private messageService: MessageService) {}
 
     $onInit () {
+        this.prepare();
+    }
+
+    private prepare () {
         this.prepareLocalFilter("fromGlobal");
-        /**if ( this.chart.hasOwnProperty("localParams") && !this.chart.localParams ) {
-            this.prepareLocalFilter("fromGlobal");
-        }
-
-        if ( this.chart.hasOwnProperty("localParams") && this.chart.localParams ) {
-            this.prepareLocalFilter("fromSettings");
-        }
-
-        this.globalParams = copy(this.chart.globalParams);**/
         this.settings = copy(this.chart.settings);
     }
 
@@ -66,6 +61,10 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
     }
 
+    isParamExist (param: string): boolean {
+        return this.chart.charts[0].params.hasOwnProperty(param);
+    }
+
     changeParamsPoint () {
         if ( !this.globalParams ) {
             this.prepareLocalFilter("fromGlobal");
@@ -86,7 +85,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                 localModel !== globalModel :
                 localModel.length !== globalModel.length || localModel.some(v => globalModel.indexOf(v) === -1)) {
             this.chart.localParams = Object.assign(this.chart.localParams || {}, {[param]:  this.localFilter.save()[param]});
-        } else if (this.chart.localParams[param]) {
+        } else if (this.chart.localParams && this.chart.localParams[param]) {
             delete this.chart.localParams[param];
             if (Object.keys(this.chart.localParams).length === 0) { delete this.chart.localParams; }
         }
@@ -99,49 +98,34 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         this.isChangeLocalParams = true;
     }
 
-    changeSettings (param: IAnalyticsChartSettings<any>, value) {
-        /**switch ( param.area ) {
-            case "series": {
-                param.ind.map((ind) =>
-                    this.chart.charts[ind].series
-                        .filter((s) => param.idx.indexOf(s.idx) !== -1)
-                        .map((s) => s[param.name] = value),
-                );
-                break;
-            }
-            case "measures": {
-                param.ind.map((ind) =>
-                        this.chart.charts[ind].measures
-                            .filter((m) => param.idx.indexOf(m.idx) !== -1)
-                            .map((m) => Object.keys(param.change[value]).map((k) => m[k] = param.change[value][k])),
-                    //.map(s => s[param.name] = value)
-                );
-                break;
-            }
-        }**/
+    changeSettings (settings: IAnalyticsChartSettings<any>, value) {
 
-        if ( Object.keys(param.change[value]).some((change) => ["seriesDateTrunc", "unit", "measureName"].indexOf(change) !== -1) ) {
+        if ( Object.keys(settings.change[0].options[value]).some(param =>
+            ["seriesDateTrunc", "unit", "measureName"].indexOf(param) !== -1) ) {
             this.refresh = true;
         }
         this.isChangeSettings = true;
     }
 
     getGroupCheckboxStatus (param: IAnalyticsChartSettings<any>, idx: number): boolean {
-        return param.model[param.idx.indexOf(idx)];
+        return param.model[param.change[0].idx.indexOf(idx)];
     }
 
     setGroupCheckboxStatus (param: IAnalyticsChartSettings<any>, idx: number) {
-        param.model[param.idx.indexOf(idx)] = !param.model[param.idx.indexOf(idx)];
-        this.changeSettings(Object.assign({}, param, { idx: [idx] }), param.model[param.idx.indexOf(idx)]);
+        param.model[param.change[0].idx.indexOf(idx)] = !param.model[param.change[0].idx.indexOf(idx)];
+        this.changeSettings(Object.assign({}, param, { idx: [idx] }), param.model[param.change[0].idx.indexOf(idx)]);
         this.settingsForm.$setDirty();
     }
 
     getCheckboxLabel (param: IAnalyticsChartSettings<any>, idx: number): string {
-        return this.chart.charts[param.ind[0]].measures.filter((a) => a.idx === idx)[0][param.multiTextParam];
+        return this.chart.charts[param.change[0].ind[0]].measures.filter((a) => a.idx === idx)[0][param.multiTextParam];
     }
 
     restore (): void {
         this.chart.restore();
+        this.prepare();
+        this.settingsForm.$setDirty();
+        this.refresh = true;
         this.analyticsService.deleteChartSettings(this.chart.id)
             .then(_ => this.messageService.toastInfo('analyticsDeleteChartSettingsComplete'),
             e => e ? this.messageService.toastError(e) : this.messageService.toastError('analyticsDeleteChartSettingsError'));

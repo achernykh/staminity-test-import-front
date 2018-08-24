@@ -11,7 +11,7 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-content flex="auto" layout="column">
+<md-content flex="auto" layout="column" style="background: white">
     <form flex="auto" layout="column" name="$ctrl.settingsForm">
         <md-list flex="auto" class="md-dense">
             <!--<md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>-->
@@ -22,7 +22,7 @@
                            ng-model="$ctrl.globalParams"
                            ng-change="$ctrl.changeSettingsParamsPoint()"></md-switch>
             </md-list-item>-->
-            <md-list-item>
+            <md-list-item ng-if="$ctrl.isParamExist('users')">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.users.placeholder"></label>
                     <md-select flex="auto" name="sport" class="icon"
@@ -38,7 +38,7 @@
                     </md-select>
                 </md-input-container>
             </md-list-item>
-            <md-list-item>
+            <md-list-item ng-if="$ctrl.isParamExist('activityTypes')">
                 <md-input-container class="md-block no-message" md-no-float layout="row">
                     <!--<md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.filter.activityTypes.model}}"></md-icon>-->
                     <label translate="analytics.filter.activityTypes.placeholder"></label>
@@ -65,7 +65,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item ng-show="$ctrl.localFilter.activityTypes.model.length === 1">
+            <md-list-item ng-if="$ctrl.isParamExist('activityCategories') && $ctrl.localFilter.activityTypes.model.length === 1">
                 <md-input-container class="md-block no-message">
                     <label translate="analytics.filter.activityCategories.placeholder"></label>
                     <md-select
@@ -96,7 +96,7 @@
                     </div>
                 </md-input-container>
             </md-list-item>
-            <md-list-item>
+            <md-list-item ng-if="$ctrl.isParamExist('periods')">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.periods.placeholder"></label>
                     <md-select flex="auto" name="periods" class="icon"

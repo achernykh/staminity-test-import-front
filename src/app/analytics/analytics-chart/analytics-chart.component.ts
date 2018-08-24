@@ -111,7 +111,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
         this.updateCount++;
     }
-
+/**
     update (param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
         switch ( param.area ) {
             case "series": {
@@ -148,7 +148,7 @@ class AnalyticsChartCtrl implements IComponentController {
         this.prepareTitleContext();
         this.onChangeFilter(); // сохраняем настройки в браузере
     }
-
+**/
     grow () {
         this.chart.layout.gridColumnEnd === 1 ? this.chart.layout.gridColumnEnd = 2 : this.chart.layout.gridColumnEnd = 1;
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 1 ? this.chart.layout.gridRowEnd = 2 : angular.noop();
@@ -176,6 +176,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private prepareSettings (): void {
         if ( !this.chart.settings ) { return; }
+        debugger;
         this.chart.settings.map(s => this.chart.changeSettings(s, s.model));
     }
 
@@ -196,7 +197,9 @@ class AnalyticsChartCtrl implements IComponentController {
             periods: this.getPeriods() || null,
             activityCategories: this.globalFilter.activityCategories.model
         };
-        this.chart.charts.map((c, i) => c.params = Object.assign(c.params, params));
+        debugger;
+
+        this.chart.charts.map((c, i) => Object.keys(c.params).map(k => c.params[k] = params[k] || c.params[k])); // = Object.assign(c.params, params));
         // Если есть ichart для сравнения
         if ( this.chart.compareSettings && this.chart.compareSettings.visible ) {
             this.chart.charts[this.chart.compareSettings.ind].params.periods =

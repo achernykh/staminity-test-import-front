@@ -63,7 +63,7 @@ export class AnalyticsChart implements IAnalyticsChart {
                  private globalFilter?: AnalyticsChartFilter,
                  private $filter?: any) {
 
-        Object.assign(this, template);
+        Object.assign(this, {...template});
         if ( this.hasOwnProperty("layout") && this.layout ) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
         }
@@ -100,25 +100,37 @@ export class AnalyticsChart implements IAnalyticsChart {
     }
 
     changeSettings (param: IAnalyticsChartSettings<any>, value) {
-        switch ( param.area ) {
-            case "series": {
-                param.ind.map((ind) =>
-                    this.charts[ind].series
-                        .filter((s) => param.idx.indexOf(s.idx) !== -1)
-                        .map((s) => s[param.name] = value),
-                );
-                break;
+
+        if (!param.change) { return; }
+
+        param.change.forEach(change => {
+            switch ( change.area ) {
+                case "params": {
+                    change.ind.map(ind =>
+                        Object.keys(change.options[value]).map(k =>
+                            this.charts[ind].params[k] = change.options[value][k]));
+                    break;
+                }
+                case "series": {
+                    change.ind.map(ind =>
+                        this.charts[ind].series
+                            .filter(s => change.idx.indexOf(s.idx) !== -1)
+                            .map(s => s[change.name] = value),
+                    );
+                    break;
+                }
+                case "measures": {
+                    change.ind.map((ind) =>
+                            this.charts[ind].measures
+                                .filter(m => change.idx.indexOf(m.idx) !== -1)
+                                .map(m => Object.keys(change.options[value]).map(k => m[k] = change.options[value][k])),
+                        //.map(s => s[param.name] = value)
+                    );
+                    break;
+                }
             }
-            case "measures": {
-                param.ind.map((ind) =>
-                        this.charts[ind].measures
-                            .filter((m) => param.idx.indexOf(m.idx) !== -1)
-                            .map((m) => Object.keys(param.change[value]).map((k) => m[k] = param.change[value][k])),
-                    //.map(s => s[param.name] = value)
-                );
-                break;
-            }
-        }
+        });
+
     }
 
     restore (): void {
