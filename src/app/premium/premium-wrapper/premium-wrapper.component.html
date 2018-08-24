@@ -1,4 +1,5 @@
-<section ng-if="$ctrl.isPremium" class="premium-wrapper" layout="column" layout-align="center center">
+<section ng-if="!$ctrl.isPremium" class="premium-wrapper" layout="column" layout-align="center center">
+    <md-icon style="margin: 8px;" flex="none" class="" md-svg-src="/assets/icon/premium.svg"></md-icon>
     <p flex="none" class="md-title" translate="premium.wrapper.title"></p>
     <p flex="none" class="md-body-1" style="max-width: 300px" translate="premium.functions.{{::$ctrl.functionCode}}"></p>
     <md-button class="md-accent md-hue-3 md-raised"

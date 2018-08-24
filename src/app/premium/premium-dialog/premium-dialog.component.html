@@ -9,7 +9,7 @@
             </div>
         </md-toolbar>
         <md-content flex="auto" layout="column">
-            <swiper flex="auto">
+            <swiper flex="auto" initial-slide="{{$ctrl.page}}">
                 <slides>
                     <slide ng-repeat="page in $ctrl.config.pages" layout="column">
                         <h1 flex="none" class="md-title" translate="premium.{{::page.code}}.title"></h1>

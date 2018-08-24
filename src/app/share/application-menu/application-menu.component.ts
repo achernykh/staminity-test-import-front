@@ -8,6 +8,7 @@ import { getPermissions, getUser, SessionService } from "../../core";
 import * as env from "../../core/env.js";
 import "./application-menu.component.scss";
 import { AppMenuSettings, UserMenuSettings } from "./application-menu.constants";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
 
 class ApplicationMenuCtrl implements IComponentController {
 
@@ -19,7 +20,8 @@ class ApplicationMenuCtrl implements IComponentController {
     private env: Object = env;
     private destroy = new Subject();
 
-    static $inject = ["$scope", '$mdMedia', "$mdSidenav", "AuthService", "SessionService", "$state"];
+    static $inject = ["$scope", '$mdMedia', "$mdSidenav", "AuthService", "SessionService", "$state",
+    'PremiumDialogService'];
 
     constructor(
         private $scope: IScope,
@@ -28,6 +30,7 @@ class ApplicationMenuCtrl implements IComponentController {
         private AuthService: IAuthService,
         private session: SessionService,
         private $state: StateService,
+        private premiumDialogService: PremiumDialogService
     ) {
         session.getObservable()
         .takeUntil(this.destroy)
@@ -70,6 +73,10 @@ class ApplicationMenuCtrl implements IComponentController {
             this.$state.go(url, {uri: param});
         }
         this.toggleSlide();
+    }
+
+    premium (e: Event, functionCode: string): void {
+        this.premiumDialogService.open(e,functionCode).then();
     }
 
     close() {

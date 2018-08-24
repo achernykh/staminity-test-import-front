@@ -11,12 +11,12 @@ export const premiumConfig: PremiumConfig = {
         {
             code: 'futurePlanning',
             img: '',
-            functions: []
+            functions: ['calendarItemFuturePlanning']
         },
         {
             code: 'activityDetails',
             img: '',
-            functions: []
+            functions: ['activityDetails']
         },
         {
             code: 'proAnalytics',
@@ -26,17 +26,17 @@ export const premiumConfig: PremiumConfig = {
         {
             code: 'seasonPlanning',
             img: '',
-            functions: []
+            functions: ['seasonPlanning', 'periodization']
         },
         {
             code: 'categories',
             img: '',
-            functions: []
+            functions: ['categories']
         },
         {
             code: 'templates',
             img: '',
-            functions: []
+            functions: ['templates']
         }
     ]
 }

@@ -18,6 +18,9 @@ import {
 import { CalendarItemDialogService } from "../../calendar-item/calendar-item-dialog.service";
 import { FormMode } from "../../application.interface";
 import {Activity} from "@app/activity/activity-datamodel/activity.datamodel";
+import {isFutureDay} from "../../share/date/date.filter";
+import AuthService from "@app/auth/auth.service";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
 
 class CalendarDayCtrl {
 
@@ -43,7 +46,7 @@ class CalendarDayCtrl {
     private readonly dateFormat: string = "YYYY-MM-DD";
 
     static $inject = [ '$mdDialog', '$mdMedia', 'CalendarItemDialogService', 'message', 'ActivityService',
-        'CalendarService', '$scope', 'dialogs' ];
+        'CalendarService', '$scope', 'dialogs', 'AuthService', 'PremiumDialogService' ];
 
     constructor (private $mdDialog: any,
                  private $mdMedia: any,
@@ -52,7 +55,9 @@ class CalendarDayCtrl {
                  private ActivityService: ActivityService,
                  private calendarService: CalendarService,
                  private $scope: IScope,
-                 private dialogs: any) {
+                 private dialogs: any,
+                 private authService: AuthService,
+                 private premiumDialogService: PremiumDialogService) {
 
     }
 
@@ -136,6 +141,12 @@ class CalendarDayCtrl {
      * @param data
      */
     wizard (e: Event, data: ICalendarDayData): void {
+
+        if (!(this.authService.isCoach() || this.authService.isPremiumAccount()) && isFutureDay(data.date)) {
+            this.premiumDialogService.open(null, 'futurePlaning').then();
+            return;
+        }
+
         this.calendarItemDialog.wizard(e,
             this.getOptions(FormMode.Post, moment(data.date).startOf('day').format('YYYY-MM-DDTHH:mm:ss')))
             .then(response => this.onUpdate(response),  error => { });

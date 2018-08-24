@@ -1,8 +1,8 @@
 <st-application-frame class="st-application-frame calendar"
-                      ng-class="{'left-bar-show': $ctrl.isLargeScreen && $ctrl.panelAuthCheck}"
+                      ng-class="{'left-bar-show': $ctrl.isLargeScreen}"
                       template="application"
                       navigation-bar="false"
-                      left-bar="$ctrl.isLargeScreen && $ctrl.panelAuthCheck">
+                      left-bar="$ctrl.isLargeScreen">
 
     <st-application-frame-title>
         <span class="md-title" translate="calendar.fullTitle" ng-if="$ctrl.$mdMedia('(min-width: 1440px)') || $ctrl.$mdMedia('(max-width: 959px)')"></span>

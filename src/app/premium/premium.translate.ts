@@ -55,6 +55,7 @@ export const premiumTranslate = {
             title: 'Управление шаблонами тренировок',
             text: 'Создавайте свои шаблоны тренировок, сохраняйте в шаблоны ранее запланированные тренировки для быстрого создания новых заданий',
         },
+        badge: 'П',
     },
     en: {
         wrapper: {
@@ -106,5 +107,6 @@ export const premiumTranslate = {
             title: 'Templates management',
             text: 'Create your own workout templates, save any planned workout as a template and use them for rapid planning of new workouts',
         },
+        badge: 'P',
     }
 };

@@ -3,6 +3,7 @@ import {SessionService} from "@app/core";
 import {IBillingTariff} from "@api/billing";
 import {IUserProfile} from "@api/user";
 import {EnableTariffCtrl} from "../../share/dialogs/enable-tariff/enable-tariff.controller";
+import {getPremiumPageByFunction} from "../premium.functions";
 
 export class PremiumDialogService {
 
@@ -54,7 +55,7 @@ export class PremiumDialogService {
             locals: { user, tariff },
             resolve: {
                 billing: () => this.billingService.getTariff(tariffId, ''),
-                page: () => functionCode,
+                page: () => getPremiumPageByFunction(functionCode) || 0,
             },
         }));
     }

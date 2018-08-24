@@ -13,6 +13,8 @@ import { ICalendarItem } from "@api/calendar";
 import {CalendarItemDialogService} from "@app/calendar-item/calendar-item-dialog.service";
 import {ICalendarItemDialogOptions} from "@app/calendar-item/calendar-item-dialog.interface";
 import {FormMode} from "../../application.interface";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
+import AuthService from "@app/auth/auth.service";
 
 class TemplateListCtrl implements IComponentController {
 
@@ -38,12 +40,14 @@ class TemplateListCtrl implements IComponentController {
     private dialogOptions: ICalendarItemDialogOptions;
 
     // inject
-    static $inject = ['$scope', 'ReferenceService', 'CalendarItemDialogService'];
+    static $inject = ['$scope', 'ReferenceService', 'CalendarItemDialogService', 'PremiumDialogService', 'AuthService'];
 
     constructor (
         private $scope: IScope,
         private referenceService: ReferenceService,
-        private calendarDialog: CalendarItemDialogService) {
+        private calendarDialog: CalendarItemDialogService,
+        private premiumDialogService: PremiumDialogService,
+        private authService: AuthService) {
 
     }
 
@@ -118,8 +122,16 @@ class TemplateListCtrl implements IComponentController {
         this.onDrop({template: srcItem, date: trgDate});
     }
 
+    checkAuth (): boolean {
+        return this.authService.isCoach() || this.authService.isPremiumAccount();
+    }
+
     post (e: Event): void {
-        this.calendarDialog.activity(e, this.dialogOptions).then(response => {});
+        if (this.checkAuth()) {
+            this.calendarDialog.activity(e, this.dialogOptions).then(response => {});
+        } else {
+            this.premiumDialogService.open(e, 'templates');
+        }
     }
 
 
