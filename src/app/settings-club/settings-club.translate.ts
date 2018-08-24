@@ -9,6 +9,7 @@ export const _translate = {
         },
         personaInfo: {
             header: 'Основная информация',
+            about: 'О клубе',
             main: {
                 country: "Страна",
                 city: "Город",
@@ -42,6 +43,7 @@ export const _translate = {
         },
         personaInfo: {
             header: 'General information',
+            about: 'About club',
             main: {
                 country: "Country",
                 city: "City",

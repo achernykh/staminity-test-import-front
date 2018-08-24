@@ -2,7 +2,7 @@ export let translateDialogs = {
     ru: {
         yes: "Да",
         no: "Нет",
-        ok: "Принять",
+        ok: "Применить",
         cancel: "Отменить",
         performActionA: "Принять запрос",
         performActionD: "Отклонить запрос",
@@ -86,7 +86,7 @@ export let translateDialogs = {
     en: {
         yes: "Yes",
         no: "No",
-        ok: "Accept",
+        ok: "Confirm",
         cancel: "Cancel",
         performActionA: "Accept request",
         performActionD: "Decline request",
