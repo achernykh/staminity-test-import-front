@@ -1,0 +1,306 @@
+{
+  "order": 5,
+  "active": true,
+  "revision": 1,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "activityMeasuresSelected",
+  "descriptionParams": [{
+    "ind": 0,
+    "idx": 0,
+    "area": "series",
+    "param": "seriesDateTrunc"
+  },
+    {
+      "ind": 0,
+      "idx": 1,
+      "area": "measures",
+      "param": "measureName"
+    }],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "week",
+      "options": ["day", "week", "month"],
+      "change": [{
+        "ind": [0],
+        "idx": [0],
+        "area": "series",
+        "name": "seriesDateTrunc",
+        "options": {
+          "day": {
+            "seriesDateTrunc": "day"
+          },
+          "week": {
+            "seriesDateTrunc": "week"
+          },
+          "month": {
+            "seriesDateTrunc": "month"
+          }
+        }
+      }]
+    },
+    {
+      "type": "radio",
+      "text": "volume",
+      "model": "duration",
+      "options": ["duration", "distance"],
+      "change": [{
+        "ind": [0],
+        "idx": [1],
+        "area": "measures",
+        "name": "measureName",
+        "options": {
+          "duration": {
+            "measureName": "duration",
+            "unit": "h",
+            "label": "duration"
+          },
+          "distance": {
+            "measureName": "distance",
+            "unit": "km",
+            "label": "distance"
+          }
+        }
+      }]
+    },
+    {
+      "type": "checkbox",
+      "text": "measures",
+      "multiTextParam": "label",
+      "model": [true, true, true],
+      "options": [true, false],
+      "change": [{
+        "ind": [0],
+        "idx": [2, 3, 4],
+        "area": "measures",
+        "options": {
+          "false": {
+            "visible": false,
+            "legend": false
+          },
+          "true": {
+            "visible": true,
+            "legend": true
+          }
+        }
+      }]
+    },
+    {
+      "type": "radio",
+      "text": "paceSpeedUnit",
+      "model": "minpkm",
+      "options": ["minpkm", "kmph", "minp100m"],
+      "change": [{
+        "ind": [0],
+        "idx": [3],
+        "area": "measures",
+        "name": "unit",
+        "options": {
+          "minpkm": {
+            "unit": "minpkm",
+            "dataType": "time",
+            "dateFormat": "mm:ss",
+            "reverse": true
+          },
+          "kmph": {
+            "unit": "kmph",
+            "dataType": "number",
+            "dateFormat": "",
+            "reverse": false
+          },
+          "minp100m": {
+            "unit": "minp100m",
+            "dataType": "time",
+            "dateFormat": "mm:ss",
+            "reverse": true
+          }
+        }
+      }]
+    }
+  ],
+  "layout": {
+    "gridColumn": 2,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "radius": 4,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "period",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "period",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "activity.startDate",
+      "measureName": "Weeks",
+      "dataType": "date",
+      "dateFormat": "DD.MM",
+      "valueType": "value",
+      "seriesDateTrunc": "week",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [
+      {
+        "label": "duration",
+        "unit": "h",
+        "chartType": "area",
+        "cumulative": false,
+        "smoothSettings": "curveStep",
+        "tooltipType": "icon",
+        "minValue": 0,
+        "legend": false,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#BDBDBD",
+        "lineStyle": "none",
+        "lineWidth": 0,
+        "fillType": "gradient",
+        "fillColor": "",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#FAFAFA"
+        }, {
+          "offset": "100%",
+          "color": "#E0E0E0"
+        }],
+        "markerColor": "#9E9E9E",
+        "idx": 1,
+        "measureSource": "activity.actual.measure",
+        "measureName": "duration",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "sum"
+      },
+      {
+        "id": "heartRate",
+        "label": "heartRate",
+        "unit": "bpm",
+        "chartType": "area",
+        "stacked": null,
+        "smoothSettings": "curveCatmullRom",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "lineColor": "#F06292",
+        "lineStyle": "solid",
+        "lineWidth": 2,
+        "fillType": "gradient",
+        "fillColor": "",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#FCE4EC",
+          "opacity": 0.1
+        }, {
+          "offset": "100%",
+          "color": "#F06292",
+          "opacity": 0.4
+        }],
+        "markerColor": "#F06292",
+        "idx": 2,
+        "measureSource": "activity.actual.measure",
+        "measureName": "heartRate",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "avgValue",
+        "aggMethod": "avg"
+      },
+      {
+        "id": "pace",
+        "label": "speed",
+        "unit": "minpkm",
+        "chartType": "area",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveCatmullRom",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#64B5F6",
+        "lineStyle": "solid",
+        "lineWidth": 2,
+        "fillType": "gradient",
+        "fillColor": "",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#BBDEFB",
+          "opacity": 0.1
+        }, {
+          "offset": "100%",
+          "color": "#64B5F6",
+          "opacity": 0.4
+        }],
+        "markerColor": "#64B5F6",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 3,
+        "measureSource": "activity.actual.measure",
+        "measureName": "speed",
+        "dataType": "time",
+        "dateFormat": "mm:ss",
+        "valueType": "avgValue",
+        "aggMethod": "avg",
+        "reverse": true
+      },
+      {
+        "id": "speedDecoupling",
+        "label": "speedDecoupling",
+        "unit": "%",
+        "chartType": "line",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveCatmullRom",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#9E9E9E",
+        "lineStyle": "dashed",
+        "lineWidth": 2,
+        "fillType": "none",
+        "fillColor": "",
+        "markerColor": "#9E9E9E",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 4,
+        "measureSource": "activity.actual.measure",
+        "measureName": "speedDecoupling",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "avg"
+      }
+    ]
+  }]
+}

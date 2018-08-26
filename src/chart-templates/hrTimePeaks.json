@@ -1,0 +1,76 @@
+{
+  "order": 10,
+  "active": true,
+  "revision": 1,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "hrTimePeaks",
+  "settings": [],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "peaks",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "peak",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "peaksByTime",
+      "measureName": "Peaks",
+      "dataType": "string",
+      "dateFormat": "",
+      "valueType": "value",
+      "seriesDateTrunc": "",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [{
+      "id": "0",
+      "label": "heartRate",
+      "unit": "bpm",
+      "chartType": "area",
+      "smoothSettings": "curveCatmullRom",
+      "tooltipType": "icon",
+      "legend": false,
+      "lineColor": "#E91E63",
+      "lineStyle": "solid",
+      "lineWidth": 2,
+      "fillType": "gradient",
+      "fillColor": "",
+      "gradient": [{
+        "offset": "0%",
+        "color": "#F8BBD0",
+        "opacity": 0.2
+      }, {
+        "offset": "100%",
+        "color": "#E91E63",
+        "opacity": 0.6
+      }],
+      "idx": 1,
+      "measureSource": "activity.actual.measure",
+      "measureName": "heartRateTimePeaks",
+      "dataType": "number",
+      "dateFormat": "",
+      "valueType": "peak",
+      "aggMethod": "max"
+    }]
+  }]
+}

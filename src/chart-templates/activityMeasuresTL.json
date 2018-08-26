@@ -1,0 +1,166 @@
+{
+  "order": 6,
+  "active": true,
+  "revision": 1,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "activityMeasuresTL",
+  "descriptionParams": [{
+    "ind": 0,
+    "idx": 0,
+    "area": "series",
+    "param": "seriesDateTrunc"
+  }],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "week",
+      "options": [
+        "day",
+        "week",
+        "month"
+      ],
+      "change": [
+        {
+          "ind": [
+            0
+          ],
+          "idx": [
+            0
+          ],
+          "area": "series",
+          "name": "seriesDateTrunc",
+          "options": {
+            "day": {
+              "seriesDateTrunc": "day"
+            },
+            "week": {
+              "seriesDateTrunc": "week"
+            },
+            "month": {
+              "seriesDateTrunc": "month"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "radius": 4,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "period",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "period",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "activity.startDate",
+      "measureName": "Days",
+      "dataType": "date",
+      "dateFormat": "DD.MM",
+      "valueType": "value",
+      "seriesDateTrunc": "month",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [
+      {
+        "id": "TL",
+        "label": "TL",
+        "unit": "",
+        "chartType": "bar",
+        "stacked": false,
+        "cumulative": false,
+        "smoothSettings": "curveBasis",
+        "tooltipType": "color",
+        "minValue": 0,
+        "radius": 3,
+        "legend": true,
+        "visible": true,
+        "avgValueLine": true,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#673AB7",
+        "lineStyle": "solid",
+        "lineWidth": 0,
+        "fillType": "gradient",
+        "fillColor": "",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#D1C4E9",
+          "opacity": 0.2
+        }, {
+          "offset": "100%",
+          "color": "#673AB7",
+          "opacity": 0.6
+        }],
+        "markerColor": "#673AB7",
+        "avgValueLineColor": "#4527A0",
+        "avgValueLineStyle": "dashed",
+        "idx": 1,
+        "measureSource": "activity.actual.measure",
+        "measureName": "trainingLoad",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "sum"
+      },
+      {
+        "id": "IL",
+        "label": "IL",
+        "unit": "",
+        "chartType": "dot",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "null",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "radius": 3,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#2887c8",
+        "lineStyle": "solid",
+        "fillType": "solid",
+        "fillColor": "#2887c8",
+        "markerColor": "#2887c8",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 2,
+        "measureSource": "activity.actual.measure",
+        "measureName": "intensityLevel",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "avg",
+        "reverse": false
+      }
+    ]
+  }]
+}

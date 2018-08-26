@@ -1,0 +1,76 @@
+{
+  "order": 12,
+  "revision": 1,
+  "active": false,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "powerTimePeaks",
+  "settings": [],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "peaks",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "peak",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "peaksByTime",
+      "measureName": "Peaks",
+      "dataType": "string",
+      "dateFormat": "",
+      "valueType": "value",
+      "seriesDateTrunc": "",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [{
+      "id": "0",
+      "label": "Мощность",
+      "unit": "Вт",
+      "chartType": "area",
+      "smoothSettings": "curveCatmullRom",
+      "tooltipType": "icon",
+      "legend": false,
+      "lineColor": "#9C27B0",
+      "lineStyle": "solid",
+      "lineWidth": 2,
+      "fillType": "gradient",
+      "fillColor": "",
+      "gradient": [{
+        "offset": "0%",
+        "color": "#E1BEE7",
+        "opacity": 0.2
+      }, {
+        "offset": "100%",
+        "color": "#9C27B0",
+        "opacity": 0.6
+      }],
+      "idx": 1,
+      "measureSource": "activity.actual.measure",
+      "measureName": "powerTimePeaks",
+      "dataType": "number",
+      "dateFormat": "",
+      "valueType": "peak",
+      "aggMethod": "max"
+    }]
+  }]
+}

@@ -1,0 +1,144 @@
+{
+  "order": 8,
+  "revision": 1,
+  "active": false,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "timeInZonesSpeed",
+  "descriptionParams": [{
+    "ind": 0,
+    "idx": 0,
+    "area": "series",
+    "param": "seriesDateTrunc"
+  }],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "week",
+      "options": [
+        "day",
+        "week",
+        "month"
+      ],
+      "change": [
+        {
+          "ind": [
+            0
+          ],
+          "idx": [
+            0
+          ],
+          "area": "series",
+          "name": "seriesDateTrunc",
+          "options": {
+            "day": {
+              "seriesDateTrunc": "day"
+            },
+            "week": {
+              "seriesDateTrunc": "week"
+            },
+            "month": {
+              "seriesDateTrunc": "month"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "tooltip": {
+        "combined": false
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "color": "rgba(0,0,0,0.5)"
+      },
+      "palette": ["#BBDEFB", "#90CAF9", "#65B5F6", "#42A5F5", "#2196F3", "#1E88E5", "#1976D2", "#1566C0", "#0D47A1"]
+    },
+    "series": [
+      {
+        "label": "period",
+        "unit": "",
+        "xAxis": true,
+        "tooltipType": "label",
+        "tooltipLabel": "period",
+        "legend": false,
+        "currentPositionLine": true,
+        "idx": 0,
+        "measureSource": "activity.startDate",
+        "measureName": "Weeks",
+        "dataType": "date",
+        "dateFormat": "DD.MM",
+        "valueType": "value",
+        "seriesDateTrunc": "week",
+        "groupByIntervalLength": 1
+      },
+      {
+        "label": "Зоны",
+        "unit": "",
+        "xAxis": true,
+        "tooltipType": "label",
+        "tooltipLabel": "Зона",
+        "legend": false,
+        "currentPositionLine": true,
+        "idx": 1,
+        "colorPalette": false,
+        "measureSource": "activity.owner.zones",
+        "fillColor": "#1976D2",
+        "measureName": "speed",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "groupBy": "",
+        "groupByIntervalLength": 1
+      }],
+    "measures": [{
+      "label": "Время в зонах",
+      "unit": "h",
+      "chartType": "bar",
+      "stacked": true,
+      "cumulative": false,
+      "smoothSettings": "null",
+      "tooltipType": "label",
+      "tooltipLabel": "duration",
+      "minValue": 0,
+      "colorPalette": true,
+      "legend": false,
+      "visible": true,
+      "scaleVisible": true,
+      "calculateTotals": "",
+      "lineColor": "",
+      "lineStyle": "none",
+      "lineWidth": 0,
+      "fillType": "solid",
+      "fillColor": "#1976D2",
+      "markerColor": "#1976D2",
+      "avgValueLine": false,
+      "avgValueLineColor": "green",
+      "avgValueLineStyle": "dashed",
+      "idx": 2,
+      "measureSource": "activity.actual.measure",
+      "measureName": "speedMPM",
+      "dataType": "number",
+      "dateFormat": "",
+      "valueType": "timeInZone",
+      "aggMethod": "sum"
+    }]
+  }]
+}

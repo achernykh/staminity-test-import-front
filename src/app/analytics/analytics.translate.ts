@@ -119,32 +119,32 @@ export const translateAnalytics = {
             shortDescription: "Тренировочные объемы по ученикам (время)",
             description: "Группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
-        HRTimePeaks: {
+        hrTimePeaks: {
             title: "Пики пульса по времени",
             shortDescription: "Максимальные пики по пульсу по времени",
             description: "",
         },
-        PaceTimePeaks: {
+        paceTimePeaks: {
             title: "Пики темпа по времени",
             shortDescription: "Максимальные пики по темпу по времени",
             description: "",
         },
-        SpeedTimePeaks: {
+        speedTimePeaks: {
             title: "Пики скорости по времени",
             shortDescription: "Максимальные пики по скорости по времени",
             description: "",
         },
-        PowerTimePeaks: {
+        powerTimePeaks: {
             title: "Пики мощности по времени",
             shortDescription: "Максимальные пики по мощности по времени",
             description: "",
         },
-        DistanceByActivityTypeByPeriods: {
+        distanceByActivityTypeByPeriods: {
             title: "Объемы по видам спорта",
             shortDescription: "Тренировочные объемы по видам спорта",
             description: "Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
         },
-        DistanceByActivityTypes: {
+        distanceByActivityTypes: {
             title: "Соотношение объемов тренировок",
             shortDescription: "Объемы тренировок по видам спорта за период",
             description: "Объемы: {{measureName | translate | lowercase}}",
@@ -292,32 +292,32 @@ export const translateAnalytics = {
             shortDescription: "Completed duration by athletes",
             description: "Group by: {{seriesDateTrunc | translate | lowercase}}",
         },
-        HRTimePeaks: {
+        hrTimePeaks: {
             title: "Heart rate peaks",
             shortDescription: "HR peaks by time",
             description: "",
         },
-        PaceTimePeaks: {
+        paceTimePeaks: {
             title: "Pace peaks",
             shortDescription: "Pace peaks by time",
             description: "",
         },
-        SpeedTimePeaks: {
+        speedTimePeaks: {
             title: "Speed peaks",
             shortDescription: "Speed peaks by time",
             description: "",
         },
-        PowerTimePeaks: {
+        powerTimePeaks: {
             title: "Power peaks",
             shortDescription: "Power peaks by time",
             description: "",
         },
-        DistanceByActivityTypeByPeriods: {
+        distanceByActivityTypeByPeriods: {
             title: "Completed distance/duration",
             shortDescription: "Completed distance/duration by sports",
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         },
-        DistanceByActivityTypes: {
+        distanceByActivityTypes: {
             title: "Completed distance/duration (piechart)",
             shortDescription: "Completed distance/duration by sports",
             description: "Measure: {{measureName | translate | lowercase}}",

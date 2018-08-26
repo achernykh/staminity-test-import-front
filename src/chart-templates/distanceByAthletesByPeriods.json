@@ -64,7 +64,8 @@
     }
   ],
   "layout": {
-
+    "gridColumn": 2,
+    "gridRow": 1
   },
   "charts": [
     {

@@ -1,0 +1,190 @@
+{
+  "order": 16,
+  "active": true,
+  "revision": 1,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "weightAndTotalVolume",
+  "descriptionParams": [
+    {
+      "ind": 0,
+      "idx": 0,
+      "area": "series",
+      "param": "seriesDateTrunc"
+    },
+    {
+      "ind": 0,
+      "idx": 1,
+      "area": "measures",
+      "param": "measureName"
+    }
+  ],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "week",
+      "options": ["day", "week", "month"],
+      "change": [{
+        "ind": [0],
+        "idx": [0],
+        "area": "series",
+        "name": "seriesDateTrunc",
+        "options": {
+          "day": {
+            "seriesDateTrunc": "day"
+          },
+          "week": {
+            "seriesDateTrunc": "week"
+          },
+          "month": {
+            "seriesDateTrunc": "month"
+          }
+        }
+      }]
+    },
+    {
+      "ind": [0],
+      "idx": [1],
+      "type": "radio",
+      "area": "measures",
+      "name": "measureName",
+      "text": "volume",
+      "model": "duration",
+      "options": ["duration", "distance"],
+      "change": [{
+        "options": {
+          "duration": {
+            "measureName": "duration",
+            "unit": "h"
+          },
+          "distance": {
+            "measureName": "distance",
+            "unit": "km"
+          }
+        }
+      }]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "radius": 4,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "period",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "period",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "activity.startDate",
+      "measureName": "Days",
+      "dataType": "date",
+      "dateFormat": "DD.MM",
+      "valueType": "value",
+      "seriesDateTrunc": "week",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [
+      {
+        "label": "duration",
+        "unit": "h",
+        "chartType": "bar",
+        "smoothSettings": "curveBasis",
+        "stacked": false,
+        "cumulative": false,
+        "tooltipType": "icon",
+        "minValue": 0,
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#607D8B",
+        "lineStyle": "solid",
+        "lineWidth": 0,
+        "fillType": "gradient",
+        "fillColor": "#CFD8DC",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#CFD8DC",
+          "opacity": 0.2
+        }, {
+          "offset": "100%",
+          "color": "#607D8B",
+          "opacity": 0.6
+        }],
+        "markerColor": "#455A64",
+        "idx": 1,
+        "measureSource": "activity.actual.measure",
+        "measureName": "duration",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "sum"
+      },
+      {
+        "id": "weight",
+        "label": "weight",
+        "unit": "kg",
+        "chartType": "area",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveBasis",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#C62828",
+        "lineStyle": "dashed",
+        "lineWidth": 3,
+        "fillType": "gradient",
+        "fillColor": "#FF5722",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#FFCDD2",
+          "opacity": 0.0
+        }, {
+          "offset": "100%",
+          "color": "#E53935",
+          "opacity": 0.2
+        }],
+        "markerColor": "#C62828",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 2,
+        "measureSource": "measurement",
+        "measureName": "sizes",
+        "valueType": "weight",
+        "aggMethod": "avg",
+        "dataType": "number",
+        "dateFormat": ""
+      }
+    ]
+  }]
+}

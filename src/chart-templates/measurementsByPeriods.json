@@ -1,0 +1,230 @@
+{
+  "order": 15,
+  "active": true,
+  "revision": 1,
+  "auth": [],
+  "icon": "insert_chart",
+  "code": "measurementsByPeriods",
+  "descriptionParams": [],
+  "settings": [
+    {
+      "type": "checkbox",
+      "text": "measures",
+      "multiTextParam": "label",
+      "model": [true, true, false, false],
+      "options": [true, false],
+      "change": [{
+        "ind": [0],
+        "idx": [1, 2, 3, 4],
+        "area": "measures",
+        "options": {
+          "false": {
+            "visible": false
+          },
+          "true": {
+            "visible": true
+          }
+        }
+      }]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "radius": 4,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "period",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "period",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "activity.startDate",
+      "measureName": "Days",
+      "dataType": "date",
+      "dateFormat": "DD.MM",
+      "valueType": "value",
+      "seriesDateTrunc": "day",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [
+      {
+        "id": "pulse",
+        "label": "pulse",
+        "unit": "bpm",
+        "chartType": "area",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveBasis",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#00838F",
+        "lineStyle": "dashed",
+        "lineWidth": 3,
+        "fillType": "gradient",
+        "fillColor": "#FF5722",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#B2EBF2",
+          "opacity": 0.0
+        }, {
+          "offset": "100%",
+          "color": "#00ACC1",
+          "opacity": 0.2
+        }],
+        "markerColor": "#00838F",
+        "idx": 1,
+        "measureSource": "measurement",
+        "measureName": "generalMeasures",
+        "valueType": "pulse",
+        "aggMethod": "avg",
+        "dataType": "number",
+        "dateFormat": ""
+      },
+      {
+        "id": "weight",
+        "label": "weight",
+        "unit": "kg",
+        "chartType": "area",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveBasis",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#C62828",
+        "lineStyle": "dashed",
+        "lineWidth": 3,
+        "fillType": "gradient",
+        "fillColor": "#FF5722",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#FFCDD2",
+          "opacity": 0.0
+        }, {
+          "offset": "100%",
+          "color": "#E53935",
+          "opacity": 0.2
+        }],
+        "markerColor": "#C62828",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 2,
+        "measureSource": "measurement",
+        "measureName": "sizes",
+        "valueType": "weight",
+        "aggMethod": "avg",
+        "dataType": "number",
+        "dateFormat": ""
+      },
+      {
+        "id": "muscleMass",
+        "label": "Мышечная масса",
+        "unit": "kg",
+        "chartType": "area",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveBasis",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": false,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#00695C",
+        "lineStyle": "dashed",
+        "lineWidth": 3,
+        "fillType": "gradient",
+        "fillColor": "#FF5722",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#B2DFDB",
+          "opacity": 0.0
+        }, {
+          "offset": "100%",
+          "color": "#00897B",
+          "opacity": 0.2
+        }],
+        "markerColor": "#00695C",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 3,
+        "measureSource": "measurement",
+        "measureName": "generalMeasures",
+        "valueType": "muscleMass",
+        "aggMethod": "avg",
+        "dataType": "number",
+        "dateFormat": ""
+      },
+      {
+        "id": "percentFat",
+        "label": "Процент жира",
+        "unit": "%",
+        "chartType": "area",
+        "stacked": null,
+        "cumulative": false,
+        "smoothSettings": "curveBasis",
+        "tooltipType": "color",
+        "legend": true,
+        "visible": false,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#FF8F00",
+        "lineStyle": "dashed",
+        "lineWidth": 3,
+        "fillType": "gradient",
+        "fillColor": "#FF5722",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#FFECB3",
+          "opacity": 0.0
+        }, {
+          "offset": "100%",
+          "color": "#FFB300",
+          "opacity": 0.2
+        }],
+        "markerColor": "#FF8F00",
+        "avgValueLineColor": "",
+        "avgValueLineStyle": "",
+        "idx": 4,
+        "measureSource": "measurement",
+        "measureName": "generalMeasures",
+        "valueType": "percentFat",
+        "aggMethod": "avg",
+        "dataType": "number",
+        "dateFormat": ""
+      }
+    ]
+  }]
+}
