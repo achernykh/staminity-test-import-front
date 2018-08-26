@@ -22,7 +22,7 @@ export interface TrainingPlanConfig {
 }
 
 export const trainingPlanConfig: TrainingPlanConfig = {
-    lang: supportLng,
+    lang: ['en', 'fr', 'es', 'ru', 'de'],
     types: ['triathlon', 'run', 'bike', 'swim', 'other'],
     distanceTypes: {
         triathlon: ['olympic', 'fullDistance', 'halfDistance', 'sprint', 'superSprint', 'other'],

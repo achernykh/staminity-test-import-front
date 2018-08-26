@@ -12,7 +12,8 @@ export let _translate = {
         errMail: "Проверьте правильность указания e-mail",
         errPass: "Не менее 8 символов, включая цифру и заглавную букву",
         errComparePass: "Пароли не совпадают",
-        confirmation: "Я принимаю <a href='https://legal.staminity.com/ru/license.html'>Публичную оферту</a> и соглашаюсь с <a href='https://legal.staminity.com/ru/terms.html'>Условиями использования</a> сайта.<br>",
+        confirmation: 'Я хочу создать аккаунт в Staminity и принимаю условия <a target="_blank" href="https://legal.staminity.com/ru/license.html">Публичной оферты</a> и <a target="_blank" href="https://legal.staminity.com/ru/terms.html">Правил использования</a> сайта.<br>' +
+        'Я согласен(-на) на обработку своих персональных данных в соответствии с <a target="_blank" href="https://legal.staminity.com/ru/privacy.html">Политикой конфиденциальности</a> и получение информационной рассылки от Staminity. Не волнуйтесь, если передумаете, в любой момент можно отписаться',
 
         socialText: "Через социальные сети:",
         socialOr: "или по адресу email",
@@ -125,7 +126,8 @@ export let _translate = {
         errMail: "Please check your e-mail address",
         errPass: "At least 8 characters includes one digit and one capital letter",
         errComparePass: "Passwords did not match",
-        confirmation: "I accept <a href='https://legal.staminity.com/en/license.html'>the Public offer</a> and agree with <a href='https://legal.staminity.com/en/terms.html'>the Website use policy</a>",
+        confirmation: 'I wish to create a new account in Staminity. I accept <a target="_blank" href="https://legal.staminity.com/en/license.html">the Public offer</a> and <a target="_blank" href="https://legal.staminity.com/en/terms.html">the Website use policy</a>.<br>' +
+        'I agree with my personal data processing in accordance with <a target="_blank" href="https://legal.staminity.com/en/privacy.html">the Privacy Policy</a> and agree to receive a periodic newsletter from Staminity. Do not worry, if you change your mind, you can unsubscribe at any time.',
 
         socialText: "Through social networks: ",
         socialOr: "or via email",
@@ -137,17 +139,17 @@ export let _translate = {
             coach: "I am a coach",
             button: "Create account",
             social: 'Sign up with ',
-            signinLink: "<a href='https://staminity.com/signin'>Sign in</a>",
+            signinLink: "<a href='https://staminity.com/signin'>Log in</a>",
             email: "Sign up with e-mail"
         },
         // Окно входа в сервис
         signin: {
-            fullTitle: "Sign in",
-            shortTitle: "Sign in",
-            button: "Sign in",
+            fullTitle: "Log in",
+            shortTitle: "Log in",
+            button: "Log in",
             remember: "Remember me",
             reset: "Forgot my password",
-            social: 'Sign in with ',
+            social: 'Log in with ',
             signupLink: "<a href='https://staminity.com/signup'>Create new account</a>"
         },
         signout: {
@@ -197,7 +199,7 @@ export let _translate = {
             title: "You're welcome!",
             subtitle: "Please Sign up or login to Staminity",
         },
-        alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>",
+        alreadyHaveAccount: "Already have an account? <strong>Log in</strong>",
         role: {
             label: 'Role',
             athlete: {

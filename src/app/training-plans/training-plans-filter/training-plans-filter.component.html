@@ -14,16 +14,16 @@
         <md-content flex="auto">
             <md-list class="md-dense" flex>
                 <!-- Платный план -->
-                <md-list-item ng-if="$ctrl.isSearch">
+                <md-list-item ng-if="!$ctrl.isSearch">
                     <md-icon flex="none" class="material-icons md-dark dense">monetization_on</md-icon>
                     <p translate="trainingPlans.isPublic.label"></p>
                     <md-switch class="md-primary"
                                name="isPublic"
                                ng-change="$ctrl.change()"
-                               ng-model="$ctrl.filter.isPublic"></md-switch>
+                               ng-model="$ctrl.datamodel.isPublic"></md-switch>
                 </md-list-item>
                 <!-- Автор плана -->
-                <md-list-item layout="row" layout-align="space-between start" ng-if="$ctrl.view === 'search'">
+                <md-list-item layout="row" layout-align="space-between start" ng-if="$ctrl.isSearch">
                     <md-icon flex="none" class="material-icons md-dark dense">person</md-icon>
                     <md-contact-chips
                             flex="auto"
@@ -41,6 +41,29 @@
                             placeholder="{{'trainingPlans.owner.label' | translate}}">
                     </md-contact-chips>
                 </md-list-item>
+                <!-- Язык плана -->
+                <md-list-item ng-if="$ctrl.isSearch">
+                    <md-input-container class="md-block no-message" layout="row">
+                        <label translate="trainingPlans.lang.label"></label>
+                        <md-icon flex="none" class="md-dark"
+                                 md-svg-src="/assets/icon/{{$ctrl.datamodel.lng}}.png">
+                        </md-icon>
+                        <md-select flex name="type" class="icon" multiple
+                                   placeholder="{{'trainingPlans.lang.placeholder' | translate}}"
+                                   ng-model="$ctrl.datamodel.lng"
+                                   ng-change="$ctrl.change()">
+                            <md-option ng-repeat="lng in $ctrl.config.lang track by $index"
+                                       value="{{lng}}">
+                                {{lng | translate}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="$ctrl.planForm.lang.$error" role="alert">
+                            <div ng-message-exp="['required']"
+                                 translate="form.required">
+                            </div>
+                        </div>
+                    </md-input-container>
+                </md-list-item>
                 <!-- Название плана -->
                 <md-list-item>
                     <md-input-container class="md-block no-message" layout="row">
@@ -51,7 +74,7 @@
                                type="text"
                                placeholder="{{trainingPlans.name.placeholder}}"
                                ng-change="$ctrl.change()"
-                               ng-model="$ctrl.filter.name"
+                               ng-model="$ctrl.datamodel.name"
                                ng-model-options="{ debounce: 300 }">
                     </md-input-container>
                 </md-list-item>
@@ -59,11 +82,11 @@
                 <md-list-item>
                     <md-input-container class="md-block no-message" md-no-float layout="row">
                         <label translate="trainingPlans.type.label"></label>
-                        <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/{{$ctrl.filter.type}}.svg">
+                        <md-icon flex="none" class="md-dark" md-svg-src="/assets/icon/{{$ctrl.datamodel.type}}.svg">
                         </md-icon>
                         <md-select flex name="type" class="icon"
                                    placeholder="{{trainingPlans.name.placeholder}}"
-                                   ng-model="$ctrl.filter.type"
+                                   ng-model="$ctrl.datamodel.type"
                                    ng-change="$ctrl.change()">
                             <md-option value="all" translate="competition.types.all"></md-option>
                             <md-divider></md-divider>
@@ -75,19 +98,19 @@
                     </md-input-container>
                 </md-list-item>
                 <!-- Тип дистанции -->
-                <md-list-item ng-if="$ctrl.filter.type && $ctrl.filter.type !== 'all'">
+                <md-list-item ng-if="$ctrl.datamodel.type && $ctrl.datamodel.type !== 'all'">
                     <md-input-container class="md-block no-message" md-no-float layout="row">
                         <label translate="trainingPlans.distanceType.label"></label>
                         <md-icon flex="none" class="md-dark"
                                  md-svg-src="/assets/icon/competition.svg"></md-icon>
-                        <md-select flex name="distanceType" class="icon" ng-required="{{$ctrl.filter.isPublic}}"
+                        <md-select flex name="distanceType" class="icon" ng-required="{{$ctrl.datamodel.isPublic}}"
                                    ng-model="$ctrl.distanceType"
                                    placeholder="{{trainingPlans.distanceType.placeholder}}"
                                    ng-change="$ctrl.change()">
                             <md-option value="all" translate="competition.distanceType.all"></md-option>
                             <md-divider></md-divider>
                             <md-option ng-repeat="type in $ctrl.competitionConfig.distanceTypes |
-                                       filter:{type: $ctrl.filter.type}" ng-value="type">
+                                       filter:{type: $ctrl.datamodel.type}" ng-value="type">
                                 {{'competition.distanceType.' + type.type + '.' + type.code | translate}}
                             </md-option>
                         </md-select>
@@ -102,8 +125,8 @@
                             <md-checkbox flex="100"
                                          ng-repeat="tag in $ctrl.config.tags track by $index"
                                          class="md-primary" name="tag-{{tag}}"
-                                         ng-checked="$ctrl.exists(tag, $ctrl.filter.tags)"
-                                         ng-click="$ctrl.toggle(tag, $ctrl.filter.tags)">
+                                         ng-checked="$ctrl.exists(tag, $ctrl.datamodel.tags)"
+                                         ng-click="$ctrl.toggle(tag, $ctrl.datamodel.tags)">
                                 <span translate="trainingPlans.tags.{{tag}}"></span>
                             </md-checkbox>
                         </div>
@@ -118,8 +141,8 @@
                             <md-checkbox flex="100"
                                          ng-repeat="option in $ctrl.config.options track by $index"
                                          class="md-primary" name="option-{{option}}"
-                                         ng-checked="$ctrl.filter[option]"
-                                         ng-click="$ctrl.filter[option] ? $ctrl.filter[option] = null : $ctrl.filter[option] = true; $ctrl.onChangeFilter({filter: $ctrl.filter})">
+                                         ng-checked="$ctrl.datamodel[option]"
+                                         ng-click="$ctrl.datamodel[option] ? $ctrl.datamodel[option] = null : $ctrl.datamodel[option] = true; $ctrl.onChangeFilter({filter: $ctrl.datamodel})">
                                 <span translate="trainingPlans.options.{{option}}"></span>
                             </md-checkbox>
                         </div>
@@ -152,7 +175,7 @@
                         <md-icon flex="none" class="material icons md-dark">language</md-icon>
                         <md-select flex name="type" class="icon" multiple="true"
                                    placeholder="{{trainingPlans.language.placeholder}}"
-                                   ng-model="$ctrl.filter.lang"
+                                   ng-model="$ctrl.datamodel.lang"
                                    ng-change="$ctrl.change()">
                             <md-option ng-repeat="lang in $ctrl.supportLanguages track by $index"
                                        value="{{type}}">
@@ -165,7 +188,7 @@
         </md-content>
         <md-dialog-actions ng-if="$ctrl.dialog" flex="none" layout="row" style="background: white; width: 100%;">
             <span flex></span>
-            <md-button ng-click="$ctrl.onSearch({filter: $ctrl.filter})">
+            <md-button ng-click="$ctrl.onSearch({filter: $ctrl.datamodel})">
                 <span translate="trainingPlans.actions.search"></span>
             </md-button>
         </md-dialog-actions>

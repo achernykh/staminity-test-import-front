@@ -61,10 +61,13 @@
             <img ng-src="{{::item.backgroundUrl }}" class="md-card-image" alt="">
             <md-card-title style="padding-top: 0">
                 <md-card-title-text>
-                    <p class="md-subhead"
-                       translate="{{item.groupId ? 'search.clubMetrics': 'search.coachMetrics'}}"
-                       translate-values="{athletes: item.athleteCount, coaches: item.coachCount}">
-                    <div class="md-subhead" layout="row" layout-wrap>
+                    <div layout="row" layout-align="start center">
+                        <img class="language-pic" ng-repeat="lng in item.coachLanguage" flex="none" src="/assets/icon/{{lng}}-flag-round-xs.png" width="20" height="20"/>
+                        <p flex="none" class="athlete-info md-subhead"
+                           translate="{{item.groupId ? 'search.clubMetrics': 'search.coachMetrics'}}"
+                           translate-values="{athletes: item.athleteCount, coaches: item.coachCount}">
+                    </div>
+                    <div class="" layout="row" layout-wrap>
                         <span flex="none"
                               class="tag calendar-item-activity-icon color-{{activity}}" style="color: white"
                               ng-repeat="activity in item.activity" translate>{{'sport.' + activity}}

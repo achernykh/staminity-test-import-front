@@ -165,7 +165,10 @@ export const _measurement = {
     },
     speed: {
         unit: "mps",
-        fixed: 0
+        fixed: 0,
+        transformBySport: {
+            pace: ['run', 'swim']
+        }
     },
     heartRate: {
         unit: "bpm",

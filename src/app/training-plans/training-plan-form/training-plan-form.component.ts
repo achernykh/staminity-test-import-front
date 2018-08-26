@@ -9,6 +9,7 @@ import { TrainingPlansService } from "../training-plans.service";
 import { TrainingPlanConfig } from "../training-plan/training-plan.config";
 import { IQuillConfig } from "../../share/quill/quill.config";
 import { ICompetitionConfig } from "@app/calendar-item/calendar-item-competition/calendar-item-competition.config";
+import DisplayService from "../../core/display.service";
 
 class TrainingPlanFormCtrl implements IComponentController {
 
@@ -27,7 +28,7 @@ class TrainingPlanFormCtrl implements IComponentController {
 
     //inject
     static $inject = [ '$scope', 'TrainingPlansService', 'trainingPlanConfig', 'message', 'quillConfig',
-        'CompetitionConfig', 'dialogs'];
+        'CompetitionConfig', 'dialogs', 'DisplayService'];
 
     constructor (private $scope,
                  private trainingPlanService: TrainingPlansService,
@@ -35,7 +36,8 @@ class TrainingPlanFormCtrl implements IComponentController {
                  private message: MessageService,
                  private quillConf: IQuillConfig,
                  private competitionConfig: ICompetitionConfig,
-                 private dialogs) {
+                 private dialogs,
+                 private displayService: DisplayService) {
 
         $scope.onlyFirstPlanDaysPredicate = (date: Date) => this.onlyFirstPlanDaysPredicate(date);
 
@@ -45,6 +47,7 @@ class TrainingPlanFormCtrl implements IComponentController {
 
         if (this.mode === FormMode.Post) {
             this.plan = new TrainingPlan();
+            this.plan.lang = this.plan.lang || this.displayService.getLocale();
             this.dataLoading = true;
         } else {
             this.getPlanDetails();

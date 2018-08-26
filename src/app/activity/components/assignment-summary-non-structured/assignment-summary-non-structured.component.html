@@ -63,7 +63,7 @@
                        ng-change="$ctrl.changeValue('intensityMeasure')"
                        ng-disabled="(!$ctrl.item.activity.auth.isCreator && !$ctrl.item.activity.auth.isMyCoach) || $ctrl.item.activity.view.isView">
                 <md-option ng-repeat="type in $ctrl.intensityTypesBySport[$ctrl.sport]"
-                           value="{{type}}">{{type | translate}}
+                           value="{{type}}">{{type | measureName:$ctrl.item.activity.header.sportBasic | translate}}
                 </md-option>
             </md-select>
             <div ng-messages="$ctrl.item.assignmentForm.intensityType.$error" role="alert"></div>
