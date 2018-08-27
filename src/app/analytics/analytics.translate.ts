@@ -14,6 +14,7 @@ export const translateAnalytics = {
             },
             activityTypes: {
                 placeholder: "Виды спорта",
+                all: 'Все'
             },
             activityCategories: {
                 empty: "Выберите категорию",
@@ -54,6 +55,14 @@ export const translateAnalytics = {
             quarter: "По кварталам",
             false: "Нет",
             true: "Да",
+            loading: "Загрузка...",
+            futDays: 'Дней в будущем',
+            lastDays: 'Дней в прошлом',
+            "180d": "180 дней",
+            "60d": "60 дней",
+            "30d": "30 дней",
+            "7d": "7 дней",
+            "0d": "Не выводить"
 
         },
         settings: {
@@ -163,6 +172,15 @@ export const translateAnalytics = {
             title: "Выполнение плана",
             shortDescription: "Процент выполнения плановых тренировок",
             description: "Объемы: {{measureName | translate | lowercase}}, группировка: {{seriesDateTrunc | translate | lowercase}}",
+        },
+        fitnessFatigueForm: {
+            title: 'Фитнес - усталость',
+            shortDescription: 'Диаграмма Фитнес - усталость',
+            description: 'Предыдущие {{lastDays}} и следующие {{futDays}} days'
+        },
+        action: {
+            restoreSettings: 'Сбросить настройки',
+
         }
     },
 
@@ -181,6 +199,7 @@ export const translateAnalytics = {
             },
             activityTypes: {
                 placeholder: "Sports",
+                all: 'Все'
             },
             activityCategories: {
                 empty: "Category",
@@ -226,7 +245,14 @@ export const translateAnalytics = {
             byDays: 'by {{lastDays}} days',
 
             //
-            durationAvg: 'Duration avg. / {{seriesDateTrunc}}'
+            loading: "Loading...",
+            futDays: 'Next days',
+            lastDays: 'Last days',
+            "180d": "180 days",
+            "60d": "60 days",
+            "30d": "30 days",
+            "7d": "7 days",
+            "0d": "Not show"
 
         },
         settings: {
@@ -338,10 +364,11 @@ export const translateAnalytics = {
             description: "Measure: {{measureName | translate | lowercase}}, group by: {{seriesDateTrunc | translate | lowercase}}",
         },
         fitnessFatigueForm: {
-            title: 'Perfomance management',
-            shortDescription: 'Perfomance management',
+            title: 'Fitness - fatigue',
+            shortDescription: 'Fitness - fatigue chart',
             description: 'Last {{lastDays}} and next {{futDays}} days'
-        }
+        },
+        restoreSettings: 'Reset to default',
     },
 };
 

@@ -99,7 +99,32 @@ export const _MEASURE_TRANSLATE = {
         '20min': '20 мин',
         '30min': '30 мин',
         '60min': '60 мин',
-        '90min': '90 мин'
+        '90min': '90 мин',
+
+        // Для аналитики
+
+        durationAvg: 'Время, в среднем / {{seriesDateTrunc | translate | lowercase}}',
+        durationTotal: 'Время, всего',
+        durationMax: 'Время, макс. / {{seriesDateTrunc | translate | lowercase}}',
+
+        distanceTotal: 'Расстояние, всего',
+        distanceAvg: 'Расстояние, в среднем / {{seriesDateTrunc | translate | lowercase}}',
+        distanceMax: 'Расстояние, макс. / {{seriesDateTrunc | translate | lowercase}}',
+
+
+        runSum: 'Бег, всего',
+        bikeSum: 'Вел, всего',
+        swimSum: 'Плавание, всего',
+
+
+        fatigue: 'Усталость',
+        fitness: 'Фитнес',
+        form: 'Форма',
+        fitnessStart: 'Фитнес',
+        fitnessEnd: 'Фитнес',
+        fatigueEnd: 'Усталость',
+        formEnd: 'Форма',
+
 
 
     },
@@ -204,7 +229,31 @@ export const _MEASURE_TRANSLATE = {
         '20min': '20 min',
         '30min': '30 min',
         '60min': '60 min',
-        '90min': '90 min'
+        '90min': '90 min',
+
+
+        // для Аналитики
+
+        durationAvg: 'Duration avg. / {{seriesDateTrunc | translate | lowercase}}',
+        durationTotal: 'Duration total',
+        durationMax: 'Duration max / {{seriesDateTrunc | translate | lowercase}}',
+
+        distanceTotal: 'Distance total',
+        distanceAvg: 'Distance avg/ {{seriesDateTrunc | translate | lowercase}}',
+        distanceMax: 'Distance max / {{seriesDateTrunc | translate | lowercase}}',
+
+
+        runSum: 'Running',
+        bikeSum: 'Cycling',
+        swimSum: 'Swimming',
+
+        fatigue: 'Fatigue',
+        fitness: 'Fitness',
+        form: 'Form',
+        fitnessStart: 'Fitness',
+        fitnessEnd: 'Fitness',
+        fatigueEnd: 'Fatigue',
+        formEnd: 'Form',
 
     },
 };
