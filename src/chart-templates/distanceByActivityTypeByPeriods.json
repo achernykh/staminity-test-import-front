@@ -90,7 +90,7 @@
         "color": "rgba(0,0,0,0.5)"
 
       },
-      "palette": ["#2196F3", "#FFC107", "#009688", "#F44336", "#9C27B0", "#795548", "#E91E63", "#9E9E9E"]
+      "palette": []
     },
     "series": [{
       "label": "period",
@@ -110,11 +110,11 @@
       "groupByIntervalLength": 1
     },
       {
-        "label": "Виды спорта",
+        "label": "activityType",
         "unit": "",
         "xAxis": true,
         "tooltipType": "none",
-        "tooltipLabel": "Вид спорта",
+        "tooltipLabel": "activityType",
         "legend": true,
         "colorPalette": true,
         "currentPositionLine": false,

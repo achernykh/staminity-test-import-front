@@ -26,6 +26,7 @@ export class AnalyticsCtrl implements IComponentController {
 
     // private
     private globalFilterChange: number = null;
+    private settingsChange: number = 0;
     private isLoadingData: boolean = true;
     private chartTemplates: IAnalyticsChart[] = [];
     private chartUserSettings: any[];
@@ -52,6 +53,7 @@ export class AnalyticsCtrl implements IComponentController {
                  private $filter: any,
                  private $mdMedia,
                  private $mdDialog) {
+
 
         session.getObservable()
             .takeUntil(this.destroy)
@@ -91,6 +93,12 @@ export class AnalyticsCtrl implements IComponentController {
             .then(_ => this.isLoadingData = false);
 
         //this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
+    }
+
+    private deleteLocalSettings (): void {
+        Promise.all(this.charts.filter(c => c.id).map(c => this.analyticsService.deleteChartSettings(c.id)))
+            .then(r => { debugger; })
+            .then(_ => this.globalFilterChange ++);
     }
 
     private applyLocalSettings (localSettings: any[]): void {

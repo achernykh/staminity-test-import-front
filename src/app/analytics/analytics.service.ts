@@ -2,12 +2,17 @@ import {AnalyticsConfig} from "@app/analytics/analytics.constants";
 import {IHttpService} from "angular";
 import { SocketService } from "../core/socket/socket.service";
 import { GetChartSettings, PostChartSettings, DeleteChartSettings } from "../../../api/statistics/statistics.request";
+import {Observable} from "rxjs/Rx";
 
 export class AnalyticsService {
+    item$: Observable<any>;
+
     static $inject = ['$http', 'analyticsConfig', 'SocketService'];
     constructor (private $http: IHttpService,
                  private config: AnalyticsConfig,
                  private socket: SocketService) {
+
+        this.item$ = this.socket.messages.filter(message => message.type === 'chart').share();
 
     }
 

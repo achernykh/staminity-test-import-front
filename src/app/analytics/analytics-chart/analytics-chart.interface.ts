@@ -32,6 +32,7 @@ export interface IChartData {
     compile: {
         ind: number;
         idx: number;
+        filter: any;
         formula: string[]; // last, fist, max, avg, sum
         value: any;
         subValue: {

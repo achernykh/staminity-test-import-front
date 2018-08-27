@@ -14,14 +14,6 @@
 <md-content flex="auto" layout="column" style="background: white">
     <form flex="auto" layout="column" name="$ctrl.settingsForm">
         <md-list flex="auto" class="md-dense">
-            <!--<md-subheader class="md-no-sticky">{{'analytics.settings.params' | translate}}</md-subheader>-->
-            <!--<md-list-item>
-                <p translate="analytics.settings.globalParams"></p>
-                <md-switch class="md-secondary md-primary"
-                           name="globalParams"
-                           ng-model="$ctrl.globalParams"
-                           ng-change="$ctrl.changeSettingsParamsPoint()"></md-switch>
-            </md-list-item>-->
             <md-list-item ng-if="$ctrl.isParamExist('users')">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.users.placeholder"></label>
@@ -40,7 +32,6 @@
             </md-list-item>
             <md-list-item ng-if="$ctrl.isParamExist('activityTypes')">
                 <md-input-container class="md-block no-message" md-no-float layout="row">
-                    <!--<md-icon flex="none" class="md-dark" md-svg-src="{{$ctrl.filter.activityTypes.model}}"></md-icon>-->
                     <label translate="analytics.filter.activityTypes.placeholder"></label>
                     <md-select flex
                                name="sport"
@@ -137,8 +128,6 @@
             </md-list-item>
         </md-list>
         <md-list flex="auto" class="md-dense" ng-if="$ctrl.settings.length > 0">
-            <!--<md-divider></md-divider>
-            <md-subheader class="md-no-sticky">{{'analytics.settings.layout' | translate}}</md-subheader>-->
             <md-list-item ng-repeat="param in $ctrl.settings" ng-switch="param.type">
                 <div ng-switch-when="radio" layout="column">
                     <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
@@ -150,9 +139,9 @@
                         </md-radio-button>
                     </md-radio-group>
                 </div>
-                <div ng-switch-when="checkbox" ng-if="param.idx.length > 1" layout="column">
+                <div ng-switch-when="checkbox" ng-if="param.change[0].idx.length > 1" layout="column">
                     <p class="md-body-2 md-dark md-active" flex="none" translate="analytics.params.{{param.text}}"></p>
-                    <md-checkbox ng-repeat="idx in param.idx" class="md-primary" name="{{param.text}}-{{idx}}"
+                    <md-checkbox ng-repeat="idx in param.change[0].idx" class="md-primary" name="{{param.text}}-{{idx}}"
                                      ng-checked="$ctrl.getGroupCheckboxStatus(param, idx)"
                                      ng-click="$ctrl.setGroupCheckboxStatus(param, idx)">
                         <span>{{$ctrl.getCheckboxLabel(param, idx)}}</span>

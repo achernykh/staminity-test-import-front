@@ -70,7 +70,7 @@
       "text": "measures",
       "multiTextParam": "label",
       "model": [true, true, true],
-      "options": [true, false],
+      "options": ["true", "false"],
       "change": [{
         "ind": [0],
         "idx": [2, 3, 4],

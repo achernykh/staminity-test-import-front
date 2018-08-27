@@ -9,6 +9,7 @@ import { AnalyticsChart } from "./analytics-chart.model";
 import { periodByType, comparePeriodType } from "../analytics-chart-filter/analytics-chart-filter.function";
 import { isArray } from "@reactivex/rxjs/dist/cjs/util/isArray";
 import { IUserConnections, IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
+import {AnalyticsService} from "@app/analytics/analytics.service";
 
 const prepareUsers = (param: string, athletes: IUserProfileShort[]): number[] => {
     switch (param) {
@@ -22,6 +23,7 @@ class AnalyticsChartCtrl implements IComponentController {
     analytics: AnalyticsCtrl;
     chart: AnalyticsChart;
     globalFilter: AnalyticsChartFilter;
+    settingsChange: number;
 
     private descriptionParams: Object = {};
 
@@ -33,9 +35,38 @@ class AnalyticsChartCtrl implements IComponentController {
 
     updateCount: number = 0;
 
-    static $inject = ["$scope", "statistics", "$mdDialog", "$filter"];
+    static $inject = ["$scope", "statistics", "$mdDialog", "$filter", "AnalyticsService"];
 
-    constructor (private $scope: IScope, private statistics: StatisticsService, private $mdDialog: any, private $filter: any) {
+    constructor (
+        private $scope: IScope,
+        private statistics: StatisticsService,
+        private $mdDialog: any,
+        private $filter: any,
+        private analyticsService: AnalyticsService) {
+
+        this.analyticsService.item$
+            .filter(m => m.value.code === this.chart.code || m.value.id === this.chart.id)
+            .subscribe(message => {
+
+                switch (message.action) {
+                    case "I": case "U": {
+                    this.chart = new AnalyticsChart(
+                        Object.assign({}, this.chart.template, message.value), //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+                        this.chart.user,
+                        this.globalFilter,
+                        this.chart.$filter);
+                    break;
+                }
+                    case "D": {
+                        this.chart = new AnalyticsChart(
+                            this.chart.template, //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+                            this.chart.user,
+                            this.globalFilter,
+                            this.chart.$filter);
+                        break;
+                    }
+                }
+            });
 
     }
 
@@ -44,7 +75,10 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     $onChanges (changes): void {
-        if ( changes.hasOwnProperty("chart") && changes.chart.isFirstChange() ) {
+        /**if (changes.hasOwnProperty('settingsChange') && this.settingsChange > 0) {
+            return;
+        }**/
+        if ( changes.hasOwnProperty("chart") && changes.chart.isFirstChange() && this.settingsChange === 0 ) {
             this.loadData();
         }
         if ( changes.hasOwnProperty("globalFilterChange") && !changes.globalFilterChange.isFirstChange() &&
@@ -59,6 +93,7 @@ class AnalyticsChartCtrl implements IComponentController {
         this.prepareTitleContext();
         this.prepareParams();
         this.prepareData();
+        this.prepareMeasures();
     }
 
     isGlobalAndLocalFilterDifferent (): boolean {
@@ -116,6 +151,7 @@ class AnalyticsChartCtrl implements IComponentController {
         if ( update ) {
             this.prepareParams();
             this.prepareData();
+            this.prepareMeasures();
         }
         this.updateCount++;
     }
@@ -151,7 +187,7 @@ class AnalyticsChartCtrl implements IComponentController {
 
         if ( param.area === "params" || protectedOption ||
             Object.keys(param.change[value]).some((change) => ["seriesDateTrunc", "measureName", "unit"].indexOf(change) !== -1) ) {
-            this.prepareData();
+            this.prepareMeasures();
         }
         this.prepareTitleContext();
         this.onChangeFilter(); // сохраняем настройки в браузере
@@ -185,6 +221,11 @@ class AnalyticsChartCtrl implements IComponentController {
     private prepareSettings (): void {
         if ( !this.chart.settings ) { return; }
         this.chart.settings.map(s => this.chart.changeSettings(s, s.model));
+    }
+
+    private prepareData (): void {
+        if (!this.chart.data) {return;}
+        this.chart.data.map(d => d.compile.value = null);
     }
 
     private prepareParams () {
@@ -250,7 +291,7 @@ class AnalyticsChartCtrl implements IComponentController {
         return this.chart.localParams && Object.keys(this.chart.localParams).length || null;
     }
 
-    private prepareData () {
+    private prepareMeasures () {
         const request: IReportRequestData = {
             charts: this.chart.charts,
         };
@@ -276,6 +317,7 @@ const AnalyticsChartComponent: IComponentOptions = {
         chart: "<",
         globalFilter: "<",
         globalFilterChange: "<",
+        settingsChange: '<',
         panelChanges: "<",
         onChangeFilter: "&",
         onExpand: "&",

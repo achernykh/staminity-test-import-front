@@ -24,9 +24,10 @@ interface IReportCustomPeriod {
 
 interface IAnalyticsChartChange {
     ind?: number[]; // индекс в массиве chart
-    idx?: number[]; // индекс в массиве series/measures
-    area?: "params" | "series" | "measures";
+    idx?: any[]; // индекс в массиве series/measures
+    area?: "params" | "series" | "measures" | "data";
     name?: string;
+    code?: string[];
     options?: {
         [option: string]: {
             [param: string]: any

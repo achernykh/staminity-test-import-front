@@ -56,8 +56,10 @@
                 <md-icon class="material-icons" aria-label="Back">filter</md-icon>
             </md-button>
             <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
-            <md-button  ng-click="$ctrl.refreshSettings()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
-                <md-icon class="material-icons" aria-label="Back">refresh</md-icon>
+            <md-button  ng-click="$ctrl.deleteLocalSettings()"
+                        class="md-icon-button" aria-label="Settings" style="margin: 0px" layout="row">
+                <md-icon class="material-icons" aria-label="restore">restore</md-icon>
+                <span translate="analytics.action.restoreSettings"></span>
             </md-button>
         </section>
         <section class="mobile" hide show-xs show-sm>
@@ -103,6 +105,7 @@
                                  chart="chart"
                                  global-filter="$ctrl.globalFilter"
                                  global-filter-change="$ctrl.globalFilterChange"
+                                 settings-change="$ctrl.settingsChange"
                                  panel-changes="$ctrl.panelSizeChange"
                                  on-change-filter="$ctrl.saveSettings('charts')"
                                  mobile-view="">

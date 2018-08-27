@@ -1,5 +1,5 @@
 <st-premium-wrapper ng-if="$ctrl.chart.premiumFunction"
-                    class="premium-wrapper"
+                    class=""
                     function-code="$ctrl.chart.premiumFunction">
 </st-premium-wrapper>
 <div class="analytics-chart"
@@ -39,7 +39,8 @@
     <section class="analytics-chart__data-panel" layout="row">
         <st-analytics-chart-data flex="none"
                                  ng-repeat="data in $ctrl.chart.data | filter:{ visible: true }"
-                                 data="data" description-params="$ctrl.descriptionParams">
+                                 data="data" description-params="$ctrl.descriptionParams"
+                                 update="$ctrl.updateCount">
         </st-analytics-chart-data>
     </section>
 

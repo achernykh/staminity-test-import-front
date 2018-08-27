@@ -2,6 +2,18 @@ import moment from 'moment/src/moment.js';
 import { element } from 'angular';
 import { SessionService } from "../../core/session/session.service";
 
+export const activityTypeColor = {
+    run: '#3F51B5',
+    bike: '#673AB7',
+    swim: '#03A9F4',
+    rowing: '#E91E63',
+    strength: '#795548',
+    triathlon: '#00796B',
+    ski: '#455A64',
+    other: '#757575',
+    brick: '#F4511E',
+};
+
 // Настройка отображения показателей под разные виды спорта. По-умолчанию отображаются в соотвествии с указанным
 // unit в обьекте _measurement, но для отдельных пар базовый вид спорта / показатель возможено отображение отличной
 // единицы изменения

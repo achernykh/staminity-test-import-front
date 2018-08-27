@@ -12,17 +12,19 @@
       "text": "measures",
       "multiTextParam": "label",
       "model": [true, true, false, false],
-      "options": [true, false],
+      "options": ["true", "false"],
       "change": [{
         "ind": [0],
         "idx": [1, 2, 3, 4],
         "area": "measures",
         "options": {
           "false": {
-            "visible": false
+            "visible": false,
+            "legend": false
           },
           "true": {
-            "visible": true
+            "visible": true,
+            "legend": true
           }
         }
       }]

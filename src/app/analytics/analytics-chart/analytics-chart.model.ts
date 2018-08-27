@@ -58,17 +58,17 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     private keys: string[] = ["template", "user", "categories", "isAuthorized", "globalFilter", "keys"];
 
-    constructor (private template?: IAnalyticsChart,
-                 private user?: IUserProfile,
-                 private globalFilter?: AnalyticsChartFilter,
-                 private $filter?: any) {
+    constructor (public template?: IAnalyticsChart,
+                 public user?: IUserProfile,
+                 public globalFilter?: AnalyticsChartFilter,
+                 public $filter?: any) {
 
         Object.assign(this, {...template});
         if ( this.hasOwnProperty("layout") && this.layout ) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
         }
 
-        if ( !this.globalParams && this.localParams ) {
+        /**if ( !this.globalParams && this.localParams ) {
             this.prepareLocalParams(user);
             this.localParams = new AnalyticsChartFilter(
                 this.globalFilter.user,
@@ -77,7 +77,7 @@ export class AnalyticsChart implements IAnalyticsChart {
                 this.$filter,
             );
             this.localParams.activityTypes.options = activityTypes;
-        }
+        }**/
     }
 
     clearMetrics () {
@@ -117,11 +117,17 @@ export class AnalyticsChart implements IAnalyticsChart {
                     );
                     break;
                 }
+                case "data": {
+                    this.data.filter(d => change.code.indexOf(d.code) !== -1)
+                        .map(d => Object.keys(change.options[value]).map(k => d[k] = change.options[value][k]));
+                    break;
+                }
                 case "measures": {
                     change.ind.map((ind) =>
                             this.charts[ind].measures
                                 .filter(m => change.idx.indexOf(m.idx) !== -1)
-                                .map(m => Object.keys(change.options[value]).map(k => m[k] = change.options[value][k])),
+                                .map((m, iidx) => Object.keys(change.options[Array.isArray(value) ? value[iidx] : value])
+                                    .map(k => m[k] = change.options[Array.isArray(value) ? value[iidx] : value][k])),
                         //.map(s => s[param.name] = value)
                     );
                     break;
@@ -139,12 +145,12 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     private prepareLocalParams (user: IUserProfile) {
 
-        if ( this.localParams.activityTypes.model &&
+        /**if ( this.localParams.activityTypes.model &&
             (!this.localParams.activityTypes.hasOwnProperty("options") || !this.localParams.activityTypes.options) ) {
             this.localParams.activityTypes.options = activityTypes;
-        }
+        }**/
 
-        if ( typeof this.localParams.users.model !== "string" ) {
+        /**if (this.params.users && typeof this.params.users.model !== "string" ) {
             return;
         }
 
@@ -183,11 +189,11 @@ export class AnalyticsChart implements IAnalyticsChart {
 
                 break;
             }
-        }
+        }**/
     }
 
     calcData (): void {
-        if ( !this.charts.some(c => c.metrics.length > 0 || !this.data) ) {return;}
+        if ( !this.charts.some(c => c.metrics.length > 0) || !this.data) {return;}
         this.data.map(d => {
             d.compile.value = null;
             d.compile.formula.forEach(f => {
@@ -207,8 +213,14 @@ export class AnalyticsChart implements IAnalyticsChart {
                         break;
                     }
                     case "sum": {
-                        this.charts[d.compile.ind].metrics.map(v =>
-                        v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        if (d.compile.filter) {
+                            this.charts[d.compile.ind].metrics
+                                .filter(v => v[0] === d.compile.filter)
+                                .map(v => v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        } else {
+                            this.charts[d.compile.ind].metrics
+                                .map(v => v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                        }
                         break;
                     }
                     case "avg": {

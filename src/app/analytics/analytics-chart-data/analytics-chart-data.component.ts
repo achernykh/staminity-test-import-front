@@ -24,6 +24,7 @@ class AnalyticsChartDataCtrl implements IComponentController {
 export const AnalyticsChartDataComponent:IComponentOptions = {
     bindings: {
         data: '<',
+        update: '<',
         descriptionParams: '<',
         onEvent: '&'
     },

@@ -110,6 +110,8 @@ class LineView extends View2D {
      */
     resize() {
 
+        if (!this._line) { return; }
+
         this._line
             .attr('transform', 'translate(' + this._state.getTransform() + ')')
             .attr('d', this._state.getLineGenerator());

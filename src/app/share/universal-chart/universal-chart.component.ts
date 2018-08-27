@@ -1,13 +1,14 @@
 import "./universal-chart.component.scss";
 import moment from "moment/src/moment.js";
-import { IComponentOptions, IComponentController, IPromise, IWindowService, copy } from "angular";
+import { IScope, IComponentOptions, IComponentController, IPromise, IWindowService, copy } from "angular";
 import { UChartFactory } from "./lib/UChart/UChartFactory.js";
 import { IChart, IChartMeasure } from "../../../../api/statistics/statistics.interface";
-import { _measurement_calculate } from "../measure/measure.constants";
+import {_measurement_calculate, activityTypeColor} from "../measure/measure.constants";
 import { peaksByTime } from "../measure/measure.filter";
 import { deepCopy } from "../data/data.finctions";
 import { IAnalyticsChartCompareSettings } from "../../analytics/analytics-chart/analytics-chart.interface";
 import { comparePeriodTransform } from "../../analytics/analytics-chart-filter/analytics-chart-filter.function";
+import {hexToRgbA} from "../utility";
 
 class UniversalChartCtrl implements IComponentController {
 
@@ -22,9 +23,9 @@ class UniversalChartCtrl implements IComponentController {
     private onResize: Function;
     private chart: IChart[];
 
-    static $inject = ['$element', '$window', '$translate'];
+    static $inject = ['$scope', '$element', '$window', '$translate'];
 
-    constructor (private $element: any, private $window: IWindowService, private $translate: any) {
+    constructor (private $scope: IScope, private $element: any, private $window: IWindowService, private $translate: any) {
 
     }
 
@@ -49,7 +50,7 @@ class UniversalChartCtrl implements IComponentController {
     redraw (): void {
         this.container = this.$element[0];
         this.prepareMetrics();
-        this.universalChart = UChartFactory.getInstance(copy(this.chart)).renderTo(this.container);
+        this.universalChart = UChartFactory.getInstance(this.chart).renderTo(this.container);
     }
 
     prepareMetrics (): void {
@@ -85,6 +86,9 @@ class UniversalChartCtrl implements IComponentController {
                                     moment(this.chart[ci + 1].metrics[mi][i]).format("MM-DD-YYYY") :
                                     moment(this.chart[ci + 1].metrics[this.chart[ci + 1].metrics.length - 1][i]).format("MM-DD-YYYY"));
                             } else { metric.push(moment(value).format("MM-DD-YYYY")); }
+                        } else if (params.measureName === 'activityType') {
+                            this.chart[ci].options.palette.push(hexToRgbA(activityTypeColor[value]));
+                            metric.push(this.$translate.instant(value));
                         } else if ( ["duration", "heartRateMPM", "powerMPM", "speedMPM"].indexOf(params.measureName) !== -1 ) {
                             metric.push(value / 60 / 60);
                         } else if ( params.measureName === "distance" ) {
