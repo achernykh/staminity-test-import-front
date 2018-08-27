@@ -35,6 +35,7 @@ export interface IDashboardDay {
 export class DashboardCtrl implements IComponentController {
 
     public coach: IUserProfile;
+    public clubUri: string;
     public groupId: number;
     public athletes: IGroupManagementProfile;
 
@@ -88,8 +89,8 @@ export class DashboardCtrl implements IComponentController {
 
         this.viewAthletes.sort((a,b) => this.orderAthletes.indexOf(a) - this.orderAthletes.indexOf(b));
 
-        this.storage.set('dashboard_orderAthletes',this.orderAthletes);
-        this.storage.set('dashboard_viewAthletes',this.viewAthletes);
+        this.storage.set(`${this.clubUri || this.coach.userId}#dashboard_orderAthletes`,this.orderAthletes);
+        this.storage.set(`${this.clubUri || this.coach.userId}#dashboard_viewAthletes`,this.viewAthletes);
 
     }
 
@@ -105,7 +106,7 @@ export class DashboardCtrl implements IComponentController {
         } else {
             this.viewAthletes.splice(ind,1);
         }
-        this.storage.set('dashboard_viewAthletes',this.viewAthletes);
+        this.storage.set(`${this.clubUri || this.coach.userId}#dashboard_viewAthletes`,this.viewAthletes);
     }
 
 
@@ -116,7 +117,20 @@ export class DashboardCtrl implements IComponentController {
         } else {
             this.selectedAthletes.splice(ind,1);
         }
-        this.storage.set('dashboard_selectedAthletes',this.selectedAthletes);
+        this.storage.set(`${this.clubUri || this.coach.userId}#dashboard_selectedAthletes`,this.selectedAthletes);
+    }
+
+    oldStorage (key: string): any[] {
+        let data: any[] = this.storage.get(`${key}`);
+        if (data && Array.isArray(data) &&
+            data.every(e => e && this.athletes.members.some(a => a.userProfile.userId === e))) {
+            this.storage.remove(key);
+            this.storage.set(`${this.clubUri || this.coach.userId}#${key}`,data);
+            return data;
+        } else {
+            this.storage.remove(key);
+            return null;
+        }
     }
 
     $onInit() {
@@ -126,9 +140,14 @@ export class DashboardCtrl implements IComponentController {
         this.currentDate = moment().startOf('week');
         this.getData(this.currentDate);
 
-        this.viewAthletes = this.storage.get('dashboard_viewAthletes') || this.athletes.members.map(p => p.userProfile.userId);
-        this.orderAthletes = this.storage.get('dashboard_orderAthletes') || this.athletes.members.map(p => p.userProfile.userId);
-        this.selectedAthletes = this.storage.get('dashboard_selectedAthletes') || [];
+        this.viewAthletes = this.storage.get(`${this.clubUri || this.coach.userId}#dashboard_viewAthletes`) ||
+            this.oldStorage('dashboard_viewAthletes') || this.athletes.members.map(p => p.userProfile.userId);
+
+        this.orderAthletes = this.storage.get(`${this.clubUri || this.coach.userId}#dashboard_orderAthletes`) ||
+            this.oldStorage('dashboard_orderAthletes') || this.athletes.members.map(p => p.userProfile.userId);
+
+        this.selectedAthletes = this.storage.get(`${this.clubUri || this.coach.userId}#dashboard_selectedAthletes`) ||
+            this.oldStorage('dashboard_selectedAthletes') || [];
 
         this.$scope['filter'] = (calendar) => {
             return this.isVisible(calendar.profile.userId);
