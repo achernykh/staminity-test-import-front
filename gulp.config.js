@@ -115,6 +115,7 @@ module.exports = {
         cssLibs: cssLibs,
         assets: src + 'assets/**/*.*',
         moneta: src + 'moneta/*.html',
+        chart: src + 'chart-templates/*.json',
         sass: src + 'sass/app.scss',
         sassFiles: [src + 'sass/app.scss' , src + 'js/**/*.scss', src + 'js/**/**/*.scss', src + 'sass/*.scss'],
         templates: [src + 'js/**/*.html', src + 'js/**/**/*.html', src + 'js/**/**/**/*.html']
