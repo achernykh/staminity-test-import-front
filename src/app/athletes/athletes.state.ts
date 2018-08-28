@@ -6,8 +6,8 @@ import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 
 const athletes = {
-    name: "athletes",
-    url: "/athletes",
+    name: "coachAthletes",
+    url: "/coach-athletes",
     title: 'athletes.fullTitle',
     loginRequired: true,
     authRequired: ["func1"],
@@ -20,7 +20,13 @@ const athletes = {
             return GroupService.getManagementProfile(user.connections.allAthletes.groupId, "coach");
         }],
     },
-    views: { application: {component: 'stAthletes'} }
+    views: { application: {component: 'stAthletes'} },
+    urlLocRu: 'https://staminity.com/?lang=ru',
+    urlLocEn: 'https://staminity.com/?lang=en',
+    urlLoc: 'landing.main.urlLoc',
+    breadcrumb: 'landing.main.breadcrumb',
+    subtitle: 'landing.main.subtitle',
+    imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
     //views: DefaultTemplate("athletes"),
 } as StateDeclaration;
 

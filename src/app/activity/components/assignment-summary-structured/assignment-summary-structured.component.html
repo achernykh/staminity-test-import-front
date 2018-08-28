@@ -62,25 +62,40 @@
         </md-input-container>
     </md-list-item>-->
 </md-list>
-<md-list class="md-dense" ng-if="$ctrl.item.activity.header.sportBasic">
-    <md-subheader ng-if="false">
-        <span translate="activity.trainersPrescription"></span>
-    </md-subheader>
-    <ng-quill-editor ng-if="!$ctrl.item.isIonic"
-                     ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
-                     on-content-changed="$ctrl.onChange()"
-                     placeholder="{{'activity.descriptionPlaceholder' | translate}}"
-                     modules="$ctrl.quillConf.toolbar"
-                     ng-class="{'hide-toolbar': $ctrl.item.activity.view.isView}"
-                     read-only="$ctrl.item.activity.view.isView"
-                     st-quill-post-image>
-    </ng-quill-editor>
-    <label felx="auto" ng-if="$ctrl.item.isIonic"
-           class="item item-last item-input st-material item-stacked-label">
-        <st-modal-textarea quill="true" on-tap="" style="padding-top: 0;"
-                           name="trainersPrescription"
-                           translate-title="'competition.trainersPrescription'"
-                           ng-model="$ctrl.plan.trainersPrescription">
-        </st-modal-textarea>
-    </label>
+<md-list class="md-dense md-padding" ng-if="$ctrl.item.activity.header.sportBasic">
+    <!-- редактирование -->
+    <div ng-if="!$ctrl.item.activity.view.isView"
+         layout="row" layout-align="start stretch" class="input-item-line">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" class="material-icons md-dark">subject</md-icon>
+        </div>
+        <ng-quill-editor flex="auto"
+                         ng-if="!$ctrl.item.isIonic"
+                         ng-class="{'hide-toolbar': $ctrl.hideQuillToolbar}"
+                         ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription"
+                         on-selection-changed="$ctrl.quillSelect(range, oldRange, source)"
+                         on-content-changed="$ctrl.changeParam()"
+                         placeholder="{{'activity.assignment.description.placeholder' | translate}}"
+                         modules="$ctrl.quillConf.toolbar"
+                         st-quill-post-image>
+        </ng-quill-editor>
+        <label felx="auto" ng-if="$ctrl.item.isIonic"
+               class="item item-last item-input st-material item-stacked-label">
+            <st-modal-textarea quill="true" on-tap="" style="padding-top: 0"
+                               name="trainersPrescription"
+                               translate-title="'competition.trainersPrescription'"
+                               ng-model="$ctrl.item.activity.intervals.PW.trainersPrescription">
+            </st-modal-textarea>
+        </label>
+    </div>
+    <!-- просмотр -->
+    <div ng-if="$ctrl.item.activity.view.isView"
+         layout="row" layout-align="start start" class="view-item-line border-line md-body-1" style="padding-top: 8px">
+        <div flex="none" class="wrapper-icon">
+            <md-icon flex="none" class="material-icons md-dark md-24">subject</md-icon>
+        </div>
+        <st-quill-html-viewer flex="auto"
+                              data="$ctrl.item.activity.intervals.PW.trainersPrescription">
+        </st-quill-html-viewer>
+    </div>
 </md-list>

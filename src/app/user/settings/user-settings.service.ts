@@ -57,14 +57,8 @@ export class UserSettingsService {
      */
     saveZones (changes) : Promise<any> {
         return this.userService.putProfile(changes)
-        .then((userProfile) => {
-            //let { userId, revision, trainigZones } = changes;
-            //if (this.sessionService.isCurrentUserId(userId)) {
-            //    this.sessionService.setUser(userProfile);
-            //}
-            this.update(userProfile);
-            this.message.toastInfo('settingsSaveComplete');
-        }, (e) => e && this.message.toastError(e));
+            .then((revision) => this.update(revision), (e) => e && this.message.toastError(e))
+            .then(_ => this.message.toastInfo('settingsSaveComplete'));
     }
 
     /**

@@ -25,6 +25,12 @@ function configure(
                 }],
             },
             views: DefaultTemplate("user"),
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration)
         .state("user", {
             url: "/user/:uri",
@@ -44,6 +50,12 @@ function configure(
                 }],
             },
             views: DefaultTemplate("user"),
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration);
 
     // Текст представлений

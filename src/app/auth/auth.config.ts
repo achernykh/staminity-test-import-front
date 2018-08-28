@@ -24,7 +24,13 @@
             views: {
                 "application": { component: "auth" },
                 "form@signin": { template: require("./view/signin.html") },
-            }
+            },
+            urlLocRu: 'https://staminity.com/signin?lang=ru',
+            urlLocEn: 'https://staminity.com/signin?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration)
         // Представление Auth: SignUp
         .state("signup", {
@@ -39,7 +45,13 @@
             views: {
                 "application": { component: "auth" },
                 "form@signup": { template: require("./view/signup.html") },
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration)
         // Представление Auth: SignOut
         .state("signout", {
@@ -53,7 +65,13 @@
             },
             views: {
                 "application": { component: "auth" },
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
 
         } as StateDeclaration)
         // Представление Auth: Confirm
@@ -69,7 +87,13 @@
             views: {
                 "application": { component: "auth" },
                 "form@signin": { template: require("./view/signin.html") },
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration)
         // Представление Auth: Confirm
         .state("invite", {
@@ -84,7 +108,13 @@
             views: {
                 "application": { component: "auth" },
                 "form@invite": { template: require("./view/invite.html") },
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration)
         // Представление Auth: SetPassword
         .state("setpass", {
@@ -99,7 +129,13 @@
             views: {
                 "application": { component: "auth" },
                 "form@setpass": { template: require("./view/setpass.html") },
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration)
         // Представление Auth: Confirm
         .state("reset", {
@@ -115,7 +151,13 @@
             views: {
                 "application": { component: "auth" },
                 "form@reset": { template: require("./view/reset.html") },
-            }
+            },
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration);
 
     // Текст представлений

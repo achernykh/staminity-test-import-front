@@ -31,8 +31,8 @@ export class CalendarItemRecord extends CalendarItem {
                 item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
                     asyncEventsDateFrom: this.options.calendarRange.dateStart,
                     asyncEventsDateTo: this.options.calendarRange.dateEnd,
-                    regenPastEvents: true,
-                    regenFutureEvents: true
+                    regenPastEvents: item.recordHeader.editParams.regenPastEvents || false,
+                    regenFutureEvents: item.recordHeader.editParams.regenFutureEvents || false
                 });
             }
         } else { // С повторениями
@@ -40,8 +40,8 @@ export class CalendarItemRecord extends CalendarItem {
             item.recordHeader.editParams = Object.assign(this.recordHeader.editParams, {
                 asyncEventsDateFrom: this.options.calendarRange.dateStart,
                 asyncEventsDateTo: this.options.calendarRange.dateEnd,
-                regenPastEvents: true,
-                regenFutureEvents: true
+                regenPastEvents: item.recordHeader.editParams.regenPastEvents || false,
+                regenFutureEvents: item.recordHeader.editParams.regenFutureEvents || false
             });
             if (item.recordHeader.repeat.endType === 'D') {
                 item.recordHeader.repeat.endOnDate = moment(this.recordHeader.repeat.endOnDate).format(format);
@@ -51,7 +51,7 @@ export class CalendarItemRecord extends CalendarItem {
             }
             if (this.view.isPut) {
                 // меняется дата начала в повторе
-                item.recordHeader.editParams.regenPastEvents = this.param.recordHeader.dateStart !== item.recordHeader.dateStart;
+                item.recordHeader.editParams.regenPastEvents = item.recordHeader.editParams.regenPastEvents || (this.param.recordHeader.dateStart !== item.recordHeader.dateStart);
             }
         }
 
@@ -85,5 +85,9 @@ export class CalendarItemRecord extends CalendarItem {
         };
 
 
+    }
+
+    get isItemRepeated () {
+        return this.param && !!this.param.recordHeader.repeat;
     }
 }
