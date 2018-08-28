@@ -1,20 +1,13 @@
-import BillingService from "@app/core/billing.service";
-import {SessionService} from "@app/core";
-import {IBillingTariff} from "@api/billing";
-import {IUserProfile} from "@api/user";
-import {EnableTariffCtrl} from "../../share/dialogs/enable-tariff/enable-tariff.controller";
-import {getPremiumPageByFunction} from "../premium.functions";
-
-export class PremiumDialogService {
+export class AnalyticsDialogService {
 
     // private
     private readonly defaultDialogOptions = {
-        /**controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
+        controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
             $scope.hide = () => $mdDialog.hide();
             $scope.cancel = () => $mdDialog.cancel();
             $scope.answer = (subscriptionPeriod) => $mdDialog.hide({ subscriptionPeriod });
         }],
-        controllerAs: '$ctrl',**/
+         controllerAs: '$ctrl',
         parent: angular.element(document.body),
         bindToController: true,
         clickOutsideToClose: false,
@@ -22,20 +15,11 @@ export class PremiumDialogService {
         fullscreen: true
     };
 
-    static $inject = ['$mdDialog', 'BillingService', 'SessionService'];
+    static $inject = ['$mdDialog'];
 
-    constructor (private $mdDialog,
-                 private billingService: BillingService,
-                 private session: SessionService) {
+    constructor (private $mdDialog) {}
 
-    }
-
-    open (e: Event, functionCode: string): Promise<any> {
-        let user: IUserProfile = this.session.getUser();
-        let tariff: IBillingTariff = user.billing.tariffs.filter(t => t.tariffCode === 'Premium')[0];
-        let tariffId: number = tariff.tariffId;
-
-
+    templateSelector (e: Event): Promise<any> {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="premium-dialog" aria-label="Activity" layout="column">
                             <st-premium-dialog
@@ -49,15 +33,20 @@ export class PremiumDialogService {
                                     on-cancel="$ctrl.cancel()" on-answer="answer(subscriptionPeriod)">
                             </st-premium-dialog>
                        </md-dialog>`,
-            controller: EnableTariffCtrl,
             controllerAs: '$ctrl',
             targetEvent: e,
-            locals: { user, tariff },
-            resolve: {
-                billing: () => this.billingService.getTariff(tariffId, ''),
-                page: () => getPremiumPageByFunction(functionCode) || 0,
-            },
+            locals: { },
+            resolve: { },
         }));
+    }
+
+    settings (e: Event): Promise<any> {
+        return Promise.resolve();
+    }
+
+
+    fullScreen (e: Event): Promise<any> {
+        return Promise.resolve();
     }
 
 }

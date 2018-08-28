@@ -1,30 +1,30 @@
-import { copy } from "angular";
+import {copy} from "angular";
 import moment from "moment/src/moment.js";
-import { IChart, IChartMeasure } from "../../../../api/statistics/statistics.interface";
-import { IUserProfile } from "../../../../api/user/user.interface";
-import { activityTypes } from "../../activity/activity.constants";
-import { _measurement_calculate } from "../../share/measure/measure.constants";
-import { peaksByTime } from "../../share/measure/measure.filter";
-import { AnalyticsChartFilter } from "../analytics-chart-filter/analytics-chart-filter.model";
+import {IChart, IChartMeasure} from "../../../../api/statistics/statistics.interface";
+import {IUserProfile} from "../../../../api/user/user.interface";
+import {activityTypes} from "../../activity/activity.constants";
+import {_measurement_calculate} from "../../share/measure/measure.constants";
+import {peaksByTime} from "../../share/measure/measure.filter";
+import {AnalyticsChartFilter} from "../analytics-chart-filter/analytics-chart-filter.model";
 import {
     IAnalyticsChartDescriptionParams,
     IAnalyticsChart,
     IAnalyticsChartCompareSettings,
     IChartData
 } from "./analytics-chart.interface";
-import { IAnalyticsChartSettings } from "@app/analytics/analytics-chart-filter/analytics-chart-filter.model";
+import {IAnalyticsChartSettings} from "@app/analytics/analytics-chart-filter/analytics-chart-filter.model";
 
 export class AnalyticsChartLayout {
     gridColumn: number;
     gridRow: number;
     fullScreen: boolean = false;
 
-    constructor (public gridColumnEnd: number,
-                 public gridRowEnd: number) {
+    constructor(public gridColumnEnd: number,
+                public gridRowEnd: number) {
 
     }
 
-    get style (): any {
+    get style(): any {
         return {
             "grid-column-end": `span ${this.gridColumnEnd}`,
             "grid-row-end": `span ${this.gridRowEnd}`,
@@ -58,13 +58,13 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     private keys: string[] = ["template", "user", "categories", "isAuthorized", "globalFilter", "keys"];
 
-    constructor (public template?: IAnalyticsChart,
-                 public user?: IUserProfile,
-                 public globalFilter?: AnalyticsChartFilter,
-                 public $filter?: any) {
+    constructor(public template?: IAnalyticsChart,
+                public user?: IUserProfile,
+                public globalFilter?: AnalyticsChartFilter,
+                public $filter?: any) {
 
         Object.assign(this, {...template});
-        if ( this.hasOwnProperty("layout") && this.layout ) {
+        if (this.hasOwnProperty("layout") && this.layout) {
             this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
         }
 
@@ -80,15 +80,15 @@ export class AnalyticsChart implements IAnalyticsChart {
         }**/
     }
 
-    clearMetrics () {
+    clearMetrics() {
         this.charts.map((c) => c.hasOwnProperty("metrics") && delete c.metrics);
     }
 
-    hasMetrics (): boolean {
-        return this.charts.some((c) => c.hasOwnProperty("metrics"));
+    hasMetrics(): boolean {
+        return this.charts && this.charts.some((c) => c.hasOwnProperty("metrics"));
     }
 
-    transfer (keys: string[] = this.keys): IAnalyticsChart {
+    transfer(keys: string[] = this.keys): IAnalyticsChart {
 
         const obj: IAnalyticsChart = copy(this);
         // удаляем вспомогательные данные
@@ -99,10 +99,12 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     }
 
-    changeSettings (param: IAnalyticsChartSettings<any>, value) {
-        if (!param.change) { return; }
+    changeSettings(param: IAnalyticsChartSettings<any>, value) {
+        if (!param.change) {
+            return;
+        }
         param.change.forEach(change => {
-            switch ( change.area ) {
+            switch (change.area) {
                 case "params": {
                     change.ind.map(ind =>
                         Object.keys(change.options[value]).map(k =>
@@ -137,16 +139,18 @@ export class AnalyticsChart implements IAnalyticsChart {
 
     }
 
-    restore (): void {
-        if (this.hasOwnProperty('localParams')) { delete this.localParams; }
+    restore(): void {
+        if (this.hasOwnProperty('localParams')) {
+            delete this.localParams;
+        }
         Object.assign(this, this.template);
     }
 
 
-    private prepareLocalParams (user: IUserProfile) {
+    private prepareLocalParams(user: IUserProfile) {
 
         /**if ( this.localParams.activityTypes.model &&
-            (!this.localParams.activityTypes.hasOwnProperty("options") || !this.localParams.activityTypes.options) ) {
+         (!this.localParams.activityTypes.hasOwnProperty("options") || !this.localParams.activityTypes.options) ) {
             this.localParams.activityTypes.options = activityTypes;
         }**/
 
@@ -154,7 +158,7 @@ export class AnalyticsChart implements IAnalyticsChart {
             return;
         }
 
-        switch ( this.localParams.users.model ) {
+         switch ( this.localParams.users.model ) {
             case "me": {
                 this.localParams.users.model = [user.userId];
 
@@ -192,12 +196,14 @@ export class AnalyticsChart implements IAnalyticsChart {
         }**/
     }
 
-    calcData (): void {
-        if ( !this.charts.some(c => c.metrics.length > 0) || !this.data) {return;}
+    calcData(): void {
+        if (!this.charts.some(c => c.metrics.length > 0) || !this.data) {
+            return;
+        }
         this.data.map(d => {
             d.compile.value = null;
             d.compile.formula.forEach(f => {
-                switch ( f ) {
+                switch (f) {
                     case "start": {
                         d.compile.value = this.charts[d.compile.ind].metrics[0][d.compile.idx];
                         break;
@@ -209,7 +215,7 @@ export class AnalyticsChart implements IAnalyticsChart {
                     }
                     case "last": {
                         this.charts[d.compile.ind].metrics.map(v =>
-                        v[d.compile.idx] && (d.compile.value = v[d.compile.idx]));
+                            v[d.compile.idx] && (d.compile.value = v[d.compile.idx]));
                         break;
                     }
                     case "sum": {
@@ -226,24 +232,24 @@ export class AnalyticsChart implements IAnalyticsChart {
                     case "avg": {
                         let length: number = this.charts[d.compile.ind].metrics.length;
                         this.charts[d.compile.ind].metrics.map(v =>
-                        v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
+                            v[d.compile.idx] && (d.compile.value = d.compile.value + v[d.compile.idx]));
                         d.compile.value = length > 1 ?
-                        (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1) :
+                            (d.compile.value - this.charts[d.compile.ind].metrics[length - 1][d.compile.idx]) / (length - 1) :
                             d.compile.value;
                         break;
                     }
                     case "max": {
                         this.charts[d.compile.ind].metrics.map(v =>
-                        v[d.compile.idx] && (d.compile.value = Math.max(d.compile.value, v[d.compile.idx])));
+                            v[d.compile.idx] && (d.compile.value = Math.max(d.compile.value, v[d.compile.idx])));
                         break;
                     }
                 }
             });
         });
         this.data.map(d => {
-            if ( d.compile.subValue ) {
+            if (d.compile.subValue) {
                 d.compile.subValue.formula.forEach(f => {
-                    switch ( f ) {
+                    switch (f) {
                         case 'subtract': {
                             d.compile.subValue.value = d.compile.value;
                             d.compile.subValue.params.forEach(p =>
@@ -256,7 +262,7 @@ export class AnalyticsChart implements IAnalyticsChart {
         });
     }
 
-    prepareMetrics (ind: number, metrics: any[][]): void {
+    prepareMetrics(ind: number, metrics: any[][]): void {
         this.charts[ind].metrics = [];
         metrics.map((m) => {
             const metric: any[] = [];
@@ -265,30 +271,30 @@ export class AnalyticsChart implements IAnalyticsChart {
                     this.charts[ind].series.filter((s) => s.idx === i)[0] ||
                     this.charts[ind].measures.filter((s) => s.idx === i)[0];
                 value === "NaN" || value === "Infinity" ? value = null : value = value;
-                if ( params ) {
-                    if ( value === null ) {
+                if (params) {
+                    if (value === null) {
                         metric.push(value);
-                    } else if ( params.dataType === "date" ) {
+                    } else if (params.dataType === "date") {
                         metric.push(moment(value).format("MM-DD-YYYY"));
-                    } else if ( ["duration", "heartRateMPM", "powerMPM", "speedMPM"].indexOf(params.measureName) !== -1 ) {
+                    } else if (["duration", "heartRateMPM", "powerMPM", "speedMPM"].indexOf(params.measureName) !== -1) {
                         metric.push(value / 60 / 60);
-                    } else if ( params.measureName === "distance" ) {
+                    } else if (params.measureName === "distance") {
                         metric.push(_measurement_calculate.meter.km(value));
                         // Пересчет темпа мин/км
-                    } else if ( (params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
-                        || params.unit === "мин/км" ) {
+                    } else if ((params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
+                        || params.unit === "мин/км") {
                         metric.push(_measurement_calculate.mps.minpkm(value)); //moment().startOf('day').millisecond(_measurement_calculate.mps.minpkm(value)*1000).startOf('millisecond').format('mm:ss'));
                         // Пересчет темпа мин/100м
-                    } else if ( (params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
-                        || params.unit === "мин/100м" ) {
+                    } else if ((params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
+                        || params.unit === "мин/100м") {
                         metric.push(_measurement_calculate.mps.minp100m(value));
                         // Пересчет скорости км/ч
-                    } else if ( (params.measureName === "speed" && params.dataType !== "time" && params.measureSource === "activity.actual.measure")
-                        || params.unit === "км/ч" ) {
+                    } else if ((params.measureName === "speed" && params.dataType !== "time" && params.measureSource === "activity.actual.measure")
+                        || params.unit === "км/ч") {
                         metric.push(_measurement_calculate.mps.kmph(value));
-                    } else if ( ["speedDecoupling", "powerDecoupling"].indexOf(params.measureName) !== -1 ) {
+                    } else if (["speedDecoupling", "powerDecoupling"].indexOf(params.measureName) !== -1) {
                         metric.push(value * 100);
-                    } else if ( params.measureSource === "peaksByTime" ) {
+                    } else if (params.measureSource === "peaksByTime") {
                         metric.push(peaksByTime(value));
                     } else {
                         metric.push(value);

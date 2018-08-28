@@ -17,6 +17,21 @@
 
   }
 
+  md-toolbar {
+    .md-datepicker-input {
+      font-size: 20px;
+      font-weight: 500;
+      color: white;
+      max-width: 110px;
+    }
+    input { border-bottom: none; }
+    .md-datepicker-expand-triangle { border-top-color: white; }
+    .md-datepicker-triangle-button { display: none; }
+    .md-datepicker-input-container { border-bottom-color: white; }
+    ._md-datepicker-has-triangle-icon { padding-right: 0; margin-right: 0px; }
+
+  }
+
   &__navigator {
     transition: all 0.3s;
     &.hide {
@@ -37,7 +52,7 @@
     min-height: calc(100% - 24px);
     z-index: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(420px, 3fr));
+    grid-template-columns: repeat(auto-fit, minmax(410px, 3fr));
     grid-gap: 8px;
     grid-auto-rows: 360px;
     margin: 8px;
@@ -47,7 +62,7 @@
     overflow-y: hidden;
 
     @media (max-width: 1279px) {
-      grid-template-columns: repeat(auto-fit, minmax(420px, 3fr));
+      grid-template-columns: repeat(auto-fit, minmax(410px, 3fr));
       grid-auto-rows: 360px;
     }
 

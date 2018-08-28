@@ -613,10 +613,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
-        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.activity.auth.isPro) {
+        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details) {
             this.selectedTab = HeaderStructuredTab.Details;
         }
-        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.activity.auth.isPro) {
+        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details) {
             this.selectedTab = HeaderTab.Details;
         }
 

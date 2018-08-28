@@ -7,6 +7,7 @@ class PremiumWrapperCtrl implements IComponentController {
     
     // bind
     functionCode: string;
+    additionalAuth: boolean;
     onEvent: (response: Object) => Promise<void>;
      
     // private
@@ -19,7 +20,7 @@ class PremiumWrapperCtrl implements IComponentController {
     }
 
     get isPremium () {
-        return this.authService.isPremiumAccount();
+        return this.authService.isPremiumAccount() || this.additionalAuth;
     }
 
     $onInit(): void {
@@ -34,6 +35,7 @@ class PremiumWrapperCtrl implements IComponentController {
 export const PremiumWrapperComponent:IComponentOptions = {
     bindings: {
         functionCode: '=',
+        additionalAuth: '=',
         onEvent: '&'
     },
     controller: PremiumWrapperCtrl,
