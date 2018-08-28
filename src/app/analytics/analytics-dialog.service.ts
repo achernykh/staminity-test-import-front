@@ -1,3 +1,6 @@
+import {AnalyticsChart} from "@app/analytics/analytics-chart/analytics-chart.model";
+import {IUserProfile} from "@api/user";
+
 export class AnalyticsDialogService {
 
     // private
@@ -19,23 +22,23 @@ export class AnalyticsDialogService {
 
     constructor (private $mdDialog) {}
 
-    templateSelector (e: Event): Promise<any> {
+    templateSelector (e: Event, charts: AnalyticsChart[]): Promise<any> {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
-            template: `<md-dialog id="premium-dialog" aria-label="Activity" layout="column">
-                            <st-premium-dialog
+            template: `<md-dialog id="analytics-template-selector" aria-label="Activity" layout="column">
+                            <st-analytics-template-selector
                                     flex="auto" flex-gt-sm="none" layout="column"
-                                    class="premium-dialog"
+                                    class="analytics-template-selector"
                                     style="margin: auto"
-                                    user="$ctrl.user"
+                                    charts="$ctrl.charts"
                                     tariff="$ctrl.tariff"
                                     billing="$ctrl.billing"
                                     page="$ctrl.page"
                                     on-cancel="$ctrl.cancel()" on-answer="answer(subscriptionPeriod)">
-                            </st-premium-dialog>
+                            </st-analytics-template-selector>
                        </md-dialog>`,
             controllerAs: '$ctrl',
             targetEvent: e,
-            locals: { },
+            locals: { charts},
             resolve: { },
         }));
     }
@@ -45,8 +48,22 @@ export class AnalyticsDialogService {
     }
 
 
-    fullScreen (e: Event): Promise<any> {
-        return Promise.resolve();
+    fullScreen (e: Event, owner: IUserProfile, chart: AnalyticsChart): Promise<any> {
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+            template: `<md-dialog id="analytics-chart" aria-label="Activity" layout="column">
+                            <analytics-chart class=""
+                                 owner="$ctrl.owner"
+                                 chart="$ctrl.chart"
+                                 global-filter="$ctrl.globalFilter"
+                                 on-change-filter="$ctrl.saveSettings('charts')"
+                                 mobile-view="">
+                            </analytics-chart>
+                       </md-dialog>`,
+            controllerAs: '$ctrl',
+            targetEvent: e,
+            locals: { chart, owner},
+            resolve: { },
+        }));
     }
 
 }

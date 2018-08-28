@@ -1,5 +1,4 @@
 import {AnalyticsChartLayout} from "../analytics/analytics-chart/analytics-chart.model";
-import {IAnalyticsChart} from "../analytics/analytics-chart/analytics-chart.interface";
 
 export const homeChartsConfig: any[] = [
     {
