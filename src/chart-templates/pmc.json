@@ -146,7 +146,6 @@
         {
           "id": 2,
           "label": "fatigue",
-          "scaleLabel": "fatigue",
           "unit": "",
           "chartType": "area",
           "stacked": null,
@@ -230,7 +229,6 @@
         {
           "id": 4,
           "label": "form",
-          "scaleLabel": "form",
           "unit": "",
           "chartType": "area",
           "stacked": null,
@@ -276,7 +274,6 @@
         {
           "id": 5,
           "label": "intensityLevel",
-          "scaleLabel": "intensityLevel",
           "unit": "",
           "chartType": "dot",
           "stacked": null,
@@ -373,7 +370,6 @@
         {
           "id": 2,
           "label": "fatigue",
-          "scaleLabel": "fatigue",
           "unit": "",
           "chartType": "line",
           "stacked": null,
@@ -429,7 +425,6 @@
         {
           "id": 4,
           "label": "form",
-          "scaleLabel": "form",
           "unit": "",
           "chartType": "area",
           "stacked": null,
@@ -474,7 +469,6 @@
         {
           "id": 5,
           "label": "intensityLevel",
-          "scaleLabel": "intensityLevel",
           "unit": "",
           "chartType": "dot",
           "stacked": null,
