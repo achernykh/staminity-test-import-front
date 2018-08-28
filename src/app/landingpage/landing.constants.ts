@@ -55,6 +55,7 @@ export interface LandingConfig {
         url: string;
         title: string;
         subtitle: string;
+        teams?: boolean; // указатель что сценарий используется для показа групп пользователей сервиса
         picture: string;
         thumb: string;
         button?: {
@@ -190,6 +191,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/work-with-coach',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01-thumb.png',
             button: {
@@ -284,6 +286,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plans',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-02.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-02-thumb.png',
             button: {
@@ -335,6 +338,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/self-training',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-03.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-03-thumb.png',
             button: {
@@ -386,6 +390,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-athletes',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
             button: {
@@ -438,6 +443,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/train-groups',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-05.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-05-thumb.png',
             button: {
@@ -492,6 +498,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/training-plan-publication',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-06.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-06-thumb.png',
             button: {
@@ -547,6 +554,7 @@ export const landingConfig: LandingConfig = {
             url: '/cases/several-coaches',
             title: '',
             subtitle: '',
+            teams: false,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
             button: {
@@ -624,6 +632,7 @@ export const landingConfig: LandingConfig = {
             url: '/group-athletes',
             title: '',
             subtitle: '',
+            teams: true,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01-thumb.png',
             button: {
@@ -689,6 +698,7 @@ export const landingConfig: LandingConfig = {
             url: '/coaches',
             title: '',
             subtitle: '',
+            teams: true,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-04-thumb.png',
             button: {
@@ -714,6 +724,7 @@ export const landingConfig: LandingConfig = {
             url: '/clubs',
             title: '',
             subtitle: '',
+            teams: true,
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07.png',
             thumb: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-07-thumb.png',
             button: {

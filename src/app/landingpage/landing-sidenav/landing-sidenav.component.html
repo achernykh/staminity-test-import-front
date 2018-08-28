@@ -33,7 +33,8 @@
             <md-divider></md-divider>
         </md-list>
         <md-list flex="none" flex-gt-sm="50" class="menu-scenario">
-            <md-list-item class="subitem" ng-repeat="scenario in $ctrl.landingConfig.scenario"
+            <md-list-item class="subitem"
+                          ng-repeat="scenario in $ctrl.landingConfig.scenario | filter:{teams: false}"
                           ng-click="$ctrl.$state.go(scenario.code, scenario.stateParams, {reload: true})">
                 <md-icon class="material-icon md-dark" ng-if="false"
                          md-svg-src="/assets/icon/{{::scenario.icon}}.svg"></md-icon>
