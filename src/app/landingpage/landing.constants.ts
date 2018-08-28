@@ -68,8 +68,8 @@ export interface LandingConfig {
         };
         // если ключ не !null, то секция выводится
         // полный путь к ключу перевода текста для информации о сервисе из title, img - путь к картинке
-        staminityInfo?: {title: ''; img: ''};
-        blocks: LandingContentBlock[];
+        staminityInfo?: {title: string; img: string};
+        blocks?: LandingContentBlock[];
         externalBlocks?: {
             title?: string; // ключ перевода, можно не заполнять
             blocks: LandingContentBlock[];
@@ -100,7 +100,7 @@ export interface LandingConfig {
         reviews?: {
             [language: string]: LandingReview[]
         };
-        blocks: LandingContentBlock[];
+        blocks?: LandingContentBlock[];
         externalBlocks?: {
             title?: string; // ключ перевода, можно не заполнять
             blocks: LandingContentBlock[];
@@ -634,7 +634,10 @@ export const landingConfig: LandingConfig = {
                     activateClubTrial: false,
                 }
             },
-            staminityInfo: true,
+            staminityInfo: {
+                title: '',
+                img: ''
+            },
             summaryInfo: true,
             externalInfo: false,
             moreScenario: {
@@ -696,7 +699,10 @@ export const landingConfig: LandingConfig = {
                     activateClubTrial: false,
                 }
             },
-            staminityInfo: true,
+            staminityInfo: {
+                title: '',
+                img: ''
+            },
             summaryInfo: true,
             externalInfo: false,
             moreScenario: {
@@ -718,7 +724,10 @@ export const landingConfig: LandingConfig = {
                     activateClubTrial: true,
                 }
             },
-            staminityInfo: true,
+            staminityInfo: {
+                title: '',
+                img: ''
+            },
             summaryInfo: true,
             externalInfo: false,
             moreScenario: {
