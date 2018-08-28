@@ -14,6 +14,9 @@ export const prepareItem = (item: ICalendarItem, shift: number) => {
             delete item.activityHeader.intervals.filter(i => i.type === 'pW')[0].calcMeasures.completePercent.value;
         }
     }
+    if (item.activityHeader && item.activityHeader.activityId) {
+        delete item.activityHeader.activityId;
+    }
     return item;
 };
 

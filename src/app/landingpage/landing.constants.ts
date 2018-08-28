@@ -620,8 +620,8 @@ export const landingConfig: LandingConfig = {
 
         },
         {
-            code: 'athletes',
-            url: '/athletes',
+            code: 'groupAthletes',
+            url: '/group-athletes',
             title: '',
             subtitle: '',
             picture: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-01.png',

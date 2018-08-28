@@ -107,23 +107,24 @@ class ActivitySegmentsCtrl implements IComponentController {
         let interval: ActivityIntervalP;
         let pos: number = null;
         let scenario: any = getSegmentTemplates();
+        let templates: any = scenario[sport][scenarioType];
 
         if(this.selectedInterval().length > 0) {
             pos = this.firstSelectPosition() + 1;
-            this.intervals.reorganisation(pos, 1);
+            this.intervals.reorganisation(pos, Array.isArray(templates) && templates.length - 1 || 1);
         } else {
             pos = this.intervals.lastPos() + 1;
         }
 
-        scenario[sport][scenarioType].forEach(template => {
-            switch (template.type) {
+        templates.forEach(t => {
+            switch (t.type) {
                 case 'P': {
-                    interval = new ActivityIntervalP('P', Object.assign(template, {pos: pos++}));
+                    interval = new ActivityIntervalP('P', Object.assign(t, {pos: pos++}));
                     this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
                     break;
                 }
                 case 'G': {
-                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: pos}))]);
+                    this.intervals.add([new ActivityIntervalG('G', Object.assign(t, {fPos: pos}))]);
                     break;
                 }
             }
