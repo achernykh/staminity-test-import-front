@@ -1,0 +1,574 @@
+{
+  "order": 18,
+  "active": false,
+  "revision": 1,
+  "auth": [],
+  "premiumFunction": "pmc",
+  "icon": "insert_chart",
+  "code": "fitnessFatigueForm",
+  "context": [
+  ],
+  "descriptionParams": [
+    {
+      "ind": 0,
+      "idx": null,
+      "area": "params",
+      "param": "lastDays"
+    },
+    {
+      "ind": 1,
+      "idx": null,
+      "area": "params",
+      "param": "futDays"
+    }
+  ],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "lastDays",
+      "model": "90d",
+      "options": ["180d", "90d", "30d"],
+      "change": [{
+        "ind": [0],
+        "area": "params",
+        "name": "lastDays",
+        "options": {
+          "180d": {
+            "lastDays": 180
+          },
+          "90d": {
+            "lastDays": 90
+          },
+          "30d": {
+            "lastDays": 30
+          }
+        }
+      }]
+    },
+    {
+      "type": "radio",
+      "text": "futDays",
+      "model": "7d",
+      "options": ["60d", "30d", "7d", "0d"],
+      "change": [{
+        "ind": [1],
+        "area": "params",
+        "name": "futDays",
+        "options": {
+          "60d": {
+            "futDays": 60
+          },
+          "30d": {
+            "futDays": 30
+          },
+          "7d": {
+            "futDays": 7
+          },
+          "0d": {
+            "futDays": 0
+          }
+        }
+      }]
+    }
+  ],
+  "layout": {
+    "gridColumn": 2,
+    "gridRow": 1
+  },
+  "charts": [
+    {
+      "debugMode": false,
+      "chartType": "pmc",
+      "params": {
+        "users": null,
+        "futDays": 0,
+        "lastDays": null
+      },
+      "options": {
+        "tooltip": {
+          "combined": true
+        },
+        "currentPositionLine": {
+          "enabled": true,
+          "radius": 4,
+          "color": "rgba(0,0,0,0.5)"
+        }
+      },
+      "series": [
+        {
+          "label": "period",
+          "unit": "",
+          "xAxis": true,
+          "tooltipType": "label",
+          "tooltipLabel": "period",
+          "legend": false,
+          "currentPositionLine": true,
+          "idx": 0,
+          "measureSource": "activity.startDate",
+          "measureName": "Days",
+          "dataType": "date",
+          "dateFormat": "DD.MM",
+          "valueType": "value",
+          "seriesDateTrunc": "day",
+          "groupByIntervalLength": 1
+        }
+      ],
+      "measures": [
+        {
+          "id": 1,
+          "label": "trainingLoad",
+          "scaleLabel": "trainingLoad",
+          "unit": "",
+          "chartType": "dot",
+          "radius": 2,
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "",
+          "tooltipType": "label",
+          "tooltipLabel": "trainingLoad",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": true,
+          "calculateTotals": "",
+          "lineColor": "#C62828",
+          "lineStyle": "",
+          "fillType": "",
+          "fillColor": "#C62828",
+          "markerColor": "#C62828",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 1,
+          "measureName": "trainingLoad",
+          "dataType": "number",
+          "dateFormat": ""
+        },
+        {
+          "id": 2,
+          "label": "fatigue",
+          "scaleLabel": "fatigue",
+          "unit": "",
+          "chartType": "area",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "curveMonotoneX",
+          "tooltipType": "label",
+          "tooltipLabel": "fatigue",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": false,
+          "calculateTotals": "",
+          "lineColor": "#D81B60",
+          "lineStyle": "solid",
+          "lineWidth": 1,
+
+          "fillType": "gradient",
+          "fillColor": "#D81B60",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#FCE4EC",
+              "opacity": 0.0
+            },
+            {
+              "offset": "100%",
+              "color": "#FCE4EC",
+              "opacity": 0.2
+            }
+          ],
+          "markerColor": "#D81B60",
+
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 2,
+          "measureName": "fatigue",
+          "dataType": "number",
+          "dateFormat": ""
+        },
+        {
+          "id": 3,
+          "label": "fitness",
+          "scaleLabel": "fitness",
+          "unit": "",
+          "chartType": "area",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "curveCatmullRom",
+          "tooltipType": "label",
+          "tooltipLabel": "fitness",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": true,
+          "calculateTotals": "",
+          "lineColor": "#303F9F",
+          "lineStyle": "solid",
+          "lineWidth": 1,
+          "fillType": "gradient",
+          "fillColor": "#3949AB",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#C5CAE9",
+              "opacity": 0.1
+            },
+            {
+              "offset": "100%",
+              "color": "#3949AB",
+              "opacity": 0.6
+            }
+          ],
+          "markerColor": "#283593",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 3,
+          "measureName": "fitness",
+          "dataType": "number",
+          "dateFormat": ""
+        },
+        {
+          "id": 4,
+          "label": "form",
+          "scaleLabel": "form",
+          "unit": "",
+          "chartType": "area",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "curveCatmullRom",
+          "tooltipType": "label",
+          "tooltipLabel": "form",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": false,
+          "calculateTotals": "",
+
+          "lineWidth": 1,
+          "lineColor": "#FDD835",
+          "lineStyle": "solid",
+          "fillType": "gradient",
+          "fillColor": "#FDD835",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#FFF9C4",
+              "opacity": 0.1
+            },
+            {
+              "offset": "100%",
+              "color": "#FDD835",
+              "opacity": 0.4
+            }
+          ],
+          "markerColor": "#FBC02D",
+
+          "avgValueLineColor": "#4499BB",
+          "avgValueLineStyle": "dotted",
+          "idx": 4,
+          "measureName": "form",
+          "dataType": "number",
+          "dateFormat": "",
+          "measureSource": "..tbd...",
+          "valueType": "value",
+          "aggMethod": "avg"
+        },
+        {
+          "id": 5,
+          "label": "intensityLevel",
+          "scaleLabel": "intensityLevel",
+          "unit": "",
+          "chartType": "dot",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "null",
+          "tooltipType": "label",
+          "tooltipLabel": "intensityLevel",
+          "legend": false,
+          "visible": true,
+          "radius": 2,
+          "avgValueLine": false,
+          "scaleVisible": false,
+          "calculateTotals": "",
+          "lineColor": "#2887c8",
+          "lineStyle": "solid",
+          "fillType": "solid",
+          "fillColor": "#2887c8",
+          "markerColor": "#2887c8",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 5,
+          "measureName": "intensityLevel",
+          "dataType": "number",
+          "dateFormat": ""
+        }
+      ]
+    },
+    {
+      "debugMode": false,
+      "chartType": "pmc",
+      "params": {
+        "users": null,
+        "futDays": null,
+        "lastDays": 0
+      },
+      "options": {
+        "tooltip": {
+          "combined": true
+        },
+        "currentPositionLine": {
+          "enabled": true,
+          "radius": 4,
+          "color": "rgba(0,0,0,0.5)"
+        }
+      },
+      "series": [
+        {
+          "label": "period",
+          "unit": "",
+          "xAxis": true,
+          "tooltipType": "label",
+          "tooltipLabel": "period",
+          "legend": false,
+          "currentPositionLine": true,
+          "idx": 0,
+          "measureSource": "activity.startDate",
+          "measureName": "Days",
+          "dataType": "date",
+          "dateFormat": "DD.MM",
+          "valueType": "value",
+          "seriesDateTrunc": "day",
+          "groupByIntervalLength": 1
+        }
+      ],
+      "measures": [
+        {
+          "id": 1,
+          "label": "trainingLoad",
+          "scaleLabel": "trainingLoad",
+          "unit": "",
+          "chartType": "dot",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "",
+          "tooltipType": "label",
+          "tooltipLabel": "trainingLoad",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": true,
+          "calculateTotals": "",
+          "lineColor": "#990000",
+          "lineStyle": "",
+          "fillType": "",
+          "fillColor": "rgba(255, 0, 0, 0.2)",
+          "markerColor": "#990000",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 1,
+          "measureName": "trainingLoad",
+          "dataType": "number",
+          "dateFormat": ""
+        },
+        {
+          "id": 2,
+          "label": "fatigue",
+          "unit": "",
+          "chartType": "line",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "curveMonotoneX",
+          "tooltipType": "label",
+          "tootltipLabel": "fatigue",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": false,
+          "calculateTotals": "",
+          "lineColor": "#ff3399",
+          "lineStyle": "dashed",
+          "fillType": "none",
+          "fillColor": "",
+          "markerColor": "#ff3399",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 2,
+          "measureName": "fatigue",
+          "dataType": "number",
+          "dateFormat": ""
+        },
+        {
+          "id": 3,
+          "label": "fitness",
+          "scaleLabel": "fitness",
+          "unit": "",
+          "chartType": "line",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "curveCatmullRom",
+          "tooltipType": "label",
+          "tooltipLabel": "fitness",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": true,
+          "calculateTotals": "",
+          "lineColor": "#303F9F",
+          "lineStyle": "dashed",
+          "fillType": "none",
+          "fillColor": "",
+          "markerColor": "#283593",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 3,
+          "measureName": "fitness",
+          "dataType": "number",
+          "dateFormat": ""
+        },
+        {
+          "id": 4,
+          "label": "form",
+          "unit": "",
+          "chartType": "area",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "curveCatmullRom",
+          "tooltipType": "label",
+          "tooltipLabel": "form",
+          "legend": false,
+          "visible": true,
+          "avgValueLine": false,
+          "scaleVisible": false,
+          "calculateTotals": "",
+
+          "lineWidth": 1,
+          "lineColor": "#FDD835",
+          "lineStyle": "dashed",
+          "fillType": "gradient",
+          "fillColor": "#FDD835",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#FFF9C4",
+              "opacity": 0.1
+            },
+            {
+              "offset": "100%",
+              "color": "#FDD835",
+              "opacity": 0.4
+            }
+          ],
+          "markerColor": "#FBC02D",
+          "avgValueLineColor": "#4499BB",
+          "avgValueLineStyle": "dotted",
+          "idx": 4,
+          "measureName": "form",
+          "dataType": "number",
+          "dateFormat": "",
+          "measureSource": "..tbd...",
+          "valueType": "value",
+          "aggMethod": "avg"
+        },
+        {
+          "id": 5,
+          "label": "intensityLevel",
+          "unit": "",
+          "chartType": "dot",
+          "stacked": null,
+          "cumulative": false,
+          "smoothSettings": "null",
+          "tooltipType": "label",
+          "tooltipLabel": "intensityLevel",
+          "legend": false,
+          "visible": true,
+          "radius": 3,
+          "avgValueLine": false,
+          "scaleVisible": false,
+          "calculateTotals": "",
+          "lineColor": "#2887c8",
+          "lineStyle": "solid",
+          "fillType": "solid",
+          "fillColor": "#2887c8",
+          "markerColor": "#2887c8",
+          "avgValueLineColor": "",
+          "avgValueLineStyle": "",
+          "idx": 5,
+          "measureName": "intensityLevel",
+          "dataType": "number",
+          "dateFormat": ""
+        }
+      ]
+    }
+  ],
+  "data": [
+    {
+      "measure": "fitness",
+      "code": "fitnessStart",
+      "color": "#283593",
+      "hasBullet": true,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 3,
+        "formula": [
+          "start"
+        ]
+      }
+    },
+    {
+      "measure": "fitness",
+      "code": "fitnessEnd",
+      "color": "#283593",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 3,
+        "formula": [
+          "end"
+        ],
+        "subValue": {
+          "formula": [
+            "subtract"
+          ],
+          "params": [
+            "fitnessStart"
+          ],
+          "description": "analytics.params.byDays"
+        }
+      }
+    },
+    {
+      "measure": "fatigue",
+      "code": "fatigueEnd",
+      "color": "#D81B60",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 2,
+        "formula": [
+          "end"
+        ]
+      }
+    },
+    {
+      "measure": "form",
+      "code": "formEnd",
+      "color": "orange",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 4,
+        "formula": [
+          "end"
+        ]
+      }
+    }
+  ]
+}
