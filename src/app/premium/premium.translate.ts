@@ -1,8 +1,8 @@
 export const premiumTranslate = {
     ru: {
         action: {
-            subscribeMonth: 'Купить {{rate}}/{{currency}}/месяц',
-            subscribeYear: 'Купить на год {{rate / 12}}{{currency}}/месяц'
+            subscribeMonth: 'Купить за {{rate}} {{currency}}/месяц',
+            subscribeYear: 'Купить за {{rate}} {{currency}}/год'
         },
         wrapper: {
             title: 'Премиум-функция',
@@ -56,8 +56,15 @@ export const premiumTranslate = {
             text: 'Создавайте свои шаблоны тренировок, сохраняйте в шаблоны ранее запланированные тренировки для быстрого создания новых заданий',
         },
         badge: 'П',
+        dialog: {
+            title: "Премиум функции",
+        }
     },
     en: {
+        action: {
+            subscribeMonth: 'Buy for {{rate}} {{currency}}/month',
+            subscribeYear: 'Buy for {{rate}} {{currency}}/year'
+        },
         wrapper: {
             title: 'Premium Function',
             button: 'Learn more about Premium'
