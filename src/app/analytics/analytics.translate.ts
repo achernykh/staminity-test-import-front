@@ -178,10 +178,15 @@ export const translateAnalytics = {
             shortDescription: 'Диаграмма Фитнес - усталость',
             description: 'Предыдущие {{lastDays}} и следующие {{futDays}} days'
         },
+        trainingVolumesByAthletes: {
+            title: 'Объемы спортсменов',
+            shortDescription: 'Тренировочные объемы по спортсменам',
+            description: 'Время/расстояние: {{measureName | translate | lowercase}}'
+        },
         action: {
             restoreSettings: 'Сбросить настройки',
-
-        }
+        },
+        loadingTemplate: "Загрузка шаблонов графиков..."
     },
 
     en: {
@@ -199,7 +204,7 @@ export const translateAnalytics = {
             },
             activityTypes: {
                 placeholder: "Sports",
-                all: 'Все'
+                all: 'All'
             },
             activityCategories: {
                 empty: "Category",
@@ -368,7 +373,15 @@ export const translateAnalytics = {
             shortDescription: 'Fitness - fatigue chart',
             description: 'Last {{lastDays}} and next {{futDays}} days'
         },
-        restoreSettings: 'Reset to default',
+        trainingVolumesByAthletes: {
+            title: 'Top athletes',
+            shortDescription: 'Training volumes by athletes',
+            description: 'Duration/distance: {{measureName | translate | lowercase}}'
+        },
+        action: {
+            restoreSettings: 'Reset to default'
+        },
+        loadingTemplate: "Chart templates loading..."
     },
 };
 

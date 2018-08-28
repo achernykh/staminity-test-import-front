@@ -103,18 +103,18 @@ export const _MEASURE_TRANSLATE = {
 
         // Для аналитики
 
-        durationAvg: 'Время, в среднем / {{seriesDateTrunc | translate | lowercase}}',
-        durationTotal: 'Время, всего',
-        durationMax: 'Время, макс. / {{seriesDateTrunc | translate | lowercase}}',
+        durationAvg: 'В среднем / {{seriesDateTrunc | translate | lowercase}}',
+        durationTotal: 'Всего',
+        durationMax: 'Макс. / {{seriesDateTrunc | translate | lowercase}}',
 
-        distanceTotal: 'Расстояние, всего',
-        distanceAvg: 'Расстояние, в среднем / {{seriesDateTrunc | translate | lowercase}}',
-        distanceMax: 'Расстояние, макс. / {{seriesDateTrunc | translate | lowercase}}',
+        distanceTotal: 'Всего',
+        distanceAvg: 'В среднем / {{seriesDateTrunc | translate | lowercase}}',
+        distanceMax: 'Макс. / {{seriesDateTrunc | translate | lowercase}}',
 
 
-        runSum: 'Бег, всего',
-        bikeSum: 'Вел, всего',
-        swimSum: 'Плавание, всего',
+        runSum: 'Бег',
+        bikeSum: 'Велосипед',
+        swimSum: 'Плавание',
 
 
         fatigue: 'Усталость',
@@ -234,13 +234,13 @@ export const _MEASURE_TRANSLATE = {
 
         // для Аналитики
 
-        durationAvg: 'Duration avg. / {{seriesDateTrunc | translate | lowercase}}',
-        durationTotal: 'Duration total',
-        durationMax: 'Duration max / {{seriesDateTrunc | translate | lowercase}}',
+        durationAvg: 'Avg. / {{seriesDateTrunc | translate | lowercase}}',
+        durationTotal: 'Total',
+        durationMax: 'Max / {{seriesDateTrunc | translate | lowercase}}',
 
-        distanceTotal: 'Distance total',
-        distanceAvg: 'Distance avg/ {{seriesDateTrunc | translate | lowercase}}',
-        distanceMax: 'Distance max / {{seriesDateTrunc | translate | lowercase}}',
+        distanceTotal: 'Total',
+        distanceAvg: 'Avg/ {{seriesDateTrunc | translate | lowercase}}',
+        distanceMax: 'Max / {{seriesDateTrunc | translate | lowercase}}',
 
 
         runSum: 'Running',

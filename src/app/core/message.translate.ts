@@ -705,6 +705,10 @@ export const _translateMessage = {
         badZonesSettings: {
             title: '',
             text: "Зоны не сохранены. Проверьте корректность указания границ зон и уровня ПАНО"
+        },
+        analyticsSaveChartSettingsComplete: {
+            title: '',
+            text: "Настройки отчета сохранены"
         }
 
 
@@ -1412,6 +1416,10 @@ export const _translateMessage = {
         badZonesSettings: {
             title: '',
             text: "Operation failed. Please check training zones limit values and LT level"
+        },
+        analyticsSaveChartSettingsComplete: {
+            title: '',
+            text: "Chart settings saved"
         }
 
 

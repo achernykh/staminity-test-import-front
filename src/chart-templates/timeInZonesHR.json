@@ -94,7 +94,7 @@
         "unit": "",
         "xAxis": true,
         "tooltipType": "label",
-        "tooltipLabel": "Зона",
+        "tooltipLabel": "zone",
         "legend": false,
         "colorPalette": false,
         "currentPositionLine": true,
