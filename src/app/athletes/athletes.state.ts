@@ -6,8 +6,8 @@ import MessageService from "../core/message.service";
 import UserService from "../core/user.service";
 
 const athletes = {
-    name: "athletes",
-    url: "/athletes",
+    name: "coachAthletes",
+    url: "/coach-athletes",
     title: 'athletes.fullTitle',
     loginRequired: true,
     authRequired: ["func1"],

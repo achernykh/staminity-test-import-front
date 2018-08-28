@@ -628,8 +628,8 @@ export const landingConfig: LandingConfig = {
 
         },
         {
-            code: 'groupAthletes',
-            url: '/group-athletes',
+            code: 'athletes',
+            url: '/athletes',
             title: '',
             subtitle: '',
             teams: true,
