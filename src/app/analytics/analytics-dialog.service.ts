@@ -6,9 +6,13 @@ export class AnalyticsDialogService {
     // private
     private readonly defaultDialogOptions = {
         controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
+            $scope.loadingData = true;
             $scope.hide = () => $mdDialog.hide();
             $scope.cancel = () => $mdDialog.cancel();
             $scope.answer = (subscriptionPeriod) => $mdDialog.hide({ subscriptionPeriod });
+
+            setTimeout(_ => $scope.loadingData = false, 500);
+
         }],
          controllerAs: '$ctrl',
         parent: angular.element(document.body),
@@ -51,7 +55,8 @@ export class AnalyticsDialogService {
     fullScreen (e: Event, owner: IUserProfile, chart: AnalyticsChart): Promise<any> {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="analytics-chart" aria-label="Activity" layout="column">
-                            <analytics-chart class=""
+                            <md-progress-circular ng-if="loadingData" flex="auto" class="md-accent" md-diameter="20"></md-progress-circular>
+                            <analytics-chart ng-if="loadingData" class="full-screen"
                                  owner="$ctrl.owner"
                                  chart="$ctrl.chart"
                                  global-filter="$ctrl.globalFilter"

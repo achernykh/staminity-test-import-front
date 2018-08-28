@@ -80,25 +80,6 @@ export const premiumTranslate = {
             SpeedTimePeaks: 'The "Speed/Pace Time Peaks" chart can help you to know the maximum Pace/Speed values for the time peaks: 2s, 5s, 10s, ... ',
             PowerTimePeaks: 'The "Power Time Peaks" chart can help you to know the maximum Power values for the time peaks: 2s, 5s, 10s, ... ',
             completePercent: 'The "Complete percent" chart can help you track your average Complete percent of planned activities indicator',
-        action: {
-            subscribeMonth: 'Buy it for {{rate}} {{currency}}/month',
-            subscribeYear: 'Buy it for {{rate}} {{currency}}/year'
-        },
-        wrapper: {
-            title: 'Premium feature',
-            button: 'Learn more about Premium'
-        },
-        functions: {
-            // reports
-            pmc: 'The Fitness - Fatigue chart can help you track and plan your Fitness level to ensure that you are gaining enough training and recovering sufficiently',
-            activityMeasures: 'The "Workout indicators" chart can help to evaluate the dynamics of the selected indicators for the selected date range',
-            timeInZonesHR: 'The "Time in HR Zones" can help you track the time distribution in Heart Rate training zones',
-            timeInZonesPower: 'The "Time in Power Zones" can help you track the time distribution in Power training zones',
-            timeInZonesSpeed: 'The "Time in Speed/Pace Zones" can help you track the time distribution in Heart Rate training zones',
-            HRTimePeaks: 'The "HR Time Peaks" chart can help you to know the maximum Heart Rate values for the time peaks: 2s, 5s, 10s, ... ',
-            SpeedTimePeaks: 'The "Speed/Pace Time Peaks" chart can help you to know the maximum Pace/Speed values for the time peaks: 2s, 5s, 10s, ... ',
-            PowerTimePeaks: 'The "Power Time Peaks" chart can help you to know the maximum Power values for the time peaks: 2s, 5s, 10s, ... ',
-            completePercent: 'The "Complete percent" chart can help you track your average Complete percent of planned activities indicator',
 
             // others
             activityDetails: 'Indicators and Peaks panel. <br>' +
@@ -134,42 +115,5 @@ export const premiumTranslate = {
             text: 'Create your own workout templates, save any planned workout as a template and use them for rapid planning of new workouts',
         },
         badge: 'P',
-            // others
-            activityDetails: 'Indicators and Peaks panel. <br>' +
-            'It contains the set of calculated indicators and Time/Distance Peaks for the whole workout, for the selected laps/segments or for any part of the workout, selected on the Indicators chart',
-            methodologyCategories: 'Workout categories window helps you to manage categories to classify the workouts. E.g. "Long run", "LT Intervals", "Fartlek" etc.',
-            methodologyTemplates: 'Workout templates window helps you to manage templates for rapid workout planning.',
-            methodologyPeriodizationSchemes: 'Periodizaton schemes window helps you to manage mesocyles set used for season planning.',
-            seasonPlanning: 'Season planning window helps you to create and manage training season plan, set planned values for every microcycle and control the plan completion.',
-
-        },
-        futurePlanning: {
-            title: 'Workout planning',
-            text: 'Plan your workouts manually, create them with templates or by copying the one created previously',
-        },
-        activityDetails: {
-            title: 'Workout analysis',
-            text: 'Analyze every completed workout. Find calculated indicators and peaks for the whole workout, for each lap or segment or for any part of the workout, selected on the Indicators chart.',
-        },
-        proAnalytics: {
-            title: 'Premium analytics',
-            text: 'Premium analytics contains several charts: "Fitness-Fatigue chart", "Indicators chart", "Time in zones", "Peaks" and "Complete percent" charts based on your workout history',
-        },
-        seasonPlanning: {
-            title: 'Periodization and season planning',
-            text: 'Create your season plan by mesocycles. Plan every microcycle by TL, distance or duration. Define your own mesocycle set by creating your periodization scheme',
-        },
-        categories: {
-            title: 'Category management',
-            text: 'Create your own workout categories, e.g. "Long run", "Fartlek", "LT Intervals" and use them for workout classification',
-        },
-        templates: {
-            title: 'Templates management',
-            text: 'Create your own workout templates, save any planned workout as a template and use them for rapid planning of new workouts',
-        },
-        badge: 'P',
-        dialog: {
-            title: "Premium features",
-        }
     }
 };
