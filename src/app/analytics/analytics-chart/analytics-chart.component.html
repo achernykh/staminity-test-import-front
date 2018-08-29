@@ -3,7 +3,7 @@
                     function-code="$ctrl.chart.premiumFunction">
 </st-premium-wrapper>
 <div class="analytics-chart"
-            ng-switch="$ctrl.chart.hasMetrics()" layout="column"
+            ng-switch="$ctrl.chart.hasMetrics()" layout="column" flex="auto"
             ng-mouseover="$ctrl.showMenu = true"
             ng-mouseleave="$ctrl.showMenu = false"
             ng-class="{active: $ctrl.showMenu}">

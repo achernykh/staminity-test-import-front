@@ -1,5 +1,12 @@
 $padding: 0;
 
+md-dialog#analytics-chart {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+}
+
 .analytics-chart {
   width: 100%;
   height: 100%;

@@ -2,6 +2,7 @@
   "order": 13,
   "active": false,
   "revision": 1,
+  "group": "volumes",
   "auth": [],
   "icon": "insert_chart",
   "code": "distanceByActivityTypeByPeriods",

@@ -27,6 +27,7 @@ class AnalyticsTemplateSelectorCtrl implements IComponentController {
 
 export const AnalyticsTemplateSelectorComponent:IComponentOptions = {
     bindings: {
+        charts: '=',
         onChange: '&',
         onCancel: '&'
     },

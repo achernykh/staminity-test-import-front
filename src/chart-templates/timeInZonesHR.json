@@ -2,6 +2,7 @@
   "order": 7,
   "active": true,
   "revision": 1,
+  "group": "zonesAndPeaks",
   "auth": [],
   "icon": "insert_chart",
   "code": "timeInZonesHR",

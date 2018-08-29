@@ -2,6 +2,7 @@
   "order": 8,
   "revision": 1,
   "active": false,
+  "group": "zonesAndPeaks",
   "auth": [],
   "icon": "insert_chart",
   "code": "timeInZonesSpeed",

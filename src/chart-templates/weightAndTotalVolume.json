@@ -2,6 +2,7 @@
   "order": 16,
   "active": true,
   "revision": 1,
+  "group": "measurement",
   "auth": [],
   "icon": "insert_chart",
   "code": "weightAndTotalVolume",
