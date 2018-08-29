@@ -7,7 +7,7 @@ export const analyticsConfig: AnalyticsConfig = {
     dir: './chart-templates',
     charts: [
         'pmc', 'distanceByActivityTypes',
-        'distanceByAthletesByPeriods', 'durationByAthletesByPeriods',
+        'distanceByAthletesByPeriods', 'trainingVolumesByAthletes',
         'actualMovingDuration', 'actualDistance','distanceByActivityTypeByPeriods',
         'activityMeasuresSelected', 'activityMeasuresTL',
         'timeInZonesHR', 'timeInZonesSpeed', 'timeInZonesPower',
