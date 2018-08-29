@@ -1,0 +1,53 @@
+<md-toolbar flex="none" class="md-default">
+    <div class="md-toolbar-tools">
+        <h1 translate="analytics.templateSelector.title"></h1>
+        <div flex></div>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content flex="auto" layout="column" class="">
+    <section flex="auto" layout-gt-sm="row" layout="column">
+        <section flex="33" layout="column" class="analytics-template-selector__column">
+            <section flex="none" layout="column"
+                     ng-repeat="group in [$ctrl.analyticsConfig.groupCharts[0],$ctrl.analyticsConfig.groupCharts[1],$ctrl.analyticsConfig.groupCharts[4]]">
+                <p class="md-caption" translate="{{group}}"></p>
+                <md-list class="md-dense">
+                    <md-list-item class="md-2-line" ng-repeat="chart in $ctrl.charts | filter:{group: group}">
+                        <md-icon class="material-icons md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">{{::chart.icon}}</md-icon>
+                        <div class="md-list-item-text">
+                            <h3 class="md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">
+                                <span translate="analytics.{{chart.code}}.title"></span>
+                            </h3>
+                            <p class="md-dark" translate="analytics.{{chart.code}}.shortDescription" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
+                            <md-switch class="md-secondary md-primary"
+                                       ng-change="$ctrl.onChangeCharts()"
+                                       ng-disabled="!chart.isAuthorized"
+                                       ng-model="chart.active"></md-switch>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </section>
+        </section>
+        <section ng-repeat="group in [$ctrl.analyticsConfig.groupCharts[2],$ctrl.analyticsConfig.groupCharts[3]]"
+                 layout="column" flex="33">
+            <p class="md-caption" translate="{{group}}"></p>
+            <md-list class="md-dense">
+                <md-list-item class="md-2-line" ng-repeat="chart in $ctrl.charts | filter:{group: group}">
+                    <md-icon class="material-icons md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">{{::chart.icon}}</md-icon>
+                    <div class="md-list-item-text">
+                        <h3 class="md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">
+                            <span translate="analytics.{{chart.code}}.title"></span>
+                        </h3>
+                        <p class="md-dark" translate="analytics.{{chart.code}}.shortDescription" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
+                        <md-switch class="md-secondary md-primary"
+                                   ng-change="$ctrl.onChangeCharts()"
+                                   ng-disabled="!chart.isAuthorized"
+                                   ng-model="chart.active"></md-switch>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </section>
+    </section>
+</md-content>

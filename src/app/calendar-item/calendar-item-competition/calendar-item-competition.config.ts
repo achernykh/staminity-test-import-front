@@ -35,7 +35,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'halfMarathon',
             stages: [{
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 21.097*1000
                 }
             ]
@@ -45,7 +45,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '10km',
             stages: [{
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 10*1000
                 }
             ]
@@ -55,19 +55,40 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '5km',
             stages: [{
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 5*1000
                 }
             ]
         },
+        /*
         {
             type: 'run',
             code: 'custom',
             stages: [{
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 }
+            ]
+        }, */
+        {
+            type: 'run',
+            code: 'customDuration',
+            stages: [{
+                activityTypeId: 2,
+                durationMeasure: 'duration',
+                distanceLength: null
+            }
+            ]
+        },
+        {
+            type: 'run',
+            code: 'customDistance',
+            stages: [{
+                activityTypeId: 2,
+                durationMeasure: 'distance',
+                movingDurationLength: null
+            }
             ]
         },
         /* пока скрываем бег по времени
@@ -97,27 +118,27 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'fullDistance',
             stages: [{
                     activityTypeId: 7,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 3.8*1000
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 10,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 180*1000
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 42.195*1000
                 }
             ]
@@ -127,27 +148,27 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'halfDistance',
             stages: [{
                     activityTypeId: 7,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 1.9*1000
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 10,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 90*1000
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 21.097*1000
                 }
             ]
@@ -157,27 +178,27 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '1/4',
             stages: [{
                     activityTypeId: 7,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 1*1000
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 10,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 45*1000
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 10*1000
                 }]
         },
@@ -186,27 +207,27 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'olympic',
             stages: [{
                     activityTypeId: 7,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 1.5*1000
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 10,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 40*1000
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 10*1000
                 }
             ]
@@ -216,27 +237,27 @@ export class CompetitionConfig implements CompetitionConfig {
             code: 'sprint',
             stages: [{
                     activityTypeId: 7,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 0.75*1000
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 10,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 20*1000
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 5*1000
                 }
             ]
@@ -247,27 +268,27 @@ export class CompetitionConfig implements CompetitionConfig {
             stages: [
                 {
                     activityTypeId: 7,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 0.5*1000
                 },
                 {
                     activityTypeId: 15,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 10,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 22*1000
                 },
                 {
                     activityTypeId: 16,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: null
                 },
                 {
                     activityTypeId: 2,
-                    durationMeasure: 'movingDuration',
+                    durationMeasure: 'duration',
                     distanceLength: 5*1000
                 }
             ]
@@ -311,7 +332,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '10km',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 10*1000
             }]
         },
@@ -320,7 +341,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '7km',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 7*1000
             }]
         },
@@ -329,7 +350,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '5km',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 5*1000
             }]
         },
@@ -338,7 +359,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '4km',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 4*1000
             }]
         },
@@ -347,7 +368,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '3km',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 3*1000
             }]
         },
@@ -356,7 +377,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '1km',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 1*1000
             }]
         },
@@ -365,7 +386,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '1mile',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 1.852*1000
             }]
         },
@@ -387,23 +408,51 @@ export class CompetitionConfig implements CompetitionConfig {
                 movingDurationLength: 30*60
             }]
         },
+        /*
         {
             type: 'swim',
             code: 'custom',
             stages: [{
                 activityTypeId: 7,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: null
+            }]
+        }, */
+        {
+            type: 'swim',
+            code: 'customDuration',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'duration',
+                distanceLength: null
+            }]
+        },
+        {
+            type: 'swim',
+            code: 'customDistance',
+            stages: [{
+                activityTypeId: 7,
+                durationMeasure: 'distance',
+                movingDurationLength: null
             }]
         },
         // bike
         {
             type: 'bike',
-            code: 'custom',
+            code: 'customDuration',
             stages: [{
                 activityTypeId: 10,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: null
+            }]
+        },
+        {
+            type: 'bike',
+            code: 'customDistance',
+            stages: [{
+                activityTypeId: 10,
+                durationMeasure: 'distance',
+                movingDurationLength: null
             }]
         },
         // ski
@@ -412,7 +461,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '10km',
             stages: [{
                 activityTypeId: 18,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 10*1000
             }]
         },
@@ -421,7 +470,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '15km',
             stages: [{
                 activityTypeId: 18,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 15*1000
             }]
         },
@@ -430,7 +479,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '30km',
             stages: [{
                 activityTypeId: 18,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 30*1000
             }]
         },
@@ -439,7 +488,7 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '50km',
             stages: [{
                 activityTypeId: 18,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 50*1000
             }]
         },
@@ -448,19 +497,28 @@ export class CompetitionConfig implements CompetitionConfig {
             code: '70km',
             stages: [{
                 activityTypeId: 18,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: 70*1000
             }]
         },
         {
             type: 'ski',
-            code: 'custom',
+            code: 'customDuration',
             stages: [{
                 activityTypeId: 18,
-                durationMeasure: 'movingDuration',
+                durationMeasure: 'duration',
                 distanceLength: null
             }]
-        }
+        },
+        {
+            type: 'ski',
+            code: 'customDistance',
+            stages: [{
+                activityTypeId: 18,
+                durationMeasure: 'distance',
+                movingDurationLength: null
+            }]
+        },
     ];
     /**types: {
         [type: string]: {

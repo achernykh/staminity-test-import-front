@@ -78,6 +78,7 @@ export class EnableTariffCtrl {
     };
 
     cancel () {
+        debugger;
         this.$mdDialog.cancel();
     };
 

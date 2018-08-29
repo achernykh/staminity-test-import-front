@@ -2,6 +2,7 @@
   "order": 17,
   "active": true,
   "revision": 1,
+  "group": "volumes",
   "auth": [],
   "icon": "insert_chart",
   "code": "completePercent",

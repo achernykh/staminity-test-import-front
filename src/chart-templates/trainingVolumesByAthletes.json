@@ -2,6 +2,7 @@
   "order": 2,
   "active": true,
   "revision": 1,
+  "group": "athletes",
   "auth": ["CoachDashboard"],
   "icon": "insert_chart",
   "code": "trainingVolumesByAthletes",

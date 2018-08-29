@@ -32,7 +32,8 @@
                                 on-select="$ctrl.onSelectAthletes(list,mode)">
 </calendar-item-athlete-selector>
 
-<calendar-item-template-selector ng-if="$ctrl.showSelectTemplate"
+<calendar-item-template-selector layout="column"
+                                 ng-if="$ctrl.showSelectTemplate"
                                  ng-class="{'with-details-panel': $ctrl.activity.hasActualData}"
                                  templates-by-owner="$ctrl.templatesByOwner"
                                  ng-cloack class="calendar-item-template-selector"

@@ -43,6 +43,7 @@ import {htmlToPlainText} from "../../share/text/plain-text.filter";
 import { ActivityIntervalW } from "../../activity/activity-datamodel/activity.interval-w";
 import { isFutureDay } from "../../share/date/date.filter";
 import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
+import {getFtpBySport} from "../../core/user.function";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
 
@@ -613,10 +614,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
-        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.activity.auth.isPro) {
+        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details) {
             this.selectedTab = HeaderStructuredTab.Details;
         }
-        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.activity.auth.isPro) {
+        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details) {
             this.selectedTab = HeaderTab.Details;
         }
 
@@ -886,10 +887,25 @@ export class CalendarItemActivityCtrl implements IComponentController{
             .then(_ => this.message.toastInfo('activitySplited'));
     }
 
+    recalcPlanTotal (): void {
+        if (!(this.activity.isStructured && this.activity.isComing)) {return;}
+        this.activity.intervals.P.map(i => {
+            let zones = this.options.owner.trainingZones;
+            i.completeFtpValue(zones, this.activity.header.sportBasic);
+            i.complete(getFtpBySport(zones, this.activity.header.sportBasic), FtpState.Off, [{measure: null, value: null}]);
+        });
+        this.activity.intervals.PW.calculate(this.activity.intervals.P);
+        this.activity.view.isPut = true;
+        this.onSave(false);
+    }
+
     getDescription (lineLimit: number = null, lineLen: number = 100): string {
+        //debugger;
         let data: string = this.activity.intervals.PW.trainersPrescription;
         if (!lineLimit) { return data; }
         data = htmlToPlainText()(data);
+
+        //console.debug('getDescription', data.split(/\n/).length);
 
         return data.split(/\n/).length > 0 ?
             `${data.split(/\n/).slice(0, lineLimit).join('\n').slice(0,-1)}${data.split(/\n/).length > lineLimit ? '...' : ''}` :

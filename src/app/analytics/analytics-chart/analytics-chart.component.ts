@@ -10,6 +10,7 @@ import { periodByType, comparePeriodType } from "../analytics-chart-filter/analy
 import { isArray } from "@reactivex/rxjs/dist/cjs/util/isArray";
 import { IUserConnections, IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import {AnalyticsService} from "@app/analytics/analytics.service";
+import {AnalyticsDialogService} from "@app/analytics/analytics-dialog.service";
 
 const prepareUsers = (param: string, athletes: IUserProfileShort[]): number[] => {
     switch (param) {
@@ -20,7 +21,7 @@ const prepareUsers = (param: string, athletes: IUserProfileShort[]): number[] =>
 class AnalyticsChartCtrl implements IComponentController {
 
     owner: IUserProfile;
-    analytics: AnalyticsCtrl;
+    //analytics: AnalyticsCtrl;
     chart: AnalyticsChart;
     globalFilter: AnalyticsChartFilter;
     settingsChange: number;
@@ -35,14 +36,15 @@ class AnalyticsChartCtrl implements IComponentController {
 
     updateCount: number = 0;
 
-    static $inject = ["$scope", "statistics", "$mdDialog", "$filter", "AnalyticsService"];
+    static $inject = ["$scope", "statistics", "$mdDialog", "$filter", "AnalyticsService", "AnalyticsDialogService"];
 
     constructor (
         private $scope: IScope,
         private statistics: StatisticsService,
         private $mdDialog: any,
         private $filter: any,
-        private analyticsService: AnalyticsService) {
+        private analyticsService: AnalyticsService,
+        private analyticsDialogService: AnalyticsDialogService) {
 
         this.analyticsService.item$
             .filter(m => m.value.code === this.chart.code || m.value.id === this.chart.id)
@@ -200,12 +202,13 @@ class AnalyticsChartCtrl implements IComponentController {
         this.updateCount++;
     }
 
-    fullScreen () {
-        this.chart.layout.fullScreen = !this.chart.layout.fullScreen;
+    fullScreen (e: Event) {
+        this.analyticsDialogService.fullScreen(e, this.owner, this.chart ).then();
+        /**this.chart.layout.fullScreen = !this.chart.layout.fullScreen;
         setTimeout(() => {
             this.updateCount++;
             this.$scope.$apply();
-        }, 1);
+        }, 1);**/
     }
 
     private prepareTitleContext () {
@@ -325,7 +328,7 @@ const AnalyticsChartComponent: IComponentOptions = {
         onFullScreen: "&",
     },
     require: {
-        analytics: "^stAnalytics",
+        //analytics: "^stAnalytics",
     },
     controller: AnalyticsChartCtrl,
     template: require("./analytics-chart.component.html") as string,

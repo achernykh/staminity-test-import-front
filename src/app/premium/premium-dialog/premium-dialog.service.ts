@@ -9,12 +9,12 @@ export class PremiumDialogService {
 
     // private
     private readonly defaultDialogOptions = {
-        controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
+        /**controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
             $scope.hide = () => $mdDialog.hide();
             $scope.cancel = () => $mdDialog.cancel();
             $scope.answer = (subscriptionPeriod) => $mdDialog.hide({ subscriptionPeriod });
         }],
-        controllerAs: '$ctrl',
+        controllerAs: '$ctrl',**/
         parent: angular.element(document.body),
         bindToController: true,
         clickOutsideToClose: false,
@@ -46,7 +46,7 @@ export class PremiumDialogService {
                                     tariff="$ctrl.tariff"
                                     billing="$ctrl.billing"
                                     page="$ctrl.page"
-                                    on-cancel="cancel()" on-answer="answer(subscriptionPeriod)">
+                                    on-cancel="$ctrl.cancel()" on-answer="answer(subscriptionPeriod)">
                             </st-premium-dialog>
                        </md-dialog>`,
             controller: EnableTariffCtrl,

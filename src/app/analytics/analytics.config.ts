@@ -28,6 +28,12 @@ function configure($stateProvider: StateProvider,
                     group.getManagementProfile(groupId, 'coach')]**/
             },
             views: DefaultTemplate("analytics"),
+            urlLocRu: 'https://staminity.com/?lang=ru',
+            urlLocEn: 'https://staminity.com/?lang=en',
+            urlLoc: 'landing.main.urlLoc',
+            breadcrumb: 'landing.main.breadcrumb',
+            subtitle: 'landing.main.subtitle',
+            imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
         } as StateDeclaration);
 
     $translateProvider.translations("en", {analytics: translateAnalytics.en});

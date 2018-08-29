@@ -11,6 +11,7 @@ import { AnalyticsChartFilter } from "./analytics-chart-filter/analytics-chart-f
 import { IAnalyticsChart } from "./analytics-chart/analytics-chart.interface";
 import { AnalyticsChart } from "./analytics-chart/analytics-chart.model";
 import { AnalyticsService } from "./analytics.service";
+import {AnalyticsDialogService} from "@app/analytics/analytics-dialog.service";
 
 export class AnalyticsCtrl implements IComponentController {
 
@@ -39,11 +40,12 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope", 'AnalyticsService', "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
-        "AuthService", "$filter", "$mdMedia", '$mdDialog'];
+    static $inject = ["$scope", 'AnalyticsService', "AnalyticsDialogService", "SessionService", "statistics", "storage",
+        "ReferenceService", "analyticsDefaultSettings", "AuthService", "$filter", "$mdMedia", '$mdDialog'];
 
     constructor (private $scope: IScope,
                  private analyticsService: AnalyticsService,
+                 private analyticsDialogService: AnalyticsDialogService,
                  private session: SessionService,
                  private statistics: StatisticsService,
                  private storageService: StorageService,
@@ -133,6 +135,10 @@ export class AnalyticsCtrl implements IComponentController {
         this.globalFilter.users.model = [userId];
         this.globalFilter.changeParam(param);
         this.globalFilterChange ++;
+    }
+
+    private selectTemplates (e: Event): void {
+        this.analyticsDialogService.templateSelector(e, this.charts).then();
     }
 
     private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {

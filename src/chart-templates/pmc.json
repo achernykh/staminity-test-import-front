@@ -2,6 +2,7 @@
   "order": 18,
   "active": false,
   "revision": 1,
+  "group": "measures",
   "auth": [],
   "premiumFunction": "pmc",
   "icon": "insert_chart",

@@ -2,6 +2,7 @@
   "order": 12,
   "revision": 1,
   "active": false,
+  "group": "zonesAndPeaks",
   "auth": [],
   "icon": "insert_chart",
   "code": "powerTimePeaks",

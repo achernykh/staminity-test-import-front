@@ -8,10 +8,11 @@
     <st-application-frame-title>
         <span class="md-title" translate="analytics.fullTitle"></span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <span ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0" class="button" hide show-gt-sm>{{$ctrl.user | userName:'compact'}}</span>
+        <span ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"
+              class="button" hide show-gt-sm>{{$ctrl.user | userName:'compact'}}</span>
         <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
-                <md-icon class="material-icons">arrow_drop_down</md-icon>
+                <md-icon class="material-icons" ng-cloack>arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content>
                 <md-menu-item ng-repeat="athlete in $ctrl.athletes track by athlete.userId">
@@ -31,15 +32,32 @@
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
-        <span class="button" hide show-gt-sm translate="analytics.params.{{$ctrl.globalFilter.periods.model || 'loading'}}"></span>
+        <span ng-if="$ctrl.globalFilter.periods.model !== 'customPeriod'"
+              class="button" hide show-gt-sm
+              translate="analytics.params.{{$ctrl.globalFilter.periods.model || 'loading'}}"></span>
+        <md-datepicker ng-if="$ctrl.globalFilter.periods.model === 'customPeriod'"
+                       style="margin-right: 16px"
+                       md-theme="dark" md-open-on-focus
+                       ng-model="$ctrl.globalFilter.periods.data.startDate" flex="none"
+                       md-hide-icons="calendar"
+                       ng-change="$ctrl.setPeriod('customPeriod')"
+                       name="startDate">
+        </md-datepicker>
+        <md-datepicker ng-if="$ctrl.globalFilter.periods.model === 'customPeriod'"
+                       md-theme="dark" md-open-on-focus
+                       ng-model="$ctrl.globalFilter.periods.data.endDate" flex="none"
+                       md-hide-icons="calendar"
+                       ng-change="$ctrl.setPeriod('customPeriod')"
+                       name="endDate">
+        </md-datepicker>
         <md-menu hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
-                <md-icon class="material-icons">arrow_drop_down</md-icon>
+                <md-icon class="material-icons" ng-cloak>arrow_drop_down</md-icon>
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="type in $ctrl.globalFilter.periods.options track by $index">
                     <md-button ng-click="$ctrl.setPeriod(type)">
-                        <span>{{'analytics.params.' + type | translate}}</span>s
+                        <span>{{'analytics.params.' + type | translate}}</span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>

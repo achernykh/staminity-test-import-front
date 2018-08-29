@@ -247,12 +247,12 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     approxSpeed(measure, ftp: {[measure: string]: number}): number {
         const FTP: number = (this.intensityByFtpFrom + this.intensityByFtpTo) / 2;
+        if (!FTP) { return null; }
 
-        if (!FTP) {
-            return null;
-        }
+        console.debug('zones', FTP, approxZones[measure]);
 
-        const zoneId: number = approxZones[measure].findIndex((z) => FTP.toFixed(2) >= z.from && FTP.toFixed(2) <= z.to);
+        const zoneId: number = approxZones[measure]
+            .findIndex((z) => FTP >= z.from && FTP <= z.to);
         let delta: number, approxFTP: number;
 
         if (zoneId === 0) { // для первой зоны
@@ -285,15 +285,38 @@ export class ActivityIntervalP extends ActivityInterval implements IActivityInte
 
     }
 
+    /**
+     * Пересчитываем и обновляем абсолютные значения интенсивности
+     * @param {ITrainingZones} zones
+     * @param {string} sport
+     */
     completeAbsoluteValue(zones: ITrainingZones, sport: string) {
 
         if (this.intensityMeasure) {
+
             this.intensityLevelFrom = this[this.intensityMeasure].intensityLevelFrom =
                 getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpFrom;
 
             this.intensityLevelTo = this[this.intensityMeasure].intensityLevelTo =
                 getFTP(zones, this.intensityMeasure, sport) * this.intensityByFtpTo;
         }
+    }
+
+    /**
+     * Пересчитываем о обновляем относительные значения интенсивности
+     * @param {ITrainingZones} zones
+     * @param {string} sport
+     */
+    completeFtpValue (zones: ITrainingZones, sport: string): void {
+        if (this.intensityMeasure) {
+
+            this.intensityByFtpFrom = this[this.intensityMeasure].intensityByFtpFrom =
+                this.intensityLevelFrom / getFTP(zones, this.intensityMeasure, sport);
+
+            this.intensityByFtpTo = this[this.intensityMeasure].intensityByFtpTo =
+                this.intensityLevelTo / getFTP(zones, this.intensityMeasure, sport);
+        }
+
     }
 
     /**

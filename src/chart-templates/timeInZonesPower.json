@@ -2,6 +2,7 @@
   "order": 9,
   "revision": 1,
   "active": false,
+  "group": "zonesAndPeaks",
   "auth": [],
   "icon": "insert_chart",
   "code": "timeInZonesPower",

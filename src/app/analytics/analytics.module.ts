@@ -14,6 +14,8 @@ import { supportLng } from "../core/display.constants";
 import { AnalyticsService } from "./analytics.service";
 import { analyticsConfig } from "./analytics.constants";
 import { AnalyticsChartDataComponent } from "./analytics-chart-data/analytics-chart-data.component";
+import {AnalyticsDialogService} from "./analytics-dialog.service";
+import {AnalyticsTemplateSelectorComponent} from "./analytics-template-selector/analytics-template-selector.component";
 
 const Analytics = module("staminity.analytics", [])
     .component("analytics", AnalyticsComponent)
@@ -24,7 +26,9 @@ const Analytics = module("staminity.analytics", [])
     .component("analyticsChartSettings", AnalyticsChartSettingsComponent)
     .component("analyticsChartPmc", AnalyticsChartPmcComponent)
     .component('stAnalyticsChartData', AnalyticsChartDataComponent)
+    .component('stAnalyticsTemplateSelector', AnalyticsTemplateSelectorComponent)
     .service('AnalyticsService', AnalyticsService)
+    .service('AnalyticsDialogService', AnalyticsDialogService)
     .constant("analyticsDefaultSettings", DefaultAnalyticsSettings)
     .constant('analyticsConfig', analyticsConfig)
     //.config(configure)

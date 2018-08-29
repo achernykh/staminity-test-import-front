@@ -5,7 +5,7 @@
     "url": "https://aachernykh@bitbucket.org/aachernykh/staminity-frontend.git"
   },
   "license": "MIT",
-  "version": "2.3.4",
+  "version": "2.3.10",
   "description": "Staminity application",
   "main": "index.html",
   "scripts": {
@@ -13,10 +13,10 @@
     "display-error": "webpack --display-error-details",
     "dist": "webpack",
     "distLocal": "webpack && gulp copy-assets",
-    "dev1": "gulp set-env-new --trg dev1 && webpack && gulp copy-assets && gulp copy-other && gulp copy-moneta && gulp set-sw --trg dev1 && gulp ftp --trg dev1 --scope core",
-    "dev2": "gulp set-env-new --trg dev2 && webpack && gulp copy-assets && gulp copy-other && gulp copy-moneta && gulp set-sw --trg dev2 && gulp ftp --trg dev2 --scope core",
-    "dev3": "gulp set-env-new --trg dev3 && webpack && gulp copy-assets && gulp copy-other && gulp copy-moneta && gulp set-sw --trg dev3 && gulp ftp --trg dev3 --scope core",
-    "prd": "gulp set-env-new --trg prd && webpack && gulp copy-assets && gulp copy-other && gulp copy-moneta && gulp set-sw --trg prd",
+    "dev1": "gulp set-env-new --trg dev1 && webpack && gulp copy-files && gulp set-sw --trg dev1 && gulp ftp --trg dev1 --scope core",
+    "dev2": "gulp set-env-new --trg dev2 && webpack && gulp copy-files && gulp set-sw --trg dev2 && gulp ftp --trg dev2 --scope core",
+    "dev3": "gulp set-env-new --trg dev3 && webpack && gulp copy-files && gulp set-sw --trg dev3 && gulp ftp --trg dev3 --scope core",
+    "prd": "gulp set-env-new --trg prd && webpack && gulp copy-files && gulp set-sw --trg prd",
     "glastic": "gulp set-env-new --trg glastic && webpack && gulp copy-assets && gulp copy-other && gulp set-sw --trg glastic",
     "analyseBuild": "webpack --json > status.json",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -114,9 +114,10 @@
     "webpack-merge": "2.0.0"
   },
   "dependencies": {
-    "@types/d3-collection": "1.0.5",
-    "@types/d3-geo": "1.9.2",
-    "@types/geojson": "1.0.2",
+    "@types/d3-collection": "=1.0.5",
+    "@types/d3-geo": "=1.9.2",
+    "@types/d3-quadtree": "=1.0.5",
+    "@types/geojson": "=1.0.2",
     "@types/node": "^8.5.2",
     "@uirouter/angularjs": "^1.0.13",
     "angular": "^1.6.4",

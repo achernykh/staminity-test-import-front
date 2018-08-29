@@ -204,6 +204,9 @@ export const _translateTrainingPlans = {
             rate: 'Рейтинг',
             weeks: 'Недель',
             hours: 'Часов',
+            breadcrumb: 'Staminity > Магазин тренировочных планов',
+            urlLoc: "https://staminity.com/training-plans-store?state=store&lang=ru",
+            subtitle: 'Тренировочные планы по бегу, триатлону и другим циклическим видам спорта'
         },
         landing: {
             weekCount: 'Недель подготовки {{count}}',
@@ -554,6 +557,9 @@ export const _translateTrainingPlans = {
             rate: 'Rating',
             weeks: 'Weeks',
             hours: 'Hours',
+            breadcrumb: 'Staminity > Training plans store',
+            urlLoc: "https://staminity.com/training-plans-store?state=store&lang=en",
+            subtitle: 'Training plans for running, triathlon and other cyclic sports'
         },
         landing: {
             weekCount: 'Week count {{count}}',
