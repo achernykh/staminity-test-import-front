@@ -9,6 +9,10 @@
   opacity: 0.93;
   background-color: white;
   z-index: 50;
+
+  .md-title, .md-body-1 {
+    max-width: 320px;
+  }
 }
 
 .premium-menu-badge {

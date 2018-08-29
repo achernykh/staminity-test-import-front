@@ -20,7 +20,8 @@
                 <pagination></pagination>
             </swiper>
         </md-content>
-        <md-dialog-actions flex="none" layout="row" style="background: white">
+        <md-dialog-actions flex="none" layout="row" style="background: white"
+                           ng-if="!$ctrl.tariff.trialConditions.isAvailable">
             <span flex></span>
             <md-button type="submit"
                        ng-click="$ctrl.pay(1)">
@@ -29,6 +30,14 @@
             <md-button type="submit" class="md-accent md-raised md-hue-3"
                        ng-click="$ctrl.pay(12)">
                 <span translate="premium.action.subscribeYear" translate-values="$ctrl.yearlyFee"></span>
+            </md-button>
+        </md-dialog-actions>
+        <md-dialog-actions flex="none" layout="row" style="background: white"
+                           ng-if="$ctrl.tariff.trialConditions.isAvailable">
+            <span flex></span>
+            <md-button type="submit"
+                       ng-click="$ctrl.trial()">
+                <span translate="premium.action.trial" translate-values="$ctrl.tariff.trialConditions"></span>
             </md-button>
         </md-dialog-actions>
 

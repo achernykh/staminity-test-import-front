@@ -21,7 +21,7 @@ export const premiumConfig: PremiumConfig = {
         {
             code: 'proAnalytics',
             img: '',
-            functions: ['pmc']
+            functions: ['pmc', 'charts']
         },
         {
             code: 'seasonPlanning',

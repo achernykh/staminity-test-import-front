@@ -25,6 +25,7 @@ class AnalyticsChartCtrl implements IComponentController {
     chart: AnalyticsChart;
     globalFilter: AnalyticsChartFilter;
     settingsChange: number;
+    refresh: number;
 
     private descriptionParams: Object = {};
 
@@ -80,7 +81,8 @@ class AnalyticsChartCtrl implements IComponentController {
         /**if (changes.hasOwnProperty('settingsChange') && this.settingsChange > 0) {
             return;
         }**/
-        if ( changes.hasOwnProperty("chart") && changes.chart.isFirstChange() && this.settingsChange === 0 ) {
+        if ((changes.hasOwnProperty("chart") && changes.chart.isFirstChange() && this.settingsChange === 0) ||
+            (changes.hasOwnProperty("refresh") && this.refresh > 0)) {
             this.loadData();
         }
         if ( changes.hasOwnProperty("globalFilterChange") && !changes.globalFilterChange.isFirstChange() &&
@@ -321,7 +323,9 @@ const AnalyticsChartComponent: IComponentOptions = {
         globalFilter: "<",
         globalFilterChange: "<",
         settingsChange: '<',
+        refresh: '<',
         panelChanges: "<",
+        onClose: "&",
         onChangeFilter: "&",
         onExpand: "&",
         onCollapse: "&",

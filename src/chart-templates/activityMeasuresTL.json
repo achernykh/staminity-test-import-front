@@ -4,6 +4,7 @@
   "revision": 1,
   "group": "volumes",
   "auth": [],
+  "premiumFunction": "charts",
   "icon": "insert_chart",
   "code": "activityMeasuresTL",
   "descriptionParams": [{

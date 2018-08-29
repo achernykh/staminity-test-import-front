@@ -18,9 +18,9 @@
                                     change="$ctrl.filterChange"
                                     on-change="$ctrl.update(param, option, protected)">
             </analytics-chart-filter>-->
-            <md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">
+            <!--<md-button flex="none" class="md-icon-button" ng-click="$ctrl.chart.active = false">
                 <md-icon class="md-secondary md-dark material-icons">visibility_off</md-icon>
-            </md-button>
+            </md-button>-->
             <!--<md-button flex="none" class="md-icon-button" ng-click="$ctrl.grow()">
                 <md-icon class="md-secondary md-dark material-icons">settings_ethernet</md-icon>
             </md-button>-->
@@ -30,6 +30,9 @@
             <md-button flex="none" class="md-icon-button" ng-class="{'has-badge': $ctrl.getLocalParamChanges()}" ng-click="$ctrl.onSettings($event)">
                 <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
                 <span class="badge superscript" ng-if="$ctrl.getLocalParamChanges()">{{$ctrl.getLocalParamChanges()}}</span>
+            </md-button>
+            <md-button flex="none" class="md-icon-button full-screen" ng-click="$ctrl.onClose()">
+                <md-icon class="md-secondary material-icon md-dark" ng-cloack>close</md-icon>
             </md-button>
         </div>
     </div>

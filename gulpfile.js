@@ -255,7 +255,8 @@ gulp.task('set-sw', (next) => {
     'use strict';
     let trg = gutil.env['trg'] === 'build' ? 'src' : gutil.env['trg'];
     let files = [trg+'/index.html',trg+'/manifest.json',trg+'/assets/css/**',trg+'/assets/js/**',
-        trg+'/assets/locale/**',trg+'/assets/icon/**',trg+'/assets/picture/**',trg+'/assets/images/**'];
+        trg+'/assets/locale/**',trg+'/assets/icon/**',trg+'/assets/picture/**',trg+'/assets/images/**',
+        trg+'/chart-templates/**'];
 
     gulp.src(files,{base: trg + '/', buffer: false})
         .pipe(gutil.buffer((err, files) => {
@@ -279,8 +280,8 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html'],
-        assets: [trg+'/assets/**', trg+'/moneta/**', trg+'/chart-templates/**']
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html', trg+'/chart-templates/**'],
+        assets: [trg+'/assets/**', trg+'/moneta/**']
     };
 
     gutil.log(gutil.env['trg'], gutil.env['scope']);

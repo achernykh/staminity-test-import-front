@@ -4,6 +4,7 @@
   "active": false,
   "group": "zonesAndPeaks",
   "auth": [],
+  "premiumFunction": "charts",
   "icon": "insert_chart",
   "code": "timeInZonesPower",
   "descriptionParams": [{

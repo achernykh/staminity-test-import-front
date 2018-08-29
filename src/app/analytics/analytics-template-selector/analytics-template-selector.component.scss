@@ -6,22 +6,19 @@ md-dialog#analytics-template-selector {
   min-width: 100vw;
   max-width: 100vw;
   min-height: 100vh;
+
+  @media (min-width: 1440px) {
+    min-width: 1280px;
+    max-width: 1280px;
+    min-height: auto;
+    border-radius: 5px;
+  }
   border-radius: 0;
 }
 
 .analytics-template-selector {
-
-  width: 100vw;
-  height: 100vh;
   transition: all 0.3s;
-
-  md-content {
-    padding: 16px;
-    background-color: white;
-  }
-
-  &__column {
-    padding-right: 16px;
-  }
-
+  md-content { padding: 16px; background-color: white; }
+  .md-subheader { background: none; }
+  &__column { padding-right: 16px; }
 }

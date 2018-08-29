@@ -30,19 +30,19 @@ export class AnalyticsDialogService {
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="analytics-template-selector" aria-label="Activity" layout="column">
                             <st-analytics-template-selector
-                                    flex="auto" flex-gt-sm="none" layout="column"
+                                    flex="auto" flex-gt-sm="auto" layout="column" layout-fill
                                     class="analytics-template-selector"
                                     style="margin: auto"
                                     charts="$ctrl.charts"
                                     tariff="$ctrl.tariff"
                                     billing="$ctrl.billing"
                                     page="$ctrl.page"
-                                    on-cancel="$ctrl.cancel()" on-answer="answer(subscriptionPeriod)">
+                                    on-cancel="cancel()" on-answer="answer(subscriptionPeriod)">
                             </st-analytics-template-selector>
                        </md-dialog>`,
             controllerAs: '$ctrl',
             targetEvent: e,
-            locals: { charts},
+            locals: { charts },
             resolve: { },
         }));
     }
@@ -61,7 +61,8 @@ export class AnalyticsDialogService {
                                  chart="$ctrl.chart"
                                  global-filter="$ctrl.globalFilter"
                                  on-change-filter="$ctrl.saveSettings('charts')"
-                                 mobile-view="">
+                                 mobile-view=""
+                                 on-close="cancel()">
                             </analytics-chart>
                        </md-dialog>`,
             controllerAs: '$ctrl',

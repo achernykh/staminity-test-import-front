@@ -3,7 +3,7 @@ import { IComponentController, IComponentOptions, IPromise, IScope } from "angul
 import { Subject } from "rxjs/Rx";
 import { IActivityCategory } from "../../../api/reference/reference.interface";
 import { IUserProfile, IUserProfileShort } from "../../../api/user/user.interface";
-import { IAuthService } from "../auth/auth.service";
+import { IAuthService, default as AuthService } from "../auth/auth.service";
 import { getUser, SessionService, StorageService } from "../core";
 import StatisticsService from "../core/statistics.service";
 import ReferenceService from "../reference/reference.service";
@@ -28,6 +28,7 @@ export class AnalyticsCtrl implements IComponentController {
     // private
     private globalFilterChange: number = null;
     private settingsChange: number = 0;
+    private refresh: number = 0;
     private isLoadingData: boolean = true;
     private chartTemplates: IAnalyticsChart[] = [];
     private chartUserSettings: any[];
@@ -41,7 +42,7 @@ export class AnalyticsCtrl implements IComponentController {
     private destroy: Subject<any> = new Subject();
 
     static $inject = ["$scope", 'AnalyticsService', "AnalyticsDialogService", "SessionService", "statistics", "storage",
-        "ReferenceService", "analyticsDefaultSettings", "AuthService", "$filter", "$mdMedia", '$mdDialog'];
+        "ReferenceService", "AuthService", "$filter", "$mdMedia", '$mdDialog'];
 
     constructor (private $scope: IScope,
                  private analyticsService: AnalyticsService,
@@ -50,8 +51,7 @@ export class AnalyticsCtrl implements IComponentController {
                  private statistics: StatisticsService,
                  private storageService: StorageService,
                  private reference: ReferenceService,
-                 private defaultSettings: IAnalyticsChart[],
-                 private auth: IAuthService,
+                 private authService: AuthService,
                  private $filter: any,
                  private $mdMedia,
                  private $mdDialog) {
@@ -139,6 +139,10 @@ export class AnalyticsCtrl implements IComponentController {
 
     private selectTemplates (e: Event): void {
         this.analyticsDialogService.templateSelector(e, this.charts).then();
+    }
+
+    private refreshData (): void {
+        this.refresh ++;
     }
 
     private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {

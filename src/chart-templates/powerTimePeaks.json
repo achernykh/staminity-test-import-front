@@ -1,9 +1,10 @@
 {
   "order": 12,
   "revision": 1,
-  "active": false,
+  "active": true,
   "group": "zonesAndPeaks",
   "auth": [],
+  "premiumFunction": "charts",
   "icon": "insert_chart",
   "code": "powerTimePeaks",
   "settings": [],

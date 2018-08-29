@@ -11,7 +11,7 @@ $menu-width: 320px;
 }
 
 .user-settings.left-bar-show .st-application-frame__content {
-  margin-left: $menu-width;
+  padding-left: $menu-width;
   min-height: calc(100vh - 64px);
   background-color: $grey-100;
 }

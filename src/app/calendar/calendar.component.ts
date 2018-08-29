@@ -220,7 +220,7 @@ export class CalendarCtrl implements IComponentController{
     }
 
     get isLargeScreen (): boolean {
-        return this.$mdMedia('min-width: 1440px');
+        return this.$mdMedia('min-width: 1360px');
     }
 
     get panelAuthCheck (): boolean {

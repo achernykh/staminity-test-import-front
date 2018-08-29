@@ -8,9 +8,9 @@
     <st-application-frame-title>
         <span class="md-title" translate="analytics.fullTitle"></span>
         <md-icon class="material-icons"  hide show-gt-sm aria-label="Next">keyboard_arrow_right</md-icon>
-        <span ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"
+        <span ng-if="$ctrl.authService.isCoach() && $ctrl.athletes.length > 0"
               class="button" hide show-gt-sm>{{$ctrl.user | userName:'compact'}}</span>
-        <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0"  hide show-gt-sm>
+        <md-menu ng-if="$ctrl.authService.isCoach() && $ctrl.athletes.length > 0"  hide show-gt-sm>
             <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)" style="margin: 0;">
                 <md-icon class="material-icons" ng-cloack>arrow_drop_down</md-icon>
             </md-button>
@@ -66,22 +66,24 @@
 
     <!-- Тулбар -->
     <st-application-frame-toolbar layout="row">
-        <section class="desktop" hide show-gt-sm layout="row">
+        <section class="desktop" hide show-gt-sm layout="row" layout-align="start center">
             <md-button  ng-click="$ctrl.refreshData()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
                 <md-icon class="material-icons" aria-label="Back">refresh</md-icon>
             </md-button>
-            <md-button  ng-click="$ctrl.selectTemplates()" class="md-icon-button" aria-label="Settings" style="margin: 0px">
-                <md-icon class="material-icons" aria-label="Back">filter</md-icon>
+            <md-button  ng-click="$ctrl.selectTemplates()"
+                        class="md-icon-button" aria-label="Settings" style="margin: 0px" layout="row">
+                <md-icon class="material-icons" aria-label="Back">insert_chart</md-icon>
+                <span hide show-gt-sm translate="analytics.action.templates"></span>
             </md-button>
             <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
             <md-button  ng-click="$ctrl.deleteLocalSettings()"
                         class="md-icon-button" aria-label="Settings" style="margin: 0px" layout="row">
                 <md-icon class="material-icons" aria-label="restore">restore</md-icon>
-                <span translate="analytics.action.restoreSettings"></span>
+                <span hide show-gt-sm translate="analytics.action.restoreSettings"></span>
             </md-button>
         </section>
         <section class="mobile" hide show-xs show-sm>
-            <md-menu ng-if="$ctrl.auth.isCoach() && $ctrl.athletes.length > 0">
+            <md-menu ng-if="$ctrl.authService.isCoach() && $ctrl.athletes.length > 0">
                 <md-button class="md-icon-button" ng-click="$ctrl.openMenu($mdMenu, $event)">
                     <md-icon class="material-icons">person_add</md-icon>
                 </md-button>
@@ -116,7 +118,8 @@
             <!--<analytics-chart-pmc style="height: 400px;" chart=""></analytics-chart-pmc>-->
             <section class="analytics__chart-grid">
                 <analytics-chart class="md-whiteframe-2dp"
-                                 ng-repeat="chart in $ctrl.charts"
+                                 ng-repeat="chart in $ctrl.charts | filter:{active: true}"
+                                 ng-if="$ctrl.authService.isAuthorized(chart.auth || [])"
                                  ng-style="chart.layout.style"
                                  ng-class="{'full-screen': chart.layout.fullScreen}"
                                  owner="$ctrl.owner"
@@ -124,6 +127,7 @@
                                  global-filter="$ctrl.globalFilter"
                                  global-filter-change="$ctrl.globalFilterChange"
                                  settings-change="$ctrl.settingsChange"
+                                 refresh="$ctrl.refresh"
                                  panel-changes="$ctrl.panelSizeChange"
                                  on-change-filter="$ctrl.saveSettings('charts')"
                                  mobile-view="">
