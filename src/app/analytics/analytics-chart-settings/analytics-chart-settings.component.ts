@@ -39,6 +39,15 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         this.settings = copy(this.chart.settings);
     }
 
+    get users (): number {
+        return this.localFilter.users.model && this.localFilter.users.model[0];
+    }
+
+    set users (value: number) {
+        this.localFilter.users.model = value;
+    }
+
+
     private prepareLocalFilter (mode: "fromSettings" | "fromGlobal" = "fromSettings") {
         if ( mode === "fromSettings" && this.chart.localParams ) {
             this.localFilter = this.chart.localParams as AnalyticsChartFilter;
@@ -49,7 +58,9 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                 this.globalFilter.categories,
                 this.chart.localParams,
                 this.$filter);
-            this.localFilter.setUsersModel(this.globalFilter.users.model);
+
+            this.localFilter.setUsersModel(this.chart.localParams &&  this.chart.localParams.hasOwnProperty('users') &&
+                this.chart.localParams.users || this.globalFilter.users.model);
             this.localFilter.setActivityTypes(
                 this.chart.localParams && this.chart.localParams.activityTypes && this.chart.localParams.activityTypes ||
                 this.globalFilter.activityTypes.model, "single", false);

@@ -142,11 +142,6 @@ class CalendarDayCtrl {
      */
     wizard (e: Event, data: ICalendarDayData): void {
 
-        if (!(this.authService.isCoach() || this.authService.isPremiumAccount()) && isFutureDay(data.date)) {
-            this.premiumDialogService.open(null, 'futurePlaning').then();
-            return;
-        }
-
         this.calendarItemDialog.wizard(e,
             this.getOptions(FormMode.Post, moment(data.date).startOf('day').format('YYYY-MM-DDTHH:mm:ss')))
             .then(response => this.onUpdate(response),  error => { });

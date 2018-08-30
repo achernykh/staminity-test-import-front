@@ -496,7 +496,7 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
-        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        //console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
         if (item.calendarItemType === 'record' && item.recordHeader && item.recordHeader.repeat) {console.info('sync update: skip parent record'); return;}
         switch (mode) {
             case FormMode.Post: {
@@ -517,8 +517,6 @@ export class CalendarCtrl implements IComponentController{
     }
 
     dropItems (mode: FormMode, item: ICalendarItem): void {
-
-        debugger;
 
         if (!this.panelAuthCheck && isFutureDay(item.dateStart)) {
             this.premiumDialogService.open(null, 'futurePlaning').then();

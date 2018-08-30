@@ -93,7 +93,7 @@
     "measures": [
       {
         "id": "TL",
-        "label": "TL",
+        "label": "trainingLoad",
         "unit": "",
         "chartType": "bar",
         "stacked": false,
@@ -102,7 +102,7 @@
         "tooltipType": "color",
         "minValue": 0,
         "radius": 3,
-        "legend": true,
+        "legend": false,
         "visible": true,
         "avgValueLine": true,
         "scaleVisible": true,
@@ -134,14 +134,14 @@
       },
       {
         "id": "IL",
-        "label": "IL",
+        "label": "intensityLevel",
         "unit": "",
         "chartType": "dot",
         "stacked": null,
         "cumulative": false,
         "smoothSettings": "null",
         "tooltipType": "color",
-        "legend": true,
+        "legend": false,
         "visible": true,
         "radius": 3,
         "avgValueLine": false,
@@ -164,5 +164,46 @@
         "reverse": false
       }
     ]
-  }]
+  }],
+  "data": [
+    {
+      "measure": "trainingLoad",
+      "code": "tlAvg",
+      "color": "#673AB7",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "formula": ["avg"]
+      }
+    },
+    {
+      "measure": "trainingLoad",
+      "code": "tlSum",
+      "color": "#673AB7",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "formula": ["sum"]
+      }
+    },
+    {
+      "measure": "intensityLevel",
+      "code": "ilAvg",
+      "color": "#2887c8",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 2,
+        "formula": ["avg"]
+      }
+    }
+  ]
 }

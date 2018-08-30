@@ -57,6 +57,7 @@ export class PremiumDialogService {
                 billing: () => this.billingService.getTariff(tariffId, ''),
                 page: () => getPremiumPageByFunction(functionCode) || 0,
             },
+            multiple: true
         }));
     }
 

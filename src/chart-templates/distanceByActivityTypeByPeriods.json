@@ -116,7 +116,7 @@
         "xAxis": true,
         "tooltipType": "none",
         "tooltipLabel": "activityType",
-        "legend": true,
+        "legend": false,
         "colorPalette": true,
         "currentPositionLine": false,
         "idx": 1,
@@ -154,5 +154,55 @@
       "valueType": "value",
       "aggMethod": "sum"
     }]
-  }]
+  }],
+  "data": [
+    {
+      "measure": "hour",
+      "code": "runSum",
+      "color": "#3F51B5",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 2,
+        "filter": "run",
+        "formula": [
+          "sum"
+        ]
+      }
+    },
+    {
+      "measure": "hour",
+      "code": "bikeSum",
+      "color": "#673AB7",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 2,
+        "filter": "bike",
+        "formula": [
+          "sum"
+        ]
+      }
+    },
+    {
+      "measure": "hour",
+      "code": "swimSum",
+      "color": "#03A9F4",
+      "hasBullet": true,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 0,
+        "idx": 2,
+        "filter": "swim",
+        "formula": [
+          "sum"
+        ]
+      }
+    }
+  ]
 }

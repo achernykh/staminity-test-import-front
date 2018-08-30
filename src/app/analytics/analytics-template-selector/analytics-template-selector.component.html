@@ -8,8 +8,8 @@
     </div>
 </md-toolbar>
 <md-content flex="auto" layout="column" class="">
-    <section flex="auto" layout-gt-sm="row" layout="column">
-        <section ng-repeat="column in $ctrl.analyticsConfig.groupCharts"
+    <section flex="auto" layout="row">
+        <section ng-repeat="column in $ctrl.analyticsConfig.groupCharts" class="analytics-template-selector__column"
                  layout="column" flex="33">
             <section layout="column" ng-repeat="group in column">
                 <md-list class="md-dense">

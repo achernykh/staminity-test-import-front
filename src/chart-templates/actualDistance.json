@@ -51,37 +51,6 @@
           }
         }
       ]
-    },
-    {
-      "type": "radio",
-      "text": "cumulative",
-      "model": true,
-      "options": [
-        false,
-        true
-      ],
-      "change": [{
-        "ind": [0,1],
-        "idx": [0],
-        "area": "measures",
-        "name": "cumulative",
-        "options": {
-          "false": {
-            "cumulative": false,
-            "chartType": "bar",
-            "fillType": "gradient",
-            "lineWidth": 0,
-            "avgValueLine": true
-          },
-          "true": {
-            "cumulative": true,
-            "chartType": "area",
-            "fillType": "gradient",
-            "lineWidth": 3,
-            "avgValueLine": false
-          }
-        }
-      }]
     }
   ],
   "layout": {

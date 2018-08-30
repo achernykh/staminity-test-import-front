@@ -83,22 +83,20 @@ export class EnableTariffCtrl {
     };
 
     submit () {
-        let trial =
+        let trial = this.billing.trialConditions.isAvailable;
         this.billingService.enableTariff(
             this.tariff.tariffId,
             this.user.userId,
             this.fee.term,
             this.autoRenewal,
-            this.billing.trialConditions.isAvailable,
+            trial,
             maybe(this.activePromo) (prop('code')) (),
             this.paymentSystem)
             .then((bill) => {
                 this.$mdDialog.hide();
-
                 if (!trial) {
                     this.dialogs.billDetails(bill, this.user);
                 }
-
                 return bill;
             }, (info) => {
                 this.message.systemWarning(info);

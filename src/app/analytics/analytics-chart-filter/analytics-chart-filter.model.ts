@@ -100,7 +100,8 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     changeParam (filter: string): void {
         switch ( filter ) {
             case "users": {
-                this.users.model = this.users.model.map((v) => Number(v));
+                debugger;
+                this.users.model = Array.isArray(this.users.model) && this.users.model.map((v) => Number(v)) || [Number(this.users.model)];
                 break;
             }
             case "activityTypes":
@@ -176,7 +177,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     activityTypesSelectedText (): string {
         if ( this.activityTypes.model &&
             this.activityTypes.model.length === this.activityTypes.options.length ) {
-            return 'analytics.filter.activityTypes.all';
+            return this.$filter("translate")('analytics.filter.activityTypes.all');
         } else if ( this.activityTypes.model && this.activityTypes.model.length > 0 ) {
             return `${this.$filter("translate")("sport." +
                 this.activityTypes.options.filter((t) => t.id === Number(this.activityTypes.model[0]))[0].code)}

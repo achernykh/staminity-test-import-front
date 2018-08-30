@@ -160,5 +160,106 @@
         }
       ]
     }
+  ],
+  "data": [
+    {
+      "measure": "heartRate",
+      "code": "heartRate1minPeakCompare",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "filter": 60,
+        "formula": ["sum"]
+      }
+    },
+    {
+      "measure": "heartRate",
+      "code": "heartRate1minPeak",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "filter": 60,
+        "formula": ["sum"],
+        "subValue": {
+          "formula": ["subtract"],
+          "params": ["heartRate1minPeakCompare"],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    },
+    {
+      "measure": "heartRate",
+      "code": "heartRate5minPeakCompare",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "filter": 300,
+        "formula": ["sum"]
+      }
+    },
+    {
+      "measure": "heartRate",
+      "code": "heartRate5minPeak",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "filter": 300,
+        "formula": ["sum"],
+        "subValue": {
+          "formula": ["subtract"],
+          "params": ["heartRate5minPeakCompare"],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    },
+    {
+      "measure": "heartRate",
+      "code": "heartRate10minPeakCompare",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "filter": 600,
+        "formula": ["sum"]
+      }
+    },
+    {
+      "measure": "heartRate",
+      "code": "heartRate10minPeak",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "filter": 600,
+        "formula": ["sum"],
+        "subValue": {
+          "formula": ["subtract"],
+          "params": ["heartRate10minPeakCompare"],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    }
   ]
 }

@@ -55,16 +55,9 @@ class UniversalChartCtrl implements IComponentController {
 
     prepareMetrics (): void {
         if ( !this.filter ) { return; }
+        console.debug('prepared chart data:', this.data);
         this.chart = deepCopy(this.data);
         this.chart.map((c,ci) => {
-
-            this.chart[ci].measures = this.chart[ci].measures.map((m) => {
-                const measures: any = Object.assign({}, m);
-                measures.unit = m.unit && this.$translate.instant(m.unit);
-                measures.label = m.label && this.$translate.instant(m.label);
-                measures.tooltipLabel = m.tooltipLabel && this.$translate.instant(m.tooltipLabel);
-                return measures;
-            });
 
             this.chart[ci].metrics = this.chart[ci].metrics.map((m, mi) => {
                 const metric: any[] = [];
@@ -95,15 +88,16 @@ class UniversalChartCtrl implements IComponentController {
                             metric.push(_measurement_calculate.meter.km(value));
                             // Пересчет темпа мин/км
                         } else if ( (params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
-                            || params.unit === "мин/км" ) {
+                            || params.unit === "minpkm" ) {
+                            debugger;
                             metric.push(_measurement_calculate.mps.minpkm(value)); //moment().startOf('day').millisecond(_measurement_calculate.mps.minpkm(value)*1000).startOf('millisecond').format('mm:ss'));
                             // Пересчет темпа мин/100м
                         } else if ( (params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
-                            || params.unit === "мин/100м" ) {
+                            || params.unit === "minp100m" ) {
                             metric.push(_measurement_calculate.mps.minp100m(value));
                             // Пересчет скорости км/ч
                         } else if ( (params.measureName === "speed" && params.dataType !== "time" && params.measureSource === "activity.actual.measure")
-                            || params.unit === "км/ч" ) {
+                            || params.unit === "kmph" ) {
                             metric.push(_measurement_calculate.mps.kmph(value));
                         } else if ( ["speedDecoupling", "powerDecoupling"].indexOf(params.measureName) !== -1 ) {
                             metric.push(value * 100);
@@ -116,6 +110,23 @@ class UniversalChartCtrl implements IComponentController {
                 });
                 return metric;
             });
+
+            this.chart[ci].series = this.chart[ci].series.map(s => {
+                const series: any = Object.assign({}, s);
+                series.unit = s.unit && this.$translate.instant(s.unit);
+                series.tooltipLabel = s.tooltipLabel && this.$translate.instant(s.tooltipLabel);
+                return series;
+            });
+
+            this.chart[ci].measures = this.chart[ci].measures.map((m) => {
+                const measures: any = Object.assign({}, m);
+                measures.unit = m.unit && this.$translate.instant(m.unit);
+                measures.label = m.label && this.$translate.instant(m.label);
+                measures.tooltipLabel = m.tooltipLabel && this.$translate.instant(m.tooltipLabel);
+                measures.scaleLabel = m.scaleLabel && this.$translate.instant(m.scaleLabel);
+                return measures;
+            });
+
         });
         console.debug('prepared chart:', this.chart);
     }

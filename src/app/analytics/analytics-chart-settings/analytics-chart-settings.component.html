@@ -17,10 +17,24 @@
             <md-list-item ng-if="$ctrl.isParamExist('users')">
                 <md-input-container class="md-block no-message" layout="row">
                     <label translate="analytics.filter.users.placeholder"></label>
-                    <md-select flex="auto" name="sport" class="icon"
+                    <md-select ng-if="$ctrl.chart.group ==='athletes'"
+                               flex="auto" name="sport" class="icon"
                                multiple="true"
                                md-selected-text="$ctrl.localFilter.usersSelectedText()"
                                ng-model="$ctrl.localFilter.users.model"
+                               ng-change="$ctrl.changeParams('users')"
+                               ng-disabled="!$ctrl.localFilter.users.options || $ctrl.localFilter.users.options.length <= 1">
+                        <md-option ng-repeat="user in $ctrl.localFilter.users.options track by user.userId"
+                                   value="{{user.userId}}">
+                            <span>{{user | username}}</span>
+                        </md-option>
+                    </md-select>
+                    <md-select ng-if="$ctrl.chart.group !=='athletes'"
+                               flex="auto" name="sport" class="icon"
+                               multiple="false"
+                               md-selected-text="$ctrl.localFilter.usersSelectedText()"
+                               ng-model="$ctrl.users"
+                               ng-model-options="{getterSetter: true}"
                                ng-change="$ctrl.changeParams('users')"
                                ng-disabled="!$ctrl.localFilter.users.options || $ctrl.localFilter.users.options.length <= 1">
                         <md-option ng-repeat="user in $ctrl.localFilter.users.options track by user.userId"
@@ -41,7 +55,7 @@
                                md-selected-text="$ctrl.localFilter.activityTypesSelectedText()"
                                ng-model="$ctrl.localFilter.activityTypes.model"
                                ng-change="$ctrl.changeParams('activityTypes')">
-                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{}"
+                        <md-option ng-repeat="type in $ctrl.localFilter.activityTypes.options | filter:{enabled: true}"
                                    value="{{type.id}}">
                             {{'sport.' + type.code | translate}}
                         </md-option>

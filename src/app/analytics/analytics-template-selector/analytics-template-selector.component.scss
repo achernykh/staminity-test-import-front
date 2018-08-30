@@ -20,5 +20,6 @@ md-dialog#analytics-template-selector {
   transition: all 0.3s;
   md-content { padding: 16px; background-color: white; }
   .md-subheader { background: none; }
-  &__column { padding-right: 16px; }
+  //&__column { padding-right: 8px; width: 33%; }
+  .md-list-item-inner { overflow: auto; }
 }
