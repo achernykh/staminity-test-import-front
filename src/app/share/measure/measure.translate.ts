@@ -125,6 +125,20 @@ export const _MEASURE_TRANSLATE = {
         fatigueEnd: 'Усталость',
         formEnd: 'Форма',
 
+        tlAvg: 'TL ср.',
+        tlSum: 'TL всего',
+        ilAvg: 'IL ср.',
+
+        heartRate1MinPeak: '1 мин',
+        heartRate5MinPeak: '5 мин',
+        heartRate10MinPeak: '10 мин',
+
+        power1MinPeak: '1 мин',
+        power5MinPeak: '5 мин',
+        power10MinPeak: '10 мин',
+
+
+
 
 
     },
@@ -254,6 +268,18 @@ export const _MEASURE_TRANSLATE = {
         fitnessEnd: 'Fitness',
         fatigueEnd: 'Fatigue',
         formEnd: 'Form',
+
+        tlAvg: 'TL avg',
+        tlSum: 'TL total',
+        ilAvg: 'IL avg',
+
+        heartRate1MinPeak: '1 min',
+        heartRate5MinPeak: '5 min',
+        heartRate10MinPeak: '10 min',
+
+        power1MinPeak: '1 min',
+        power5MinPeak: '5 min',
+        power10MinPeak: '10 min',
 
     },
 };

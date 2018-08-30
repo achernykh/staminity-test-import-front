@@ -59,6 +59,7 @@ export const translateAnalytics = {
             futDays: 'Дней в будущем',
             lastDays: 'Дней в прошлом',
             "180d": "180 дней",
+            "90d": "90 дней",
             "60d": "60 дней",
             "30d": "30 дней",
             "7d": "7 дней",
@@ -185,8 +186,19 @@ export const translateAnalytics = {
         },
         action: {
             restoreSettings: 'Сбросить настройки',
+            templates: 'Отчеты'
         },
-        loadingTemplate: "Загрузка шаблонов графиков..."
+        loadingTemplate: "Загрузка шаблонов графиков...",
+        templateSelector: {
+            title: 'Управление отчетами'
+        },
+        groups: {
+            athletes: "Отчеты по спортсменам",
+            measurement: "Отчеты по измерениям",
+            measures: "Показатели тренировок",
+            volumes: "Тренировочные объемы",
+            zonesAndPeaks: "Тренировочные зоны и пики"
+        }
     },
 
     en: {
@@ -254,6 +266,7 @@ export const translateAnalytics = {
             futDays: 'Next days',
             lastDays: 'Last days',
             "180d": "180 days",
+            "90d": "90 days",
             "60d": "60 days",
             "30d": "30 days",
             "7d": "7 days",
@@ -379,9 +392,21 @@ export const translateAnalytics = {
             description: 'Duration/distance: {{measureName | translate | lowercase}}'
         },
         action: {
-            restoreSettings: 'Reset to default'
+            restoreSettings: 'Reset to default',
+            templates: 'Charts'
+
         },
-        loadingTemplate: "Chart templates loading..."
+        loadingTemplate: "Chart templates loading...",
+        templateSelector: {
+            title: 'Charts management'
+        },
+        groups: {
+            athletes: "Athletes",
+            measurement: "Measurements",
+            measures: "Indicators",
+            volumes: "Training volumes",
+            zonesAndPeaks: "Training zones and Peaks"
+        }
     },
 };
 
