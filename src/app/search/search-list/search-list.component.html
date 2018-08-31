@@ -58,7 +58,8 @@
                     </p>
                 </md-card-header-text>
             </md-card-header>
-            <img ng-src="{{::item.backgroundUrl }}" class="md-card-image" alt="">
+            <img ng-src="{{::item.backgroundUrl }}" onerror="this.style.display='none'"
+                 class="md-card-image" alt="" ng-style="{'display': item.backgroundUrl ? 'block' : 'none'}">
             <md-card-title style="padding-top: 0">
                 <md-card-title-text>
                     <p class="md-subhead"
