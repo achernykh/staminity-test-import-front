@@ -72,7 +72,7 @@ export const translateAnalytics = {
             layout: "Параметры отображения",
             globalParams: "Использовать общие параметры",
             saveContext: "Сохранить настройки",
-            restoreContext: "Сбросить настройки",
+            restoreContext: "Сбросить",
             authRoles: "Роль",
             aboutRoles: "Набор доступных графиков зависит от вашего тарифного плана",
             aboutStorage: "Сохраните заданные фильтры, набор графиков и настройки каждого графика. В любой момент можно вернуться к исходным настройкам",
@@ -190,7 +190,9 @@ export const translateAnalytics = {
         },
         loadingTemplate: "Загрузка шаблонов графиков...",
         templateSelector: {
-            title: 'Управление отчетами'
+            title: 'Управление отчетами',
+            needPermissions: 'Только для тренера'
+
         },
         groups: {
             athletes: "Отчеты по спортсменам",
@@ -279,7 +281,7 @@ export const translateAnalytics = {
             layout: "Layout",
             globalParams: "Use general params",
             saveContext: "Save settings",
-            restoreContext: "Reset settings",
+            restoreContext: "Reset",
             authRoles: "Role",
             aboutRoles: "Available charts depend on your tariff",
             aboutStorage: "Save charts, filters and settings",
@@ -398,7 +400,8 @@ export const translateAnalytics = {
         },
         loadingTemplate: "Chart templates loading...",
         templateSelector: {
-            title: 'Charts management'
+            title: 'Charts management',
+            needPermissions: 'Only for coaches'
         },
         groups: {
             athletes: "Athletes",

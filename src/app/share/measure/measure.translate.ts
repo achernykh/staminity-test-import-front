@@ -50,7 +50,7 @@ export const _MEASURE_TRANSLATE = {
         vam: "ВертикСкорость",
         vamPowerKg: "ОтноситМощность",
         variabilityIndex: "Индекс изменений",
-        period: "Период",
+        period: "Дата",
         percentComplete: "Процент выполнения",
         peaks: "Пики",
         peak: "Пик",
@@ -58,7 +58,7 @@ export const _MEASURE_TRANSLATE = {
         week: "Неделя",
         plan: "План",
         actual: "Факт",
-        mesocycle: "Мезоцкил",
+        mesocycle: "Мезоцикл",
         heartRateZone: 'Зоны пульса',
         speedZone: 'Зоны скорости/темпа',
         powerZone: 'Зоны мощности',
@@ -129,16 +129,29 @@ export const _MEASURE_TRANSLATE = {
         tlSum: 'TL всего',
         ilAvg: 'IL ср.',
 
-        heartRate1MinPeak: '1 мин',
-        heartRate5MinPeak: '5 мин',
-        heartRate10MinPeak: '10 мин',
+        heartRate1minPeak: '1 мин',
+        heartRate5minPeak: '5 мин',
+        heartRate10minPeak: '10 мин',
 
-        power1MinPeak: '1 мин',
-        power5MinPeak: '5 мин',
-        power10MinPeak: '10 мин',
+        power1minPeak: '1 мин',
+        power5minPeak: '5 мин',
+        power10minPeak: '10 мин',
 
+        previousPeriod: 'Предыдущее значение',
+        currentPeriod: 'Текущее значение',
+        athlete: "Спортсмен",
+        activityType: "Вид спорта",
 
-
+        run: 'Бег',
+        swim: 'Плавание',
+        bike: 'Велосипед',
+        strength: 'Силовая тренировка',
+        ski: 'Лыжи',
+        rowing: 'Гребля',
+        other: 'Прочее',
+        transition: 'Транзитка',
+        fuctionalTest: 'Функциональный тест',
+        triathlon: 'Триатлон'
 
 
     },
@@ -194,7 +207,7 @@ export const _MEASURE_TRANSLATE = {
         vam: "VAM",
         vamPowerKg: "Relative power",
         variabilityIndex: "VI",
-        period: "Period",
+        period: "Date",
         percentComplete: "Complete percent",
         peaks: "Peaks",
         peak: "Peak",
@@ -273,13 +286,29 @@ export const _MEASURE_TRANSLATE = {
         tlSum: 'TL total',
         ilAvg: 'IL avg',
 
-        heartRate1MinPeak: '1 min',
-        heartRate5MinPeak: '5 min',
-        heartRate10MinPeak: '10 min',
+        heartRate1minPeak: '1 min',
+        heartRate5minPeak: '5 min',
+        heartRate10minPeak: '10 min',
 
-        power1MinPeak: '1 min',
-        power5MinPeak: '5 min',
-        power10MinPeak: '10 min',
+        power1minPeak: '1 min',
+        power5minPeak: '5 min',
+        power10minPeak: '10 min',
+
+        previousPeriod: 'Previous value',
+        currentPeriod: 'Current value',
+        athlete: "Athlete",
+        activityType: "Sport",
+
+        run: 'Running',
+        swim: 'Swimming',
+        bike: 'Cycling',
+        strength: 'Strength training',
+        ski: 'Skiing',
+        other: 'Other',
+        rowing: 'Rowing',
+        transition: 'Transition',
+        fuctionalTest: 'Functional test',
+        triathlon: 'Triathlon'
 
     },
 };

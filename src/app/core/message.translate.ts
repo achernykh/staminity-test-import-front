@@ -709,6 +709,10 @@ export const _translateMessage = {
         analyticsSaveChartSettingsComplete: {
             title: '',
             text: "Настройки отчета сохранены"
+        },
+        analyticsDeleteChartSettingsComplete: {
+            title: '',
+            text: "Настройки отчета сброшены, установлены значения по-умолчанию"
         }
 
 
@@ -1420,6 +1424,10 @@ export const _translateMessage = {
         analyticsSaveChartSettingsComplete: {
             title: '',
             text: "Chart settings saved"
+        },
+        analyticsDeleteChartSettingsComplete: {
+            title: '',
+            text: "Chart settings restored to default"
         }
 
 

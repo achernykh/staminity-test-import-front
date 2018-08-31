@@ -56,6 +56,7 @@ export const premiumTranslate = {
             text: 'Создавайте свои шаблоны тренировок, сохраняйте в шаблоны ранее запланированные тренировки для быстрого создания новых заданий',
         },
         badge: 'П',
+        badgeFull: 'Премиум',
         dialog: {
             title: "Премиум функции",
         }
@@ -66,7 +67,7 @@ export const premiumTranslate = {
             subscribeYear: 'Buy for {{rate}} {{currency}}/year'
         },
         wrapper: {
-            title: 'Premium Function',
+            title: 'Premium feature',
             button: 'Learn more about Premium'
         },
         functions: {
@@ -115,5 +116,9 @@ export const premiumTranslate = {
             text: 'Create your own workout templates, save any planned workout as a template and use them for rapid planning of new workouts',
         },
         badge: 'P',
+        badgeFull: 'Premium',
+        dialog: {
+            title: "Premium feature",
+        }
     }
 };
