@@ -178,7 +178,7 @@
     },
     {
       "measure": "hour",
-      "code": "analytics.params.durationAvg",
+      "code": "durationAvg",
       "color": "red",
       "hasBullet": false,
       "description": false,

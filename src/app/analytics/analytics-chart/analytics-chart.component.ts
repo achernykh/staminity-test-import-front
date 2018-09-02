@@ -159,44 +159,7 @@ class AnalyticsChartCtrl implements IComponentController {
         }
         this.updateCount++;
     }
-/**
-    update (param: IAnalyticsChartSettings<any>, value, protectedOption: boolean) {
-        switch ( param.area ) {
-            case "series": {
-                param.ind.map((ind) =>
-                    this.chart.charts[ind].series
-                        .filter((s) => param.idx.indexOf(s.idx) !== -1)
-                        .map((s) => s[param.name] = value),
-                );
-                break;
-            }
-            case "measures": {
-                param.ind.map((ind) =>
-                        this.chart.charts[ind].measures
-                            .filter((s) => param.idx.indexOf(s.idx) !== -1)
-                            .map((s) => Object.keys(param.change[value]).map((k) => s[k] = param.change[value][k])),
-                    //.map(s => s[param.name] = value)
-                );
-                break;
-            }
-            case "params": {
-                if ( protectedOption ) {
 
-                } else {
-                    param.ind.map((ind) => this.chart.charts[ind].params[param.name] = value);
-                }
-                this.prepareParams();
-            }
-        }
-
-        if ( param.area === "params" || protectedOption ||
-            Object.keys(param.change[value]).some((change) => ["seriesDateTrunc", "measureName", "unit"].indexOf(change) !== -1) ) {
-            this.prepareMeasures();
-        }
-        this.prepareTitleContext();
-        this.onChangeFilter(); // сохраняем настройки в браузере
-    }
-**/
     grow () {
         this.chart.layout.gridColumnEnd === 1 ? this.chart.layout.gridColumnEnd = 2 : this.chart.layout.gridColumnEnd = 1;
         //this.chart.layout.gridColumnEnd === 2 && this.chart.layout.gridRowEnd === 1 ? this.chart.layout.gridRowEnd = 2 : angular.noop();
@@ -220,6 +183,9 @@ class AnalyticsChartCtrl implements IComponentController {
                     this.chart.charts[c.ind][c.area][c.param] :
                     this.chart.charts[c.ind][c.area].filter((s) => s.idx === c.idx)[0][c.param];
             });
+        }
+        if ( this.chart.compareSettings && this.chart.compareSettings.type === 'periods' ) {
+            this.descriptionParams['comparePeriod'] = comparePeriodType(this.chart.compareSettings.mode);
         }
     }
 
