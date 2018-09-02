@@ -4,7 +4,7 @@
   "revision": 1,
   "group": "measures",
   "auth": [],
-  "premiumFunction": "charts",
+  "premiumFunction": "activityMeasures",
   "icon": "insert_chart",
   "code": "activityMeasuresSelected",
   "descriptionParams": [{

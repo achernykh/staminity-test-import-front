@@ -4,7 +4,7 @@
   "revision": 1,
   "group": "zonesAndPeaks",
   "auth": [],
-  "premiumFunction": "charts",
+  "premiumFunction": "timeInZonesHR",
   "icon": "insert_chart",
   "code": "timeInZonesHR",
   "descriptionParams": [{

@@ -4,7 +4,7 @@
   "active": true,
   "group": "zonesAndPeaks",
   "auth": [],
-  "premiumFunction": "charts",
+  "premiumFunction": "PowerTimePeaks",
   "icon": "insert_chart",
   "code": "powerTimePeaks",
   "compareSettings": {

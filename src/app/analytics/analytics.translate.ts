@@ -72,7 +72,7 @@ export const translateAnalytics = {
             layout: "Параметры отображения",
             globalParams: "Использовать общие параметры",
             saveContext: "Сохранить настройки",
-            restoreContext: "Сбросить",
+            restoreContext: "По-умолчанию",
             authRoles: "Роль",
             aboutRoles: "Набор доступных графиков зависит от вашего тарифного плана",
             aboutStorage: "Сохраните заданные фильтры, набор графиков и настройки каждого графика. В любой момент можно вернуться к исходным настройкам",
@@ -185,7 +185,7 @@ export const translateAnalytics = {
             description: 'Время/расстояние: {{measureName | translate | lowercase}}'
         },
         action: {
-            restoreSettings: 'Сбросить настройки',
+            restoreSettings: 'По-умолчанию',
             templates: 'Отчеты'
         },
         loadingTemplate: "Загрузка шаблонов графиков...",
@@ -281,7 +281,7 @@ export const translateAnalytics = {
             layout: "Layout",
             globalParams: "Use general params",
             saveContext: "Save settings",
-            restoreContext: "Reset",
+            restoreContext: "Restore",
             authRoles: "Role",
             aboutRoles: "Available charts depend on your tariff",
             aboutStorage: "Save charts, filters and settings",
@@ -394,7 +394,7 @@ export const translateAnalytics = {
             description: 'Duration/distance: {{measureName | translate | lowercase}}'
         },
         action: {
-            restoreSettings: 'Reset to default',
+            restoreSettings: 'Restore',
             templates: 'Charts'
 
         },
