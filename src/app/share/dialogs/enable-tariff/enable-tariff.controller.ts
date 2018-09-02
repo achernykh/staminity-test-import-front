@@ -98,7 +98,7 @@ export class EnableTariffCtrl {
                 if (!trial && flowType === 'confirm') { this.dialogs.tariffConfirm(bill, this.user).then() }
                 return bill;
             }, (info) => {
-                this.message.systemWarning(info);
+                this.message.toastInfo(info);
                 throw info;
             });
     };

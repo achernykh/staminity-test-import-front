@@ -72,9 +72,9 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions() || [];
-        if (this.server === 'testapp.staminity.com:8080' && this.permissions) {
+        /*if (this.server === 'testapp.staminity.com:8080' && this.permissions) {
             Object.assign(userRoles, this.permissions);
-        }
+        }*/
         return  strict ?
             authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
             authorizedRoles.some(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
@@ -128,8 +128,8 @@ export default class AuthService implements IAuthService {
         return this.isCoach() && this.isAuthorized([role[1]]) ||  this.isAuthorized([role[0]]); //this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
-    isPremiumAccount(role: string[] = ['ActivitiesProView_User']): boolean {
-        return this.isAuthorized([role[0]]);
+    isPremiumAccount(role: string[] = ['ActivitiesProView_User', 'ActivitiesProView_Athletes']): boolean {
+        return this.isAuthorized(role, false);
     }
 
     /**
