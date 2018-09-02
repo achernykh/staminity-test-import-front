@@ -89,7 +89,6 @@ class UniversalChartCtrl implements IComponentController {
                             // Пересчет темпа мин/км
                         } else if ( (params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
                             || params.unit === "minpkm" ) {
-                            debugger;
                             metric.push(_measurement_calculate.mps.minpkm(value)); //moment().startOf('day').millisecond(_measurement_calculate.mps.minpkm(value)*1000).startOf('millisecond').format('mm:ss'));
                             // Пересчет темпа мин/100м
                         } else if ( (params.measureName === "speed" && params.dataType === "time" && params.measureSource === "activity.actual.measure")
