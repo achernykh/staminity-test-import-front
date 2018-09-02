@@ -4,7 +4,7 @@ import {GetNotificationRequest, INotification, Notification, PutNotificationRequ
 import {SocketService} from "../../core";
 import CommentService from "../../core/comment.service";
 import {ChatSession} from "../../core/comment.service";
-import {memorize} from "../util.js";
+import {memorize} from "../utility";
 
 const parseDate = memorize(moment);
 const notificationsOrder = (a, b) => parseDate(a.ts) >= parseDate(b.ts) ? -1 : 1;

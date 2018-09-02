@@ -1,7 +1,7 @@
 import './calendar.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { Subject } from 'rxjs/Subject';
-import { times } from '../share/util.js';
+import { times } from '../share/utility';
 import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IDocumentService, copy} from 'angular';
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";

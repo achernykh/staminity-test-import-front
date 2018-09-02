@@ -9,7 +9,7 @@ import {
     IActivityIntervalW, IActivityIntervalG
 } from "../../../../api/activity/activity.interface";
 import {ActivityIntervalFactory} from "./activity.functions";
-import {times} from '../../share/util.js';
+import {times} from '../../share/utility';
 import {ActivityIntervalL} from "./activity.interval-l";
 import {isArray} from "rxjs/util/isArray";
 

@@ -1,7 +1,7 @@
 import './premium-confirm.component.scss';
 import {IComponentController, IComponentOptions} from "angular";
 
-class PremiumConfirmCtr implements IComponentController {
+class PremiumConfirmCtrl implements IComponentController {
 
 }
 
@@ -10,6 +10,6 @@ export const PremiumConfirmComponent:IComponentOptions = {
         bill: '=',
         onEvent: '&'
     },
-    controller: PremiumConfirmCtr,
+    controller: PremiumConfirmCtrl,
     template: require('./premium-confirm.component.html') as string
 };

@@ -1,4 +1,4 @@
-import {maybe, prop} from "../..//util";
+import {maybe, prop} from "../../utility";
 import moment from "moment/min/moment-with-locales";
 import { IComponentController, IScope } from 'angular';
 import BillingService from "@app/core/billing.service";
@@ -82,7 +82,7 @@ export class EnableTariffCtrl {
         this.$mdDialog.cancel();
     };
 
-    submit () {
+    submit (flowType: 'bill' | 'confirm' = 'bill') {
         let trial = this.billing.trialConditions.isAvailable;
         this.billingService.enableTariff(
             this.tariff.tariffId,
@@ -94,9 +94,8 @@ export class EnableTariffCtrl {
             this.paymentSystem)
             .then((bill) => {
                 this.$mdDialog.hide();
-                if (!trial) {
-                    this.dialogs.billDetails(bill, this.user);
-                }
+                if (!trial && flowType === 'bill') { this.dialogs.billDetails(bill, this.user);}
+                if (!trial && flowType === 'confirm') { this.dialogs.tariffConfirm(bill, this.user).then() }
                 return bill;
             }, (info) => {
                 this.message.systemWarning(info);

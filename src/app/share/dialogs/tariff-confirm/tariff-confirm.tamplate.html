@@ -1,0 +1,48 @@
+<md-dialog id="tariff-confirm" aria-label="Activity" layout="column" class="tariff-confirm">
+    <md-toolbar flex="none" class="md-default">
+        <div class="md-toolbar-tools">
+            <h1 translate="dialogs.tariffConfirm.title"></h1>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content flex="auto" layout="column" class="tariff-confirm__content" style="width: 100%">
+        <md-list flex="none">
+            <md-list-item class="md-body-1">
+                <span translate="user.settings.billing.tariff"></span>
+                <span>:&nbsp;</span>
+                <span>«{{'user.settings.billing.tariffs.' + $ctrl.bill.tariffs[0].tariffCode | translate}}»</span>
+            </md-list-item>
+            <md-list-item class="md-body-1">
+                <span translate="dialogs.tariffConfirm.term"></span>
+                <span>:&nbsp;</span>
+                <span>{{ $ctrl.bill.startPeriod | date:shortDate }}</span>
+                <span>-</span>
+                <span>{{ $ctrl.bill.endPeriod | date:shortDate }}</span>
+            </md-list-item>
+            <md-list-item class="md-body-1">
+                <span translate="dialogs.tariffConfirm.amount"></span>
+                <span>:&nbsp;</span>
+                <span>{{$ctrl.bill.totalAmount | currency:$ctrl.bill.currency}}</span>
+            </md-list-item>
+            <div layout="row" layout-align="start center" class="md-padding md-body-1">
+                <md-checkbox flex="none" aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+                             class="md-primary md-secondary"
+                             ng-disabled="false"
+                             style="margin-bottom: 0">
+                </md-checkbox>
+                <p flex="auto" translate="dialogs.tariffConfirm.confirmation"></p>
+            </div>
+        </md-list>
+    </md-dialog-content>
+    <md-dialog-actions flex="none" layout="row" style="background: white">
+        <span flex></span>
+        <md-button ng-click="$ctrl.submit()" class="md-primary"
+                   ng-disabled="!$ctrl.bill.payment.checkoutUrl || !$ctrl.confirmation">{{
+            'user.settings.billing.payTheBill' | translate:{amount:($ctrl.bill.totalAmount | currency:$ctrl.bill.currency)}
+            }}
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

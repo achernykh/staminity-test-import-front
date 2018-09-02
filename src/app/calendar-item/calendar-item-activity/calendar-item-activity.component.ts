@@ -26,7 +26,7 @@ import {
 } from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 import {FtpState} from "../../activity/components/assignment/assignment.component";
-import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
+import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/utility';
 import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference/reference.datamodel";
 import {filtersToPredicate} from "../../share/utility/filtering";
 import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";

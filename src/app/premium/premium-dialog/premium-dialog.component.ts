@@ -33,13 +33,12 @@ class PremiumDialogCtrl extends EnableTariffCtrl implements IComponentController
     }
 
     $onInit(): void {
-        debugger;
         this.setBilling(this.billing);
     }
 
-    pay (term: number): void {
+    pay (term: number, flowType: 'bill' | 'confirm' = 'confirm'): void {
         this.fee.term = term;
-        super.submit();
+        super.submit(flowType);
 
         /**
          *

@@ -6,7 +6,7 @@ import { IChartParams, IReportPeriod } from "../../../../api/statistics/statisti
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import { getSportBasic, getSportsByBasicId, getActivityTypesId } from "../../activity/activity.constants";
 import { getOwner } from "../../reference/reference.datamodel";
-import { groupBy, orderBy, pipe, prop } from "../../share/util.js";
+import { groupBy, orderBy, pipe, prop } from "../../share/utility";
 import { periodByType } from "./analytics-chart-filter.function";
 
 export const PeriodOptions = (options: string[] = ["thisYear", "thisMonth", "thisWeek", "customPeriod"]): IReportPeriodOptions[] => {

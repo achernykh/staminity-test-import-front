@@ -4,7 +4,7 @@ import {IActivityTemplate} from "../../../../api";
 import {IUserProfile} from "../../../../api/user/user.interface";
 import {getOwner, ReferenceFilterParams, templatesFilters} from "../../reference/reference.datamodel";
 import ReferenceService from "../../reference/reference.service";
-import { entries, filter, fold, groupBy, isUndefined, keys, last, log, orderBy, pick, pipe, prop } from "../../share/util.js";
+import { entries, filter, fold, groupBy, isUndefined, keys, last, log, orderBy, pick, pipe, prop } from "../../share/utility";
 import {filtersToPredicate} from "../../share/utility/filtering";
 import "./calendar-item-template-selector.component.scss";
 

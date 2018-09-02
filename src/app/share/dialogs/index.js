@@ -3,6 +3,7 @@ import './dialogs.scss';
 import './moneta.scss';
 import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
 import {EnableTariffCtrl} from "./enable-tariff/enable-tariff.controller";
+import {BillDetailsCtrl} from './bill-details/bill-details.controller';
 
 
 export default class DialogsService {
@@ -189,9 +190,9 @@ export default class DialogsService {
                             throw info;
                         })
                 },
-                controller: BillDetailsController,
+                controller: BillDetailsCtrl,
                 controllerAs: '$ctrl',
-                template: require('./bill-details.html'),
+                template: require('./bill-details/bill-details.template.html'),
                 multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
@@ -199,6 +200,28 @@ export default class DialogsService {
                 escapeToClose: true,
                 fullscreen: !this.$mdMedia('gt-sm')
             });
+    }
+
+    tariffConfirm (bill, user) {
+        return this.$mdDialog.show({
+            locals: { user },
+            resolve: {
+                bill: () => this.BillingService.getBillDetails(bill.billId)
+                .catch((info) => {
+                    this.message.systemWarning(info);
+                    throw info;
+                })
+            },
+            controller: BillDetailsCtrl,
+            controllerAs: '$ctrl',
+            template: require('./tariff-confirm/tariff-confirm.tamplate.html'),
+            multiple: true,
+            parent: angular.element(document.body),
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
+        });
     }
 
     feeDetails (fee, bill) {
@@ -630,7 +653,7 @@ function BillsListController($scope, $mdDialog, dialogs, BillingService, message
 BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'user', 'bills', '$translate'];
 
 
-function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
+/**function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
     this.setBill = (bill) => {
         this.bill = bill;
         this.billStatus = BillingService.billStatus(bill);
@@ -683,7 +706,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     console.log('BillDetailsController', this);
 }
 
-BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'bill'];
+BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'bill'];**/
 
 
 function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {

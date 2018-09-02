@@ -7,7 +7,7 @@ import IMessageService from "../../core/message.service";
 import ReferenceService from "../reference.service";
 import DialogsService from '../../share/dialogs';
 import { getType } from "../../activity/activity.constants";
-import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
+import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/utility';
 import { ReferenceFilterParams, templatesFilters, Owner, isSystem, getOwner, isOwner } from "../reference.datamodel";
 import { filtersToPredicate } from "../../share/utility/filtering";
 import { templateDialog, TemplateDialogMode } from "../template-dialog/template.dialog";

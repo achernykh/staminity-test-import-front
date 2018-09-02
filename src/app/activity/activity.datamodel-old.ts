@@ -20,7 +20,7 @@ import {ActivityIntervalFactory} from "./activity-datamodel/activity.functions";
 import {IUserProfileShort, IUserProfile} from "../../../api/user/user.interface";
 import {IGroupProfileShort} from '../../../api/group/group.interface';
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
-import { pipe, orderBy, prop, groupBy } from "../share/util.js";
+import { pipe, orderBy, prop, groupBy } from "../share/utility";
 import {ActivityHeader} from "./activity-datamodel/activity.header";
 import {ActivityIntervalPW} from "./activity-datamodel/activity.interval-pw";
 import {ActivityIntervalW} from "./activity-datamodel/activity.interval-w";

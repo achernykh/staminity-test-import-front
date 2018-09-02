@@ -2,7 +2,7 @@ import './structured-assignment.component.scss';
 import {IComponentOptions, IComponentController, IPromise, copy} from 'angular';
 import {IActivityIntervalP, IActivityIntervalG} from "../../../../../api/activity/activity.interface";
 import {CalendarItemActivityCtrl} from "../../../calendar-item/calendar-item-activity/calendar-item-activity.component";
-import {times} from '../../../share/util.js';
+import {times} from '../../../share/utility';
 import {ActivityIntervals} from "../../activity-datamodel/activity.intervals";
 import {ActivityIntervalP} from "../../activity-datamodel/activity.interval-p";
 import {ActivityIntervalG} from "../../activity-datamodel/activity.interval-g";

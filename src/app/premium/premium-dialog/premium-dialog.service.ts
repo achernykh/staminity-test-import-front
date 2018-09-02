@@ -61,4 +61,10 @@ export class PremiumDialogService {
         }));
     }
 
+    confirm (): Promise<any> {
+        return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
+
+        }));
+    }
+
 }

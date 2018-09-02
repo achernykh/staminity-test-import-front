@@ -9,7 +9,7 @@ import { IBillingTariff, IBill } from "../../../api/billing/billing.interface";
 
 import moment from 'moment/min/moment-with-locales.js';
 import { parseYYYYMMDD } from '../share/date/date.filter';
-import { maybe, prop } from "../share/util.js";
+import { maybe, prop } from "../share/utility";
 
 
 export default class BillingService {

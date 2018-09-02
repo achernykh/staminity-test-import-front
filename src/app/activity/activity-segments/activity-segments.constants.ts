@@ -1,5 +1,5 @@
 import {IActivityIntervalP} from "../../../../api/activity/activity.interface";
-import {genHash} from "../../share/utils-function";
+import {genHash} from "../../share/utility";
 import {ActivityIntervalP} from "../activity-datamodel/activity.interval-p";
 import {DurationMeasure, IntensityMeasure} from "../activity-datamodel/activity.models";
 

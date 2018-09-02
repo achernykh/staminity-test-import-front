@@ -10,7 +10,7 @@ import { getType } from "../activity.constants";
 import { IGroupProfileShort } from "../../../../api/group/group.interface";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../../reference/reference.datamodel";
-import { pipe, orderBy, prop, groupBy } from "../../share/util.js";
+import { pipe, orderBy, prop, groupBy } from "../../share/utility";
 import { ActivityAuth } from "./activity.auth";
 import { ICalendarItemDialogOptions } from "../../calendar-item/calendar-item-dialog.interface";
 import { ActivityAthletes } from "./activity.athletes";

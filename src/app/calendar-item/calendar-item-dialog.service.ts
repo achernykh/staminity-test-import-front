@@ -82,6 +82,10 @@ export class CalendarItemDialogService {
               options: ICalendarItemDialogOptions,
               item: ICalendarItem = CalendarItemDialogService.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
+        if (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart)) {
+            return this.premiumDialogService.open(null, 'futurePlaning').then();
+        }
+
                   return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
         //return Promise.resolve(() => {})
             //.then(() => false && this.completeTrainingZones(options))
