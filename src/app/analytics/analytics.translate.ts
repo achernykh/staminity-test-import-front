@@ -90,7 +90,7 @@ export const translateAnalytics = {
         },
         actualDistance: {
             title: "Расстояние тренировок",
-            description: "Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{'analytics.params.' + seriesDateTrunc | translate | lowercase}}",
+            description: "Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{'analytics.params.' + seriesDateTrunc | translate | lowercase}}, по сравнению с периодом: {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
             shortDescription: "Тренировочные объемы (расстояние)",
 
         },
