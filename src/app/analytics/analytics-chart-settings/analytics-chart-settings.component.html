@@ -141,6 +141,7 @@
                 </md-input-container>
             </md-list-item>
         </md-list>
+        <!-- Настройки графика -->
         <md-list flex="auto" class="md-dense" ng-if="$ctrl.settings.length > 0">
             <md-list-item ng-repeat="param in $ctrl.settings" ng-switch="param.type">
                 <div ng-switch-when="radio" layout="column">

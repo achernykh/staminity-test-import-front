@@ -4,7 +4,7 @@ import { IActivityType } from "../../../../api/activity/activity.interface";
 import { IActivityCategory } from "../../../../api/reference/reference.interface";
 import { IChartParams, IReportPeriod } from "../../../../api/statistics/statistics.interface";
 import { IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
-import { getSportBasic, getSportsByBasicId, getActivityTypesId } from "../../activity/activity.constants";
+import {getSportBasic, getSportsByBasicId, getActivityTypesId, getType} from "../../activity/activity.constants";
 import { getOwner } from "../../reference/reference.datamodel";
 import { groupBy, orderBy, pipe, prop } from "../../share/utility";
 import { periodByType } from "./analytics-chart-filter.function";
@@ -269,7 +269,7 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
             //name: "activityTypes",
             text: "activityTypes",
             model: this.storage && this.storage.activityTypes && this.storage.activityTypes.model || this.defaultBasicActivityTypes,
-            options: getSportBasic(),
+            options: getActivityTypesId().map(id => getType(id)),
         };
     }
 

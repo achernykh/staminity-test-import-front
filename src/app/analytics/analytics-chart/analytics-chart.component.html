@@ -27,9 +27,9 @@
             <md-button flex="none" class="md-icon-button" ng-click="$ctrl.fullScreen($event)">
                 <md-icon class="md-secondary material-icon md-dark" ng-cloack>search</md-icon>
             </md-button>
-            <md-button flex="none" class="md-icon-button" ng-class="{'has-badge': $ctrl.getLocalParamChanges()}" ng-click="$ctrl.onSettings($event)">
+            <md-button flex="none" class="md-icon-button" ng-class="{'has-badge': $ctrl.getLocalChanges()}" ng-click="$ctrl.onSettings($event)">
                 <md-icon class="md-secondary md-dark material-icons">settings</md-icon>
-                <span class="badge superscript" ng-if="$ctrl.getLocalParamChanges()">{{$ctrl.getLocalParamChanges()}}</span>
+                <span class="badge superscript" ng-if="$ctrl.getLocalChanges()">{{$ctrl.getLocalChanges()}}</span>
             </md-button>
             <md-button flex="none" class="md-icon-button full-screen" ng-click="$ctrl.onClose()">
                 <md-icon class="md-secondary material-icon md-dark" ng-cloack>close</md-icon>

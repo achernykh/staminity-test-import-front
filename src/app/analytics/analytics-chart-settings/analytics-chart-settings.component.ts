@@ -2,7 +2,7 @@ import "./analytics-chart-settings.component.scss";
 import { copy, IComponentController, IComponentOptions, INgModelController, IPromise } from "angular";
 import { activityTypes } from "../../activity/activity.constants";
 import { AnalyticsChartFilter, IAnalyticsChartSettings } from "../analytics-chart-filter/analytics-chart-filter.model";
-import { IAnalyticsChart } from "../analytics-chart/analytics-chart.interface";
+import {IAnalyticsChart, IAnalyticsChartCompareSettings} from "../analytics-chart/analytics-chart.interface";
 import { AnalyticsService } from "../analytics.service";
 import MessageService from "../../core/message.service";
 import { AnalyticsChart } from "../analytics-chart/analytics-chart.model";
@@ -10,20 +10,20 @@ import { AnalyticsChart } from "../analytics-chart/analytics-chart.model";
 class AnalyticsChartSettingsCtrl implements IComponentController {
 
     chart: AnalyticsChart;
+    settings: Array<IAnalyticsChartSettings<any>>;
+    globalFilter: AnalyticsChartFilter;
 
-    private globalFilter: AnalyticsChartFilter;
     private localFilter: AnalyticsChartFilter;
 
     private globalParams: boolean = null;
-    private settings: Array<IAnalyticsChartSettings<any>>;
 
     private update: boolean = false;
     private refresh: boolean = false;
 
     private settingsForm: INgModelController;
     private isChangeLocalParams: boolean = false;
-    private isChangeSettings: boolean = false;
-    private isChangeCompareSettings: boolean = false;
+    private settingsChanges: IAnalyticsChartSettings<any>[] = [];
+    private compareChanges: IAnalyticsChartCompareSettings = null;
 
     onSave: (response: {chart: IAnalyticsChart, update: boolean}) => IPromise<void>;
     static $inject = ["$filter", 'AnalyticsService', 'message'];
@@ -36,7 +36,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     private prepare () {
         this.prepareLocalFilter("fromGlobal");
-        this.settings = copy(this.chart.settings);
+        this.prepareSettings();
     }
 
     get users (): number {
@@ -64,7 +64,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             this.localFilter.setActivityTypes(
                 this.chart.localParams && this.chart.localParams.activityTypes && this.chart.localParams.activityTypes ||
                 this.globalFilter.activityTypes.model, "single", false);
-            this.localFilter.setActivityTypesOptions(activityTypes);
+            //this.localFilter.setActivityTypesOptions(activityTypes);
             this.localFilter.setActivityCategories(this.globalFilter.activityCategories.model);
             this.localFilter.setPeriods(
                 this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model || this.globalFilter.periods.model,
@@ -74,6 +74,17 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
 
     isParamExist (param: string): boolean {
         return this.chart.charts[0].params.hasOwnProperty(param);
+    }
+
+    private prepareSettings (): void {
+        /**if (this.chart.settings && !this.chart.localSettings) {
+            this.settings = copy(this.chart.settings);
+        }
+        if (this.chart.settings && this.chart.localSettings) {
+            this.chart.localSettings.map(ls =>
+                this.chart.settings.filter(gs =>
+                    gs.text === ls.text)[0].model = ls.model);
+        }**/
     }
 
     changeParamsPoint () {
@@ -87,10 +98,6 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         let localModel: any = JSON.parse(JSON.stringify(this.localFilter[param].model));
         let globalModel: any = JSON.parse(JSON.stringify(this.globalFilter[param].model));
 
-        /**console.debug('change', param, localModel, globalModel,
-            localModel && localModel.length !== globalModel.length,
-            param !== 'periods' ? localModel.some(v => globalModel.indexOf(v) === -1) : localModel !== globalModel);**/
-
         if (localModel && globalModel &&
             param === 'periods' ?
                 localModel !== globalModel :
@@ -102,8 +109,8 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
         }
 
         if (this.chart.compareSettings && this.chart.compareSettings.type === param) {
-            this.chart.compareSettings.mode = this.localFilter[param].model;
-            this.isChangeCompareSettings = true;
+            this.compareChanges = this.chart.compareSettings;
+            this.compareChanges.mode = this.localFilter[param].model;
         }
 
         this.isChangeLocalParams = true;
@@ -115,7 +122,8 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             ["seriesDateTrunc", "unit", "measureName"].indexOf(param) !== -1) ) {
             this.refresh = true;
         }
-        this.isChangeSettings = true;
+
+        this.settingsChanges.push(settings);
     }
 
     getGroupCheckboxStatus (param: IAnalyticsChartSettings<any>, idx: number): boolean {
@@ -148,9 +156,9 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
             this.chart.localParams = this.localFilter;
         }**/
         let changes: any = {};
-        if ( this.isChangeSettings ) { this.chart.settings = changes.settings = this.settings; }
+        if ( this.settingsChanges.length > 0 ) { this.chart.localSettings = changes.localSettings = this.settingsChanges; }
         if ( this.isChangeLocalParams ) { changes.localParams = this.chart.localParams; }
-        if ( this.isChangeCompareSettings ) { changes.compareSettings = this.chart.compareSettings; }
+        if ( this.compareChanges && Object.keys(this.compareChanges).length > 0) { changes.localCompareSettings = this.compareChanges; }
         if (changes) {
             this.analyticsService.saveChartSettings(this.chart.id, {code: this.chart.code, ...changes})
                 .then(_ => this.messageService.toastInfo('analyticsSaveChartSettingsComplete'),
@@ -167,6 +175,7 @@ const AnalyticsChartSettingsComponent: IComponentOptions = {
     bindings: {
         chart: "=",
         globalFilter: "=",
+        settings: '=',
         categoriesByOwner: "=",
         onCancel: "&",
         onSave: "&",
