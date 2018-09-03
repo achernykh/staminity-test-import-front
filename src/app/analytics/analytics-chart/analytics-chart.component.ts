@@ -184,7 +184,10 @@ class AnalyticsChartCtrl implements IComponentController {
 
     private prepareCompareSettings (): void {
         this.compareSettings = this.chart.localCompareSettings || this.chart.compareSettings || null;
-        this.compareSettings.mode = (this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model) || this.globalFilter.periods.model;
+        if (this.compareSettings) {
+            this.compareSettings.mode = (this.chart.localParams && this.chart.localParams.periods &&
+                this.chart.localParams.periods.model) || this.globalFilter.periods.model;
+        }
     }
 
     private prepareTitleContext () {
