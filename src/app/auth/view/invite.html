@@ -1,6 +1,52 @@
 <section class="animated fadeInUp form">
     <h2 class="md-title" translate="auth.invite.fullTitle"></h2>
     <form flex="none" ng-submit='$ctrl.putInvite($ctrl.credentials)' novalidate name="$ctrl.inviteForm">
+        <div layout="row" layout-align="start stretch" class="input-item-line two-hint-line">
+            <!--<md-input-container class="st-material md-block md-dense" flex="60">
+                <label translate="auth.role.label"></label>
+                <md-select flex name="role" required
+                           ng-model="$ctrl.role"
+                           ng-change="$ctrl.changeRole()"
+                           ng-disabled="!$ctrl.enabled">
+                    <md-option ng-repeat="role in ['athlete', 'coach', 'clubCoach', 'clubManager']"
+                               value="{{role}}">{{'auth.role.' + role + '.name' | translate}}
+                    </md-option>
+                </md-select>
+                <div class="hint md-dark"
+                     ng-show="$ctrl.signupForm.$prestine || $ctrl.signupForm.role.$valid">
+                    <span translate="auth.role.{{$ctrl.role}}.hint"></span>
+                </div>
+                <div ng-messages="$ctrl.signupForm.role.$error"
+                     ng-show="$ctrl.signupForm.role.$dirty"
+                     md-auto-hide="false">
+                    <div ng-message="required" translate="form.required"></div>
+                </div>
+            </md-input-container>
+            <div flex="none" class="wrapper-between"></div>-->
+            <md-autocomplete class="st-material md-block md-dense"
+                             flex="100"
+                             required md-require-match
+                             class="no-message"
+                             ng-disabled="!$ctrl.enabled"
+                             md-input-name="country"
+                             md-input-minlength="2"
+                             md-input-maxlength="18"
+                             md-no-cache="$ctrl.noCache"
+                             md-selected-item="$ctrl.credentials.personal.country"
+                             md-search-text="$ctrl.countrySearchText"
+                             md-items="id in $ctrl.countrySearch($ctrl.countrySearchText)"
+                             md-item-text="$ctrl.getCountryName(id)"
+                             md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}">
+                <md-item-template>
+                    <span md-highlight-text="$ctrl.countrySearchText">
+                        {{$ctrl.countriesList[$ctrl.credentials.display.language][id]}}
+                    </span>
+                </md-item-template>
+                <div ng-messages="$ctrl.setpassForm.country.$error">
+                    <div ng-message="required" translate="auth.required"></div>
+                </div>
+            </md-autocomplete>
+        </div>
         <div layout="row" layout-align="start center" class="input-item-line">
             <p flex="auto" class="md-caption conf" translate>auth.confirmation</p>
             <md-checkbox flex="none" aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"

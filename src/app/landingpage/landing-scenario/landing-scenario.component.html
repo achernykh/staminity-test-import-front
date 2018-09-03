@@ -8,7 +8,7 @@
                 <p class="subtitle md-headline" flex="none" translate="landing.{{$ctrl.scenario.code}}.subtitle"></p>
                 <md-button flex="none" hide show-gt-sm class="md-accent md-hue-2 md-raised"
                            ng-if="$ctrl.scenario.button"
-                           ng-click="$ctrl.$state.go($ctrl.scenario.button.state, $ctrl.scenario.button.stateParams)">
+                           ng-click="$ctrl.action($ctrl.scenario.button.state, $ctrl.scenario.button.stateParams)">
                     <span translate="landing.{{$ctrl.scenario.code}}.button.title"></span>
                 </md-button>
             </div>
@@ -18,7 +18,7 @@
             <div hide-gt-sm flex="none">
                 <md-button flex="none" class="md-accent md-hue-2 md-raised"
                            ng-if="$ctrl.scenario.button"
-                           ng-click="$ctrl.$state.go($ctrl.scenario.button.state, $ctrl.scenario.button.stateParams)">
+                           ng-click="$ctrl.action($ctrl.scenario.button.state, $ctrl.scenario.button.stateParams)">
                     <span translate="landing.{{$ctrl.scenario.code}}.button.title"></span>
                 </md-button>
             </div>

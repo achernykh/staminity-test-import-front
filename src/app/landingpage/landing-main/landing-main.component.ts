@@ -2,6 +2,7 @@ import './landing-main.component.scss';
 import { IComponentOptions, IComponentController, ILocationService, element } from 'angular';
 import { LandingConfig } from "../landing.constants";
 import { saveUtmParams } from "../../share/location/utm.functions";
+import {fbqLog} from "../../share/facebook/fbq.functions";
 
 class LandingMainCtrl implements IComponentController {
 
@@ -15,6 +16,12 @@ class LandingMainCtrl implements IComponentController {
     toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(_ => {});
     }
+
+    signUp (): void {
+        fbqLog('Lead', {content_name: this.$state.$current.name});
+        this.$state.go('signup');
+    }
+
 }
 
 export const LandingMainComponent: IComponentOptions = {
