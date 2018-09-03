@@ -50,7 +50,9 @@ export class AnalyticsChart implements IAnalyticsChart {
     paramsDescription?: string;
     layout: AnalyticsChartLayout;
     compareSettings?: IAnalyticsChartCompareSettings;
+    localCompareSettings?: IAnalyticsChartCompareSettings;
     settings?: Array<IAnalyticsChartSettings<any>>; // Параметры, которые можно менять в графике
+    localSettings?: Array<IAnalyticsChartSettings<any>>;
     charts: IChart[];
     data: IChartData[];
 

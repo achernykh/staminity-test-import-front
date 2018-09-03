@@ -11,6 +11,7 @@ import { isArray } from "@reactivex/rxjs/dist/cjs/util/isArray";
 import { IUserConnections, IUserProfile, IUserProfileShort } from "../../../../api/user/user.interface";
 import {AnalyticsService} from "@app/analytics/analytics.service";
 import {AnalyticsDialogService} from "@app/analytics/analytics-dialog.service";
+import {IAnalyticsChartCompareSettings} from "@app/analytics/analytics-chart/analytics-chart.interface";
 
 const prepareUsers = (param: string, athletes: IUserProfileShort[]): number[] => {
     switch (param) {
@@ -28,7 +29,8 @@ class AnalyticsChartCtrl implements IComponentController {
     refresh: number;
 
     private descriptionParams: Object = {};
-
+    private settings: Array<IAnalyticsChartSettings<any>>;
+    private compareSettings: IAnalyticsChartCompareSettings;
     private filterChange: number = null;
     private errorStack: string[] = [];
 
@@ -94,6 +96,7 @@ class AnalyticsChartCtrl implements IComponentController {
     loadData (): void {
         this.chart.clearMetrics();
         this.prepareSettings();
+        this.prepareCompareSettings();
         this.prepareTitleContext();
         this.prepareParams();
         this.prepareData();
@@ -118,6 +121,7 @@ class AnalyticsChartCtrl implements IComponentController {
             template: `<md-dialog id="analytics-chart-settings" aria-label="Analytics Chart Settings">
                         <analytics-chart-settings
                                 layout="column" class="analytics-chart-settings"
+                                settings="$ctrl.settings"
                                 chart="$ctrl.chart"
                                 global-filter="$ctrl.filter"
                                 categories-by-owner="$ctrl.categories"
@@ -129,6 +133,7 @@ class AnalyticsChartCtrl implements IComponentController {
             locals: {
                 chart: this.chart,
                 filter: this.globalFilter,
+                settings: this.settings,
                 categoriesByOwner: this.globalFilter.categoriesByOwner,
             },
             bindToController: true,
@@ -151,6 +156,7 @@ class AnalyticsChartCtrl implements IComponentController {
     private updateSettings (chart: AnalyticsChart, update: boolean) {
         this.chart = copy(chart);
         this.prepareSettings();
+        this.prepareCompareSettings();
         this.prepareTitleContext();
         if ( update ) {
             this.prepareParams();
@@ -176,6 +182,11 @@ class AnalyticsChartCtrl implements IComponentController {
         }, 1);**/
     }
 
+    private prepareCompareSettings (): void {
+        this.compareSettings = this.chart.localCompareSettings || this.chart.compareSettings || null;
+        this.compareSettings.mode = (this.chart.localParams && this.chart.localParams.periods && this.chart.localParams.periods.model) || this.globalFilter.periods.model;
+    }
+
     private prepareTitleContext () {
         if ( this.chart.hasOwnProperty("descriptionParams") ) {
             this.chart.descriptionParams.map((c) => {
@@ -184,14 +195,19 @@ class AnalyticsChartCtrl implements IComponentController {
                     this.chart.charts[c.ind][c.area].filter((s) => s.idx === c.idx)[0][c.param];
             });
         }
-        if ( this.chart.compareSettings && this.chart.compareSettings.type === 'periods' ) {
-            this.descriptionParams['comparePeriod'] = comparePeriodType(this.chart.compareSettings.mode);
+        if ( this.compareSettings && this.compareSettings.type === 'periods' ) {
+            this.descriptionParams['comparePeriod'] = comparePeriodType(this.compareSettings.mode);
         }
     }
-
     private prepareSettings (): void {
-        if ( !this.chart.settings ) { return; }
-        this.chart.settings.map(s => this.chart.changeSettings(s, s.model));
+        if (!this.chart.settings) {return;}
+        this.settings = copy(this.chart.settings);
+        if (this.chart.localSettings && Array.isArray(this.chart.localSettings)) {
+            this.chart.localSettings.map(ls =>
+                this.settings.filter(gs =>
+                    gs.text === ls.text)[0].model = ls.model);
+        }
+        this.settings.map(s => this.chart.changeSettings(s, s.model));
     }
 
     private prepareData (): void {
@@ -225,9 +241,9 @@ class AnalyticsChartCtrl implements IComponentController {
             (c.params.users = prepareUsers(c.params.users as string, this.owner.connections.allAthletes && this.owner.connections.allAthletes.groupMembers)));
 
         // Если есть ichart для сравнения
-        if ( this.chart.compareSettings && this.chart.compareSettings.visible ) {
+        if ( this.compareSettings && this.compareSettings.visible ) {
             this.chart.charts[this.chart.compareSettings.ind].params.periods =
-                periodByType(comparePeriodType(this.chart.compareSettings.mode));
+                periodByType(comparePeriodType(this.compareSettings.mode));
         }
 
     }
@@ -258,8 +274,10 @@ class AnalyticsChartCtrl implements IComponentController {
         } else { return null; }
     }
 
-    getLocalParamChanges (): number {
-        return this.chart.localParams && Object.keys(this.chart.localParams).length || null;
+    getLocalChanges (): number {
+        let chParams: number = this.chart.localParams && Object.keys(this.chart.localParams).length || 0;
+        let chSettings: number = this.chart.localSettings && this.chart.localSettings.length || 0;
+        return chParams + chSettings;
     }
 
     private prepareMeasures () {
