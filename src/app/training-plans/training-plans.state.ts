@@ -20,7 +20,13 @@ const trainingPlanStore: any = {
         "application": {
             component: 'trainingPlansStore'
         }
-    }
+    },
+    urlLocRu: 'https://staminity.com/training-plans-store?state=store&lang=ru',
+    urlLocEn: 'https://staminity.com/training-plans-store?state=store&lang=en',
+    urlLoc: 'trainingPlans.store.urlLoc',
+    breadcrumb: 'trainingPlans.store.breadcrumb',
+    subtitle: 'trainingPlans.store.subtitle',
+    imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/scenario-06.png'
 };
 
 const trainingPlanBuilder: any = {

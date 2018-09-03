@@ -131,6 +131,13 @@
                                 <span translate="activity.action.unsetSample"></span>
                             </md-button>
                         </md-menu-item>
+                        <md-menu-item ng-if="!$ctrl.activity.view.isTrainingPlan && $ctrl.activity.isStructured && $ctrl.activity.isComing">
+                            <md-button ng-click="$ctrl.recalcPlanTotal()">
+                                <md-icon class="material-icons" md-menu-align-target ng-bind="'replay'"></md-icon>
+                                <span translate="activity.action.recalcPlanTotal"></span>
+                            </md-button>
+                        </md-menu-item>
+                        <md-divider></md-divider>
                         <md-menu-item>
                             <md-button ng-click="$ctrl.delete()"
                                        ng-disabled="::!($ctrl.activity.auth.isCreator || $ctrl.activity.auth.isOwner)">

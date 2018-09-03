@@ -8,6 +8,7 @@ import { IStaminityState } from "./application.interface";
 import DisplayService from "./core/display.service";
 import UserService from "./core/user.service";
 import {StorageService} from "@app/core";
+import {getMainJsonLd, getPageJsonLd} from "./app.constants";
 
 function run(
     $transitions: TransitionService,
@@ -21,6 +22,9 @@ function run(
     DisplayService: DisplayService, // not used, just force DisplayService being initialized
     UserService: UserService, // not used, just force UserService being initialized,
     socket: SocketService,
+    $rootScope: any,
+    $sce: any,
+    $filter: any,
 ) {
     //window.navigator['standalone'] = true;
     console.log("app: run");
@@ -65,8 +69,35 @@ function run(
     });
     $transitions.onSuccess({ to: "*", from: "*" }, (state) => {
         //omniSetup(state.$from().name, state.$to().name);
-        //$rootScope.title = 'Staminity';
         window.document.title = $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity');
+        let locale: any = {
+            lang: DisplayService.getLocale(),
+            locale: DisplayService.getLocaleName(),
+            language: DisplayService.getLanguageName(),
+            availableLanguage: [Object.keys(DisplayService.locales).map(lng => DisplayService.getLanguageName(lng))]
+        };
+
+        let params: any = {
+            title: $translate.instant(state.$to()['title'] || `${state.$to().name}.shortTitle`) + " | " + $translate.instant('staminity'),
+            subtitle: $translate.instant(state.$to()['subtitle'] || `${state.$to().name}.subtitle`),
+            urlLoc: $sce.trustAsResourceUrl($translate.instant(state.$to()['urlLoc'] || `${state.$to().name}.urlLoc`)),
+            urlLocRu: $sce.trustAsResourceUrl(state.$to()['urlLocRu']),
+            urlLocEn: $sce.trustAsResourceUrl(state.$to()['urlLocEn']),
+            imageUrl: state.$to()['imageUrl'],
+            breadcrumb: $translate.instant(state.$to()['breadcrumb'] || `${state.$to().name}.breadcrumb`),
+            url: $translate.instant('application.url'),
+            name: $translate.instant('application.name'),
+            description: $translate.instant('application.description'),
+            image: $translate.instant('application.image'),
+        };
+
+        Object.assign($rootScope, {
+            ...locale,
+            ...params,
+            jsonLd: state.$to().name === 'welcome' ?
+                getMainJsonLd({...locale, ...params})[locale.lang] :
+                getPageJsonLd({...locale, ...params})[locale.lang]
+        });
         LoaderService.hide();
     });
     $state.defaultErrorHandler((error) => {
@@ -118,6 +149,6 @@ function omniSetup(src: string, trg: string) {
 }
 
 run.$inject = ["$transitions", "$state", "$translate", "$mdToast", "LoaderService", "AuthService", "message",
-    "DisplayService", "UserService", 'SocketService'];
+    'storage', "DisplayService", "UserService", 'SocketService', '$rootScope', '$sce', '$filter'];
 
 export default run;

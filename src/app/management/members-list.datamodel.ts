@@ -106,7 +106,7 @@ export class MembersList implements IGroupManagementProfile {
 
     getClubAthletes (groupId: number, exclude: IGroupProfile): Member[] {
         return this.members.filter(m =>
-            (!exclude || (exclude.groupMembers.length > 0 && !exclude.groupMembers.some(u => u.userId === m.profile.userId))) &&
+            (!exclude || exclude.groupMembers.length === 0 || (exclude.groupMembers.length > 0 && !exclude.groupMembers.some(u => u.userId === m.profile.userId))) &&
             m.member.hasOwnProperty('clubs') && m.member.clubs.some(c => c.groupId === groupId));
     }
 

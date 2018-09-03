@@ -28,6 +28,7 @@ import { Methodology } from './methodology/methodology.module';
 import { TrainingSeason } from './training-season';
 import { User } from './user';
 import {StorageService, ISession} from "@app/core";
+import {jsonld} from "./jsonld.directive";
 
 const vendors = [
     'pascalprecht.translate', // translate
@@ -88,6 +89,7 @@ const getRootModule = (session: ISession) => {
     return module('staminity.application', [...vendors, ...submodules] )
         .constant('configAuthData', session)
         .component('staminityApplication', AppComponent)
+        .directive('jsonld', ['$filter', '$sce', jsonld])
         .config(configure)
         .run(run)
         .name;

@@ -1,5 +1,6 @@
 export const htmlToPlainText = () => (html: string): string => {
     return html ? String(html)
+        .replace(/&nbsp;/g, ' ')
         .replace(/<p[^>]*>/g, '')
         .replace(/<li[^>]*>/g, '')
         .replace(/<\/p>/g, "\n")

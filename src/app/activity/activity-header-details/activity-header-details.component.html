@@ -21,13 +21,21 @@
                      ng-class="{'md-inactive': !$ctrl.chartData.measures[measure].show}"
                      class="md-dark fill-measure {{measure}}"></md-icon>
         </md-button>
+        <div flex></div>
+        <md-button flex="none"
+                   ng-repeat="measure in $ctrl.chartData.measuresX track by $index" class="md-secondary md-icon-button"
+                   ng-click="$ctrl.changeChartX(measure)">
+            <md-icon md-svg-src="assets/icon/{{measure}}.svg" class="md-dark"
+                     ng-class="{'md-inactive': $ctrl.chartX !== measure}"></md-icon>
+            <md-tooltip>{{measure | translate}}</md-tooltip>
+        </md-button>
     </div>
     <activity-metrics-char ng-cloak
                            flex="auto" ng-switch-when="true"
                            measures="$ctrl.chartData.measures"
                            data="$ctrl.chartData.data"
-                           x="elapsedDuration"
-                           smooth="$ctrl.item.activity.header.sportBasic === 'swim' ? 1 : 10"
+                           x="$ctrl.chartX"
+                           smooth="$ctrl.smooth"
                            step="$ctrl.chartData.avgStep"
                            change="$ctrl.change"
                            change-measure="$ctrl.changeMeasure"

@@ -32,10 +32,20 @@ class UserSettingsZonesCtrl {
         private $mdDialog: any
     ) {
 
+        this.userSettingsService.updates.subscribe(changes =>
+            this.datamodel = new UserSettingsZonesDatamodel(Object.assign({}, this.owner, changes)));
+
     }
 
     $onInit() {
         this.prepareZones();
+    }
+
+    $onChanges (changes): void {
+        /**debugger;
+        if (changes.hasOwnProperty('owner') && !changes.owner.isFirstChange() && this.owner) {
+            this.datamodel = new UserSettingsZonesDatamodel(this.owner);
+        }**/
     }
 
     prepareZones(){
@@ -92,7 +102,7 @@ class UserSettingsZonesCtrl {
 
     submit () {
         this.userSettingsService.saveZones(this.datamodel.toUserProfile())
-        .then((result) => {}, e => e && this.message.toastError(e));
+        .then(_ => {}, e => e && this.message.toastError(e));
     }
 }
 

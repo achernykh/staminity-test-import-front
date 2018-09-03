@@ -41,6 +41,8 @@ const getDefaultLanguage = (lng: string[]): string => {
 export default class DisplayService {
 
     locales = { ru: "Русский", en: "English",};
+    localeName = { ru: 'ru_RU', en: 'en_US' };
+    languageName = { ru: 'Russian', en: 'English' };
     ipData: GeoInfo;
     lng: BehaviorSubject<string>;
 
@@ -102,6 +104,14 @@ export default class DisplayService {
         return this.sessionService.getToken() ?
             getLocale(this.sessionService.get()) :
             this.storage.get(this.guestLanguageStorageKey) || this.$translate.use() || getDefaultLanguage(Object.keys(this.locales));
+    }
+
+    getLocaleName (): string {
+        return this.localeName[this.getLocale()];
+    }
+
+    getLanguageName (locale: string = this.getLocale()): string {
+        return this.languageName[locale];
     }
 
     setLocale(locale: string): Promise<any> {

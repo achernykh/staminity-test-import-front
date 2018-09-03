@@ -8,7 +8,7 @@ import {ActivityIntervals} from "../activity-datamodel/activity.intervals";
 import {FtpState} from "../components/assignment/assignment.component";
 import {getSegmentTemplates, getChanges} from "./activity-segments.constants";
 import {getFTP, getFtpBySport} from "../../core/user.function";
-import {IActivityInterval} from "../../../../api/activity/activity.interface";
+import {IActivityInterval, IActivityIntervalG, IActivityIntervalP} from "../../../../api/activity/activity.interface";
 
 export enum SegmentChangeReason {
     addInterval,
@@ -46,7 +46,15 @@ class ActivitySegmentsCtrl implements IComponentController {
      *
      */
     private firstSelectPosition(): number {
-        return this.intervals.P.some(i => i.isSelected) && this.intervals.P.filter(i => i.isSelected)[0]['pos'] || null;
+        let interval: any = this.intervals.P.some(i => i.isSelected) &&
+            this.intervals.P.filter(i => i.isSelected)[0];
+
+        if (interval.hasOwnProperty('parentGroupCode')){
+            interval = this.intervals.G.filter(g => g.code === interval.parentGroupCode)[0];
+            return (interval as IActivityIntervalG).fPos + (interval as IActivityIntervalG).grpLength * (interval as IActivityIntervalG).repeatCount - 1;
+        } else {
+            return interval.pos || null;
+        }
     }
 
     $onInit() {
@@ -107,23 +115,25 @@ class ActivitySegmentsCtrl implements IComponentController {
         let interval: ActivityIntervalP;
         let pos: number = null;
         let scenario: any = getSegmentTemplates();
+        let templates: any = scenario[sport][scenarioType];
 
         if(this.selectedInterval().length > 0) {
+            debugger;
             pos = this.firstSelectPosition() + 1;
-            this.intervals.reorganisation(pos, 1);
+            this.intervals.reorganisation(pos, Array.isArray(templates) && templates.length - 1 || 1);
         } else {
             pos = this.intervals.lastPos() + 1;
         }
 
-        scenario[sport][scenarioType].forEach(template => {
-            switch (template.type) {
+        templates.forEach(t => {
+            switch (t.type) {
                 case 'P': {
-                    interval = new ActivityIntervalP('P', Object.assign(template, {pos: pos++}));
+                    interval = new ActivityIntervalP('P', Object.assign(t, {pos: pos++}));
                     this.intervals.add([interval.complete(ftp, FtpState.On, getChanges(interval))]);
                     break;
                 }
                 case 'G': {
-                    this.intervals.add([new ActivityIntervalG('G', Object.assign(template, {fPos: pos}))]);
+                    this.intervals.add([new ActivityIntervalG('G', Object.assign(t, {fPos: pos}))]);
                     break;
                 }
             }

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{lang}}">
 <head>
-    <title>Staminity</title>
+    <title ng-cloak ng-bind="title"></title>
     <base href="/index.html">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="description"
-          content="Достигайте своих целей в беге, триатлоне и других циклических видах спорта. Для спортсменов, тренеров и клубов"/>
+          content="{{subtitle}}"/>
     <meta name="keywords"
           content="программа для работы с тренером, приложение для работы с тренером, приложение для тренера, программа для тренера, работа с тренером, занятия с тренером, бег, триатлон, плавание, календарь тренировок, тренировочный календарь, работа с учениками, Стаминити, Staminity, дистанционная работа с тренером"/>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
@@ -14,14 +14,13 @@
     <meta name="google-site-verification" content="61lUeOvz-SVrqyZsNnLGrrw50m-u7OW8v6l5In5X1JU"/>
 
     <!-- Open graph -->
-    <meta property="og:locale" content="ru_RU"/>
+    <meta property="og:locale" content="{{locale}}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Приложение для онлайн работы с тренером и календарь тренировок Staminity"/>
-    <meta property="og:description"
-          content="Достигайте своих целей в беге, триатлоне и других циклических видах спорта. Для спортсменов, тренеров и клубов"/>
-    <meta property="og:url" content="https://staminity.com/"/>
-    <meta property="og:site_name" content="Staminity"/>
-    <meta property="og:image" content="https://staminity.com/assets/picture/og-staminity-01.jpg"/>
+    <meta property="og:title" content="{{title}}"/>
+    <meta property="og:description" content="{{subtitle}}"/>
+    <meta property="og:url" content="{{urlLoc}}"/>
+    <meta property="og:site_name" content="{{title}}"/>
+    <meta property="og:image" content="{{imageUrl}}"/>
     <!--<meta property="og:image:url"     content="http://staminity.com/assets/picture/og-staminity-01.jpg">
     <meta property="og:image:type"    content="image/jpeg">
     <meta property="og:image:width"   content="500">
@@ -32,53 +31,25 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:site" content="@staminity"/>
     <meta name="twitter:creator" content="@staminity"/>
-    <meta name="twitter:title" content="Приложение для работы с тренером и календарь тренировок Staminity"/>
+    <meta name="twitter:title" content="{{title}}"/>
     <meta name="twitter:description"
-          content="Достигайте своих целей в беге, триатлоне и других циклических видах спорта. Для спортсменов, тренеров и клубов"/>
-    <meta name="twitter:image" content="https://staminity.com/assets/picture/og-staminity-01.jpg"/>
+          content="{{description}}"/>
+    <meta name="twitter:image" content="{{imageUrl}}"/>
 
-    <link rel="alternate" href="https://staminity.com/?lang=ru" hreflang="ru"/>
-    <link rel="alternate" href="https://staminity.com/?lang=en" hreflang="en"/>
-    <script type="application/ld+json">
-        {
-        "@context" : "http://schema.org",
-        "@type" : "Organization",
-        "url" : "https://staminity.com",
-        "name" : "Staminity",
-        "description": "An application for online work with a coach, independent training in cyclic sports and a training diary",
-        "logo": "https://264710.selcdn.ru/assets/images/logo/staminity-logo-1024.png",
-        "areaServed" : "Worldwide",
-        "email" : "support@staminity.com",
-        "brand" : [{
-            "name" : "Staminity",
-            "description": "An application for online work with a coach, independent training in cyclic sports and a training diary"
-        }],
+    <link rel="alternate" hreflang="x-default" href="{{urlLocEn}}">
+    <link rel="alternate" hreflang="ru" href="{{urlLocRu}}"/>
+    <link rel="alternate" hreflang="en" href="{{urlLocEn}}"/>
 
-        "sameAs": [
-            "https://www.facebook.com/staminity",
-            "https://instagram.com/staminity_app",
-            "https://vk.com/staminity"
-          ],
-        "contactPoint" : [
-            {
-                "@type" : "ContactPoint",
-                "contactType" : "Customer service",
-                "availableLanguage" : ["English","Russian"],
-                "url": "https://support.staminity.com",
-                "email": "support@staminity.com"
-            },
-            {
-                "@type" : "ContactPoint",
-                "contactType" : "Technical support",
-                "availableLanguage" : ["English","Russian"],
-                "url": "https://support.staminity.com",
-                "email": "support@staminity.com"
-            }]
-
-
-        }
-</script>
     <link rel="manifest" href="/manifest.json"/>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W3FV7PC');</script>
+    <!-- End Google Tag Manager -->
+
 
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">
@@ -118,8 +89,27 @@
     <!-- Yandex.Metrika counter -->
 
     <!-- VK pixel -->
-    <script type="text/javascript">(window.Image ? (new Image()) : document.createElement('img')).src = 'https://vk.com/rtrg?p=VK-RTRG-163597-5h4bj';</script>
+    <script type="text/javascript">!function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?159",t.onload=function(){VK.Retargeting.Init("VK-RTRG-163597-5h4bj"),VK.Retargeting.Hit()},document.head.appendChild(t)}();</script><noscript><img src="https://vk.com/rtrg?p=VK-RTRG-163597-5h4bj" style="position:fixed; left:-999px;" alt=""/></noscript>
     <!-- VK pixel -->
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1621741744602466');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=1621741744602466&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
+
 
     <link rel="icon" type="image/png" href="/assets/icon/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/assets/icon/favicon-32x32.png" sizes="32x32">
@@ -150,10 +140,12 @@
     </style>
 </head>
 <body>
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W3FV7PC"
                   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
 <staminity-application screen="screen" loading="isLoading" user="currentUser" athlete="currentAthlete">
     <div class="screen-center-block">
         <div><img src="/assets/icon/logo_mono.svg" width="40" height="45"/></div>
@@ -201,13 +193,8 @@
     </div>
 </div>
 <![endif]-->
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-W3FV7PC');</script>
-<!-- End Google Tag Manager -->
+
+
 <script type="text/javascript">
     document.addEventListener('touchstart', function () {
     }, true);
@@ -222,5 +209,7 @@
                 console.error('Boo!', err)
             });
 </script>
+<!-- -->
+<jsonld data-json="jsonLd"></jsonld>
 </body>
 </html>

@@ -31,7 +31,13 @@ const management = {
             (GroupService: GroupService, club) => GroupService.getManagementProfile(club.groupId, "club"),
         ],
     },
-    views: { application: {component: 'stManagement'} }
+    views: { application: {component: 'stManagement'} },
+    urlLocRu: 'https://staminity.com/?lang=ru',
+    urlLocEn: 'https://staminity.com/?lang=en',
+    urlLoc: 'landing.main.urlLoc',
+    breadcrumb: 'landing.main.breadcrumb',
+    subtitle: 'landing.main.subtitle',
+    imageUrl: 'https://264710.selcdn.ru/assets/images/website/screens/staminity-main.png'
     //views: DefaultTemplate("management"),
 } as StateDeclaration;
 

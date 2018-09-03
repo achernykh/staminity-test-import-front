@@ -29,6 +29,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
     private fullScreenMode: boolean = false; // режим полноэкранного ввода
     private recordForm: INgModelController;
     private inAction: boolean = false;
+    private editRepeat: boolean = false;
 
     static $inject = ['calendarItemRecordConfig', 'CalendarService', 'CalendarItemDialogService',
         'TrainingPlansService', 'message', 'quillConfig'];
@@ -78,6 +79,12 @@ export class CalendarItemRecordCtrl implements IComponentController {
         } else {
             this.record.recordHeader.dateStart = this.record.dateStart;
         }
+    }
+
+    changeEditMode (value: boolean): void {
+        this.editRepeat = value;
+        this.record.recordHeader.editParams.regenPastEvents = value;
+        this.record.recordHeader.editParams.regenFutureEvents = value;
     }
 
     changeForm (): void {

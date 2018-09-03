@@ -32,6 +32,12 @@
                         <span translate="activity.action.recalc"></span>
                     </md-button>
                 </md-menu-item>
+                <md-menu-item ng-if="!$ctrl.item.activity.view.isTrainingPlan && $ctrl.item.activity.isStructured && $ctrl.item.activity.isComing">
+                    <md-button ng-click="$ctrl.item.recalcPlanTotal()">
+                        <md-icon class="material-icons" md-menu-align-target ng-bind="'replay'"></md-icon>
+                        <span translate="activity.action.recalcPlanTotal"></span>
+                    </md-button>
+                </md-menu-item>
                 <md-menu-item ng-if="$ctrl.item.activity.hasActualData">
                     <md-button ng-click="$ctrl.item.split(); $ctrl.item.onCancel()">
                         <md-icon class="material-icons" md-menu-align-target>call_split</md-icon>

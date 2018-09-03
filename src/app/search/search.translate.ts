@@ -27,7 +27,10 @@ export let _translateSearch = {
         },
         activityTypes: {
             label: 'Виды спорта'
-        }
+        },
+        breadcrumb: 'Staminity > Найти тренера',
+        urlLoc: "https://staminity.com/search?state=coaches&lang=ru",
+        subtitle: 'Найти тренера по бегу и триатлону, выбрать школу бега и триатлона'
     },
     en: {
         fullTitle: "Find users coaches and clubs",
@@ -57,6 +60,9 @@ export let _translateSearch = {
         },
         activityTypes: {
             label: 'Sports'
-        }
+        },
+        breadcrumb: 'Staminity > Find coach',
+        urlLoc: "https://staminity.com/search?state=coaches&lang=en",
+        subtitle: 'Find a coach for running and triathlon, choose a school of running and triathlon',
     },
 };
