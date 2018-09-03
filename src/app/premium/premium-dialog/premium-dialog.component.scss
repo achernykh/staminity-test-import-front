@@ -23,6 +23,8 @@ md-dialog#premium-dialog {
     min-height: 80vh;
     max-height: 90vh;
   }
-
+  md-content {background-color: white;}
+  .image img { width: 85%; }
+  .md-title, .md-body-1 {  max-width: 350px; }
   transition: all 0.3s;
 }

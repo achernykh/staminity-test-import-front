@@ -72,14 +72,16 @@
             </md-button>
             <md-button  ng-click="$ctrl.selectTemplates()"
                         class="md-icon-button" aria-label="Settings" style="margin: 0px" layout="row">
+                <md-tooltip md-direction="left">{{'analytics.action.templates' | translate}}</md-tooltip>
                 <md-icon class="material-icons" aria-label="Back">insert_chart</md-icon>
-                <span hide show-gt-sm translate="analytics.action.templates"></span>
+                <!--<span hide show-gt-sm translate="analytics.action.templates"></span>-->
             </md-button>
             <span class="md-title md-light md-inactive" style="margin: 0 8px;">|</span>
             <md-button  ng-click="$ctrl.deleteLocalSettings()"
                         class="md-icon-button" aria-label="Settings" style="margin: 0px" layout="row">
+                <md-tooltip md-direction="left">{{'analytics.action.restoreSettings' | translate}}</md-tooltip>
                 <md-icon class="material-icons" aria-label="restore">restore</md-icon>
-                <span hide show-gt-sm translate="analytics.action.restoreSettings"></span>
+                <!--<span hide show-gt-sm translate="analytics.action.restoreSettings"></span>-->
             </md-button>
         </section>
         <section class="mobile" hide show-xs show-sm>

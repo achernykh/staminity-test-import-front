@@ -85,7 +85,7 @@
                                        class="md-no-underline">
                                 <md-option ng-repeat="mesocycle in $ctrl.mesocycles track by mesocycle.id"
                                            value="{{mesocycle.id}}">
-                                    <span>{{mesocycle | mesocycleCode:$ctrl.data.season.periodizationScheme}}</span>
+                                    <span>{{mesocycle | mesocycleCode:$ctrl.data.season.periodizationScheme | translate}}</span>
                                 </md-option>
                             </md-select>
                             <!--
@@ -102,7 +102,7 @@
                     </td>
                     <!-- Номер недели -->
                     <td md-cell class="week">
-                        <span ng-if="cycle.mesocycle.id">Week {{cycle.mesoWeekNumber}}</span>
+                        <span ng-if="cycle.mesocycle.id">W #{{cycle.mesoWeekNumber}}</span>
                     </td>
                     <!-- Обьем -->
                     <td md-cell
