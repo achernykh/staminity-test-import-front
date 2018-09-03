@@ -204,21 +204,25 @@ export let _translate = {
         alreadyHaveAccount: "Already have an account? <strong>Sign in</strong>",
         role: {
             label: 'Role',
+            athleteInfo: "Athlete",
             athlete: {
                 name: "Athlete",
                 hint: "Online training with a coach or self-training",
                 info: 'Includes a 14-day "Premium" trial'
             },
+            coachInfo: "Personal coach",
             coach: {
                 name: "Personal coach",
                 hint: "Online work with personal athletes, without club",
                 info: 'Includes a 14-day "Coach" trial'
             },
+            clubCoachInfo: "Club coach",
             clubCoach: {
                 name: "Club coach",
                 hint: "Online work with athletes, assigned by the club",
                 info: '"Coach" trial not included. Join your club to become a club coach'
             },
+            clubManagerInfo: "Club manager",
             clubManager: {
                 name: "Club manager",
                 hint: "Organize a joint work of several coaches in a club",
