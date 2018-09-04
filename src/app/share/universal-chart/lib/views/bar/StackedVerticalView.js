@@ -18,13 +18,13 @@ class StackedVerticalView extends StackedView {
 
         this._bars = this.getViewsContainer()
             .append('g')
-            .attr('class', 'view bar-view')
+            .attr('class', 'view d3-bar-view')
             .selectAll('g.group')
             .data(this.getData())
             .enter()
             .append('g')
             .attr('class', 'group')
-            .selectAll('rect.bar')
+            .selectAll('rect.d3-bar')
             .data(function(d, i) {
                 return d.map(function(x) {
                     x.i = i;
@@ -32,7 +32,7 @@ class StackedVerticalView extends StackedView {
                 });
             }).enter()
             .append('rect')
-            .attr('class', 'bar');
+            .attr('class', 'd3-bar');
 
         this._customize(this._bars);
 

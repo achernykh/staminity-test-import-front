@@ -4,7 +4,7 @@ export interface PremiumPageConfig {
     functions: string[];
 }
 export interface PremiumConfig {
-    pages: PremiumPageConfig[]
+    pages: PremiumPageConfig[];
 }
 export const premiumConfig: PremiumConfig = {
     pages: [
@@ -39,4 +39,4 @@ export const premiumConfig: PremiumConfig = {
             functions: ['templates']
         }
     ]
-}
+};

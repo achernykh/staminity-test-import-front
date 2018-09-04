@@ -16,7 +16,7 @@ class GroupedHorizontalView extends GroupedView {
 
         this._groups = this.getViewsContainer()
             .append('g')
-            .attr('class', 'view bar-view')
+            .attr('class', 'view d3-bar-view')
             .selectAll('g.group')
             .data(this.getData())
             .enter()
@@ -24,12 +24,12 @@ class GroupedHorizontalView extends GroupedView {
             .attr('class', 'group');
 
         this._bars = this._groups
-            .selectAll('rect.bar')
+            .selectAll('rect.d3-bar')
             .data(function(d) {
                 return d;
             }).enter()
             .append('rect')
-            .attr('class', 'bar');
+            .attr('class', 'd3-bar');
 
         this._customize(this._bars);
 

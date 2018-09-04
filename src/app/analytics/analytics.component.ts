@@ -92,7 +92,8 @@ export class AnalyticsCtrl implements IComponentController {
             .then(_ => this.analyticsService.getChartSettings())
             .then(s => this.applyLocalSettings(s))
             .then(_ => this.prepareFilter(this.user, this.categories))
-            .then(_ => this.isLoadingData = false);
+            .then(_ => this.isLoadingData = false)
+            .then(_ => this.$scope.$applyAsync());
 
         //this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
     }

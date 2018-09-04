@@ -32,7 +32,7 @@ interface IAnalyticsChartChange {
         [option: string]: {
             [param: string]: any
         }
-    }
+    };
 }
 
 export interface IAnalyticsChartSettings<T> {
