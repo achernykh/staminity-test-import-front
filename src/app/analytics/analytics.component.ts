@@ -74,11 +74,12 @@ export class AnalyticsCtrl implements IComponentController {
                 this.globalFilter.setCategoriesOption(categories);
                 this.$scope.$apply();
             });
+
+        this.analyticsDialogService.refresh.subscribe(v => { if (v > this.refresh) {this.refresh = v;}});
+        this.analyticsDialogService.globalFilter.subscribe(v => {this.globalFilter = v; this.globalFilterChange ++;});
     }
 
-    $onInit () {
-        this.prepareData();
-    }
+    $onInit () { this.prepareData(); }
 
     $onDestroy () {
         this.destroy.next();
@@ -145,6 +146,7 @@ export class AnalyticsCtrl implements IComponentController {
 
     private refreshData (): void {
         this.refresh ++;
+        this.analyticsDialogService.refresh.next(this.refresh);
     }
 
     private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {
@@ -153,6 +155,7 @@ export class AnalyticsCtrl implements IComponentController {
             categories,
             null,//this.getSettings(this.storage.filter),
             this.$filter);
+        this.analyticsDialogService.globalFilter.next(this.globalFilter);
     }
 
     private prepareCharts () {
