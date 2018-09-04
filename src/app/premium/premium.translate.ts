@@ -2,7 +2,8 @@ export const premiumTranslate = {
     ru: {
         action: {
             subscribeMonth: 'Купить за {{rate}} {{currency}}/месяц',
-            subscribeYear: 'Купить за {{rate}} {{currency}}/год'
+            subscribeYear: 'Купить за {{rate}} {{currency}}/год',
+            trial: "Попробовать бесплатно"
         },
         wrapper: {
             title: 'Премиум-функция',
@@ -64,7 +65,9 @@ export const premiumTranslate = {
     en: {
         action: {
             subscribeMonth: 'Buy for {{rate}} {{currency}}/month',
-            subscribeYear: 'Buy for {{rate}} {{currency}}/year'
+            subscribeYear: 'Buy for {{rate}} {{currency}}/year',
+            trial: "Try for free"
+
         },
         wrapper: {
             title: 'Premium feature',
