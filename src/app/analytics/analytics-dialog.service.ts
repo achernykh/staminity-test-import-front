@@ -1,7 +1,10 @@
 import {AnalyticsChart} from "@app/analytics/analytics-chart/analytics-chart.model";
 import {IUserProfile} from "@api/user";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 export class AnalyticsDialogService {
+
+    charts: BehaviorSubject<AnalyticsChart[]> = new BehaviorSubject([]);
 
     // private
     private readonly defaultDialogOptions = {

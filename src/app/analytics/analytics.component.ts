@@ -89,6 +89,7 @@ export class AnalyticsCtrl implements IComponentController {
         this.analyticsService.getTemplates()
             .then(t => this.chartTemplates = t)
             .then(_ => this.prepareCharts())
+            .then(_ => this.analyticsDialogService.charts.next(this.charts))
             .then(_ => this.analyticsService.getChartSettings())
             .then(s => this.applyLocalSettings(s))
             .then(_ => this.prepareFilter(this.user, this.categories))

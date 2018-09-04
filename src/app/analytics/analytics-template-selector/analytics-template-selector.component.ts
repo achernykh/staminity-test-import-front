@@ -4,25 +4,31 @@ import AuthService from "@app/auth/auth.service";
 import {AnalyticsConfig} from "@app/analytics/analytics.constants";
 import { AnalyticsService } from "../analytics.service";
 import MessageService from "../../core/message.service";
+import {AnalyticsDialogService} from "../analytics-dialog.service";
+import {AnalyticsChart} from "@app/analytics/analytics-chart/analytics-chart.model";
 
-class AnalyticsTemplateSelectorCtrl implements IComponentController {
+export class AnalyticsTemplateSelectorCtrl implements IComponentController {
 
     // bind
-    functionCode: string;
-    additionalAuth: boolean;
+    charts: AnalyticsChart[];
     onCancel: () => Promise<void>;
     onChange: (response: {code: string, active: boolean}) => Promise<void>;
 
     // private
 
     // inject
-    static $inject = ['AuthService', 'analyticsConfig', 'AnalyticsService', 'message'];
+    static $inject = ['AuthService', 'analyticsConfig', 'AnalyticsService', 'message', 'AnalyticsDialogService'];
 
     constructor(
         private authService: AuthService,
         private analyticsConfig: AnalyticsConfig,
         private analyticsService: AnalyticsService,
-        private messageService: MessageService) {}
+        private messageService: MessageService, private analyticsDialogService: AnalyticsDialogService) {
+
+        this.charts = this.analyticsDialogService.charts.getValue();
+        //this.analyticsDialogService.charts.subscribe(d => {debugger;});
+
+    }
 
 
     $onInit(): void {}
