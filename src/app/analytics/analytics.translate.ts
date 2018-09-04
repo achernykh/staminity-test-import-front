@@ -63,7 +63,12 @@ export const translateAnalytics = {
             "60d": "60 дней",
             "30d": "30 дней",
             "7d": "7 дней",
-            "0d": "Не выводить"
+            "0d": "Не выводить",
+
+            previewYear: 'прошлым годом',
+            previewMonth: 'прошлым месяцем',
+            previewWeek: 'прошлой неделей',
+            previewCustom: 'предыдущим периодом'
 
         },
         settings: {
@@ -90,7 +95,7 @@ export const translateAnalytics = {
         },
         actualDistance: {
             title: "Расстояние тренировок",
-            description: "Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{'analytics.params.' + seriesDateTrunc | translate | lowercase}}, по сравнению с периодом: {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
+            description: "Нарастающим итогом: {{cumulative | translate | lowercase}}, группировка: {{'analytics.params.' + seriesDateTrunc | translate | lowercase}}, сравнение с {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
             shortDescription: "Тренировочные объемы (расстояние)",
 
         },
@@ -132,7 +137,7 @@ export const translateAnalytics = {
         hrTimePeaks: {
             title: "Пики пульса по времени",
             shortDescription: "Максимальные пики по пульсу по времени",
-            description: "",
+            description: "Сравнение с {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
         },
         paceTimePeaks: {
             title: "Пики темпа по времени",
@@ -147,7 +152,7 @@ export const translateAnalytics = {
         powerTimePeaks: {
             title: "Пики мощности по времени",
             shortDescription: "Максимальные пики по мощности по времени",
-            description: "",
+            description: "Сравнение с {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
         },
         distanceByActivityTypeByPeriods: {
             title: "Объемы по видам спорта",
@@ -177,7 +182,7 @@ export const translateAnalytics = {
         fitnessFatigueForm: {
             title: 'Фитнес - усталость',
             shortDescription: 'Диаграмма Фитнес - усталость',
-            description: 'Предыдущие {{lastDays}} и следующие {{futDays}} days'
+            description: 'Предыдущие {{lastDays}} и следующие {{futDays}} дней'
         },
         trainingVolumesByAthletes: {
             title: 'Объемы спортсменов',
@@ -272,7 +277,12 @@ export const translateAnalytics = {
             "60d": "60 days",
             "30d": "30 days",
             "7d": "7 days",
-            "0d": "Not show"
+            "0d": "Not show",
+
+            previewYear: 'last year',
+            previewMonth: 'last month',
+            previewWeek: 'last week',
+            previewCustom: 'last period'
 
         },
         settings: {
@@ -299,7 +309,7 @@ export const translateAnalytics = {
         },
         actualDistance: {
             title: "Completed distance",
-            description: "Cumulative: {{cumulative | translate | lowercase}}, group by: {{'analytics.params.' + seriesDateTrunc | translate | lowercase}}",
+            description: "Cumulative: {{cumulative | translate | lowercase}}, group by: {{'analytics.params.' + seriesDateTrunc | translate | lowercase}}, compared by {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
             shortDescription: "Completed distance",
 
         },
@@ -341,7 +351,7 @@ export const translateAnalytics = {
         hrTimePeaks: {
             title: "Heart rate peaks",
             shortDescription: "HR peaks by time",
-            description: "",
+            description: "Compared by {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
         },
         paceTimePeaks: {
             title: "Pace peaks",
@@ -351,7 +361,7 @@ export const translateAnalytics = {
         speedTimePeaks: {
             title: "Speed peaks",
             shortDescription: "Speed peaks by time",
-            description: "",
+            description: "Compared by {{ 'analytics.params.' + comparePeriod | translate | lowercase }}",
         },
         powerTimePeaks: {
             title: "Power peaks",

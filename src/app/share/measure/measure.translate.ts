@@ -54,8 +54,11 @@ export const _MEASURE_TRANSLATE = {
         percentComplete: "Процент выполнения",
         peaks: "Пики",
         peak: "Пик",
-        days: "Дни",
-        week: "Неделя",
+        day: "День",
+        days: "День",
+        week: "Нед",
+        month: "Мес",
+        quarter: 'Кв-л',
         plan: "План",
         actual: "Факт",
         mesocycle: "Мезоцикл",
@@ -103,12 +106,12 @@ export const _MEASURE_TRANSLATE = {
 
         // Для аналитики
 
-        durationAvg: 'В среднем / {{seriesDateTrunc | translate | lowercase}}',
+        durationAvg: 'Сред. / {{seriesDateTrunc | translate | lowercase}}',
         durationTotal: 'Всего',
         durationMax: 'Макс. / {{seriesDateTrunc | translate | lowercase}}',
 
         distanceTotal: 'Всего',
-        distanceAvg: 'В среднем / {{seriesDateTrunc | translate | lowercase}}',
+        distanceAvg: 'Сред. / {{seriesDateTrunc | translate | lowercase}}',
         distanceMax: 'Макс. / {{seriesDateTrunc | translate | lowercase}}',
 
 
@@ -211,8 +214,11 @@ export const _MEASURE_TRANSLATE = {
         percentComplete: "Complete percent",
         peaks: "Peaks",
         peak: "Peak",
-        days: "Days",
+        day: "Day",
+        days: "Day",
         week: "Week",
+        month: "Mon",
+        quarter: 'Qtr',
         plan: "Plan",
         actual: "Actual",
         mesocycle: "Mesocycle",
@@ -261,12 +267,12 @@ export const _MEASURE_TRANSLATE = {
 
         // для Аналитики
 
-        durationAvg: 'Avg. / {{seriesDateTrunc | translate | lowercase}}',
+        durationAvg: 'Avg / {{seriesDateTrunc | translate | lowercase}}',
         durationTotal: 'Total',
         durationMax: 'Max / {{seriesDateTrunc | translate | lowercase}}',
 
         distanceTotal: 'Total',
-        distanceAvg: 'Avg/ {{seriesDateTrunc | translate | lowercase}}',
+        distanceAvg: 'Avg / {{seriesDateTrunc | translate | lowercase}}',
         distanceMax: 'Max / {{seriesDateTrunc | translate | lowercase}}',
 
 
