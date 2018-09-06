@@ -1,6 +1,10 @@
+interface WindowGoogle extends Window {dataLayer: any;}
+
+export const gtmEvent = (params: any) => (window as WindowGoogle).dataLayer.push(params);
+
 export const gaEmailSignup = () => {
-    window['ga']('send', 'event', { eventCategory: 'signup', eventAction: 'click', eventLabel: 'emailsignup'});
+    (window as WindowGoogle).dataLayer('send', 'event', { eventCategory: 'signup', eventAction: 'click', eventLabel: 'emailsignup'});
 };
 
 export const gaSocialSignup = () =>
-    window['ga']('send', 'event', { eventCategory: 'signup', eventAction: 'click', eventLabel: 'socialsignup'});
+    (window as WindowGoogle).dataLayer('send', 'event', { eventCategory: 'signup', eventAction: 'click', eventLabel: 'socialsignup'});
