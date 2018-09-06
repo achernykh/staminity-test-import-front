@@ -2,6 +2,7 @@ import './landing-toolbar.component.scss';
 import {IComponentOptions, IComponentController, element, IScope} from 'angular';
 import { LandingConfig } from "../landing.constants";
 import AuthService from "../../auth/auth.service";
+import {fbqLog} from "../../share/facebook/fbq.functions";
 
 class LandingToolbarCtrl implements IComponentController {
 
@@ -38,6 +39,11 @@ class LandingToolbarCtrl implements IComponentController {
 
     toggleSlide(component) {
         this.$mdSidenav(component).toggle().then(_ => {});
+    }
+
+    goToPage (state: string): void {
+        if (state === 'signup') { fbqLog('Lead', {content_name: this.$state.$current.name}); }
+        this.$state.go(state);
     }
 }
 

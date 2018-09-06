@@ -51,7 +51,8 @@
         </md-list>
     </section>
     <section class="menu-buttons">
-        <md-button ng-if="!$ctrl.auth.isAuthenticated()" class="md-raised accent" ng-click="$ctrl.$state.go('signup')">
+        <md-button ng-if="!$ctrl.auth.isAuthenticated()" class="md-raised accent"
+                   ng-click="$ctrl.signUp()">
             <span translate="landing.main.button.title"></span>
         </md-button>
         <md-button ng-if="!$ctrl.auth.isAuthenticated()" class=""

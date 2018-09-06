@@ -37,8 +37,10 @@ export class ActivityHeaderDetailsCtrl implements IComponentController {
     private intervals: SelectionOptions<Select> = {};
     private changes: number = 0;
     private change: number = 0; // chart measure change
+    private chartX: string = 'elapsedDuration';
     public changeMeasure: string = null;
     private selectedIntervals: Array<string> = [];
+    private smooth: number;
 
     static $inject = [];
 
@@ -77,6 +79,7 @@ export class ActivityHeaderDetailsCtrl implements IComponentController {
 
     $onInit() {
         this.prepareIntervals();
+        this.smooth = this.item.activity.header.sportBasic === 'swim' ? 1 : this.item.layout.hideSmoothOnChart && 1 || 10;
     }
 
     $onChanges(changes: any): void {
@@ -112,6 +115,11 @@ export class ActivityHeaderDetailsCtrl implements IComponentController {
         if (measuresCount > 2 && this.chartData.measures[measure]['show']) {
             this.chartData.measures[Object.keys(this.chartData.measures).filter(m => this.chartData.measures[m]['show'] && m !== measure)[0]].show = false;
         }
+        this.change++;
+    }
+
+    changeChartX(measure) {
+        this.chartX = measure;
         this.change++;
     }
 
