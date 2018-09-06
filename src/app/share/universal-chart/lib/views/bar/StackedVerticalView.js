@@ -56,11 +56,11 @@ class StackedVerticalView extends StackedView {
                 return this.getBarWidth();
             }.bind(this))
             .attr('height', function(d) {
-                return yScale(d.y0) - yScale(d.y1);
+                return yScale(d.y0) - yScale(d.y1) > 0 ? yScale(d.y0) - yScale(d.y1) : null;
             }).attr('x', function(d) {
                 return xScale(d.x0) + xOffset;
             }).attr('y', function(d) {
-                return yScale(d.y1);
+                return yScale(d.y1) || null;
             });
     }
 }

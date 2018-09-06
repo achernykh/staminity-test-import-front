@@ -195,11 +195,6 @@ class AuthCtrl implements IComponentController {
             .then((m: ISystemMessage) => this.message.systemSuccess(m.title), e => {throw e;})
             .then(_ => gaEmailSignup() && (this.showConfirm = true), e => this.message.systemWarning(e))
             .then(_ => this.enabled = true);
-            /**.then((message) => {
-                this.showConfirm = true;
-                gaEmailSignup();
-                this.message.systemSuccess(message.title);
-            }, e => this.message.systemWarning(e));**/
     }
 
     /**

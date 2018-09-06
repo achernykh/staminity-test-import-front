@@ -48,6 +48,7 @@ class UniversalChartCtrl implements IComponentController {
     }
 
     redraw (): void {
+        console.debug('chart: modalDialog chart redraw');
         this.container = this.$element[0];
         this.prepareMetrics();
         this.universalChart = UChartFactory.getInstance(this.chart).renderTo(this.container);

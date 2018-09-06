@@ -30,6 +30,8 @@ export class AnalyticsTemplateSelectorCtrl implements IComponentController {
         private analyticsService: AnalyticsService,
         private messageService: MessageService, private analyticsDialogService: AnalyticsDialogService) {
 
+        console.debug('chart: modalDialog template controller');
+
         this.charts = this.analyticsDialogService.charts.getValue();
         this.globalFilter = this.analyticsDialogService.globalFilter.getValue();
         this.athletes = this.globalFilter.users.options.map(u => ({id: u.userId,name: `${u.public.firstName} ${u.public.lastName}`}));
