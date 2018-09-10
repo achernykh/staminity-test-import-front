@@ -147,7 +147,8 @@ export const translateCompetition = {
                 '24h': "Run 24 hours",
                 '10km': "10 km",
                 '5km': "5 km",
-                'custom': "Other",
+                'customDuration': "Custom duration",
+                'customDistance': "Custom distance"
             },
             triathlon: {
                 'fullDistance': "Full distance",
@@ -173,10 +174,13 @@ export const translateCompetition = {
                 '50m': "50 m",
                 'custom': "Other",
                 '60min': "60 min",
-                '30min': "30 min"
+                '30min': "30 min",
+                'customDuration': "Custom duration",
+                'customDistance': "Custom distance"
             },
             bike: {
-                custom: 'Other'
+                'customDuration': "Custom duration",
+                'customDistance': "Custom distance"
             },
             ski: {
                 '10km': "10 km",
@@ -184,7 +188,9 @@ export const translateCompetition = {
                 '30km': "30 km",
                 '50km': "50 km",
                 '70km': "70 km",
-                custom: 'Other'
+                custom: 'Other',
+                'customDuration': "Custom duration",
+                'customDistance': "Custom distance"
             }
 
         },

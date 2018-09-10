@@ -189,10 +189,13 @@ export let _translate = {
             copyright2: '| © 2018 Staminity. Все права защищены',
             product: {
                 title: "Продукт",
-                link1: '<a href="/features">Возможности</a>',
-                link2: '<a href="/tariffs">Тарифы</a>',
-                link3: '<a href="/search?state=coaches">Найти тренера</a>',
-                link4: '<a href="/training-plans-store?state=store">Магазин планов</a>',
+                link1: '<a href="/athletes">Для спортсменов</a>',
+                link2: '<a href="/coaches">Для тренеров</a>',
+                link3: '<a href="/clubs">Для клубов</a>',
+                link4: '<a href="/features">Возможности</a>',
+                link5: '<a href="/tariffs">Тарифы</a>',
+                link6: '<a href="/search?state=coaches">Найти тренера</a>',
+                link7: '<a href="/training-plans-store?state=store">Магазин планов</a>'
             },
             scenarios: {
                 title: "Сценарии",
@@ -1056,10 +1059,13 @@ export let _translate = {
             },
             product: {
                 title: "Product",
-                link1: '<a href="/features">Features</a>',
-                link2: '<a href="/tariffs">Tariffs</a>',
-                link3: '<a href="/search?state=coaches">Find coach</a>',
-                link4: '<a href="/training-plans-store?state=store">Training plans Store</a>',
+                link1: '<a href="/athletes">For athletes</a>',
+                link2: '<a href="/coaches">For coaches</a>',
+                link3: '<a href="/clubs">For clubs</a>',
+                link4: '<a href="/features">Features</a>',
+                link5: '<a href="/tariffs">Tariffs</a>',
+                link6: '<a href="/search?state=coaches">Find coach</a>',
+                link7: '<a href="/training-plans-store?state=store">Training plans Store</a>',
             },
             scenarios: {
                 title: "Use cases",
