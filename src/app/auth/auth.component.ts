@@ -13,6 +13,7 @@ import {UserSettingsService} from "@app/user/settings/user-settings.service";
 import {countriesList} from "../user/settings/user-settings.constants";
 import { getUser } from "../core/session/session.service";
 import {fbqLog} from "../share/facebook/fbq.functions";
+import {yaReachGoal} from "../share/yandex/yandex.function";
 
 interface UserCredentials {
     public: IUserProfilePublic;
@@ -195,6 +196,7 @@ class AuthCtrl implements IComponentController {
             //.finally(() => this.enabled = true)
             .then((m: ISystemMessage) => this.message.systemSuccess(m.title), e => {throw e;})
             .then(_ => fbqLog('CompleteRegistration', {status: 'emailSignup'}))
+            .then(_ => yaReachGoal('CREATE_ACCOUNT'))
             .then(_ => gaEmailSignup() && (this.showConfirm = true), e => this.message.systemWarning(e))
             .then(_ => this.enabled = true);
             /**.then((message) => {
@@ -261,6 +263,7 @@ class AuthCtrl implements IComponentController {
             //.finally(() => this.enabled = true)
             .then((r: IHttpPromiseCallbackArg<any>) => this.AuthService.signedIn(r.data.data))
             .then(_ => flowType === 'signUp' && fbqLog('CompleteRegistration', {status: `${provider}Signup`}))
+            .then(_ => yaReachGoal('CREATE_ACCOUNT'))
             .then(_ => this.redirect("calendar", {uri: this.SessionService.getUser().public.uri}), e => this.errorHandler(e))
             .then(_ => gaSocialSignup())
             .then(_ => this.enabled = true)
