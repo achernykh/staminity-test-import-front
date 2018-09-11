@@ -21,12 +21,12 @@
                            ng-change="$ctrl.changeRole()"
                            ng-disabled="!$ctrl.enabled">
                     <md-option ng-repeat="role in ['athlete', 'coach', 'clubCoach', 'clubManager']"
-                               value="{{role}}">{{'auth.role.' + role + '.name' | translate}}
+                               value="{{role}}">{{'auth.role.' + role | translate}}
                     </md-option>
                 </md-select>
                 <div class="hint md-dark"
                      ng-show="$ctrl.signupForm.$prestine || $ctrl.signupForm.role.$valid">
-                    <span translate="auth.role.{{$ctrl.role}}.hint"></span>
+                    <span translate="auth.role.{{$ctrl.role}}Info.hint"></span>
                 </div>
                 <div ng-messages="$ctrl.signupForm.role.$error"
                      ng-show="$ctrl.signupForm.role.$dirty"
@@ -59,7 +59,7 @@
                 </div>
             </md-autocomplete>
         </div>
-        <div class="md-caption" style="padding: 8px 0" translate="auth.role.{{$ctrl.role}}.info"></div>
+        <div class="md-caption" style="padding: 8px 0" translate="auth.role.{{$ctrl.role}}Info.info"></div>
         <md-divider></md-divider>
         <div class="md-caption md-dark center" translate="auth.social" style="padding: 8px 0"></div>
         <div layout="row" class="social-buttons">
