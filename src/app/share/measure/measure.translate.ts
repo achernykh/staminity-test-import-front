@@ -43,7 +43,8 @@ export const _MEASURE_TRANSLATE = {
         movingDuration: "Время в движ",
         power: "Мощность",
         powerDecoupling: "Мощн:ЧСС",
-        speed: "Темп",
+        pace: 'Темп',
+        speed: "Скорость",
         speedDecoupling: "Темп:ЧСС",
         trainingLoad: "TL",
         vam: "ВертикСкорость",
@@ -58,6 +59,11 @@ export const _MEASURE_TRANSLATE = {
         plan: "План",
         actual: "Факт",
         mesocycle: "Мезоцкил",
+        heartRateZone: 'Зоны пульса',
+        speedZone: 'Зоны скорости/темпа',
+        powerZone: 'Зоны мощности',
+        zone: 'Зона',
+        timeInZone: 'Время в зонах',
 
         //
         FTP: "ПАНО",
@@ -142,7 +148,8 @@ export const _MEASURE_TRANSLATE = {
         movingDuration: "Mov. duration",
         power: "Power",
         powerDecoupling: "Power:HR",
-        speed: "Pace",
+        pace: 'Pace',
+        speed: "Speed",
         speedDecoupling: "Pace:HR",
         trainingLoad: "TL",
         vam: "VAM",
@@ -157,6 +164,11 @@ export const _MEASURE_TRANSLATE = {
         plan: "Plan",
         actual: "Actual",
         mesocycle: "Mesocycle",
+        heartRateZone: 'Heart rate zone',
+        speedZone: 'Speed/pace zone',
+        powerZone: 'Power zone',
+        zone: 'zone',
+        timeInZone: 'Time in zone',
 
         //
         FTP: "LT",

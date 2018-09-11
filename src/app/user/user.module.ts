@@ -33,9 +33,10 @@ import { UserSettingsService } from "./settings/user-settings.service";
 import { AgentService } from "./settings/agent.service"; 
 import { userSettingsProfileFilter } from "./settings/user-settings-profile/user-settings-profile.filter"; 
 import SyncAdaptorService from "./sync-adaptor.service"; 
-import userSettingsConfig from "./settings/user-settings.config";
+import configure from "./settings/user-settings.config";
 import { userName, userAvatar, userBackground, userAgeGroup, userIsPremium } from "./user.functions";
 import { UserInfoComponent, UserPicComponent, AvatarPicComponent } from "./pic/userpic.component";
+import { userSettingsConfig } from "./settings/user-settings.constants";
 
 export const User = module('staminity.user', [satellizer])
     .service("SyncAdaptorService", SyncAdaptorService)
@@ -75,12 +76,13 @@ export const User = module('staminity.user', [satellizer])
     .filter("userBackground", userBackground)
     .filter("ageGroup", userAgeGroup)
     .filter("isPremium", userIsPremium)
+    .constant('userSettingsConfig', userSettingsConfig)
     .config(['$stateProvider', ($stateProvider: StateProvider) => {
         userState.map(s => $stateProvider.state(s));
     }])
     .config(['$translateProvider', ($translate) => {
         supportLng.map(lng => $translate.translations(lng, {user: translateUser[lng]}));
     }])
-    .config(userSettingsConfig)
+    .config(configure)
     .filter('stUserAvatarUrl', userAvatarUrl)
     .name;

@@ -26,15 +26,16 @@
                     <span translate="landing.scenario.shortTitle"></span>
                 </md-button>
                 <md-button ng-if="!$ctrl.signUp && !$ctrl.authService.isAuthenticated()"
-                           hide show-gt-sm ui-sref="signin" class="">
+                           hide show-gt-sm class="" ng-click="$ctrl.goToPage('signin')">
                     <span translate="landing.nav.signIn"></span>
                 </md-button>
                 <md-button ng-if="!$ctrl.signUp && $ctrl.authService.isAuthenticated()"
-                           hide show-gt-sm ui-sref="{{$ctrl.$mdMedia('gt-sm') ? 'initialisation' : 'calendar'}}"
+                           hide show-gt-sm
+                           ng-click="$ctrl.goToPage($ctrl.$mdMedia('gt-sm') ? 'initialisation' : 'calendar')"
                            class="">
                     <span translate="landing.nav.signIn"></span>
                 </md-button>
-                <md-button ng-if="$ctrl.signUp" hide show-gt-sm ui-sref="signup" class="">
+                <md-button ng-if="$ctrl.signUp" hide show-gt-sm ng-click="$ctrl.goToPage('signup')" class="">
                     <span translate="landing.nav.signUp"></span>
                 </md-button>
                 <md-button class="menu md-icon-button md-primary" aria-label="landingMenu"
