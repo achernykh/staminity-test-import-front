@@ -4,7 +4,7 @@ import {IUserProfile, IUserProfilePersonal} from "../../../api/user/user.interfa
 import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
 import "./auth.component.scss";
-import {gaEmailSignup, gaSocialSignup} from "../share/google/google-analitics.functions";
+import {gaEmailSignup, gaSocialSignup, gtmEvent} from "../share/google/google-analitics.functions";
 import AuthService from "@app/auth/auth.service";
 import {ISystemMessage} from "@api/core";
 import DisplayService, {GeoInfo} from "@app/core/display.service";
@@ -82,6 +82,7 @@ class AuthCtrl implements IComponentController {
         if (this.$state.$current.name === "signout") {
             this.AuthService.signOut();
             this.$state.go("signin");
+            gtmEvent('appEvent', 'signout', 'signout', 'signoutButton');
         }
         /**
          * Переход в компонент по ссылке /confirm?request={request}
@@ -181,7 +182,10 @@ class AuthCtrl implements IComponentController {
     signin(credentials) {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.AuthService.signIn({device: this.device, email: credentials.email, password: credentials.password})
-            .then(profile => this.redirect("calendar", {uri: profile.public.uri}), e => this.message.systemError(e))
+            .then(profile => {
+                this.redirect("calendar", {uri: profile.public.uri});
+                gtmEvent('appEvent', 'signin', 'signinEmail', 'email');
+                }, e => this.message.systemError(e))
             .then(_ => this.enabled = true);
     }
 
@@ -194,10 +198,13 @@ class AuthCtrl implements IComponentController {
         this.credentials.display.language = this.displayService.getLocale();
         this.AuthService.signUp(Object.assign({}, credentials, {utm: {...this.getUtmParams()}}))
             //.finally(() => this.enabled = true)
-            .then((m: ISystemMessage) => this.message.systemSuccess(m.title), e => {throw e;})
-            .then(_ => fbqLog('CompleteRegistration', {status: 'emailSignup'}))
-            .then(_ => yaReachGoal('CREATE_ACCOUNT'))
-            .then(_ => gaEmailSignup() && (this.showConfirm = true), e => this.message.systemWarning(e))
+            .then((m: ISystemMessage) => {
+                    this.message.systemSuccess(m.title);
+                    this.showConfirm = true;
+                    gtmEvent('appEvent', 'signup', 'signupEmail', 'signupButton');
+                    fbqLog('CompleteRegistration', {status: 'emailSignup'});
+                    yaReachGoal('CREATE_ACCOUNT');
+                }, e => e => this.message.systemWarning(e))
             .then(_ => this.enabled = true);
             /**.then((message) => {
                 this.showConfirm = true;
@@ -239,10 +246,9 @@ class AuthCtrl implements IComponentController {
             .then((sessionData) => {
                 this.AuthService.signedIn(sessionData);
                 this.redirect("calendar", {uri: sessionData.userProfile.public.uri});
-            }, (error) => {
-                this.message.systemWarning(error.errorMessage || error);
-            })
-            .then(_ => fbqLog('CompleteRegistration', {status: `invite`}))
+                gtmEvent('appEvent', 'signup', 'signupInvite', 'inviteButton');
+                fbqLog('CompleteRegistration', {status: `invite`});
+            }, (error) => {this.message.systemWarning(error.errorMessage || error);})
             .then(_ => this.enabled = true);
     }
 
@@ -261,12 +267,19 @@ class AuthCtrl implements IComponentController {
         this.enabled = false; // форма ввода недоступна до получения ответа
         this.$auth.link(provider, {internalData: data})
             //.finally(() => this.enabled = true)
-            .then((r: IHttpPromiseCallbackArg<any>) => this.AuthService.signedIn(r.data.data))
-            .then(_ => flowType === 'signUp' && fbqLog('CompleteRegistration', {status: `${provider}Signup`}))
-            .then(_ => yaReachGoal('CREATE_ACCOUNT'))
-            .then(_ => this.redirect("calendar", {uri: this.SessionService.getUser().public.uri}), e => this.errorHandler(e))
-            .then(_ => gaSocialSignup())
-            .then(_ => this.enabled = true)
+            .then((r: IHttpPromiseCallbackArg<any>) => {
+                this.AuthService.signedIn(r.data.data);
+                if (flowType === 'signUp') {
+                    fbqLog('CompleteRegistration', {status: `${provider}Signup`});
+                    gtmEvent('appEvent', 'signup', `socialButton`, `signup${provider.substr(0,1).toUpperCase()}${provider.substr(1)}`);
+                    yaReachGoal('CREATE_ACCOUNT');
+                } else {
+                    gtmEvent('appEvent', 'signin', `${provider}`, `signin${provider.substr(0,1).toUpperCase()}${provider.substr(1)}`);
+                }
+                this.redirect("calendar", {uri: this.SessionService.getUser().public.uri});
+
+            }, e => this.errorHandler(e))
+            .then(_ => this.enabled = true);
     }
 
     errorHandler (e) {
