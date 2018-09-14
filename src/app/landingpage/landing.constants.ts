@@ -118,25 +118,41 @@ export const landingConfig: LandingConfig = {
     howItWorks: [
         {
             code: 'howItWorks1',
-            img: null
+            img: 'https://264710.selcdn.ru/assets/images/website/icons/season-plan.svg'
         },
         {
             code: 'howItWorks2',
-            img: null
+            img: 'https://264710.selcdn.ru/assets/images/website/icons/season-plan.svg'
         },
         {
             code: 'howItWorks3',
-            img: null
+            img: 'https://264710.selcdn.ru/assets/images/website/icons/operations.svg'
         },
         {
             code: 'howItWorks4',
-            img: null
+            img: 'https://264710.selcdn.ru/assets/images/website/icons/sync.svg'
         },
         {
             code: 'howItWorks5',
-            img: null
+            img: 'https://264710.selcdn.ru/assets/images/website/icons/analytics.svg'
         },
     ],
+    targetGroups:[{
+        code: 'athletes', //
+        img: '',
+        state: 'athletes', // адрес перехода
+        stateParams: {}, // дополнительные параметры перехода
+    },{
+        code: 'coaches', //
+        img: '',
+        state: 'coaches', // адрес перехода
+        stateParams: {}, // дополнительные параметры перехода
+    },{
+        code: 'clubs', //
+        img: '',
+        state: 'clubs', // адрес перехода
+        stateParams: {}, // дополнительные параметры перехода
+    }],
     reviews: {
         ru: [{
             avatar: 'https://264710.selcdn.ru/assets/images/website/testimonials/academy-marathon.jpg',

@@ -23,6 +23,12 @@
                 </md-button>
             </div>
         </article>
+        <!-- staminityInfo -->
+        <section ng-if="$ctrl.scenario.staminityInfo" class="info-block">
+            <img flex="none" flex-gt-sm="50" ng-src="{{$ctrl.scenario.staminityInfo.img}}" style="">
+            <p class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.staminityInfo"></p>
+
+        </section>
         <!-- отзывы -->
         <st-landing-reviews ng-if="$ctrl.scenario.reviews"
                             layout-gt-sm="row" layout-align-gt-sm="center start" layout="column"
@@ -82,6 +88,11 @@
                     </md-button>
                 </div>
             </section>
+        </section>
+        <!-- summaryInfo -->
+        <section ng-if="$ctrl.scenario.summaryInfo" class="info-block">
+            <p class="md-body-1" translate="landing.{{$ctrl.scenario.code}}.summaryInfo"></p>
+
         </section>
         <!-- футер -->
         <st-landing-footer></st-landing-footer>
