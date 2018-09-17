@@ -159,6 +159,7 @@ export default class AuthService implements IAuthService {
 
     signedIn(sessionData: any): Promise<any> {
         return this.SessionService.setItem(sessionData)
+            .then(r => console.debug('auth signedIn store data', r), e => console.error('auth signedIn store data', e))
             .then(_ => console.debug('auth signedIn with token', this.SessionService.getToken()),
                 e => this.message.systemWarning('storageServiceErrorWithSignin', {e}))
             .then(_ => this.SocketService.init())
