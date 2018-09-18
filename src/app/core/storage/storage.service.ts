@@ -24,7 +24,11 @@ export class StorageService {
     }
 
     setItem (key: string, data: any): Promise<any> {
-        return localForage.setItem(key, data);
+        return localForage.setItem(key, data)
+            .then(r => {
+                console.debug('storage service: setItem success', r, localForage.driver());
+                return r;
+            }, e => console.error('storage service: setItem error', e));
     }
 
     remove(key: string) {
