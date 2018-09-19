@@ -1,7 +1,7 @@
 import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
 import './moneta.scss';
-import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
+import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../utility';
 import {EnableTariffCtrl} from "./enable-tariff/enable-tariff.controller";
 import {BillDetailsCtrl} from './bill-details/bill-details.controller';
 

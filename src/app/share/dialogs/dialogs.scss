@@ -1,3 +1,12 @@
+md-dialog#tariff-confirm {
+
+  @media (min-width: 960px) {
+    min-width: 420px;
+    max-width: 420px;
+  }
+
+}
+
 md-dialog#iframe {
 
     @media (min-width: 960px) {
