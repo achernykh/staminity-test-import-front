@@ -345,7 +345,7 @@ export class CalendarItemDialogService {
     static getAthleteList (currentUser: IUserProfile, owner: IUserProfile): Array<{profile: IUserProfile, active: boolean}> {
         let athleteList: Array<{profile: IUserProfile, active: boolean}> = [];
         //
-        if ( currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
+        if (currentUser.connections && currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
             athleteList = currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))
                 .map(user => ({profile: user, active: user.userId === owner.userId}));
