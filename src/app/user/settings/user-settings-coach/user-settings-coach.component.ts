@@ -4,7 +4,7 @@ import { IUserProfile, IUserProfileShort } from "@api/user";
 import { UserSettingsService } from '../user-settings.service';
 import DisplayService from "../../../core/display.service";
 import { UserSettingsCoachDatamodel } from './user-settings-coach.datamodel';
-import { countriesList } from '../user-settings.constants';
+import { countriesList, UserSettingsConfig } from '../user-settings.constants';
 import { isCoachProfileComplete } from './user-settings-coach.functions';
 import './user-settings-coach.component.scss';
 
@@ -22,7 +22,8 @@ class UserSettingsCoachCtrl {
     countriesList = countriesList;
     countrySearchText: string;
 
-    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'quillConfig', '$scope'];
+    static $inject = ['DisplayService', 'dialogs', 'message', 'UserSettingsService', 'quillConfig', '$scope',
+        'userSettingsConfig'];
 
     constructor (
         private displayService: DisplayService,
@@ -31,6 +32,7 @@ class UserSettingsCoachCtrl {
         private userSettingsService: UserSettingsService,
         private quillConfig: any,
         private $scope: any,
+        private config: UserSettingsConfig
     ) {
         window['UserSettingsCoachCtrl'] = this;
     }

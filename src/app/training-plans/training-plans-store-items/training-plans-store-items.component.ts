@@ -24,7 +24,8 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     private plans: TrainingPlansList;
     private isLoadingData: boolean = false;
 
-    static $inject = ['$scope', '$mdMedia', '$state', '$location', 'TrainingPlansService', 'TrainingPlanDialogService' , 'message'];
+    static $inject = ['$scope', '$mdMedia', '$state', '$location', 'TrainingPlansService',
+        'TrainingPlanDialogService' , 'message'];
 
     constructor(
         private $scope: IScope,
@@ -50,6 +51,9 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     prepareSearchParams () {
+        if (this.searchParams.lng === [] || !this.searchParams.lng) { delete this.searchParams.lng; }
+        if (this.searchParams.keywords === [] || !this.searchParams.keywords) { delete this.searchParams.keywords; }
+        if (this.searchParams.tags === [] || !this.searchParams.tags) { delete this.searchParams.tags; }
         if (this.searchParams.type === 'all') { this.searchParams.type = null; }
         if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
         if (this.searchParams.weekCountFrom) { this.searchParams.weekCountFrom = Number(this.searchParams.weekCountFrom); }
@@ -59,12 +63,17 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     prepareData () {
         this.isLoadingData = true;
         this.trainingPlansService.store(this.searchParams)
-            .then(result => this.prepareList(result), error => {debugger;})
+            .then(result => this.prepareList(result), e => this.errorHandler(e))
             //.then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
             .then(_ => this.isLoadingData = false)
             .then(_ => this.onResult({list: this.plans.list, length: this.plans.list.length}))
             .then(_ => this.$scope.$applyAsync());
 
+    }
+
+    errorHandler (e) {
+        e ? this.message.toastError(e) : this.message.toastError('trainingPlansStoreGetError');
+        this.prepareList({items: [], totalFound: null});
     }
 
     prepareList(result: ITrainingPlanSearchResult) {

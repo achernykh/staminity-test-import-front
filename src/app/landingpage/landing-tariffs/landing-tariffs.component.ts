@@ -58,7 +58,7 @@ class LandingTariffsCtrl implements IComponentController {
         this.displayService.getLngObservable().subscribe(lng => {
             this.displayService.getCurrency()
                 .then(currency => {
-                    this.currency = 'RUB'; // currency;
+                    this.currency = currency;//'RUB'; // currency;
                     this.currencyNumber = this.tariffConfig.currencyNumber[this.currency];
                     this.premiumPriceByUser = this.price.filter((t) => t.name === "premium")[0].fee.subscription[currency].month;
                     this.premiumPriceByCoach = this.price.filter((t) => t.name === "coach")[0].fee.variable[currency].coachAthletes.premium;

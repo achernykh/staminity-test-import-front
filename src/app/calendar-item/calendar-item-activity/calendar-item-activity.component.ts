@@ -384,7 +384,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
 
     checkAssignmentForm (): void {
         // Проверка длительности
-        if (this.assignmentForm.hasOwnProperty('plan_' + this.activity.intervals.PW.durationMeasure)) {
+        if (this.assignmentForm && this.assignmentForm.hasOwnProperty('plan_' + this.activity.intervals.PW.durationMeasure)) {
             this.assignmentForm['plan_' + this.activity.intervals.PW.durationMeasure].$setValidity('needDuration',
                 this.assignmentForm['plan_' + this.activity.intervals.PW.durationMeasure].$modelValue > 0 ||
                 this.activity.intervals.W.calcMeasures.distance.value > 0 ||
@@ -393,7 +393,7 @@ export class CalendarItemActivityCtrl implements IComponentController{
         }
         // Планировать в будущем может:
         // 1) пользователь с тарифом Премиум 2) тренер в календаре учеников
-        if (this.assignmentForm['dateStart']) {
+        if (this.assignmentForm && this.assignmentForm['dateStart']) {
             this.assignmentForm['dateStart'].$setValidity('needPermissionForFeature',
                 !isFutureDay(this.assignmentForm['dateStart'].$modelValue) ||
                 this.AuthService.isActivityPlan() ||

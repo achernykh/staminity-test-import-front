@@ -5,6 +5,7 @@ import UserService from "./user.service";
 import {IHttpService} from "angular";
 import { landingTariffsConfig } from "../landingpage/landing-tariffs/landing-tariffs.constants";
 import { BehaviorSubject, Observable } from "rxjs/Rx";
+import { StorageService } from './storage/storage.service';
 
 export interface GeoInfo {
     /**city: string;
@@ -45,15 +46,18 @@ export default class DisplayService {
     ipData: GeoInfo;
     lng: BehaviorSubject<string>;
 
+    //private
+    private readonly guestLanguageStorageKey: string = 'guestLng';
 
-    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale", '$http'];
+    static $inject = ["SessionService", "UserService", "$translate", "tmhDynamicLocale", "$mdDateLocale", '$http',
+        'storage'];
 
     constructor (private sessionService: SessionService,
                  private userService: UserService,
                  private $translate: any,
                  private tmhDynamicLocale: any,
                  private $mdDateLocale: any,
-                 private $http: IHttpService) {
+                 private $http: IHttpService, private storage: StorageService) {
 
         this.lng = new BehaviorSubject<string>(this.getLocale());
 
@@ -99,7 +103,7 @@ export default class DisplayService {
     getLocale (): string {
         return this.sessionService.getToken() ?
             getLocale(this.sessionService.get()) :
-            this.$translate.use() || getDefaultLanguage(Object.keys(this.locales));
+            this.storage.get(this.guestLanguageStorageKey) || this.$translate.use() || getDefaultLanguage(Object.keys(this.locales));
     }
 
     getLocaleName (): string {
@@ -113,6 +117,7 @@ export default class DisplayService {
     setLocale(locale: string): Promise<any> {
         const displayChanges = { language: locale };
         this.lng.next(locale);
+        this.storage.set(this.guestLanguageStorageKey, locale);
         return this.sessionService.getToken() ?
             this.saveDisplaySettings(displayChanges as any) :
             Promise.resolve(this.$translate.use(locale));

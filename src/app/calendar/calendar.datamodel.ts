@@ -127,7 +127,7 @@ export class Calendar {
             toolbarDate: date.format('YYYY MMMM'),
             selected: false,
             subItem: days,
-            week: date.format('GGGG-ww'),
+            week: date.format('gggg-ww'),
             loading: loading,
             height: 180
         };
@@ -240,7 +240,7 @@ export class Calendar {
             if (!item) { console.error('post: parent not found'); return;}
             this.delete(item);
         }
-        let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-ww'));
+        let w = this.getWeekSeed(moment(item.dateStart).format('gggg-ww'));
         let d = moment(item.dateStart).weekday();
 
         if (w !== -1 && d >= 0 && this.weeks[w]) {
@@ -305,11 +305,11 @@ export class Calendar {
             return;
         }
 
-        let w = this.getWeekSeed(moment(item.dateStart).format('GGGG-ww'));
+        let w = this.getWeekSeed(moment(item.dateStart).format('gggg-ww'));
         let d = moment(item.dateStart).weekday();
         let p = w !== -1 ? this.weeks[w].subItem[d].data.calendarItems.findIndex(i => i.calendarItemId === item.calendarItemId) : null;
 
-        if (w !== -1 && d >= 0 && p >= 0) {
+        if (w !== -1 && d >= 0 && p !== -1) {
             if (!parentId || item.calendarItemType === 'record') {
                 console.info('calendar datamodel: delete item success');
                 this.weeks[w].subItem[d].data.calendarItems.splice(p, 1);
@@ -390,7 +390,7 @@ export class Calendar {
 
     /**
      * Получение индекса недели в массиве календаря
-     * @param w - неделя в формате GGGG-ww
+     * @param w - неделя в формате gggg-ww
      * @returns {number}
      */
     private getWeekSeed( w: string ): number {

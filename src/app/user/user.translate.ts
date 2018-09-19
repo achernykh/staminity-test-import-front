@@ -43,6 +43,9 @@ export const translateUser = {
                     extEmail: 'Дополнительный email',
                     phone: 'Телефон'
                 },
+                coachLanguage: {
+                    label: "На каком языке говорите"
+                }
             },
             coachProfile: {
                 header: 'Профиль тренера'
@@ -623,6 +626,9 @@ export const translateUser = {
                     extEmail: 'Personal email',
                     phone: 'Phone'
                 },
+                coachLanguage: {
+                    label: "Available languages"
+                }
             },
             coachProfile: {
                 header: 'Coach profile'

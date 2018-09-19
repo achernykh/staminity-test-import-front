@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController} from 'angular';
 import { LandingConfig } from "../landing.constants";
 import DisplayService from "../../core/display.service";
 import AuthService from "../../auth/auth.service";
+import {fbqLog} from "../../share/facebook/fbq.functions";
 
 class LandingSidenavCtrl implements IComponentController {
 
@@ -31,6 +32,11 @@ class LandingSidenavCtrl implements IComponentController {
     onMenu($mdOpenMenu, ev) {
         const originatorEv = ev;
         $mdOpenMenu(ev);
+    }
+
+    signUp (): void {
+        fbqLog('Lead', {content_name: this.$state.$current.name});
+        this.$state.go('signup');
     }
 }
 

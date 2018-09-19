@@ -45,7 +45,10 @@ import { OmniFabComponent } from "./omni/omni-fab.component";
 import { OmniFormComponent } from "./omni/form/omni-form.component";
 import { OmniService } from "./omni/omni.service";
 import { fullImageUrl, avatarUrl, imageWithLocale } from "./image/image.functions";
-import { measureValue, measureUnit, measureCalcInterval, measureSave, measureEdit } from "./measure/measure.functions";
+import {
+    measureValue, measureUnit, measureCalcInterval, measureSave, measureEdit,
+    measureName
+} from "./measure/measure.functions";
 import { autoFocus } from "./directives/autofocus.directive";
 import { onFiles } from "./directives/onfiles.directive";
 import { truncateFilter } from "./text/truncate.filter";
@@ -111,6 +114,7 @@ const Share = module("staminity.share", ["ui.router", "pascalprecht.translate"])
     }])**/
     .filter('measureCalcInterval', measureCalcInterval)
     .filter("measureUnit", () => measureUnit)
+    .filter("measureName", () => measureName)
     /**
      .filter("measureUnit", ['SessionService', (session:SessionService) => {
         return (measure,

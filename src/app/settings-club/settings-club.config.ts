@@ -13,6 +13,7 @@ function configure(
             .state("settings/club", {
                 url: "/settings/club/:uri",
                 loginRequired: true,
+                title: 'settingsClub.fullTitle',
                 authRequired: ["func1"],
                 resolve: {
                     view: () => new DisplayView("settingsClub"),

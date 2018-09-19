@@ -237,7 +237,6 @@ export class ActivityIntervals {
      * @param params
      */
     setValue(type: string = 'P', id: string | number, params: Object):void {
-        debugger;
         let i: number = this.find(type,id);
         if (i !== -1) {
             let interval: ActivityIntervalP = <ActivityIntervalP>this.stack[i];
@@ -493,7 +492,6 @@ export class ActivityIntervals {
                 break;
             }
         }
-        debugger;
         minFtp = minFtp * 0.90;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
 

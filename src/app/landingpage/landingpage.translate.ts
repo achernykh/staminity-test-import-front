@@ -880,8 +880,8 @@ export let _translate = {
             link2: "Blog (rus)",
             link3: "Pricing",
             link4: "Support",
-            signIn: "Login",
-            signOut: "Logout",
+            signIn: "Log in",
+            signOut: "Log out",
             signUp: "Sign up",
         },
         welcome: {

@@ -13,6 +13,7 @@ import NotificationService from "../share/notification/notification.service";
 import RequestsService from "../core/requests.service";
 import UserService from "../core/user.service";
 import * as _connection from "../core/env.js";
+import MessageService from "../core/message.service";
 
 export interface IAuthService {
     isAuthenticated():boolean;
@@ -38,7 +39,7 @@ export default class AuthService implements IAuthService {
     private server: string = _connection.server;
     private permissions: Object = window.localStorage.getItem('permissions') && JSON.parse(window.localStorage.getItem('permissions'));
     static $inject = ['SessionService', 'RESTService', 'SocketService', 'GroupService', 'ReferenceService',
-        'NotificationService', 'RequestsService', 'UserService'];
+        'NotificationService', 'RequestsService', 'UserService', 'message'];
 
     constructor(
         private SessionService: SessionService,
@@ -48,7 +49,8 @@ export default class AuthService implements IAuthService {
         private referenceService: ReferenceService,
         private notificationService: NotificationService,
         private requestService: RequestsService,
-        private userService: UserService) {
+        private userService: UserService,
+        private message: MessageService) {
 
     }
 
@@ -157,7 +159,9 @@ export default class AuthService implements IAuthService {
 
     signedIn(sessionData: any): Promise<any> {
         return this.SessionService.setItem(sessionData)
-            .then(_ => console.debug('auth signedIn with token', this.SessionService.getToken()))
+            .then(r => console.debug('auth signedIn store data', r), e => console.error('auth signedIn store data', e))
+            .then(_ => console.debug('auth signedIn with token', this.SessionService.getToken()),
+                e => this.message.systemWarning('storageServiceErrorWithSignin', {e}))
             .then(_ => this.SocketService.init())
             .then(_ => {
                 this.referenceService.resetCategories();

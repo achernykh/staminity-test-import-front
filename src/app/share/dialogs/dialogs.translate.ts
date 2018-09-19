@@ -40,7 +40,7 @@ export let translateDialogs = {
         leaveClub: "Покинуть клуб?",
         excludeClub: "Исключить из клуба?",
         removeAthlete: "Отключить спортсмена?",
-        disableAdaptor: 'После отключения данные из внешнего источника останутся доступными, последующие данные синхронизированы не будут. Нажмите "Продолжить" для отключения или "Отменить" для сохранения параметров синхронизации',
+        disableAdaptor: 'Отключить синхронизацию тренировок? Отключение повлияет на загрузку новых тренировок, все ранее загруженные тренировки останутся в системе',
 
         // Операции с тренировками
         deleteSelectedItems: "Удалить выбранные тренировки? Отменить операцию невозможно",
@@ -78,7 +78,10 @@ export let translateDialogs = {
             post: 'Отправить',
             confirm: "Нажимая на кнопку 'Отправить', вы даете согласие на <a href='https://legal.staminity.com/ru/privacy.html'>обработку персональных данных</a> "
         },
-        add: 'Добавить'
+        add: 'Добавить',
+        roles: {
+            title: "Роли в клубе"
+        }
     },
     en: {
         yes: "Yes",
@@ -121,6 +124,8 @@ export let translateDialogs = {
         leaveClub: "Leave club?",
         excludeClub: "Drop off from club?",
         removeAthlete: "Remove athlete?",
+        disableAdaptor: 'Disable automatic activity upload? This will only affect new activities, all previously uploaded activities will remain in Staminity',
+
 
         // Операции с тренировками
         deleteSelectedItems: "Delete selected activities? Action cannot be undone",
@@ -157,6 +162,9 @@ export let translateDialogs = {
             confirm: "By clicking on the 'Send' button you agree with the <a href='https://legal.staminity.com/en/privacy.html'>Privacy Policy</a>"
         },
         add: 'Add',
+        roles: {
+            title: "Club roles"
+        }
 
 
     },

@@ -33,7 +33,7 @@
             <div flex="10"></div>
         </md-list-item>
         <md-list-item layout="row" layout-wrap>
-            <md-autocomplete 
+            <md-autocomplete
                 flex="45" flex-xs="100" class="no-message" flex
                 md-input-name="country"
                 md-input-minlength="2"
@@ -45,7 +45,7 @@
                 md-item-text="$ctrl.getCountryName(id)"
                 md-floating-label="{{ 'user.settings.personalInfo.main.country' | translate }}">
                 <md-item-template>
-                    <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList['ru'][id]}}</span>
+                    <span md-highlight-text="$ctrl.countrySearchText">{{$ctrl.countriesList[$ctrl.displayService.getLocale()][id]}}</span>
                 </md-item-template>
                 <div ng-messages="$ctrl.form.country.$error" role="alert"
                      ng-if="$ctrl.form.country.$touched">

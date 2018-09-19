@@ -6,13 +6,6 @@
     <h2 class="md-title" translate="auth.signup.shortTitle"></h2>
     <form class="" flex="none" ng-if="!$ctrl.showConfirm" ng-submit='$ctrl.signup($ctrl.credentials)'
           name="$ctrl.signupForm" novalidate>
-        <div layout="row" layout-align="start center" class="input-item-line">
-            <p flex="auto" class="md-caption conf" translate>auth.confirmation</p>
-            <md-checkbox flex="none" aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
-                         class="md-primary md-secondary" style="margin: 0;"
-                         ng-disabled="!$ctrl.enabled">
-            </md-checkbox>
-        </div>
         <div layout="row" layout-align="start stretch" class="input-item-line two-hint-line">
             <md-input-container class="st-material md-block md-dense" flex="60">
                 <label translate="auth.role.label"></label>
@@ -60,6 +53,13 @@
             </md-autocomplete>
         </div>
         <div class="md-caption" style="padding: 8px 0" translate="auth.role.{{$ctrl.role}}Info.info"></div>
+        <div layout="row" layout-align="start center" class="input-item-line">
+            <p flex="auto" class="md-caption conf" translate>auth.confirmation</p>
+            <md-checkbox flex="none" aria-label="Checkbox No Ink" ng-model="$ctrl.confirmation"
+                         class="md-primary md-secondary" style="margin: 0;"
+                         ng-disabled="!$ctrl.enabled">
+            </md-checkbox>
+        </div>
         <md-divider></md-divider>
         <div class="md-caption md-dark center" translate="auth.social" style="padding: 8px 0"></div>
         <div layout="row" class="social-buttons">
