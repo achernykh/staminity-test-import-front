@@ -481,18 +481,19 @@ export class ActivityIntervals {
                 break;
             }
             case 'L': {
-                this.L.map(interval => {
+                this.L.filter(i => i.calcMeasures[measure].intensityByFtp).map(i => {
                     start = finish;
-                    finish = start + interval.calcMeasures.movingDuration.value;
-                    maxFtp = Math.max(interval.calcMeasures[measure].intensityByFtp, maxFtp);
-                    minFtp = Math.min(interval.calcMeasures[measure].intensityByFtp, minFtp);
+                    finish = start + i.calcMeasures.movingDuration.value;
+                    maxFtp = Math.max(i.calcMeasures[measure].intensityByFtp, maxFtp);
+                    minFtp = Math.min(i.calcMeasures[measure].intensityByFtp, minFtp);
                     data.push(
-                        [start, interval.calcMeasures[measure].intensityByFtp],
-                        [finish, interval.calcMeasures[measure].intensityByFtp]);
+                        [start, i.calcMeasures[measure].intensityByFtp],
+                        [finish, i.calcMeasures[measure].intensityByFtp]);
                 });
                 break;
             }
         }
+        debugger;
         minFtp = minFtp * 0.90;
         data = data.map(d => [d[0]/finish, (d[1] - minFtp) / (maxFtp - minFtp)]);
 

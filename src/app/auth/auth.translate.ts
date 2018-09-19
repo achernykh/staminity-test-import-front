@@ -90,22 +90,26 @@ export let _translate = {
         alreadyHaveAccount: "Уже есть аккаунт? <strong>Войти</strong>",
         role: {
             label: 'Роль',
-            athlete: {
+            athlete: "Спортсмен",
+            athleteInfo: {
                 name: "Спортсмен",
                 hint: "Работа с тренером или самостоятельные тренировки",
                 info: 'Включает 2 недели бесплатно по тарифу "Премиум"'
             },
-            coach: {
+            coach: "Индивидуальный тренер",
+            coachInfo: {
                 name: "Индивидуальный тренер",
                 hint: "Онлайн подготовка личных учеников, без клуба",
                 info: 'Включает 2 недели бесплатно по тарифу "Тренер"'
             },
-            clubCoach: {
+            clubCoach: "Тренер в клубе",
+            clubCoachInfo: {
                 name: "Тренер в клубе",
                 hint: "Онлайн подготовка учеников, назначенных клубом",
                 info: 'Личный тариф "Тренер" не нужен. Подключитесь к клубу'
             },
-            clubManager: {
+            clubManager: "Руководитель клуба",
+            clubManagerInfo: {
                 name: "Руководитель клуба",
                 hint: "Организация работы нескольких тренеров с учениками",
                 info: 'Включает 2 недели бесплатно по тарифу "Клуб"'
@@ -202,22 +206,26 @@ export let _translate = {
         alreadyHaveAccount: "Already have an account? <strong>Log in</strong>",
         role: {
             label: 'Role',
-            athlete: {
+            athlete: "Athlete",
+            athleteInfo: {
                 name: "Athlete",
                 hint: "Online training with a coach or self-training",
                 info: 'Includes a 14-day "Premium" trial'
             },
-            coach: {
+            coach: "Personal coach",
+            coachInfo: {
                 name: "Personal coach",
                 hint: "Online work with personal athletes, without club",
                 info: 'Includes a 14-day "Coach" trial'
             },
-            clubCoach: {
+            clubCoach: "Club coach",
+            clubCoachInfo: {
                 name: "Club coach",
                 hint: "Online work with athletes, assigned by the club",
                 info: '"Coach" trial not included. Join your club to become a club coach'
             },
-            clubManager: {
+            clubManager: "Club manager",
+            clubManagerInfo: {
                 name: "Club manager",
                 hint: "Organize a joint work of several coaches in a club",
                 info: 'Includes a 14-day "Club" trial'

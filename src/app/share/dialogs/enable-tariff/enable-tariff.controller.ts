@@ -5,6 +5,7 @@ import BillingService from "@app/core/billing.service";
 import MessageService from "@app/core/message.service";
 import {IBillingTariff} from "@api/billing";
 import {IUserProfile} from "@api/user";
+import {gtmViewTariff} from "../../google/google-analitics.functions";
 
 export class EnableTariffCtrl {
 
@@ -61,6 +62,8 @@ export class EnableTariffCtrl {
         this.yearlyFee = this.billing.rates.find(fee => fee.rateType === 'Fixed' && fee.term === 12);
         this.variableFees = this.billing.rates.filter(fee => fee.rateType === 'Variable');
         this.activePromo = this.getActivePromo(billing);
+        debugger;
+        gtmViewTariff(this.billing, this.monthlyFee);
     };
 
     submitPromo (promoCode) {

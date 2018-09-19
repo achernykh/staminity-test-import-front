@@ -3,6 +3,7 @@ import {IComponentOptions, IComponentController, ILocationService} from 'angular
 import { LandingConfig } from "../landing.constants";
 import { saveUtmParams } from "../../share/location/utm.functions";
 import DisplayService from "../../core/display.service";
+import {fbqLog} from "../../share/facebook/fbq.functions";
 
 class LandingScenarioCtrl implements IComponentController {
     
@@ -26,6 +27,11 @@ class LandingScenarioCtrl implements IComponentController {
 
     getScenario (code: string): any {
         return this.landingConfig.scenario.filter(s => s.code === code)[0] || null;
+    }
+
+    action (state: string, params: Object): void {
+        if (state === 'signup') { fbqLog('Lead', {content_name: this.$state.$current.name}); }
+        this.$state.go(state, params);
     }
 }
 

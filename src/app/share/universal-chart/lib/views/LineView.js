@@ -119,12 +119,14 @@ class LineView extends View2D {
         var meanLineData = this._state.getMeanLineData();
 
         this._meanLine
-            .attr('x1', meanLineData.x1)
-            .attr('y1', meanLineData.y1)
-            .attr('x2', meanLineData.x2)
-            .attr('y2', meanLineData.y2);
+            .attr('x1', meanLineData.x1 || null)
+            .attr('y1', meanLineData.y1 || null)
+            .attr('x2', meanLineData.x2 || null)
+            .attr('y2', meanLineData.y2 || null);
 
         var clipPath = this._state.getClipPathData()
+
+        if (clipPath.width < 0 || clipPath.height < 0) {return;}
 
         this._clipPaths
             .attr('x', clipPath.x)

@@ -3,6 +3,7 @@
  import {_display_view, DisplayView} from "../core/display.constants";
  import {_translate} from "./auth.translate";
  import DisplayService from "@app/core/display.service";
+ declare var dataLayer: any[];
 
  function configure(
     $stateProvider: StateProvider,
@@ -13,6 +14,10 @@
             url: "/signin",
             title: 'auth.signin.shortTitle',
             loginRequired: false,
+            onEnter: () => {
+                dataLayer.push({'screenPath': 'signin', 'screenName': 'SignIn'});
+                dataLayer.push({'event': 'appScreenView'});
+            },
             params: {
                 activatePremiumTrial: null,
                 activateCoachTrial: null,
