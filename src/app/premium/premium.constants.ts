@@ -21,7 +21,7 @@ export const premiumConfig: PremiumConfig = {
         {
             code: 'proAnalytics',
             img: '',
-            functions: ['pmc', 'charts']
+            functions: ['pmc', 'activityMeasures', 'timeInZonesHR', 'timeInZonesPower', 'timeInZonesSpeed', 'HRTimePeaks', 'SpeedTimePeaks', 'PowerTimePeaks', 'completePercent']
         },
         {
             code: 'seasonPlanning',
