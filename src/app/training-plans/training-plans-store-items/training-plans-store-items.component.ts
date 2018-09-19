@@ -73,7 +73,7 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
 
     errorHandler (e) {
         e ? this.message.toastError(e) : this.message.toastError('trainingPlansStoreGetError');
-        this.prepareList({items: []});
+        this.prepareList({items: [], totalFound: null});
     }
 
     prepareList(result: ITrainingPlanSearchResult) {
