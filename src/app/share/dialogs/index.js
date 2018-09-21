@@ -2,6 +2,8 @@ import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
 import './moneta.scss';
 import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
+import {gtmOpenInvoice, gtmPayment, gtmViewTariff} from "../google/google-analitics.functions";
+import {IBill} from "../../../../api/billing";
 
 
 export default class DialogsService {
@@ -414,6 +416,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     };
 
     this.setBilling(billing);
+    gtmViewTariff(this.tariff, {currency: this.fee.currency, rate: this.monthlyFee});
 
     this.submitPromo = (promoCode) => {
         BillingService.getTariff(tariff.tariffId, promoCode)
@@ -664,6 +667,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
 
         return checkoutUrl && BillingService.checkout(checkoutUrl)
             .then(() => {
+                gtmPayment(bill);
                 $mdDialog.hide();
             }, (info) => {
                 message.systemWarning(info);
@@ -676,6 +680,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.setBill(bill);
+    gtmOpenInvoice(bill);
 
     $scope.$watch(() => this.paymentSystem, this.savePaymentSystem);
 

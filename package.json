@@ -149,6 +149,7 @@
     "jsoneditor": "^5.5.11",
     "leaflet": "^1.2.0",
     "localforage": "^1.7.2",
+    "localforage-cordovasqlitedriver": "^1.7.0",
     "lodash": "^4.17.4",
     "material-design-icons": "^3.0.1",
     "moment": "2.18.1",

@@ -6,6 +6,7 @@ import {SearchResultByUser, SearchResultByGroup} from "../search";
 import {SearchService} from "@app/search/search.service";
 import MessageService from "../../core/message.service";
 import AuthService from "@app/auth/auth.service";
+import {gtmFindCoach} from "../../share/google/google-analitics.functions";
 
 class SearchListCtrl implements IComponentController {
 
@@ -71,6 +72,11 @@ class SearchListCtrl implements IComponentController {
 
     get isDataState (): boolean {
         return !this.isLoadingState && !this.isEmptyState;
+    }
+
+    profile (item): void {
+        gtmFindCoach(item.name);
+        this.$state.go(item.groupId ? 'club': 'user', {uri: item.uri});
     }
 
 

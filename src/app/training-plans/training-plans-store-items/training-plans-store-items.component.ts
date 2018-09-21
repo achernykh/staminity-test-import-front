@@ -10,6 +10,7 @@ import MessageService from "../../core/message.service";
 import { TrainingPlanDialogService } from "../training-plan-dialog.service";
 import { TrainingPlan } from "../training-plan/training-plan.datamodel";
 import { StateService} from "angular-ui-router";
+import {gtmFindPlan} from "../../share/google/google-analitics.functions";
 
 export class TrainingPlansStoreItemsCtrl implements IComponentController {
 
@@ -87,6 +88,7 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     open (e: Event, item: TrainingPlan): void {
+        gtmFindPlan(item.name);
         if (this.$mdMedia('gt-sm')) {
             window.open(`${window.location.protocol}//${window.location.host}/plan/${item.id}`);
         } else {

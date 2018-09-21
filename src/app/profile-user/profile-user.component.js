@@ -4,6 +4,7 @@ import { id, pipe, groupBy, log, map, entries, fold, filter } from '../share/uti
 import './profile-user.component.scss';
 import { saveUtmParams } from "../share/location/utm.functions";
 import { ITrainingPlanSearchRequest } from "../../../api/trainingPlans/training-plans.interface";
+import {gtmRequest} from "../share/google/google-analitics.functions";
 
 
 class ProfileCtrl {
@@ -75,19 +76,28 @@ class ProfileCtrl {
     join (group, message) {
         return this.dialogs.confirm({ text: message })
             .then(() => this.GroupService.join(group.groupId, this.me.userId))
-            .then((result) => { result && this.update() }, (error) => { error && this.message.show(error) })
+            .then((result) => {
+                    gtmRequest('join', 'coach');
+                    result && this.update();
+                }, (error) => { error && this.message.show(error) })
     }
 
     leave (group, message) {
         return this.dialogs.confirm({ text: message })
             .then(() => this.GroupService.leave(group.groupId, this.me.userId))
-            .then((result) => { result && this.update() }, (error) => { error && this.message.show(error) })
+            .then((result) => {
+                    gtmRequest('leave', 'coach');
+                    result && this.update()
+                }, (error) => { error && this.message.show(error) })
     }
 
     cancel (group, message) {
         return this.dialogs.confirm({ text: message })
             .then(() => this.GroupService.processMembership('C', group.groupId))
-            .then((result) => { result && this.update() }, (error) => { error && this.message.show(error) })
+            .then((result) => {
+                    gtmRequest('cancel', 'coach');
+                    result && this.update()
+                }, (error) => { error && this.message.show(error) })
     }
 
     openMenu ($mdOpenMenu, event) {
