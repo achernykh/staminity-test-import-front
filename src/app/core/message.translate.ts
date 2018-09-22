@@ -713,6 +713,14 @@ export const _translateMessage = {
         analyticsDeleteChartSettingsComplete: {
             title: '',
             text: "Настройки отчета сброшены, установлены значения по-умолчанию"
+        },
+        premiumTrialEnabled: {
+		    title: 'Тариф "Премиум" подключен на пробный период',
+            text: ''
+        },
+        premiumEnabled: {
+            title: 'Тариф "Премиум" подключен',
+            text: ''
         }
 
 
@@ -1428,6 +1436,14 @@ export const _translateMessage = {
         analyticsDeleteChartSettingsComplete: {
             title: '',
             text: "Chart settings restored to default"
+        },
+        premiumTrialEnabled: {
+            title: 'Premium trial enabled',
+            text: ''
+        },
+        premiumEnabled: {
+            title: 'Premium enabled',
+            text: ''
         }
 
 
