@@ -54,6 +54,15 @@ export class PremiumDialogService {
             targetEvent: e,
             locals: { user, tariff },
             resolve: {
+                checkTariff: () => {
+                    debugger;
+                    if (tariff.isBlocked) {
+                        return Promise.resolve(_ => {debugger;})
+                            .then(_ => this.billingService.disableTariff(tariffId, user.userId))
+                    } else {
+                        return true;
+                    }
+                },
                 billing: () => this.billingService.getTariff(tariffId, ''),
                 page: () => getPremiumPageByFunction(functionCode) || 0,
             },
