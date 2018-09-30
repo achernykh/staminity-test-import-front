@@ -165,7 +165,7 @@ class AnalyticsChartSettingsCtrl implements IComponentController {
                     e => e ? this.messageService.toastError(e) : this.messageService.toastError('analyticsSaveChartSettingsError'));
         }
         this.onSave({
-            chart: Object.assign(this.chart, { globalParams: this.globalParams }),
+            chart: null,// Object.assign(this.chart, { globalParams: this.globalParams }),
             update: this.refresh || (this.localFilter && this.localFilter.change > 0),
         });
     }

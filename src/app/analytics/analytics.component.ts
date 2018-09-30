@@ -75,6 +75,27 @@ export class AnalyticsCtrl implements IComponentController {
                 this.$scope.$apply();
             });
 
+        this.analyticsService.item$
+            //.filter(m => m.value.code === this.chart.code || m.value.id === this.chart.id)
+            .subscribe(m => {
+                //debugger;
+                let chart: AnalyticsChart = this.charts.filter(c => m.value.code === c.code || m.value.id === c.id)[0];
+                switch (m.action) {
+                    case "I": case "U": {
+                    chart.update(m.value);
+                    break;
+                }
+                    case "D": {
+                        chart = new AnalyticsChart(
+                            chart.template, //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+                            chart.user,
+                            this.globalFilter,
+                            this.$filter);
+                        break;
+                    }
+                }
+            });
+
         this.analyticsDialogService.refresh.subscribe(v => { if (v > this.refresh) {this.refresh = v;}});
         this.analyticsDialogService.globalFilter.subscribe(v => {this.globalFilter = v; this.globalFilterChange ++;});
     }
@@ -101,9 +122,11 @@ export class AnalyticsCtrl implements IComponentController {
     }
 
     private deleteLocalSettings (): void {
-        Promise.all(this.charts.filter(c => c.id).map(c => this.analyticsService.deleteChartSettings(c.id)))
-            .then(r => { debugger; })
-            .then(_ => this.globalFilterChange ++);
+        debugger;
+        Promise.all(this.charts.filter(c => c.id)
+            .map(c => this.analyticsService.deleteChartSettings(c.id)))
+            .then(r => { debugger; });
+            //.then(_ => this.globalFilterChange ++);
     }
 
     private applyLocalSettings (localSettings: any[]): void {

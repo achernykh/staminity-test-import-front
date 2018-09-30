@@ -100,7 +100,6 @@ export class AnalyticsChartFilter implements IAnalyticsChartFilter {
     changeParam (filter: string): void {
         switch ( filter ) {
             case "users": {
-                debugger;
                 this.users.model = Array.isArray(this.users.model) && this.users.model.map((v) => Number(v)) || [Number(this.users.model)];
                 break;
             }

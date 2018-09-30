@@ -99,6 +99,7 @@ export class EnableTariffCtrl {
                 this.$mdDialog.hide();
                 if (!trial && flowType === 'bill') { this.dialogs.billDetails(bill, this.user);}
                 if (!trial && flowType === 'confirm') { this.dialogs.tariffConfirm(bill, this.user).then(); }
+                if (trial) {this.message.toastInfo('premiumTrialEnabled');}
                 return bill;
             }, (info) => {
                 this.message.toastInfo(info);

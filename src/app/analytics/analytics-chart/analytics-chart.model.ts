@@ -66,9 +66,7 @@ export class AnalyticsChart implements IAnalyticsChart {
                 public $filter?: any) {
 
         Object.assign(this, {...template});
-        if (this.hasOwnProperty("layout") && this.layout) {
-            this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
-        }
+        this.prepareLayout();
 
         /**if ( !this.globalParams && this.localParams ) {
             this.prepareLocalParams(user);
@@ -80,6 +78,11 @@ export class AnalyticsChart implements IAnalyticsChart {
             );
             this.localParams.activityTypes.options = activityTypes;
         }**/
+    }
+
+    update (params: IAnalyticsChart): void {
+        Object.assign(this, {...params});
+        this.prepareLayout();
     }
 
     clearMetrics() {
@@ -102,9 +105,7 @@ export class AnalyticsChart implements IAnalyticsChart {
     }
 
     changeSettings(param: IAnalyticsChartSettings<any>, value) {
-        if (!param.change) {
-            return;
-        }
+        if (!param.change) { return; }
         param.change.forEach(change => {
             switch (change.area) {
                 case "params": {
@@ -142,12 +143,16 @@ export class AnalyticsChart implements IAnalyticsChart {
     }
 
     restore(): void {
-        if (this.hasOwnProperty('localParams')) {
-            delete this.localParams;
-        }
+        if (this.hasOwnProperty('localParams')) { delete this.localParams;}
         Object.assign(this, this.template);
+        this.prepareLayout();
     }
 
+    private prepareLayout (): void {
+        if (this.hasOwnProperty("layout") && this.layout) {
+            this.layout = new AnalyticsChartLayout(this.layout.gridColumn, this.layout.gridRow);
+        }
+    }
 
     private prepareLocalParams(user: IUserProfile) {
 

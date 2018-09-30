@@ -52,16 +52,11 @@ class AnalyticsChartCtrl implements IComponentController {
         this.analyticsService.item$
             .filter(m => m.value.code === this.chart.code || m.value.id === this.chart.id)
             .subscribe(message => {
-
                 switch (message.action) {
                     case "I": case "U": {
-                    this.chart = new AnalyticsChart(
-                        Object.assign({}, this.chart.template, message.value), //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
-                        this.chart.user,
-                        this.globalFilter,
-                        this.chart.$filter);
-                    break;
-                }
+                        //this.chart.update(message.value);
+                        break;
+                    }
                     case "D": {
                         this.chart = new AnalyticsChart(
                             this.chart.template, //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
@@ -71,6 +66,7 @@ class AnalyticsChartCtrl implements IComponentController {
                         break;
                     }
                 }
+                this.loadData();
             });
 
     }
@@ -154,8 +150,8 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     private updateSettings (chart: AnalyticsChart, update: boolean) {
-        this.chart = copy(chart);
-        this.prepareSettings();
+        //this.chart = copy(chart);
+        /*this.prepareSettings();
         this.prepareCompareSettings();
         this.prepareTitleContext();
         if ( update ) {
@@ -163,7 +159,7 @@ class AnalyticsChartCtrl implements IComponentController {
             this.prepareData();
             this.prepareMeasures();
         }
-        this.updateCount++;
+        this.updateCount++;*/
     }
 
     grow () {
@@ -284,10 +280,7 @@ class AnalyticsChartCtrl implements IComponentController {
     }
 
     private prepareMeasures () {
-        const request: IReportRequestData = {
-            charts: this.chart.charts,
-        };
-
+        const request: IReportRequestData = {charts: this.chart.charts,};
         this.statistics.getMetrics(request).then((result) => {
             this.errorStack = [];
             if ( result && result.hasOwnProperty("charts") && !result["charts"].some((c) => c.hasOwnProperty("errorMessage")) ) {
