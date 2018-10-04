@@ -1,4 +1,3 @@
-
         <md-toolbar flex="none" class="md-default">
             <div class="md-toolbar-tools">
                 <!--<h1 translate="premium.dialog.title"></h1>-->
@@ -14,7 +13,7 @@
                     <slide ng-repeat="page in $ctrl.config.pages" layout="column">
                         <h1 flex="none" class="md-title" translate="premium.{{::page.code}}.title"></h1>
                         <div flex="auto"></div>
-                        <div class="image" flex="auto"><img src="/assets/picture/seasonPlanning.png"/></div>
+                        <div class="image" flex="auto"><img src="{{::page.img}}"/></div>
                         <p flex="none" class="md-body-1" translate="premium.{{::page.code}}.text"></p>
                         <div flex="auto"></div>
                     </slide>
