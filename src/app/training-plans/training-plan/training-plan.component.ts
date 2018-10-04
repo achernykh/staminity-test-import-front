@@ -9,6 +9,7 @@ import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { ITrainingPlanSearchRequest } from "../../../../api/trainingPlans/training-plans.interface";
+import {gtmFindPlan} from "@app/share/google/google-analitics.functions";
 
 class TrainingPlanCtrl implements IComponentController {
 
@@ -53,6 +54,7 @@ class TrainingPlanCtrl implements IComponentController {
             .then(result => this.plan = new TrainingPlan(result, this.trainingPlanConfig), error => this.errorHandler(error))
             .then(_ => this.firstDate = this.plan.firstDate)
             .then(_ => this.dataLoading = true)
+            .then(_ => this.store && gtmFindPlan(this.plan.name))
             .then(_ => this.subscribeOnScroll())
             .then(_ => this.prepareChart())
             .then(_ => this.getRecommendedPlans());

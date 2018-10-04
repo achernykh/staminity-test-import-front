@@ -88,7 +88,6 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     open (e: Event, item: TrainingPlan): void {
-        gtmFindPlan(item.name);
         if (this.$mdMedia('gt-sm')) {
             window.open(`${window.location.protocol}//${window.location.host}/plan/${item.id}`);
         } else {
