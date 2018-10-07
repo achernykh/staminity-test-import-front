@@ -10,32 +10,32 @@ export const premiumConfig: PremiumConfig = {
     pages: [
         {
             code: 'futurePlanning',
-            img: '',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumPlanning.png',
             functions: ['calendarItemFuturePlanning']
         },
         {
             code: 'activityDetails',
-            img: '',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumDetailedAnalysis.png',
             functions: ['activityDetails']
         },
         {
             code: 'proAnalytics',
-            img: '',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumAnalytics.png',
             functions: ['pmc', 'activityMeasures', 'timeInZonesHR', 'timeInZonesPower', 'timeInZonesSpeed', 'HRTimePeaks', 'SpeedTimePeaks', 'PowerTimePeaks', 'completePercent']
         },
         {
             code: 'seasonPlanning',
-            img: '',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumSeasonPlanning.png',
             functions: ['seasonPlanning', 'periodization']
         },
         {
             code: 'categories',
-            img: '',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumCategories.png',
             functions: ['categories']
         },
         {
             code: 'templates',
-            img: '',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumTemplates.png',
             functions: ['templates']
         }
     ]
