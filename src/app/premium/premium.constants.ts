@@ -19,9 +19,14 @@ export const premiumConfig: PremiumConfig = {
             functions: ['activityDetails']
         },
         {
+            code: 'fitnessFatigueChart',
+            img: 'https://264710.selcdn.ru/assets/images/_premium/premiumFitnessFatigue.png',
+            functions: ['pmc']
+        },
+        {
             code: 'proAnalytics',
             img: 'https://264710.selcdn.ru/assets/images/_premium/premiumAnalytics.png',
-            functions: ['pmc', 'activityMeasures', 'timeInZonesHR', 'timeInZonesPower', 'timeInZonesSpeed', 'HRTimePeaks', 'SpeedTimePeaks', 'PowerTimePeaks', 'completePercent']
+            functions: ['activityMeasures', 'timeInZonesHR', 'timeInZonesPower', 'timeInZonesSpeed', 'HRTimePeaks', 'SpeedTimePeaks', 'PowerTimePeaks', 'completePercent']
         },
         {
             code: 'seasonPlanning',
