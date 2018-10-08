@@ -25,6 +25,7 @@ export const activityTypes: IActivityType[] = [
 
 export const getType = (id: number): IActivityType => activityTypes.filter((type) => type.id === id)[0];
 export const getSportBasic = (): IActivityType[] => activityTypes.filter((type) => type.isBasic);
+export const getActivityTypesId = (): number[] => activityTypes.filter(a => a.enabled).map(t => t.id);
 export const getSportsByBasicId = (basic: number): number[] => {
     const basicType: IActivityType = getType(basic);
     return activityTypes.filter((type) => type.typeBasic === basicType.code).map((t) => t.id);

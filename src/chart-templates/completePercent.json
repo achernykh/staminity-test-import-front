@@ -1,0 +1,192 @@
+{
+  "order": 17,
+  "active": true,
+  "revision": 1,
+  "group": "volumes",
+  "auth": [],
+  "premiumFunction": "completePercent",
+  "icon": "insert_chart",
+  "code": "completePercent",
+  "descriptionParams": [
+    {
+      "ind": 0,
+      "idx": 0,
+      "area": "series",
+      "param": "seriesDateTrunc"
+    },
+    {
+      "ind": 0,
+      "idx": 1,
+      "area": "measures",
+      "param": "measureName"
+    }
+  ],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "week",
+      "options": ["day", "week", "month"],
+      "change": [{
+        "ind": [0],
+        "idx": [0],
+        "area": "series",
+        "name": "seriesDateTrunc",
+        "options": {
+          "day": {
+            "seriesDateTrunc": "day"
+          },
+          "week": {
+            "seriesDateTrunc": "week"
+          },
+          "month": {
+            "seriesDateTrunc": "month"
+          }
+        }
+      }]
+    },
+    {
+      "type": "radio",
+      "text": "volume",
+      "model": "duration",
+      "options": ["duration", "distance"],
+      "change": [{
+        "ind": [0],
+        "idx": [1],
+        "area": "measures",
+        "name": "measureName",
+        "options": {
+          "duration": {
+            "measureName": "duration",
+            "unit": "h"
+          },
+          "distance": {
+            "measureName": "distance",
+            "unit": "km"
+          }
+        }
+      }]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "radius": 4,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "period",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "period",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "activity.startDate",
+      "measureName": "Weeks",
+      "dataType": "date",
+      "dateFormat": "DD.MM",
+      "valueType": "value",
+      "seriesDateTrunc": "week",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [
+      {
+        "label": "duration",
+        "unit": "h",
+        "chartType": "bar",
+        "smoothSettings": "curveBasis",
+        "stacked": false,
+        "cumulative": false,
+        "tooltipType": "icon",
+        "minValue": 0,
+        "legend": true,
+        "visible": true,
+        "avgValueLine": false,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#607D8B",
+        "lineStyle": "solid",
+        "lineWidth": 0,
+        "fillType": "gradient",
+        "fillColor": "#CFD8DC",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#CFD8DC",
+          "opacity": 0.2
+        }, {
+          "offset": "100%",
+          "color": "#607D8B",
+          "opacity": 0.6
+        }],
+        "markerColor": "#455A64",
+        "idx": 1,
+        "measureSource": "activity.actual.measure",
+        "measureName": "duration",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "sum"
+      },
+      {
+        "label": "percentComplete",
+        "unit": "",
+        "chartType": "area",
+        "smoothSettings": "curveStep",
+        "stacked": false,
+        "cumulative": false,
+        "tooltipType": "icon",
+        "minValue": 0,
+        "legend": true,
+        "visible": true,
+        "avgValueLine": true,
+        "scaleVisible": true,
+        "calculateTotals": "",
+        "lineColor": "#FF5722",
+        "lineStyle": "solid",
+        "lineWidth": 3,
+        "fillType": "gradient",
+        "fillColor": "#FF5722",
+        "gradient": [{
+          "offset": "0%",
+          "color": "#D1C4E9",
+          "opacity": 0.0
+        }, {
+          "offset": "100%",
+          "color": "#FF5722",
+          "opacity": 0.1
+        }],
+        "markerColor": "#FF5722",
+        "avgValueLineColor": "#FF5722",
+        "avgValueLineStyle": "dashed",
+        "idx": 2,
+        "measureSource": "activity.plan.measure",
+        "measureName": "completePercent",
+        "dataType": "value",
+        "dateFormat": "",
+        "valueType": "value",
+        "aggMethod": "avg"
+      }
+    ]
+  }]
+}

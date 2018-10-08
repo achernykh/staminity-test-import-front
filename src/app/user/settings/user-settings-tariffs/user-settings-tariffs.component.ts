@@ -4,6 +4,7 @@ import { IBillingTariff } from "@api/billing";
 import BillingService from "../../../core/billing.service";
 import { UserSettingsService } from "../user-settings.service";
 import './user-settings-tariffs.component.scss';
+import {gtmViewTariff} from "../../../share/google/google-analitics.functions";
 
 class UserSettingsTariffsCtrl {
     
@@ -46,12 +47,8 @@ class UserSettingsTariffsCtrl {
 
     enableTariff (tariff: any) {
         return this.dialogs.enableTariff(tariff, this.owner)
-        .then(() => {
-            this.reload();
-        })
-        .catch((info) => {
-            // this.message.systemWarning(info);
-        });
+            .then(_ => this.reload())
+            .catch(info => {});// this.message.systemWarning(info));
     }
 
     disableTariff (tariff: any) {

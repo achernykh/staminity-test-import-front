@@ -116,7 +116,12 @@ export default class UserService {
     getProfile(key: string|number, ws: boolean = true) : Promise<IUserProfile | ISystemMessage> {
         return ws ? (
             this.SocketService.send(new GetUserRequest(key))
-        ) :
+                .then(r => {
+                    if (this.SessionService.isCurrentUserId(r.userId)) {
+                        this.SessionService.setUser(r);
+                        return this.SessionService.getUser();
+                    } else { return r;}
+                })) :
             this.RESTService.postData(new PostData('/api/wsgate', new GetUserRequest(key)))
             .then((response: IHttpPromiseCallbackArg<any>) => response.data);
         /*

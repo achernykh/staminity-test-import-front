@@ -1,0 +1,44 @@
+        <md-toolbar flex="none" class="md-default">
+            <div class="md-toolbar-tools">
+                <!--<h1 translate="premium.dialog.title"></h1>-->
+                <div flex></div>
+                <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+                    <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content flex="auto" layout="column">
+            <swiper flex="auto" initial-slide="{{$ctrl.page}}" layout="column">
+                <slides flex="auto">
+                    <slide ng-repeat="page in $ctrl.config.pages" layout="column">
+                        <h1 flex="none" class="md-title" translate="premium.{{::page.code}}.title"></h1>
+                        <div flex="auto"></div>
+                        <div class="image" flex="auto"><img src="{{::page.img}}"/></div>
+                        <p flex="none" class="md-body-1" translate="premium.{{::page.code}}.text"></p>
+                        <div flex="auto"></div>
+                    </slide>
+                </slides>
+                <pagination></pagination>
+            </swiper>
+        </md-content>
+        <md-dialog-actions flex="none" layout="row" style="background: white"
+                           ng-if="!$ctrl.billing.trialConditions.isAvailable">
+            <span flex></span>
+            <md-button type="submit"
+                       ng-click="$ctrl.pay(1)">
+                <span translate="premium.action.subscribeMonth" translate-values="$ctrl.monthlyFee"></span>
+            </md-button>
+            <md-button type="submit" class="md-accent md-raised md-hue-3"
+                       ng-click="$ctrl.pay(12)">
+                <span translate="premium.action.subscribeYear" translate-values="$ctrl.yearlyFee"></span>
+            </md-button>
+        </md-dialog-actions>
+        <md-dialog-actions flex="none" layout="row" style="background: white"
+                           ng-if="$ctrl.billing.trialConditions.isAvailable">
+            <span flex></span>
+            <md-button type="submit"
+                       ng-click="$ctrl.pay(1)">
+                <span translate="premium.action.trial" translate-values="$ctrl.tariff.trialConditions"></span>
+            </md-button>
+        </md-dialog-actions>
+

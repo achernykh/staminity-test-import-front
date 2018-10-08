@@ -14,6 +14,7 @@ import {countriesList} from "../user/settings/user-settings.constants";
 import { getUser } from "../core/session/session.service";
 import {fbqLog} from "../share/facebook/fbq.functions";
 import {yaReachGoal} from "../share/yandex/yandex.function";
+declare var dataLayer: any[];
 
 interface UserCredentials {
     public: IUserProfilePublic;
@@ -206,11 +207,6 @@ class AuthCtrl implements IComponentController {
                     yaReachGoal('CREATE_ACCOUNT');
                 }, e => e => this.message.systemWarning(e))
             .then(_ => this.enabled = true);
-            /**.then((message) => {
-                this.showConfirm = true;
-                gaEmailSignup();
-                this.message.systemSuccess(message.title);
-            }, e => this.message.systemWarning(e));**/
     }
 
     /**

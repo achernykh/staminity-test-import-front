@@ -1,7 +1,4 @@
 import {IBill, IBillingTariff} from "@api/billing";
-
-declare var dataLayer: any[];
-
 interface WindowGoogle extends Window { dataLayer: any; }
 
 export const gtmEvent = (event: string, appEventCategory: string, appEventLabel: string, appEventAction: string, appEventValue?: number ) =>

@@ -81,6 +81,13 @@ export let translateDialogs = {
         add: 'Добавить',
         roles: {
             title: "Роли в клубе"
+        },
+        tariffConfirm: {
+            title: "Подключить тариф",
+            term: "Оплачиваемый период",
+            amount: "Сумма к оплате",
+            confirmation: "Я прочитал и согласен с <a href='https://help.staminity.com/ru/tariffs/{{tariffCode}}.html'>Условиями подключения</a> тарифа.<br>" +
+            "Оплата за продление тарифа будет списываться автоматически по истечении оплаченного периода. Отменить автоматическую оплату счетов можно в любой момент в Настройках",
         }
     },
     en: {
@@ -164,6 +171,13 @@ export let translateDialogs = {
         add: 'Add',
         roles: {
             title: "Club roles"
+        },
+        tariffConfirm: {
+            title: "Tariff subscription",
+            term: "Paid period",
+            amount: "Amount to pay",
+            confirmation: "I have read and agree with <a href='https://help.staminity.com/en/tariffs/{{tariffCode}}.html'>Terms of subscription</a> for a tariff.<br>" +
+            "Payment for the renewal will be charged automatically from your card before the expiry of the paid period. You can cancel 'Charge automatically' option at any time in Settings",
         }
 
 

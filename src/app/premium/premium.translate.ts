@@ -2,7 +2,8 @@ export const premiumTranslate = {
     ru: {
         action: {
             subscribeMonth: 'Купить за {{rate}} {{currency}}/месяц',
-            subscribeYear: 'Купить за {{rate}} {{currency}}/год'
+            subscribeYear: 'Купить за {{rate}} {{currency}}/год',
+            trial: "Попробовать бесплатно"
         },
         wrapper: {
             title: 'Премиум-функция',
@@ -40,7 +41,7 @@ export const premiumTranslate = {
         },
         proAnalytics: {
             title: 'Премиум отчеты',
-            text: 'В пакет премиум-отчетов входят: диаграмма "Фитнес-усталость", отчет по динамике показателей в тренировках, отчеты "Время в зонах" и "Пики по времени" по пульсу, темпу/скорости и мощности, ' +
+            text: 'В пакет премиум-отчетов входит отчет по динамике показателей в тренировках, отчеты "Время в зонах" и "Пики по времени" по пульсу, темпу/скорости и мощности, ' +
             'отчет по динамике процента выполнения плановых тренировок',
         },
         seasonPlanning: {
@@ -55,15 +56,22 @@ export const premiumTranslate = {
             title: 'Управление шаблонами тренировок',
             text: 'Создавайте свои шаблоны тренировок, сохраняйте в шаблоны ранее запланированные тренировки для быстрого создания новых заданий',
         },
+        fitnessFatigueChart: {
+            title: 'Диаграмма "Фитнес-усталость"',
+            text: 'Диаграмма "Фитнес - усталость" может помочь в оценке и планировании уровня спортивной формы, чтобы убедиться, что Вы достаточно тренируетесь и восстанавливаетесь',
+        },
         badge: 'П',
+        badgeFull: 'Премиум',
         dialog: {
             title: "Премиум функции",
         }
     },
     en: {
         action: {
-            subscribeMonth: 'Buy it for {{rate}} {{currency}}/month',
-            subscribeYear: 'Buy it for {{rate}} {{currency}}/year'
+            subscribeMonth: 'Buy for {{rate}} {{currency}}/month',
+            subscribeYear: 'Buy for {{rate}} {{currency}}/year',
+            trial: "Try for free"
+
         },
         wrapper: {
             title: 'Premium feature',
@@ -100,7 +108,7 @@ export const premiumTranslate = {
         },
         proAnalytics: {
             title: 'Premium analytics',
-            text: 'Premium analytics contains several charts: "Fitness-Fatigue chart", "Indicators chart", "Time in zones", "Peaks" and "Complete percent" charts based on your workout history',
+            text: 'Premium analytics contains "Indicators chart", "Time in zones", "Peaks" and "Complete percent" charts based on your workout history',
         },
         seasonPlanning: {
             title: 'Periodization and season planning',
@@ -114,9 +122,14 @@ export const premiumTranslate = {
             title: 'Templates management',
             text: 'Create your own workout templates, save any planned workout as a template and use them for rapid planning of new workouts',
         },
+        fitnessFatigueChart: {
+            title: 'Fitness-Fatigue chart',
+            text: 'The Fitness - Fatigue chart can help you track and plan your Fitness level to ensure that you are gaining enough training and recovering sufficiently',
+        },
         badge: 'P',
+        badgeFull: 'Premium',
         dialog: {
-            title: "Premium features",
+            title: "Premium feature",
         }
     }
 };

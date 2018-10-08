@@ -26,7 +26,7 @@ import {
 } from "../../reference/template-dialog/template.dialog";
 import {ActivityDetails} from "../../activity/activity-datamodel/activity.details";
 import {FtpState} from "../../activity/components/assignment/assignment.component";
-import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/util.js';
+import { pipe, prop, pick, last, filter, fold, orderBy, groupBy, keys, entries, isUndefined, log } from '../../share/utility';
 import {templatesFilters, ReferenceFilterParams, getOwner} from "../../reference/reference.datamodel";
 import {filtersToPredicate} from "../../share/utility/filtering";
 import {ActivityIntervals} from "../../activity/activity-datamodel/activity.intervals";
@@ -42,6 +42,7 @@ import { deepCopy } from "../../share/data/data.finctions";
 import {htmlToPlainText} from "../../share/text/plain-text.filter";
 import { ActivityIntervalW } from "../../activity/activity-datamodel/activity.interval-w";
 import { isFutureDay } from "../../share/date/date.filter";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
 import {getFtpBySport} from "../../core/user.function";
 
 const profileShort = (user: IUserProfile):IUserProfileShort => ({userId: user.userId, public: user.public});
@@ -159,7 +160,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
     private bottomPanelData: any = null;
 
     static $inject = ['$scope', '$sce', '$translate', 'CalendarService','UserService','SessionService','ActivityService','AuthService',
-        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService'];
+        'message','$mdMedia','$mdDialog','dialogs', 'ReferenceService', 'TrainingPlansService', 'CalendarItemDialogService',
+        'PremiumDialogService'];
 
     constructor(
         public $scope: IScope,
@@ -176,7 +178,8 @@ export class CalendarItemActivityCtrl implements IComponentController{
         private dialogs: any,
         private ReferenceService: ReferenceService,
         private trainingPlansService: TrainingPlansService,
-        private calendarDialog: CalendarItemDialogService) {
+        private calendarDialog: CalendarItemDialogService,
+        private premiumDialogService: PremiumDialogService) {
 
     }
 
@@ -309,6 +312,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
             });
 
         this.updateFilterParams();
+    }
+
+    premiumOrCoach (): boolean {
+        return this.AuthService.isCoach() || this.AuthService.isPremiumAccount();
     }
 
     prepareLayout (): void {
@@ -607,10 +614,10 @@ export class CalendarItemActivityCtrl implements IComponentController{
         this.isLoadingRange = loading;
         this[initiator + 'SelectChangeCount']++; // обвновляем компоненты
 
-        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details && this.activity.auth.isPro) {
+        if(this.activity.isStructured && this.selectedTab !== HeaderStructuredTab.Details) {
             this.selectedTab = HeaderStructuredTab.Details;
         }
-        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details && this.activity.auth.isPro) {
+        if(!this.activity.isStructured && this.selectedTab !== HeaderTab.Details) {
             this.selectedTab = HeaderTab.Details;
         }
 
@@ -832,6 +839,11 @@ export class CalendarItemActivityCtrl implements IComponentController{
     }
 
     toTemplate (e: Event) {
+
+        if (!this.premiumOrCoach()) {
+            return this.premiumDialogService.open(e, 'templates');
+        }
+
         let { code, activityHeader } = this.activity;
         let sport = activityHeader.activityType.typeBasic;
         let activityCode = code || nameFromInterval(this.$translate) (this.activity.durationValue, this.activity.durationMeasure, this.activity.header.sportBasic);

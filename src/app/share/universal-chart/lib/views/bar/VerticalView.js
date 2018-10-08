@@ -16,13 +16,13 @@ class VerticalView extends BarView {
         super.render();
 
         this._container = this.getViewsContainer().append('g')
-            .attr('class', 'view bar-view');
+            .attr('class', 'view d3-bar-view');
 
-        this._bars = this._container.selectAll('rect.bar')
+        this._bars = this._container.selectAll('rect.d3-bar')
             .data(this.getData())
             .enter()
             .append('rect')
-            .attr('class', 'bar');
+            .attr('class', 'd3-bar');
 
         this._customize(this._bars);
 
@@ -58,11 +58,13 @@ class VerticalView extends BarView {
         var barXOffset = (bandWidth - gScale.bandwidth()) / 2;
         var translateXOffset = (xScale.step() - xScale.bandwidth()) / 2;
 
+        if (barXOffset < 0) {return;}
+
         this._bars.attr('transform', function(d, i) {
                 return 'translate(' + (xScale(d.x0) - translateXOffset) + ', 0)';
             }).attr('width', bandWidth)
             .attr('height', function(d) {
-                return height - yScale(d.y);
+                return height - yScale(d.y) > 0 ? height - yScale(d.y) : null;
             }).attr('x', function(d) {
                 return gScale(this._sequenceNumber) - barXOffset;
             }.bind(this))
@@ -71,6 +73,8 @@ class VerticalView extends BarView {
             });
 
         var meanX = yScale(d3.mean(this.getY()));
+
+        if (!meanX) {return;}
 
         this._meanLine
             .attr('x1', 0)

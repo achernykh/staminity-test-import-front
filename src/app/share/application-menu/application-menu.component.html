@@ -86,12 +86,13 @@
 
 <md-list>
     <md-list-item ng-repeat="menu in $ctrl.appmenu"
-                  ng-if="$ctrl.checkAuth(menu.role)"
                   ng-disabled="menu.state === 'soon'"
-                  ng-click="$ctrl.transitionToState(menu.link)"
+                  ng-click="$ctrl.checkAuth(menu.role) ? $ctrl.transitionToState(menu.link) : $ctrl.premium($event, menu.premiumFunction)"
                   ng-show="$ctrl.$mdMedia('gt-sm') || !menu.hideMobile">
         <md-icon class="material-icon md-dark" md-svg-src="/assets/icon/{{::menu.icon}}.svg"></md-icon>
         <p class="md-body-2" translate>{{::menu.name}}</p>
+        <md-icon ng-if="!$ctrl.checkAuth(menu.role)" class="md-secondary" md-svg-src="/assets/icon/premium.svg"></md-icon>
+        <!--<span class="premium-menu-badge md-secondary" ng-if="!$ctrl.checkAuth(menu.role)" translate="premium.badge"></span>-->
         <md-icon class="md-secondary material-icon md-dark md-inactive"
                  ng-if="menu.state === 'soon'"
                  ng-click=""

@@ -1,0 +1,19 @@
+$bullet: 16px;
+$bullet-radius: 8px;
+
+.analytics-chart-data {
+  padding-right: 0;
+  border-right: 1px solid rgba(black, 0.5);
+  margin-right: 0;
+
+  .measure { margin-top: 0; margin-bottom: 8px; }
+  .md-title, .md-caption { margin: 0; text-transform: uppercase; }
+  .md-caption { padding-bottom: 2px; }
+  .bullet {
+    width: $bullet;
+    height: $bullet;
+    border-radius: $bullet-radius;
+    margin-right: $bullet;
+    margin-top: 4px;
+  }
+}

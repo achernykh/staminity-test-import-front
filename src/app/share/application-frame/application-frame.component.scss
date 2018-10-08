@@ -237,12 +237,12 @@ $app-max-bar-height-mobile: $app-toolbar-height-mobile + $app-nav-bar-height;
       overflow-y: auto;
     }
     &.left-bar {
-      margin-left: $app-sidenav-desktop-width;
+      padding-left: $app-sidenav-desktop-width;
       &.collapsed {
-        margin-left: $app-sidenav-desktop-width-collapsed;
+        padding-left: $app-sidenav-desktop-width-collapsed;
       }
       &.hidden {
-        margin-left: 0;
+        padding-left: 0;
       }
     }
     @media (min-width: 1440px) {

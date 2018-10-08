@@ -2,6 +2,18 @@ import moment from 'moment/src/moment.js';
 import { element } from 'angular';
 import { SessionService } from "../../core/session/session.service";
 
+export const activityTypeColor = {
+    run: '#3F51B5',
+    bike: '#673AB7',
+    swim: '#03A9F4',
+    rowing: '#E91E63',
+    strength: '#795548',
+    triathlon: '#00796B',
+    ski: '#455A64',
+    other: '#757575',
+    brick: '#F4511E',
+};
+
 // Настройка отображения показателей под разные виды спорта. По-умолчанию отображаются в соотвествии с указанным
 // unit в обьекте _measurement, но для отдельных пар базовый вид спорта / показатель возможено отображение отличной
 // единицы изменения
@@ -11,7 +23,7 @@ export const _activity_measurement_view = {
     default: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'minpkm',
@@ -20,12 +32,16 @@ export const _activity_measurement_view = {
         adjustedSpeed: {
             unit: 'minpkm',
             fixed: 0
-        }
+        },
+        hour: {
+            unit: 'h',
+            fixed: 1
+        },
     },
     run: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'minpkm',
@@ -39,7 +55,7 @@ export const _activity_measurement_view = {
     ski: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'minpkm',
@@ -63,7 +79,7 @@ export const _activity_measurement_view = {
     bike: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'kmph',
@@ -94,7 +110,7 @@ export const _activity_measurement_view = {
         },
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         adjustedSpeed: {
             unit: 'kmph',
@@ -108,7 +124,7 @@ export const _activity_measurement_view = {
         },
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         adjustedSpeed: {
             unit: 'minpkm',
@@ -118,7 +134,7 @@ export const _activity_measurement_view = {
     triathlon: {
         distance: {
             unit: 'km',
-            fixed: 2
+            fixed: 1
         },
         speed: {
             unit: 'kmph',
@@ -250,6 +266,22 @@ export const _measurement = {
         unit: 'proportion',
         view: 'percent',
         fixed: 2
+    },
+    fatigue: {
+        unit: 'none',
+        fixed: 0
+    },
+    fitness: {
+        unit: 'none',
+        fixed: 0
+    },
+    form: {
+        unit: 'none',
+        fixed: 0
+    },
+    hour: {
+        unit: 's',
+        fixed: 0
     },
 
     // Измерения
@@ -403,6 +435,12 @@ export const _measurement_calculate = {
     },
     minpkm: {
         mps: (x) => !!x ? (60 * 60) / (x * 3.6) : 0
+    },
+    s: {
+        h: (x) => !!x ? x / (60 * 60) : 0
+    },
+    h: {
+        s: (x) => !!x ? x * 60 * 60 : 0
     }
 };
 

@@ -1,6 +1,6 @@
 import './dashboard.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
-import {IComponentOptions, IComponentController, IPromise,IScope, copy} from 'angular';
+import {IComponentOptions, IComponentController,IScope, copy} from 'angular';
 import {CalendarService} from "../calendar/calendar.service";
 import {SessionService, StorageService} from "../core";
 import {IMessageService} from "../core/message.service";
@@ -9,7 +9,7 @@ import {
     IGroupManagementProfile, IUserManagementProfile,
     IUserProfile, IUserProfileShort, ITrainingZonesType
 } from "../../../api";
-import { times } from '../share/util.js';
+import { times } from '../share/utility';
 import {Activity} from "../activity/activity-datamodel/activity.datamodel";
 import {shiftDate, clearActualDataActivity, updateIntensity, changeUserOwner} from "../activity/activity.function";
 import { FormMode } from "../application.interface";

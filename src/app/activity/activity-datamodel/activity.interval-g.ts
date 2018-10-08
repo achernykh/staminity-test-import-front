@@ -1,6 +1,6 @@
 import {copy} from "angular";
 import {IActivityIntervalG, ICalcMeasures} from "../../../../api/activity/activity.interface";
-import {genHash} from "../../share/utils-function";
+import {genHash} from "../../share/utility";
 import {ActivityInterval} from "./activity.interval";
 /**
  * Интервал типа Группа

@@ -1,0 +1,39 @@
+<md-toolbar flex="none" class="md-default">
+    <div class="md-toolbar-tools">
+        <h1 translate="analytics.templateSelector.title"></h1>
+        <div flex></div>
+        <md-button class="md-icon-button" ng-click="$ctrl.onCancel()">
+            <md-icon class="material-icons" aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content flex="auto" layout="column" class="">
+    <section flex="auto" layout="row">
+        <section ng-repeat="column in $ctrl.analyticsConfig.groupCharts" class="analytics-template-selector__column"
+                 layout="column" flex="33">
+            <section layout="column" ng-repeat="group in column">
+                <md-list class="md-dense">
+                    <md-subheader><span translate="analytics.groups.{{group}}"></span></md-subheader>
+                    <md-list-item class="md-2-line" ng-repeat="chart in $ctrl.charts | filter:{group: group}">
+                        <md-icon class="material-icons md-dark" ng-class="{'md-inactive': !chart.isAuthorized}">{{::chart.icon}}</md-icon>
+                        <div class="md-list-item-text">
+                            <h3 class="" ng-class="{'md-dark md-inactive': !$ctrl.auth(chart.auth)}">
+                                <span translate="analytics.{{chart.code}}.title"></span>
+                                <span ng-if="!$ctrl.auth(chart.auth)" class="tag"
+                                      translate="analytics.templateSelector.needPermissions"></span>
+                                <span ng-if="chart.premiumFunction" class="tag" translate="premium.badgeFull"></span>
+                            </h3>
+                            <p class="" translate="analytics.{{chart.code}}.shortDescription" ng-class="{'md-inactive': !chart.isAuthorized}"></p>
+                            <md-switch ng-if="$ctrl.auth(chart.auth)"
+                                       class="md-secondary md-primary"
+                                       ng-change="$ctrl.changeActive(chart.id, chart.code, chart.active)"
+                                       ng-disabled=""
+                                       ng-model="chart.active">
+                            </md-switch>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </section>
+        </section>
+    </section>
+</md-content>

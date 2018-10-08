@@ -1,6 +1,6 @@
 import moment from 'moment/min/moment-with-locales.js';
 import { Moment } from 'moment';
-import { times } from '../share/util.js';
+import { times } from '../share/utility';
 import { IScope, IAnchorScrollService, copy } from 'angular';
 import { ICalendarWeek, ICalendarDay } from "./calendar.interface";
 import { CalendarService } from "./calendar.service";

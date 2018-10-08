@@ -50,15 +50,18 @@ export const _MEASURE_TRANSLATE = {
         vam: "ВертикСкорость",
         vamPowerKg: "ОтноситМощность",
         variabilityIndex: "Индекс изменений",
-        period: "Период",
+        period: "Дата",
         percentComplete: "Процент выполнения",
         peaks: "Пики",
         peak: "Пик",
-        days: "Дни",
-        week: "Неделя",
+        day: "День",
+        days: "День",
+        week: "Нед",
+        month: "Мес",
+        quarter: 'Кв-л',
         plan: "План",
         actual: "Факт",
-        mesocycle: "Мезоцкил",
+        mesocycle: "Мезоцикл",
         heartRateZone: 'Зоны пульса',
         speedZone: 'Зоны скорости/темпа',
         powerZone: 'Зоны мощности',
@@ -99,7 +102,59 @@ export const _MEASURE_TRANSLATE = {
         '20min': '20 мин',
         '30min': '30 мин',
         '60min': '60 мин',
-        '90min': '90 мин'
+        '90min': '90 мин',
+
+        // Для аналитики
+
+        durationAvg: 'Сред. / {{seriesDateTrunc | translate | lowercase}}',
+        durationTotal: 'Всего',
+        durationMax: 'Макс. / {{seriesDateTrunc | translate | lowercase}}',
+
+        distanceTotal: 'Всего',
+        distanceAvg: 'Сред. / {{seriesDateTrunc | translate | lowercase}}',
+        distanceMax: 'Макс. / {{seriesDateTrunc | translate | lowercase}}',
+
+
+        runSum: 'Бег',
+        bikeSum: 'Велосипед',
+        swimSum: 'Плавание',
+
+
+        fatigue: 'Усталость',
+        fitness: 'Фитнес',
+        form: 'Форма',
+        fitnessStart: 'Фитнес',
+        fitnessEnd: 'Фитнес',
+        fatigueEnd: 'Усталость',
+        formEnd: 'Форма',
+
+        tlAvg: 'TL ср.',
+        tlSum: 'TL всего',
+        ilAvg: 'IL ср.',
+
+        heartRate1minPeak: '1 мин',
+        heartRate5minPeak: '5 мин',
+        heartRate10minPeak: '10 мин',
+
+        power1minPeak: '1 мин',
+        power5minPeak: '5 мин',
+        power10minPeak: '10 мин',
+
+        previousPeriod: 'Предыдущее значение',
+        currentPeriod: 'Текущее значение',
+        athlete: "Спортсмен",
+        activityType: "Вид спорта",
+
+        run: 'Бег',
+        swim: 'Плавание',
+        bike: 'Велосипед',
+        strength: 'Силовая тренировка',
+        ski: 'Лыжи',
+        rowing: 'Гребля',
+        other: 'Прочее',
+        transition: 'Транзитка',
+        fuctionalTest: 'Функциональный тест',
+        triathlon: 'Триатлон'
 
 
     },
@@ -155,12 +210,15 @@ export const _MEASURE_TRANSLATE = {
         vam: "VAM",
         vamPowerKg: "Relative power",
         variabilityIndex: "VI",
-        period: "Period",
+        period: "Date",
         percentComplete: "Complete percent",
         peaks: "Peaks",
         peak: "Peak",
-        days: "Days",
+        day: "Day",
+        days: "Day",
         week: "Week",
+        month: "Mon",
+        quarter: 'Qtr',
         plan: "Plan",
         actual: "Actual",
         mesocycle: "Mesocycle",
@@ -204,7 +262,59 @@ export const _MEASURE_TRANSLATE = {
         '20min': '20 min',
         '30min': '30 min',
         '60min': '60 min',
-        '90min': '90 min'
+        '90min': '90 min',
+
+
+        // для Аналитики
+
+        durationAvg: 'Avg / {{seriesDateTrunc | translate | lowercase}}',
+        durationTotal: 'Total',
+        durationMax: 'Max / {{seriesDateTrunc | translate | lowercase}}',
+
+        distanceTotal: 'Total',
+        distanceAvg: 'Avg / {{seriesDateTrunc | translate | lowercase}}',
+        distanceMax: 'Max / {{seriesDateTrunc | translate | lowercase}}',
+
+
+        runSum: 'Running',
+        bikeSum: 'Cycling',
+        swimSum: 'Swimming',
+
+        fatigue: 'Fatigue',
+        fitness: 'Fitness',
+        form: 'Form',
+        fitnessStart: 'Fitness',
+        fitnessEnd: 'Fitness',
+        fatigueEnd: 'Fatigue',
+        formEnd: 'Form',
+
+        tlAvg: 'TL avg',
+        tlSum: 'TL total',
+        ilAvg: 'IL avg',
+
+        heartRate1minPeak: '1 min',
+        heartRate5minPeak: '5 min',
+        heartRate10minPeak: '10 min',
+
+        power1minPeak: '1 min',
+        power5minPeak: '5 min',
+        power10minPeak: '10 min',
+
+        previousPeriod: 'Previous value',
+        currentPeriod: 'Current value',
+        athlete: "Athlete",
+        activityType: "Sport",
+
+        run: 'Running',
+        swim: 'Swimming',
+        bike: 'Cycling',
+        strength: 'Strength training',
+        ski: 'Skiing',
+        other: 'Other',
+        rowing: 'Rowing',
+        transition: 'Transition',
+        fuctionalTest: 'Functional test',
+        triathlon: 'Triathlon'
 
     },
 };

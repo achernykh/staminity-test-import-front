@@ -1,0 +1,146 @@
+{
+  "order": 7,
+  "active": true,
+  "revision": 1,
+  "group": "zonesAndPeaks",
+  "auth": [],
+  "premiumFunction": "timeInZonesHR",
+  "icon": "insert_chart",
+  "code": "timeInZonesHR",
+  "descriptionParams": [{
+    "ind": 0,
+    "idx": 0,
+    "area": "series",
+    "param": "seriesDateTrunc"
+  }],
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "week",
+      "options": [
+        "day",
+        "week",
+        "month"
+      ],
+      "change": [
+        {
+          "ind": [
+            0
+          ],
+          "idx": [
+            0
+          ],
+          "area": "series",
+          "name": "seriesDateTrunc",
+          "options": {
+            "day": {
+              "seriesDateTrunc": "day"
+            },
+            "week": {
+              "seriesDateTrunc": "week"
+            },
+            "month": {
+              "seriesDateTrunc": "month"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "tooltip": {
+        "combined": false
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "color": "rgba(0,0,0,0.5)"
+      },
+      "palette": ["#F8BBD0", "#F48FB1", "#F06292", "#EC407A", "#E91E63", "#D81B60", "#C2185B", "#AD1457", "#880E4F"]
+    },
+    "series": [
+      {
+        "label": "period",
+        "unit": "",
+        "xAxis": true,
+        "tooltipType": "label",
+        "tooltipLabel": "period",
+        "legend": false,
+        "currentPositionLine": true,
+        "idx": 0,
+        "measureSource": "activity.startDate",
+        "measureName": "Weeks",
+        "dataType": "date",
+        "dateFormat": "DD.MM",
+        "valueType": "value",
+        "seriesDateTrunc": "week",
+        "groupByIntervalLength": 1
+      },
+      {
+        "label": "Зоны пульса",
+        "unit": "",
+        "xAxis": true,
+        "tooltipType": "label",
+        "tooltipLabel": "zone",
+        "legend": false,
+        "colorPalette": false,
+        "currentPositionLine": true,
+        "idx": 1,
+        "measureSource": "activity.owner.zones",
+        "fillColor": "#C2185B",
+        "measureName": "heartRate",
+        "dataType": "number",
+        "dateFormat": "",
+        "valueType": "value",
+        "groupBy": "",
+        "groupByIntervalLength": 1
+      }],
+    "measures": [{
+      "label": "Время в зонах",
+      "unit": "h",
+      "chartType": "bar",
+      "stacked": true,
+      "cumulative": false,
+      "smoothSettings": "null",
+      "tooltipType": "label",
+      "tooltipLabel": "duration",
+      "minValue": 0,
+      "legend": false,
+      "colorPalette": true,
+      "visible": true,
+      "scaleVisible": true,
+      "calculateTotals": "",
+      "lineColor": "",
+      "lineStyle": "none",
+      "lineWidth": 0,
+      "fillType": "solid",
+      "fillColor": "#C2185B",
+      "markerColor": "#C2185B",
+      "avgValueLine": false,
+      "avgValueLineColor": "",
+      "avgValueLineStyle": "",
+      "idx": 2,
+      "measureSource": "activity.actual.measure",
+      "measureName": "heartRateMPM",
+      "dataType": "number",
+      "dateFormat": "",
+      "valueType": "timeInZone",
+      "aggMethod": "sum"
+    }]
+  }]
+}

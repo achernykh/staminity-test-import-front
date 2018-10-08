@@ -200,6 +200,8 @@ gulp.task('default', ['html', 'jsLibs', 'cssLibs', 'jsApp', 'sass', 'assets'], f
     return gulp.src(config.src.jsApp);
 });
 
+gulp.task('copy-files',['copy-assets', 'copy-moneta', 'copy-charts']);
+
 // Copy other: icon, locale, picture
 gulp.task('copy-other', function() {
     'use strict';
@@ -209,10 +211,17 @@ gulp.task('copy-other', function() {
 
 // Copy moneta htmls
 gulp.task('copy-moneta', function() {
-    'use strict';
     let trg = ENV || gutil.env['trg'];
     return gulp.src(config.src.moneta)
         .pipe(gulp.dest('./'+trg+'/moneta'));
+});
+
+// Copy moneta htmls
+gulp.task('copy-charts', function() {
+    'use strict';
+    let trg = ENV || gutil.env['trg'];
+    return gulp.src(config.src.chart)
+        .pipe(gulp.dest('./'+trg+'/chart-templates'));
 });
 
 // Copy assets: icon, locale, picture
@@ -223,69 +232,6 @@ gulp.task('copy-assets', function() {
         .pipe(gulp.dest('./'+trg+'/assets'));
 });
 
-gulp.task('ftp-dev1-full', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src('dev1/**/*')
-        .pipe(ftp(pass.dev1))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-dev2-full', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src('dev2/**/*')
-        .pipe(ftp(pass.dev2))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-dev3-full', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src('dev3/**/*')
-        .pipe(ftp(pass.dev3))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-dev1', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src(['dev1/assets/css/**','dev1/assets/js/**','dev1/index.html'])
-        .pipe(ftp(pass.dev1))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-dev2-full', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src('dev2/**/*')
-        .pipe(ftp(pass.dev2))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-dev2', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src(['dev2/assets/css/**','dev2/assets/js/**','dev2/index.html', 'dev2/moneta/*'])
-        .pipe(ftp(pass.dev2))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-prd-full', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src('prd/**/*')
-        .pipe(ftp(pass.prd))
-        .pipe(gutil.noop());
-});
-
-gulp.task('ftp-prd', function () {
-    'use strict';
-    let src = './'+ENV;
-    return gulp.src(['prd/assets/css/**','prd/assets/js/**','prd/index.html'])
-        .pipe(ftp(pass.prd))
-        .pipe(gutil.noop());
-});
 
 gulp.task('set-env', function() {
     return gulp.src('src/app/core/env.template.ts')
@@ -309,7 +255,8 @@ gulp.task('set-sw', (next) => {
     'use strict';
     let trg = gutil.env['trg'] === 'build' ? 'src' : gutil.env['trg'];
     let files = [trg+'/index.html',trg+'/manifest.json',trg+'/assets/css/**',trg+'/assets/js/**',
-        trg+'/assets/locale/**',trg+'/assets/icon/**',trg+'/assets/picture/**',trg+'/assets/images/**'];
+        trg+'/assets/locale/**',trg+'/assets/icon/**',trg+'/assets/picture/**',trg+'/assets/images/**',
+        trg+'/chart-templates/**'];
 
     gulp.src(files,{base: trg + '/', buffer: false})
         .pipe(gutil.buffer((err, files) => {
@@ -333,7 +280,7 @@ gulp.task('ftp', () => {
     let scope = gutil.env['scope'];
     let conn = ftp.create(pass[trg]);
     let files = {
-        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html', trg+'/moneta/**',],
+        core: [trg+'/assets/css/**',trg+'/assets/js/**',trg+'/sw.js', trg+'/manifest.json', trg+'/index.html', trg+'/chart-templates/**'],
         assets: [trg+'/assets/**', trg+'/moneta/**']
     };
 

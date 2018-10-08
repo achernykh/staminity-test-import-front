@@ -1,6 +1,7 @@
 <md-list class="md-dense slim-input" md-theme="grey" class="template-list__filter">
     <md-list-item ng-click="$ctrl.post($event)">
         <p class="md-body-1" translate="reference.action.post"></p>
+        <md-icon ng-if="!$ctrl.checkAuth()" class="md-secondary" md-svg-src="/assets/icon/premium.svg"></md-icon>
     </md-list-item>
     <md-list-item>
         </md-input-container>
