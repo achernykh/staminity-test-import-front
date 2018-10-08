@@ -90,7 +90,7 @@
             </md-list-item>
             <md-list-item>
                 <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                <p flex class="md-caption">{{::$ctrl.record.dateStart | date:'shortDate'}}</p>
+                <p flex class="md-caption">{{::$ctrl.record._dateStart | date:'shortDate'}}</p>
             </md-list-item>
         </md-list>
         <!-- Режим редактирования -->
@@ -112,7 +112,7 @@
                               ng-if="!($ctrl.options.templateMode || ($ctrl.record.view.isTrainingPlan && $ctrl.options.trainingPlanOptions.dynamicDates))">
                     <md-input-container flex="auto" class="no-message" md-no-float>
                         <md-icon flex="none" class="material-icons" style="left: 0px">today</md-icon>
-                        <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.dateStart"
+                        <md-datepicker flex="auto" ng-model="$ctrl.record._dateStart"
                                        ng-change="$ctrl.changeParam()"
                                        name="dateStart" md-hide-icons="calendar"
                                        ng-disabled="($ctrl.item.activity.auth.isCreator || $ctrl.item.activity.auth.isMyCoach)">
@@ -216,9 +216,9 @@
                         <md-icon flex="none" class="material-icons" style="left: 0px"></md-icon>
                         <md-datepicker flex="auto" ng-model="$ctrl.record.recordHeader.repeat.endOnDate"
                                        ng-change="$ctrl.changeParam()"
-                                       name="dateStart" md-hide-icons="calendar">
+                                       name="endOnDate" md-hide-icons="calendar">
                         </md-datepicker>
-                        <div ng-messages="$ctrl.form.dateStart.$error" role="alert">
+                        <div ng-messages="$ctrl.form.endOnDate.$error" role="alert">
                             <div ng-message="needPermissionForFeature"
                                  translate="calendar.needPermissionForFeature">
                             </div>

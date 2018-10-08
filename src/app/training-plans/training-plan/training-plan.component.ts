@@ -9,7 +9,7 @@ import { IChart } from "../../../../api/statistics/statistics.interface";
 import { IUserProfile } from "../../../../api/user/user.interface";
 import { TrainingPlanDialogService } from "@app/training-plans/training-plan-dialog.service";
 import { ITrainingPlanSearchRequest } from "../../../../api/trainingPlans/training-plans.interface";
-import {gtmFindPlan} from "@app/share/google/google-analitics.functions";
+import {gtmFindPlan} from "../../share/google/google-analitics.functions";
 
 class TrainingPlanCtrl implements IComponentController {
 

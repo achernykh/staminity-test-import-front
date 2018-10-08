@@ -49,7 +49,7 @@ class CalendarItemWizardCtrl implements IComponentController {
             formMode: FormMode.Post, item: Object.assign(this.data, {
                 calendarItemType: 'record',
                 recordHeader: {
-                    dateStart: this.options.dateStart,
+                    //dateStart: this.options.dateStart,
                     type: param
                 }
             })

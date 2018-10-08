@@ -12,6 +12,7 @@ export class CalendarItemRecord extends CalendarItem {
 
     constructor (private param: ICalendarItem, private options?: ICalendarItemDialogOptions) {
         super(param, options);
+        super.prepare();
         this.prepareDefaultType();
     }
 
@@ -20,10 +21,13 @@ export class CalendarItemRecord extends CalendarItem {
         let item: ICalendarItem = Object.assign({}, this);
         let format: string = 'YYYY-MM-DD';
 
-        item.dateStart = moment(this.recordHeader.dateStart).format(format);
+        debugger;
+
+        item.dateStart = moment(this.dateStart).format(format);
         item.dateEnd = item.dateStart;
 
         if (!this.isRepeated) { // Без повторений
+            item.recordHeader.dateStart = item.dateStart;
             item.recordHeader.repeat = null;
             // 1) смена повторяющееся на не повторяющееся
             if (this.param.hasOwnProperty('recordHeader') &&
