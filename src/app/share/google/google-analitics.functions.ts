@@ -1,4 +1,4 @@
-import {IBill, IBillingTariff} from "@api/billing";
+import {IBill, IBillDetails, IBillingTariff} from "@api/billing";
 interface WindowGoogle extends Window { dataLayer: any; }
 
 export const gtmEvent = (event: string, appEventCategory: string, appEventLabel: string, appEventAction: string, appEventValue?: number ) =>
@@ -42,7 +42,7 @@ export const gtmViewTariff = (tariff: IBillingTariff, fee: { currency: string, r
     gtmEvent('appEvent', 'tariffs', tariff.tariffCode, 'viewTariff');
 };
 
-export const gtmOpenInvoice = (bill: IBill) => {
+export const gtmOpenInvoice = (bill: IBill | IBillDetails) => {
     gtmEvent('appEvent', 'billing', 'tariffsAndInvoices', 'openInvoice');
     /**dataLayer.push({
         'ecommerce': {
@@ -65,7 +65,7 @@ export const gtmOpenInvoice = (bill: IBill) => {
     });**/
 };
 
-export const gtmPayment = (bill: IBill) => {
+export const gtmPayment = (bill: IBill | IBillDetails) => {
     gtmEvent('appEvent', 'billing', `tariffsAndInvoices${bill.currency}`, 'payment',bill.totalAmount);
 };
 

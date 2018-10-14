@@ -8,6 +8,7 @@ import MessageService from "../core/message.service";
 import {IActivityIntervalW} from "@api/activity";
 import {isFutureDay} from "../share/date/date.filter";
 import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
+import {FormMode} from "../application.interface";
 
 export class CalendarItemDialogService {
 
@@ -82,11 +83,12 @@ export class CalendarItemDialogService {
               options: ICalendarItemDialogOptions,
               item: ICalendarItem = CalendarItemDialogService.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
-        if (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart)) {
+        if (options.formMode === FormMode.Post &&
+            (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart))) {
             return this.premiumDialogService.open(null, 'futurePlaning').then();
         }
 
-                  return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
+        return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
         //return Promise.resolve(() => {})
             //.then(() => false && this.completeTrainingZones(options))
             //.then((updOptions) => this.$mdDialog.show(this.activityDialogOptions(env,updOptions || options,item)) , error => this.message.toastError(error));
@@ -182,7 +184,8 @@ export class CalendarItemDialogService {
                  options: ICalendarItemDialogOptions,
                  item: ICalendarItem = CalendarItemDialogService.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
-        if (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart)) {
+        if (options.formMode === FormMode.Post &&
+            (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart))) {
             return this.premiumDialogService.open(null, 'futurePlaning').then();
         }
 

@@ -438,6 +438,7 @@ SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'selectedUsers',
     };
 
     this.setBilling(billing);
+    gtmViewTariff(this.tariff, {currency: this.fee.currency, rate: this.monthlyFee});
 
     this.submitPromo = (promoCode) => {
         BillingService.getTariff(tariff.tariffId, promoCode)
@@ -688,6 +689,7 @@ BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService
 
         return checkoutUrl && BillingService.checkout(checkoutUrl)
             .then(() => {
+                gtmPayment(bill);
                 $mdDialog.hide();
             }, (info) => {
                 message.systemWarning(info);
@@ -700,6 +702,7 @@ BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService
     };
 
     this.setBill(bill);
+    gtmOpenInvoice(bill);
 
     $scope.$watch(() => this.paymentSystem, this.savePaymentSystem);
 

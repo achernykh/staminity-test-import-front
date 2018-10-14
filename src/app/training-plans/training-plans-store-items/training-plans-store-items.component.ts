@@ -1,5 +1,5 @@
 import './training-plans-store-items.component.scss';
-import {IComponentOptions, IComponentController, IScope, ILocationService} from 'angular';
+import {IComponentOptions, IComponentController, IScope, ILocationService, copy} from 'angular';
 import {
     ITrainingPlanSearchRequest,
     ITrainingPlanSearchResult,
@@ -14,6 +14,7 @@ import {gtmFindPlan} from "../../share/google/google-analitics.functions";
 
 export class TrainingPlansStoreItemsCtrl implements IComponentController {
 
+    // bind
     searchParams: ITrainingPlanSearchRequest;
     cardView: boolean;
     update: number;
@@ -24,6 +25,7 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     // private
     private plans: TrainingPlansList;
     private isLoadingData: boolean = false;
+    private params: ITrainingPlanSearchRequest;
 
     static $inject = ['$scope', '$mdMedia', '$state', '$location', 'TrainingPlansService',
         'TrainingPlanDialogService' , 'message'];
@@ -52,18 +54,19 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
     }
 
     prepareSearchParams () {
-        if (this.searchParams.lng === [] || !this.searchParams.lng) { delete this.searchParams.lng; }
-        if (this.searchParams.keywords === [] || !this.searchParams.keywords) { delete this.searchParams.keywords; }
-        if (this.searchParams.tags === [] || !this.searchParams.tags) { delete this.searchParams.tags; }
-        if (this.searchParams.type === 'all') { this.searchParams.type = null; }
-        if (this.searchParams.distanceType === 'all') { this.searchParams.distanceType = null; }
-        if (this.searchParams.weekCountFrom) { this.searchParams.weekCountFrom = Number(this.searchParams.weekCountFrom); }
-        if (this.searchParams.weekCountTo) { this.searchParams.weekCountTo = Number(this.searchParams.weekCountTo); }
+        this.params = copy(this.searchParams);
+        if ((this.params.lng && this.params.lng.length === 0) || !this.params.lng) { delete this.params.lng; }
+        if ((this.params.keywords && this.params.keywords.length === 0) || !this.params.keywords) { delete this.params.keywords; }
+        if ((this.params.tags && this.params.tags.length === 0) || !this.params.tags) { delete this.params.tags; }
+        if (this.params.type === 'all') { this.params.type = null; }
+        if (this.params.distanceType === 'all') { this.params.distanceType = null; }
+        if (this.params.weekCountFrom) { this.params.weekCountFrom = Number(this.params.weekCountFrom); }
+        if (this.params.weekCountTo) { this.params.weekCountTo = Number(this.params.weekCountTo); }
     }
 
     prepareData () {
         this.isLoadingData = true;
-        this.trainingPlansService.store(this.searchParams)
+        this.trainingPlansService.store(this.params)
             .then(result => this.prepareList(result), e => this.errorHandler(e))
             //.then(_ => this.plans && this.message.toastInfo('trainingPlansSearchResult', {total: this.plans.list.length}))
             .then(_ => this.isLoadingData = false)
@@ -99,7 +102,7 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
         this.trainingPlanDialogs.order(e, item)
             .then(_ => {debugger; return this.trainingPlansService.purchase(item.id);}, e => {debugger; throw e;})
             .then(_ => this.trainingPlanDialogs.orderSuccess(e), e => e && this.message.toastError(e))
-            .then(_ => this.trainingPlansService.store(this.searchParams))
+            .then(_ => this.trainingPlansService.store(this.params))
             .then(r => this.prepareList(r), error => {debugger;})
             .then(_ => this.$scope.$applyAsync());
     }
@@ -119,7 +122,7 @@ export class TrainingPlansStoreItemsCtrl implements IComponentController {
 
 export const TrainingPlansStoreItemsComponent:IComponentOptions = {
     bindings: {
-        searchParams: '<',
+        searchParams: '=',
         cardView: '<',
         update: '<',
         limit: '<',

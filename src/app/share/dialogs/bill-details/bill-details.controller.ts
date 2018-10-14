@@ -3,6 +3,7 @@ import BillingService from "../../../core/billing.service";
 import MessageService from "../../../core/message.service";
 import { IBill, IBillDetails } from "../../../../../api/billing/billing.interface";
 import {maybe, prop} from "../../utility";
+import {gtmPayment, gtmOpenInvoice} from "../../google/google-analitics.functions";
 
 export class BillDetailsCtrl {
     // private
@@ -19,6 +20,7 @@ export class BillDetailsCtrl {
                  private bill: IBillDetails) {
 
         this.setBill(this.bill);
+        gtmOpenInvoice(this.bill);
         this.$scope.$watch(() => this.paymentSystem, this.savePaymentSystem);
 
     }
@@ -56,7 +58,10 @@ export class BillDetailsCtrl {
     let checkoutUrl = maybe(this.bill) (prop('payment')) (prop('checkoutUrl')) ();
 
         return checkoutUrl && this.billingService.checkout(checkoutUrl)
-                .then(_ => this.$mdDialog.hide(), (info) => {
+                .then(_ => {
+                    this.$mdDialog.hide();
+                    gtmPayment(this.bill);
+                    }, (info) => {
                     this.messageService.systemWarning(info);
                     throw info;
                 });
