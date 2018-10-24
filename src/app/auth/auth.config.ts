@@ -63,6 +63,10 @@
             url: "/signout",
             title: 'auth.signout.shortTitle',
             loginRequired: false,
+            onEnter: () => {
+                dataLayer.push({'screenPath': 'signout', 'screenName': 'SignOut'});
+                dataLayer.push({'event': 'appScreenView'});
+            },
             params: {
                 activatePremiumTrial: null,
                 activateCoachTrial: null,

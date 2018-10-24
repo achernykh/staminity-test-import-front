@@ -24,10 +24,10 @@
                 </md-menu-item>
                 <md-divider></md-divider>
                 <md-menu-item>
-                    <md-button ng-click="$ctrl.setUser($ctrl.currentUser.userId)"
-                               ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
-                        <userpic profile="$ctrl.user" unlink="true"></userpic>
-                        <span>{{$ctrl.user | userName}}</span>
+                    <md-button ng-click="$ctrl.setUser($ctrl.owner.userId)"
+                               ng-disable="$ctrl.user.userId === $ctrl.owner.userId">
+                        <userpic profile="$ctrl.owner" unlink="true"></userpic>
+                        <span>{{$ctrl.owner | userName}}</span>
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
@@ -99,10 +99,10 @@
                     </md-menu-item>
                     <md-divider></md-divider>
                     <md-menu-item>
-                        <md-button ng-click="$ctrl.setOwner($ctrl.currentUser.userId)"
-                                   ng-disable="$ctrl.currentUser.userId === $ctrl.owner.userId">
-                            <userpic profile="$ctrl.currentUser"></userpic>
-                            <span>{{$ctrl.currentUser | userName}}</span>
+                        <md-button ng-click="$ctrl.setOwner($ctrl.owner.userId)"
+                                   ng-disable="$ctrl.user.userId === $ctrl.owner.userId">
+                            <userpic profile="$ctrl.owner"></userpic>
+                            <span>{{$ctrl.owner | userName}}</span>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>

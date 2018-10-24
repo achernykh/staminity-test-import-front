@@ -1,8 +1,18 @@
 import {IBill, IBillDetails, IBillingTariff} from "@api/billing";
 interface WindowGoogle extends Window { dataLayer: any; }
+declare var dataLayer: any[];
 
-export const gtmEvent = (event: string, appEventCategory: string, appEventLabel: string, appEventAction: string, appEventValue?: number ) =>
-    (window as WindowGoogle).dataLayer.push({ appEventCategory, appEventAction, appEventLabel, appEventValue}, { event });
+export const gtmEvent = (event?: string,
+                         appEventCategory?: string,
+                         appEventLabel?: string,
+                         appEventAction?: string,
+                         appEventValue: number = 0 ) =>
+        dataLayer.push({appEventCategory, appEventLabel, appEventAction, appEventValue},{event});
+
+export const gaEmailSignin = () => {
+    dataLayer.push({'appEventCategory': 'signin', 'appEventAction': 'click', 'appEventLabel': 'emailsignin', 'appEventValue': 0});
+    dataLayer.push({'event': 'appEvent'});
+};
 
 export const gaEmailSignup = () => {
     (window as WindowGoogle).dataLayer('send', 'event', {
@@ -20,7 +30,7 @@ export const gaSocialSignup = () =>
     });
 
 export const gtmViewTariff = (tariff: IBillingTariff, fee: { currency: string, rate: number }) => {
-    /**dataLayer.push({
+    dataLayer.push({
         'ecommerce': {
             'currencyCode': fee.currency,
             'click': {
@@ -38,8 +48,8 @@ export const gtmViewTariff = (tariff: IBillingTariff, fee: { currency: string, r
         'event': 'appCommerceEvent',
         'appEventCategory': 'Ecommerce',
         'appEventAction': 'View Tariff',
-    });**/
-    gtmEvent('appEvent', 'tariffs', tariff.tariffCode, 'viewTariff');
+    });
+    //gtmEvent('appEvent', 'tariffs', tariff.tariffCode, 'viewTariff');
 };
 
 export const gtmOpenInvoice = (bill: IBill | IBillDetails) => {

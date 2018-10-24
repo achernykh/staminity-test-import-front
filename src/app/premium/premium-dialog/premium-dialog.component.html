@@ -22,7 +22,7 @@
             </swiper>
         </md-content>
         <md-dialog-actions flex="none" layout="row" style="background: white"
-                           ng-if="!$ctrl.billing.trialConditions.isAvailable">
+                           ng-if="!$ctrl.billing.trialConditions.isAvailable && $ctrl.billing.isEnabled">
             <span flex></span>
             <md-button type="submit"
                        ng-click="$ctrl.pay(1)">
@@ -34,7 +34,7 @@
             </md-button>
         </md-dialog-actions>
         <md-dialog-actions flex="none" layout="row" style="background: white"
-                           ng-if="$ctrl.billing.trialConditions.isAvailable">
+                           ng-if="$ctrl.billing.trialConditions.isAvailable && $ctrl.billing.isEnabled">
             <span flex></span>
             <md-button type="submit"
                        ng-click="$ctrl.pay(1)">

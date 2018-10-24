@@ -4,6 +4,7 @@ import {IBillingTariff} from "@api/billing";
 import {IUserProfile} from "@api/user";
 import {EnableTariffCtrl} from "../../share/dialogs/enable-tariff/enable-tariff.controller";
 import {getPremiumPageByFunction} from "../premium.functions";
+import MessageService from "@app/core/message.service";
 
 export class PremiumDialogService {
 
@@ -22,11 +23,12 @@ export class PremiumDialogService {
         fullscreen: true
     };
 
-    static $inject = ['$mdDialog', 'BillingService', 'SessionService'];
+    static $inject = ['$mdDialog', 'BillingService', 'SessionService', 'message'];
 
     constructor (private $mdDialog,
                  private billingService: BillingService,
-                 private session: SessionService) {
+                 private session: SessionService,
+                 private message: MessageService) {
 
     }
 
@@ -56,9 +58,10 @@ export class PremiumDialogService {
             resolve: {
                 checkTariff: () => {
                     debugger;
-                    if (tariff.isBlocked) {
+                    if (tariff.isBlocked && tariff.isOn) {
                         return Promise.resolve(_ => {debugger;})
                             .then(_ => this.billingService.disableTariff(tariffId, user.userId))
+                            .catch(e => this.message.toastError(e))
                     } else {
                         return true;
                     }
