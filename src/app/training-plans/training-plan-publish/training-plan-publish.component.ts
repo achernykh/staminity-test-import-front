@@ -96,7 +96,7 @@ class TrainingPlanPublishCtrl implements IComponentController {
             .then(result => this.plan = new TrainingPlan(result), error => this.errorHandler(error))
             .then(_ => this.agentService.getAgentProfile())
             .then(p => {
-                this.isResidentRus = p.residentCountry === 'ru';
+                this.isResidentRus = p.residentCountry === 'RU';
                 this.isProfileComplete = p.isCompleted && p.isActive;
             })
             .then(() => this.dataLoading = true);

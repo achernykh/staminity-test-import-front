@@ -1,0 +1,1 @@
+export const maybe = (x) => (f) => f? maybe(x? f(x) : x) : x;

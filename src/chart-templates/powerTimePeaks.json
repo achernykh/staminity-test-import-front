@@ -1,0 +1,291 @@
+{
+  "order": 12,
+  "revision": 1,
+  "active": true,
+  "group": "zonesAndPeaks",
+  "auth": [],
+  "premiumFunction": "PowerTimePeaks",
+  "icon": "insert_chart",
+  "code": "powerTimePeaks",
+  "compareSettings": {
+    "type": "periods",
+    "mode": "thisYear",
+    "ind": 0,
+    "visible": true
+  },
+  "settings": [],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [
+    {
+      "params": {
+        "users": null,
+        "activityTypes": null,
+        "periods": null
+      },
+      "options": {
+        "tooltip": {
+          "combined": true
+        },
+        "currentPositionLine": {
+          "enabled": true,
+          "color": "rgba(0,0,0,0.5)"
+        }
+      },
+      "series": [
+        {
+          "label": "peaks",
+          "unit": "",
+          "xAxis": true,
+          "tooltipType": "label",
+          "tooltipLabel": "peak",
+          "legend": false,
+          "currentPositionLine": true,
+          "idx": 0,
+          "measureSource": "peaksByTime",
+          "measureName": "Peaks",
+          "dataType": "string",
+          "dateFormat": "",
+          "valueType": "value",
+          "seriesDateTrunc": "",
+          "groupByIntervalLength": 1
+        }
+      ],
+      "measures": [
+        {
+          "id": "0",
+          "label": "power",
+          "unit": "watt",
+          "chartType": "area",
+          "smoothSettings": "curveCatmullRom",
+          "tooltipType": "label",
+          "tooltipLabel": "previousPeriod",
+          "legend": false,
+          "lineColor": "#BDBDBD",
+          "lineStyle": "solid",
+          "lineWidth": 2,
+          "fillType": "gradient",
+          "fillColor": "#CFD8DC",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#F5F5F5",
+              "opacity": 0.1
+            },
+            {
+              "offset": "100%",
+              "color": "#9E9E9E",
+              "opacity": 0.4
+            }
+          ],
+          "markerColor": "#455A64",
+          "idx": 1,
+          "measureSource": "activity.actual.measure",
+          "measureName": "powerTimePeaks",
+          "dataType": "number",
+          "dateFormat": "",
+          "valueType": "peak",
+          "aggMethod": "max"
+        }
+      ]
+    },
+    {
+      "params": {
+        "users": null,
+        "activityTypes": null,
+        "periods": null
+      },
+      "options": {
+        "tooltip": {
+          "combined": true
+        },
+        "currentPositionLine": {
+          "enabled": true,
+          "color": "rgba(0,0,0,0.5)"
+        }
+      },
+      "series": [
+        {
+          "label": "peaks",
+          "unit": "",
+          "xAxis": true,
+          "tooltipType": "label",
+          "tooltipLabel": "peak",
+          "legend": false,
+          "currentPositionLine": true,
+          "idx": 0,
+          "measureSource": "peaksByTime",
+          "measureName": "Peaks",
+          "dataType": "string",
+          "dateFormat": "",
+          "valueType": "value",
+          "seriesDateTrunc": "",
+          "groupByIntervalLength": 1
+        }
+      ],
+      "measures": [
+        {
+          "id": "1",
+          "label": "power",
+          "unit": "watt",
+          "chartType": "area",
+          "smoothSettings": "curveCatmullRom",
+          "tooltipType": "label",
+          "tooltipLabel": "currentPeriod",
+          "legend": false,
+          "lineColor": "#9C27B0",
+          "lineStyle": "solid",
+          "lineWidth": 2,
+          "fillType": "gradient",
+          "fillColor": "",
+          "gradient": [
+            {
+              "offset": "0%",
+              "color": "#E1BEE7",
+              "opacity": 0.2
+            },
+            {
+              "offset": "100%",
+              "color": "#9C27B0",
+              "opacity": 0.6
+            }
+          ],
+          "idx": 1,
+          "measureSource": "activity.actual.measure",
+          "measureName": "powerTimePeaks",
+          "dataType": "number",
+          "dateFormat": "",
+          "valueType": "peak",
+          "aggMethod": "max"
+        }
+      ]
+    }
+  ],
+  "data": [
+    {
+      "measure": "power",
+      "code": "power1minPeakCompare",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "filter": 60,
+        "formula": [
+          "sum"
+        ]
+      }
+    },
+    {
+      "measure": "power",
+      "code": "power1minPeak",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "filter": 60,
+        "formula": [
+          "sum"
+        ],
+        "subValue": {
+          "formula": [
+            "subtract"
+          ],
+          "params": [
+            "power1minPeakCompare"
+          ],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    },
+    {
+      "measure": "power",
+      "code": "power5minPeakCompare",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "filter": 300,
+        "formula": [
+          "sum"
+        ]
+      }
+    },
+    {
+      "measure": "power",
+      "code": "power5minPeak",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "filter": 300,
+        "formula": [
+          "sum"
+        ],
+        "subValue": {
+          "formula": [
+            "subtract"
+          ],
+          "params": [
+            "power5minPeakCompare"
+          ],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    },
+    {
+      "measure": "power",
+      "code": "power10minPeakCompare",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": false,
+      "compile": {
+        "ind": 0,
+        "idx": 1,
+        "filter": 600,
+        "formula": [
+          "sum"
+        ]
+      }
+    },
+    {
+      "measure": "power",
+      "code": "power10minPeak",
+      "color": "#3F51B5",
+      "hasBullet": false,
+      "description": false,
+      "visible": true,
+      "compile": {
+        "ind": 1,
+        "idx": 1,
+        "filter": 600,
+        "formula": [
+          "sum"
+        ],
+        "subValue": {
+          "formula": [
+            "subtract"
+          ],
+          "params": [
+            "power10minPeakCompare"
+          ],
+          "description": "analytics.params.byPreviewPeriod"
+        }
+      }
+    }
+  ]
+}

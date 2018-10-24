@@ -709,6 +709,22 @@ export const _translateMessage = {
         badZonesSettings: {
             title: '',
             text: "Зоны не сохранены. Проверьте корректность указания границ зон и уровня ПАНО"
+        },
+        analyticsSaveChartSettingsComplete: {
+            title: '',
+            text: "Настройки отчета сохранены"
+        },
+        analyticsDeleteChartSettingsComplete: {
+            title: '',
+            text: "Настройки отчета сброшены, установлены значения по-умолчанию"
+        },
+        premiumTrialEnabled: {
+		    title: 'Тариф "Премиум" подключен на пробный период',
+            text: ''
+        },
+        premiumEnabled: {
+            title: 'Тариф "Премиум" подключен',
+            text: ''
         }
 
 
@@ -1416,6 +1432,22 @@ export const _translateMessage = {
         badZonesSettings: {
             title: '',
             text: "Operation failed. Please check training zones limit values and LT level"
+        },
+        analyticsSaveChartSettingsComplete: {
+            title: '',
+            text: "Chart settings saved"
+        },
+        analyticsDeleteChartSettingsComplete: {
+            title: '',
+            text: "Chart settings restored to default"
+        },
+        premiumTrialEnabled: {
+            title: 'Premium trial enabled',
+            text: ''
+        },
+        premiumEnabled: {
+            title: 'Premium enabled',
+            text: ''
         }
 
 

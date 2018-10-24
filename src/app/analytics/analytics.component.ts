@@ -1,28 +1,37 @@
-import {copy, IComponentController, IComponentOptions, IPromise, IScope} from "angular";
-import {Subject} from "rxjs/Rx";
-import {IActivityCategory} from "../../../api/reference/reference.interface";
-import {IUserProfile, IUserProfilePublic, IUserProfileShort} from "../../../api/user/user.interface";
-import {IAuthService} from "../auth/auth.service";
-import {getUser, SessionService, StorageService} from "../core";
+import "./analytics.component.scss";
+import { IComponentController, IComponentOptions, IPromise, IScope } from "angular";
+import { Subject } from "rxjs/Rx";
+import { IActivityCategory } from "../../../api/reference/reference.interface";
+import { IUserProfile, IUserProfileShort } from "../../../api/user/user.interface";
+import { IAuthService, default as AuthService } from "../auth/auth.service";
+import { getUser, SessionService, StorageService } from "../core";
 import StatisticsService from "../core/statistics.service";
 import ReferenceService from "../reference/reference.service";
-import {
-    AnalyticsChartFilter, IAnalyticsChartFilter,
-    IAnalyticsChartSettings, IReportPeriodOptions, PeriodOptions,
-} from "./analytics-chart-filter/analytics-chart-filter.model";
-import {AnalyticsChart, IAnalyticsChart} from "./analytics-chart/analytics-chart.model";
-import "./analytics.component.scss";
+import { AnalyticsChartFilter } from "./analytics-chart-filter/analytics-chart-filter.model";
+import { IAnalyticsChart } from "./analytics-chart/analytics-chart.interface";
+import { AnalyticsChart } from "./analytics-chart/analytics-chart.model";
+import { AnalyticsService } from "./analytics.service";
+import {AnalyticsDialogService} from "@app/analytics/analytics-dialog.service";
 
 export class AnalyticsCtrl implements IComponentController {
 
-    user: IUserProfile;
+    owner: IUserProfile; // владелец отчетов
+    user: IUserProfile; // пользователь источник данных
+    athletes: Array<IUserProfileShort>;
     categories: IActivityCategory[];
     charts: AnalyticsChart[];
     onEvent: (response: Object) => IPromise<void>;
 
-    filter: AnalyticsChartFilter;
+    // public
+    private globalFilter: AnalyticsChartFilter;
 
+    // private
     private globalFilterChange: number = null;
+    private settingsChange: number = 0;
+    private refresh: number = 0;
+    private isLoadingData: boolean = true;
+    private chartTemplates: IAnalyticsChart[] = [];
+    private chartUserSettings: any[];
 
     private readonly storage = {
         name: "#analytics",
@@ -32,83 +41,165 @@ export class AnalyticsCtrl implements IComponentController {
 
     private destroy: Subject<any> = new Subject();
 
-    static $inject = ["$scope", "SessionService", "statistics", "storage", "ReferenceService", "analyticsDefaultSettings",
-        "AuthService", "$filter"];
+    static $inject = ["$scope", 'AnalyticsService', "AnalyticsDialogService", "SessionService", "statistics", "storage",
+        "ReferenceService", "AuthService", "$filter", "$mdMedia", '$mdDialog'];
 
-    constructor(private $scope: IScope,
-                private session: SessionService,
-                private statistics: StatisticsService,
-                private storageService: StorageService,
-                private reference: ReferenceService,
-                private defaultSettings: IAnalyticsChart[],
-                private auth: IAuthService,
-                private $filter: any) {
+    constructor (private $scope: IScope,
+                 private analyticsService: AnalyticsService,
+                 private analyticsDialogService: AnalyticsDialogService,
+                 private session: SessionService,
+                 private statistics: StatisticsService,
+                 private storageService: StorageService,
+                 private reference: ReferenceService,
+                 private authService: AuthService,
+                 private $filter: any,
+                 private $mdMedia,
+                 private $mdDialog) {
+
 
         session.getObservable()
             .takeUntil(this.destroy)
             .map(getUser)
-            .subscribe((userProfile) => {
-                //this.user = userProfile;
+            .subscribe(profile => {
+                this.owner = profile;
+                if ( this.owner.public.isCoach && this.owner.connections.hasOwnProperty('allAthletes') ) {
+                    this.athletes = this.owner.connections.allAthletes.groupMembers;
+                }
                 //this.prepareData(); // change options for users
             });
 
         reference.categoriesChanges
             .takeUntil(this.destroy)
             .subscribe((categories) => {
-                this.filter.setCategoriesOption(categories);
+                this.globalFilter.setCategoriesOption(categories);
                 this.$scope.$apply();
             });
+
+        this.analyticsService.item$
+            //.filter(m => m.value.code === this.chart.code || m.value.id === this.chart.id)
+            .subscribe(m => {
+                //debugger;
+                let chart: AnalyticsChart = this.charts.filter(c => m.value.code === c.code || m.value.id === c.id)[0];
+                switch (m.action) {
+                    case "I": case "U": {
+                    chart.update(m.value);
+                    break;
+                }
+                    case "D": {
+                        chart = new AnalyticsChart(
+                            chart.template, //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+                            chart.user,
+                            this.globalFilter,
+                            this.$filter);
+                        break;
+                    }
+                }
+            });
+
+        this.analyticsDialogService.refresh.subscribe(v => { if (v > this.refresh) {this.refresh = v;}});
+        this.analyticsDialogService.globalFilter.subscribe(v => {this.globalFilter = v; this.globalFilterChange ++;});
     }
 
-    $onInit() {
-        this.prepareData();
-    }
+    $onInit () { this.prepareData(); }
 
-    $onDestroy() {
+    $onDestroy () {
         this.destroy.next();
         this.destroy.complete();
     }
 
-    private prepareData() {
-        this.prepareFilter(this.user, this.categories);
-        this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
+    private prepareData () {
+        this.analyticsService.getTemplates()
+            .then(t => this.chartTemplates = t)
+            .then(_ => this.prepareCharts())
+            .then(_ => this.analyticsDialogService.charts.next(this.charts))
+            .then(_ => this.analyticsService.getChartSettings())
+            .then(s => this.applyLocalSettings(s))
+            .then(_ => this.prepareFilter(this.user, this.categories))
+            .then(_ => this.isLoadingData = false)
+            .then(_ => this.$scope.$applyAsync());
+
+        //this.prepareCharts(this.getSettings(this.storage.charts) || this.defaultSettings);
     }
 
-    restoreSettings() {
+    private deleteLocalSettings (): void {
+        debugger;
+        Promise.all(this.charts.filter(c => c.id)
+            .map(c => this.analyticsService.deleteChartSettings(c.id)))
+            .then(r => { debugger; });
+            //.then(_ => this.globalFilterChange ++);
+    }
+
+    private applyLocalSettings (localSettings: any[]): void {
+        localSettings.map(s =>
+            this.charts.some(c => c.code === s.code) &&
+            Object.assign(this.charts.filter(c => c.code === s.code)[0], s));
+    }
+
+    restoreSettings () {
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.charts}`);
         this.storageService.remove(`${this.user.userId}${this.storage.name}_${this.storage.filter}`);
-        this.prepareCharts(this.defaultSettings);
+        //this.prepareCharts(this.defaultSettings);
     }
 
-    private getSettings(obj: string): any {
+    private getSettings (obj: string): any {
         return this.storageService.get(`${this.user.userId}${this.storage.name}_${obj}`);
     }
 
-    private saveSettings() {
+    private saveSettings () {
         this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.charts}`, this.charts.map((c) => c.transfer()));
-        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.filter.transfer());
+        this.storageService.set(`${this.user.userId}${this.storage.name}_${this.storage.filter}`, this.globalFilter.transfer());
     }
 
-    private prepareFilter(user: IUserProfile, categories: IActivityCategory[]) {
-        this.filter = new AnalyticsChartFilter(
+    private setPeriod (type: string, param: string = 'periods'): void {
+        this.globalFilter.periods.model = type;
+        this.globalFilter.changeParam(param);
+        this.globalFilterChange ++;
+    }
+
+    private setUser (userId: number, param: string = 'users'): void {
+        this.user = this.athletes.filter(a => a.userId === userId)[0] || this.owner;
+        this.globalFilter.users.model = [userId];
+        this.globalFilter.changeParam(param);
+        this.globalFilterChange ++;
+    }
+
+    private selectTemplates (e: Event): void {
+        this.analyticsDialogService.templateSelector(e, this.charts).then();
+    }
+
+    private refreshData (): void {
+        this.refresh ++;
+        this.analyticsDialogService.refresh.next(this.refresh);
+    }
+
+    private prepareFilter (user: IUserProfile, categories: IActivityCategory[]) {
+        this.globalFilter = new AnalyticsChartFilter(
             user,
             categories,
-            this.getSettings(this.storage.filter),
+            null,//this.getSettings(this.storage.filter),
             this.$filter);
+        this.analyticsDialogService.globalFilter.next(this.globalFilter);
     }
 
-    private prepareCharts(charts: IAnalyticsChart[]) {
-        this.charts = charts.map((c) => new AnalyticsChart(
-            Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
+    private prepareCharts () {
+        this.charts = this.chartTemplates.map(t => new AnalyticsChart(
+            t,
+            //Object.assign(c, {isAuthorized: this.auth.isAuthorized(c.auth)}),
             this.user,
-            this.filter,
+            this.globalFilter,
             this.$filter));
+    }
+
+    openMenu ($mdMenu, ev) {
+        $mdMenu.open(ev);
     }
 }
 
 const AnalyticsComponent: IComponentOptions = {
     bindings: {
+        owner: "<",
         user: "<",
+        athletes: '<',
         categories: "<",
         onEvent: "&",
     },

@@ -40,8 +40,8 @@ module.exports = {
             'angularjs-toaster/toaster.css',
             'animate.css/animate.css',
             'animate.css',
-            'angular-carousel',
-            'angular-carousel/dist/angular-carousel.css',
+            //'angular-carousel',
+            //'angular-carousel/dist/angular-carousel.css',
             'angular-touch', // not supported when use angular-material, but need for angular-carousel
             'angular-drag-and-drop-lists',
             'angular-read-more',
@@ -56,7 +56,9 @@ module.exports = {
             'ng-quill/dist/ng-quill.js',
             //'unichart/dist/uchart.min.js'
             'localforage/dist/localforage.js',
-            'autolinker/dist/Autolinker.js'
+            'autolinker/dist/Autolinker.js',
+            'angular-ui-swiper/dist/angular-ui-swiper.js',
+            'angular-ui-swiper/dist/angular-ui-swiper.css',
         ],
         // вход для приложения
         app: './src/app/app.module.ts'

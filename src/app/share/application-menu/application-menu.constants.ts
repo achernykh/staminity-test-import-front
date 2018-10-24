@@ -89,7 +89,8 @@ export const AppMenuSettings = [
         name: "appMenu.season",
         link: "training-season-builder",
         hideMobile: true,
-        role: ['ActivitiesPlan_User', 'ActivitiesPlan_Athletes']
+        role: ['ActivitiesPlan_User', 'ActivitiesProView_Athletes', 'ActivitiesPlan_Athletes'],
+        premiumFunction: 'seasonPlanning',
         //state: 'soon'
         //role: [_UserRoles.user]
     },

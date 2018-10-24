@@ -84,7 +84,7 @@ export const measureUnit = (measure: string, sport?: string, units?: string): st
 
 export const measureName = (measure: string, sport: string): string => {
     const m: any = measure && _measurement[measure];
-    if (m.hasOwnProperty('transformBySport')) {
+    if (m && m.hasOwnProperty('transformBySport')) {
         Object.keys(m.transformBySport).map(v => m.transformBySport[v].some(s => s === sport) && (measure = v));
     }
     return measure;

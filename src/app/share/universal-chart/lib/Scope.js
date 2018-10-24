@@ -176,7 +176,8 @@ class Scope {
         if (view.getConfig().get('cumulative', false)) {
             y = y.map(function(value, index, set) {
                 return set.slice(0, index + 1).reduce(function(sum, value) {
-                    return sum + value;
+                    // change for cumulative mode. data in date > today = null
+                    return value !== undefined ? sum + value : value;
                 }, 0);
             })
         }

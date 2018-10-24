@@ -1,7 +1,9 @@
 import moment from 'moment/min/moment-with-locales.js';
 import './dialogs.scss';
 import './moneta.scss';
-import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../util';
+import { id, uniqueBy, pipe, filter, map, prop, maybe } from '../utility';
+import {EnableTariffCtrl} from "./enable-tariff/enable-tariff.controller";
+import {BillDetailsCtrl} from './bill-details/bill-details.controller';
 
 
 export default class DialogsService {
@@ -100,9 +102,9 @@ export default class DialogsService {
                             throw info;
                         })
                 },
-                controller: EnableTariffController,
+                controller: EnableTariffCtrl,
                 controllerAs: '$ctrl',
-                template: require('./enable-tariff.html'),
+                template: require('./enable-tariff/enable-tariff.template.html'),
                 multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
@@ -188,9 +190,9 @@ export default class DialogsService {
                             throw info;
                         })
                 },
-                controller: BillDetailsController,
+                controller: BillDetailsCtrl,
                 controllerAs: '$ctrl',
-                template: require('./bill-details.html'),
+                template: require('./bill-details/bill-details.template.html'),
                 multiple: true,
                 parent: angular.element(document.body),
                 bindToController: true,
@@ -198,6 +200,28 @@ export default class DialogsService {
                 escapeToClose: true,
                 fullscreen: !this.$mdMedia('gt-sm')
             });
+    }
+
+    tariffConfirm (bill, user) {
+        return this.$mdDialog.show({
+            locals: { user },
+            resolve: {
+                bill: () => this.BillingService.getBillDetails(bill.billId)
+                .catch((info) => {
+                    this.message.systemWarning(info);
+                    throw info;
+                })
+            },
+            controller: BillDetailsCtrl,
+            controllerAs: '$ctrl',
+            template: require('./tariff-confirm/tariff-confirm.tamplate.html'),
+            multiple: true,
+            parent: angular.element(document.body),
+            bindToController: true,
+            clickOutsideToClose: true,
+            escapeToClose: true,
+            fullscreen: !this.$mdMedia('gt-sm')
+        });
     }
 
     feeDetails (fee, bill) {
@@ -380,7 +404,7 @@ function SelectUsersController ($scope, $mdDialog, users, selectedUsers, message
 SelectUsersController.$inject = ['$scope','$mdDialog', 'users', 'selectedUsers', 'message'];
 
 
-function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
+/**function EnableTariffController($scope, $mdDialog, BillingService, dialogs, message, user, tariff, billing) {
     this.tariff = tariff;
     this.user = user;
 
@@ -414,6 +438,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
     };
 
     this.setBilling(billing);
+    gtmViewTariff(this.tariff, {currency: this.fee.currency, rate: this.monthlyFee});
 
     this.submitPromo = (promoCode) => {
         BillingService.getTariff(tariff.tariffId, promoCode)
@@ -463,7 +488,7 @@ function EnableTariffController($scope, $mdDialog, BillingService, dialogs, mess
 
 EnableTariffController.$inject = ['$scope', '$mdDialog', 'BillingService', 'dialogs', 'message', 'user', 'tariff', 'billing'];
 
-
+**/
 function DisableTariffController($scope, $mdDialog, BillingService, message, user, tariff, billing, $translate) {
     this.tariff = tariff;
     this.user = user;
@@ -629,7 +654,7 @@ function BillsListController($scope, $mdDialog, dialogs, BillingService, message
 BillsListController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'user', 'bills', '$translate'];
 
 
-function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
+/**function BillDetailsController($scope, $mdDialog, dialogs, BillingService, message, bill) {
     this.setBill = (bill) => {
         this.bill = bill;
         this.billStatus = BillingService.billStatus(bill);
@@ -664,6 +689,7 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
 
         return checkoutUrl && BillingService.checkout(checkoutUrl)
             .then(() => {
+                gtmPayment(bill);
                 $mdDialog.hide();
             }, (info) => {
                 message.systemWarning(info);
@@ -676,13 +702,14 @@ function BillDetailsController($scope, $mdDialog, dialogs, BillingService, messa
     };
 
     this.setBill(bill);
+    gtmOpenInvoice(bill);
 
     $scope.$watch(() => this.paymentSystem, this.savePaymentSystem);
 
     console.log('BillDetailsController', this);
 }
 
-BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'bill'];
+BillDetailsController.$inject = ['$scope', '$mdDialog', 'dialogs', 'BillingService', 'message', 'bill'];**/
 
 
 function FeeDetailsController ($scope, $mdDialog, dialogs, fee, bill) {

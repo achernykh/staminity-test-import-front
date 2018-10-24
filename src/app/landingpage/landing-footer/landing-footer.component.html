@@ -39,14 +39,14 @@
         </div>
         <div flex="none"></div>
     </div>
-    <div flex="none">
-        <a flex="none" target="_blank" href="https://itunes.apple.com/app/true/id1257031952">
-            <img src="/assets/icon/apple_store.svg"/>
-        </a>
+    <div flex="none" style="cursor: pointer;">
+
+            <img flex="none" ng-click="$ctrl.appStore()" src="/assets/icon/apple_store.svg"/>
+
         <span>&nbsp;&nbsp;&nbsp;</span>
-        <a flex="none" target="_blank" href="https://play.google.com/store/apps/details?id=com.staminity.phoneapp">
-            <img src="/assets/icon/google_play.svg"/>
-        </a>
+
+            <img flex="none" ng-click="$ctrl.googlePlay()" src="/assets/icon/google_play.svg"/>
+
     </div>
     <div flex="none" layout="row" layout-align="center center" class="social-buttons" style="margin: 16px 0">
         <md-button flex="none" class="md-icon-button more" aria-label="more" style="margin-left: -8px"

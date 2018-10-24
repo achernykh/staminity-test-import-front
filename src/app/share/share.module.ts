@@ -21,7 +21,7 @@ import { duration } from "./measure/measure.filter";
 import NotificationListComponent from "./notification/notification-list.component";
 import NotificationService from "./notification/notification.service";
 import { translateNotification } from "./notification/notification.translate";
-import { memorize, maybe, prop } from "./util.js";
+import { memorize, maybe, prop } from "./utility";
 import { calcTimezoneTime, fromNow } from "./date/date.filter";
 import PageNotFoundComponent from "./404/404.component";
 import { _translate_PageNotFound } from "./404/404.translate";

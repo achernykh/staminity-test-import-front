@@ -1,0 +1,112 @@
+{
+  "order": 11,
+  "revision": 1,
+  "active": true,
+  "group": "zonesAndPeaks",
+  "auth": [],
+  "premiumFunction": "SpeedTimePeaks",
+  "icon": "insert_chart",
+  "code": "paceTimePeaks",
+  "settings": [
+    {
+      "type": "radio",
+      "text": "paceSpeedUnit",
+      "model": "minpkm",
+      "options": ["minpkm", "kmph", "minp100m"],
+      "change": [{
+        "ind": [0],
+        "idx": [1],
+        "area": "measures",
+        "name": "unit",
+        "options": {
+          "minpkm": {
+            "unit": "minpkm",
+            "dataType": "time",
+            "dateFormat": "mm:ss",
+            "reverse": true
+          },
+          "kmph": {
+            "unit": "kmph",
+            "dataType": "number",
+            "dateFormat": "",
+            "reverse": false
+          },
+          "minp100m": {
+            "unit": "minp100m",
+            "dataType": "time",
+            "dateFormat": "mm:ss",
+            "reverse": true
+          }
+        }
+      }]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": null,
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "tooltip": {
+        "combined": true
+      },
+      "currentPositionLine": {
+        "enabled": true,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "series": [{
+      "label": "peaks",
+      "unit": "",
+      "xAxis": true,
+      "tooltipType": "label",
+      "tooltipLabel": "peak",
+      "legend": false,
+      "currentPositionLine": true,
+      "idx": 0,
+      "measureSource": "peaksByTime",
+      "measureName": "Peaks",
+      "dataType": "string",
+      "dateFormat": "",
+      "valueType": "value",
+      "seriesDateTrunc": "",
+      "groupByIntervalLength": 1
+    }],
+    "measures": [{
+      "id": "0",
+      "label": "Темп",
+      "unit": "minpkm",
+      "chartType": "area",
+      "smoothSettings": "curveCatmullRom",
+      "tooltipType": "icon",
+      "legend": false,
+      "lineColor": "#2196F3",
+      "lineStyle": "solid",
+      "lineWidth": 2,
+      "fillType": "gradient",
+      "fillColor": "",
+      "gradient": [{
+        "offset": "0%",
+        "color": "#BBDEFB",
+        "opacity": 0.2
+      }, {
+        "offset": "100%",
+        "color": "#2196F3",
+        "opacity": 0.6
+      }],
+      "idx": 1,
+      "measureSource": "activity.actual.measure",
+      "measureName": "speedTimePeaks",
+      "dataType": "time",
+      "dateFormat": "mm:ss",
+      "valueType": "peak",
+      "aggMethod": "max",
+      "reverse": true
+    }]
+  }]
+}

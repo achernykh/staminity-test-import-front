@@ -1,6 +1,6 @@
 import moment from "moment/min/moment-with-locales.js";
 import { Moment } from "moment";
-import { times } from "../../share/util.js";
+import { times } from "../../share/utility";
 import { TrainingSeason } from "../training-season/training-season.datamodel";
 import { IMicrocycle } from "../../../../api/seasonPlanning/seasonPlanning.interface";
 import { ICalendarItem } from "../../../../api/calendar/calendar.interface";

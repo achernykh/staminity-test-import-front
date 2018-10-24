@@ -1,7 +1,7 @@
 import './calendar.component.scss';
 import moment from 'moment/min/moment-with-locales.js';
 import { Subject } from 'rxjs/Subject';
-import { times } from '../share/util.js';
+import { times } from '../share/utility';
 import { IComponentOptions, IComponentController, IScope, IAnchorScrollService, ILocationService, IDocumentService, copy} from 'angular';
 import {IMessageService} from "../core/message.service";
 import {CalendarService} from "./calendar.service";
@@ -21,6 +21,8 @@ import AuthService from "@app/auth/auth.service";
 import { updateIntensity, changeUserOwner } from "../activity/activity.function";
 import { getUser } from "../core/session/session.service";
 import UserService from "../core/user.service";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
+import {isFutureDay} from "../share/date/date.filter";
 
 export class CalendarCtrl implements IComponentController{
 
@@ -34,7 +36,7 @@ export class CalendarCtrl implements IComponentController{
     // inject
     static $inject = ['$scope', '$mdDialog', '$mdMedia', '$anchorScroll', '$location', '$stateParams', 'message',
         'CalendarService', 'CalendarItemDialogService', 'SessionService', 'dialogs', 'DisplayService', 'AuthService',
-        'SessionService', 'UserService'];
+        'SessionService', 'UserService', 'PremiumDialogService'];
     public user: IUserProfile; // calendar owner
     private weekdayNames: Array<number> = [];
     private selectedItems: Array<ICalendarItem> = []; // буфер выделенных записей
@@ -66,7 +68,8 @@ export class CalendarCtrl implements IComponentController{
         private display: DisplayService,
         private auth: AuthService,
         private sessionService: SessionService,
-        private userService: UserService
+        private userService: UserService,
+        private premiumDialogService: PremiumDialogService
     ) {
 
     }
@@ -217,7 +220,7 @@ export class CalendarCtrl implements IComponentController{
     }
 
     get isLargeScreen (): boolean {
-        return this.$mdMedia('min-width: 1440px');
+        return this.$mdMedia('min-width: 1360px');
     }
 
     get panelAuthCheck (): boolean {
@@ -341,6 +344,11 @@ export class CalendarCtrl implements IComponentController{
      */
     pasteItems (firstTrgDay: string){
         if (!firstTrgDay) { return; }
+        if (!this.panelAuthCheck && isFutureDay(firstTrgDay)) {
+            this.premiumDialogService.open(null, 'futurePlaning').then();
+            return;
+        }
+
         let shift = moment(firstTrgDay, 'YYYY-MM-DD').diff(moment(this.firstSrcDay,'YYYY-MM-DD'), 'days');
         let task:Array<Promise<any>> = [];
         let update: boolean = this.copiedItems.some(i => i.userProfileOwner.userId !== this.owner);
@@ -488,7 +496,7 @@ export class CalendarCtrl implements IComponentController{
      * @param item
      */
     update (mode: FormMode, item: ICalendarItem): void {
-        console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
+        //console.info('sync update', item.calendarItemType, item.calendarItemId, item.revision, item);
         if (item.calendarItemType === 'record' && item.recordHeader && item.recordHeader.repeat) {console.info('sync update: skip parent record'); return;}
         switch (mode) {
             case FormMode.Post: {
@@ -509,6 +517,12 @@ export class CalendarCtrl implements IComponentController{
     }
 
     dropItems (mode: FormMode, item: ICalendarItem): void {
+
+        if (!this.panelAuthCheck && isFutureDay(item.dateStart)) {
+            this.premiumDialogService.open(null, 'futurePlaning').then();
+            return;
+        }
+
         switch (mode) {
             case FormMode.Post: {
                 this.post(item);
@@ -523,6 +537,14 @@ export class CalendarCtrl implements IComponentController{
     }
 
     onDropTemplate (template: IActivityTemplate, date: string): void {
+
+        debugger;
+
+        if (!this.panelAuthCheck && isFutureDay(date)) {
+            this.premiumDialogService.open(null, 'futurePlaning').then();
+            return;
+        }
+
         let item: ICalendarItem = {
             revision: null,
             calendarItemId: null,

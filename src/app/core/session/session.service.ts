@@ -32,7 +32,7 @@ export class SessionService {
     // async set item (use un auth.signedIn)
     setItem (session: ISession = {}): Promise<any> {
         this.session.next(session);
-        return this.storage.setItem('session', session).then(d => {});
+        return this.storage.setItem('session', session);
     }
 
     refresh (changes: Object) {

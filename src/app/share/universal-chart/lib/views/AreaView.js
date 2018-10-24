@@ -66,6 +66,8 @@ class AreaView extends LineView {
         var lineGenerator = LineStateFactory.getInstance(this, 'line')
             .getLineGenerator();
 
+        if (!this._strokes) {return;}
+
         this._strokes
             .attr('transform', 'translate(' + this._state.getTransform() + ')')
             .attr('d', lineGenerator);

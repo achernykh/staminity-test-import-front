@@ -59,6 +59,8 @@ class RowLegend extends Legend {
         var columnsPerRow = Math.floor(this._uChart.getOuterWidth() / columnLength);
         this._rowsNumber = Math.ceil(this.getData().length / columnsPerRow);
 
+        if (!this._rowsNumber) {return;}
+
         this._items
             .attr('transform', function(d, i) {
                 return 'translate(' + (i % columnsPerRow * columnLength) + ', ' + (Math.floor(i / columnsPerRow) * 20) + ')';

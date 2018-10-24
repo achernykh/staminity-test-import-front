@@ -1,9 +1,8 @@
 import moment from 'moment/src/moment.js';
-import { orderBy } from '../share/util.js';
+import { orderBy, memorize } from '../share/utility';
 import { IGroupMembershipRequest, GetGroupMembershipRequest, ProcessGroupMembershipRequest } from '../../../api';
 import { SessionService,SocketService } from './index';
 import { Observable, Subject } from 'rxjs/Rx';
-import { memorize } from '../share/util.js';
 
 
 const parseDate = memorize(moment);

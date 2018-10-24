@@ -1,10 +1,11 @@
 /**
  * Переводим цвет из формата # в формат rgba
  * @param hex
- * @params opactity
+ * @params opacity
  * @returns {string} формат 'rgba(number, number, number)'
  */
 export const hexToRgbA = (hex: string, opactity: number = 1): string => {
+    if (!hex) {return 'rgb(0,0,0,0)';}
     let c;
     if ( /^#([A-Fa-f0-9]{3}){1,2}$/.test(hex) ) {
         c = hex.substring(1).split('');
@@ -14,5 +15,5 @@ export const hexToRgbA = (hex: string, opactity: number = 1): string => {
         c = '0x' + c.join('');
         return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + ',' + opactity + ')';
     }
-    throw new Error('Bad Hex');
+    throw new Error(`Bad Hex ${hex}`);
 };

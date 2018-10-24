@@ -1,5 +1,6 @@
 import './club.component.scss';
 import { saveUtmParams } from "../share/location/utm.functions";
+import {gtmRequest} from "../share/google/google-analitics.functions";
 
 class ClubCtrl {
 
@@ -37,6 +38,7 @@ class ClubCtrl {
         return this.dialogs.confirm({ text: 'dialogs.startClub' })
             .then(() => this.GroupService.join(this.club.groupId, this.SessionService.getCurrentUserId()))
             .then((result) => {
+                gtmRequest('join', 'club');
                 this.message.toastInfo('requestComplete');
                 this.update();
             }, (error) => {
@@ -48,6 +50,7 @@ class ClubCtrl {
         return this.dialogs.confirm({ text: 'dialogs.leaveClub' })
             .then(() => this.GroupService.leave(this.club.groupId, this.SessionService.getCurrentUserId()))
             .then((result) => {
+                gtmRequest('leave', 'club');
                 this.message.toastInfo('requestComplete');
                 this.update();
             }, (error) => {
@@ -59,6 +62,7 @@ class ClubCtrl {
         return this.dialogs.confirm({ text: 'dialogs.rejectRequest' })
             .then(() => this.GroupService.processMembership('C',this.club.groupId))
             .then((result) => {
+                gtmRequest('cancel', 'club');
                 this.message.toastInfo('requestComplete');
                 this.update();
             }, (error) => {

@@ -16,13 +16,13 @@ class HorizontalView extends BarView {
         super.render();
 
         this._container = this.getViewsContainer().append('g')
-            .attr('class', 'view bar-view');
+            .attr('class', 'view d3-bar-view');
 
-        this._bars = this._container.selectAll('rect.bar')
+        this._bars = this._container.selectAll('rect.d3-bar')
             .data(this.getData())
             .enter()
             .append('rect')
-            .attr('class', 'bar')
+            .attr('class', 'd3-bar')
             .style('fill', function(d) {
                 return this._getColor(d);
             }.bind(this));

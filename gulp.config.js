@@ -59,7 +59,7 @@ const backend = {
     build: {
         protocol_ws: 'wss://',
         protocol_rest: 'https://',
-        server: 'testapp.staminity.com',
+        server: 'app.staminity.com',
         content: 'https://app.staminity.com',
         frontend: 'https://dev2.staminity.com/'
     },
@@ -115,6 +115,7 @@ module.exports = {
         cssLibs: cssLibs,
         assets: src + 'assets/**/*.*',
         moneta: src + 'moneta/*.html',
+        chart: src + 'chart-templates/*.json',
         sass: src + 'sass/app.scss',
         sassFiles: [src + 'sass/app.scss' , src + 'js/**/*.scss', src + 'js/**/**/*.scss', src + 'sass/*.scss'],
         templates: [src + 'js/**/*.html', src + 'js/**/**/*.html', src + 'js/**/**/**/*.html']

@@ -63,6 +63,10 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="categories">
+        <st-premium-wrapper class=""
+                            function-code="'categories'"
+                            additional-auth="$ctrl.authService.isCoach()">
+        </st-premium-wrapper>
         <categories ng-if="$ctrl.checkAuth()"
                 templates="$ctrl.templates"
                 categories="$ctrl.categories"
@@ -92,6 +96,10 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="periodization">
+        <st-premium-wrapper class=""
+                            function-code="'periodization'"
+                            additional-auth="$ctrl.authService.isCoach()">
+        </st-premium-wrapper>
         <st-periodization-scheme-list ng-if="$ctrl.checkAuth()"
             scheme="$ctrl.currentPeriodizationScheme">
         </st-periodization-scheme-list>
@@ -150,6 +158,10 @@
     </st-application-frame-left-bar>
 
     <st-application-frame-content ng-switch-when="templates">
+        <st-premium-wrapper class=""
+                            function-code="'templates'"
+                            additional-auth="$ctrl.authService.isCoach()">
+        </st-premium-wrapper>
         <templates ng-if="$ctrl.checkAuth()"
                 templates="$ctrl.templates"
                 categories="$ctrl.categories"

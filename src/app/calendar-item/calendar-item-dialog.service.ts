@@ -6,6 +6,9 @@ import { IUserProfile } from "../../../api/user/user.interface";
 import UserService from "../core/user.service";
 import MessageService from "../core/message.service";
 import {IActivityIntervalW} from "@api/activity";
+import {isFutureDay} from "../share/date/date.filter";
+import {PremiumDialogService} from "@app/premium/premium-dialog/premium-dialog.service";
+import {FormMode} from "../application.interface";
 
 export class CalendarItemDialogService {
 
@@ -25,11 +28,13 @@ export class CalendarItemDialogService {
     };
 
     // inject
-    static $inject = ['$mdDialog', 'AuthService', 'UserService', 'message'];
+    static $inject = ['$mdDialog', 'AuthService', 'UserService', 'message', 'PremiumDialogService'];
 
     constructor (private $mdDialog: any,
                  private auth: AuthService,
-                 private userService: UserService, private message: MessageService) {}
+                 private userService: UserService,
+                 private message: MessageService,
+                 private premiumDialogService: PremiumDialogService) {}
 
     /**
      * Диалог создания новой записи календаря
@@ -78,7 +83,12 @@ export class CalendarItemDialogService {
               options: ICalendarItemDialogOptions,
               item: ICalendarItem = CalendarItemDialogService.activityFromOptions(options)): Promise<ICalendarItemDialogResponse> {
 
-                  return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
+        if (options.formMode === FormMode.Post &&
+            (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart))) {
+            return this.premiumDialogService.open(null, 'futurePlaning').then();
+        }
+
+        return this.$mdDialog.show(this.activityDialogOptions(env,options,item));
         //return Promise.resolve(() => {})
             //.then(() => false && this.completeTrainingZones(options))
             //.then((updOptions) => this.$mdDialog.show(this.activityDialogOptions(env,updOptions || options,item)) , error => this.message.toastError(error));
@@ -173,6 +183,11 @@ export class CalendarItemDialogService {
     competition (env: Event,
                  options: ICalendarItemDialogOptions,
                  item: ICalendarItem = CalendarItemDialogService.competitionFromOptions(options)): Promise<ICalendarItemDialogResponse> {
+
+        if (options.formMode === FormMode.Post &&
+            (!(this.auth.isCoach() || this.auth.isPremiumAccount()) && isFutureDay(item.dateStart))) {
+            return this.premiumDialogService.open(null, 'futurePlaning').then();
+        }
 
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="calendar-item-competition" aria-label="Competition">
@@ -345,7 +360,7 @@ export class CalendarItemDialogService {
     static getAthleteList (currentUser: IUserProfile, owner: IUserProfile): Array<{profile: IUserProfile, active: boolean}> {
         let athleteList: Array<{profile: IUserProfile, active: boolean}> = [];
         //
-        if ( currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
+        if (currentUser.connections && currentUser.connections.hasOwnProperty('allAthletes') && currentUser.connections.allAthletes ) {
             athleteList = currentUser.connections.allAthletes.groupMembers
                 .filter(user => user.hasOwnProperty('trainingZones'))
                 .map(user => ({profile: user, active: user.userId === owner.userId}));

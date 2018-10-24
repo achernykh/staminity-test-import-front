@@ -24,6 +24,7 @@ export interface IAuthService {
     isActivityPlan(role?: Array<string>):boolean;
     isActivityPlanAthletes(role?: Array<string>):boolean;
     isActivityPro(role?: Array<string>):boolean;
+    isPremiumAccount(role?: Array<string>):boolean;
     signIn(request:Object): Promise<any>;
     signUp(request:Object):Promise<any>;
     signOut():void;
@@ -73,9 +74,9 @@ export default class AuthService implements IAuthService {
      */
     isAuthorized(authorizedRoles: Array<any> = [], strict: boolean = true) : boolean {
         let userRoles = this.SessionService.getPermissions() || [];
-        if (this.server === 'testapp.staminity.com:8080' && this.permissions) {
+        /*if (this.server === 'testapp.staminity.com:8080' && this.permissions) {
             Object.assign(userRoles, this.permissions);
-        }
+        }*/
         return  strict ?
             authorizedRoles.every(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date())) :
             authorizedRoles.some(role => userRoles.hasOwnProperty(role) && toDay(new Date(userRoles[role])) >= toDay(new Date()));
@@ -129,6 +130,10 @@ export default class AuthService implements IAuthService {
         return this.isCoach() && this.isAuthorized([role[1]]) ||  this.isAuthorized([role[0]]); //this.isAuthorized([role[0]]) || this.isAuthorized([role[1]]);
     }
 
+    isPremiumAccount(role: string[] = ['ActivitiesProView_User', 'ActivitiesProView_Athletes']): boolean {
+        return this.isAuthorized(role, false);
+    }
+
     /**
      * Регистрация пользователя
      * @param request
@@ -159,6 +164,7 @@ export default class AuthService implements IAuthService {
 
     signedIn(sessionData: any): Promise<any> {
         return this.SessionService.setItem(sessionData)
+            .then(r => console.debug('auth signedIn store data', r), e => console.error('auth signedIn store data', e))
             .then(_ => console.debug('auth signedIn with token', this.SessionService.getToken()),
                 e => this.message.systemWarning('storageServiceErrorWithSignin', {e}))
             .then(_ => this.SocketService.init())

@@ -6,7 +6,7 @@ import { IActivityCategory, IActivityTemplate } from "../../../api/reference/ref
 import { Owner, getOwner, ReferenceFilterParams, categoriesFilters } from "../reference/reference.datamodel";
 import { activityTypes } from "../activity/activity.constants";
 import { filtersToPredicate } from "../share/utility/filtering";
-import { pipe, prop, pick, orderBy, groupBy } from "../share/util";
+import { pipe, prop, pick, orderBy, groupBy } from "../share/utility";
 import { IUserProfile } from "../../../api/user";
 import { IGroupProfile } from "../../../api/group";
 import { IActivityType } from "../../../api/activity/activity.interface";
@@ -77,7 +77,7 @@ class MethodologyCtrl implements IComponentController {
                 return this.currentUser.public.isCoach;
             }
             case 'periodization': case 'categories': case 'templates': {
-                return this.authService.isAuthorized(['ActivitiesPlan_User', 'ActivitiesPlan_Athletes'], false);
+                return true || this.authService.isAuthorized(['ActivitiesPlan_User', 'ActivitiesPlan_Athletes'], false);
             }
             default: {
                 return true;

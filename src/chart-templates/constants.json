@@ -1,0 +1,128 @@
+{
+  "primary-hue-2": {
+    "lineColor": "#607D8B",
+    "lineStyle": "solid",
+    "lineWidth": 0,
+    "fillType": "gradient",
+    "fillColor": "#CFD8DC",
+    "gradient": [
+      {
+        "offset": "0%",
+        "color": "#CFD8DC",
+        "opacity": 0.2
+      },
+      {
+        "offset": "100%",
+        "color": "#607D8B",
+        "opacity": 0.6
+      }
+    ],
+    "markerColor": "#455A64",
+    "avgValueLineColor": "#455A64",
+    "avgValueLineStyle": "dashed"
+  },
+  "primary-hue-3": {
+    "lineColor": "#455A64",
+    "lineStyle": "solid",
+    "lineWidth": 0,
+    "fillType": "gradient",
+    "fillColor": "#CFD8DC",
+    "gradient": [
+      {
+        "offset": "0%",
+        "color": "#CFD8DC",
+        "opacity": 0.2
+      },
+      {
+        "offset": "100%",
+        "color": "#455A64",
+        "opacity": 0.6
+      }
+    ],
+    "markerColor": "#37474F",
+    "avgValueLineColor": "#37474F",
+    "avgValueLineStyle": "dashed"
+  },
+  "compare-chart": {
+    "lineColor": "#BDBDBD",
+    "lineStyle": "solid",
+    "lineWidth": 3,
+    "fillType": "gradient",
+    "fillColor": "#CFD8DC",
+    "gradient": [
+      {
+        "offset": "0%",
+        "color": "#F5F5F5",
+        "opacity": 0.1
+      },
+      {
+        "offset": "100%",
+        "color": "#9E9E9E",
+        "opacity": 0.4
+      }
+    ],
+    "markerColor": "#455A64",
+    "avgValueLineColor": "#455A64",
+    "avgValueLineStyle": "dashed"
+  },
+  "pink-hue-1": {
+    "lineColor": "#D81B60",
+    "lineStyle": "solid",
+    "lineWidth": 1,
+    "fillType": "gradient",
+    "fillColor": "#D81B60",
+    "gradient": [
+      {
+        "offset": "0%",
+        "color": "#FCE4EC",
+        "opacity": 0.1
+      },
+      {
+        "offset": "100%",
+        "color": "#D81B60",
+        "opacity": 0.4
+      }
+    ],
+    "markerColor": "#D81B60"
+  },
+  "yellow-hue-2": {
+    "lineColor": "#FDD835",
+    "lineStyle": "solid",
+    "lineWidth": 1,
+    "fillType": "gradient",
+    "fillColor": "#FDD835",
+    "gradient": [
+      {
+        "offset": "0%",
+        "color": "#FFF9C4",
+        "opacity": 0.1
+      },
+      {
+        "offset": "100%",
+        "color": "#FDD835",
+        "opacity": 0.4
+      }
+    ],
+    "markerColor": "#FBC02D"
+  },
+  "indigo-hue-2": {
+    "lineColor": "#3949AB",
+    "lineStyle": "solid",
+    "lineWidth": 1,
+    "fillType": "gradient",
+    "fillColor": "#3949AB",
+    "gradient": [
+      {
+        "offset": "0%",
+        "color": "#C5CAE9",
+        "opacity": 0.1
+      },
+      {
+        "offset": "100%",
+        "color": "#3949AB",
+        "opacity": 0.4
+      }
+    ],
+    "markerColor": "#303F9F"
+  }
+}

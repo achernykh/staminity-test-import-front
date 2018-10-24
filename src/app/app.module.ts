@@ -27,6 +27,7 @@ import Analytics from "./analytics/analytics.module";
 import { Methodology } from './methodology/methodology.module';
 import { TrainingSeason } from './training-season';
 import { User } from './user';
+import { Premium } from './premium/premium.module';
 import {StorageService, ISession} from "@app/core";
 import {jsonld} from "./jsonld.directive";
 
@@ -45,7 +46,8 @@ const vendors = [
     'tmh.dynamicLocale',
     'toaster',
     //'ngTouch',
-    'angular-carousel',
+    //'angular-carousel',
+    'ui.swiper', // https://github.com/nebulr/ui-swiper
     'dndLists',
     'luegg.directives',
     'ngQuill', // https://github.com/KillerCodeMonkey/ng-quill
@@ -72,6 +74,7 @@ const submodules = [
     Methodology,
     TrainingSeason,
     User,
+    Premium,
 ];
 
 /*const root = module('staminity.application', )

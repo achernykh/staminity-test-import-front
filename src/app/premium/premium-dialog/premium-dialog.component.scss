@@ -1,0 +1,31 @@
+md-dialog#premium-dialog {
+
+  background: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none !important;
+
+  @media (min-width: 960px) {
+    min-width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+  }
+}
+
+.premium-dialog {
+
+  //width: 100vw;
+  //height: 100vh;
+
+  @media (min-width: 960px) {
+    min-width: 700px;
+    max-width: 700px;
+    min-height: 80vh;
+    max-height: 90vh;
+  }
+  md-content {background-color: white;}
+  .swiper-wrapper { align-items: center; }
+  .image img { width: 80%; }
+  .md-title, .md-body-1 {  max-width: 70%; }
+  transition: all 0.3s;
+}

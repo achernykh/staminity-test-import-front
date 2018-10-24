@@ -4,7 +4,7 @@ import {IUserProfile, IUserProfilePersonal} from "../../../api/user/user.interfa
 import {SessionService} from "../core";
 import {IMessageService} from "../core/message.service";
 import "./auth.component.scss";
-import {gaEmailSignup, gaSocialSignup, gtmEvent} from "../share/google/google-analitics.functions";
+import {gaEmailSignup, gaSocialSignup, gtmEvent, gaEmailSignin} from "../share/google/google-analitics.functions";
 import AuthService from "@app/auth/auth.service";
 import {ISystemMessage} from "@api/core";
 import DisplayService, {GeoInfo} from "@app/core/display.service";
@@ -14,6 +14,7 @@ import {countriesList} from "../user/settings/user-settings.constants";
 import { getUser } from "../core/session/session.service";
 import {fbqLog} from "../share/facebook/fbq.functions";
 import {yaReachGoal} from "../share/yandex/yandex.function";
+declare var dataLayer: any[];
 
 interface UserCredentials {
     public: IUserProfilePublic;
@@ -185,7 +186,7 @@ class AuthCtrl implements IComponentController {
             .then(profile => {
                 this.redirect("calendar", {uri: profile.public.uri});
                 gtmEvent('appEvent', 'signin', 'signinEmail', 'email');
-                }, e => this.message.systemError(e))
+            }, e => this.message.systemError(e))
             .then(_ => this.enabled = true);
     }
 
@@ -206,11 +207,6 @@ class AuthCtrl implements IComponentController {
                     yaReachGoal('CREATE_ACCOUNT');
                 }, e => e => this.message.systemWarning(e))
             .then(_ => this.enabled = true);
-            /**.then((message) => {
-                this.showConfirm = true;
-                gaEmailSignup();
-                this.message.systemSuccess(message.title);
-            }, e => this.message.systemWarning(e));**/
     }
 
     /**

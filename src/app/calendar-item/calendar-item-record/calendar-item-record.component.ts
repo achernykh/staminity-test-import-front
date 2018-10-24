@@ -77,7 +77,7 @@ export class CalendarItemRecordCtrl implements IComponentController {
         if (this.record.isRepeated) {
             this.record.prepareDefaultType(true);
         } else {
-            this.record.recordHeader.dateStart = this.record.dateStart;
+            this.record._dateStart = new Date(this.record.dateStart);
         }
     }
 

@@ -37,7 +37,7 @@ class UChart {
         this._preloadIcons();
 
         d3.select(window).on('resize.' + this._id, function() {
-            this.resize();
+            //this.resize();
         }.bind(this))
     }
 

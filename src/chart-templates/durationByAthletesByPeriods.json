@@ -1,0 +1,137 @@
+{
+  "order": 2,
+  "active": true,
+  "revision": 1,
+  "group": "athletes",
+  "auth": ["CoachDashboard"],
+  "icon": "insert_chart",
+  "code": "durationByAthletesByPeriods",
+  "descriptionParams": [],
+  "description": "durationByAthletesByPeriods.description",
+  "globalParams": true,
+  "settings": [
+    {
+      "type": "radio",
+      "text": "seriesDateTrunc",
+      "model": "month",
+      "options": [
+        "day",
+        "week",
+        "month"
+      ],
+      "change": [{
+        "ind": [
+          0
+        ],
+        "idx": [
+          0
+        ],
+        "area": "series",
+        "name": "seriesDateTrunc",
+        "options": {
+          "day": {
+            "seriesDateTrunc": "day"
+          },
+          "week": {
+            "seriesDateTrunc": "week"
+          },
+          "month": {
+            "seriesDateTrunc": "month"
+          }
+        }
+      }]
+    },
+    {
+      "type": "radio",
+      "text": "cumulative",
+      "model": false,
+      "options": [false, true],
+      "change": [
+        {
+          "ind": [0],
+          "idx": [1],
+          "area": "measures",
+          "name": "cumulative",
+          "options": {
+            "false": {
+              "cumulative": false
+            },
+            "true": {
+              "cumulative": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "gridColumn": 1,
+    "gridRow": 1
+  },
+  "charts": [{
+    "params": {
+      "users": "first5",
+      "activityTypes": null,
+      "periods": null
+    },
+    "options": {
+      "legend": {
+        "vertical-align": "bottom",
+        "horizontal-align": "center",
+        "type": "row"
+      },
+      "tooltip": {
+        "combined": false
+      },
+      "currentPositionLine": {
+        "enabled": false
+      },
+      "palette": ["#F44336", "#673AB7", "#03A9F4", "#4CAF50", "#FFEB3B", "#FF5722", "#607D8B", "#E91E63", "#3F51B5", "#00BCD4", "#8BC34A", "#FFC107", "#795548", "#9C27B0", "#2196F3", "#009688", "#CDDC39", "#FF9800", "#9E9E9E"]
+    },
+    "series": [
+      {
+        "label": "Атлет",
+        "unit": "",
+        "xAxis": true,
+        "tooltipType": "none",
+        "tooltipLabel": "Атлет",
+        "legend": true,
+        "colorPalette": true,
+        "currentPositionLine": false,
+        "idx": 0,
+        "fillColor": "#449999",
+        "measureSource": "activity.owner",
+        "measureName": "name",
+        "dataType": "string",
+        "dateFormat": "",
+        "valueType": "value",
+        "seriesDateTrunc": "",
+        "groupByIntervalLength": 1
+      }],
+
+    "measures": [{
+      "label": "duration",
+      "unit": "h",
+      "chartType": "donut",
+      "stacked": false,
+      "cumulative": false,
+      "smoothSettings": "null",
+      "tooltipType": "color",
+      "minValue": 0,
+      "legend": false,
+      "visible": true,
+      "avgValueLine": false,
+      "scaleVisible": true,
+      "calculateTotals": "",
+      "fillColor": "",
+      "colorPalette": true,
+      "idx": 1,
+      "measureSource": "activity.actual.measure",
+      "measureName": "duration",
+      "dataType": "number",
+      "dateFormat": "",
+      "valueType": "value",
+      "aggMethod": "sum"
+    }]
+  }]
+}
