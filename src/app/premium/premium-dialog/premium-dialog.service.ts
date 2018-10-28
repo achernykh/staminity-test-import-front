@@ -61,7 +61,7 @@ export class PremiumDialogService {
                     if (tariff.isBlocked && tariff.isOn) {
                         return Promise.resolve(_ => {debugger;})
                             .then(_ => this.billingService.disableTariff(tariffId, user.userId))
-                            .catch(e => this.message.toastError(e))
+                            .catch(e => this.message.toastError(e));
                     } else {
                         return true;
                     }
