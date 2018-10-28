@@ -38,6 +38,7 @@ export class PremiumDialogService {
         let tariffId: number = tariff.tariffId;
 
 
+
         return this.$mdDialog.show(Object.assign(this.defaultDialogOptions, {
             template: `<md-dialog id="premium-dialog" aria-label="Activity" layout="column">
                             <st-premium-dialog
@@ -61,7 +62,7 @@ export class PremiumDialogService {
                     if (tariff.isBlocked && tariff.isOn) {
                         return Promise.resolve(_ => {debugger;})
                             .then(_ => this.billingService.disableTariff(tariffId, user.userId))
-                            .catch(e => this.message.toastError(e))
+                            .catch(e => this.message.toastError(e));
                     } else {
                         return true;
                     }
