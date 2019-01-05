@@ -68,7 +68,8 @@ class CalendarTotalCtrl implements IComponentController {
     $onInit(): void {
         this.title = moment(this.week.week,'YYYY-WW').week();
         if (!this.trainingPlanMode) {
-            this.trainingSeasonService.getUserWeekData(this.owner.userId, moment(this.week.week,'YYYY-WW').format('YYYY.WW'))
+            this.trainingSeasonService.getUserWeekData(this.owner.userId,
+                moment(this.week.week,'YYYY-WW').endOf('week').format('YYYY.WW'))
                 .then(result => this.periodizationData = result.arrayResult[0]);
         }
     }
