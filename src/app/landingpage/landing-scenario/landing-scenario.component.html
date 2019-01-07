@@ -76,6 +76,9 @@
         </section>
         <!-- дополнительные сценарии -->
         <section ng-if="$ctrl.scenario.moreScenario" >
+            <div class="info-block" style="min-height: initial; padding-bottom: 4px">
+                <h1 class="text-center" translate="landing.{{$ctrl.scenario.code}}.moreScenario.title"></h1>
+            </div>
             <section ng-repeat="scenario in $ctrl.scenario.moreScenario.code" class="info-block"
                      layout-gt-sm="row" layout="column" layout-align-gt-sm="center center">
                 <img flex="none" flex-gt-sm="50" ng-src="{{$ctrl.getScenario(scenario).thumb}}" style="">

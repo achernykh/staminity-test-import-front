@@ -25,11 +25,13 @@
                             class="reviews block landing-reviews" reviews="$ctrl.landingConfig.reviews">
         </st-landing-reviews>
         <!-- как это работает -->
-        <section ng-if="$ctrl.landingConfig.howItWorks" >
+        <section ng-if="$ctrl.landingConfig.howItWorks" class="info-block">
+            <h1 class="text-center" translate="landing.howItWorks.title"></h1>
             <section ng-repeat="step in $ctrl.landingConfig.howItWorks" class="info-block"
                      layout-gt-sm="row" layout="column" layout-align-gt-sm="center center">
-                <img flex="none" flex-gt-sm="50" ng-src="{{step.img}}" width="60" height="60" style="">
-                <div flex="none" flex-gt-sm="50" class="md-body-1 text-block">
+                <img flex="none" flex-gt-sm="none" ng-src="{{step.img}}" width="60" height="60"
+                     style="width: initial; padding-right: 36px">
+                <div flex="none" flex-gt-sm="40" class="md-body-1 text-block">
                     <p class="md-body-2" translate="landing.howItWorks.{{step.code}}.title"></p>
                     <p translate="landing.howItWorks.{{step.code}}.text" style=""></p>
                     <!--<md-button flex="none" class="md-hue-2 md-raised" style="margin: 0;"
@@ -38,9 +40,16 @@
                     </md-button>-->
                 </div>
             </section>
+            <div layout-gt-sm="row" layout="column" layout-align-gt-sm="center center">
+                <md-button flex="none" class="md-hue-2" style="margin: 0;"
+                           ng-click="$ctrl.$state.go('features')">
+                    <span translate="landing.howItWorks.more"></span>
+                </md-button>
+            </div>
         </section>
         <!-- целевые группы -->
-        <section ng-if="$ctrl.landingConfig.targetGroups" >
+        <section ng-if="$ctrl.landingConfig.targetGroups" class="info-block">
+            <h1 class="text-center" translate="landing.targetGroups.title"></h1>
             <section ng-repeat="group in $ctrl.landingConfig.targetGroups" class="info-block"
                      layout-gt-sm="row" layout="column" layout-align-gt-sm="center center">
                 <img flex="none" flex-gt-sm="50" ng-src="{{group.img}}" style="">

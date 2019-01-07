@@ -164,13 +164,13 @@
  * */
 
 // текст по центру
-.center {
+.center, .text-center {
 	text-align: center;
 }
 .left {
 	text-align: left;
 }
-.right {
+.right, .text-right {
 	text-align: right;
 }
 
